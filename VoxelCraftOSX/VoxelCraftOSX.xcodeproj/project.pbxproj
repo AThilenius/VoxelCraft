@@ -1,0 +1,343 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		70867A2717891309000EE162 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
+		70867A291789130E000EE162 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A281789130E000EE162 /* libglfw.dylib */; };
+		70867A2B17891312000EE162 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2A17891312000EE162 /* libGLEW.dylib */; };
+		70867A2E17891330000EE162 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2D17891330000EE162 /* IOKit.framework */; };
+		70867A7517891401000EE162 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5217891401000EE162 /* main.cpp */; };
+		70867A7617891401000EE162 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5417891401000EE162 /* Shader.cpp */; };
+		70867A7717891401000EE162 /* SimplexNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5617891401000EE162 /* SimplexNoise.cpp */; };
+		70867A7817891401000EE162 /* TestClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5817891401000EE162 /* TestClass.cpp */; };
+		70867A7917891401000EE162 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5A17891401000EE162 /* Utilities.cpp */; };
+		70867A7A17891401000EE162 /* VCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5C17891401000EE162 /* VCApplication.cpp */; };
+		70867A7B17891401000EE162 /* VCBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5E17891401000EE162 /* VCBlock.cpp */; };
+		70867A7C17891401000EE162 /* VCCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6017891401000EE162 /* VCCamera.cpp */; };
+		70867A7D17891401000EE162 /* VCChunk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6217891401000EE162 /* VCChunk.cpp */; };
+		70867A7E17891401000EE162 /* VCChunkGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6417891401000EE162 /* VCChunkGenerator.cpp */; };
+		70867A7F17891401000EE162 /* VCComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6617891401000EE162 /* VCComponent.cpp */; };
+		70867A8017891401000EE162 /* VCGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6817891401000EE162 /* VCGameObject.cpp */; };
+		70867A8117891401000EE162 /* VCGLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6A17891401000EE162 /* VCGLRenderer.cpp */; };
+		70867A8217891401000EE162 /* VCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6C17891401000EE162 /* VCTime.cpp */; };
+		70867A8317891401000EE162 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
+		70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
+		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		70867A18178912FB000EE162 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		70867A1A178912FB000EE162 /* VoxelCraftOSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VoxelCraftOSX; sourceTree = BUILT_PRODUCTS_DIR; };
+		70867A2617891309000EE162 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		70867A281789130E000EE162 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = /usr/local/lib/libglfw.dylib; sourceTree = "<absolute>"; };
+		70867A2A17891312000EE162 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/local/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
+		70867A2D17891330000EE162 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		70867A5217891401000EE162 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5317891401000EE162 /* PCH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCH.h; sourceTree = SOURCE_ROOT; };
+		70867A5417891401000EE162 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5517891401000EE162 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = SOURCE_ROOT; };
+		70867A5617891401000EE162 /* SimplexNoise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimplexNoise.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5717891401000EE162 /* SimplexNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplexNoise.h; sourceTree = SOURCE_ROOT; };
+		70867A5817891401000EE162 /* TestClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestClass.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5917891401000EE162 /* TestClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestClass.h; sourceTree = SOURCE_ROOT; };
+		70867A5A17891401000EE162 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5B17891401000EE162 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = SOURCE_ROOT; };
+		70867A5C17891401000EE162 /* VCApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCApplication.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5D17891401000EE162 /* VCApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCApplication.h; sourceTree = SOURCE_ROOT; };
+		70867A5E17891401000EE162 /* VCBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCBlock.cpp; sourceTree = SOURCE_ROOT; };
+		70867A5F17891401000EE162 /* VCBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCBlock.h; sourceTree = SOURCE_ROOT; };
+		70867A6017891401000EE162 /* VCCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCCamera.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6117891401000EE162 /* VCCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCCamera.h; sourceTree = SOURCE_ROOT; };
+		70867A6217891401000EE162 /* VCChunk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCChunk.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6317891401000EE162 /* VCChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCChunk.h; sourceTree = SOURCE_ROOT; };
+		70867A6417891401000EE162 /* VCChunkGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCChunkGenerator.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6517891401000EE162 /* VCChunkGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCChunkGenerator.h; sourceTree = SOURCE_ROOT; };
+		70867A6617891401000EE162 /* VCComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCComponent.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6717891401000EE162 /* VCComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCComponent.h; sourceTree = SOURCE_ROOT; };
+		70867A6817891401000EE162 /* VCGameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCGameObject.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6917891401000EE162 /* VCGameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCGameObject.h; sourceTree = SOURCE_ROOT; };
+		70867A6A17891401000EE162 /* VCGLRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCGLRenderer.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6B17891401000EE162 /* VCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCGLRenderer.h; sourceTree = SOURCE_ROOT; };
+		70867A6C17891401000EE162 /* VCTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCTime.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6D17891401000EE162 /* VCTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTime.h; sourceTree = SOURCE_ROOT; };
+		70867A6E17891401000EE162 /* VCTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCTransform.cpp; sourceTree = SOURCE_ROOT; };
+		70867A6F17891401000EE162 /* VCTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTransform.h; sourceTree = SOURCE_ROOT; };
+		70867A7017891401000EE162 /* VCTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTypes.h; sourceTree = SOURCE_ROOT; };
+		70867A7117891401000EE162 /* VCVoxelShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCVoxelShader.cpp; sourceTree = SOURCE_ROOT; };
+		70867A7217891401000EE162 /* VCVoxelShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCVoxelShader.h; sourceTree = SOURCE_ROOT; };
+		70867A7317891401000EE162 /* VCWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWorld.cpp; sourceTree = SOURCE_ROOT; };
+		70867A7417891401000EE162 /* VCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWorld.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		70867A17178912FB000EE162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70867A2717891309000EE162 /* OpenGL.framework in Frameworks */,
+				70867A2E17891330000EE162 /* IOKit.framework in Frameworks */,
+				70867A2B17891312000EE162 /* libGLEW.dylib in Frameworks */,
+				70867A291789130E000EE162 /* libglfw.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		70867A11178912FB000EE162 = {
+			isa = PBXGroup;
+			children = (
+				70867A1C178912FB000EE162 /* VoxelCraftOSX */,
+				70867A1B178912FB000EE162 /* Products */,
+				70867A2C17891319000EE162 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		70867A1B178912FB000EE162 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70867A1A178912FB000EE162 /* VoxelCraftOSX */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70867A1C178912FB000EE162 /* VoxelCraftOSX */ = {
+			isa = PBXGroup;
+			children = (
+				70867A5217891401000EE162 /* main.cpp */,
+				70867A5317891401000EE162 /* PCH.h */,
+				70867A5417891401000EE162 /* Shader.cpp */,
+				70867A5517891401000EE162 /* Shader.h */,
+				70867A5617891401000EE162 /* SimplexNoise.cpp */,
+				70867A5717891401000EE162 /* SimplexNoise.h */,
+				70867A5817891401000EE162 /* TestClass.cpp */,
+				70867A5917891401000EE162 /* TestClass.h */,
+				70867A5A17891401000EE162 /* Utilities.cpp */,
+				70867A5B17891401000EE162 /* Utilities.h */,
+				70867A5C17891401000EE162 /* VCApplication.cpp */,
+				70867A5D17891401000EE162 /* VCApplication.h */,
+				70867A5E17891401000EE162 /* VCBlock.cpp */,
+				70867A5F17891401000EE162 /* VCBlock.h */,
+				70867A6017891401000EE162 /* VCCamera.cpp */,
+				70867A6117891401000EE162 /* VCCamera.h */,
+				70867A6217891401000EE162 /* VCChunk.cpp */,
+				70867A6317891401000EE162 /* VCChunk.h */,
+				70867A6417891401000EE162 /* VCChunkGenerator.cpp */,
+				70867A6517891401000EE162 /* VCChunkGenerator.h */,
+				70867A6617891401000EE162 /* VCComponent.cpp */,
+				70867A6717891401000EE162 /* VCComponent.h */,
+				70867A6817891401000EE162 /* VCGameObject.cpp */,
+				70867A6917891401000EE162 /* VCGameObject.h */,
+				70867A6A17891401000EE162 /* VCGLRenderer.cpp */,
+				70867A6B17891401000EE162 /* VCGLRenderer.h */,
+				70867A6C17891401000EE162 /* VCTime.cpp */,
+				70867A6D17891401000EE162 /* VCTime.h */,
+				70867A6E17891401000EE162 /* VCTransform.cpp */,
+				70867A6F17891401000EE162 /* VCTransform.h */,
+				70867A7017891401000EE162 /* VCTypes.h */,
+				70867A7117891401000EE162 /* VCVoxelShader.cpp */,
+				70867A7217891401000EE162 /* VCVoxelShader.h */,
+				70867A7317891401000EE162 /* VCWorld.cpp */,
+				70867A7417891401000EE162 /* VCWorld.h */,
+			);
+			path = VoxelCraftOSX;
+			sourceTree = "<group>";
+		};
+		70867A2C17891319000EE162 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				70867A2A17891312000EE162 /* libGLEW.dylib */,
+				70867A281789130E000EE162 /* libglfw.dylib */,
+				70867A2D17891330000EE162 /* IOKit.framework */,
+				70867A2617891309000EE162 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		70867A19178912FB000EE162 /* VoxelCraftOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "VoxelCraftOSX" */;
+			buildPhases = (
+				70867A16178912FB000EE162 /* Sources */,
+				70867A17178912FB000EE162 /* Frameworks */,
+				70867A18178912FB000EE162 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoxelCraftOSX;
+			productName = VoxelCraftOSX;
+			productReference = 70867A1A178912FB000EE162 /* VoxelCraftOSX */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		70867A12178912FB000EE162 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = Thilenius;
+			};
+			buildConfigurationList = 70867A15178912FB000EE162 /* Build configuration list for PBXProject "VoxelCraftOSX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 70867A11178912FB000EE162;
+			productRefGroup = 70867A1B178912FB000EE162 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				70867A19178912FB000EE162 /* VoxelCraftOSX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		70867A16178912FB000EE162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70867A7517891401000EE162 /* main.cpp in Sources */,
+				70867A7617891401000EE162 /* Shader.cpp in Sources */,
+				70867A7717891401000EE162 /* SimplexNoise.cpp in Sources */,
+				70867A7817891401000EE162 /* TestClass.cpp in Sources */,
+				70867A7917891401000EE162 /* Utilities.cpp in Sources */,
+				70867A7A17891401000EE162 /* VCApplication.cpp in Sources */,
+				70867A7B17891401000EE162 /* VCBlock.cpp in Sources */,
+				70867A7C17891401000EE162 /* VCCamera.cpp in Sources */,
+				70867A7D17891401000EE162 /* VCChunk.cpp in Sources */,
+				70867A7E17891401000EE162 /* VCChunkGenerator.cpp in Sources */,
+				70867A7F17891401000EE162 /* VCComponent.cpp in Sources */,
+				70867A8017891401000EE162 /* VCGameObject.cpp in Sources */,
+				70867A8117891401000EE162 /* VCGLRenderer.cpp in Sources */,
+				70867A8217891401000EE162 /* VCTime.cpp in Sources */,
+				70867A8317891401000EE162 /* VCTransform.cpp in Sources */,
+				70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */,
+				70867A8517891401000EE162 /* VCWorld.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		70867A21178912FB000EE162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		70867A22178912FB000EE162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		70867A24178912FB000EE162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+			};
+			name = Debug;
+		};
+		70867A25178912FB000EE162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70867A15178912FB000EE162 /* Build configuration list for PBXProject "VoxelCraftOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70867A21178912FB000EE162 /* Debug */,
+				70867A22178912FB000EE162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "VoxelCraftOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70867A24178912FB000EE162 /* Debug */,
+				70867A25178912FB000EE162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70867A12178912FB000EE162 /* Project object */;
+}
