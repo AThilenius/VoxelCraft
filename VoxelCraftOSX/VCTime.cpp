@@ -1,10 +1,18 @@
+//
+//  VCTime.cpp
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #include "VCTime.h"
 
-//INT64 VCTime::m_tickFrequancy = 0;
-//double VCTime::m_ticksPerSecond = 0;
+VCTime* VCTime::Instance;
 
 VCTime::VCTime(void)
 {
+    VCTime::Instance = this;
 }
 
 
@@ -12,17 +20,29 @@ VCTime::~VCTime(void)
 {
 }
 
-double VCTime::GetTime()
+void VCTime::Initalize()
 {
-//	if ( m_tickFrequancy == 0 )
-//	{
-//		QueryPerformanceFrequency((LARGE_INTEGER*) &m_tickFrequancy);
-//		m_ticksPerSecond = (double)(m_tickFrequancy);
-//	}
-//
-//	INT64 currentTime;
-//	QueryPerformanceCounter((LARGE_INTEGER*) &currentTime);
-//
-//	return ((double) currentTime / m_ticksPerSecond);
-    return 0.0f;
+    m_startTime = boost::posix_time::microsec_clock::local_time();
+    m_lastFrameTime = boost::posix_time::microsec_clock::local_time();
+}
+
+void VCTime::Update()
+{
+    m_lastFrameTime = boost::posix_time::microsec_clock::local_time();
+}
+
+double VCTime::CurrentTime()
+{   
+    boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
+    boost::posix_time::time_duration delta = currentTime - VCTime::Instance->m_startTime;
+    
+    return delta.total_milliseconds();
+}
+
+double VCTime::DeltaTime()
+{
+    boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
+    boost::posix_time::time_duration delta = currentTime - VCTime::Instance->m_lastFrameTime;
+    
+    return delta.total_milliseconds();
 }

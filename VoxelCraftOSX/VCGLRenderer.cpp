@@ -1,3 +1,11 @@
+//
+//  VCGLRenderer.cpp
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #include "VCGLRenderer.h"
 
 // Statics
@@ -31,9 +39,6 @@ void VCGLRenderer::Initialize()
 	MainCamera->PreRender();
 	VoxelShader->Initialize();
     glErrorCheck();
-    
-	m_testClass.Initialize();
-    glErrorCheck();
 }
 
 void VCGLRenderer::Render()
@@ -42,7 +47,6 @@ void VCGLRenderer::Render()
 
 	glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// ...
-	m_testClass.Render();
+    
+    
 }

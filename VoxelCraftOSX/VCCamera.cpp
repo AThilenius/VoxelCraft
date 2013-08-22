@@ -1,3 +1,11 @@
+//
+//  VCCamera.cpp
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #include "VCCamera.h"
 
 
@@ -20,5 +28,5 @@ void VCCamera::PreRender()
 
 	ProjectionViewMatrix = ProjectionMatrix * ViewMatrix;
 
-	rotation += 0.1;
+	rotation += 1.0;
 }

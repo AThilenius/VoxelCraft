@@ -9,7 +9,7 @@ VCWorld::VCWorld( int viewDistance )
 		throw std::exception("View distance must be a power of two!");
 
 	m_viewDist = viewDistance;
-	m_logViewDist = log(viewDistance) / log(2);
+	m_logViewDist = std::log(viewDistance) / std::log(2);
 
 	m_c0x, m_c0y, m_c0z = 0;
 }

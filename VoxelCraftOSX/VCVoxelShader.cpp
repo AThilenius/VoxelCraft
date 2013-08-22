@@ -1,3 +1,11 @@
+//
+//  VCVoxelShader.cpp
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #include "VCVoxelShader.h"
 #include "VCGLRenderer.h"
 
@@ -31,7 +39,7 @@ static string g_vcVoxVertexShader =
 
 		"float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPos)));"
 
-		"colorVarying.xyz = color.xyz * nDotVP;"
+		"colorVarying.xyz = color.xyz;" //* nDotVP;"
 		"colorVarying.w = color.w;"
 
 		"gl_Position = modelViewProjectionMatrix * position;"

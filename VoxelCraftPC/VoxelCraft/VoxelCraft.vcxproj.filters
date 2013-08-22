@@ -93,6 +93,12 @@
     <ClCompile Include="VCTransform.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
+    <ClCompile Include="VCTestApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTestShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -144,6 +150,12 @@
       <Filter>Header Files\World</Filter>
     </ClInclude>
     <ClInclude Include="VCTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTestApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTestShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

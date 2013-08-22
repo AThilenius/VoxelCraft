@@ -1,3 +1,11 @@
+//
+//  VCWorld.cpp
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #include "VCWorld.h"
 
 #include "VCChunk.h"
@@ -9,7 +17,7 @@ VCWorld::VCWorld( int viewDistance )
 		cout << "View distance must be a power of two!" << endl;
 
 	m_viewDist = viewDistance;
-	m_logViewDist = log(viewDistance) / log(2);
+	m_logViewDist = std::log(viewDistance) / std::log(2);
 
 	m_c0x = m_c0y = m_c0z = 0;
 }

@@ -66,8 +66,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Libs\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\Lib32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Libs\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libs\Lib32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>Libs\Include;$(IncludePath)</IncludePath>
@@ -138,6 +138,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
+    <ClCompile Include="VCTestApplication.cpp" />
+    <ClCompile Include="VCTestShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCTransform.cpp" />
     <ClCompile Include="VCVoxelShader.cpp" />
@@ -156,6 +158,8 @@
     <ClInclude Include="PCH.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="VCTestApplication.h" />
+    <ClInclude Include="VCTestShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCTransform.h" />
     <ClInclude Include="VCTypes.h" />

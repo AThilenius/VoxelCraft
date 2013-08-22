@@ -1,14 +1,20 @@
+//
+//  PCH.h
+//  VoxelCraftOSX
+//
+//  Created by Alec Thilenius on 8/20/13.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
+//
+
 #pragma once
 
 #import <GL/glew.h>
 #import <GL/glfw.h>
-#import <glm/glm.hpp>
-#import <glm/ext.hpp>
 
 //#include <glew.h>
 //#include <glfw3.h>
-//#include "glm/glm.hpp"
-//#include "glm/ext.hpp"
+#include "glm/glm.hpp"
+#include "glm/ext.hpp"
 
 #include <exception>
 #include <iostream>
@@ -26,14 +32,14 @@
 #include "Utilities.h"
 
 using namespace std;
-
+using namespace glm;
 
 // ================= Constants ===========================================================================
 
 // RENDERING
-#define VC_ATTRIBUTE_POSITION 0 
-#define VC_ATTRIBUTE_NORMAL 1
-#define VC_ATTRIBUTE_COLOR 2
+#define VC_ATTRIBUTE_POSITION 1
+#define VC_ATTRIBUTE_NORMAL 2
+#define VC_ATTRIBUTE_COLOR 3
 
 #define BLOCK_RENDER_SIZE 1.0f
 

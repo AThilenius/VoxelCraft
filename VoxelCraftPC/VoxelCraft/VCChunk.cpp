@@ -81,7 +81,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
                 runCount++;
 
                 BlockType thisType = m_blocks[FLATTEN_CHUNK(x,y,m_rbZ)];
-				GLubyte4 color = GLubyte4( randomLong() % 255, randomLong() % 255, randomLong() % 255, 255 );
+				GLubyte4 color = GLubyte4( random() % 255, random() % 255, random() % 255, 255 );
                 
                 if ( thisType == Block_Air )
                 {
