@@ -12,6 +12,7 @@
 #include "PCH.h"
 #include "VCTestShader.h"
 
+
 class VCTestApplication
 {
 public:

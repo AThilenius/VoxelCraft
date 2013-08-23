@@ -67,10 +67,36 @@ void VCApplication::Initialize()
     m_testChunk->Generate();
     m_testChunk->StartRebuild();
     m_testChunk->ContinueRebuild(0.0f);
+    
+    // MONO TEST
+    cout << "===============   Mono - Managed code begin   ===============" << endl;
+    m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
+    
+    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/ClassLibrary.dll");
+	m_pClassLibraryImage = mono_assembly_get_image(pMonoAssembly);
+    
+	m_pClassLibraryManagerClass = mono_class_from_name(m_pClassLibraryImage, "ClassLibraryNamespace", "ClassLibraryManager");
+    
+	m_pClassLibraryManager = mono_object_new(mono_domain_get(), m_pClassLibraryManagerClass);
+	mono_runtime_object_init(m_pClassLibraryManager);
+    cout << "===============   Mono - Managed code end     ===============" << endl;
 }
+
+struct testStruct
+{
+    float f1, f2, f3, f4, f5, f6;
+};
 
 void VCApplication::Run()
 {
+    vector<testStruct> testList;
+    testStruct t1;
+    t1.f1 = 42.0f;
+    testList.push_back(t1);
+    
+    cout << "Val: " << testList[0].f1 << endl;
+    
+    
     //while (!glfwWindowShouldClose(m_window))
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {

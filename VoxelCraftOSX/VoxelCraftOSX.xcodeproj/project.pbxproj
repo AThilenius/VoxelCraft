@@ -10,9 +10,7 @@
 		7001F0C817C4692A002EF830 /* VCTestApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C617C4692A002EF830 /* VCTestApplication.cpp */; };
 		7001F0CB17C46936002EF830 /* VCTestShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C917C46936002EF830 /* VCTestShader.cpp */; };
 		7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0D317C5A1E0002EF830 /* VCInput.cpp */; };
-		7001F0D717C5AC98002EF830 /* libboost_date_time-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7001F0D617C5AC98002EF830 /* libboost_date_time-mt.dylib */; };
 		7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7007F10717C43AB5006939A2 /* libGLEW.dylib */; };
-		7007F10A17C43C2C006939A2 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7007F10917C43C2C006939A2 /* libglfw.dylib */; };
 		70867A2717891309000EE162 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
 		70867A2E17891330000EE162 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2D17891330000EE162 /* IOKit.framework */; };
 		70867A7517891401000EE162 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5217891401000EE162 /* main.cpp */; };
@@ -31,6 +29,8 @@
 		70867A8317891401000EE162 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
 		70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
 		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
+		709C45BF17C70A2D00D3CEE9 /* libmono-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */; };
+		709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45C017C70A8A00D3CEE9 /* libglfw.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,15 +52,11 @@
 		7001F0CA17C46936002EF830 /* VCTestShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTestShader.h; sourceTree = SOURCE_ROOT; };
 		7001F0D317C5A1E0002EF830 /* VCInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCInput.cpp; sourceTree = SOURCE_ROOT; };
 		7001F0D417C5A1E1002EF830 /* VCInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCInput.h; sourceTree = SOURCE_ROOT; };
-		7001F0D617C5AC98002EF830 /* libboost_date_time-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_date_time-mt.dylib"; path = "../../../../../../../usr/local/lib/libboost_date_time-mt.dylib"; sourceTree = "<group>"; };
 		7007F10217C4398F006939A2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../../../../../System/Library/Frameworks/GLUT.framework; sourceTree = "<group>"; };
 		7007F10517C43A87006939A2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = ../../../../../../../System/Library/Frameworks/GLKit.framework; sourceTree = "<group>"; };
-		7007F10717C43AB5006939A2 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = ../../../../../../../usr/lib/libGLEW.dylib; sourceTree = "<group>"; };
-		7007F10917C43C2C006939A2 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../../../../../../../usr/local/Cellar/glfw/2.7.9/lib/libglfw.dylib; sourceTree = "<group>"; };
+		7007F10717C43AB5006939A2 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
 		70867A1A178912FB000EE162 /* VoxelCraftOSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VoxelCraftOSX; sourceTree = BUILT_PRODUCTS_DIR; };
 		70867A2617891309000EE162 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		70867A281789130E000EE162 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = /usr/local/lib/libglfw.dylib; sourceTree = "<absolute>"; };
-		70867A2A17891312000EE162 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/local/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
 		70867A2D17891330000EE162 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		70867A5217891401000EE162 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
 		70867A5317891401000EE162 /* PCH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCH.h; sourceTree = SOURCE_ROOT; };
@@ -95,6 +91,9 @@
 		70867A7217891401000EE162 /* VCVoxelShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCVoxelShader.h; sourceTree = SOURCE_ROOT; };
 		70867A7317891401000EE162 /* VCWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWorld.cpp; sourceTree = SOURCE_ROOT; };
 		70867A7417891401000EE162 /* VCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWorld.h; sourceTree = SOURCE_ROOT; };
+		709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmono-2.0.1.dylib"; path = "../../../../../../../mono/lib/libmono-2.0.1.dylib"; sourceTree = "<group>"; };
+		709C45C017C70A8A00D3CEE9 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../Libs/libglfw.dylib; sourceTree = "<group>"; };
+		709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libboost_date_time-mt.dylib"; path = "../Libs/libboost_date_time-mt.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,11 +101,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7001F0D717C5AC98002EF830 /* libboost_date_time-mt.dylib in Frameworks */,
 				70867A2717891309000EE162 /* OpenGL.framework in Frameworks */,
-				7007F10A17C43C2C006939A2 /* libglfw.dylib in Frameworks */,
 				70867A2E17891330000EE162 /* IOKit.framework in Frameworks */,
 				7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */,
+				709C45BF17C70A2D00D3CEE9 /* libmono-2.0.1.dylib in Frameworks */,
+				709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,9 +189,6 @@
 		70867A11178912FB000EE162 = {
 			isa = PBXGroup;
 			children = (
-				7001F0D617C5AC98002EF830 /* libboost_date_time-mt.dylib */,
-				7007F10917C43C2C006939A2 /* libglfw.dylib */,
-				7007F10717C43AB5006939A2 /* libGLEW.dylib */,
 				7007F10517C43A87006939A2 /* GLKit.framework */,
 				7007F10217C4398F006939A2 /* GLUT.framework */,
 				70867A1C178912FB000EE162 /* VoxelCraftOSX */,
@@ -224,8 +220,10 @@
 		70867A2C17891319000EE162 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				70867A2A17891312000EE162 /* libGLEW.dylib */,
-				70867A281789130E000EE162 /* libglfw.dylib */,
+				709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */,
+				709C45C017C70A8A00D3CEE9 /* libglfw.dylib */,
+				709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */,
+				7007F10717C43AB5006939A2 /* libGLEW.dylib */,
 				70867A2D17891330000EE162 /* IOKit.framework */,
 				70867A2617891309000EE162 /* OpenGL.framework */,
 			);
@@ -368,10 +366,13 @@
 		70867A24178912FB000EE162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../Include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../GLFW/lib-msvc110\"",
 					/usr/local/Cellar/glfw/2.7.9/lib,
+					/mono/lib,
+					"\"$(SRCROOT)/../Libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
@@ -381,10 +382,13 @@
 		70867A25178912FB000EE162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = ../Include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../GLFW/lib-msvc110\"",
 					/usr/local/Cellar/glfw/2.7.9/lib,
+					/mono/lib,
+					"\"$(SRCROOT)/../Libs\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
