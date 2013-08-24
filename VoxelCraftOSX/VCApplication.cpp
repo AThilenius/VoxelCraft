@@ -21,6 +21,8 @@ VCApplication::~VCApplication(void)
 
 void VCApplication::Initialize()
 {
+    cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
+    
 	if (!glfwInit())
 		cout << "Failed to initialize GLFW." << endl;
     
@@ -29,7 +31,7 @@ void VCApplication::Initialize()
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     // Open a window and create its OpenGL context
-    if( !glfwOpenWindow( 1024, 768, 0,0,0,0, 32,0, GLFW_WINDOW ) )
+    if( !glfwOpenWindow( 1024, 768, 8,8,8,8, 32,0, GLFW_WINDOW ) )
     {
         fprintf( stderr, "Failed to open GLFW window\n" );
         glfwTerminate();
@@ -45,7 +47,8 @@ void VCApplication::Initialize()
     
     int major, minor, rev = 0;
     glfwGetGLVersion(&major, &minor, &rev);
-    cout << "OpenGL version recieved: " << major << "." << minor << "." << rev << endl << endl;
+    cout << "OpenGL version recieved: " << major << "." << minor << "." << rev << endl;
+    cout << "Hardware: " << glGetString(GL_RENDERER) << endl << endl;
     
     glErrorCheck();
 
@@ -63,14 +66,8 @@ void VCApplication::Initialize()
     SceneGraph->Initalize();
     
     
-    
-    
     // Test Crap below...
-//    GLuint vao;
-//    glGenVertexArrays(1, &vao);
-//    glBindVertexArray(vao);
-//    glErrorCheck();
-    
+
     m_testChunkGO = new VCGameObject();
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
     
@@ -94,21 +91,8 @@ void VCApplication::Initialize()
     cout << "===============   Mono - Managed code end     ===============" << endl;
 }
 
-struct testStruct
-{
-    float f1, f2, f3, f4, f5, f6;
-};
-
 void VCApplication::Run()
-{
-    vector<testStruct> testList;
-    testStruct t1;
-    t1.f1 = 42.0f;
-    testList.push_back(t1);
-    
-    cout << "Val: " << testList[0].f1 << endl;
-    
-    
+{   
     //while (!glfwWindowShouldClose(m_window))
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {
