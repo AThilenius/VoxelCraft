@@ -55,6 +55,7 @@ private:
 	int m_z;
 
 	// Rendering
+    GLuint m_vaoID;
 	GLuint m_vertexBufferID;
 	GLint m_vertexCount;
 	

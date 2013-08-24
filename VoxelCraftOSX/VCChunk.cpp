@@ -18,6 +18,7 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world)
 	m_world = world;
 	m_vertexBufferID = 0;
 	m_vertexCount = 0;
+    m_vaoID = 0;
 	m_rebuildVerticies = NULL;
 
 	m_chunkGenertor = new VCChunkGenerator(x, y, z);
@@ -211,12 +212,29 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 		m_vertexBufferID = 0;
 	}
 
+    
+    // Create VAO
+    glGenVertexArrays(1, &m_vaoID);
+    glBindVertexArray(m_vaoID);
+    glErrorCheck();
+    
+    // Create VBO
     glGenBuffers(1, &m_vertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
 	ZERO_CHECK(m_vertexBufferID);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    // Bind Attributes
+    glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+    
+	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
+	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
+	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
+    
+    glBindVertexArray(0);
 
 	// release heap malloc
 	free(m_rebuildVerticies);
@@ -232,25 +250,11 @@ void VCChunk::Render()
 	if (m_vertexBufferID == 0 )
 		return;
 
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
-
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
-	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
-
+    glBindVertexArray(m_vaoID);
 	VCGLRenderer::VoxelShader->SetModelMatrix(glm::translate((float)m_x, (float)m_y, (float)m_z));
 
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
-
-	// Release
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glDisableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
-	glDisableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-
+    
+    glBindVertexArray(0);
 	glErrorCheck();
 }

@@ -66,10 +66,10 @@ void VCApplication::Initialize()
     
     
     // Test Crap below...
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    glErrorCheck();
+//    GLuint vao;
+//    glGenVertexArrays(1, &vao);
+//    glBindVertexArray(vao);
+//    glErrorCheck();
     
     m_testChunkGO = new VCGameObject();
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);

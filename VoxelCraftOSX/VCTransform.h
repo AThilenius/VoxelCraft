@@ -22,6 +22,9 @@ public:
     
     virtual void PreRender();
 
+    vec3 Forward();
+    vec3 GetEuler();
+    
 public:
 	glm::vec3 Position;
 	glm::quat Rotation;
