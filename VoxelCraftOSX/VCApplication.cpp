@@ -49,24 +49,36 @@ void VCApplication::Initialize()
     
     glErrorCheck();
 
-	Renderer = new VCGLRenderer();
-	Renderer->Initialize();
     
     Input = new VCInput();
     Input->Initalize();
     
+	Renderer = new VCGLRenderer();
+	Renderer->Initialize();
+    
     Time = new VCTime();
     Time->Initalize();
     
+    SceneGraph = new VCSceneGraph();
+    SceneGraph->Initalize();
+    
+    
+    
+    
+    // Test Crap below...
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     glErrorCheck();
     
-    m_testChunk = new VCChunk(0, 0, 0, NULL);
-    m_testChunk->Generate();
-    m_testChunk->StartRebuild();
-    m_testChunk->ContinueRebuild(0.0f);
+    m_testChunkGO = new VCGameObject();
+    VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
+    
+    testChunk->Generate();
+    testChunk->StartRebuild();
+    testChunk->ContinueRebuild(0.0f);
+    
+    m_testChunkGO->AttachComponent(testChunk);
     
     // MONO TEST
     cout << "===============   Mono - Managed code begin   ===============" << endl;
@@ -100,12 +112,23 @@ void VCApplication::Run()
     //while (!glfwWindowShouldClose(m_window))
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {
+        Input->Update();
 		Renderer->Render();
-        Time->Update();
-        m_testChunk->Render();
+        //m_testChunk->Render();
+        SceneGraph->RenderGraph();
+        
+        // Framerate Check
+        double framerate = 1.0f / VCTime::DeltaTime();
+        framerate = framerate * 0.1f + m_lastDeltaTime * 0.9f;
+        m_lastDeltaTime = framerate;
+        stringstream ss;
+        ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
+        glfwSetWindowTitle( ss.str().c_str() );
+        // ~Framerate Check
         
         glfwSwapBuffers();
         glfwPollEvents();
+        Time->Update();
     }
 	
     glfwTerminate();

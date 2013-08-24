@@ -12,6 +12,7 @@
 #include "VCWorld.h"
 #include "VCBlock.h"
 #include "VCChunkGenerator.h"
+#import "VCComponent.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ struct BlockVerticie
 	GLubyte4 color;
 };
 
-class VCChunk
+class VCChunk : public VCComponent
 {
 public:
 	VCChunk(int x, int y, int z, VCWorld* world);
@@ -41,7 +42,8 @@ public:
 	void Generate( );
 	void StartRebuild ( );
 	void ContinueRebuild ( double allocatedTime );
-	void Render ( );
+	//void Render ( );
+    void virtual Render();
 
 private:
 	BlockType m_blocks[CHUNK_TOTAL_COUNT];

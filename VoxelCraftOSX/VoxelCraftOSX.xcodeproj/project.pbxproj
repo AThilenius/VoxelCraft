@@ -11,6 +11,7 @@
 		7001F0CB17C46936002EF830 /* VCTestShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C917C46936002EF830 /* VCTestShader.cpp */; };
 		7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0D317C5A1E0002EF830 /* VCInput.cpp */; };
 		7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7007F10717C43AB5006939A2 /* libGLEW.dylib */; };
+		7025C0D517C856CF00BB223C /* VCSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */; };
 		70867A2717891309000EE162 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
 		70867A2E17891330000EE162 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2D17891330000EE162 /* IOKit.framework */; };
 		70867A7517891401000EE162 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5217891401000EE162 /* main.cpp */; };
@@ -55,6 +56,8 @@
 		7007F10217C4398F006939A2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../../../../../System/Library/Frameworks/GLUT.framework; sourceTree = "<group>"; };
 		7007F10517C43A87006939A2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = ../../../../../../../System/Library/Frameworks/GLKit.framework; sourceTree = "<group>"; };
 		7007F10717C43AB5006939A2 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
+		7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCSceneGraph.cpp; sourceTree = SOURCE_ROOT; };
+		7025C0D417C856CF00BB223C /* VCSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCSceneGraph.h; sourceTree = SOURCE_ROOT; };
 		70867A1A178912FB000EE162 /* VoxelCraftOSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VoxelCraftOSX; sourceTree = BUILT_PRODUCTS_DIR; };
 		70867A2617891309000EE162 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		70867A2D17891330000EE162 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -93,7 +96,7 @@
 		70867A7417891401000EE162 /* VCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWorld.h; sourceTree = SOURCE_ROOT; };
 		709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmono-2.0.1.dylib"; path = "../../../../../../../mono/lib/libmono-2.0.1.dylib"; sourceTree = "<group>"; };
 		709C45C017C70A8A00D3CEE9 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../Libs/libglfw.dylib; sourceTree = "<group>"; };
-		709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libboost_date_time-mt.dylib"; path = "../Libs/libboost_date_time-mt.dylib"; sourceTree = "<group>"; };
+		709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_date_time-mt.dylib"; path = "../Libs/libboost_date_time-mt.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,14 +135,8 @@
 		7001F0CF17C48BF8002EF830 /* SceneGraph */ = {
 			isa = PBXGroup;
 			children = (
-				70867A6017891401000EE162 /* VCCamera.cpp */,
-				70867A6117891401000EE162 /* VCCamera.h */,
-				70867A6617891401000EE162 /* VCComponent.cpp */,
-				70867A6717891401000EE162 /* VCComponent.h */,
-				70867A6817891401000EE162 /* VCGameObject.cpp */,
-				70867A6917891401000EE162 /* VCGameObject.h */,
-				70867A6E17891401000EE162 /* VCTransform.cpp */,
-				70867A6F17891401000EE162 /* VCTransform.h */,
+				7025C0D717C8609500BB223C /* Components */,
+				7025C0D617C8608D00BB223C /* Graph */,
 			);
 			name = SceneGraph;
 			sourceTree = "<group>";
@@ -184,6 +181,30 @@
 				7001F0D417C5A1E1002EF830 /* VCInput.h */,
 			);
 			name = Application;
+			sourceTree = "<group>";
+		};
+		7025C0D617C8608D00BB223C /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				70867A6617891401000EE162 /* VCComponent.cpp */,
+				70867A6717891401000EE162 /* VCComponent.h */,
+				70867A6817891401000EE162 /* VCGameObject.cpp */,
+				70867A6917891401000EE162 /* VCGameObject.h */,
+				70867A6E17891401000EE162 /* VCTransform.cpp */,
+				70867A6F17891401000EE162 /* VCTransform.h */,
+				7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */,
+				7025C0D417C856CF00BB223C /* VCSceneGraph.h */,
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
+		7025C0D717C8609500BB223C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				70867A6017891401000EE162 /* VCCamera.cpp */,
+				70867A6117891401000EE162 /* VCCamera.h */,
+			);
+			name = Components;
 			sourceTree = "<group>";
 		};
 		70867A11178912FB000EE162 = {
@@ -300,6 +321,7 @@
 				70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */,
 				70867A8517891401000EE162 /* VCWorld.cpp in Sources */,
 				7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */,
+				7025C0D517C856CF00BB223C /* VCSceneGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

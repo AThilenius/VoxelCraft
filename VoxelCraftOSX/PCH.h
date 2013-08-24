@@ -28,11 +28,14 @@
 #include <map>
 
 #include "VCTime.h"
+#include "VCInput.h"
 #include "VCTypes.h"
 #include "Utilities.h"
 
 using namespace std;
 using namespace glm;
+
+class VCInput;
 
 // ================= Constants ===========================================================================
 

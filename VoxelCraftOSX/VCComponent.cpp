@@ -15,7 +15,6 @@
 VCComponent::VCComponent(void)
 {
 	Enabled = true;
-
 }
 
 

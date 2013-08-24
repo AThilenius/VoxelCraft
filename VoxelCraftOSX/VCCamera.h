@@ -21,8 +21,11 @@ public:
 
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
-
 	glm::mat4 ProjectionViewMatrix;
+    
+private:
+    vec3 m_position;
+    vec3 m_rotation;
 
 };
 

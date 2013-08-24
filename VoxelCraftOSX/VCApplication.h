@@ -13,6 +13,7 @@
 #include "VCChunk.h"
 #include "VCGameObject.h"
 #include "VCInput.h"
+#import "VCSceneGraph.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
@@ -36,14 +37,15 @@ public:
 
 public:
 	VCGLRenderer* Renderer;
-	VCGameObject* RootNode;
+    VCSceneGraph* SceneGraph;
     VCInput* Input;
     VCTime* Time;
     
     static VCApplication* Instance;
 
 private:
-    VCChunk* m_testChunk;
+    VCGameObject* m_testChunkGO;
+    double m_lastDeltaTime;
     
     MonoDomain *m_pRootDomain;
 	MonoImage *m_pClassLibraryImage;

@@ -11,7 +11,7 @@
 #include "PCH.h"
 #include "VCComponent.h"
 
-
+class VCGameObject;
 class VCTransform;
 
 class VCTransform : public VCComponent
@@ -19,22 +19,15 @@ class VCTransform : public VCComponent
 public:
 	VCTransform(void);
 	~VCTransform(void);
-
-	virtual void PreRender();
-	VCTransform* GetParent();
-	void SetParent ( VCTransform* parent );
+    
+    virtual void PreRender();
 
 public:
 	glm::vec3 Position;
-	glm::vec3 Rotation;
+	glm::quat Rotation;
 	glm::vec3 Scale;
 
 	glm::mat4 ModelMatrix;
-
-private:
-	VCTransform* m_parent;
-	std::unordered_set<VCTransform*> m_children;
-
 	
 };
 

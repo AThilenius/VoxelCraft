@@ -36,7 +36,7 @@ double VCTime::CurrentTime()
     boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration delta = currentTime - VCTime::Instance->m_startTime;
     
-    return delta.total_milliseconds();
+    return delta.total_milliseconds() * 0.001f;
 }
 
 double VCTime::DeltaTime()
@@ -44,5 +44,5 @@ double VCTime::DeltaTime()
     boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration delta = currentTime - VCTime::Instance->m_lastFrameTime;
     
-    return delta.total_milliseconds();
+    return delta.total_milliseconds() * 0.001f;
 }
