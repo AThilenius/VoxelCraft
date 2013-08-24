@@ -31,7 +31,7 @@ void VCApplication::Initialize()
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     // Open a window and create its OpenGL context
-    if( !glfwOpenWindow( 1024, 768, 8,8,8,8, 32,0, GLFW_WINDOW ) )
+    if( !glfwOpenWindow( 1024, 768, 6,6,6,6, 24,0, GLFW_WINDOW ) )
     {
         fprintf( stderr, "Failed to open GLFW window\n" );
         glfwTerminate();
