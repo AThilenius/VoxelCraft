@@ -9,11 +9,13 @@
 #pragma once
 
 #include "PCH.h"
+#import "VCWindow.h"
 #include "VCGLRenderer.h"
 #include "VCChunk.h"
 #include "VCGameObject.h"
 #include "VCInput.h"
 #import "VCSceneGraph.h"
+#import "VCCamera.h"
 
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
@@ -36,6 +38,7 @@ public:
 	void Run();
 
 public:
+    VCWindow* Window;
 	VCGLRenderer* Renderer;
     VCSceneGraph* SceneGraph;
     VCInput* Input;

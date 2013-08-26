@@ -8,24 +8,26 @@
 
 #pragma once
 
-#include "PCH.h"
+#import "PCH.h"
+#import "VCComponent.h"
+#import "VCTransform.h"
 
+class VCSceneGraph;
 
-class VCCamera
+class VCCamera : public VCComponent
 {
 public:
 	VCCamera(void);
 	~VCCamera(void);
 
-	void PreRender();
+	virtual void PreRender();
 
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
     
-private:
-    vec3 m_position;
-    vec3 m_rotation;
+public:
+    Rectangle Frame;
 
 };
 

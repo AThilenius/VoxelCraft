@@ -30,8 +30,9 @@
 		70867A8317891401000EE162 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
 		70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
 		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
-		709C45BF17C70A2D00D3CEE9 /* libmono-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */; };
 		709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45C017C70A8A00D3CEE9 /* libglfw.dylib */; };
+		70F306B217CB197500402169 /* libmonoboehm-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */; };
+		70F306B517CB1F4C00402169 /* VCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F306B317CB1F4C00402169 /* VCWindow.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,9 +95,10 @@
 		70867A7217891401000EE162 /* VCVoxelShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCVoxelShader.h; sourceTree = SOURCE_ROOT; };
 		70867A7317891401000EE162 /* VCWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWorld.cpp; sourceTree = SOURCE_ROOT; };
 		70867A7417891401000EE162 /* VCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWorld.h; sourceTree = SOURCE_ROOT; };
-		709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmono-2.0.1.dylib"; path = "../../../../../../../mono/lib/libmono-2.0.1.dylib"; sourceTree = "<group>"; };
 		709C45C017C70A8A00D3CEE9 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../Libs/libglfw.dylib; sourceTree = "<group>"; };
-		709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_date_time-mt.dylib"; path = "../Libs/libboost_date_time-mt.dylib"; sourceTree = "<group>"; };
+		70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonoboehm-2.0.1.dylib"; path = "../Libs/libmonoboehm-2.0.1.dylib"; sourceTree = "<group>"; };
+		70F306B317CB1F4C00402169 /* VCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWindow.cpp; sourceTree = SOURCE_ROOT; };
+		70F306B417CB1F4C00402169 /* VCWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWindow.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +109,8 @@
 				70867A2717891309000EE162 /* OpenGL.framework in Frameworks */,
 				70867A2E17891330000EE162 /* IOKit.framework in Frameworks */,
 				7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */,
-				709C45BF17C70A2D00D3CEE9 /* libmono-2.0.1.dylib in Frameworks */,
 				709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */,
+				70F306B217CB197500402169 /* libmonoboehm-2.0.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +181,8 @@
 				7001F0C717C4692A002EF830 /* VCTestApplication.h */,
 				7001F0D317C5A1E0002EF830 /* VCInput.cpp */,
 				7001F0D417C5A1E1002EF830 /* VCInput.h */,
+				70F306B317CB1F4C00402169 /* VCWindow.cpp */,
+				70F306B417CB1F4C00402169 /* VCWindow.h */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -241,9 +245,8 @@
 		70867A2C17891319000EE162 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				709C45C217C70AAA00D3CEE9 /* libboost_date_time-mt.dylib */,
+				70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */,
 				709C45C017C70A8A00D3CEE9 /* libglfw.dylib */,
-				709C45BE17C70A2D00D3CEE9 /* libmono-2.0.1.dylib */,
 				7007F10717C43AB5006939A2 /* libGLEW.dylib */,
 				70867A2D17891330000EE162 /* IOKit.framework */,
 				70867A2617891309000EE162 /* OpenGL.framework */,
@@ -322,6 +325,7 @@
 				70867A8517891401000EE162 /* VCWorld.cpp in Sources */,
 				7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */,
 				7025C0D517C856CF00BB223C /* VCSceneGraph.cpp in Sources */,
+				70F306B517CB1F4C00402169 /* VCWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,13 +393,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../Include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../GLFW/lib-msvc110\"",
-					/usr/local/Cellar/glfw/2.7.9/lib,
-					/mono/lib,
-					"\"$(SRCROOT)/../Libs\"",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Libs\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 			};
@@ -405,13 +403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../Include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../GLFW/lib-msvc110\"",
-					/usr/local/Cellar/glfw/2.7.9/lib,
-					/mono/lib,
-					"\"$(SRCROOT)/../Libs\"",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Libs\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 			};

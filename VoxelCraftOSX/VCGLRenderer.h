@@ -22,7 +22,6 @@ public:
 	void Render();
 
 	static VCVoxelShader* VoxelShader;
-	static VCCamera* MainCamera;
 
 };
 

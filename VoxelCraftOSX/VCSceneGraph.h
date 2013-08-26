@@ -11,6 +11,8 @@
 
 #import "PCH.h"
 #import "VCGameObject.h"
+#import "VCCamera.h"
+#import "Shader.h"
 
 class VCSceneGraph
 {
@@ -21,9 +23,15 @@ public:
     void Initalize();
     void RenderGraph();
     
+    void RegisterCamera(VCCamera* camera);
+    
 public:
     static VCSceneGraph* Instance;
+    VCCamera* CurrentRenderingCamera;
     VCGameObject* RootNode;
+    
+private:
+    unordered_set<VCCamera*> m_cameras;
 };
 
 #endif /* defined(__VoxelCraftOSX__SceneGraph__) */

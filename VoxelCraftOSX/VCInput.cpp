@@ -46,6 +46,8 @@ void VCInput::Initalize()
     glfwSetKeyCallback(KeyHanlder);
     glfwSetMouseButtonCallback(MouseButtonHanlder);
     glfwDisable(GLFW_MOUSE_CURSOR);
+    
+    cout << "VCInput Initalized" << endl;
 }
 
 void VCInput::Update()

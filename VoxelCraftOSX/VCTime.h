@@ -8,7 +8,7 @@
 
 #pragma once
 
-//#include <Windows.h>
+#import "PCH.h"
 #import "boost/date_time/posix_time/posix_time.hpp"
 
 class VCTime
@@ -28,5 +28,6 @@ public:
 private:
     boost::posix_time::ptime m_startTime;
     boost::posix_time::ptime m_lastFrameTime;
+    double m_deltaTime;
 };
 

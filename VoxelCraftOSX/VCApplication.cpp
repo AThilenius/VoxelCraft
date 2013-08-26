@@ -23,34 +23,8 @@ void VCApplication::Initialize()
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
     
-	if (!glfwInit())
-		cout << "Failed to initialize GLFW." << endl;
-    
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
-    // Open a window and create its OpenGL context
-    if( !glfwOpenWindow( 1024, 768, 6,6,6,6, 24,0, GLFW_WINDOW ) )
-    {
-        fprintf( stderr, "Failed to open GLFW window\n" );
-        glfwTerminate();
-    }
-    
-    // Initialize GLEW
-    glewExperimental = true; // Needed in core profile
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-    }
-    
-    glfwSetWindowTitle( "Voxel Craft" );
-    
-    int major, minor, rev = 0;
-    glfwGetGLVersion(&major, &minor, &rev);
-    cout << "OpenGL version recieved: " << major << "." << minor << "." << rev << endl;
-    cout << "Hardware: " << glGetString(GL_RENDERER) << endl << endl;
-    
-    glErrorCheck();
+	Window = new VCWindow();
+    Window->Initalize();
 
     
     Input = new VCInput();
@@ -67,7 +41,17 @@ void VCApplication::Initialize()
     
     
     // Test Crap below...
+    
+    // Camera
+    cout << "Creating Camera..." << endl;
+    VCGameObject* cameraObject = new VCGameObject();
+    VCCamera* mainCamera = new VCCamera();
+    cameraObject->AttachComponent(mainCamera);
+    cameraObject->Transform->Position = vec3(50, -25, -120);
+    cameraObject->Transform->Rotate(vec3(0, 0.7f, 0));
 
+    // Test Chunk
+    cout << "Creating test chunk..." << endl;
     m_testChunkGO = new VCGameObject();
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
     
@@ -96,6 +80,7 @@ void VCApplication::Run()
     //while (!glfwWindowShouldClose(m_window))
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {
+        Time->Update();
         Input->Update();
 		Renderer->Render();
         //m_testChunk->Render();
@@ -103,7 +88,7 @@ void VCApplication::Run()
         
         // Framerate Check
         double framerate = 1.0f / VCTime::DeltaTime();
-        framerate = framerate * 0.1f + m_lastDeltaTime * 0.9f;
+        framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
         m_lastDeltaTime = framerate;
         stringstream ss;
         ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
@@ -112,7 +97,6 @@ void VCApplication::Run()
         
         glfwSwapBuffers();
         glfwPollEvents();
-        Time->Update();
     }
 	
     glfwTerminate();

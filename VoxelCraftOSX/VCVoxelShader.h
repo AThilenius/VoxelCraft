@@ -10,6 +10,7 @@
 
 #include "PCH.h"
 #include "Shader.h"
+#import "VCSceneGraph.h"
 
 using namespace std;
 

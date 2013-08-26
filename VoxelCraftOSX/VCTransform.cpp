@@ -37,8 +37,34 @@ void VCTransform::PreRender()
 	ModelMatrix = glm::translate(ModelMatrix, Position);
     
 	// Scale
-	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);
-
-
-	
+	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);	
 }
+
+vec3 VCTransform::Forward()
+{
+    return glm::normalize(Rotation * glm::vec3(0.0f, 0.0f, 1.0f));
+}
+
+vec3 VCTransform::Right()
+{
+    return glm::normalize(Rotation * glm::vec3(1.0f, 0.0f, 0.0f));
+}
+
+vec3 VCTransform::Up()
+{
+    return glm::normalize(Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
+}
+
+void VCTransform::Rotate(vec3 euler)
+{
+    quat rotQuat = quat(euler);
+    Rotate(rotQuat);
+}
+
+void VCTransform::Rotate(quat quaternion)
+{
+    Rotation = quaternion * Rotation;
+}
+
+
+
