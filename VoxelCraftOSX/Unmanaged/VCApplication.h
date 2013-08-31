@@ -16,16 +16,9 @@
 #include "VCInput.h"
 #import "VCSceneGraph.h"
 #import "VCCamera.h"
+#import "VCObjectStore.h"
+#import "VCTestInteropObject.h"
 
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/mono-debug.h>
-#include <mono/metadata/debug-helpers.h>
-#include <mono/metadata/appdomain.h>
-#include <mono/metadata/object.h>
-#include <mono/metadata/threads.h>
-#include <mono/metadata/environment.h>
-#include <mono/metadata/mono-gc.h>
 
 using namespace std;
 
@@ -43,6 +36,7 @@ public:
     VCSceneGraph* SceneGraph;
     VCInput* Input;
     VCTime* Time;
+    VCObjectStore* ObjectStore;
     
     static VCApplication* Instance;
 
@@ -57,3 +51,4 @@ private:
 	MonoObject *m_pClassLibraryManager;
 };
 
+void SayHelloUnmanaged();

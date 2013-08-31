@@ -9,11 +9,13 @@
 #include "VCSceneGraph.h"
 
 VCSceneGraph* VCSceneGraph::Instance;
+int VCSceneGraph::s_handle;
 
 VCSceneGraph::VCSceneGraph()
 {
     VCSceneGraph::Instance = this;
-    RootNode = new VCGameObject(NULL);
+    VCSceneGraph::s_handle = VCObjectStore::Instance->RegisterObject(this);
+    RootNode = new VCGameObject();
     RootNode->Name = "Root";
 }
 
@@ -42,5 +44,16 @@ void VCSceneGraph::RenderGraph()
 void VCSceneGraph::RegisterCamera(VCCamera* camera)
 {
     m_cameras.insert(camera);
+}
+
+// ================================      Interop      ============
+void VCSceneGraph::RegisterMonoHandlers()
+{
+    mono_add_internal_call("VCEngine.SceneGraph::VCInteropGetStaticHandle", (void*) VCInteropGetStaticHandle);
+}
+
+int VCInteropGetStaticHandle()
+{
+    return VCSceneGraph::s_handle;
 }
 

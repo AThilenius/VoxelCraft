@@ -8,29 +8,41 @@
 
 #pragma once
 
+// Glew, Glfw, GLM
 #import <GL/glew.h>
 #import <GL/glfw.h>
+#import "glm/glm.hpp"
+#import "glm/ext.hpp"
 
-//#include <glew.h>
-//#include <glfw3.h>
-#include "glm/glm.hpp"
-#include "glm/ext.hpp"
+// STD
+#import <exception>
+#import <iostream>
+#import <string>
+#import <sstream>
+#import <cstring>
+#import <vector>
+#import <unordered_map>
+#import <unordered_set>
+#import <map>
+#import <set>
 
-#include <exception>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <cstring>
-//#include <windows.h>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <map>
+// Mono
+#import <mono/jit/jit.h>
+#import <mono/metadata/assembly.h>
+#import <mono/metadata/mono-debug.h>
+#import <mono/metadata/debug-helpers.h>
+#import <mono/metadata/appdomain.h>
+#import <mono/metadata/object.h>
+#import <mono/metadata/threads.h>
+#import <mono/metadata/environment.h>
+#import <mono/metadata/mono-gc.h>
 
+// User
 #include "VCTime.h"
 #include "VCInput.h"
 #include "VCTypes.h"
 #include "Utilities.h"
+#import "VCObjectStore.h"
 
 using namespace std;
 using namespace glm;

@@ -29,5 +29,18 @@ public:
 public:
     Rectangle Frame;
 
+    
+    // ================================      Interop      ============
+public:
+    int Handle;
+    static void RegisterMonoHandlers();
+    
+private:
+    friend int VCInteropNewCamera();
+    friend void VCInteropReleaseCamera(int handle);
+    // ===============================================================
 };
 
+// Interop
+int VCInteropNewCamera();
+void VCInteropReleaseCamera(int handle);

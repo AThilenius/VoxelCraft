@@ -32,6 +32,20 @@ public:
     
 private:
     unordered_set<VCCamera*> m_cameras;
+    
+    // ================================      Interop      ============
+public:
+    static void RegisterMonoHandlers();
+    
+private:
+    static int s_handle;
+    friend int VCInteropGetStaticHandle();
+
+    // ===============================================================
 };
+
+// Interop
+int VCInteropGetStaticHandle();
+
 
 #endif /* defined(__VoxelCraftOSX__SceneGraph__) */

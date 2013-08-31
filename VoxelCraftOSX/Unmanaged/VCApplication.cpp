@@ -19,6 +19,14 @@ VCApplication::~VCApplication(void)
 {
 }
 
+//extern "C"
+//{
+    void SayHelloUnmanaged()
+    {
+        cout << "Hello from unmanaged code!" << endl;
+    }
+//}
+
 void VCApplication::Initialize()
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
@@ -26,6 +34,7 @@ void VCApplication::Initialize()
 	Window = new VCWindow();
     Window->Initalize();
 
+    ObjectStore = new VCObjectStore();
     
     Input = new VCInput();
     Input->Initalize();
@@ -42,17 +51,22 @@ void VCApplication::Initialize()
     
     // Test Crap below...
     
-    // Camera
-    cout << "Creating Camera..." << endl;
-    VCGameObject* cameraObject = new VCGameObject();
-    VCCamera* mainCamera = new VCCamera();
-    cameraObject->AttachComponent(mainCamera);
-    cameraObject->Transform->Position = vec3(50, -25, -120);
-    cameraObject->Transform->Rotate(vec3(0, 0.7f, 0));
 
+    // Camera
+//    cout << "Creating Camera..." << endl;
+//    VCGameObject* cameraObject = new VCGameObject();
+//    cameraObject->SetParent(VCSceneGraph::Instance->RootNode);
+//    
+//    VCCamera* mainCamera = new VCCamera();
+//    cameraObject->AttachComponent(mainCamera);
+//    VCSceneGraph::Instance->RegisterCamera(mainCamera);
+//    cameraObject->Transform->Position = vec3(50, -25, -120);
+//    cameraObject->Transform->Rotate(vec3(0, 0.7f, 0));
+    
     // Test Chunk
     cout << "Creating test chunk..." << endl;
     m_testChunkGO = new VCGameObject();
+    m_testChunkGO->SetParent(VCSceneGraph::Instance->RootNode);
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
     
     testChunk->Generate();
@@ -61,18 +75,33 @@ void VCApplication::Initialize()
     
     m_testChunkGO->AttachComponent(testChunk);
     
+    
     // MONO TEST
     cout << "===============   Mono - Managed code begin   ===============" << endl;
     m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
     
-    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/ClassLibrary.dll");
+    // Registry
+    VCTestInteropObject::RegisterMonoBindings();
+    VCGameObject::RegisterMonoHandlers();
+    VCTransform::RegisterMonoHandlers();
+    VCCamera::RegisterMonoHandlers();
+    
+    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/Dropbox/Development/CPP/VoxelCraft/VoxelCraftOSX/Managed/BuildOutput/VCEngine.dll");
 	m_pClassLibraryImage = mono_assembly_get_image(pMonoAssembly);
     
-	m_pClassLibraryManagerClass = mono_class_from_name(m_pClassLibraryImage, "ClassLibraryNamespace", "ClassLibraryManager");
+	m_pClassLibraryManagerClass = mono_class_from_name(m_pClassLibraryImage, "VCEngine", "EntryPoint");
     
 	m_pClassLibraryManager = mono_object_new(mono_domain_get(), m_pClassLibraryManagerClass);
 	mono_runtime_object_init(m_pClassLibraryManager);
+    
     cout << "===============   Mono - Managed code end     ===============" << endl;
+    
+    // Test GameObjects
+    VCGameObject* go = (VCGameObject*) VCObjectStore::Instance->GetObject(5);
+    //vec3 position = go->Transform->Position;
+    //cout << "Location: " << position.x << ", " << position.y << ", " << position.z << endl;
+    
+
 }
 
 void VCApplication::Run()
