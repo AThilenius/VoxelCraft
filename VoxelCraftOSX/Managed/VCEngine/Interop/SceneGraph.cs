@@ -7,7 +7,7 @@ namespace VCEngine
 	{
 		#region Bindings
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static int VCInteropGetStaticHandle();
+		extern static int VCInteropGetStaticHandle();
 		#endregion
 
 		private SceneGraph () { }

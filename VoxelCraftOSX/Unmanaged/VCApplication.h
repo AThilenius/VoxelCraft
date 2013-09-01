@@ -17,7 +17,6 @@
 #import "VCSceneGraph.h"
 #import "VCCamera.h"
 #import "VCObjectStore.h"
-#import "VCTestInteropObject.h"
 
 
 using namespace std;
@@ -27,7 +26,7 @@ class VCApplication
 public:
 	VCApplication(void);
 	~VCApplication(void);
-	void Initialize();
+	void Initialize(int argc, char** argv);
 	void Run();
 
 public:
@@ -45,10 +44,13 @@ private:
     double m_lastDeltaTime;
     
     MonoDomain *m_pRootDomain;
-	MonoImage *m_pClassLibraryImage;
+	MonoImage *m_assemblyImage;
     
-	MonoClass *m_pClassLibraryManagerClass;
-	MonoObject *m_pClassLibraryManager;
+	MonoClass *m_engineType;
+	MonoObject *m_engineInstance;
+    
+    MonoMethod* m_updateMethod;
+    MonoMethod* m_lateUpdateMethod;
 };
 
 void SayHelloUnmanaged();

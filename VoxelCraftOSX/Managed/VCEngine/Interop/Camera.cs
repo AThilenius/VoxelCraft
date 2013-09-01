@@ -8,22 +8,19 @@ namespace VCEngine
 		#region Bindings
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static int VCInteropNewCamera();
+		extern static int VCInteropNewCamera();
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static void VCInteropReleaseCamera(int handle);
+		extern static void VCInteropReleaseCamera(int handle);
 
 		#endregion
-
-
-		//new internal int Handle;
 
 		public Camera ()
 		{
 			Handle = VCInteropNewCamera ();
 			ObjectStore.RegisterObject (this, Handle);
 
-			Console.WriteLine("Managed: Camera create with handle: " + Handle);
+			Console.WriteLine("= Camera create with handle: " + Handle);
 		}
 
 		internal Camera (int existingHandle)
@@ -34,6 +31,12 @@ namespace VCEngine
 		~Camera()
 		{
 			VCInteropReleaseCamera (Handle);
+		}
+
+		public override void Update ()
+		{
+            if (Input.IsKeyDown((int)'S'))
+                Transform.Position = Transform.Position + new Vector3(0.0f, 0.0f, 5.0f) * Time.DeltaTime;
 		}
 
 	}

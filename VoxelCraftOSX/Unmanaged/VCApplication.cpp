@@ -27,7 +27,7 @@ VCApplication::~VCApplication(void)
     }
 //}
 
-void VCApplication::Initialize()
+void VCApplication::Initialize(int argc, char** argv)
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
     
@@ -51,18 +51,6 @@ void VCApplication::Initialize()
     
     // Test Crap below...
     
-
-    // Camera
-//    cout << "Creating Camera..." << endl;
-//    VCGameObject* cameraObject = new VCGameObject();
-//    cameraObject->SetParent(VCSceneGraph::Instance->RootNode);
-//    
-//    VCCamera* mainCamera = new VCCamera();
-//    cameraObject->AttachComponent(mainCamera);
-//    VCSceneGraph::Instance->RegisterCamera(mainCamera);
-//    cameraObject->Transform->Position = vec3(50, -25, -120);
-//    cameraObject->Transform->Rotate(vec3(0, 0.7f, 0));
-    
     // Test Chunk
     cout << "Creating test chunk..." << endl;
     m_testChunkGO = new VCGameObject();
@@ -81,38 +69,61 @@ void VCApplication::Initialize()
     m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
     
     // Registry
-    VCTestInteropObject::RegisterMonoBindings();
     VCGameObject::RegisterMonoHandlers();
     VCTransform::RegisterMonoHandlers();
     VCCamera::RegisterMonoHandlers();
+    VCInput::RegisterMonoHandlers();
     
-    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/Dropbox/Development/CPP/VoxelCraft/VoxelCraftOSX/Managed/BuildOutput/VCEngine.dll");
-	m_pClassLibraryImage = mono_assembly_get_image(pMonoAssembly);
+    // Assembly
+    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/Dropbox/Development/CPP/VoxelCraft/VoxelCraftOSX/Managed/BuildOutput/TestGame.dll");
+	m_assemblyImage = mono_assembly_get_image(pMonoAssembly);
     
-	m_pClassLibraryManagerClass = mono_class_from_name(m_pClassLibraryImage, "VCEngine", "EntryPoint");
+    // Class
+	m_engineType = mono_class_from_name(m_assemblyImage, "VCEngine", "Engine");
+	m_engineInstance = mono_object_new(mono_domain_get(), m_engineType);
+	
+    // Instantiate
+    mono_runtime_object_init(m_engineInstance);
     
-	m_pClassLibraryManager = mono_object_new(mono_domain_get(), m_pClassLibraryManagerClass);
-	mono_runtime_object_init(m_pClassLibraryManager);
+    // Initalize Method
+    MonoMethodDesc* initMethodDesc = mono_method_desc_new ("VCEngine.Engine:Initalize()", true);
+    MonoMethod* initMethod = mono_method_desc_search_in_class (initMethodDesc, m_engineType);
+    
+    // Update Method
+    MonoMethodDesc* updateMethodDesc = mono_method_desc_new ("VCEngine.Engine:Update()", true);
+    m_updateMethod = mono_method_desc_search_in_class (updateMethodDesc, m_engineType);
+    
+    // LateUpdate Method
+    MonoMethodDesc* lateUpdateMethodDesc = mono_method_desc_new ("VCEngine.Engine:LateUpdate()", true);
+    m_lateUpdateMethod = mono_method_desc_search_in_class (lateUpdateMethodDesc, m_engineType);
+    
+    // Invoke Initalize()
+    mono_runtime_invoke(initMethod, m_engineInstance, NULL, NULL);
     
     cout << "===============   Mono - Managed code end     ===============" << endl;
     
-    // Test GameObjects
-    VCGameObject* go = (VCGameObject*) VCObjectStore::Instance->GetObject(5);
-    //vec3 position = go->Transform->Position;
-    //cout << "Location: " << position.x << ", " << position.y << ", " << position.z << endl;
+    // Resolution Test:
+    double startTime = VCTime::CurrentTime();
+    while ( startTime == VCTime::CurrentTime() ) {}
     
-
+    cout << "Got a resoltuion of " <<  (VCTime::CurrentTime() - startTime) << endl;
+    
 }
 
 void VCApplication::Run()
-{   
-    //while (!glfwWindowShouldClose(m_window))
+{
+    // Disable VSync
+    glfwSwapInterval(0);
+    
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {
         Time->Update();
         Input->Update();
+        
+        mono_runtime_invoke(m_updateMethod, m_engineInstance, NULL, NULL);
+        mono_runtime_invoke(m_lateUpdateMethod, m_engineInstance, NULL, NULL);
+        
 		Renderer->Render();
-        //m_testChunk->Render();
         SceneGraph->RenderGraph();
         
         // Framerate Check
@@ -120,7 +131,7 @@ void VCApplication::Run()
         framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
         m_lastDeltaTime = framerate;
         stringstream ss;
-        ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
+        ss << "Voxel Craft - " /*<< setprecision(2)*/ << framerate << " FPS.";
         glfwSetWindowTitle( ss.str().c_str() );
         // ~Framerate Check
         

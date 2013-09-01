@@ -21,13 +21,6 @@ public:
 	~VCTransform(void);
     
     virtual void PreRender();
-
-    vec3 Forward();
-    vec3 Right();
-    vec3 Up();
-    
-    void Rotate(vec3 euler);
-    void Rotate(quat quaternion);
     
 public:
 	glm::vec3 Position;
@@ -44,10 +37,14 @@ public:
 private:
     friend int VCInteropNewTransform();
     friend void VCInteropReleaseTransform(int handle);
+    
     friend void VCInteropTransformSetPosition(int handle, float x, float y, float z);
-    friend void VCInteropTransformSetRotationEuler(int handle, float x, float y, float z);
     friend void VCInteropTransformSetRotationQuat(int handle, float x, float y, float z, float w);
     friend void VCInteropTransformSetScale(int handle, float x, float y, float z);
+    
+    friend void VCInteropTransformGetPosition(int handle, float* x, float* y, float* z);
+    friend void VCInteropTransformGetRotation(int handle, float* x, float* y, float* z, float* w);
+    friend void VCInteropTransformGetScale(int handle, float* x, float* y, float* z);
     // ===============================================================
 };
 
@@ -55,9 +52,12 @@ int VCInteropNewTransform();
 void VCInteropReleaseTransform(int handle);
 
 void VCInteropTransformSetPosition(int handle, float x, float y, float z);
-void VCInteropTransformSetRotationEuler(int handle, float x, float y, float z);
 void VCInteropTransformSetRotationQuat(int handle, float x, float y, float z, float w);
 void VCInteropTransformSetScale(int handle, float x, float y, float z);
+
+void VCInteropTransformGetPosition(int handle, float* x, float* y, float* z);
+void VCInteropTransformGetRotation(int handle, float* x, float* y, float* z, float* w);
+void VCInteropTransformGetScale(int handle, float* x, float* y, float* z);
 
 
 

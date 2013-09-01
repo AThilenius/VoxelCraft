@@ -14,6 +14,8 @@ VCInput::VCInput()
 {
     VCInput::Instance = this;
     
+    m_keysDown = (char*) malloc(sizeof(char) * 325);
+    
     for ( int i = 0; i < 350; i ++ )
         m_keysDown[i] = false;
     
@@ -105,3 +107,26 @@ bool VCInput::IsMouseDown ( int buttonID )
 {
     return VCInput::Instance->m_mouseButtonsDown[buttonID];
 }
+
+
+// ================================      Interop      ============
+void VCInput::RegisterMonoHandlers()
+{
+    mono_add_internal_call("VCEngine.Input::VCInteropInputGetMouse",    (void*)VCInteropInputGetMouse);
+    mono_add_internal_call("VCEngine.Input::VCInteropInputGetKeys",     (void*)VCInteropInputGetKeys);
+}
+
+void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right)
+{
+    *x = VCInput::Instance->m_deltaX;
+    *y = VCInput::Instance->m_deltaY;
+    *left = VCInput::Instance->m_mouseButtonsDown[0];
+    *right = VCInput::Instance->m_mouseButtonsDown[0];
+}
+
+int* VCInteropInputGetKeys()
+{
+    return (int*) VCInput::Instance->m_keysDown;
+}
+
+

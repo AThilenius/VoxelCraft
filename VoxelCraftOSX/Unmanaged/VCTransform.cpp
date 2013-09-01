@@ -44,41 +44,19 @@ void VCTransform::PreRender()
 	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);	
 }
 
-vec3 VCTransform::Forward()
-{
-    return glm::normalize(Rotation * glm::vec3(0.0f, 0.0f, 1.0f));
-}
-
-vec3 VCTransform::Right()
-{
-    return glm::normalize(Rotation * glm::vec3(1.0f, 0.0f, 0.0f));
-}
-
-vec3 VCTransform::Up()
-{
-    return glm::normalize(Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
-}
-
-void VCTransform::Rotate(vec3 euler)
-{
-    quat rotQuat = quat(euler);
-    Rotate(rotQuat);
-}
-
-void VCTransform::Rotate(quat quaternion)
-{
-    Rotation = quaternion * Rotation;
-}
-
 // ================================      Interop      ============
 void VCTransform::RegisterMonoHandlers()
 {
     mono_add_internal_call("VCEngine.Transform::VCInteropNewTransform",                 (void*)VCInteropNewTransform);
     mono_add_internal_call("VCEngine.Transform::VCInteropReleaseTransform",             (void*)VCInteropReleaseTransform);
+    
     mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetPosition",         (void*)VCInteropTransformSetPosition);
-    mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetRotationEuler",    (void*)VCInteropTransformSetRotationEuler);
     mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetRotationQuat",     (void*)VCInteropTransformSetRotationQuat);
     mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetScale",            (void*)VCInteropTransformSetScale);
+    
+    mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetPosition",         (void*)VCInteropTransformGetPosition);
+    mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetRotation",         (void*)VCInteropTransformGetRotation);
+    mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetScale",            (void*)VCInteropTransformGetScale);
 }
 
 int VCInteropNewTransform()
@@ -99,12 +77,6 @@ void VCInteropTransformSetPosition(int handle, float x, float y, float z)
     obj->Position = vec3(x, y, z);
 }
 
-void VCInteropTransformSetRotationEuler(int handle, float x, float y, float z)
-{
-    VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
-    obj->Rotation = quat(vec3(x, y, z));
-}
-
 void VCInteropTransformSetRotationQuat(int handle, float x, float y, float z, float w)
 {
     VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
@@ -116,6 +88,35 @@ void VCInteropTransformSetScale(int handle, float x, float y, float z)
     VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
     obj->Scale = vec3(x, y, z);
 }
+
+void VCInteropTransformGetPosition(int handle, float* x, float* y, float* z)
+{
+    VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
+    vec3 position = obj->Position;
+    *x = position.x;
+    *y = position.y;
+    *z = position.z;
+}
+
+void VCInteropTransformGetRotation(int handle, float* x, float* y, float* z, float* w)
+{
+    VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
+    quat rot = obj->Rotation;
+    *x = rot.x;
+    *y = rot.y;
+    *z = rot.z;
+    *w = rot.w;
+}
+
+void VCInteropTransformGetScale(int handle, float* x, float* y, float* z)
+{
+    VCTransform* obj = (VCTransform*) VCObjectStore::Instance->GetObject(handle);
+    vec3 scale = obj->Scale;
+    *x = scale.x;
+    *y = scale.y;
+    *z = scale.z;
+}
+
 
 // ===============================================================
 

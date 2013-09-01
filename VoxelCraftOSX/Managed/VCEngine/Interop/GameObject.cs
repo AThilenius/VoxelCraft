@@ -8,22 +8,22 @@ namespace VCEngine
 		#region Bindings
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static int VCInteropNewGameObject();
+		extern static int VCInteropNewGameObject();
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static void VCInteropReleaseGameObject(int handle);
+		extern static void VCInteropReleaseGameObject(int handle);
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static void VCInteropGameObjectAttachComponent(int handle, int componentHandle);
+		extern static void VCInteropGameObjectAttachComponent(int handle, int componentHandle);
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static void VCInteropGameObjectSetParent(int handle, int parentHandle);
+		extern static void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static int VCInteropGameObjectGetParent(int handle);
+		extern static int VCInteropGameObjectGetParent(int handle);
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		public extern static int VCInteropGameObjectGetTransform(int handle);
+		extern static int VCInteropGameObjectGetTransform(int handle);
 
 		#endregion
 
@@ -98,8 +98,11 @@ namespace VCEngine
 
 		public void AttachComponent (Component component)
 		{
-			Console.WriteLine ("Managed: Attaching " + component.Handle + " to " + Handle);
+			Console.WriteLine ("= Attaching " + component.Handle + " to " + Handle);
 			VCInteropGameObjectAttachComponent (Handle, component.Handle);
+
+			component.GameObject = this;
+			component.Transform = Transform;
 		}
 
 	}

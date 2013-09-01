@@ -1,0 +1,5 @@
+X:\Users\Alec\Dropbox\Development\CPP\VoxelCraft\VoxelCraftOSX\Managed\BuildOutput\TestGame.dll
+X:\Users\Alec\Dropbox\Development\CPP\VoxelCraft\VoxelCraftOSX\Managed\BuildOutput\TestGame.pdb
+X:\Users\Alec\Dropbox\Development\CPP\VoxelCraft\VoxelCraftOSX\Managed\TestGame\obj\Debug\TestGame.csprojResolveAssemblyReference.cache
+X:\Users\Alec\Dropbox\Development\CPP\VoxelCraft\VoxelCraftOSX\Managed\TestGame\obj\Debug\TestGame.dll
+X:\Users\Alec\Dropbox\Development\CPP\VoxelCraft\VoxelCraftOSX\Managed\TestGame\obj\Debug\TestGame.pdb

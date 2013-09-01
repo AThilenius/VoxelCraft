@@ -7,17 +7,12 @@
 //
 
 #import "VCApplication.h"
-#import "VCTestApplication.h"
 
-int main(void)
+int main(int argc, char** argv)
 {
 	VCApplication app;
-	app.Initialize();
+	app.Initialize(argc, argv);
 	app.Run();
     
-//    VCTestApplication* m_testApp = new VCTestApplication();
-//    m_testApp->Initialize();
-//    m_testApp->Run();
-
 	return 0;
 }

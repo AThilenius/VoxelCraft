@@ -32,13 +32,26 @@ public:
     static VCInput* Instance;
     
 private:
-    bool m_keysDown[325];
+    char* m_keysDown;
     bool m_mouseButtonsDown[10];
     float m_deltaX, m_deltaY;
     
     friend void GLFWCALL KeyHanlder( int key, int action );
     friend void GLFWCALL MouseMoveHandler( int x, int y );
     friend void GLFWCALL MouseButtonHanlder( int button, int action );
+    
+    // ================================      Interop      ============
+public:
+    int Handle;
+    static void RegisterMonoHandlers();
+    
+private:
+    friend void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);
+    friend int* VCInteropInputGetKeys();
+    
 };
+
+void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);
+int* VCInteropInputGetKeys();
 
 #endif /* defined(__VoxelCraftOSX__VCInputPreProcessor__) */
