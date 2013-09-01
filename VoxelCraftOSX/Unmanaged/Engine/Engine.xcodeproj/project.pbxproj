@@ -61,7 +61,7 @@
 		7025C0D417C856CF00BB223C /* VCSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCSceneGraph.h; sourceTree = SOURCE_ROOT; };
 		7036F88E17D18DD80016A66C /* VCObjectStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCObjectStore.cpp; sourceTree = SOURCE_ROOT; };
 		7036F88F17D18DD80016A66C /* VCObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCObjectStore.h; sourceTree = SOURCE_ROOT; };
-		70867A1A178912FB000EE162 /* VoxelCraftOSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VoxelCraftOSX; sourceTree = BUILT_PRODUCTS_DIR; };
+		70867A1A178912FB000EE162 /* Engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Engine; sourceTree = BUILT_PRODUCTS_DIR; };
 		70867A2617891309000EE162 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		70867A2D17891330000EE162 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		70867A5217891401000EE162 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
@@ -240,7 +240,7 @@
 		70867A1B178912FB000EE162 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				70867A1A178912FB000EE162 /* VoxelCraftOSX */,
+				70867A1A178912FB000EE162 /* Engine */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -275,9 +275,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		70867A19178912FB000EE162 /* VoxelCraftOSX */ = {
+		70867A19178912FB000EE162 /* Engine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "VoxelCraftOSX" */;
+			buildConfigurationList = 70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "Engine" */;
 			buildPhases = (
 				70867A16178912FB000EE162 /* Sources */,
 				70867A17178912FB000EE162 /* Frameworks */,
@@ -287,9 +287,9 @@
 			);
 			dependencies = (
 			);
-			name = VoxelCraftOSX;
+			name = Engine;
 			productName = VoxelCraftOSX;
-			productReference = 70867A1A178912FB000EE162 /* VoxelCraftOSX */;
+			productReference = 70867A1A178912FB000EE162 /* Engine */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -301,7 +301,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Thilenius;
 			};
-			buildConfigurationList = 70867A15178912FB000EE162 /* Build configuration list for PBXProject "VoxelCraftOSX" */;
+			buildConfigurationList = 70867A15178912FB000EE162 /* Build configuration list for PBXProject "Engine" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -313,7 +313,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				70867A19178912FB000EE162 /* VoxelCraftOSX */,
+				70867A19178912FB000EE162 /* Engine */,
 			);
 		};
 /* End PBXProject section */
@@ -412,9 +412,9 @@
 		70867A24178912FB000EE162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../../Include;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../Libs\"";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				HEADER_SEARCH_PATHS = ../../../Include;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../Libs\"";
+				PRODUCT_NAME = Engine;
 				SDKROOT = "";
 			};
 			name = Debug;
@@ -422,9 +422,9 @@
 		70867A25178912FB000EE162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = ../../Include;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../Libs\"";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				HEADER_SEARCH_PATHS = ../../../Include;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../Libs\"";
+				PRODUCT_NAME = Engine;
 				SDKROOT = "";
 			};
 			name = Release;
@@ -432,7 +432,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		70867A15178912FB000EE162 /* Build configuration list for PBXProject "VoxelCraftOSX" */ = {
+		70867A15178912FB000EE162 /* Build configuration list for PBXProject "Engine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70867A21178912FB000EE162 /* Debug */,
@@ -441,7 +441,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "VoxelCraftOSX" */ = {
+		70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "Engine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70867A24178912FB000EE162 /* Debug */,

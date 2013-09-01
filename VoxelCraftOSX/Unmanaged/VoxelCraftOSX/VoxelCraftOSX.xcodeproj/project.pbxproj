@@ -1,0 +1,108 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		70C716A617D3AB4900999526 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70C716A217D3AB4800999526 /* Editor.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 70C7168217D3AB4800999526;
+			remoteInfo = Editor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		70C7167317D3AAD200999526 /* Engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Engine.xcodeproj; path = ../Engine/Engine.xcodeproj; sourceTree = "<group>"; };
+		70C716A217D3AB4800999526 /* Editor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Editor.xcodeproj; path = ../Editor/Editor/Editor.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		70C7166C17D3AABA00999526 = {
+			isa = PBXGroup;
+			children = (
+				70C716A217D3AB4800999526 /* Editor.xcodeproj */,
+				70C7167317D3AAD200999526 /* Engine.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		70C716A317D3AB4800999526 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70C716A717D3AB4900999526 /* Editor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		70C7166D17D3AABA00999526 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = 70C7167017D3AABA00999526 /* Build configuration list for PBXProject "VoxelCraftOSX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 70C7166C17D3AABA00999526;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 70C716A317D3AB4800999526 /* Products */;
+					ProjectRef = 70C716A217D3AB4800999526 /* Editor.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		70C716A717D3AB4900999526 /* Editor.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Editor.app;
+			remoteRef = 70C716A617D3AB4900999526 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin XCBuildConfiguration section */
+		70C7167117D3AABA00999526 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		70C7167217D3AABA00999526 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70C7167017D3AABA00999526 /* Build configuration list for PBXProject "VoxelCraftOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70C7167117D3AABA00999526 /* Debug */,
+				70C7167217D3AABA00999526 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70C7166D17D3AABA00999526 /* Project object */;
+}

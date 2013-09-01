@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "70867A19178912FB000EE162"
-               BuildableName = "VoxelCraftOSX"
-               BlueprintName = "VoxelCraftOSX"
-               ReferencedContainer = "container:VoxelCraftOSX.xcodeproj">
+               BlueprintIdentifier = "70C7168117D3AB4800999526"
+               BuildableName = "Editor.app"
+               BlueprintName = "Editor"
+               ReferencedContainer = "container:Editor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "70867A19178912FB000EE162"
-            BuildableName = "VoxelCraftOSX"
-            BlueprintName = "VoxelCraftOSX"
-            ReferencedContainer = "container:VoxelCraftOSX.xcodeproj">
+            BlueprintIdentifier = "70C7168117D3AB4800999526"
+            BuildableName = "Editor.app"
+            BlueprintName = "Editor"
+            ReferencedContainer = "container:Editor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "70867A19178912FB000EE162"
-            BuildableName = "VoxelCraftOSX"
-            BlueprintName = "VoxelCraftOSX"
-            ReferencedContainer = "container:VoxelCraftOSX.xcodeproj">
+            BlueprintIdentifier = "70C7168117D3AB4800999526"
+            BuildableName = "Editor.app"
+            BlueprintName = "Editor"
+            ReferencedContainer = "container:Editor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "70867A19178912FB000EE162"
-            BuildableName = "VoxelCraftOSX"
-            BlueprintName = "VoxelCraftOSX"
-            ReferencedContainer = "container:VoxelCraftOSX.xcodeproj">
+            BlueprintIdentifier = "70C7168117D3AB4800999526"
+            BuildableName = "Editor.app"
+            BlueprintName = "Editor"
+            ReferencedContainer = "container:Editor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
