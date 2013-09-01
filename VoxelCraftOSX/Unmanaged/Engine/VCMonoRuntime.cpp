@@ -20,7 +20,6 @@ VCMonoRuntime::~VCMonoRuntime()
 
 void VCMonoRuntime::Initalize()
 {
-    cout << "===============   Mono - Managed code begin   ===============" << endl;
     m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
     
     // Setup Bindings
@@ -49,7 +48,6 @@ void VCMonoRuntime::Initalize()
     MonoMethodDesc* lateUpdateMethodDesc = mono_method_desc_new ("VCEngine.Engine:LateUpdate()", true);
     m_lateUpdateMethod = mono_method_desc_search_in_class (lateUpdateMethodDesc, m_engineType);
     
-    cout << "===============   Mono - Managed code end     ===============" << endl;
 }
 
 void VCMonoRuntime::Bind()

@@ -19,9 +19,8 @@ VCGame::~VCGame()
 }
 
 void VCGame::Initalize()
-{
+{    
     VCApplication::Initialize();
-    
 }
 
 void VCGame::Run()
@@ -31,8 +30,7 @@ void VCGame::Run()
     
     while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
     {
+        
         VCApplication::Step();
     }
-	
-    glfwTerminate();
 }

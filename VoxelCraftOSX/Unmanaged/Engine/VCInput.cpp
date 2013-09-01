@@ -47,7 +47,8 @@ void VCInput::Initalize()
     // Register Hanlders
     glfwSetKeyCallback(KeyHanlder);
     glfwSetMouseButtonCallback(MouseButtonHanlder);
-    glfwDisable(GLFW_MOUSE_CURSOR);
+    
+    //glfwDisable(GLFW_MOUSE_CURSOR);
     
     cout << "VCInput Initalized" << endl;
 }
@@ -57,7 +58,7 @@ void VCInput::Update()
     int x, y, width, height;
     glfwGetWindowSize(&width, &height);
     glfwGetMousePos(&x, &y);
-    glfwSetMousePos(width / 2, height / 2);
+    //glfwSetMousePos(width / 2, height / 2);
     
     VCInput::Instance->m_deltaX = (float)(width / 2 - x) / (float)width;
     VCInput::Instance->m_deltaY = (float)(height / 2 - y) / (float)height;

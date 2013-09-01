@@ -13,6 +13,7 @@ int main(int argc, char** argv)
 	VCGame game;
     game.Initalize();
     game.Run();
+    game.ShutDown();
     
 	return 0;
 }

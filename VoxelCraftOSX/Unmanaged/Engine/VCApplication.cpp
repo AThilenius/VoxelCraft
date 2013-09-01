@@ -24,9 +24,9 @@ void VCApplication::Initialize()
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
     
-	Window = new VCWindow();
+    Window = new VCWindow();
     Window->Initalize();
-
+    
     ObjectStore = new VCObjectStore();
     ObjectStore->Initalize();
     
@@ -59,6 +59,11 @@ void VCApplication::Initialize()
     testChunk->ContinueRebuild(0.0f);
     
     m_testChunkGO->AttachComponent(testChunk);
+}
+
+void VCApplication::ShutDown()
+{
+    glfwTerminate();
 }
 
 void VCApplication::Step()

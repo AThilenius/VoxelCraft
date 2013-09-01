@@ -12,7 +12,7 @@
 #import "PCH.h"
 #import "VCApplication.h"
 
-class VCGame : VCApplication
+class VCGame : public VCApplication
 {
 public:
     VCGame();
@@ -20,6 +20,9 @@ public:
     
     virtual void Initalize();
     void Run();
+    
+private:
+    double m_lastDeltaTime;
     
 };
 

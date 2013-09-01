@@ -22,9 +22,9 @@
 
 /* Begin PBXFileReference section */
 		701AD47117D3B18E00EC8E93 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		701AD47317D3B32A00EC8E93 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = ../../../../../../../../../usr/lib/libGLEW.dylib; sourceTree = "<group>"; };
-		701AD47517D3B33000EC8E93 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../../../../../../../../../usr/local/lib/libglfw.dylib; sourceTree = "<group>"; };
-		701AD47717D3B47500EC8E93 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
+		701AD47317D3B32A00EC8E93 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
+		701AD47517D3B33000EC8E93 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = /usr/local/lib/libglfw.dylib; sourceTree = "<absolute>"; };
+		701AD47717D3B47500EC8E93 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libEngine Library.dylib"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/VoxelCraftOSX-cmpwplwqvctakcbbzvieyrqihsbf/Build/Products/Debug/libEngine Library.dylib"; sourceTree = "<group>"; };
 		70C7168217D3AB4800999526 /* Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Editor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C7168517D3AB4800999526 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -61,9 +61,7 @@
 		70C7167917D3AB4800999526 = {
 			isa = PBXGroup;
 			children = (
-				701AD47717D3B47500EC8E93 /* IOKit.framework */,
-				701AD47517D3B33000EC8E93 /* libglfw.dylib */,
-				701AD47317D3B32A00EC8E93 /* libGLEW.dylib */,
+				70C7168C17D3AB4800999526 /* Supporting Files */,
 				70C7168B17D3AB4800999526 /* Editor */,
 				70C7168417D3AB4800999526 /* Frameworks */,
 				70C7168317D3AB4800999526 /* Products */,
@@ -81,6 +79,9 @@
 		70C7168417D3AB4800999526 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				701AD47717D3B47500EC8E93 /* IOKit.framework */,
+				701AD47517D3B33000EC8E93 /* libglfw.dylib */,
+				701AD47317D3B32A00EC8E93 /* libGLEW.dylib */,
 				701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */,
 				701AD47117D3B18E00EC8E93 /* OpenGL.framework */,
 				70C7168517D3AB4800999526 /* Cocoa.framework */,
@@ -106,7 +107,6 @@
 				70C7169717D3AB4800999526 /* AppDelegate.h */,
 				70C7169817D3AB4800999526 /* AppDelegate.m */,
 				70C7169A17D3AB4800999526 /* MainMenu.xib */,
-				70C7168C17D3AB4800999526 /* Supporting Files */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -120,6 +120,7 @@
 				70C7169417D3AB4800999526 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			path = Editor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

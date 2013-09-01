@@ -12,11 +12,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    VCApplication* application = new VCApplication();
-    application->Initialize();
-    application->Run();
+    m_application = new VCApplication();
+    m_application->Initialize();
     
-    //double time = VCTime::CurrentTime();
+    //[self.window makeKeyWindow];
+    [self.window makeMainWindow];
+    
+    //glfwGetCocoaWindow();
+}
+
+-(IBAction) ButtonClickHanlder: (id) sender
+{
+    printf("Click!");
+    m_application->Step();
 }
 
 @end

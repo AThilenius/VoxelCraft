@@ -11,8 +11,21 @@
 #import <Cocoa/Cocoa.h>
 #import "VCApplication.h"
 
+#define GLFW_EXPOSE_NATIVE_COCOA
+#define GLFW_EXPOSE_NATIVE_NSGL
+
+#import <glfw.h>
+#import <glfw3native.h>
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+{
+    VCApplication* m_application;
+    
+    IBOutlet NSButton* myButton;
+}
 
 @property (assign) IBOutlet NSWindow *window;
+
+-(IBAction) ButtonClickHanlder: (id) sender;
 
 @end
