@@ -17,6 +17,8 @@ public:
     VCObjectStore();
     ~VCObjectStore();
     
+    void Initalize();
+    
     int RegisterObject (void* obj);
     void* GetObject (int id);
     void ReleaseObject (int id);

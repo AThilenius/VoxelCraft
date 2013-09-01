@@ -32,6 +32,7 @@
 		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
 		709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45C017C70A8A00D3CEE9 /* libglfw.dylib */; };
 		70F2FA3A17D2B64B005BCCC2 /* VCUpdateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */; };
+		70F2FA3D17D3A440005BCCC2 /* VCMonoRuntime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */; };
 		70F306B217CB197500402169 /* libmonoboehm-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */; };
 		70F306B517CB1F4C00402169 /* VCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F306B317CB1F4C00402169 /* VCWindow.cpp */; };
 /* End PBXBuildFile section */
@@ -99,6 +100,8 @@
 		709C45C017C70A8A00D3CEE9 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../Libs/libglfw.dylib; sourceTree = "<group>"; };
 		70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCUpdateManager.cpp; sourceTree = SOURCE_ROOT; };
 		70F2FA3917D2B64B005BCCC2 /* VCUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCUpdateManager.h; sourceTree = SOURCE_ROOT; };
+		70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCMonoRuntime.cpp; sourceTree = SOURCE_ROOT; };
+		70F2FA3C17D3A440005BCCC2 /* VCMonoRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCMonoRuntime.h; sourceTree = SOURCE_ROOT; };
 		70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonoboehm-2.0.1.dylib"; path = "../Libs/libmonoboehm-2.0.1.dylib"; sourceTree = "<group>"; };
 		70F306B317CB1F4C00402169 /* VCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWindow.cpp; sourceTree = SOURCE_ROOT; };
 		70F306B417CB1F4C00402169 /* VCWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWindow.h; sourceTree = SOURCE_ROOT; };
@@ -219,6 +222,8 @@
 				7036F88F17D18DD80016A66C /* VCObjectStore.h */,
 				70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */,
 				70F2FA3917D2B64B005BCCC2 /* VCUpdateManager.h */,
+				70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */,
+				70F2FA3C17D3A440005BCCC2 /* VCMonoRuntime.h */,
 			);
 			name = Interop;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				70F306B517CB1F4C00402169 /* VCWindow.cpp in Sources */,
 				7036F89017D18DD80016A66C /* VCObjectStore.cpp in Sources */,
 				70F2FA3A17D2B64B005BCCC2 /* VCUpdateManager.cpp in Sources */,
+				70F2FA3D17D3A440005BCCC2 /* VCMonoRuntime.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

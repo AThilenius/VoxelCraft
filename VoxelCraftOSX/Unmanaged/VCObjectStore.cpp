@@ -25,6 +25,11 @@ VCObjectStore::~VCObjectStore()
     free(m_objectArray);
 }
 
+void VCObjectStore::Initalize()
+{
+    
+}
+
 int VCObjectStore::RegisterObject (void* obj)
 {
     int keyId;

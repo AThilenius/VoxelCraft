@@ -17,6 +17,7 @@
 #import "VCSceneGraph.h"
 #import "VCCamera.h"
 #import "VCObjectStore.h"
+#import "VCMonoRuntime.h"
 
 
 using namespace std;
@@ -36,6 +37,7 @@ public:
     VCInput* Input;
     VCTime* Time;
     VCObjectStore* ObjectStore;
+    VCMonoRuntime* MonoRuntime;
     
     static VCApplication* Instance;
 
@@ -43,14 +45,7 @@ private:
     VCGameObject* m_testChunkGO;
     double m_lastDeltaTime;
     
-    MonoDomain *m_pRootDomain;
-	MonoImage *m_assemblyImage;
-    
-	MonoClass *m_engineType;
-	MonoObject *m_engineInstance;
-    
-    MonoMethod* m_updateMethod;
-    MonoMethod* m_lateUpdateMethod;
+
 };
 
 void SayHelloUnmanaged();
