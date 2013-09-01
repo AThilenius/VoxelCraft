@@ -27,8 +27,8 @@ class VCApplication
 public:
 	VCApplication(void);
 	~VCApplication(void);
-	void Initialize(int argc, char** argv);
-	void Run();
+	virtual void Initialize();
+    virtual void Step();
 
 public:
     VCWindow* Window;

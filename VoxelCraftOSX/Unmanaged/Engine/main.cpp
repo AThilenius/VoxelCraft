@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#import "VCApplication.h"
+#import "VCGame.h"
 
 int main(int argc, char** argv)
 {
-	VCApplication app;
-	app.Initialize(argc, argv);
-	app.Run();
+	VCGame game;
+    game.Initalize();
+    game.Run();
     
 	return 0;
 }

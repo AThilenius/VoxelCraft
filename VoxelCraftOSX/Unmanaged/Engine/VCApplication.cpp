@@ -8,6 +8,7 @@
 
 #include "VCApplication.h"
 
+
 VCApplication* VCApplication::Instance;
 
 VCApplication::VCApplication(void)
@@ -19,7 +20,7 @@ VCApplication::~VCApplication(void)
 {
 }
 
-void VCApplication::Initialize(int argc, char** argv)
+void VCApplication::Initialize()
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
     
@@ -60,35 +61,27 @@ void VCApplication::Initialize(int argc, char** argv)
     m_testChunkGO->AttachComponent(testChunk);
 }
 
-void VCApplication::Run()
+void VCApplication::Step()
 {
-    // Disable VSync
-    glfwSwapInterval(0);
+    Time->Update();
+    Input->Update();
     
-    while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
-    {
-        Time->Update();
-        Input->Update();
-        
-        MonoRuntime->InvokeUpdate();
-        MonoRuntime->InvokeLateUpdate();
-        
-		Renderer->Render();
-        SceneGraph->RenderGraph();
-        
-        // Framerate Check
-        double framerate = 1.0f / VCTime::DeltaTime();
-        framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
-        m_lastDeltaTime = framerate;
-        stringstream ss;
-        ss << "Voxel Craft - " /*<< setprecision(2)*/ << framerate << " FPS.";
-        glfwSetWindowTitle( ss.str().c_str() );
-        // ~Framerate Check
-        
-        glfwSwapBuffers();
-        glfwPollEvents();
-    }
-	
-    glfwTerminate();
+    MonoRuntime->InvokeUpdate();
+    MonoRuntime->InvokeLateUpdate();
+    
+    Renderer->Render();
+    SceneGraph->RenderGraph();
+    
+    // Framerate Check
+    double framerate = 1.0f / VCTime::DeltaTime();
+    framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
+    m_lastDeltaTime = framerate;
+    stringstream ss;
+    ss << "Voxel Craft - " /*<< setprecision(2)*/ << framerate << " FPS.";
+    glfwSetWindowTitle( ss.str().c_str() );
+    // ~Framerate Check
+    
+    glfwSwapBuffers();
+    glfwPollEvents();
 }
 

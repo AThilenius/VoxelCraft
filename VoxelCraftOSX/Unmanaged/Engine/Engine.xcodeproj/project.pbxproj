@@ -10,6 +10,39 @@
 		7001F0CB17C46936002EF830 /* VCTestShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C917C46936002EF830 /* VCTestShader.cpp */; };
 		7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0D317C5A1E0002EF830 /* VCInput.cpp */; };
 		7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7007F10717C43AB5006939A2 /* libGLEW.dylib */; };
+		701AD4F017D3BC3C00EC8E93 /* VCObjectStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7036F88E17D18DD80016A66C /* VCObjectStore.cpp */; };
+		701AD4F117D3BC3E00EC8E93 /* VCUpdateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */; };
+		701AD4F217D3BC4000EC8E93 /* VCMonoRuntime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */; };
+		701AD4F317D3BC4300EC8E93 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5217891401000EE162 /* main.cpp */; };
+		701AD4F417D3BC4500EC8E93 /* VCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5C17891401000EE162 /* VCApplication.cpp */; };
+		701AD4F517D3BC4700EC8E93 /* VCInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0D317C5A1E0002EF830 /* VCInput.cpp */; };
+		701AD4F617D3BC4900EC8E93 /* VCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F306B317CB1F4C00402169 /* VCWindow.cpp */; };
+		701AD4F717D3BC4B00EC8E93 /* VCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6C17891401000EE162 /* VCTime.cpp */; };
+		701AD4F817D3BC4E00EC8E93 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5A17891401000EE162 /* Utilities.cpp */; };
+		701AD4F917D3BC5300EC8E93 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5417891401000EE162 /* Shader.cpp */; };
+		701AD4FA17D3BC5500EC8E93 /* VCGLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6A17891401000EE162 /* VCGLRenderer.cpp */; };
+		701AD4FB17D3BC5700EC8E93 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
+		701AD4FC17D3BC5E00EC8E93 /* VCTestShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C917C46936002EF830 /* VCTestShader.cpp */; };
+		701AD4FD17D3BC6300EC8E93 /* VCCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6017891401000EE162 /* VCCamera.cpp */; };
+		701AD4FE17D3BC6600EC8E93 /* VCComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6617891401000EE162 /* VCComponent.cpp */; };
+		701AD4FF17D3BC6800EC8E93 /* VCGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6817891401000EE162 /* VCGameObject.cpp */; };
+		701AD50017D3BC6900EC8E93 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
+		701AD50117D3BC6B00EC8E93 /* VCSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */; };
+		701AD50217D3BC6E00EC8E93 /* SimplexNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5617891401000EE162 /* SimplexNoise.cpp */; };
+		701AD50317D3BC7000EC8E93 /* VCBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5E17891401000EE162 /* VCBlock.cpp */; };
+		701AD50417D3BC7200EC8E93 /* VCChunk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6217891401000EE162 /* VCChunk.cpp */; };
+		701AD50517D3BC7400EC8E93 /* VCChunkGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6417891401000EE162 /* VCChunkGenerator.cpp */; };
+		701AD50617D3BC7500EC8E93 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
+		701AD50B17D3BCC500EC8E93 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD50A17D3BCC500EC8E93 /* GLKit.framework */; };
+		701AD50C17D3BCCC00EC8E93 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
+		701AD50D17D3BCD800EC8E93 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7007F10717C43AB5006939A2 /* libGLEW.dylib */; };
+		701AD50F17D3BD0A00EC8E93 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */; };
+		701AD51017D3BD1600EC8E93 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */; };
+		701AD51217D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */; };
+		701AD51317D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */; };
+		701AD51817D3BE3C00EC8E93 /* VCGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701AD51617D3BE3C00EC8E93 /* VCGame.cpp */; };
+		701AD51917D3BE3C00EC8E93 /* VCGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701AD51617D3BE3C00EC8E93 /* VCGame.cpp */; };
+		701AD51A17D3BE3C00EC8E93 /* VCGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 701AD51717D3BE3C00EC8E93 /* VCGame.h */; };
 		7025C0D517C856CF00BB223C /* VCSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */; };
 		7036F89017D18DD80016A66C /* VCObjectStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7036F88E17D18DD80016A66C /* VCObjectStore.cpp */; };
 		70867A2717891309000EE162 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
@@ -30,10 +63,8 @@
 		70867A8317891401000EE162 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
 		70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
 		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
-		709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709C45C017C70A8A00D3CEE9 /* libglfw.dylib */; };
 		70F2FA3A17D2B64B005BCCC2 /* VCUpdateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */; };
 		70F2FA3D17D3A440005BCCC2 /* VCMonoRuntime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */; };
-		70F306B217CB197500402169 /* libmonoboehm-2.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */; };
 		70F306B517CB1F4C00402169 /* VCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F306B317CB1F4C00402169 /* VCWindow.cpp */; };
 /* End PBXBuildFile section */
 
@@ -54,9 +85,13 @@
 		7001F0CA17C46936002EF830 /* VCTestShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTestShader.h; sourceTree = SOURCE_ROOT; };
 		7001F0D317C5A1E0002EF830 /* VCInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCInput.cpp; sourceTree = SOURCE_ROOT; };
 		7001F0D417C5A1E1002EF830 /* VCInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCInput.h; sourceTree = SOURCE_ROOT; };
-		7007F10217C4398F006939A2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../../../../../System/Library/Frameworks/GLUT.framework; sourceTree = "<group>"; };
-		7007F10517C43A87006939A2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = ../../../../../../../System/Library/Frameworks/GLKit.framework; sourceTree = "<group>"; };
 		7007F10717C43AB5006939A2 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
+		701AD4EC17D3BC0000EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libEngine Library.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		701AD50A17D3BCC500EC8E93 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = ../../../../../../../../../System/Library/Frameworks/GLKit.framework; sourceTree = "<group>"; };
+		701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../../../Libs/libglfw.dylib; sourceTree = "<group>"; };
+		701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonoboehm-2.0.1.dylib"; path = "../../../Libs/libmonoboehm-2.0.1.dylib"; sourceTree = "<group>"; };
+		701AD51617D3BE3C00EC8E93 /* VCGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCGame.cpp; sourceTree = SOURCE_ROOT; };
+		701AD51717D3BE3C00EC8E93 /* VCGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCGame.h; sourceTree = SOURCE_ROOT; };
 		7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCSceneGraph.cpp; sourceTree = SOURCE_ROOT; };
 		7025C0D417C856CF00BB223C /* VCSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCSceneGraph.h; sourceTree = SOURCE_ROOT; };
 		7036F88E17D18DD80016A66C /* VCObjectStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCObjectStore.cpp; sourceTree = SOURCE_ROOT; };
@@ -97,17 +132,27 @@
 		70867A7217891401000EE162 /* VCVoxelShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCVoxelShader.h; sourceTree = SOURCE_ROOT; };
 		70867A7317891401000EE162 /* VCWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWorld.cpp; sourceTree = SOURCE_ROOT; };
 		70867A7417891401000EE162 /* VCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWorld.h; sourceTree = SOURCE_ROOT; };
-		709C45C017C70A8A00D3CEE9 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../Libs/libglfw.dylib; sourceTree = "<group>"; };
 		70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCUpdateManager.cpp; sourceTree = SOURCE_ROOT; };
 		70F2FA3917D2B64B005BCCC2 /* VCUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCUpdateManager.h; sourceTree = SOURCE_ROOT; };
 		70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCMonoRuntime.cpp; sourceTree = SOURCE_ROOT; };
 		70F2FA3C17D3A440005BCCC2 /* VCMonoRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCMonoRuntime.h; sourceTree = SOURCE_ROOT; };
-		70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonoboehm-2.0.1.dylib"; path = "../Libs/libmonoboehm-2.0.1.dylib"; sourceTree = "<group>"; };
 		70F306B317CB1F4C00402169 /* VCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCWindow.cpp; sourceTree = SOURCE_ROOT; };
 		70F306B417CB1F4C00402169 /* VCWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCWindow.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		701AD4E917D3BC0000EC8E93 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701AD50D17D3BCD800EC8E93 /* libGLEW.dylib in Frameworks */,
+				701AD50C17D3BCCC00EC8E93 /* OpenGL.framework in Frameworks */,
+				701AD50B17D3BCC500EC8E93 /* GLKit.framework in Frameworks */,
+				701AD50F17D3BD0A00EC8E93 /* libglfw.dylib in Frameworks */,
+				701AD51317D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70867A17178912FB000EE162 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,8 +160,8 @@
 				70867A2717891309000EE162 /* OpenGL.framework in Frameworks */,
 				70867A2E17891330000EE162 /* IOKit.framework in Frameworks */,
 				7007F10817C43AB5006939A2 /* libGLEW.dylib in Frameworks */,
-				709C45C117C70A8A00D3CEE9 /* libglfw.dylib in Frameworks */,
-				70F306B217CB197500402169 /* libmonoboehm-2.0.1.dylib in Frameworks */,
+				701AD51017D3BD1600EC8E93 /* libglfw.dylib in Frameworks */,
+				701AD51217D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +232,8 @@
 				7001F0D417C5A1E1002EF830 /* VCInput.h */,
 				70F306B317CB1F4C00402169 /* VCWindow.cpp */,
 				70F306B417CB1F4C00402169 /* VCWindow.h */,
+				701AD51617D3BE3C00EC8E93 /* VCGame.cpp */,
+				701AD51717D3BE3C00EC8E93 /* VCGame.h */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -231,6 +278,7 @@
 		70867A11178912FB000EE162 = {
 			isa = PBXGroup;
 			children = (
+				701AD50A17D3BCC500EC8E93 /* GLKit.framework */,
 				70867A1C178912FB000EE162 /* VoxelCraftOSX */,
 				70867A1B178912FB000EE162 /* Products */,
 				70867A2C17891319000EE162 /* Frameworks */,
@@ -241,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				70867A1A178912FB000EE162 /* Engine */,
+				701AD4EC17D3BC0000EC8E93 /* libEngine Library.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,10 +310,8 @@
 		70867A2C17891319000EE162 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7007F10517C43A87006939A2 /* GLKit.framework */,
-				7007F10217C4398F006939A2 /* GLUT.framework */,
-				70F306B117CB197500402169 /* libmonoboehm-2.0.1.dylib */,
-				709C45C017C70A8A00D3CEE9 /* libglfw.dylib */,
+				701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */,
+				701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */,
 				7007F10717C43AB5006939A2 /* libGLEW.dylib */,
 				70867A2D17891330000EE162 /* IOKit.framework */,
 				70867A2617891309000EE162 /* OpenGL.framework */,
@@ -274,7 +321,35 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		701AD4EA17D3BC0000EC8E93 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701AD51A17D3BE3C00EC8E93 /* VCGame.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		701AD4EB17D3BC0000EC8E93 /* Engine Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 701AD4EF17D3BC0000EC8E93 /* Build configuration list for PBXNativeTarget "Engine Library" */;
+			buildPhases = (
+				701AD4E817D3BC0000EC8E93 /* Sources */,
+				701AD4E917D3BC0000EC8E93 /* Frameworks */,
+				701AD4EA17D3BC0000EC8E93 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Engine Library";
+			productName = "Engine Library";
+			productReference = 701AD4EC17D3BC0000EC8E93 /* libEngine Library.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		70867A19178912FB000EE162 /* Engine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70867A23178912FB000EE162 /* Build configuration list for PBXNativeTarget "Engine" */;
@@ -314,11 +389,43 @@
 			projectRoot = "";
 			targets = (
 				70867A19178912FB000EE162 /* Engine */,
+				701AD4EB17D3BC0000EC8E93 /* Engine Library */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		701AD4E817D3BC0000EC8E93 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701AD4F017D3BC3C00EC8E93 /* VCObjectStore.cpp in Sources */,
+				701AD4F917D3BC5300EC8E93 /* Shader.cpp in Sources */,
+				701AD4FD17D3BC6300EC8E93 /* VCCamera.cpp in Sources */,
+				701AD4FA17D3BC5500EC8E93 /* VCGLRenderer.cpp in Sources */,
+				701AD4F717D3BC4B00EC8E93 /* VCTime.cpp in Sources */,
+				701AD4F117D3BC3E00EC8E93 /* VCUpdateManager.cpp in Sources */,
+				701AD4F517D3BC4700EC8E93 /* VCInput.cpp in Sources */,
+				701AD4F417D3BC4500EC8E93 /* VCApplication.cpp in Sources */,
+				701AD4FB17D3BC5700EC8E93 /* VCVoxelShader.cpp in Sources */,
+				701AD4F617D3BC4900EC8E93 /* VCWindow.cpp in Sources */,
+				701AD4FF17D3BC6800EC8E93 /* VCGameObject.cpp in Sources */,
+				701AD50517D3BC7400EC8E93 /* VCChunkGenerator.cpp in Sources */,
+				701AD50217D3BC6E00EC8E93 /* SimplexNoise.cpp in Sources */,
+				701AD50317D3BC7000EC8E93 /* VCBlock.cpp in Sources */,
+				701AD50417D3BC7200EC8E93 /* VCChunk.cpp in Sources */,
+				701AD50617D3BC7500EC8E93 /* VCWorld.cpp in Sources */,
+				701AD4FE17D3BC6600EC8E93 /* VCComponent.cpp in Sources */,
+				701AD50117D3BC6B00EC8E93 /* VCSceneGraph.cpp in Sources */,
+				701AD4FC17D3BC5E00EC8E93 /* VCTestShader.cpp in Sources */,
+				701AD50017D3BC6900EC8E93 /* VCTransform.cpp in Sources */,
+				701AD4F817D3BC4E00EC8E93 /* Utilities.cpp in Sources */,
+				701AD4F217D3BC4000EC8E93 /* VCMonoRuntime.cpp in Sources */,
+				701AD4F317D3BC4300EC8E93 /* main.cpp in Sources */,
+				701AD51917D3BE3C00EC8E93 /* VCGame.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70867A16178912FB000EE162 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -346,12 +453,43 @@
 				7036F89017D18DD80016A66C /* VCObjectStore.cpp in Sources */,
 				70F2FA3A17D2B64B005BCCC2 /* VCUpdateManager.cpp in Sources */,
 				70F2FA3D17D3A440005BCCC2 /* VCMonoRuntime.cpp in Sources */,
+				701AD51817D3BE3C00EC8E93 /* VCGame.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		701AD4ED17D3BC0000EC8E93 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "../../../**";
+				LIBRARY_SEARCH_PATHS = (
+					"../../../**",
+					"\"$(SRCROOT)/../../../Libs\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+			};
+			name = Debug;
+		};
+		701AD4EE17D3BC0000EC8E93 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "../../../**";
+				LIBRARY_SEARCH_PATHS = (
+					"../../../**",
+					"\"$(SRCROOT)/../../../Libs\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+			};
+			name = Release;
+		};
 		70867A21178912FB000EE162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -412,8 +550,10 @@
 		70867A24178912FB000EE162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = ../Build;
 				HEADER_SEARCH_PATHS = ../../../Include;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../Libs\"";
+				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = Engine;
 				SDKROOT = "";
 			};
@@ -422,8 +562,10 @@
 		70867A25178912FB000EE162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = ../Build;
 				HEADER_SEARCH_PATHS = ../../../Include;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../Libs\"";
+				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = Engine;
 				SDKROOT = "";
 			};
@@ -432,6 +574,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		701AD4EF17D3BC0000EC8E93 /* Build configuration list for PBXNativeTarget "Engine Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				701AD4ED17D3BC0000EC8E93 /* Debug */,
+				701AD4EE17D3BC0000EC8E93 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		70867A15178912FB000EE162 /* Build configuration list for PBXProject "Engine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
