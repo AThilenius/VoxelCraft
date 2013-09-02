@@ -50,15 +50,17 @@ void VCApplication::Initialize()
     
     // Test Chunk
     cout << "Creating test chunk..." << endl;
-    m_testChunkGO = new VCGameObject();
-    m_testChunkGO->SetParent(VCSceneGraph::Instance->RootNode);
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
+    testChunk->SetParent(VCSceneGraph::Instance->RootNode);
+    
+    // Test Camera
+//    VCCamera* camera = new VCCamera();
+//    camera->Position = vec3(20, -20, -150);
+//    VCSceneGraph::Instance->RegisterCamera(camera);
     
     testChunk->Generate();
     testChunk->StartRebuild();
     testChunk->ContinueRebuild(0.0f);
-    
-    m_testChunkGO->AttachComponent(testChunk);
 }
 
 void VCApplication::ShutDown()

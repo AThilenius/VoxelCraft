@@ -10,17 +10,17 @@
 #include "VCGLRenderer.h"
 
 
-VCChunk::VCChunk(int x, int y, int z, VCWorld* world)
+VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
+    m_x(x),
+    m_y(y),
+    m_z(x),
+    m_world(world),
+    m_vertexBufferID(0),
+    m_vertexCount(0),
+    m_vaoID(0),
+    m_rebuildVerticies(NULL)
 {
-	m_x = x;
-	m_y = y;
-	m_z = z;
-	m_world = world;
-	m_vertexBufferID = 0;
-	m_vertexCount = 0;
-    m_vaoID = 0;
-	m_rebuildVerticies = NULL;
-
+    cout << "VCChunk created with handle: " << Handle << endl;
 	m_chunkGenertor = new VCChunkGenerator(x, y, z);
 }
 
@@ -249,7 +249,7 @@ void VCChunk::Render()
 {
 	if (m_vertexBufferID == 0 )
 		return;
-
+    
     glBindVertexArray(m_vaoID);
 	VCGLRenderer::VoxelShader->SetModelMatrix(glm::translate((float)m_x, (float)m_y, (float)m_z));
 

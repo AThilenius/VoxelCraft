@@ -13,7 +13,7 @@ namespace VCEngine
 
 		internal static void RegisterObject ( Object obj, int handle )
 		{
-			// ReSize?
+			// ReSize needed?
 			while (handle >= m_objects.Length)
 			{
 				Object[] newObjectArray = new object[m_objects.Length * 2];
@@ -24,6 +24,11 @@ namespace VCEngine
 
 			m_objects [handle] = obj;
 		}
+
+        internal static void ReleaseHandle(int handle)
+        {
+            m_objects[handle] = null;
+        }
 
 		internal static bool Contains (int handle)
 		{

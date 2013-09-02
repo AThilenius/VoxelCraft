@@ -54,7 +54,6 @@ void VCMonoRuntime::Bind()
 {
     // Registry
     VCGameObject::RegisterMonoHandlers();
-    VCTransform::RegisterMonoHandlers();
     VCCamera::RegisterMonoHandlers();
     VCInput::RegisterMonoHandlers();
 }

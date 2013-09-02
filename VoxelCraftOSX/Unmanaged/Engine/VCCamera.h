@@ -9,30 +9,27 @@
 #pragma once
 
 #import "PCH.h"
-#import "VCComponent.h"
-#import "VCTransform.h"
+#import "VCGameObject.h"
 
 class VCSceneGraph;
 
-class VCCamera : public VCComponent
+class VCCamera : public VCGameObject
 {
 public:
 	VCCamera(void);
 	~VCCamera(void);
-
+    
 	virtual void PreRender();
-
+    
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
     
-public:
     Rectangle Frame;
-
+    
     
     // ================================      Interop      ============
 public:
-    int Handle;
     static void RegisterMonoHandlers();
     
 private:

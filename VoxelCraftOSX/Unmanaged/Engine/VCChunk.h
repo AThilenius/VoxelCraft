@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCWorld.h"
-#include "VCBlock.h"
-#include "VCChunkGenerator.h"
-#import "VCComponent.h"
+#import "PCH.h"
+#import "VCGameObject.h"
+#import "VCWorld.h"
+#import "VCBlock.h"
+#import "VCChunkGenerator.h"
 
 using namespace std;
 
@@ -31,7 +31,7 @@ struct BlockVerticie
 	GLubyte4 color;
 };
 
-class VCChunk : public VCComponent
+class VCChunk : public VCGameObject
 {
 public:
 	VCChunk(int x, int y, int z, VCWorld* world);
@@ -42,7 +42,7 @@ public:
 	void Generate( );
 	void StartRebuild ( );
 	void ContinueRebuild ( double allocatedTime );
-	//void Render ( );
+	
     void virtual Render();
 
 private:

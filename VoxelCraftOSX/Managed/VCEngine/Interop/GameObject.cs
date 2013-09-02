@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace VCEngine
 {
-	public class GameObject
+	public class GameObject : MarshaledObject
 	{
 		#region Bindings
 
@@ -14,16 +14,10 @@ namespace VCEngine
 		extern static void VCInteropReleaseGameObject(int handle);
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropGameObjectAttachComponent(int handle, int componentHandle);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		extern static void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static int VCInteropGameObjectGetParent(int handle);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static int VCInteropGameObjectGetTransform(int handle);
+        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewGameObject; } }
+        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseGameObject; } }
 
 		#endregion
 
@@ -32,79 +26,54 @@ namespace VCEngine
 		{
 			get
 			{
-				if (m_parent == null)
-				{
-					// Get, or Create parent
-					int parentHandle = VCInteropGameObjectGetParent (Handle);
-
-					if (ObjectStore.Contains (parentHandle))
-						m_parent = (GameObject)ObjectStore.GetObject (parentHandle);
-					else
-					{
-						m_parent = new GameObject (parentHandle);
-						ObjectStore.RegisterObject (m_parent, parentHandle);
-					}
-				}
-
 				return m_parent;
 			}
 			set
 			{
-				VCInteropGameObjectSetParent (Handle, value.Handle);
+				VCInteropGameObjectSetParent (UnManagedHandle, value.UnManagedHandle);
 				m_parent = value;
 			}
 		}
 
-		private Transform m_trasform;
-		public Transform Transform
-		{
-			get
-			{
-				if (m_trasform == null)
-				{
-					// Get, or Create parent
-					int transformHandle = VCInteropGameObjectGetTransform (Handle);
-
-					if (ObjectStore.Contains (transformHandle))
-						m_trasform = (Transform)ObjectStore.GetObject (transformHandle);
-					else
-					{
-						m_trasform = new Transform (transformHandle);
-						ObjectStore.RegisterObject (m_trasform, transformHandle);
-					}
-				}
-
-				return m_trasform;
-			}
-		}
-
-		internal int Handle;
+        public Transform Transform { get; private set; }
 
 		public GameObject ()
 		{
-			Handle = VCInteropNewGameObject ();
-			ObjectStore.RegisterObject (this, Handle);
+            this.Transform = new VCEngine.Transform(this);
 		}
 
-		internal GameObject(int existingHandle)
-		{
-			Handle = existingHandle;
-		}
+        public virtual void Start() { }
+        public virtual void Update() { }
+        public virtual void LateUpdate() { }
+        public virtual void PreRender() { }
 
-		~GameObject()
-		{
-			VCInteropReleaseGameObject (Handle);
-		}
+        internal void PropagateStart()
+        {
+            // For each in here...
+            Start();
+        }
 
-		public void AttachComponent (Component component)
-		{
-			Console.WriteLine ("= Attaching " + component.Handle + " to " + Handle);
-			VCInteropGameObjectAttachComponent (Handle, component.Handle);
+        internal void PropagateUpdate()
+        {
+            Update();
+        }
 
-			component.GameObject = this;
-			component.Transform = Transform;
-		}
+        internal void PropagateLateUpdate()
+        {
+            LateUpdate();
+        }
 
+        internal void PropagatePreRender()
+        {
+            PreRender();
+        }
+
+        // Need to finish later
+        //public void AttachComponent (Component component)
+        //{
+        //    component.GameObject = this;
+        //    component.Transform = Transform;
+        //}
 	}
 }
 

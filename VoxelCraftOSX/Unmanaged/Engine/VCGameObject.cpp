@@ -7,86 +7,70 @@
 //
 
 #include "VCGameObject.h"
-#import "VCTransform.h"
+#import "VCSceneGraph.h"
 
 
-VCGameObject::VCGameObject(void)
+VCGameObject::VCGameObject(void):
+    Name ("UnNamed"),
+    m_parent(NULL),
+    Position(glm::vec3(0, 0, 0)),
+    Rotation(glm::quat()),
+    Scale(glm::vec3(1, 1, 1)),
+    ModelMatrix(glm::mat4(1.0f))
 {
-    Handle = VCObjectStore::Instance->RegisterObject(this);
-    cout << "VCGameObjects created with handle: " << Handle << endl;
-    
-	this->Transform = new VCTransform();
-    AttachComponent(Transform);
-    
-    Name = "UnNamed";
-    m_parent = NULL;
+    VCObjectStore::Instance->UpdatePointer(Handle, this);
+    cout << "VCGameObject created with handle: " << Handle << endl;
 }
 
 VCGameObject::~VCGameObject(void)
 {
-    VCObjectStore::Instance->ReleaseObject(Handle);
 }
 
 void VCGameObject::Start()
 {
-	FOREACH (iter, m_components)
-		(*iter)->Start();
-    
-    FOREACH(iter, m_children)
+    FOREACH(iter, Children)
         (*iter)->Start();
 }
 
 void VCGameObject::Update()
 {
-	FOREACH (iter, m_components)
-        (*iter)->Update();
-    
-    FOREACH(iter, m_children)
+    FOREACH(iter, Children)
         (*iter)->Update();
 }
 
 void VCGameObject::LateUpdate()
 {
-	FOREACH (iter, m_components)
-        (*iter)->LateUpdate();
-    
-    FOREACH(iter, m_children)
+    FOREACH(iter, Children)
         (*iter)->LateUpdate();
 }
 
 void VCGameObject::Gui()
 {
-	FOREACH (iter, m_components)
-        (*iter)->Gui();
-    
-    FOREACH(iter, m_children)
+    FOREACH(iter, Children)
         (*iter)->Gui();
 }
 
 void VCGameObject::PreRender()
 {
-	FOREACH (iter, m_components)
-        (*iter)->PreRender();
+    // Identity
+	ModelMatrix = glm::mat4(1.0f);
     
-    FOREACH(iter, m_children)
+	if (m_parent != NULL)
+		ModelMatrix = m_parent->ModelMatrix;
+    
+    // Rotate, Translate, Scale
+    ModelMatrix = glm::toMat4(Rotation);
+	ModelMatrix = glm::translate(ModelMatrix, Position);
+	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);
+    
+    FOREACH(iter, Children)
         (*iter)->PreRender();
 }
 
 void VCGameObject::Render()
-{
-    FOREACH (iter, m_components)
+{   
+    FOREACH(iter, Children)
         (*iter)->Render();
-    
-    FOREACH(iter, m_children)
-        (*iter)->Render();
-}
-
-void VCGameObject::AttachComponent ( VCComponent* component )
-{
-	component->GameObject = this;
-	component->Transform = this->Transform;
-
-	m_components.insert( component );
 }
 
 VCGameObject* VCGameObject::GetParent()
@@ -97,26 +81,30 @@ VCGameObject* VCGameObject::GetParent()
 void VCGameObject::SetParent( VCGameObject* parent )
 {
 	if ( m_parent != NULL )
-		m_parent->m_children.erase(parent);
+		m_parent->Children.erase(parent);
     
 	m_parent = parent;
     
 	if ( parent != NULL )
-		parent->m_children.insert(this);
+		parent->Children.insert(this);
 }
-
 
 // ================================      Interop      ============
 void VCGameObject::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.GameObject::VCInteropNewGameObject",               (void*)VCInteropNewGameObject);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropReleaseGameObject",           (void*)VCInteropReleaseGameObject);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectAttachComponent",   (void*)VCInteropGameObjectAttachComponent);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectSetParent",         (void*)VCInteropGameObjectSetParent);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectGetParent",         (void*)VCInteropGameObjectGetParent);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectGetTransform",      (void*)VCInteropGameObjectGetTransform);
+    // CTor / DTor
+    mono_add_internal_call("VCEngine.GameObject::VCInteropNewGameObject",           (void*)VCInteropNewGameObject);
+    mono_add_internal_call("VCEngine.GameObject::VCInteropReleaseGameObject",       (void*)VCInteropReleaseGameObject);
+    
+    // Parent / Children
+    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectSetParent",     (void*)VCInteropGameObjectSetParent);
+    
+    // Transform
+    mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetData",         (void*)VCInteropTransformGetData);
+    mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetData",         (void*)VCInteropTransformSetData);
 }
 
+// CTor / DTor
 int VCInteropNewGameObject()
 {
     VCGameObject* newGO = new VCGameObject();
@@ -130,35 +118,44 @@ void VCInteropReleaseGameObject(int handle)
     delete obj;
 }
 
-void VCInteropGameObjectAttachComponent(int handle, int componentHandle)
-{
-    VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    obj->AttachComponent((VCComponent*) VCObjectStore::Instance->GetObject(componentHandle));
-}
-
+// Parent / Child
 void VCInteropGameObjectSetParent(int handle, int parentHandle)
 {
     VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
     obj->SetParent((VCGameObject*) VCObjectStore::Instance->GetObject(parentHandle));
 }
 
-int VCInteropGameObjectGetParent(int handle)
+// Transform
+void VCInteropTransformGetData(int handle, float* posX, float* posY, float* posZ, float* rotX, float* rotY, float* rotZ, float* rotW, float* sclX, float* sclY, float* sclZ)
 {
     VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    VCGameObject* parent = obj->GetParent();
+    //VCCamera* obj = (VCCamera*) VCObjectStore::Instance->GetObject(handle);
+    vec3 pos = obj->Position;
+    quat rot = obj->Rotation;
+    vec3 scale = obj->Scale;
     
-    if ( parent == NULL )
-        return -1;
-    else
-        return parent->Handle;
+    *posX = pos.x;
+    *posY = pos.y;
+    *posZ = pos.z;
+    
+    *rotX = rot.x;
+    *rotY = rot.y;
+    *rotZ = rot.z;
+    *rotW = rot.w;
+    
+    *sclX = scale.x;
+    *sclY = scale.y;
+    *sclZ = scale.z;
 }
 
-int VCInteropGameObjectGetTransform(int handle)
+void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW, float sclX, float sclY, float sclZ)
 {
     VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    return obj->Transform->Handle;
+    //VCCamera* obj = (VCCamera*) VCObjectStore::Instance->GetObject(handle);
+    obj->Position = vec3(posX, posY, posZ);
+    obj->Rotation = quat(rotX, rotY, rotZ, rotW);
+    obj->Scale = vec3(sclX, sclY, sclZ);
 }
-
 
 
 

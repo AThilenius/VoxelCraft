@@ -11,7 +11,6 @@
 
 #import "PCH.h"
 #import "VCCamera.h"
-#import "VCTransform.h"
 #import "VCGameObject.h"
 
 class VCMonoRuntime

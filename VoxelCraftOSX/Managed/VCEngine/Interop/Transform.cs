@@ -3,33 +3,21 @@ using System.Runtime.CompilerServices;
 
 namespace VCEngine
 {
-	public class Transform : Component
+	public class Transform
 	{
 		#region Bindings
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static int VCInteropNewTransform();
+        extern static void VCInteropTransformGetData(int handle,
+            out float posX, out float posY, out float posZ,
+            out float rotX, out float rotY, out float rotZ, out float rotW,
+            out float sclX, out float sclY, out float sclZ);
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropReleaseTransform(int handle);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformSetPosition(int handle, float x, float y, float z);
-		
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformSetRotationQuat(int handle, float x, float y, float z, float w);
-		
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformSetScale(int handle, float x, float y, float z);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformGetPosition (int handle, ref float x, ref float y, ref float z);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformGetRotation(int handle, ref float x, ref float y, ref float z, ref float w);
-
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		extern static void VCInteropTransformGetScale(int handle, ref float x, ref float y, ref float z);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropTransformSetData(int handle, 
+            float posX, float posY, float posZ, 
+            float rotX, float rotY, float rotZ, float rotW, 
+            float sclX, float sclY, float sclZ);
 
 		#endregion
 
@@ -37,70 +25,89 @@ namespace VCEngine
 		{
 			get
 			{
-				float x = 0.0f;
-				float y = 0.0f;
-				float z = 0.0f;
-				VCInteropTransformGetPosition (Handle, ref x, ref y, ref z);
-				return new Vector3 (x, y, z);
+                GetData();
+                return m_position;
 			}
 
 			set
 			{
-				VCInteropTransformSetPosition (Handle, value.X, value.Y, value.Z);
+                m_position = value;
+                SetData();
 			}
 		}
-
 		public Quaternion Rotation
 		{
 			get
 			{
-				float x = 0.0f;
-				float y = 0.0f;
-				float z = 0.0f;
-				float w = 0.0f;
-				VCInteropTransformGetRotation (Handle, ref x, ref y, ref z, ref w);
-				return new Quaternion (x, y, z, w);
+                GetData();
+                return m_rotation;
 			}
 
 			set
 			{
-				VCInteropTransformSetRotationQuat (Handle, value.X, value.Y, value.Z, value.W);
+                m_rotation = value;
+                SetData();
 			}
 		}
-
 		public Vector3 Scale
 		{
 			get
 			{
-				float x = 0.0f;
-				float y = 0.0f;
-				float z = 0.0f;
-				VCInteropTransformGetScale (Handle, ref x, ref y, ref z);
-				return new Vector3 (x, y, z);
+                GetData();
+                return m_scale;
 			}
 
 			set
 			{
-				VCInteropTransformSetScale (Handle, value.X, value.Y, value.Z);
+                m_scale = value;
+                SetData();
 			}
 		}
+        
+        public GameObject GameObject;
 
-		public Transform ()
+        private Vector3 m_position;
+        private Quaternion m_rotation;
+        private Vector3 m_scale;
+
+		internal Transform (GameObject parent)
 		{
-			Handle = VCInteropNewTransform ();
+            GameObject = parent;
+            GetData();
 		}
 
-		internal Transform (int existingHandle)
-		{
-			Handle = existingHandle;
-			ObjectStore.RegisterObject (this, Handle);
-		}
+        private void SetData()
+        {
+            VCInteropTransformSetData(GameObject.UnManagedHandle,
+                m_position.X, m_position.Y, m_position.Z,
+                m_rotation.X, m_rotation.Y, m_rotation.Z, m_rotation.W,
+                m_scale.X, m_scale.Y, m_scale.Z);
+        }
 
-		~Transform()
-		{
-			VCInteropReleaseTransform (Handle);
-		}
+        private void GetData()
+        {
+            float px = 0.0f;
+            float py = 0.0f;
+            float pz = 0.0f;
 
+            float rx = 0.0f;
+            float ry = 0.0f;
+            float rz = 0.0f;
+            float rw = 0.0f;
+
+            float sx = 1.0f;
+            float sy = 1.0f;
+            float sz = 1.0f;
+
+            VCInteropTransformGetData(GameObject.UnManagedHandle,
+                out px, out py, out pz,
+                out rx, out ry, out rz, out rw,
+                out sx, out sy, out sz);
+
+            m_position = new Vector3(px, py, pz);
+            m_rotation = new Quaternion(rx, ry, rz, rw);
+            m_scale = new Vector3(sx, sy, sz);
+        }
 
 	}
 }

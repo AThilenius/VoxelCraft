@@ -59,6 +59,11 @@ int VCObjectStore::RegisterObject (void* obj)
     return keyId;
 }
 
+void VCObjectStore::UpdatePointer(int id, void* obj)
+{
+    m_objectArray[id] = obj;
+}
+
 void* VCObjectStore::GetObject(int id)
 {
     return m_objectArray[id];

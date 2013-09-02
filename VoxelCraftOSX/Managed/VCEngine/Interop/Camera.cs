@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace VCEngine
 {
-	public class Camera : Component
+	public class Camera : GameObject
 	{
 		#region Bindings
 
@@ -13,31 +13,21 @@ namespace VCEngine
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		extern static void VCInteropReleaseCamera(int handle);
 
+        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
+        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
+
 		#endregion
 
 		public Camera ()
 		{
-			Handle = VCInteropNewCamera ();
-			ObjectStore.RegisterObject (this, Handle);
-
-			Console.WriteLine("= Camera create with handle: " + Handle);
+			Console.WriteLine("= Camera created with handle: " + UnManagedHandle);
 		}
 
-		internal Camera (int existingHandle)
-		{
-			Handle = existingHandle;
-		}
-
-		~Camera()
-		{
-			VCInteropReleaseCamera (Handle);
-		}
-
-		public override void Update ()
-		{
-            if (Input.IsKeyDown((int)'S'))
-                Transform.Position = Transform.Position + new Vector3(0.0f, 0.0f, 5.0f) * Time.DeltaTime;
-		}
+        //public override void Update ()
+        //{
+        //    if (Input.IsKeyDown((int)'S'))
+        //        Transform.Position = Transform.Position + new Vector3(0.0f, 0.0f, 5.0f) * Time.DeltaTime;
+        //}
 
 	}
 }

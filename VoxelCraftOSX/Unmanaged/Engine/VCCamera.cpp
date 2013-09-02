@@ -12,7 +12,7 @@
 
 VCCamera::VCCamera(void)
 {
-    Handle = VCObjectStore::Instance->RegisterObject(this);
+    VCObjectStore::Instance->UpdatePointer(Handle, this);
     cout << "VCCamera created with handle: " << Handle << endl;
     
     int width, height;
@@ -23,19 +23,21 @@ VCCamera::VCCamera(void)
 
 VCCamera::~VCCamera(void)
 {
-    VCObjectStore::Instance->ReleaseObject(Handle);
 }
 
 void VCCamera::PreRender()
 {
+    // Build ModelMatrix ( This will be the View matrix )
+    VCGameObject::PreRender();
+    ViewMatrix = ModelMatrix;
+    
+    // Set Camera's bounds
     glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
     
+    // Build the Projection Matrix ( Can have branchling later )
 	ProjectionMatrix = glm::perspective(65.0f, 4.0f / 3.0f, 0.1f, 400.0f);
-
-    // Ensure that the Transform's model matrix is alreay build
-    Transform->PreRender();
-    ViewMatrix = Transform->ModelMatrix;
-
+    
+    // Pre-Compute for later use
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;
 }
 

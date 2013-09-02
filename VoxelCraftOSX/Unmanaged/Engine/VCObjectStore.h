@@ -20,6 +20,7 @@ public:
     void Initalize();
     
     int RegisterObject (void* obj);
+    void UpdatePointer(int id, void* obj);
     void* GetObject (int id);
     void ReleaseObject (int id);
     

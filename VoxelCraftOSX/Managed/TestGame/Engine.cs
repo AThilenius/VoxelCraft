@@ -6,23 +6,18 @@ namespace VCEngine
 {
 	public class Engine : VCEngineCore
 	{
-		// For now it MUST be overridden. I'll find a work around later
+        private Camera m_camera;
+
 		public override void Initalize ()
 		{
 			base.Initalize ();
-			
-			Console.WriteLine ("= Creating GameObject, CameraObject");
-			GameObject cameraObject = new GameObject ();
-			cameraObject.Transform.Position = new Vector3(50, -25, -120);
-			cameraObject.Transform.Rotation = new Quaternion(0, 20.0f * 0.0174532925f, 0);
-			
-			Console.WriteLine ("= Creating Camera");
-			Camera camera = new Camera ();
-			cameraObject.AttachComponent (camera);
 
-            Console.WriteLine("= Creating Simple FPS controller");
-            SimpleFPSController ctrl = new SimpleFPSController();
-            cameraObject.AttachComponent(ctrl);
+            Console.WriteLine("= Creating Camera");
+            m_camera = new Camera();
+            m_camera.Transform.Position = new Vector3(-100, 20, -120);
+            //camera.Transform.Rotation = new Quaternion(0, 20.0f * 0.0174532925f, 0);
+
+            //Console.WriteLine("= Position Check: " + m_camera.Transform.Position.ToString());
 		}
 
 		public override void Update ()

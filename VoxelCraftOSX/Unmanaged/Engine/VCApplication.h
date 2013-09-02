@@ -43,7 +43,6 @@ public:
     static VCApplication* Instance;
 
 private:
-    VCGameObject* m_testChunkGO;
     double m_lastDeltaTime;
     
 
