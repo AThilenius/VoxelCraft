@@ -87,7 +87,7 @@
 		7001F0D417C5A1E1002EF830 /* VCInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCInput.h; sourceTree = SOURCE_ROOT; };
 		7007F10717C43AB5006939A2 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = /usr/lib/libGLEW.dylib; sourceTree = "<absolute>"; };
 		701AD4EC17D3BC0000EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libEngine Library.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
-		701AD50A17D3BCC500EC8E93 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = ../../../../../../../../../System/Library/Frameworks/GLKit.framework; sourceTree = "<group>"; };
+		701AD50A17D3BCC500EC8E93 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = /System/Library/Frameworks/GLKit.framework; sourceTree = "<absolute>"; };
 		701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../../../Libs/libglfw.dylib; sourceTree = "<group>"; };
 		701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonoboehm-2.0.1.dylib"; path = "../../../Libs/libmonoboehm-2.0.1.dylib"; sourceTree = "<group>"; };
 		701AD51617D3BE3C00EC8E93 /* VCGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCGame.cpp; sourceTree = SOURCE_ROOT; };
@@ -278,7 +278,6 @@
 		70867A11178912FB000EE162 = {
 			isa = PBXGroup;
 			children = (
-				701AD50A17D3BCC500EC8E93 /* GLKit.framework */,
 				70867A1C178912FB000EE162 /* VoxelCraftOSX */,
 				70867A1B178912FB000EE162 /* Products */,
 				70867A2C17891319000EE162 /* Frameworks */,
@@ -310,6 +309,7 @@
 		70867A2C17891319000EE162 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				701AD50A17D3BCC500EC8E93 /* GLKit.framework */,
 				701AD51117D3BD2C00EC8E93 /* libmonoboehm-2.0.1.dylib */,
 				701AD50E17D3BD0A00EC8E93 /* libglfw.dylib */,
 				7007F10717C43AB5006939A2 /* libGLEW.dylib */,
@@ -581,6 +581,7 @@
 				701AD4EE17D3BC0000EC8E93 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		70867A15178912FB000EE162 /* Build configuration list for PBXProject "Engine" */ = {
 			isa = XCConfigurationList;

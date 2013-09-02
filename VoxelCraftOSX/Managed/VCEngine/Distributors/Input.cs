@@ -15,17 +15,31 @@ namespace VCEngine
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static IntPtr VCInteropInputGetKeys();
 
-        private static float m_mouseX;
-        private static float m_mouseY;
+        public static float m_mouseX;
+        public static float m_mouseY;
 
-        private static bool m_mouseLeft;
-        private static bool m_mouseright;
+        private static bool Fire;
+        private static bool AltFire;
 
         private static Byte[] m_keys = new Byte[325];
 
+        public static Vector2 Look { get { return new Vector2(m_mouseX, m_mouseY); } }
+        public static Vector2 Strafe
+        {
+            get
+            {
+                Vector2 strafeVec = new Vector2();
+                strafeVec.X += m_keys['W'] == 1 ? 1.0f : 0.0f;
+                strafeVec.X -= m_keys['S'] == 1 ? 1.0f : 0.0f;
+                strafeVec.Y += m_keys['D'] == 1 ? 1.0f : 0.0f;
+                strafeVec.Y -= m_keys['A'] == 1 ? 1.0f : 0.0f;
+                return strafeVec;
+            }
+        }
+
         internal static void Update()
         {
-            VCInteropInputGetMouse(ref m_mouseX, ref m_mouseY, ref m_mouseLeft, ref m_mouseright);
+            VCInteropInputGetMouse(ref m_mouseX, ref m_mouseY, ref Fire, ref AltFire);
 
             Marshal.Copy(VCInteropInputGetKeys(), m_keys, 0, 325);
         }

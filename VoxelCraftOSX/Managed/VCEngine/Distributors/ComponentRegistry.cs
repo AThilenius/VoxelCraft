@@ -10,4 +10,3 @@ namespace VCEngine
 		public static Dictionary<Component, Component> AllComponents = new Dictionary<Component, Component>();
 	}
 }
-

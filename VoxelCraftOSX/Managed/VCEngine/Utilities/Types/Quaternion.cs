@@ -136,6 +136,36 @@ namespace VCEngine
 
 		#region Instance
 
+        public Vector3 Forward
+        {
+            get
+            {
+                return new Vector3(     2 * (X * Z + W * Y),
+                                        2 * (Y * X - W * X),
+                                    1 - 2 * (X * X + Y * Y));
+            }
+        }
+
+        public Vector3 Up
+        {
+            get
+            {
+                return new Vector3(     2 * (X * Y - W * Z),
+                                    1 - 2 * (X * X + Z * Z),
+                                        2 * (Y * Z + W * X));
+            }
+        }
+
+        public Vector3 Right
+        {
+            get
+            {
+                return new Vector3( 1 - 2 * (Y * Y + Z * Z),
+                                        2 * (X * Y + W * Z),
+                                        2 * (X * Z - W * Y));
+            }
+        }
+
 		#region ToAxisAngle
 
 		/// <summary>
