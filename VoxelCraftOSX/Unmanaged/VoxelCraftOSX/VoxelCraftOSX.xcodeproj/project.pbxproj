@@ -14,13 +14,6 @@
 			remoteGlobalIDString = 70867A1A178912FB000EE162;
 			remoteInfo = Engine;
 		};
-		701AD46317D3AE5E00EC8E93 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 701AD45F17D3AE5E00EC8E93 /* Editor.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 70C7168217D3AB4800999526;
-			remoteInfo = Editor;
-		};
 		701AD50817D3BC8A00EC8E93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 70C7167317D3AAD200999526 /* Engine.xcodeproj */;
@@ -28,10 +21,17 @@
 			remoteGlobalIDString = 701AD4EC17D3BC0000EC8E93;
 			remoteInfo = "Engine Library";
 		};
+		709DA6B417D4462C0032909E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709DA6B017D4462B0032909E /* Editor.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 70C7168217D3AB4800999526;
+			remoteInfo = Editor;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		701AD45F17D3AE5E00EC8E93 /* Editor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Editor.xcodeproj; path = ../Editor/Editor.xcodeproj; sourceTree = "<group>"; };
+		709DA6B017D4462B0032909E /* Editor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Editor.xcodeproj; path = ../Editor/Editor.xcodeproj; sourceTree = "<group>"; };
 		70C7167317D3AAD200999526 /* Engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Engine.xcodeproj; path = ../Engine/Engine.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,14 +45,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		701AD46017D3AE5E00EC8E93 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				701AD46417D3AE5E00EC8E93 /* Editor.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		701AD4DE17D3BBC200EC8E93 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -60,10 +52,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		709DA6B117D4462B0032909E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709DA6B517D4462C0032909E /* Editor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		70C7166C17D3AABA00999526 = {
 			isa = PBXGroup;
 			children = (
-				701AD45F17D3AE5E00EC8E93 /* Editor.xcodeproj */,
+				709DA6B017D4462B0032909E /* Editor.xcodeproj */,
 				70C7167317D3AAD200999526 /* Engine.xcodeproj */,
 				701AD4DE17D3BBC200EC8E93 /* Products */,
 			);
@@ -89,8 +89,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 701AD46017D3AE5E00EC8E93 /* Products */;
-					ProjectRef = 701AD45F17D3AE5E00EC8E93 /* Editor.xcodeproj */;
+					ProductGroup = 709DA6B117D4462B0032909E /* Products */;
+					ProjectRef = 709DA6B017D4462B0032909E /* Editor.xcodeproj */;
 				},
 				{
 					ProductGroup = 701AD45A17D3AE4E00EC8E93 /* Products */;
@@ -111,18 +111,18 @@
 			remoteRef = 701AD45D17D3AE4E00EC8E93 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		701AD46417D3AE5E00EC8E93 /* Editor.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Editor.app;
-			remoteRef = 701AD46317D3AE5E00EC8E93 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		701AD50917D3BC8A00EC8E93 /* libEngine Library.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = "libEngine Library.dylib";
 			remoteRef = 701AD50817D3BC8A00EC8E93 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		709DA6B517D4462C0032909E /* Editor.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Editor.app;
+			remoteRef = 709DA6B417D4462C0032909E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

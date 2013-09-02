@@ -15,7 +15,6 @@
 #define GLFW_EXPOSE_NATIVE_NSGL
 
 #import <glfw.h>
-#import <glfw3native.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
