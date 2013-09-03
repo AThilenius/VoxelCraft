@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Distributors\Input.cs" />
+    <Compile Include="Distributors\SceneGraph.cs" />
     <Compile Include="Interop\MarshaledObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\Camera.cs" />
@@ -44,7 +45,6 @@
     <Compile Include="Interop\Transform.cs" />
     <Compile Include="Utilities\Time.cs" />
     <Compile Include="VCEngineCore.cs" />
-    <Compile Include="Distributors\ComponentRegistry.cs" />
     <Compile Include="Utilities\Types\Vector3.cs" />
     <Compile Include="Utilities\MathHelper.cs" />
     <Compile Include="Utilities\Types\Vector2.cs" />

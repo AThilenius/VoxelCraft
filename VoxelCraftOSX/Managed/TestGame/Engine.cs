@@ -14,11 +14,16 @@ namespace VCEngine
 
             Console.WriteLine("= Creating Camera");
             m_camera = new Camera();
-            m_camera.Transform.Position = new Vector3(-100, 20, -120);
-            //camera.Transform.Rotation = new Quaternion(0, 20.0f * 0.0174532925f, 0);
+            m_camera.Transform.Position = new Vector3(0, 0, -100);
 
-            //Console.WriteLine("= Position Check: " + m_camera.Transform.Position.ToString());
+            SimpleFPSController simpleController = new SimpleFPSController();
+            m_camera.AttachComponent(simpleController);
 		}
+
+        public override void Start()
+        {
+            base.Start();
+        }
 
 		public override void Update ()
 		{
@@ -29,6 +34,11 @@ namespace VCEngine
 		{
 			base.LateUpdate ();
 		}
+
+        public override void PreRender()
+        {
+            base.PreRender();
+        }
 
 	}
 }

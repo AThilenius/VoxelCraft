@@ -73,12 +73,12 @@ VCVoxelShader::~VCVoxelShader(void)
 void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
     VCCamera* currentCamera = VCSceneGraph::Instance->CurrentRenderingCamera;
-	glm::mat4 viewModel = currentCamera->ViewMatrix * modelMatrix;
-	glm::mat4 modelViewProj = currentCamera->ProjectionMatrix * currentCamera->ViewMatrix * modelMatrix;
-	glm::mat3 normal = glm::inverseTranspose(glm::mat3(viewModel));
+	//glm::mat4 viewModel = currentCamera->ViewMatrix * modelMatrix;
+	glm::mat4 modelViewProj = currentCamera->ProjectionMatrix * currentCamera->ViewMatrix;// * modelMatrix;
+	//glm::mat3 normal = glm::inverseTranspose(glm::mat3(viewModel));
 
 	glUniformMatrix4fv(m_unifMVP, 1, 0, (GLfloat*) &modelViewProj);
-	glUniformMatrix3fv(m_unifNormal, 1, 0, (GLfloat*) &normal);
+	//glUniformMatrix3fv(m_unifNormal, 1, 0, (GLfloat*) &normal);
 
 	glErrorCheck();
 }

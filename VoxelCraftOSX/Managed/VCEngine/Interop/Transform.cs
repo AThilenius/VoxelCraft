@@ -21,54 +21,11 @@ namespace VCEngine
 
 		#endregion
 
-		public Vector3 Position
-		{
-			get
-			{
-                GetData();
-                return m_position;
-			}
-
-			set
-			{
-                m_position = value;
-                SetData();
-			}
-		}
-		public Quaternion Rotation
-		{
-			get
-			{
-                GetData();
-                return m_rotation;
-			}
-
-			set
-			{
-                m_rotation = value;
-                SetData();
-			}
-		}
-		public Vector3 Scale
-		{
-			get
-			{
-                GetData();
-                return m_scale;
-			}
-
-			set
-			{
-                m_scale = value;
-                SetData();
-			}
-		}
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
         
         public GameObject GameObject;
-
-        private Vector3 m_position;
-        private Quaternion m_rotation;
-        private Vector3 m_scale;
 
 		internal Transform (GameObject parent)
 		{
@@ -76,23 +33,23 @@ namespace VCEngine
             GetData();
 		}
 
-        private void SetData()
+        internal void SetData()
         {
             VCInteropTransformSetData(GameObject.UnManagedHandle,
-                m_position.X, m_position.Y, m_position.Z,
-                m_rotation.X, m_rotation.Y, m_rotation.Z, m_rotation.W,
-                m_scale.X, m_scale.Y, m_scale.Z);
+                Position.X, Position.Y, Position.Z,
+                Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
+                Scale.X, Scale.Y, Scale.Z);
         }
 
-        private void GetData()
+        internal void GetData()
         {
             float px = 0.0f;
             float py = 0.0f;
             float pz = 0.0f;
 
-            float rx = 0.0f;
-            float ry = 0.0f;
-            float rz = 0.0f;
+            float rx = 1.0f;
+            float ry = 1.0f;
+            float rz = 1.0f;
             float rw = 0.0f;
 
             float sx = 1.0f;
@@ -104,9 +61,9 @@ namespace VCEngine
                 out rx, out ry, out rz, out rw,
                 out sx, out sy, out sz);
 
-            m_position = new Vector3(px, py, pz);
-            m_rotation = new Quaternion(rx, ry, rz, rw);
-            m_scale = new Vector3(sx, sy, sz);
+            Position = new Vector3(px, py, pz);
+            Rotation = new Quaternion(rx, ry, rz, rw);
+            Scale = new Vector3(sx, sy, sz);
         }
 
 	}

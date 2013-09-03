@@ -7,28 +7,12 @@ namespace VCEngine
 		public GameObject GameObject;
 		public Transform Transform;
 
-		protected Component()
-		{
-			ComponentRegistry.AllComponents.Add (this, this);
-		}
-
-		~Component()
-		{
-			ComponentRegistry.AllComponents.Remove (this);
-		}
-
 		virtual internal int Handle { get; set; }
 
-		public virtual void Update()
-		{
-
-		}
-
-		public virtual void LateUpdate()
-		{
-
-		}
-
-	}
+        public virtual void Start() { }
+        public virtual void Update() { }
+        public virtual void LateUpdate() { }
+        public virtual void PreRender() { }
+    }
 }
 

@@ -46,21 +46,16 @@ void VCApplication::Initialize()
     MonoRuntime->Initalize();
     MonoRuntime->InvokeInitalize();
     
-    // Test Crap below...
-    
     // Test Chunk
     cout << "Creating test chunk..." << endl;
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
     testChunk->SetParent(VCSceneGraph::Instance->RootNode);
     
-    // Test Camera
-//    VCCamera* camera = new VCCamera();
-//    camera->Position = vec3(20, -20, -150);
-//    VCSceneGraph::Instance->RegisterCamera(camera);
-    
     testChunk->Generate();
     testChunk->StartRebuild();
     testChunk->ContinueRebuild(0.0f);
+    
+    MonoRuntime->InvokeStart();
 }
 
 void VCApplication::ShutDown()
@@ -74,8 +69,11 @@ void VCApplication::Step()
     Input->Update();
     
     MonoRuntime->InvokeUpdate();
+    
+    // Physics here...
     MonoRuntime->InvokeLateUpdate();
     
+    MonoRuntime->InvokePreRender();
     Renderer->Render();
     SceneGraph->RenderGraph();
     

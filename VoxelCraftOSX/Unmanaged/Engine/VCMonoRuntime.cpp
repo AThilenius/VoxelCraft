@@ -40,6 +40,10 @@ void VCMonoRuntime::Initalize()
     MonoMethodDesc* initMethodDesc = mono_method_desc_new ("VCEngine.Engine:Initalize()", true);
     m_initMethod = mono_method_desc_search_in_class (initMethodDesc, m_engineType);
     
+    // Start Method
+    MonoMethodDesc* startMethodDesc = mono_method_desc_new ("VCEngine.Engine:Start()", true);
+    m_startMethod = mono_method_desc_search_in_class (startMethodDesc, m_engineType);
+    
     // Update Method
     MonoMethodDesc* updateMethodDesc = mono_method_desc_new ("VCEngine.Engine:Update()", true);
     m_updateMethod = mono_method_desc_search_in_class (updateMethodDesc, m_engineType);
@@ -47,6 +51,10 @@ void VCMonoRuntime::Initalize()
     // LateUpdate Method
     MonoMethodDesc* lateUpdateMethodDesc = mono_method_desc_new ("VCEngine.Engine:LateUpdate()", true);
     m_lateUpdateMethod = mono_method_desc_search_in_class (lateUpdateMethodDesc, m_engineType);
+    
+    // PreRender Method
+    MonoMethodDesc* preRenderMethodDesc = mono_method_desc_new ("VCEngine.Engine:PreRender()", true);
+    m_preRenderMethod = mono_method_desc_search_in_class (preRenderMethodDesc, m_engineType);
     
 }
 
@@ -56,6 +64,11 @@ void VCMonoRuntime::Bind()
     VCGameObject::RegisterMonoHandlers();
     VCCamera::RegisterMonoHandlers();
     VCInput::RegisterMonoHandlers();
+}
+
+void VCMonoRuntime::InvokeStart()
+{
+    mono_runtime_invoke(m_startMethod, m_engineInstance, NULL, NULL);
 }
 
 void VCMonoRuntime::InvokeInitalize()
@@ -71,4 +84,9 @@ void VCMonoRuntime::InvokeUpdate()
 void VCMonoRuntime::InvokeLateUpdate()
 {
     mono_runtime_invoke(m_lateUpdateMethod, m_engineInstance, NULL, NULL);
+}
+
+void VCMonoRuntime::InvokePreRender()
+{
+    mono_runtime_invoke(m_preRenderMethod, m_engineInstance, NULL, NULL);
 }

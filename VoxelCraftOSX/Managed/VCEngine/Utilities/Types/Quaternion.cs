@@ -66,33 +66,20 @@ namespace VCEngine
 		: this(new Vector3(x, y, z), w)
 		{ }
 
-		public Quaternion (Vector3 euler)
-		: this(euler.X, euler.Y, euler.Z)
-		{ }
+        public static Quaternion FromEuler(Vector3 angels)
+        {
+            return FromEuler(angels.X, angels.Y, angels.Z);
+        }
 
-		public Quaternion (float yaw, float pitch, float roll)
-		{
-			yaw *= 0.0174532925f;
-			pitch *= 0.0174532925f;
-			roll *= 0.0174532925f;
-			float rollOver2 = roll * 0.5f;
-			float sinRollOver2 = (float)Math.Sin((double)rollOver2);
-			float cosRollOver2 = (float)Math.Cos((double)rollOver2);
-			float pitchOver2 = pitch * 0.5f;
-			float sinPitchOver2 = (float)Math.Sin((double)pitchOver2);
-			float cosPitchOver2 = (float)Math.Cos((double)pitchOver2);
-			float yawOver2 = yaw * 0.5f;
-			float sinYawOver2 = (float)Math.Sin((double)yawOver2);
-			float cosYawOver2 = (float)Math.Cos((double)yawOver2);
+        public static Quaternion FromEuler(float x, float y, float z)
+        {
+            Quaternion newQ = Quaternion.Identity;
+            newQ = Quaternion.Multiply(newQ, Quaternion.FromAxisAngle(Vector3.UnitX, x));
+            newQ = Quaternion.Multiply(newQ, Quaternion.FromAxisAngle(Vector3.UnitY, y));
+            newQ = Quaternion.Multiply(newQ, Quaternion.FromAxisAngle(Vector3.UnitZ, z));
 
-			float wVale = cosYawOver2 * cosPitchOver2 * cosRollOver2 + sinYawOver2 * sinPitchOver2 * sinRollOver2;
-			float xVal = cosYawOver2 * sinPitchOver2 * cosRollOver2 + sinYawOver2 * cosPitchOver2 * sinRollOver2;
-			float yVal = sinYawOver2 * cosPitchOver2 * cosRollOver2 - cosYawOver2 * sinPitchOver2 * sinRollOver2;
-			float zVal = cosYawOver2 * cosPitchOver2 * sinRollOver2 - sinYawOver2 * sinPitchOver2 * cosRollOver2;
-
-			this.xyz = new Vector3 (xVal, yVal, zVal);
-			this.w = wVale;
-		} 
+            return newQ;
+        }
 
 		#endregion
 
@@ -140,9 +127,8 @@ namespace VCEngine
         {
             get
             {
-                return new Vector3(     2 * (X * Z + W * Y),
-                                        2 * (Y * X - W * X),
-                                    1 - 2 * (X * X + Y * Y));
+                Vector3 newVec = Vector3.UnitZ;
+                return Vector3.Transform(newVec, this);
             }
         }
 
@@ -150,9 +136,8 @@ namespace VCEngine
         {
             get
             {
-                return new Vector3(     2 * (X * Y - W * Z),
-                                    1 - 2 * (X * X + Z * Z),
-                                        2 * (Y * Z + W * X));
+                Vector3 newVec = Vector3.UnitY;
+                return Vector3.Transform(newVec, this);
             }
         }
 
@@ -160,9 +145,8 @@ namespace VCEngine
         {
             get
             {
-                return new Vector3( 1 - 2 * (Y * Y + Z * Z),
-                                        2 * (X * Y + W * Z),
-                                        2 * (X * Z - W * Y));
+                Vector3 newVec = -Vector3.UnitX;
+                return Vector3.Transform(newVec, this);
             }
         }
 

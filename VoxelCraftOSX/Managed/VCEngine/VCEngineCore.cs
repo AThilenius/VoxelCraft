@@ -10,22 +10,30 @@ namespace VCEngine
 		public virtual void Initalize()
 		{
 			Console.WriteLine ("= VCEngineCore::Intalize");
+            SceneGraph.RootNode = new GameObject();
 		}
+
+        public virtual void Start()
+        {
+            SceneGraph.RootNode.PropagateStart();
+        }
 
 		public virtual void Update() 
 		{
             Time.Update();
             Input.Update();
-
-			foreach (Component cmpt in ComponentRegistry.AllComponents.Keys)
-				cmpt.Update ();
+            SceneGraph.RootNode.PropagateUpdate();
 		}
 
 		public virtual void LateUpdate() 
 		{
-			foreach (Component cmpt in ComponentRegistry.AllComponents.Keys)
-				cmpt.LateUpdate ();
+            SceneGraph.RootNode.PropagateLateUpdate();
 		}
+
+        public virtual void PreRender()
+        {
+            SceneGraph.RootNode.PropagatePreRender();
+        }
 	}
 }
 

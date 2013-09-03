@@ -15,31 +15,46 @@ namespace VCEngine
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static IntPtr VCInteropInputGetKeys();
 
-        public static float m_mouseX;
-        public static float m_mouseY;
+        public static bool Fire;
+        public static bool AltFire;
 
-        private static bool Fire;
-        private static bool AltFire;
+        private static float m_deltaMouseX;
+        private static float m_deltaMouseY;
+
+        private static float m_lastMouseX;
+        private static float m_lastMouseY;
 
         private static Byte[] m_keys = new Byte[325];
 
-        public static Vector2 Look { get { return new Vector2(m_mouseX, m_mouseY); } }
+        public static Vector3 Look { get { return new Vector3(m_deltaMouseX, m_deltaMouseY, 0.0f); } }
         public static Vector2 Strafe
         {
             get
             {
-                Vector2 strafeVec = new Vector2();
-                strafeVec.X += m_keys['W'] == 1 ? 1.0f : 0.0f;
-                strafeVec.X -= m_keys['S'] == 1 ? 1.0f : 0.0f;
-                strafeVec.Y += m_keys['D'] == 1 ? 1.0f : 0.0f;
-                strafeVec.Y -= m_keys['A'] == 1 ? 1.0f : 0.0f;
+                Vector2 strafeVec = new Vector2(0.0f, 0.0f);
+
+                if ( m_keys['W'] != 0 ) strafeVec.X += 1.0f;
+                if (m_keys['S'] != 0) strafeVec.X += -1.0f;
+
+                if (m_keys['A'] != 0) strafeVec.Y += 1.0f;
+                if (m_keys['D'] != 0) strafeVec.Y += -1.0f;
+
                 return strafeVec;
             }
         }
 
         internal static void Update()
         {
-            VCInteropInputGetMouse(ref m_mouseX, ref m_mouseY, ref Fire, ref AltFire);
+            float x = 0.0f;
+            float y = 0.0f;
+
+            VCInteropInputGetMouse(ref x, ref y, ref Fire, ref AltFire);
+
+            m_deltaMouseX = m_lastMouseX - x;
+            m_deltaMouseY = m_lastMouseY - y;
+
+            m_lastMouseX = x;
+            m_lastMouseY = y;
 
             Marshal.Copy(VCInteropInputGetKeys(), m_keys, 0, 325);
         }

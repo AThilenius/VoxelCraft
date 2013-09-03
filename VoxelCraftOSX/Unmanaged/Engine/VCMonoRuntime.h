@@ -22,8 +22,10 @@ public:
     void Initalize();
     
     void InvokeInitalize();
+    void InvokeStart();
     void InvokeUpdate();
     void InvokeLateUpdate();
+    void InvokePreRender();
     
 private:
     void Bind();
@@ -36,8 +38,10 @@ private:
 	MonoObject *m_engineInstance;
     
     MonoMethod* m_initMethod;
+    MonoMethod* m_startMethod;
     MonoMethod* m_updateMethod;
     MonoMethod* m_lateUpdateMethod;
+    MonoMethod* m_preRenderMethod;
 };
 
 #endif /* defined(__VoxelCraftOSX__VCMonoBinder__) */

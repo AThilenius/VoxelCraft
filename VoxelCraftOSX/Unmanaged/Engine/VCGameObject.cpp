@@ -51,17 +51,14 @@ void VCGameObject::Gui()
 }
 
 void VCGameObject::PreRender()
-{
-    // Identity
-	ModelMatrix = glm::mat4(1.0f);
-    
-	if (m_parent != NULL)
-		ModelMatrix = m_parent->ModelMatrix;
-    
+{   
     // Rotate, Translate, Scale
     ModelMatrix = glm::toMat4(Rotation);
 	ModelMatrix = glm::translate(ModelMatrix, Position);
 	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);
+    
+	if (m_parent != NULL)
+		ModelMatrix = ModelMatrix * m_parent->ModelMatrix;
     
     FOREACH(iter, Children)
         (*iter)->PreRender();
@@ -129,7 +126,6 @@ void VCInteropGameObjectSetParent(int handle, int parentHandle)
 void VCInteropTransformGetData(int handle, float* posX, float* posY, float* posZ, float* rotX, float* rotY, float* rotZ, float* rotW, float* sclX, float* sclY, float* sclZ)
 {
     VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    //VCCamera* obj = (VCCamera*) VCObjectStore::Instance->GetObject(handle);
     vec3 pos = obj->Position;
     quat rot = obj->Rotation;
     vec3 scale = obj->Scale;
@@ -151,10 +147,17 @@ void VCInteropTransformGetData(int handle, float* posX, float* posY, float* posZ
 void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW, float sclX, float sclY, float sclZ)
 {
     VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    //VCCamera* obj = (VCCamera*) VCObjectStore::Instance->GetObject(handle);
     obj->Position = vec3(posX, posY, posZ);
-    obj->Rotation = quat(rotX, rotY, rotZ, rotW);
+    obj->Rotation = quat(rotW, rotX, rotY, rotZ);
     obj->Scale = vec3(sclX, sclY, sclZ);
+    
+    if ( handle == 2 || true )
+        return;
+    
+    cout << endl << "GameObject [" << handle << "] Set to: " << endl;
+    cout << obj->Position.x << " " << obj->Position.y << " " << obj->Position.z << endl;
+    cout << obj->Rotation.x << " " << obj->Rotation.y << " " << obj->Rotation.z << " " << obj->Rotation.w << endl;
+    cout << obj->Scale.x << " " << obj->Scale.y << " " << obj->Scale.z << endl;
 }
 
 
