@@ -12,6 +12,8 @@
 		701AD47617D3B33000EC8E93 /* libglfw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD47517D3B33000EC8E93 /* libglfw.dylib */; };
 		701AD47817D3B47500EC8E93 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD47717D3B47500EC8E93 /* IOKit.framework */; };
 		701AD51517D3BD8A00EC8E93 /* libEngine Library.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */; };
+		709DA6C017D676A70032909E /* Dark_Off.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6BF17D676A70032909E /* Dark_Off.png */; };
+		709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */; };
 		70C7168617D3AB4800999526 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C7168517D3AB4800999526 /* Cocoa.framework */; };
 		70C7169017D3AB4800999526 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70C7168E17D3AB4800999526 /* InfoPlist.strings */; };
 		70C7169217D3AB4800999526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C7169117D3AB4800999526 /* main.m */; };
@@ -26,6 +28,8 @@
 		701AD47517D3B33000EC8E93 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = /usr/local/lib/libglfw.dylib; sourceTree = "<absolute>"; };
 		701AD47717D3B47500EC8E93 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libEngine Library.dylib"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/VoxelCraftOSX-cmpwplwqvctakcbbzvieyrqihsbf/Build/Products/Debug/libEngine Library.dylib"; sourceTree = "<group>"; };
+		709DA6BF17D676A70032909E /* Dark_Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark_Off.png; sourceTree = "<group>"; };
+		709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Oh-My-Brain-Block-Puzzle-Icon1.png"; sourceTree = "<group>"; };
 		70C7168217D3AB4800999526 /* Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Editor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C7168517D3AB4800999526 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		70C7168817D3AB4800999526 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -114,6 +118,8 @@
 		70C7168C17D3AB4800999526 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */,
+				709DA6BF17D676A70032909E /* Dark_Off.png */,
 				70C7168D17D3AB4800999526 /* Editor-Info.plist */,
 				70C7168E17D3AB4800999526 /* InfoPlist.strings */,
 				70C7169317D3AB4800999526 /* Editor-Prefix.pch */,
@@ -177,6 +183,8 @@
 				70C7169017D3AB4800999526 /* InfoPlist.strings in Resources */,
 				70C7169617D3AB4800999526 /* Credits.rtf in Resources */,
 				70C7169C17D3AB4800999526 /* MainMenu.xib in Resources */,
+				709DA6C017D676A70032909E /* Dark_Off.png in Resources */,
+				709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
