@@ -14,6 +14,8 @@
 		701AD51517D3BD8A00EC8E93 /* libEngine Library.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */; };
 		709DA6C017D676A70032909E /* Dark_Off.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6BF17D676A70032909E /* Dark_Off.png */; };
 		709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */; };
+		70B17EC117D8483B00E8D749 /* MyTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B17EC017D8483B00E8D749 /* MyTestView.xib */; };
+		70B17EC417D8485700E8D749 /* MyTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B17EC317D8485700E8D749 /* MyTestViewController.m */; };
 		70C7168617D3AB4800999526 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C7168517D3AB4800999526 /* Cocoa.framework */; };
 		70C7169017D3AB4800999526 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70C7168E17D3AB4800999526 /* InfoPlist.strings */; };
 		70C7169217D3AB4800999526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C7169117D3AB4800999526 /* main.m */; };
@@ -30,6 +32,9 @@
 		701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libEngine Library.dylib"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/VoxelCraftOSX-cmpwplwqvctakcbbzvieyrqihsbf/Build/Products/Debug/libEngine Library.dylib"; sourceTree = "<group>"; };
 		709DA6BF17D676A70032909E /* Dark_Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark_Off.png; sourceTree = "<group>"; };
 		709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Oh-My-Brain-Block-Puzzle-Icon1.png"; sourceTree = "<group>"; };
+		70B17EC017D8483B00E8D749 /* MyTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTestView.xib; sourceTree = "<group>"; };
+		70B17EC217D8485700E8D749 /* MyTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestViewController.h; sourceTree = "<group>"; };
+		70B17EC317D8485700E8D749 /* MyTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTestViewController.m; sourceTree = "<group>"; };
 		70C7168217D3AB4800999526 /* Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Editor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C7168517D3AB4800999526 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		70C7168817D3AB4800999526 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -111,6 +116,9 @@
 				70C7169717D3AB4800999526 /* AppDelegate.h */,
 				70C7169817D3AB4800999526 /* AppDelegate.m */,
 				70C7169A17D3AB4800999526 /* MainMenu.xib */,
+				70B17EC017D8483B00E8D749 /* MyTestView.xib */,
+				70B17EC217D8485700E8D749 /* MyTestViewController.h */,
+				70B17EC317D8485700E8D749 /* MyTestViewController.m */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -185,6 +193,7 @@
 				70C7169C17D3AB4800999526 /* MainMenu.xib in Resources */,
 				709DA6C017D676A70032909E /* Dark_Off.png in Resources */,
 				709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */,
+				70B17EC117D8483B00E8D749 /* MyTestView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +206,7 @@
 			files = (
 				70C7169217D3AB4800999526 /* main.m in Sources */,
 				70C7169917D3AB4800999526 /* AppDelegate.m in Sources */,
+				70B17EC417D8485700E8D749 /* MyTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

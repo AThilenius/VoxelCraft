@@ -10,6 +10,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "VCApplication.h"
+#import "MyTestViewController.h"
 
 #define GLFW_EXPOSE_NATIVE_COCOA
 #define GLFW_EXPOSE_NATIVE_NSGL

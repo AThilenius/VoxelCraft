@@ -1306,8 +1306,8 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{0, 967}, {805, 61}}</string>
-				<int key="NSWTFlags">1949827072</int>
+				<string key="NSWindowRect">{{0, 967}, {947, 61}}</string>
+				<int key="NSWTFlags">1954021376</int>
 				<string key="NSWindowTitle">Voxel Craft Editor 0.1</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -1322,7 +1322,6 @@
 							<string key="NSFrame">{{18, 18}, {95, 24}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="231985313">
@@ -1361,7 +1360,7 @@
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
 					</array>
-					<string key="NSFrameSize">{805, 61}</string>
+					<string key="NSFrameSize">{947, 61}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="167781419"/>
@@ -2391,7 +2390,6 @@
 							<string key="NSFrame">{{122, 137}, {181, 19}}</string>
 							<reference key="NSSuperview" ref="127231689"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTokenFieldCell" key="NSCell" id="157754222">
@@ -3132,6 +3130,14 @@
 						<reference key="destination" ref="972006081"/>
 					</object>
 					<int key="connectionID">532</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">ButtonClickHanlder:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="167781419"/>
+					</object>
+					<int key="connectionID">2455</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8413,7 +8419,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2430</int>
+			<int key="maxID">2455</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
