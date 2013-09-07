@@ -25,7 +25,6 @@
 		701AD4FC17D3BC5E00EC8E93 /* VCTestShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7001F0C917C46936002EF830 /* VCTestShader.cpp */; };
 		701AD4FD17D3BC6300EC8E93 /* VCCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6017891401000EE162 /* VCCamera.cpp */; };
 		701AD4FF17D3BC6800EC8E93 /* VCGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6817891401000EE162 /* VCGameObject.cpp */; };
-		701AD50017D3BC6900EC8E93 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
 		701AD50117D3BC6B00EC8E93 /* VCSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */; };
 		701AD50217D3BC6E00EC8E93 /* SimplexNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5617891401000EE162 /* SimplexNoise.cpp */; };
 		701AD50317D3BC7000EC8E93 /* VCBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5E17891401000EE162 /* VCBlock.cpp */; };
@@ -44,6 +43,9 @@
 		701AD51A17D3BE3C00EC8E93 /* VCGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 701AD51717D3BE3C00EC8E93 /* VCGame.h */; };
 		7025C0D517C856CF00BB223C /* VCSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */; };
 		7036F89017D18DD80016A66C /* VCObjectStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7036F88E17D18DD80016A66C /* VCObjectStore.cpp */; };
+		703C78DB17DBEFF70040F442 /* VCInspectorWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 703C78D917DBEFF70040F442 /* VCInspectorWindow.cpp */; };
+		703C78DC17DBEFF70040F442 /* VCInspectorWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 703C78D917DBEFF70040F442 /* VCInspectorWindow.cpp */; };
+		703C78DD17DBEFF70040F442 /* VCInspectorWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 703C78DA17DBEFF70040F442 /* VCInspectorWindow.h */; };
 		70867A2717891309000EE162 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2617891309000EE162 /* OpenGL.framework */; };
 		70867A2E17891330000EE162 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70867A2D17891330000EE162 /* IOKit.framework */; };
 		70867A7517891401000EE162 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A5217891401000EE162 /* main.cpp */; };
@@ -58,7 +60,6 @@
 		70867A8017891401000EE162 /* VCGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6817891401000EE162 /* VCGameObject.cpp */; };
 		70867A8117891401000EE162 /* VCGLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6A17891401000EE162 /* VCGLRenderer.cpp */; };
 		70867A8217891401000EE162 /* VCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6C17891401000EE162 /* VCTime.cpp */; };
-		70867A8317891401000EE162 /* VCTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A6E17891401000EE162 /* VCTransform.cpp */; };
 		70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7117891401000EE162 /* VCVoxelShader.cpp */; };
 		70867A8517891401000EE162 /* VCWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70867A7317891401000EE162 /* VCWorld.cpp */; };
 		709DA6B817D52D390032909E /* VCMarshalableObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709DA6B617D52D390032909E /* VCMarshalableObject.cpp */; };
@@ -97,6 +98,8 @@
 		7025C0D417C856CF00BB223C /* VCSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCSceneGraph.h; sourceTree = SOURCE_ROOT; };
 		7036F88E17D18DD80016A66C /* VCObjectStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCObjectStore.cpp; sourceTree = SOURCE_ROOT; };
 		7036F88F17D18DD80016A66C /* VCObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCObjectStore.h; sourceTree = SOURCE_ROOT; };
+		703C78D917DBEFF70040F442 /* VCInspectorWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCInspectorWindow.cpp; sourceTree = SOURCE_ROOT; };
+		703C78DA17DBEFF70040F442 /* VCInspectorWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCInspectorWindow.h; sourceTree = SOURCE_ROOT; };
 		70867A1A178912FB000EE162 /* Engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Engine; sourceTree = BUILT_PRODUCTS_DIR; };
 		70867A2617891309000EE162 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		70867A2D17891330000EE162 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -124,8 +127,6 @@
 		70867A6B17891401000EE162 /* VCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCGLRenderer.h; sourceTree = SOURCE_ROOT; };
 		70867A6C17891401000EE162 /* VCTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCTime.cpp; sourceTree = SOURCE_ROOT; };
 		70867A6D17891401000EE162 /* VCTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTime.h; sourceTree = SOURCE_ROOT; };
-		70867A6E17891401000EE162 /* VCTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCTransform.cpp; sourceTree = SOURCE_ROOT; };
-		70867A6F17891401000EE162 /* VCTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTransform.h; sourceTree = SOURCE_ROOT; };
 		70867A7017891401000EE162 /* VCTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTypes.h; sourceTree = SOURCE_ROOT; };
 		70867A7117891401000EE162 /* VCVoxelShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VCVoxelShader.cpp; sourceTree = SOURCE_ROOT; };
 		70867A7217891401000EE162 /* VCVoxelShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCVoxelShader.h; sourceTree = SOURCE_ROOT; };
@@ -245,8 +246,6 @@
 				70867A6117891401000EE162 /* VCCamera.h */,
 				70867A6817891401000EE162 /* VCGameObject.cpp */,
 				70867A6917891401000EE162 /* VCGameObject.h */,
-				70867A6E17891401000EE162 /* VCTransform.cpp */,
-				70867A6F17891401000EE162 /* VCTransform.h */,
 				7025C0D317C856CF00BB223C /* VCSceneGraph.cpp */,
 				7025C0D417C856CF00BB223C /* VCSceneGraph.h */,
 			);
@@ -256,16 +255,34 @@
 		7036F88D17D18DB80016A66C /* Interop */ = {
 			isa = PBXGroup;
 			children = (
+				703C78D817DBEF8A0040F442 /* Editor */,
+				703C78D717DBEF740040F442 /* Core */,
+			);
+			name = Interop;
+			sourceTree = "<group>";
+		};
+		703C78D717DBEF740040F442 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				709DA6B617D52D390032909E /* VCMarshalableObject.cpp */,
+				709DA6B717D52D390032909E /* VCMarshalableObject.h */,
 				7036F88E17D18DD80016A66C /* VCObjectStore.cpp */,
 				7036F88F17D18DD80016A66C /* VCObjectStore.h */,
 				70F2FA3817D2B64B005BCCC2 /* VCUpdateManager.cpp */,
 				70F2FA3917D2B64B005BCCC2 /* VCUpdateManager.h */,
 				70F2FA3B17D3A440005BCCC2 /* VCMonoRuntime.cpp */,
 				70F2FA3C17D3A440005BCCC2 /* VCMonoRuntime.h */,
-				709DA6B617D52D390032909E /* VCMarshalableObject.cpp */,
-				709DA6B717D52D390032909E /* VCMarshalableObject.h */,
 			);
-			name = Interop;
+			name = Core;
+			sourceTree = "<group>";
+		};
+		703C78D817DBEF8A0040F442 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				703C78D917DBEFF70040F442 /* VCInspectorWindow.cpp */,
+				703C78DA17DBEFF70040F442 /* VCInspectorWindow.h */,
+			);
+			name = Editor;
 			sourceTree = "<group>";
 		};
 		70867A11178912FB000EE162 = {
@@ -321,6 +338,7 @@
 			files = (
 				701AD51A17D3BE3C00EC8E93 /* VCGame.h in Headers */,
 				709DA6BA17D52D390032909E /* VCMarshalableObject.h in Headers */,
+				703C78DD17DBEFF70040F442 /* VCInspectorWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,12 +429,12 @@
 				701AD50617D3BC7500EC8E93 /* VCWorld.cpp in Sources */,
 				701AD50117D3BC6B00EC8E93 /* VCSceneGraph.cpp in Sources */,
 				701AD4FC17D3BC5E00EC8E93 /* VCTestShader.cpp in Sources */,
-				701AD50017D3BC6900EC8E93 /* VCTransform.cpp in Sources */,
 				701AD4F817D3BC4E00EC8E93 /* Utilities.cpp in Sources */,
 				701AD4F217D3BC4000EC8E93 /* VCMonoRuntime.cpp in Sources */,
 				701AD4F317D3BC4300EC8E93 /* main.cpp in Sources */,
 				701AD51917D3BE3C00EC8E93 /* VCGame.cpp in Sources */,
 				709DA6B917D52D390032909E /* VCMarshalableObject.cpp in Sources */,
+				703C78DC17DBEFF70040F442 /* VCInspectorWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,7 +455,6 @@
 				70867A8017891401000EE162 /* VCGameObject.cpp in Sources */,
 				70867A8117891401000EE162 /* VCGLRenderer.cpp in Sources */,
 				70867A8217891401000EE162 /* VCTime.cpp in Sources */,
-				70867A8317891401000EE162 /* VCTransform.cpp in Sources */,
 				70867A8417891401000EE162 /* VCVoxelShader.cpp in Sources */,
 				70867A8517891401000EE162 /* VCWorld.cpp in Sources */,
 				7001F0D517C5A1E1002EF830 /* VCInput.cpp in Sources */,
@@ -448,6 +465,7 @@
 				70F2FA3D17D3A440005BCCC2 /* VCMonoRuntime.cpp in Sources */,
 				701AD51817D3BE3C00EC8E93 /* VCGame.cpp in Sources */,
 				709DA6B817D52D390032909E /* VCMarshalableObject.cpp in Sources */,
+				703C78DB17DBEFF70040F442 /* VCInspectorWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
