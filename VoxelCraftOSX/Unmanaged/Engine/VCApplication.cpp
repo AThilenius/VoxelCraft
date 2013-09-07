@@ -8,6 +8,16 @@
 
 #include "VCApplication.h"
 
+#include "PCH.h"
+#import "VCWindow.h"
+#include "VCGLRenderer.h"
+#include "VCChunk.h"
+#include "VCGameObject.h"
+#include "VCInput.h"
+#import "VCSceneGraph.h"
+#import "VCCamera.h"
+#import "VCObjectStore.h"
+#import "VCMonoRuntime.h"
 
 VCApplication* VCApplication::Instance;
 

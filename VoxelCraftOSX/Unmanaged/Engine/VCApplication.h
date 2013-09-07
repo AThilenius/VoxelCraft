@@ -7,17 +7,13 @@
 //
 
 #pragma once
-
-#include "PCH.h"
-#import "VCWindow.h"
-#include "VCGLRenderer.h"
-#include "VCChunk.h"
-#include "VCGameObject.h"
-#include "VCInput.h"
-#import "VCSceneGraph.h"
-#import "VCCamera.h"
-#import "VCObjectStore.h"
-#import "VCMonoRuntime.h"
+class VCWindow;
+class VCGLRenderer;
+class VCSceneGraph;
+class VCInput;
+class VCTime;
+class VCObjectStore;
+class VCMonoRuntime;
 
 
 using namespace std;

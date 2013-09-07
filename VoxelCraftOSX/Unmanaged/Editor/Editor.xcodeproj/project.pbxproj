@@ -14,8 +14,10 @@
 		701AD51517D3BD8A00EC8E93 /* libEngine Library.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */; };
 		709DA6C017D676A70032909E /* Dark_Off.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6BF17D676A70032909E /* Dark_Off.png */; };
 		709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */; };
-		70B17EC117D8483B00E8D749 /* MyTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70B17EC017D8483B00E8D749 /* MyTestView.xib */; };
-		70B17EC417D8485700E8D749 /* MyTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B17EC317D8485700E8D749 /* MyTestViewController.m */; };
+		70AD830817DABE6C0014D519 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AD830617DABE6C0014D519 /* GameObjectViewController.m */; };
+		70AD830917DABE6C0014D519 /* GameObjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70AD830717DABE6C0014D519 /* GameObjectViewController.xib */; };
+		70AD830D17DAEBC30014D519 /* TransformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AD830B17DAEBC30014D519 /* TransformViewController.m */; };
+		70AD830E17DAEBC30014D519 /* TransformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70AD830C17DAEBC30014D519 /* TransformViewController.xib */; };
 		70C7168617D3AB4800999526 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C7168517D3AB4800999526 /* Cocoa.framework */; };
 		70C7169017D3AB4800999526 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70C7168E17D3AB4800999526 /* InfoPlist.strings */; };
 		70C7169217D3AB4800999526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C7169117D3AB4800999526 /* main.m */; };
@@ -32,9 +34,12 @@
 		701AD51417D3BD8A00EC8E93 /* libEngine Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libEngine Library.dylib"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/VoxelCraftOSX-cmpwplwqvctakcbbzvieyrqihsbf/Build/Products/Debug/libEngine Library.dylib"; sourceTree = "<group>"; };
 		709DA6BF17D676A70032909E /* Dark_Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dark_Off.png; sourceTree = "<group>"; };
 		709DA6C117D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Oh-My-Brain-Block-Puzzle-Icon1.png"; sourceTree = "<group>"; };
-		70B17EC017D8483B00E8D749 /* MyTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTestView.xib; sourceTree = "<group>"; };
-		70B17EC217D8485700E8D749 /* MyTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestViewController.h; sourceTree = "<group>"; };
-		70B17EC317D8485700E8D749 /* MyTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTestViewController.m; sourceTree = "<group>"; };
+		70AD830517DABE6C0014D519 /* GameObjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObjectViewController.h; path = Editor/GameObjectViewController.h; sourceTree = "<group>"; };
+		70AD830617DABE6C0014D519 /* GameObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObjectViewController.m; path = Editor/GameObjectViewController.m; sourceTree = "<group>"; };
+		70AD830717DABE6C0014D519 /* GameObjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GameObjectViewController.xib; path = Editor/GameObjectViewController.xib; sourceTree = "<group>"; };
+		70AD830A17DAEBC30014D519 /* TransformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransformViewController.h; path = Editor/TransformViewController.h; sourceTree = "<group>"; };
+		70AD830B17DAEBC30014D519 /* TransformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransformViewController.m; path = Editor/TransformViewController.m; sourceTree = "<group>"; };
+		70AD830C17DAEBC30014D519 /* TransformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TransformViewController.xib; path = Editor/TransformViewController.xib; sourceTree = "<group>"; };
 		70C7168217D3AB4800999526 /* Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Editor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C7168517D3AB4800999526 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		70C7168817D3AB4800999526 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -67,9 +72,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70AD830217DABE260014D519 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				70AD830417DABE370014D519 /* Views */,
+				70AD830317DABE2D0014D519 /* Controllers */,
+			);
+			name = GUI;
+			sourceTree = "<group>";
+		};
+		70AD830317DABE2D0014D519 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				70AD830A17DAEBC30014D519 /* TransformViewController.h */,
+				70AD830B17DAEBC30014D519 /* TransformViewController.m */,
+				70AD830517DABE6C0014D519 /* GameObjectViewController.h */,
+				70AD830617DABE6C0014D519 /* GameObjectViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		70AD830417DABE370014D519 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				70AD830C17DAEBC30014D519 /* TransformViewController.xib */,
+				70AD830717DABE6C0014D519 /* GameObjectViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		70C7167917D3AB4800999526 = {
 			isa = PBXGroup;
 			children = (
+				70AD830217DABE260014D519 /* GUI */,
 				70C7168C17D3AB4800999526 /* Supporting Files */,
 				70C7168B17D3AB4800999526 /* Editor */,
 				70C7168417D3AB4800999526 /* Frameworks */,
@@ -116,9 +151,6 @@
 				70C7169717D3AB4800999526 /* AppDelegate.h */,
 				70C7169817D3AB4800999526 /* AppDelegate.m */,
 				70C7169A17D3AB4800999526 /* MainMenu.xib */,
-				70B17EC017D8483B00E8D749 /* MyTestView.xib */,
-				70B17EC217D8485700E8D749 /* MyTestViewController.h */,
-				70B17EC317D8485700E8D749 /* MyTestViewController.m */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -193,7 +225,8 @@
 				70C7169C17D3AB4800999526 /* MainMenu.xib in Resources */,
 				709DA6C017D676A70032909E /* Dark_Off.png in Resources */,
 				709DA6C217D67BFE0032909E /* Oh-My-Brain-Block-Puzzle-Icon1.png in Resources */,
-				70B17EC117D8483B00E8D749 /* MyTestView.xib in Resources */,
+				70AD830917DABE6C0014D519 /* GameObjectViewController.xib in Resources */,
+				70AD830E17DAEBC30014D519 /* TransformViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +239,8 @@
 			files = (
 				70C7169217D3AB4800999526 /* main.m in Sources */,
 				70C7169917D3AB4800999526 /* AppDelegate.m in Sources */,
-				70B17EC417D8485700E8D749 /* MyTestViewController.m in Sources */,
+				70AD830817DABE6C0014D519 /* GameObjectViewController.m in Sources */,
+				70AD830D17DAEBC30014D519 /* TransformViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
