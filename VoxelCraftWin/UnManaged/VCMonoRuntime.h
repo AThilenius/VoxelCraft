@@ -10,6 +10,7 @@
 #define __VoxelCraftOSX__VCMonoBinder__
 
 #include "PCH.h"
+
 #include "VCCamera.h"
 #include "VCGameObject.h"
 

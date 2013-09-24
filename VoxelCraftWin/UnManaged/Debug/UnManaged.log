@@ -1,36 +1,20 @@
-﻿Build started 9/24/2013 1:39:27 PM.
-     1>Project "C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\UnManaged\UnManaged.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt VCWindow.cpp
-         VCWindow.cpp
+﻿Build started 9/24/2013 4:22:19 PM.
+     1>Project "C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\UnManaged\UnManaged.vcxproj" on node 3 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>PreBuildEvent:
+         copy C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\* C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\
+         :VCEnd
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\TestGame.dll
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\TestGame.dll.mdb
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\TestGame.pdb
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\VCEngine.dll
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\VCEngine.dll.mdb
+         C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Managed\BuildOutput\VCEngine.pdb
+                 6 file(s) copied.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Debug\UnManaged.exe" /INCREMENTAL /NOLOGO opengl32.lib glfw3dll.lib kernel32.lib user32.lib glew32.lib glew32.lib mono.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Debug\UnManaged.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Debug\UnManaged.lib" /MACHINE:X86 Debug\main.obj
-         Debug\Shader.obj
-         Debug\SimplexNoise.obj
-         Debug\Utilities.obj
-         Debug\VCApplication.obj
-         Debug\VCBlock.obj
-         Debug\VCCamera.obj
-         Debug\VCChunk.obj
-         Debug\VCChunkGenerator.obj
-         Debug\VCGame.obj
-         Debug\VCGameObject.obj
-         Debug\VCGLRenderer.obj
-         Debug\VCInput.obj
-         Debug\VCInspectorWindow.obj
-         Debug\VCMarshalableObject.obj
-         Debug\VCMonoRuntime.obj
-         Debug\VCObjectStore.obj
-         Debug\VCSceneGraph.obj
-         Debug\VCTestShader.obj
-         Debug\VCTime.obj
-         Debug\VCUpdateManager.obj
-         Debug\VCVoxelShader.obj
-         Debug\VCWindow.obj
-         Debug\VCWorld.obj
-         UnManaged.vcxproj -> C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Debug\UnManaged.exe
+         UnManaged.vcxproj -> C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\UnManaged.exe
      1>Done Building Project "C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\UnManaged\UnManaged.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.07
+Time Elapsed 00:00:00.13

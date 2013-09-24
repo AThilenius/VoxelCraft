@@ -1,0 +1,17 @@
+VC Begin Log
+====================   VoxelCraft Engine Begin   ====================
+Creating a VCWindow...
+Hardware: GeForce GT 650M/PCIe/SSE2
+
+VCInput Initalized
+VCGLRenderer Initalized
+VCTime Initalized
+VCGameObject created with handle: 1
+VCSceneGraph Initalized
+VCGameObject created with handle: 2
+VCGameObject created with handle: 3
+VCCamera created with handle: 3
+Creating test chunk...
+VCGameObject created with handle: 4
+VCChunk created with handle: 4
+Chunk rebuilt finished with 147456 vertices and took 0 seconds.

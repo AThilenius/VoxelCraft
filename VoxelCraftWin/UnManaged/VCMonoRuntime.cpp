@@ -7,6 +7,7 @@
 //
 
 #include "VCMonoRuntime.h"
+#include "PathUtil.h"
 
 VCMonoRuntime::VCMonoRuntime()
 {
@@ -20,13 +21,18 @@ VCMonoRuntime::~VCMonoRuntime()
 
 void VCMonoRuntime::Initalize()
 {
+	mono_set_dirs(PathUtil::GetLibDirectory().c_str(), PathUtil::GetConfigDirectory().c_str());
+
+	// Required for mdb's to load for detailed stack traces etc.
+	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+
     m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
     
     // Setup Bindings
     Bind();
     
     // Assembly
-    MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), "/Users/Alec/Dropbox/Development/CPP/VoxelCraft/VoxelCraftOSX/Managed/BuildOutput/TestGame.dll");
+	MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), PathUtil::GetBinDirectory().append("TestGame.dll").c_str() );
 	m_assemblyImage = mono_assembly_get_image(pMonoAssembly);
     
     // Class

@@ -58,5 +58,6 @@
     <ClInclude Include="VCVoxelShader.h" />
     <ClInclude Include="VCWindow.h" />
     <ClInclude Include="VCWorld.h" />
+    <ClInclude Include="PathUtil.h" />
   </ItemGroup>
 </Project>
