@@ -65,11 +65,11 @@ class VCInput;
 #define LOG_VIEW_DIST_TWO 4
 
 // CHUNK
-#define CHUNK_WIDTH 64
-#define CHUNK_TOTAL_COUNT 262144
+#define CHUNK_WIDTH 32
+#define CHUNK_TOTAL_COUNT 32768
 
-#define LOG_CHUNK_WIDTH 6
-#define MASK_CHUNK_WIDTH 63
+#define LOG_CHUNK_WIDTH 5
+#define MASK_CHUNK_WIDTH 31
 
 
 // ================= Macros ===============================================================================

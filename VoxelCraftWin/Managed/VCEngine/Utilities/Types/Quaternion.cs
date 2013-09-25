@@ -270,6 +270,30 @@ namespace VCEngine
 			}
 		}
 
+        public static Quaternion Multiply(Quaternion left, Quaternion right)
+        {
+            Quaternion result;
+            Multiply(ref left, ref right, out result);
+            return result;
+        }
+
+        public static void Multiply(ref Quaternion left, ref Quaternion right, out Quaternion result)
+        {
+            result = new Quaternion(
+                right.W * left.Xyz + left.W * right.Xyz + Vector3.Cross(left.Xyz, right.Xyz),
+                left.W * right.W - Vector3.Dot(left.Xyz, right.Xyz));
+        }
+
+        public static void Multiply(ref Quaternion quaternion, float scale, out Quaternion result)
+        {
+            result = new Quaternion(quaternion.X * scale, quaternion.Y * scale, quaternion.Z * scale, quaternion.W * scale);
+        }
+
+        public static Quaternion Multiply(Quaternion quaternion, float scale)
+        {
+            return new Quaternion(quaternion.X * scale, quaternion.Y * scale, quaternion.Z * scale, quaternion.W * scale);
+        }
+
 		#endregion
 
 		#region Normalize
