@@ -14,7 +14,7 @@ namespace VCEngine
 
             Console.WriteLine("= Creating Camera");
             m_camera = new Camera();
-            m_camera.Transform.Position = new Vector3(0, 0, -100);
+            m_camera.Transform.Position = new Vector3(0, -25, -50);
 
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);

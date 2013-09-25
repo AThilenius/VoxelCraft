@@ -9,7 +9,7 @@ namespace TestGame
     public class SimpleFPSController : Component
     {
 
-        public Vector3 m_rot = Vector3.Zero;
+        public Vector3 m_rot = new Vector3(1.4f, 1.5f, 0);
 
         public override void Update()
         {

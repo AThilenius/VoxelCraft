@@ -40,8 +40,7 @@ public:
 	BlockType GetBlock ( int x, int y, int z );
 
 	void Generate( );
-	void StartRebuild ( );
-	void ContinueRebuild ( double allocatedTime );
+	void Rebuild ( );
 	
     void virtual Render();
 
@@ -58,11 +57,6 @@ private:
     GLuint m_vaoID;
 	GLuint m_vertexBufferID;
 	GLint m_vertexCount;
-	
-	// Used for cross frame rebuilding.
-	int m_rbZ;
-	double m_rebuildStartTime;
-	double m_remainingRebuildTime;
 
 	//std::vector<BlockVerticie> m_rebuildVerticies;
 	BlockVerticie* m_rebuildVerticies;

@@ -79,6 +79,7 @@ class VCInput;
 
 // Z -> X -> Y memory access pattern
 #define FLATTEN_CHUNK(X,Y,Z) ((((Z << LOG_CHUNK_WIDTH) + X) << LOG_CHUNK_WIDTH ) + Y)
+#define FLATTEN_2D(X,Z,WIDTH) ((X << WIDTH) + Z)
 
 
 

@@ -63,8 +63,7 @@ void VCApplication::Initialize()
     testChunk->SetParent(VCSceneGraph::Instance->RootNode);
     
     testChunk->Generate();
-    testChunk->StartRebuild();
-    testChunk->ContinueRebuild(0.0f);
+    testChunk->Rebuild();
     
     MonoRuntime->InvokeStart();
 }

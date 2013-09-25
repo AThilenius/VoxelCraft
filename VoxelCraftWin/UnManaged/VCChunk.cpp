@@ -37,49 +37,45 @@ BlockType VCChunk::GetBlock ( int x, int y, int z )
     return m_blocks[FLATTEN_CHUNK(x,y,z)];
 }
 
-void VCChunk::StartRebuild()
+void VCChunk::Generate()
 {
-	m_rbZ = 0;
-	m_vertexCount = 0;
+	// Hack for now.
+	//for (int z = 0; z < CHUNK_WIDTH; z++ )
+	//{
+	//	for (int x = 0; x < CHUNK_WIDTH; x++ )
+	//	{
+	//		for (int y = 0; y < CHUNK_WIDTH; y++ )
+	//		{
+	//			//if ( y < (int) CHUNK_WIDTH / 2 )
+	//			m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Dirt;
+	//			//else
+	//			//	m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Air;
+	//		}
+	//	}
+	//}
 
-	// Alloc worst case for rebuild ( 36 MB for 64x64x64 )
+	VCChunkGenerator gen(m_x, m_y, m_z);
+	gen.generateToBuffer((byte*)m_blocks);
+}
+
+void VCChunk::Rebuild()
+{
+	printf("VCChunk [ %i : %i ] rebuilding...\n", m_x, m_z);
+    
+	m_vertexCount = 0;
+	float startTime = VCTime::CurrentTime;
+
+	// Alloc worst case for rebuild
 	if ( m_rebuildVerticies != NULL )
 		free(m_rebuildVerticies);
 
 	m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * 18 * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
 
-	m_rebuildStartTime = VCTime::CurrentTime;
-
-	printf("VCChunk [ %i : %i ] flushed in prep for rebuild.\n", m_x, m_z);
-}
-
-void VCChunk::Generate()
-{
-	// Hack for now.
-	for (int z = 0; z < CHUNK_WIDTH; z++ )
-	{
-		for (int x = 0; x < CHUNK_WIDTH; x++ )
-		{
-			for (int y = 0; y < CHUNK_WIDTH; y++ )
-			{
-				//if ( y < (int) CHUNK_WIDTH / 2 )
-				m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Dirt;
-				//else
-				//	m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Air;
-			}
-		}
-	}
-}
-
-void VCChunk::ContinueRebuild( double allocatedTime )
-{
-	printf("VCChunk [ %i : %i ] rebuild continuing...\n", m_x, m_z);
-    
     // Metrics
     int airBlocks = 0;
 	int runCount = 0;
 
-    for(; m_rbZ < CHUNK_WIDTH; m_rbZ++ )
+    for(int z = 0; z < CHUNK_WIDTH; z++ )
     {
 		for(int x = 0; x < CHUNK_WIDTH; x++ )
 		{
@@ -89,21 +85,30 @@ void VCChunk::ContinueRebuild( double allocatedTime )
                 // =========  Make a single block  ========
                 runCount++;
 
-                BlockType thisType = m_blocks[FLATTEN_CHUNK(x,y,m_rbZ)];
-				GLubyte4 color = GLubyte4( FastRandom() % 255, FastRandom() % 255, FastRandom() % 255, 255 );
-                
-                if ( thisType == Block_Air )
+                BlockType thisType = m_blocks[FLATTEN_CHUNK(x,y,z)];
+				GLubyte4 color = GLubyte4( 255, 0, 0, 255 );
+
+				if ( thisType == Block_Air )
                 {
                     airBlocks++;
                     continue;
                 }
 
+				if ( thisType == Block_Dirt )
+					color = GLubyte4(92, 86, 37, 255);
+
+				else if ( thisType == Block_Grass )
+					color = GLubyte4(110, 163, 40, 255);
+
+				else if ( thisType == Block_Stone )
+					color = GLubyte4(128, 128, 128, 255);
+                
                 //GLKVector3 normal;
 				GLbyte normal;
                 
                 GLbyte xO = x;
                 GLbyte yO = y;
-                GLbyte zO = m_rbZ;
+                GLbyte zO = z;
                 
 				GLbyte3 V1 ( xO,		yO,		zO + 1	);
                 GLbyte3 V2 ( xO + 1,	yO,		zO + 1	);
@@ -119,7 +124,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
                 BlockType blockType = Block_Unknown;
                 
                 // Front face
-				blockType = GetBlock(x, y, m_rbZ + 1);
+				blockType = GetBlock(x, y, z + 1);
                 if ( blockType == Block_Air || blockType == Block_Unknown )
                 {
                     normal = 5;
@@ -133,7 +138,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
                 }
 
 				//Right face
-				blockType = GetBlock(x + 1, y, m_rbZ);
+				blockType = GetBlock(x + 1, y, z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 1;
@@ -147,7 +152,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 				}
 
 				//Back face
-				blockType = GetBlock(x, y, m_rbZ - 1);
+				blockType = GetBlock(x, y, z - 1);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 4;
@@ -161,7 +166,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 				}
 
 				//Left face
-				blockType = GetBlock(x - 1, y, m_rbZ);
+				blockType = GetBlock(x - 1, y, z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 0;
@@ -175,7 +180,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 				}
 
 				//Top face
-				blockType = GetBlock(x, y + 1, m_rbZ);
+				blockType = GetBlock(x, y + 1, z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 3;
@@ -189,7 +194,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 				}
 
 				//Bottom face
-				blockType = GetBlock(x, y - 1, m_rbZ);
+				blockType = GetBlock(x, y - 1, z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 2;
@@ -240,7 +245,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 	free(m_rebuildVerticies);
 	m_rebuildVerticies = NULL;
 
-	std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - m_rebuildStartTime) << " seconds." << endl;
+	std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << endl;
     
 	glErrorCheck();
 }

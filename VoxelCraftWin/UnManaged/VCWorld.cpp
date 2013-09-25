@@ -40,8 +40,7 @@ void VCWorld::Initialize()
 	}}};
 
 	WORLD_ORDERED_ITTORATOR(X,Y,Z)
-		m_chunks[FLATTEN_WORLD(X,Y,Z)]->StartRebuild();
-		m_chunks[FLATTEN_WORLD(X,Y,Z)]->ContinueRebuild(1000.0f);
+		m_chunks[FLATTEN_WORLD(X,Y,Z)]->Rebuild();
 	}}};
 }
 

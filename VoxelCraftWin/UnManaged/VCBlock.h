@@ -14,7 +14,9 @@ typedef enum : char
 {
 	Block_Unknown = 0,
 	Block_Air = 1,
-	Block_Dirt = 2
+	Block_Dirt = 2,
+	Block_Stone = 3,
+	Block_Grass = 4
 
 } BlockType;
 
