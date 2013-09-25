@@ -127,8 +127,7 @@ namespace VCEngine
         {
             get
             {
-                Vector3 newVec = Vector3.UnitZ;
-                return Vector3.Transform(newVec, this);
+                return this * Vector3.UnitZ;
             }
         }
 
@@ -136,8 +135,7 @@ namespace VCEngine
         {
             get
             {
-                Vector3 newVec = Vector3.UnitY;
-                return Vector3.Transform(newVec, this);
+                return this * Vector3.UnitY;
             }
         }
 
@@ -145,12 +143,9 @@ namespace VCEngine
         {
             get
             {
-                Vector3 newVec = -Vector3.UnitX;
-                return Vector3.Transform(newVec, this);
+                return this * Vector3.UnitX;
             }
         }
-
-		#region ToAxisAngle
 
 		/// <summary>
 		/// Convert the current quaternion to axis angle representation
@@ -192,10 +187,6 @@ namespace VCEngine
 			return result;
 		}
 
-		#endregion
-
-		#region public float Length
-
 		/// <summary>
 		/// Gets the length (magnitude) of the quaternion.
 		/// </summary>
@@ -208,10 +199,6 @@ namespace VCEngine
 			}
 		}
 
-		#endregion
-
-		#region public float LengthSquared
-
 		/// <summary>
 		/// Gets the square of the quaternion length (magnitude).
 		/// </summary>
@@ -223,10 +210,6 @@ namespace VCEngine
 			}
 		}
 
-		#endregion
-
-		#region public void Normalize()
-
 		/// <summary>
 		/// Scales the Quaternion to unit length.
 		/// </summary>
@@ -236,10 +219,6 @@ namespace VCEngine
 			Xyz *= scale;
 			W *= scale;
 		}
-
-		#endregion
-
-		#region public void Conjugate()
 
 		/// <summary>
 		/// Convert this quaternion to its conjugate
@@ -251,182 +230,12 @@ namespace VCEngine
 
 		#endregion
 
-		#endregion
-
 		#region Static
-
-		#region Fields
 
 		/// <summary>
 		/// Defines the identity quaternion.
 		/// </summary>
 		public static Quaternion Identity = new Quaternion(0, 0, 0, 1);
-
-		#endregion
-
-		#region Add
-
-		/// <summary>
-		/// Add two quaternions
-		/// </summary>
-		/// <param name="left">The first operand</param>
-		/// <param name="right">The second operand</param>
-		/// <returns>The result of the addition</returns>
-		public static Quaternion Add(Quaternion left, Quaternion right)
-		{
-			return new Quaternion(
-				left.Xyz + right.Xyz,
-				left.W + right.W);
-		}
-
-		/// <summary>
-		/// Add two quaternions
-		/// </summary>
-		/// <param name="left">The first operand</param>
-		/// <param name="right">The second operand</param>
-		/// <param name="result">The result of the addition</param>
-		public static void Add(ref Quaternion left, ref Quaternion right, out Quaternion result)
-		{
-			result = new Quaternion(
-				left.Xyz + right.Xyz,
-				left.W + right.W);
-		}
-
-		#endregion
-
-		#region Sub
-
-		/// <summary>
-		/// Subtracts two instances.
-		/// </summary>
-		/// <param name="left">The left instance.</param>
-		/// <param name="right">The right instance.</param>
-		/// <returns>The result of the operation.</returns>
-		public static Quaternion Sub(Quaternion left, Quaternion right)
-		{
-			return  new Quaternion(
-				left.Xyz - right.Xyz,
-				left.W - right.W);
-		}
-
-		/// <summary>
-		/// Subtracts two instances.
-		/// </summary>
-		/// <param name="left">The left instance.</param>
-		/// <param name="right">The right instance.</param>
-		/// <param name="result">The result of the operation.</param>
-		public static void Sub(ref Quaternion left, ref Quaternion right, out Quaternion result)
-		{
-			result = new Quaternion(
-				left.Xyz - right.Xyz,
-				left.W - right.W);
-		}
-
-		#endregion
-
-		#region Mult
-
-		/// <summary>
-		/// Multiplies two instances.
-		/// </summary>
-		/// <param name="left">The first instance.</param>
-		/// <param name="right">The second instance.</param>
-		/// <returns>A new instance containing the result of the calculation.</returns>
-		[Obsolete("Use Multiply instead.")]
-		public static Quaternion Mult(Quaternion left, Quaternion right)
-		{
-			return new Quaternion(
-				right.W * left.Xyz + left.W * right.Xyz + Vector3.Cross(left.Xyz, right.Xyz),
-				left.W * right.W - Vector3.Dot(left.Xyz, right.Xyz));
-		}
-
-		/// <summary>
-		/// Multiplies two instances.
-		/// </summary>
-		/// <param name="left">The first instance.</param>
-		/// <param name="right">The second instance.</param>
-		/// <param name="result">A new instance containing the result of the calculation.</param>
-		[Obsolete("Use Multiply instead.")]
-		public static void Mult(ref Quaternion left, ref Quaternion right, out Quaternion result)
-		{
-			result = new Quaternion(
-				right.W * left.Xyz + left.W * right.Xyz + Vector3.Cross(left.Xyz, right.Xyz),
-				left.W * right.W - Vector3.Dot(left.Xyz, right.Xyz));
-		}
-
-		/// <summary>
-		/// Multiplies two instances.
-		/// </summary>
-		/// <param name="left">The first instance.</param>
-		/// <param name="right">The second instance.</param>
-		/// <returns>A new instance containing the result of the calculation.</returns>
-		public static Quaternion Multiply(Quaternion left, Quaternion right)
-		{
-			Quaternion result;
-			Multiply(ref left, ref right, out result);
-			return result;
-		}
-
-		/// <summary>
-		/// Multiplies two instances.
-		/// </summary>
-		/// <param name="left">The first instance.</param>
-		/// <param name="right">The second instance.</param>
-		/// <param name="result">A new instance containing the result of the calculation.</param>
-		public static void Multiply(ref Quaternion left, ref Quaternion right, out Quaternion result)
-		{
-			result = new Quaternion(
-				right.W * left.Xyz + left.W * right.Xyz + Vector3.Cross(left.Xyz, right.Xyz),
-				left.W * right.W - Vector3.Dot(left.Xyz, right.Xyz));
-		}
-
-		/// <summary>
-		/// Multiplies an instance by a scalar.
-		/// </summary>
-		/// <param name="quaternion">The instance.</param>
-		/// <param name="scale">The scalar.</param>
-		/// <param name="result">A new instance containing the result of the calculation.</param>
-		public static void Multiply(ref Quaternion quaternion, float scale, out Quaternion result)
-		{
-			result = new Quaternion(quaternion.X * scale, quaternion.Y * scale, quaternion.Z * scale, quaternion.W * scale);
-		}
-
-		/// <summary>
-		/// Multiplies an instance by a scalar.
-		/// </summary>
-		/// <param name="quaternion">The instance.</param>
-		/// <param name="scale">The scalar.</param>
-		/// <returns>A new instance containing the result of the calculation.</returns>
-		public static Quaternion Multiply(Quaternion quaternion, float scale)
-		{
-			return new Quaternion(quaternion.X * scale, quaternion.Y * scale, quaternion.Z * scale, quaternion.W * scale);
-		}
-
-		#endregion
-
-		#region Conjugate
-
-		/// <summary>
-		/// Get the conjugate of the given quaternion
-		/// </summary>
-		/// <param name="q">The quaternion</param>
-		/// <returns>The conjugate of the given quaternion</returns>
-		public static Quaternion Conjugate(Quaternion q)
-		{
-			return new Quaternion(-q.Xyz, q.W);
-		}
-
-		/// <summary>
-		/// Get the conjugate of the given quaternion
-		/// </summary>
-		/// <param name="q">The quaternion</param>
-		/// <param name="result">The conjugate of the given quaternion</param>
-		public static void Conjugate(ref Quaternion q, out Quaternion result)
-		{
-			result = new Quaternion(-q.Xyz, q.W);
-		}
-
-		#endregion
 
 		#region Invert
 
@@ -668,6 +477,16 @@ namespace VCEngine
 		{
 			return !left.Equals(right);
 		}
+
+        public static Vector3 operator *(Quaternion quat, Vector3 vector)
+        {
+            Quaternion v = new Quaternion() { X = vector.X, Y = vector.Y, Z = vector.Z, W = 0 };
+            Quaternion i = Quaternion.Invert(quat);
+            Quaternion t = i * v;
+            v = t * quat;
+
+            return new Vector3(v.X, v.Y, v.Z);
+        }
 
 		#endregion
 

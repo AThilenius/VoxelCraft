@@ -24,14 +24,8 @@ namespace TestGame
 
             Transform.Rotation = Quaternion.FromEuler(m_rot);
 
-            Vector3 forward = Vector3.UnitZ;
-            forward = Vector3.Transform(forward, Transform.Rotation);
-
-            Vector3 right = Vector3.UnitX;
-            right = Vector3.Transform(right, Transform.Rotation);
-
-            Transform.Position += forward * Input.Strafe.X * 0.25f;
-            Transform.Position += right * Input.Strafe.Y * 0.25f;
+            Transform.Position += Transform.Rotation.Forward * Input.Strafe.X * 0.25f;
+            Transform.Position += Transform.Rotation.Right * Input.Strafe.Y * 0.25f;
         }
 
     }

@@ -30,37 +30,16 @@ void VCWindow::Initalize()
 {
     cout << "Creating a VCWindow..." << endl;
     
-	//glfwSetErrorCallback(error_callback);
-
- //   if (!glfwInit())
-	//	cout << "Failed to initialize GLFW." << endl;
- //   
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//// Core needed?
-
-	//GLFWwindow* window = glfwCreateWindow(640, 480, "Voxel Craft", NULL, NULL);
-
-	//if(!window)
-	//{
-	//	fprintf(stderr, "Failed to create a GLFW window!\n");
-	//	glfwTerminate();
-	//}
-
- //   // Initialize GLEW
- //   glewExperimental = true; // Needed in core profile
- //   if (glewInit() != GLEW_OK) {
- //       fprintf(stderr, "Failed to initialize GLEW\n");
- //   }
-
-
-	// ====
+	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit())
 		cout << "Failed to initialize GLFW." << endl;
 	
-	GLFWWindowHandle = glfwCreateWindow(640, 480, "Voxel Craft", NULL, NULL);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWWindowHandle = glfwCreateWindow(1280, 800, "Voxel Craft", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
@@ -69,6 +48,7 @@ void VCWindow::Initalize()
 
 	glfwMakeContextCurrent(GLFWWindowHandle);
 
+	glewExperimental = true;
 	GLenum glewError = glewInit();
 	if( glewError != GLEW_OK )
 	{
@@ -78,11 +58,10 @@ void VCWindow::Initalize()
 	// ====
 
 
-
-    
-    //int major, minor, rev = 0;
-    //glfwGetGLVersion(&major, &minor, &rev);
-    //cout << "OpenGL version recieved: " << major << "." << minor << "." << rev << endl;
+	GLint major, minor;
+	glGetIntegerv(GL_MAJOR_VERSION, &major); 
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
+    cout << "OpenGL version: " << major << "." << minor << endl;
     cout << "Hardware: " << glGetString(GL_RENDERER) << endl << endl;
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
