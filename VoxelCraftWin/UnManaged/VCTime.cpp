@@ -6,14 +6,21 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include <Windows.h>
 #include "VCTime.h"
 
 VCTime* VCTime::Instance;
+float VCTime::CurrentTime;
+float VCTime::DeltaTime;
+
+INT64 vctime_tickFrequancy = 0;
+double vctime_ticksPerSecond = 0;
+INT64 vctime_startTicks = 0;
+INT64 vctime_lastTime = 0;
 
 VCTime::VCTime(void)
 {
     VCTime::Instance = this;
-    m_deltaTime = 0.1f;
 }
 
 
@@ -23,35 +30,53 @@ VCTime::~VCTime(void)
 
 void VCTime::Initalize()
 {
-    //m_startTime = boost::posix_time::microsec_clock::local_time();
-    //m_lastFrameTime = boost::posix_time::microsec_clock::local_time();
-    
-    cout << "VCTime Initalized" << endl;
+    //vctime_startTime = boost::posix_time::microsec_clock::local_time();
+    //vctime_lastFrameTime = boost::posix_time::microsec_clock::local_time();
+	LARGE_INTEGER li;
+
+    QueryPerformanceFrequency(&li);
+	vctime_tickFrequancy = li.QuadPart;
+	vctime_ticksPerSecond = (double)(vctime_tickFrequancy);
+
+	QueryPerformanceCounter(&li);
+	vctime_startTicks = li.QuadPart;
+	vctime_lastTime = vctime_startTicks;
+
+    cout << "VCTime Initialized [ " << vctime_ticksPerSecond << " T/S ]" << endl;
 }
 
 void VCTime::Update()
 {
     //boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
-    //boost::posix_time::time_duration delta = currentTime - m_lastFrameTime;
+    //boost::posix_time::time_duration delta = currentTime - vctime_lastFrameTime;
     //
-    //m_deltaTime = delta.total_microseconds() / 1000000.0f;
+    //vctime_deltaTime = delta.total_microseconds() / 1000000.0f;
     //
-    //m_lastFrameTime = currentTime;
+    //vctime_lastFrameTime = currentTime;
+	LARGE_INTEGER li;
+
+	QueryPerformanceCounter(&li);
+	INT64 newCurrentTime = li.QuadPart;
+
+	VCTime::DeltaTime = (float)((double)(newCurrentTime - vctime_lastTime) / vctime_ticksPerSecond);
+	VCTime::CurrentTime = (float)((double)(newCurrentTime - vctime_startTicks) / vctime_ticksPerSecond);
+
+	vctime_lastTime = newCurrentTime;
 }
 
-double VCTime::CurrentTime()
-{   
-    //boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
-    //boost::posix_time::time_duration delta = currentTime - VCTime::Instance->m_startTime;
-    //
-    //return delta.total_microseconds() / 1000000.0f;
-
-	return 1.01f;
-}
-
-double VCTime::DeltaTime()
-{
-    //return VCTime::Instance->m_deltaTime;
-
-	return 0.01f;
-}
+//double VCTime::CurrentTime()
+//{   
+//    boost::posix_time::ptime currentTime = boost::posix_time::microsec_clock::local_time();
+//    boost::posix_time::time_duration delta = currentTime - VCTime::Instance->vctime_startTime;
+//    
+//    return delta.total_microseconds() / 1000000.0f;
+//
+//	return 1.01f;
+//}
+//
+//double VCTime::DeltaTime()
+//{
+//    return VCTime::Instance->vctime_deltaTime;
+//
+//	return 0.01f;
+//}

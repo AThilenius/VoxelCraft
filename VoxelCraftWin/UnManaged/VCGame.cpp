@@ -7,6 +7,8 @@
 //
 
 #include "VCGame.h"
+#include "VCWindow.h"
+#include "VCInput.h"
 
 VCGame::VCGame()
 {
@@ -24,14 +26,11 @@ void VCGame::Initalize()
 }
 
 void VCGame::Run()
-{
-    // Disable VSync
-    glfwSwapInterval(0);
-    
-    //while(!VCInput::IsKeyDown(GLFW_KEY_ESC))
-	while(true)
+{   
+	VCWindow::Instance->SetVSync(false);
+
+	while(!VCInput::IsKeyDown(GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle) )
     {
-        
         VCApplication::Step();
     }
 }

@@ -17,6 +17,7 @@
 // STD
 #include <exception>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <sstream>
 #include <cstring>
@@ -27,16 +28,6 @@
 #include <set>
 
 // Mono
-//#include <mono/jit/jit.h>
-//#include <mono/metadata/assembly.h>
-//#include <mono/metadata/mono-debug.h>
-//#include <mono/metadata/debug-helpers.h>
-//#include <mono/metadata/appdomain.h>
-//#include <mono/metadata/object.h>
-//#include <mono/metadata/threads.h>
-//#include <mono/metadata/environment.h>
-//#include <mono/metadata/mono-gc.h>
-
 #include <mono/mini/jit.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/mono-debug.h>
@@ -104,8 +95,6 @@ class VCInput;
 // ================= Windows Macros =======================================================================
 #elif defined _WIN32 || defined _WIN64
 
-//#include <windows.h>
-//
 //#define CONSOLE_COLOR_WHITE SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
 //#define CONSOLE_COLOR_RED SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED|FOREGROUND_INTENSITY);
 //#define CONSOLE_COLOR_YELLOW SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);

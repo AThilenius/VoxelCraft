@@ -64,6 +64,6 @@
     </MonoDevelop>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)Managed\BuildOutput\* $(OutputPath)</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)Managed\BuildOutput\* $(SolutionDir)Build</PostBuildEvent>
   </PropertyGroup>
 </Project>

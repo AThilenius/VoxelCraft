@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnManaged", "UnManaged\UnManaged.vcxproj", "{85B49496-34A9-40F6-B52F-3663124FEC94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{907DDA1B-FB1A-44C7-BDB2-ADC80D4BA0C2} = {907DDA1B-FB1A-44C7-BDB2-ADC80D4BA0C2}
+		{68EF913B-A167-45E2-9C7C-49D262D1AEC7} = {68EF913B-A167-45E2-9C7C-49D262D1AEC7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCEngine", "Managed\VCEngine\VCEngine.csproj", "{907DDA1B-FB1A-44C7-BDB2-ADC80D4BA0C2}"
 EndProject

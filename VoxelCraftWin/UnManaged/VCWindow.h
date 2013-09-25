@@ -23,6 +23,7 @@ public:
 
 	void SwapBuffers();
 	void SetTitle(string title);
+	void SetVSync(bool enabled);
 
 public:
 	static VCWindow* Instance;

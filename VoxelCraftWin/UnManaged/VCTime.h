@@ -20,14 +20,15 @@ public:
     void Initalize();
     void Update();
 
-	static double CurrentTime();
-    static double DeltaTime();
+	static float CurrentTime;
+    static float DeltaTime;
     
     static VCTime* Instance;
     
 private:
+
     //boost::posix_time::ptime m_startTime;
     //boost::posix_time::ptime m_lastFrameTime;
-    double m_deltaTime;
+
 };
 

@@ -141,7 +141,7 @@
       <AdditionalDependencies>mono.lib;opengl32.lib;glfw3dll.lib;kernel32.lib;user32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)Managed\BuildOutput\* $(OutputPath)</Command>
+      <Command>copy $(SolutionDir)Managed\BuildOutput\* $(SolutionDir)Build</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

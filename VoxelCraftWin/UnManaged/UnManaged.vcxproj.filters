@@ -5,59 +5,173 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Interop">
+      <UniqueIdentifier>{9b453e35-3f82-4f08-b1a7-f09fdd60c4bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{c44598e0-68ab-477d-8d7c-00542c87cbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Voxel">
+      <UniqueIdentifier>{f829b96c-767c-44a2-a526-ed87b9c6fcf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneGraph">
+      <UniqueIdentifier>{ada57d0a-d225-4e52-8801-1f8d340ff401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{20c2a628-9ed7-4cbc-9001-80f0a7f48f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{8d7eb228-33a9-4cb4-a7c4-88d16fe110ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SimplexNoise.cpp" />
-    <ClCompile Include="Utilities.cpp" />
-    <ClCompile Include="VCApplication.cpp" />
-    <ClCompile Include="VCBlock.cpp" />
-    <ClCompile Include="VCCamera.cpp" />
-    <ClCompile Include="VCChunk.cpp" />
-    <ClCompile Include="VCChunkGenerator.cpp" />
-    <ClCompile Include="VCGame.cpp" />
-    <ClCompile Include="VCGameObject.cpp" />
-    <ClCompile Include="VCGLRenderer.cpp" />
-    <ClCompile Include="VCInput.cpp" />
     <ClCompile Include="VCInspectorWindow.cpp" />
-    <ClCompile Include="VCMarshalableObject.cpp" />
-    <ClCompile Include="VCMonoRuntime.cpp" />
-    <ClCompile Include="VCObjectStore.cpp" />
-    <ClCompile Include="VCSceneGraph.cpp" />
-    <ClCompile Include="VCTestShader.cpp" />
-    <ClCompile Include="VCTime.cpp" />
-    <ClCompile Include="VCUpdateManager.cpp" />
-    <ClCompile Include="VCVoxelShader.cpp" />
-    <ClCompile Include="VCWindow.cpp" />
-    <ClCompile Include="VCWorld.cpp" />
+    <ClCompile Include="Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VCBlock.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VCChunk.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VCChunkGenerator.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VCWorld.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VCCamera.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGameObject.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VCSceneGraph.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTestShader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VCVoxelShader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VCMarshalableObject.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="VCMonoRuntime.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="VCObjectStore.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="VCUpdateManager.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="VCApplication.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGame.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="VCWindow.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTime.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCInput.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PCH.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SimplexNoise.h" />
-    <ClInclude Include="Utilities.h" />
-    <ClInclude Include="VCApplication.h" />
-    <ClInclude Include="VCBlock.h" />
-    <ClInclude Include="VCCamera.h" />
-    <ClInclude Include="VCChunk.h" />
-    <ClInclude Include="VCChunkGenerator.h" />
-    <ClInclude Include="VCGame.h" />
-    <ClInclude Include="VCGameObject.h" />
-    <ClInclude Include="VCGLRenderer.h" />
-    <ClInclude Include="VCInput.h" />
     <ClInclude Include="VCInspectorWindow.h" />
-    <ClInclude Include="VCMarshalableObject.h" />
-    <ClInclude Include="VCMonoRuntime.h" />
-    <ClInclude Include="VCObjectStore.h" />
-    <ClInclude Include="VCSceneGraph.h" />
-    <ClInclude Include="VCTestShader.h" />
-    <ClInclude Include="VCTime.h" />
-    <ClInclude Include="VCTypes.h" />
-    <ClInclude Include="VCUpdateManager.h" />
-    <ClInclude Include="VCVoxelShader.h" />
-    <ClInclude Include="VCWindow.h" />
-    <ClInclude Include="VCWorld.h" />
-    <ClInclude Include="PathUtil.h" />
+    <ClInclude Include="Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VCBlock.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VCChunk.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VCChunkGenerator.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VCWorld.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VCCamera.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGameObject.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSceneGraph.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTestShader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCVoxelShader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMarshalableObject.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMonoRuntime.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCObjectStore.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCUpdateManager.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCApplication.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGame.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="VCWindow.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="PathUtil.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTime.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTypes.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCInput.h">
+      <Filter>Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

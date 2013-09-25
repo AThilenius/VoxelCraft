@@ -21,7 +21,8 @@
 
 VCApplication* VCApplication::Instance;
 
-VCApplication::VCApplication(void)
+VCApplication::VCApplication(void):
+	m_lastDeltaTime(60.0f)
 {
     VCApplication::Instance = this;
 }
@@ -88,11 +89,11 @@ void VCApplication::Step()
     SceneGraph->RenderGraph();
     
     // Framerate Check
-    double framerate = 1.0f / VCTime::DeltaTime();
+    float framerate = 1.0f / VCTime::DeltaTime;
     framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
     m_lastDeltaTime = framerate;
     stringstream ss;
-    ss << "Voxel Craft - " /*<< setprecision(2)*/ << framerate << " FPS.";
+    ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
 	Window->SetTitle(ss.str());
     // ~Framerate Check
     

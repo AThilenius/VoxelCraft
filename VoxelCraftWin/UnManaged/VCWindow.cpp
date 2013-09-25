@@ -100,3 +100,12 @@ void VCWindow::SetTitle(string title)
 {
 	glfwSetWindowTitle(GLFWWindowHandle, title.c_str());
 }
+
+void VCWindow::SetVSync(bool enabled)
+{
+	if (enabled)
+		glfwSwapInterval(1);
+	
+	else
+		glfwSwapInterval(0);
+}

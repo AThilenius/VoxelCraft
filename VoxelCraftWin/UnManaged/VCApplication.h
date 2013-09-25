@@ -39,7 +39,7 @@ public:
     static VCApplication* Instance;
 
 private:
-    double m_lastDeltaTime;
+    float m_lastDeltaTime;
     
 
 };

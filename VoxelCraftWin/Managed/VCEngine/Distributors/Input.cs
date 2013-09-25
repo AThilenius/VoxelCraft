@@ -50,8 +50,8 @@ namespace VCEngine
 
             VCInteropInputGetMouse(ref x, ref y, ref Fire, ref AltFire);
 
-            m_deltaMouseX = m_lastMouseX - x;
-            m_deltaMouseY = m_lastMouseY - y;
+            m_deltaMouseX = -x;
+            m_deltaMouseY = -y;
 
             m_lastMouseX = x;
             m_lastMouseY = y;

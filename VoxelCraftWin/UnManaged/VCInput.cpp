@@ -7,6 +7,7 @@
 //
 
 #include "VCInput.h"
+#include "VCWindow.h"
 
 VCInput* VCInput::Instance;
 
@@ -32,41 +33,44 @@ VCInput::~VCInput()
 }
 
 // Range 0 - 352
-//void GLFWCALL KeyHanlder( int key, int action )
-//{   
-//    VCInput::Instance->m_keysDown[key] = action;
-//}
-//
-//void GLFWCALL MouseButtonHanlder( int button, int action )
-//{
-//    VCInput::Instance->m_mouseButtonsDown[button] = action;
-//}
+void KeyHanlder( GLFWwindow* window, int key, int scancode, int action, int mods  )
+{   
+    VCInput::Instance->m_keysDown[key] = action;
+}
+
+void MouseButtonHanlder(GLFWwindow* window, int button, int action, int mod )
+{
+    VCInput::Instance->m_mouseButtonsDown[button] = action;
+}
 
 void VCInput::Initalize()
 {
-    // Register Hanlders
-    //glfwSetKeyCallback(KeyHanlder);
-    //glfwSetMouseButtonCallback(MouseButtonHanlder);
+    // Register Handlers
+	glfwSetKeyCallback(VCWindow::Instance->GLFWWindowHandle, KeyHanlder);
+	glfwSetMouseButtonCallback(VCWindow::Instance->GLFWWindowHandle, MouseButtonHanlder);
     
-    //glfwDisable(GLFW_MOUSE_CURSOR);
+	glfwSetInputMode(VCWindow::Instance->GLFWWindowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     
     cout << "VCInput Initalized" << endl;
 }
 
 void VCInput::Update()
 {
-    int x, y, width, height;
-    //glfwGetWindowSize(&width, &height);
-    //glfwGetMousePos(&x, &y);
+    double x, y;
+	double width = VCWindow::Instance->Width;
+	double height = VCWindow::Instance->Height;
+
     //glfwSetMousePos(width / 2, height / 2);
+	glfwGetCursorPos(VCWindow::Instance->GLFWWindowHandle, &x, &y);
+	glfwSetCursorPos(VCWindow::Instance->GLFWWindowHandle, (float)width * 0.5f, (float)height * 0.5f);
     
-    //VCInput::Instance->m_deltaX = (float)(width / 2 - x) / (float)width;
-    //VCInput::Instance->m_deltaY = (float)(height / 2 - y) / (float)height;
+    VCInput::Instance->m_deltaX = (float)(width / 2.0f - x) / width;
+    VCInput::Instance->m_deltaY = (float)(height / 2.0f - y) / height;
 }
 
 bool VCInput::IsKeyDown ( int keycode )
 {
-    return VCInput::Instance->m_keysDown[keycode];
+    return VCInput::Instance->m_keysDown[keycode] != 0;
 }
 
 void VCInput::GetMouse ( float* x, float* y )

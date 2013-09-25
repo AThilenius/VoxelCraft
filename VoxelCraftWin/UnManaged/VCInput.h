@@ -36,10 +36,9 @@ private:
     bool m_mouseButtonsDown[10];
     float m_deltaX, m_deltaY;
     
-    //friend void GLFWCALL KeyHanlder( int key, int action );
-    //friend void GLFWCALL MouseMoveHandler( int x, int y );
-    //friend void GLFWCALL MouseButtonHanlder( int button, int action );
-    
+	friend void KeyHanlder( GLFWwindow* window, int key, int scancode, int action, int mods  );
+	friend void MouseButtonHanlder(GLFWwindow* window, int button, int action, int mod );
+
     // ================================      Interop      ============
 public:
     int Handle;

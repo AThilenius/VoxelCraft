@@ -48,7 +48,7 @@ void VCChunk::StartRebuild()
 
 	m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * 18 * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
 
-	m_rebuildStartTime = VCTime::CurrentTime();
+	m_rebuildStartTime = VCTime::CurrentTime;
 
 	printf("VCChunk [ %i : %i ] flushed in prep for rebuild.\n", m_x, m_z);
 }
@@ -240,7 +240,7 @@ void VCChunk::ContinueRebuild( double allocatedTime )
 	free(m_rebuildVerticies);
 	m_rebuildVerticies = NULL;
 
-	std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime() - m_rebuildStartTime) << " seconds." << endl;
+	std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - m_rebuildStartTime) << " seconds." << endl;
     
 	glErrorCheck();
 }

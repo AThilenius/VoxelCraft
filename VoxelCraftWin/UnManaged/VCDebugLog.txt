@@ -5,7 +5,7 @@ Hardware: GeForce GT 650M/PCIe/SSE2
 
 VCInput Initalized
 VCGLRenderer Initalized
-VCTime Initalized
+VCTime Initialized [ 2.63089e+006 T/S ]
 VCGameObject created with handle: 1
 VCSceneGraph Initalized
 VCGameObject created with handle: 2
