@@ -23,12 +23,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{8d7eb228-33a9-4cb4-a7c4-88d16fe110ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Shaders">
+      <UniqueIdentifier>{ac229e08-9747-44bb-870d-61f676a21aeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VCInspectorWindow.cpp" />
-    <ClCompile Include="Shader.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="SimplexNoise.cpp">
       <Filter>Voxel</Filter>
     </ClCompile>
@@ -54,12 +54,6 @@
       <Filter>SceneGraph</Filter>
     </ClCompile>
     <ClCompile Include="VCGLRenderer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="VCTestShader.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="VCVoxelShader.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="VCMarshalableObject.cpp">
@@ -95,12 +89,24 @@
     <ClCompile Include="VCInput.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTestShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCVoxelShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCShadowShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTextureShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VCInspectorWindow.h" />
-    <ClInclude Include="Shader.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="SimplexNoise.h">
       <Filter>Voxel</Filter>
     </ClInclude>
@@ -126,12 +132,6 @@
       <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCGLRenderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTestShader.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="VCVoxelShader.h">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="VCMarshalableObject.h">
@@ -173,5 +173,26 @@
     <ClInclude Include="VCInput.h">
       <Filter>Application</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTestShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCVoxelShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="VCTextureShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCShadowShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UnManaged.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

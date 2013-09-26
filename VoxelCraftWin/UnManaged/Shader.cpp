@@ -8,6 +8,7 @@
 
 #include "Shader.h"
 
+Shader* Shader::BoundShader;
 
 Shader::Shader()
 {
@@ -78,6 +79,7 @@ void Shader::Initialize()
 
 void Shader::Bind()
 {
+	Shader::BoundShader = this;
 	glUseProgram(m_programId);
 }
 

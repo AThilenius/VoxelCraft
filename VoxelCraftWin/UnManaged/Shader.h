@@ -22,6 +22,10 @@ public:
 	void Initialize();
 	void Bind();
 
+	virtual void SetModelMatrix(glm::mat4 modelMatrix) = 0;
+
+	static Shader* BoundShader;
+
 protected:
 	// Use glBindAttribLocation(GLuint program, GLuint name(ID), "attribute name");
 	virtual void BindAttribLocations() = 0;

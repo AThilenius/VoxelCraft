@@ -17,11 +17,10 @@ using namespace std;
 class VCVoxelShader : public Shader
 {
 public:
-	VCVoxelShader(void);
+	VCVoxelShader(GLuint textId);
 	~VCVoxelShader(void);
 
-	void SetModelMatrix(glm::mat4 modelMatrix);
-	void SetLightPosition(glm::vec3 position);
+	virtual void SetModelMatrix(glm::mat4 modelMatrix);
 
 protected:
 	virtual void BindAttribLocations();
@@ -29,8 +28,9 @@ protected:
 	virtual void PostInitialize();
 
 private:
+	GLuint m_texID;
 	GLint m_unifMVP;
-	GLint m_unifNormal;
-	GLint m_unifLightPos;
+	GLint m_unifDepthMVP;
+	GLint m_unifShadow;
 };
 

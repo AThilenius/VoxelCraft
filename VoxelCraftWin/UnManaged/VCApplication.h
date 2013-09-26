@@ -37,11 +37,6 @@ public:
     VCMonoRuntime* MonoRuntime;
     
     static VCApplication* Instance;
-
-private:
-    float m_lastDeltaTime;
-    
-
 };
 
 void SayHelloUnmanaged();

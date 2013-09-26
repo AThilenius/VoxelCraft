@@ -37,7 +37,9 @@
     <ClCompile Include="VCMonoRuntime.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
+    <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCTestShader.cpp" />
+    <ClCompile Include="VCTextureShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
     <ClCompile Include="VCVoxelShader.cpp" />
@@ -47,6 +49,7 @@
   <ItemGroup>
     <ClInclude Include="PathUtil.h" />
     <ClInclude Include="PCH.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="Utilities.h" />
@@ -64,13 +67,18 @@
     <ClInclude Include="VCMonoRuntime.h" />
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCSceneGraph.h" />
+    <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTestShader.h" />
+    <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCTypes.h" />
     <ClInclude Include="VCUpdateManager.h" />
     <ClInclude Include="VCVoxelShader.h" />
     <ClInclude Include="VCWindow.h" />
     <ClInclude Include="VCWorld.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UnManaged.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85B49496-34A9-40F6-B52F-3663124FEC94}</ProjectGuid>

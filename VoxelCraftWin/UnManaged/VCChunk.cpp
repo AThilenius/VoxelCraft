@@ -256,8 +256,7 @@ void VCChunk::Render()
 		return;
     
     glBindVertexArray(m_vaoID);
-	VCGLRenderer::VoxelShader->SetModelMatrix(glm::translate((float)m_x, (float)m_y, (float)m_z));
-
+	VCGLRenderer::Instance->SetModelMatrix(glm::translate((float)m_x, (float)m_y, (float)m_z));
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
     
     glBindVertexArray(0);

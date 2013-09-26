@@ -10,7 +10,8 @@
 
 VCWindow* VCWindow::Instance;
 
-VCWindow::VCWindow()
+VCWindow::VCWindow():
+	m_lastDeltaTime(60.0f)
 {
 	VCWindow::Instance = this;
 }
@@ -35,6 +36,7 @@ void VCWindow::Initalize()
 	if (!glfwInit())
 		cout << "Failed to initialize GLFW." << endl;
 	
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -71,6 +73,15 @@ void VCWindow::Initalize()
 
 void VCWindow::SwapBuffers()
 {
+    // Framerate Check
+    float framerate = 1.0f / VCTime::DeltaTime;
+    framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
+    m_lastDeltaTime = framerate;
+    stringstream ss;
+    ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
+	SetTitle(ss.str());
+    // ~Framerate Check
+
 	glfwSwapBuffers(GLFWWindowHandle);
     glfwPollEvents();
 }

@@ -21,8 +21,7 @@
 
 VCApplication* VCApplication::Instance;
 
-VCApplication::VCApplication(void):
-	m_lastDeltaTime(60.0f)
+VCApplication::VCApplication(void)
 {
     VCApplication::Instance = this;
 }
@@ -75,27 +74,19 @@ void VCApplication::ShutDown()
 
 void VCApplication::Step()
 {
+	// PreFrame
     Time->Update();
     Input->Update();
     
+	// Mono
     MonoRuntime->InvokeUpdate();
-    
-    // Physics here...
     MonoRuntime->InvokeLateUpdate();
-    
     MonoRuntime->InvokePreRender();
+
+	// Rendering
     Renderer->Render();
-    SceneGraph->RenderGraph();
-    
-    // Framerate Check
-    float framerate = 1.0f / VCTime::DeltaTime;
-    framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
-    m_lastDeltaTime = framerate;
-    stringstream ss;
-    ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
-	Window->SetTitle(ss.str());
-    // ~Framerate Check
-    
+
+	// Windowing
 	Window->SwapBuffers();
 }
 

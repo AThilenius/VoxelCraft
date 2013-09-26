@@ -10,6 +10,8 @@
 
 #include "PCH.h"
 #include "VCVoxelShader.h"
+#include "VCShadowShader.h"
+#include "VCTextureShader.h"
 #include "VCCamera.h"
 
 class VCGLRenderer
@@ -21,7 +23,21 @@ public:
 	void Initialize();
 	void Render();
 
-	static VCVoxelShader* VoxelShader;
+	void SetModelMatrix(mat4 matrix);
+
+public:
+	static VCGLRenderer* Instance;
+
+	VCVoxelShader* VoxelShader;
+	VCShadowShader* ShadowShader;
+	VCTextureShader* TextureShader;
+
+private:
+	GLuint m_frameBufferId;
+	GLuint m_depthTexture;
+
+	// Debug
+	GLuint m_quad_VertexArrayID;
 
 };
 

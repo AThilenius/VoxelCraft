@@ -30,6 +30,9 @@ public:
 	GLFWwindow* GLFWWindowHandle;
 	int Width;
 	int Height;
+
+private:
+    float m_lastDeltaTime;
     
 };
 
