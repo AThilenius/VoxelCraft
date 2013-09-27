@@ -28,31 +28,9 @@ static string g_vcVoxVertexShader =
 	"{"
 		"gl_Position =  modelViewProjectionMatrix * vec4(position, 1);"
 		"ShadowCoord = DepthBiasMVP * vec4(position, 1);"
-		//"ShadowCoord.xyz = ShadowCoord.xyz / ShadowCoord.w;"
 		"colorVarying = color;"
 	"}";
 
-	// =============================================================
-
-	//"in vec3 vertexPosition_modelspace;"
-	//"in vec2 vertexUV;"
-	//"in vec3 vertexNormal_modelspace;"
-
-	//"out vec2 UV;"
-	//"out vec4 ShadowCoord;"
-
-	//"uniform mat4 MVP;"
-	//"uniform mat4 DepthBiasMVP;"
-
-
-	//"void main()"
-	//"{"
-
-	//	// Output position of the vertex, in clip space : MVP * position
-	//	"gl_Position =  MVP * vec4(vertexPosition_modelspace,1);"
-	//
-	//	"ShadowCoord = DepthBiasMVP * vec4(vertexPosition_modelspace,1);"
-	//"}";
 
 // Old Shader:
 	//"in vec4 position;"
@@ -96,39 +74,16 @@ static string g_vcVoxFragmentShader =
 
 	"out vec4 color;"
 
-	"uniform sampler2D  shadowMap;"
+	"uniform sampler2DShadow  shadowMap;"
 
 	"void main()"
 	"{"
-		"float visibility = 1.0;"
+		"float visibility = texture( shadowMap, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) );"
 		"float bias = 0.005;"
-
-		"if ( texture(shadowMap, ShadowCoord.xy).z  <  ShadowCoord.z - bias)"
-		"{"
-			"visibility = 0.5;"
-		"}"
 
 		"color.xyz = colorVarying.xyz * visibility;"
 		"color.w = colorVarying.w;"
 	"}";
-
-	// ===========================================================
-
-	//"in vec2 UV;"
-	//"in vec4 ShadowCoord;"
-
-	//"out vec3 color;"
-
-	//"uniform sampler2D myTextureSampler;"
-	//"uniform sampler2DShadow shadowMap;"
-
-	//"void main()"
-	//"{"
-	//	"vec3 LightColor = vec3(1,1,1);"
-	//	"vec3 MaterialDiffuseColor = texture2D( myTextureSampler, UV ).rgb;"
-	//	"float visibility = texture( shadowMap, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) );"
-	//	"color = visibility * MaterialDiffuseColor * LightColor;"
-	//"}";
 
 
 // Old Shader:
