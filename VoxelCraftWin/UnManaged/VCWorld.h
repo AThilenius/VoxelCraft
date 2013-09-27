@@ -12,6 +12,7 @@
 #define WORLD_ORDERED_ITTORATOR(xName,yName,zName) for ( int zName = 0; zName < m_viewDist * 2; zName++ ){ for ( int xName = 0; xName < m_viewDist * 2; xName++ ){ for ( int yName = 0; yName < m_viewDist * 2; yName++ ) {
 
 #include "VCBlock.h"
+
 class VCChunk;
 
 class VCWorld

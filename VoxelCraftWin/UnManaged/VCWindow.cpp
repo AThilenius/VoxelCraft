@@ -38,10 +38,10 @@ void VCWindow::Initalize()
 	
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWWindowHandle = glfwCreateWindow(1280, 800, "Voxel Craft", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1024, 1024, "Voxel Craft", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();

@@ -106,25 +106,19 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, string* shaderLi
 
 		if (status == 0) 
 		{
-			CONSOLE_COLOR_RED;
+			printf("\n========================  Shader compellation log:  ===========================\n");
+			printf("%s\n\n", log);
+			free(log);
 		}
-		else
-		{
-			CONSOLE_COLOR_GREEN;
-		}
-
-		printf("\n========================  Shader compellation log:  ===========================\n");
-        printf("%s\n\n", log);
-        free(log);
-
-		CONSOLE_COLOR_WHITE;
     }
+
 //#endif
     
     if (status == 0) 
 	{
         glDeleteShader(*ShaderId);
         cout << "Failed to compile shader." << endl;
+		cin.ignore();
     }
 
 	glErrorCheck();
@@ -143,21 +137,14 @@ void Shader::LinkProgram()
 	{
 		if (status == 0) 
 		{
-			CONSOLE_COLOR_RED;
+			GLchar *log = (GLchar *)malloc(logLength);
+			glGetProgramInfoLog(m_programId, logLength, &logLength, log);
+			printf("\n========================  Program Link Log:  ==================================\n");
+			printf("%s\n\n", log);
+			free(log);
+
+			cin.ignore();
 		}
-		else
-		{
-			CONSOLE_COLOR_GREEN;
-		}
-
-
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetProgramInfoLog(m_programId, logLength, &logLength, log);
-		printf("\n========================  Program Link Log:  ==================================\n");
-        printf("%s\n\n", log);
-        free(log);
-
-		CONSOLE_COLOR_WHITE;
     }
     
     if (status == 0)

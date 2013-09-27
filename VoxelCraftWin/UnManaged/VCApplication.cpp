@@ -60,9 +60,11 @@ void VCApplication::Initialize()
     cout << "Creating test chunk..." << endl;
     VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
     testChunk->SetParent(VCSceneGraph::Instance->RootNode);
-    
-    testChunk->Generate();
+	testChunk->Generate();
     testChunk->Rebuild();
+
+	//VCWorld* testWorld = new VCWorld(2);
+	//testWorld->Initialize();
     
     MonoRuntime->InvokeStart();
 }

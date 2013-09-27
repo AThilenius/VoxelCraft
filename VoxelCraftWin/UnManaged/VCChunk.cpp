@@ -13,14 +13,14 @@
 VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_x(x),
     m_y(y),
-    m_z(x),
+    m_z(z),
     m_world(world),
     m_vertexBufferID(0),
     m_vertexCount(0),
     m_vaoID(0),
     m_rebuildVerticies(NULL)
 {
-    cout << "VCChunk created with handle: " << Handle << endl;
+    cout << "VCChunk created [ " << x << " : " << y << " : " << z << " ] with handle: " << Handle << endl;
 	m_chunkGenertor = new VCChunkGenerator(x, y, z);
 }
 
@@ -60,8 +60,6 @@ void VCChunk::Generate()
 
 void VCChunk::Rebuild()
 {
-	printf("VCChunk [ %i : %i ] rebuilding...\n", m_x, m_z);
-    
 	m_vertexCount = 0;
 	float startTime = VCTime::CurrentTime;
 
@@ -256,7 +254,10 @@ void VCChunk::Render()
 		return;
     
     glBindVertexArray(m_vaoID);
-	VCGLRenderer::Instance->SetModelMatrix(glm::translate((float)m_x, (float)m_y, (float)m_z));
+	VCGLRenderer::Instance->SetModelMatrix(glm::translate(
+		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
+		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
+		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
     
     glBindVertexArray(0);

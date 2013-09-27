@@ -19,7 +19,6 @@ VCGameObject::VCGameObject(void):
     ModelMatrix(glm::mat4(1.0f))
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
-    cout << "VCGameObject created with handle: " << Handle << endl;
 }
 
 VCGameObject::~VCGameObject(void)

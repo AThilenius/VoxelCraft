@@ -1,4 +1,4 @@
-﻿Build started 9/25/2013 10:02:28 PM.
+﻿Build started 9/27/2013 11:04:07 AM.
      1>Project "C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\UnManaged\UnManaged.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>PreBuildEvent:
@@ -48,4 +48,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.86
+Time Elapsed 00:00:02.03

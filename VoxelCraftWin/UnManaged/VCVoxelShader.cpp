@@ -11,9 +11,10 @@
 
 
 static string g_vcVoxVertexShader =
-    "#version 150\n"
+    //"#version 150\n"
+	"#version 330 core\n"
 
-	"in vec4 position;"
+	"in vec3 position;"
 	"in int normal;"
 	"in vec4 color;"
 
@@ -25,10 +26,33 @@ static string g_vcVoxVertexShader =
 
 	"void main()"
 	"{"
-		"gl_Position =  modelViewProjectionMatrix * position;"
-		"ShadowCoord = DepthBiasMVP * position;"
+		"gl_Position =  modelViewProjectionMatrix * vec4(position, 1);"
+		"ShadowCoord = DepthBiasMVP * vec4(position, 1);"
+		//"ShadowCoord.xyz = ShadowCoord.xyz / ShadowCoord.w;"
 		"colorVarying = color;"
 	"}";
+
+	// =============================================================
+
+	//"in vec3 vertexPosition_modelspace;"
+	//"in vec2 vertexUV;"
+	//"in vec3 vertexNormal_modelspace;"
+
+	//"out vec2 UV;"
+	//"out vec4 ShadowCoord;"
+
+	//"uniform mat4 MVP;"
+	//"uniform mat4 DepthBiasMVP;"
+
+
+	//"void main()"
+	//"{"
+
+	//	// Output position of the vertex, in clip space : MVP * position
+	//	"gl_Position =  MVP * vec4(vertexPosition_modelspace,1);"
+	//
+	//	"ShadowCoord = DepthBiasMVP * vec4(vertexPosition_modelspace,1);"
+	//"}";
 
 // Old Shader:
 	//"in vec4 position;"
@@ -64,28 +88,48 @@ static string g_vcVoxVertexShader =
 	//"}"
 
 static string g_vcVoxFragmentShader =
-    "#version 150\n"
+    //"#version 150\n"
+	"#version 330 core\n"
 
 	"in vec4 colorVarying;"
 	"in vec4 ShadowCoord;"
 
 	"out vec4 color;"
 
-	"uniform sampler2DShadow  shadowMap;"
+	"uniform sampler2D  shadowMap;"
 
 	"void main()"
 	"{"
-		"float visibility = textureProj(shadowMap, ShadowCoord);"
-		//"float visibility = 1.0;"
+		"float visibility = 1.0;"
+		"float bias = 0.005;"
 
-		//"if ( texture(shadowMap, ShadowCoord.xy).z  <  ShadowCoord.z)"
-		//"{"
-		//	"visibility = 0.5;"
-		//"}"
+		"if ( texture(shadowMap, ShadowCoord.xy).z  <  ShadowCoord.z - bias)"
+		"{"
+			"visibility = 0.5;"
+		"}"
 
 		"color.xyz = colorVarying.xyz * visibility;"
 		"color.w = colorVarying.w;"
 	"}";
+
+	// ===========================================================
+
+	//"in vec2 UV;"
+	//"in vec4 ShadowCoord;"
+
+	//"out vec3 color;"
+
+	//"uniform sampler2D myTextureSampler;"
+	//"uniform sampler2DShadow shadowMap;"
+
+	//"void main()"
+	//"{"
+	//	"vec3 LightColor = vec3(1,1,1);"
+	//	"vec3 MaterialDiffuseColor = texture2D( myTextureSampler, UV ).rgb;"
+	//	"float visibility = texture( shadowMap, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) );"
+	//	"color = visibility * MaterialDiffuseColor * LightColor;"
+	//"}";
+
 
 // Old Shader:
 	//"in vec4 colorVarying;"
@@ -113,32 +157,33 @@ VCVoxelShader::~VCVoxelShader(void)
 
 void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	// Light's MVP and Bias
-    glm::vec3 lightInvDir = glm::vec3(0.5f,2,2);
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -50, 50, -50, 50, -100, 100);
-	glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix;// * modelMatrix;
+	// Re-create the exact same MVP matrix that was used for the shadow pass
+	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -30, 30, -30, 30, -100, 100);
+	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(0.5f, 2, 2), glm::vec3(0,0,0), glm::vec3(0,1,0));
+	depthViewMatrix = glm::translate(depthViewMatrix, -15.0f, 0.0f, 0.0f);
+	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * modelMatrix;
 
+	// Multiply it be the bias matrix
 	glm::mat4 biasMatrix
 	(
-		0.5, 0.0, 0.0, 0.0, 
+		0.5, 0.0, 0.0, 0.0,
 		0.0, 0.5, 0.0, 0.0,
 		0.0, 0.0, 0.5, 0.0,
 		0.5, 0.5, 0.5, 1.0
 	);
-
+	
 	glm::mat4 depthBiasMVP = biasMatrix * depthMVP;
 
-	// Camera's MVP
+	// Create Camera's MVP
     VCCamera* currentCamera = VCSceneGraph::Instance->CurrentRenderingCamera;
 	glm::mat4 ProjectionMatrix = currentCamera->ProjectionMatrix;
 	glm::mat4 ViewMatrix = currentCamera->ViewMatrix;
-	glm::mat4 MVP = ProjectionMatrix * ViewMatrix;// * modelMatrix;
+	glm::mat4 MVP = ProjectionMatrix * ViewMatrix * modelMatrix;
 
-	// Send our transformation to the currently bound shader, 
-	// in the "MVP" uniform
+	// Update uniforms
 	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &MVP[0][0]);
 	glUniformMatrix4fv(m_unifDepthMVP, 1, GL_FALSE, &depthBiasMVP[0][0]);
+
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texID);
@@ -150,7 +195,7 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 void VCVoxelShader::BindAttribLocations()
 {
 	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "position");
-	glBindAttribLocation(m_programId, VC_ATTRIBUTE_NORMAL, "normal");
+	//glBindAttribLocation(m_programId, VC_ATTRIBUTE_NORMAL, "normal");
 	glBindAttribLocation(m_programId, VC_ATTRIBUTE_COLOR, "color");
 
 	glErrorCheck();

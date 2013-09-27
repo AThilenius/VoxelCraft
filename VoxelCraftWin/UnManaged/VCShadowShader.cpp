@@ -10,7 +10,8 @@
 
 
 static string g_vcShadVertexShader =
-    "#version 150\n"
+    //"#version 150\n"
+	"#version 330 core\n"
 
 	"in vec4 vertexPosition_modelspace;"
 	"uniform mat4 depthMVP;"
@@ -21,7 +22,8 @@ static string g_vcShadVertexShader =
 	"}";
 
 static string g_vcShadFragmentShader =
-	"#version 150\n"
+	//"#version 150\n"
+	"#version 330 core\n"
 
 	"out float fragmentdepth;"
 
@@ -48,10 +50,12 @@ VCShadowShader::~VCShadowShader(void)
 void VCShadowShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
 	// Compute the MVP matrix from the light's point of view
-    glm::vec3 lightInvDir = glm::vec3(0.5f,2,2);
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -50, 50, -50, 50, -100, 100);
+	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -30, 30, -30, 30, -100, 100);
+
+	glm::vec3 lightInvDir = glm::vec3(0.5f, 2, 2);
 	glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix;// * modelMatrix;
+	depthViewMatrix = glm::translate(depthViewMatrix, -15.0f, 0.0f, 0.0f);
+	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix* modelMatrix;
 
 	// Send our transformation to the currently bound shader, 
 	// in the "MVP" uniform

@@ -32,10 +32,11 @@ void VCGLRenderer::Initialize()
 	glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glDepthFunc(GL_LEQUAL);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
+	//glEnable(GL_BLEND);
+	//glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS); 
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	//VoxelShader->Initialize();
 	ShadowShader->Initialize();
 
@@ -52,8 +53,10 @@ void VCGLRenderer::Initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+
+	// Also tried using GL_COMPARE_R_TO_TEXTURE with sampler2DShadow in the shader. Same outcome.
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_depthTexture, 0);
 
@@ -101,8 +104,9 @@ void VCGLRenderer::Initialize()
 void VCGLRenderer::Render()
 {
 	// ====================    Shadow    =====================
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBufferId);
-	glViewport(0, 0, 1024, 1024);
+	//glViewport(0, 0, 1024, 1024);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -111,8 +115,9 @@ void VCGLRenderer::Render()
 
 
 	// ====================    Diffuse    =====================
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, 1280, 800);
+	//glViewport(0, 0, 1280, 800);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -121,7 +126,8 @@ void VCGLRenderer::Render()
 
 
 	// ===================    Visualize    =====================
-	glViewport(0,0,512,512);
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	glViewport(0, 0, 256, 256);
 
 	TextureShader->Bind();
 
@@ -132,7 +138,7 @@ void VCGLRenderer::Render()
 	glBindTexture(GL_TEXTURE_2D, m_depthTexture);
 	TextureShader->SetTextureUnit(0);
 
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
 

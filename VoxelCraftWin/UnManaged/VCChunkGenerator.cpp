@@ -45,8 +45,8 @@ void VCChunkGenerator::generateToBuffer ( byte* buffer )
 	int stoneMap [CHUNK_WIDTH * CHUNK_WIDTH];
     int dirtMap [CHUNK_WIDTH * CHUNK_WIDTH];
     
-    BuildHeightMapToBuffer(stoneMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * 0.3, (float) CHUNK_WIDTH * 0.5, 0);
-    BuildHeightMapToBuffer(dirtMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * -0.1, (float)CHUNK_WIDTH * 0.3, 42);
+    BuildHeightMapToBuffer(stoneMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * /*4.0f **/ 0.3, (float)CHUNK_WIDTH /** 4.0f*/ * 0.5, 0);
+    BuildHeightMapToBuffer(dirtMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * /*4.0f **/ -0.1, (float)CHUNK_WIDTH * /*4.0f **/ 0.3, 42);
     
     for (int cx=0; cx < CHUNK_WIDTH; cx++ )
     {
@@ -58,12 +58,17 @@ void VCChunkGenerator::generateToBuffer ( byte* buffer )
                 int stoneDepth = stoneMap[FLATTEN_2D(cx, cz, LOG_CHUNK_WIDTH)];
                 int dirtDepth = dirtMap[FLATTEN_2D(cx, cz, LOG_CHUNK_WIDTH)];
                 
-                if ( cy <= stoneDepth)
+				int wy = m_y * CHUNK_WIDTH + cy;
+
+                if ( wy <= stoneDepth)
                     buffer[FLATTEN_CHUNK(cx, cy, cz)] = Block_Stone;
-                else if ( dirtDepth > 0 && cy <= stoneDepth + dirtDepth )
+
+                else if ( dirtDepth > 0 && wy <= stoneDepth + dirtDepth )
                     buffer[FLATTEN_CHUNK(cx, cy, cz)] = Block_Dirt;
-                else if ( cy == stoneDepth + dirtDepth + 1 )
+
+                else if ( wy == stoneDepth + dirtDepth + 1 )
                     buffer[FLATTEN_CHUNK(cx, cy, cz)] = Block_Grass;
+
                 else
                     buffer[FLATTEN_CHUNK(cx, cy, cz)] = Block_Air;
                 

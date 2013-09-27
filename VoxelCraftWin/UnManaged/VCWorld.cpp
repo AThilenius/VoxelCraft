@@ -10,6 +10,7 @@
 
 #include "VCChunk.h"
 #include "VCBlock.h"
+#include "VCSceneGraph.h"
 
 VCWorld::VCWorld( int viewDistance )
 {
@@ -36,12 +37,11 @@ void VCWorld::Initialize()
 
 	WORLD_ORDERED_ITTORATOR(X,Y,Z)
 		m_chunks[FLATTEN_WORLD(X,Y,Z)] = new VCChunk(X, Y, Z, this);
+		m_chunks[FLATTEN_WORLD(X,Y,Z)]->SetParent(VCSceneGraph::Instance->RootNode);
 		m_chunks[FLATTEN_WORLD(X,Y,Z)]->Generate();
-	}}};
-
-	WORLD_ORDERED_ITTORATOR(X,Y,Z)
 		m_chunks[FLATTEN_WORLD(X,Y,Z)]->Rebuild();
 	}}};
+
 }
 
 BlockType VCWorld::GetBlock( int x, int y, int z )
