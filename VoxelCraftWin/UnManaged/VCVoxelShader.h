@@ -29,8 +29,12 @@ protected:
 
 private:
 	GLuint m_texID;
+
 	GLint m_unifMVP;
+	GLint m_unifViewMatrix;
+	GLint m_unifModelMatrix;
 	GLint m_unifDepthMVP;
+	GLint m_unifLightInvDirection;
 	GLint m_unifShadow;
 };
 
