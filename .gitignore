@@ -18,7 +18,6 @@ DerivedData
 .idea/
 bin/
 obj/
-Build/
 Debug/
 Release/
 BuildOutput/
