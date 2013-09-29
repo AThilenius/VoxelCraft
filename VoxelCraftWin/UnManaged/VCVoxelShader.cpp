@@ -11,8 +11,8 @@
 
 
 static string g_vcVoxVertexShader =
-    //"#version 150\n"
-	"#version 330 core\n"
+    "#version 150\n"
+	//"#version 330 core\n"
 
 	"in vec4 position;"
 	"in int normal;"
@@ -93,8 +93,8 @@ static string g_vcVoxVertexShader =
 	//"}"
 
 static string g_vcVoxFragmentShader =
-    //"#version 150\n"
-	"#version 330 core\n"
+    "#version 150\n"
+	//"#version 330 core\n"
 
 	"in vec3 Position_worldspace;"
 	"in vec3 Normal_cameraspace;"
@@ -104,7 +104,7 @@ static string g_vcVoxFragmentShader =
 
 	"out vec4 color;"
 
-	"uniform sampler2DShadow shadowMap;"
+	"uniform sampler2D shadowMap;"
 
 	"vec2 poissonDisk[16] = vec2[]( "
 	   "vec2( -0.94201624, -0.39906216 ), "
@@ -159,7 +159,11 @@ static string g_vcVoxFragmentShader =
 			//    The position is rounded to the millimeter to avoid too much aliasing
 			"int index = int( 16.0 * random( floor( Position_worldspace.xyz * 1000.0 ), i) ) % 16;"
 		
-			"visibility -= 0.2 * ( 1.0 - texture( shadowMap, vec3( ShadowCoord.xy + poissonDisk[index] / 700.0,  (ShadowCoord.z - bias) / ShadowCoord.w) ));"
+			//"visibility -= 0.2 * ( 1.0 - texture( shadowMap, vec3( ShadowCoord.xy + poissonDisk[index] / 700.0,  (ShadowCoord.z - bias) / ShadowCoord.w) ));"
+
+			"if ( texture( shadowMap, (ShadowCoord.xy/ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
+				"visibility -= 0.2;"
+
 		"}"
 	
 		"color = "

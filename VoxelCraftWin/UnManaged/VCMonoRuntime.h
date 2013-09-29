@@ -13,6 +13,7 @@
 
 #include "VCCamera.h"
 #include "VCGameObject.h"
+#include "VCPhysics.h"
 
 class VCMonoRuntime
 {

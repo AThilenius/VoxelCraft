@@ -10,9 +10,10 @@
 
 #include "PCH.h"
 #include "VCGameObject.h"
-#include "VCWorld.h"
 #include "VCBlock.h"
 #include "VCChunkGenerator.h"
+
+class VCWorld;
 
 using namespace std;
 
@@ -49,9 +50,8 @@ private:
 	VCWorld* m_world;
 	VCChunkGenerator* m_chunkGenertor;
 
-	int m_x;
-	int m_y;
-	int m_z;
+	int m_x, m_y, m_z;
+	int m_blockX, m_blockY, m_blockZ;
 
 	// Rendering
     GLuint m_vaoID;

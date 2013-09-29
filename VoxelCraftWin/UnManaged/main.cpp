@@ -13,8 +13,8 @@
 
 int main(int argc, char** argv)
 {
-	/*std::ofstream out("VCDebugLog.txt");
-    std::cout.rdbuf(out.rdbuf());*/
+	//std::ofstream out("VCDebugLog.txt");
+    //std::cout.rdbuf(out.rdbuf());
 
 
 	VCGame game;

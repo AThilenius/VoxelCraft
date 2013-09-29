@@ -26,6 +26,9 @@
     <Filter Include="Rendering\Shaders">
       <UniqueIdentifier>{ac229e08-9747-44bb-870d-61f676a21aeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{2906427e-bd57-46fd-81b4-d57f91b6c78b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VCInspectorWindow.cpp" />
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="VCTextureShader.cpp">
       <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPhysics.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="VCShadowShader.h">
       <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPhysics.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

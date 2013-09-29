@@ -12,7 +12,7 @@ Shader* Shader::BoundShader;
 
 Shader::Shader()
 {
-	m_programId = -1;
+	m_programId = 0;
 	m_vertexShaderLiteral = NULL;
 	m_fragShaderLiteral = NULL;
 	m_geometryShaderLiteral = NULL;
@@ -20,35 +20,38 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-	if ( m_programId != -1 )
+	if ( m_programId != 0 )
 	{
 		glDeleteProgram(m_programId);
-		m_programId = -1;
+		m_programId = 0;
 	}
 }
 
 void Shader::Initialize()
 {
+	
 	GLuint vertShader, geometryShader, fragShader = 0;
 	
     // Create shader program.
-	m_programId = glCreateProgram();
+	GLuint id = glCreateProgram();
+	
+	m_programId = id;
     
     // Create and compile vertex shader.
     CompileShader(GL_VERTEX_SHADER, &vertShader, m_vertexShaderLiteral);
 	CompileShader(GL_FRAGMENT_SHADER, &fragShader, m_fragShaderLiteral);
-
+	
 	if ( m_geometryShaderLiteral != NULL )
 		CompileShader(GL_GEOMETRY_SHADER, &geometryShader, m_geometryShaderLiteral);
 	
     // Attach vertex shader to program.
     glAttachShader(m_programId, vertShader);
     glAttachShader(m_programId, fragShader);
-
+	
 	if ( m_geometryShaderLiteral != NULL )
 		glAttachShader(m_programId, geometryShader);
     
-
+	
     BindAttribLocations();
 	LinkProgram();
 	GetUniformIDs();
@@ -69,12 +72,12 @@ void Shader::Initialize()
 		glDetachShader(m_programId, fragShader);
 		glDeleteShader(fragShader);
     }
-
+	
 	glUseProgram(m_programId);
 	PostInitialize();
-
-	glErrorCheck();
-        
+	
+	cout << "VCShader Initialized." << endl;
+	glErrorCheck(); 
 }
 
 void Shader::Bind()

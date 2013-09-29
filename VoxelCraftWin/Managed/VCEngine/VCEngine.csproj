@@ -37,6 +37,7 @@
     <Compile Include="Distributors\Input.cs" />
     <Compile Include="Distributors\SceneGraph.cs" />
     <Compile Include="Interop\MarshaledObject.cs" />
+    <Compile Include="Interop\Physics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\Camera.cs" />
     <Compile Include="Interop\Component.cs" />

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "VCWorld.h"
 #include "VCChunk.h"
 #include "VCGLRenderer.h"
 
@@ -14,13 +15,16 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_x(x),
     m_y(y),
     m_z(z),
+	m_blockX(x * CHUNK_WIDTH),
+	m_blockY(y * CHUNK_WIDTH),
+	m_blockZ(z * CHUNK_WIDTH),
     m_world(world),
     m_vertexBufferID(0),
     m_vertexCount(0),
     m_vaoID(0),
     m_rebuildVerticies(NULL)
 {
-    cout << "VCChunk created [ " << x << " : " << y << " : " << z << " ] with handle: " << Handle << endl;
+    //cout << "VCChunk created [ " << x << " : " << y << " : " << z << " ] with handle: " << Handle << endl;
 	m_chunkGenertor = new VCChunkGenerator(x, y, z);
 }
 
@@ -39,23 +43,10 @@ BlockType VCChunk::GetBlock ( int x, int y, int z )
 
 void VCChunk::Generate()
 {
-	// Hack for now.
-	//for (int z = 0; z < CHUNK_WIDTH; z++ )
-	//{
-	//	for (int x = 0; x < CHUNK_WIDTH; x++ )
-	//	{
-	//		for (int y = 0; y < CHUNK_WIDTH; y++ )
-	//		{
-	//			//if ( y < (int) CHUNK_WIDTH / 2 )
-	//			m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Dirt;
-	//			//else
-	//			//	m_blocks[FLATTEN_CHUNK(x, y, z)] = Block_Air;
-	//		}
-	//	}
-	//}
+	//for (int i = 0; i < CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH; i++ )
+	//	m_blocks[i] = Block_Dirt;
 
-	VCChunkGenerator gen(m_x, m_y, m_z);
-	gen.generateToBuffer((byte*)m_blocks);
+	m_chunkGenertor->generateToBuffer((byte*)m_blocks);
 }
 
 void VCChunk::Rebuild()
@@ -122,7 +113,7 @@ void VCChunk::Rebuild()
                 BlockType blockType = Block_Unknown;
                 
                 // Front face
-				blockType = GetBlock(x, y, z + 1);
+				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1);
                 if ( blockType == Block_Air || blockType == Block_Unknown )
                 {
                     normal = 5;
@@ -136,7 +127,7 @@ void VCChunk::Rebuild()
                 }
 
 				//Right face
-				blockType = GetBlock(x + 1, y, z);
+				blockType = m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 1;
@@ -150,7 +141,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Back face
-				blockType = GetBlock(x, y, z - 1);
+				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 4;
@@ -164,7 +155,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Left face
-				blockType = GetBlock(x - 1, y, z);
+				blockType = m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 0;
@@ -178,7 +169,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Top face
-				blockType = GetBlock(x, y + 1, z);
+				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 3;
@@ -192,7 +183,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Bottom face
-				blockType = GetBlock(x, y - 1, z);
+				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z);
 				if ( blockType == Block_Air || blockType == Block_Unknown )
 				{
 					normal = 2;

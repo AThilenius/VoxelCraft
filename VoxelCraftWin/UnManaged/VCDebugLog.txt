@@ -1,17 +1,19 @@
-VC Begin Log
 ====================   VoxelCraft Engine Begin   ====================
 Creating a VCWindow...
+OpenGL version: 3.2
 Hardware: GeForce GT 650M/PCIe/SSE2
 
+VCWindow Initialized.
+VCObjectStore Initialized.
 VCInput Initalized
-VCGLRenderer Initalized
+VCShader Initialized.
+VCShader Initialized.
+VCShader Initialized.
+VCGLRenderer Initialized
 VCTime Initialized [ 2.63089e+006 T/S ]
-VCGameObject created with handle: 1
 VCSceneGraph Initalized
-VCGameObject created with handle: 2
-VCGameObject created with handle: 3
+MonoRuntime setting directories to:
+Library: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\Mono\lib\
+Config: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\Mono\etc\
+Game Library: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\TestGame.dll
 VCCamera created with handle: 3
-Creating test chunk...
-VCGameObject created with handle: 4
-VCChunk created with handle: 4
-Chunk rebuilt finished with 147456 vertices and took 0 seconds.

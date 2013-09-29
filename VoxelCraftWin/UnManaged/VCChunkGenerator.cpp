@@ -45,16 +45,15 @@ void VCChunkGenerator::generateToBuffer ( byte* buffer )
 	int stoneMap [CHUNK_WIDTH * CHUNK_WIDTH];
     int dirtMap [CHUNK_WIDTH * CHUNK_WIDTH];
     
-    BuildHeightMapToBuffer(stoneMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * /*4.0f **/ 0.3, (float)CHUNK_WIDTH /** 4.0f*/ * 0.5, 0);
-    BuildHeightMapToBuffer(dirtMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * /*4.0f **/ -0.1, (float)CHUNK_WIDTH * /*4.0f **/ 0.3, 42);
+    BuildHeightMapToBuffer(stoneMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * 4.0f * 0.3, (float)CHUNK_WIDTH * 4.0f * 0.5, 0);
+    BuildHeightMapToBuffer(dirtMap, 3.0f, 1.0f, 0.005, (float)CHUNK_WIDTH * 4.0f * -0.1, (float)CHUNK_WIDTH * 4.0f * 0.3, 42);
     
     for (int cx=0; cx < CHUNK_WIDTH; cx++ )
     {
-        for (int cy=0; cy < CHUNK_WIDTH; cy++ )
+		for (int cz=0; cz < CHUNK_WIDTH; cz++ )
         {
-            for (int cz=0; cz < CHUNK_WIDTH; cz++ )
-            {
-                
+			for (int cy=0; cy < CHUNK_WIDTH; cy++ )
+			{
                 int stoneDepth = stoneMap[FLATTEN_2D(cx, cz, LOG_CHUNK_WIDTH)];
                 int dirtDepth = dirtMap[FLATTEN_2D(cx, cz, LOG_CHUNK_WIDTH)];
                 

@@ -34,18 +34,22 @@ void VCWindow::Initalize()
 	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit())
+	{
 		cout << "Failed to initialize GLFW." << endl;
+		cin.ignore();
+	}
 	
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWWindowHandle = glfwCreateWindow(1024, 1024, "Voxel Craft", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1280, 800, "Voxel Craft", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
 		cout << "Failed to create a window." << endl;
+		cin.ignore();
 	}
 
 	glfwMakeContextCurrent(GLFWWindowHandle);
@@ -55,6 +59,7 @@ void VCWindow::Initalize()
 	if( glewError != GLEW_OK )
 	{
 		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
+		cin.ignore();
 	}
 
 	// ====
@@ -68,6 +73,8 @@ void VCWindow::Initalize()
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 
+
+	cout << "VCWindow Initialized." << endl;
     glErrorCheck();
 }
 

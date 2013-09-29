@@ -36,6 +36,7 @@
     <ClCompile Include="VCMarshalableObject.cpp" />
     <ClCompile Include="VCMonoRuntime.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
+    <ClCompile Include="VCPhysics.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCTestShader.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="VCMarshalableObject.h" />
     <ClInclude Include="VCMonoRuntime.h" />
     <ClInclude Include="VCObjectStore.h" />
+    <ClInclude Include="VCPhysics.h" />
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTestShader.h" />
@@ -134,8 +136,9 @@
     <OutDir>$(SolutionDir)Build</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\Libs\Include</IncludePath>
-    <LibraryPath>$(SolutionDir)\Libs\Lib32</LibraryPath>
+    <IncludePath>$(SolutionDir)\Libs\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libs\Lib32;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)Build</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -146,7 +149,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>mono.lib;opengl32.lib;glfw3dll.lib;kernel32.lib;user32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
     <PreBuildEvent>
       <Command>copy $(SolutionDir)Managed\BuildOutput\* $(SolutionDir)Build</Command>
@@ -161,6 +165,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,7 +180,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>mono.lib;opengl32.lib;glfw3dll.lib;kernel32.lib;user32.lib;glew32.lib</AdditionalDependencies>
+      <AdditionalDependencies>mono.lib;opengl32.lib;glfw3dll.lib;kernel32.lib;user32.lib;glew32s.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

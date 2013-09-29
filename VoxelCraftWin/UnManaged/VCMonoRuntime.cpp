@@ -21,6 +21,11 @@ VCMonoRuntime::~VCMonoRuntime()
 
 void VCMonoRuntime::Initalize()
 {
+	cout << "MonoRuntime setting directories to:" << endl;
+	cout << "Library: " << PathUtil::GetLibDirectory() << endl;
+	cout << "Config: " << PathUtil::GetConfigDirectory() << endl;
+	cout << "Game Library: " << PathUtil::GetBinDirectory().append("TestGame.dll") << endl;
+
 	mono_set_dirs(PathUtil::GetLibDirectory().c_str(), PathUtil::GetConfigDirectory().c_str());
 
 	// Required for mdb's to load for detailed stack traces etc.
@@ -70,6 +75,7 @@ void VCMonoRuntime::Bind()
     VCGameObject::RegisterMonoHandlers();
     VCCamera::RegisterMonoHandlers();
     VCInput::RegisterMonoHandlers();
+	VCPhysics::RegisterMonoHandlers();
 }
 
 void VCMonoRuntime::InvokeStart()

@@ -18,6 +18,10 @@ namespace VCEngine
 
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);
+
+            RaycastHit hit;
+            Physics.Raycast(out hit);
+            Console.WriteLine(hit);
 		}
 
         public override void Start()

@@ -9,6 +9,7 @@
 #include "VCApplication.h"
 
 #include "PCH.h"
+#include "VCWorld.h"
 #include "VCWindow.h"
 #include "VCGLRenderer.h"
 #include "VCChunk.h"
@@ -58,13 +59,13 @@ void VCApplication::Initialize()
     
     // Test Chunk
     cout << "Creating test chunk..." << endl;
-    VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
-    testChunk->SetParent(VCSceneGraph::Instance->RootNode);
-	testChunk->Generate();
-    testChunk->Rebuild();
+ //   VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
+ //   testChunk->SetParent(VCSceneGraph::Instance->RootNode);
+	//testChunk->Generate();
+ //   testChunk->Rebuild();
 
-	//VCWorld* testWorld = new VCWorld(2);
-	//testWorld->Initialize();
+	VCWorld* testWorld = new VCWorld(4);
+	testWorld->Initialize();
     
     MonoRuntime->InvokeStart();
 }

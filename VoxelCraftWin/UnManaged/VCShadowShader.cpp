@@ -10,8 +10,8 @@
 
 
 static string g_vcShadVertexShader =
-    //"#version 150\n"
-	"#version 330 core\n"
+    "#version 150\n"
+	//"#version 330 core\n"
 
 	"in vec4 vertexPosition_modelspace;"
 	"uniform mat4 depthMVP;"
@@ -22,8 +22,8 @@ static string g_vcShadVertexShader =
 	"}";
 
 static string g_vcShadFragmentShader =
-	//"#version 150\n"
-	"#version 330 core\n"
+	"#version 150\n"
+	//"#version 330 core\n"
 
 	"out float fragmentdepth;"
 

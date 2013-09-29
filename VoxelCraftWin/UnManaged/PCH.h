@@ -8,6 +8,28 @@
 
 #pragma once
 
+// Switches
+//#define GLFW_DLL
+#define GLEW_STATIC
+
+// Libraries
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "kernel32.lib")
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "glu32.lib")
+
+#pragma comment(lib, "mono.lib")
+#pragma comment(lib, "glew32s.lib")
+#pragma comment(lib, "glfw3dll.lib")
+
+//mono.lib
+//opengl32.lib
+//glfw3dll.lib
+//kernel32.lib
+//user32.lib
+//glew32s.lib
+//glu32.lib
+
 // Glew, Glfw, GLM
 #include "glew.h"
 #include "glfw3.h"
@@ -60,9 +82,9 @@ class VCInput;
 #define BLOCK_RENDER_SIZE 1.0f
 
 // WORLD
-#define VIEW_DISTANCE 8
-#define VIEW_DISTANCE_TWO 16
-#define LOG_VIEW_DIST_TWO 4
+#define VIEW_DISTANCE 2
+#define VIEW_DISTANCE_TWO 4
+#define LOG_VIEW_DIST_TWO 2
 
 // CHUNK
 #define CHUNK_WIDTH 32
