@@ -73,6 +73,8 @@ void VCCamera::RegisterMonoHandlers()
     mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",				(void*)VCInteropNewCamera);
     mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",			(void*)VCInteropReleaseCamera);
 	mono_add_internal_call("VCEngine.Camera::VCInteropCameraScreenPointToRay",  (void*)VCInteropCameraScreenPointToRay);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraSetFields",			(void*)VCInteropCameraSetFields);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraGetFields",			(void*)VCInteropCameraGetFields);
 }
 
 int VCInteropNewCamera()
@@ -92,5 +94,27 @@ vec3 VCInteropCameraScreenPointToRay(int handle, int x, int y)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 	return obj->ScreenPointToRay(x, y);
+}
+
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame)
+{
+	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
+
+	obj->FovDeg = fovDeg;
+	obj->Aspect = aspect;
+	obj->NearClip = nearClip;
+	obj->FarClip = farClip;
+	obj->Frame = frame;
+}
+
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, Rectangle* frame)
+{
+	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
+
+	*fovDeg = obj->FovDeg;
+	*aspect = obj->Aspect;
+	*nearClip = obj->NearClip;
+	*farClip = obj->FarClip;
+	*frame = obj->Frame;
 }
 // ===============================================================

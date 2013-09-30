@@ -50,3 +50,5 @@ private:
 int VCInteropNewCamera();
 void VCInteropReleaseCamera(int handle);
 vec3 VCInteropCameraScreenPointToRay(int handle, int x, int y);
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame);
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, Rectangle* frame);
