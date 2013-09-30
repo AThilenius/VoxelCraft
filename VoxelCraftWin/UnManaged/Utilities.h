@@ -14,3 +14,6 @@
 #define glErrorCheck() _glErrorCheck("NoPrettyFunc"/*__PRETTY_FUNCTION__*/, __LINE__);
 void _glErrorCheck(std::string file, int line);
 unsigned long FastRandom();
+
+// Math
+#define FAST_FLOOR(f) f >= 0 ? (int) f : (int) f - 1;

@@ -12,15 +12,20 @@
 #include "VCBlock.h"
 #include "VCSceneGraph.h"
 
-VCWorld::VCWorld( int viewDistance )
+VCWorld* VCWorld::Instance;
+
+VCWorld::VCWorld( int viewDistance ):
+	ChunkZeroX(0),
+	ChunkZeroY(0),
+	ChunkZeroZ(0)
 {
+	VCWorld::Instance = this;
+
 	if (((viewDistance - 1) & viewDistance))
 		cout << "View distance must be a power of two!" << endl;
 
 	m_viewDistTwo = viewDistance;
 	m_logViewDistTwo = std::log(m_viewDistTwo) / std::log(2);
-
-	m_c0x = m_c0y = m_c0z = 0;
 }
 
 VCWorld::~VCWorld(void)
@@ -30,10 +35,6 @@ VCWorld::~VCWorld(void)
 void VCWorld::Initialize()
 {
 	m_chunks = (VCChunk**) malloc ( sizeof(VCChunk*) * m_viewDistTwo * m_viewDistTwo * m_viewDistTwo );
-	
-	m_c0x = 0;
-	m_c0y = 0;
-	m_c0z = 0;
 
 	WORLD_ORDERED_ITTORATOR(X,Y,Z)
 		m_chunks[FLATTEN_WORLD(X,Y,Z)] = new VCChunk(X, Y, Z, this);

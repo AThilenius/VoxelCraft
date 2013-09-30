@@ -23,12 +23,13 @@ public:
 	~VCWorld(void);
 
 	void Initialize();
+
 	BlockType GetBlock ( int x, int y, int z )
 	{
 		// What chunk?
-		int cx = (x >> LOG_CHUNK_WIDTH) - m_c0x;
-		int cy = (y >> LOG_CHUNK_WIDTH) - m_c0y;
-		int cz = (z >> LOG_CHUNK_WIDTH) - m_c0z;
+		int cx = (x >> LOG_CHUNK_WIDTH) - ChunkZeroX;
+		int cy = (y >> LOG_CHUNK_WIDTH) - ChunkZeroY;
+		int cz = (z >> LOG_CHUNK_WIDTH) - ChunkZeroZ;
 
 		// Out of range?
 		if (cx < 0 || cx >= m_viewDistTwo)
@@ -50,10 +51,24 @@ public:
 		return chunk->GetBlock(lx, ly, lz);
 	}
 
+	void GetWorldBounds ( vec3* lower, vec3* upper )
+	{
+		lower->x = ChunkZeroX * CHUNK_WIDTH;
+		lower->y = ChunkZeroY * CHUNK_WIDTH;
+		lower->z = ChunkZeroZ * CHUNK_WIDTH;
+
+		upper->x = lower->x + m_viewDistTwo * CHUNK_WIDTH;
+		upper->y = lower->y + m_viewDistTwo * CHUNK_WIDTH;
+		upper->z = lower->z + m_viewDistTwo * CHUNK_WIDTH;
+	}
+
+public:
+	static VCWorld* Instance;
+	int ChunkZeroX, ChunkZeroY, ChunkZeroZ;
+
 private:
 	int m_viewDistTwo;
 	int m_logViewDistTwo;
-	int m_c0x, m_c0y, m_c0z;
 	VCChunk** m_chunks;
 
 };

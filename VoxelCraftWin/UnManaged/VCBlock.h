@@ -10,7 +10,7 @@
 
 #include "PCH.h"
 
-typedef enum : char
+typedef enum : byte
 {
 	Block_Unknown = 0,
 	Block_Air = 1,

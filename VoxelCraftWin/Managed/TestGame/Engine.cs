@@ -18,15 +18,28 @@ namespace VCEngine
 
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);
-
-            RaycastHit hit;
-            Physics.Raycast(out hit);
-            Console.WriteLine(hit);
 		}
 
         public override void Start()
         {
             base.Start();
+
+            Ray ray = new Ray
+            {
+                Origin = new Vector3(0.5f, 252, 0.5f),
+                Direction = new Vector3( 0.0f, -1.0f, 0.0f ),
+                MaxDistance = 1000.0f
+            };
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Console.WriteLine("Ray-cast hit: " + hit);
+            }
+
+            else
+            {
+                Console.WriteLine("Ray-cast did not hit :( " + hit);
+            }
         }
 
 		public override void Update ()

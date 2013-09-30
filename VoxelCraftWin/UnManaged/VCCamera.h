@@ -20,10 +20,18 @@ public:
 	~VCCamera(void);
     
 	virtual void PreRender();
+	vec3 ScreenPointToRay( int x, int y );
     
+	float FovDeg;
+	float Aspect;
+	float NearClip;
+	float FarClip;
+
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
+
+	glm::mat4 InverseViewMatrix;
     
     Rectangle Frame;
     

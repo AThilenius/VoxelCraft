@@ -123,3 +123,19 @@ struct Rectangle
     
 };
 
+struct int2
+{
+	int2(): X(0), Y(0) {};
+	int2(int x, int y, int z): X(x), Y(y) {}
+	int X;
+	int Y;
+};
+
+struct int3
+{
+	int3(): X(0), Y(0), Z(0) {};
+	int3(int x, int y, int z): X(x), Y(y), Z(z) {}
+	int X;
+	int Y;
+	int Z;
+};

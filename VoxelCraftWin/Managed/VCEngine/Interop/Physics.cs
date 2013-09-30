@@ -8,20 +8,30 @@ using System.Text;
 namespace VCEngine
 {
     [StructLayout(LayoutKind.Sequential)]
+    public struct Ray
+    {
+        public Vector3 Origin;
+        public Vector3 Direction;
+        public float MaxDistance;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct RaycastHit
     {
-        public bool DidHit;
         public double Distance;
-        public int WorldX;
-        public int WorldY;
-        public int WorldZ;
+        public byte Type;
+        Vector3 Normal;
+        int X;
+        int Y;
+        int Z;
 
         public override string ToString()
         {
-            return 
-                "[ Did Hit: " + DidHit + " ] " +
+            return
                 "[ Distance: " + Distance + " ] " +
-                "[ At: " + WorldX + " | " + WorldY + " | " + WorldZ + " ]";
+                "[ At: " + X + " | " + Y + " | " + Z + " ]" +
+                "[ Type: " + Type + " ]" +
+                "[ Normal: " + Normal.X + " | " + Normal.Y + " | " + Normal.Z + " ]";
         }
     }
 
@@ -30,17 +40,17 @@ namespace VCEngine
         #region Bindings
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropPhysicsRaycastWorld(ref RaycastHit hitOut);
+        extern static bool VCInteropPhysicsRaycastWorld(Ray ray, ref RaycastHit hitOut);
 
         #endregion
 
-        public static bool Raycast(out RaycastHit hit)
+        public static bool Raycast(Ray ray, out RaycastHit hit)
         {
             RaycastHit newHit = new RaycastHit();
-            VCInteropPhysicsRaycastWorld(ref newHit);
+            bool result = VCInteropPhysicsRaycastWorld(ray, ref newHit);
             hit = newHit;
 
-            return newHit.DidHit;
+            return result;
         }
 
     }
