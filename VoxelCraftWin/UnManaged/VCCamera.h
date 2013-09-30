@@ -49,3 +49,4 @@ private:
 // Interop
 int VCInteropNewCamera();
 void VCInteropReleaseCamera(int handle);
+vec3 VCInteropCameraScreenPointToRay(int handle, int x, int y);

@@ -70,8 +70,9 @@ vec3 VCCamera::ScreenPointToRay( int x, int y )
 // ================================      Interop      ============
 void VCCamera::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",         (void*)VCInteropNewCamera);
-    mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",     (void*)VCInteropReleaseCamera);
+    mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",				(void*)VCInteropNewCamera);
+    mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",			(void*)VCInteropReleaseCamera);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraScreenPointToRay",  (void*)VCInteropCameraScreenPointToRay);
 }
 
 int VCInteropNewCamera()
@@ -85,5 +86,11 @@ void VCInteropReleaseCamera(int handle)
 {
     VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
     delete obj;
+}
+
+vec3 VCInteropCameraScreenPointToRay(int handle, int x, int y)
+{
+	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
+	return obj->ScreenPointToRay(x, y);
 }
 // ===============================================================

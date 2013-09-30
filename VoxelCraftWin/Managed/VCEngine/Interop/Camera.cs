@@ -13,6 +13,9 @@ namespace VCEngine
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		extern static void VCInteropReleaseCamera(int handle);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static Vector3 VCInteropCameraScreenPointToRay(int handle, int x, int y);
+
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
 
@@ -20,14 +23,20 @@ namespace VCEngine
 
 		public Camera ()
 		{
+            Transform.InvertPosition = true;
+
 			Console.WriteLine("= Camera created with handle: " + UnManagedHandle);
 		}
 
-        //public override void Update ()
-        //{
-        //    if (Input.IsKeyDown((int)'S'))
-        //        Transform.Position = Transform.Position + new Vector3(0.0f, 0.0f, 5.0f) * Time.DeltaTime;
-        //}
+        public Ray ScreenPointToRay(int x, int y)
+        {
+            return new Ray
+            {
+                Direction = -Transform.Rotation.Forward,
+                Origin = Transform.Position,
+                MaxDistance = float.PositiveInfinity
+            };
+        }
 
 	}
 }

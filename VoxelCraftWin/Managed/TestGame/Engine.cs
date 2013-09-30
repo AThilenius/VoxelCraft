@@ -23,28 +23,26 @@ namespace VCEngine
         public override void Start()
         {
             base.Start();
-
-            Ray ray = new Ray
-            {
-                Origin = new Vector3(0.5f, 252, 0.5f),
-                Direction = new Vector3( 0.0f, -1.0f, 0.0f ),
-                MaxDistance = 1000.0f
-            };
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Console.WriteLine("Ray-cast hit: " + hit);
-            }
-
-            else
-            {
-                Console.WriteLine("Ray-cast did not hit :( " + hit);
-            }
         }
 
+        float next;
 		public override void Update ()
 		{
 			base.Update ();
+
+            //if (Time.TotalTime > next)
+            //{
+                Ray ray = m_camera.ScreenPointToRay(640, 400);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                    Console.WriteLine("Hit: " + hit.X + " | " + hit.Y + " | " + hit.Z);
+
+                else
+                    Console.WriteLine("Missed. Ray: " + ray);
+
+                next = Time.TotalTime + 1.0f;
+            //}
 		}
 
 		public override void LateUpdate ()

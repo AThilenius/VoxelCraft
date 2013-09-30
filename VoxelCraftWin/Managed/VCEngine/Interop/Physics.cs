@@ -13,17 +13,25 @@ namespace VCEngine
         public Vector3 Origin;
         public Vector3 Direction;
         public float MaxDistance;
+
+        public override string ToString()
+        {
+            return
+                "[ Origin: " + Origin.X + " | " + Origin.Y + " | " + Origin.Z + " ]" +
+                "[ Direction: " + Direction.X + " | " + Direction.Y + " | " + Direction.Z + " ]" +
+                "[ MaxDistance: " + MaxDistance + " ]";
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct RaycastHit
     {
-        public double Distance;
+        public float Distance;
         public byte Type;
-        Vector3 Normal;
-        int X;
-        int Y;
-        int Z;
+        public Vector3 Normal;
+        public int X;
+        public int Y;
+        public int Z;
 
         public override string ToString()
         {

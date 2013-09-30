@@ -24,8 +24,8 @@ namespace TestGame
 
             Transform.Rotation = Quaternion.FromEuler(m_rot);
 
-            Transform.Position += Transform.Rotation.Forward * Input.Strafe.X * 0.25f;
-            Transform.Position += Transform.Rotation.Right * Input.Strafe.Y * 0.25f;
+            Transform.Position -= Transform.Rotation.Forward * Input.Strafe.X * 0.25f;
+            Transform.Position -= Transform.Rotation.Right * Input.Strafe.Y * 0.25f;
         }
 
     }

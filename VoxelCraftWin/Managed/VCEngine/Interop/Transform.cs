@@ -27,6 +27,8 @@ namespace VCEngine
         
         public GameObject GameObject;
 
+        internal bool InvertPosition;
+
 		internal Transform (GameObject parent)
 		{
             GameObject = parent;
@@ -35,10 +37,16 @@ namespace VCEngine
 
         internal void SetData()
         {
-            VCInteropTransformSetData(GameObject.UnManagedHandle,
-                Position.X, Position.Y, Position.Z,
-                Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
-                Scale.X, Scale.Y, Scale.Z);
+            if ( InvertPosition )
+                VCInteropTransformSetData(GameObject.UnManagedHandle,
+                    -Position.X, -Position.Y, -Position.Z,
+                    Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
+                    Scale.X, Scale.Y, Scale.Z);
+            else
+                VCInteropTransformSetData(GameObject.UnManagedHandle,
+                    Position.X, Position.Y, Position.Z,
+                    Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
+                    Scale.X, Scale.Y, Scale.Z);
         }
 
         internal void GetData()
@@ -61,7 +69,11 @@ namespace VCEngine
                 out rx, out ry, out rz, out rw,
                 out sx, out sy, out sz);
 
-            Position = new Vector3(px, py, pz);
+            if ( InvertPosition )
+                Position = new Vector3(-px, -py, -pz);
+            else
+                Position = new Vector3(px, py, pz);
+
             Rotation = new Quaternion(rx, ry, rz, rw);
             Scale = new Vector3(sx, sy, sz);
         }
