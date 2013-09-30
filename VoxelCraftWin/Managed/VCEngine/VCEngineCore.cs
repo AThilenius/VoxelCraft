@@ -2,37 +2,108 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
+using System.IO;
+using System.Reflection;
 
 namespace VCEngine
 {
-	public class VCEngineCore
+    public class VCEngineCore
 	{
-		public virtual void Initalize()
-		{
-			Console.WriteLine ("= VCEngineCore::Intalize");
-            SceneGraph.RootNode = new GameObject();
-		}
-
-        public virtual void Start()
+        public VCEngineCore()
         {
-            SceneGraph.RootNode.PropagateStart();
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionOccurred;
+
+            Console.WriteLine("VCEngineCore::CTor");
         }
 
-		public virtual void Update() 
-		{
-            Time.Update();
-            Input.Update();
-            SceneGraph.RootNode.PropagateUpdate();
-		}
-
-		public virtual void LateUpdate() 
-		{
-            SceneGraph.RootNode.PropagateLateUpdate();
-		}
-
-        public virtual void PreRender()
+        private static void UnhandledExceptionOccurred(object sender, UnhandledExceptionEventArgs e)
         {
-            SceneGraph.RootNode.PropagatePreRender();
+            Console.WriteLine(e.ExceptionObject.ToString());
+        }
+
+		public void Initialize()
+		{
+			Console.WriteLine ("= VCEngineCore::Initialize");
+            try
+            {
+                SceneGraph.RootNode = new GameObject();
+
+                Console.WriteLine("Loading: ");
+                Console.WriteLine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
+                AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+		}
+
+        public void Start()
+        {
+            try
+            {
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.Start();
+
+                SceneGraph.RootNode.PropagateStart();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+        }
+
+		public void Update() 
+		{
+            try
+            {
+                Time.Update();
+                Input.Update();
+
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.Update();
+
+                SceneGraph.RootNode.PropagateUpdate();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+		}
+
+		public void LateUpdate() 
+		{
+            try
+            {
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.LateUpdate();
+
+                SceneGraph.RootNode.PropagateLateUpdate();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+		}
+
+        public void PreRender()
+        {
+            try
+            {
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.PreRender();
+
+                SceneGraph.RootNode.PropagatePreRender();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
         }
 	}
 }

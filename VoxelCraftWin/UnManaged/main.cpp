@@ -10,12 +10,13 @@
 #include <fstream>
 #include <string>
 #include "VCGame.h"
+#include <signal.h>
 
 int main(int argc, char** argv)
 {
 	//std::ofstream out("VCDebugLog.txt");
-    //std::cout.rdbuf(out.rdbuf());
-
+	//std::cout.rdbuf(out.rdbuf());
+	//std::cerr.rdbuf(out.rdbuf());
 
 	VCGame game;
     game.Initalize();

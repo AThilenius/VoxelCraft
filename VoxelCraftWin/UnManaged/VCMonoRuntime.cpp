@@ -24,10 +24,10 @@ void VCMonoRuntime::Initalize()
 	cout << "MonoRuntime setting directories to:" << endl;
 	cout << "Library: " << PathUtil::GetLibDirectory() << endl;
 	cout << "Config: " << PathUtil::GetConfigDirectory() << endl;
-	cout << "Game Library: " << PathUtil::GetBinDirectory().append("TestGame.dll") << endl;
+	cout << "Game Library: " << PathUtil::GetBinDirectory().append("VCEngine.dll") << endl;
 
 	mono_set_dirs(PathUtil::GetLibDirectory().c_str(), PathUtil::GetConfigDirectory().c_str());
-
+	
 	// Required for mdb's to load for detailed stack traces etc.
 	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
 
@@ -37,34 +37,34 @@ void VCMonoRuntime::Initalize()
     Bind();
     
     // Assembly
-	MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), PathUtil::GetBinDirectory().append("TestGame.dll").c_str() );
+	MonoAssembly *pMonoAssembly = mono_domain_assembly_open(mono_domain_get(), PathUtil::GetBinDirectory().append("VCEngine.dll").c_str() );
 	m_assemblyImage = mono_assembly_get_image(pMonoAssembly);
     
     // Class
-	m_engineType = mono_class_from_name(m_assemblyImage, "VCEngine", "Engine");
+	m_engineType = mono_class_from_name(m_assemblyImage, "VCEngine", "VCEngineCore");
 	m_engineInstance = mono_object_new(mono_domain_get(), m_engineType);
 	
-    // Instantiate
+    // Instantiate6
     mono_runtime_object_init(m_engineInstance);
     
-    // Initalize Method
-    MonoMethodDesc* initMethodDesc = mono_method_desc_new ("VCEngine.Engine:Initalize()", true);
+    // Initialize Method
+    MonoMethodDesc* initMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:Initialize()", true);
     m_initMethod = mono_method_desc_search_in_class (initMethodDesc, m_engineType);
     
     // Start Method
-    MonoMethodDesc* startMethodDesc = mono_method_desc_new ("VCEngine.Engine:Start()", true);
+    MonoMethodDesc* startMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:Start()", true);
     m_startMethod = mono_method_desc_search_in_class (startMethodDesc, m_engineType);
     
     // Update Method
-    MonoMethodDesc* updateMethodDesc = mono_method_desc_new ("VCEngine.Engine:Update()", true);
+    MonoMethodDesc* updateMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:Update()", true);
     m_updateMethod = mono_method_desc_search_in_class (updateMethodDesc, m_engineType);
     
     // LateUpdate Method
-    MonoMethodDesc* lateUpdateMethodDesc = mono_method_desc_new ("VCEngine.Engine:LateUpdate()", true);
+    MonoMethodDesc* lateUpdateMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:LateUpdate()", true);
     m_lateUpdateMethod = mono_method_desc_search_in_class (lateUpdateMethodDesc, m_engineType);
     
     // PreRender Method
-    MonoMethodDesc* preRenderMethodDesc = mono_method_desc_new ("VCEngine.Engine:PreRender()", true);
+    MonoMethodDesc* preRenderMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:PreRender()", true);
     m_preRenderMethod = mono_method_desc_search_in_class (preRenderMethodDesc, m_engineType);
     
 }

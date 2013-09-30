@@ -10,10 +10,9 @@ VCShader Initialized.
 VCShader Initialized.
 VCShader Initialized.
 VCGLRenderer Initialized
-VCTime Initialized [ 2.63089e+006 T/S ]
+VCTime Initialized [ 2.63084e+006 T/S ]
 VCSceneGraph Initalized
 MonoRuntime setting directories to:
 Library: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\Mono\lib\
 Config: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\Mono\etc\
-Game Library: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\TestGame.dll
-VCCamera created with handle: 3
+Game Library: C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Build\VCEngine.dll
