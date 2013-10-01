@@ -40,9 +40,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\VCEngine\VCEngine.csproj">
+    <ProjectReference Include="..\VCEngine\VCEngine.Managed.csproj">
       <Project>{907DDA1B-FB1A-44C7-BDB2-ADC80D4BA0C2}</Project>
-      <Name>VCEngine</Name>
+      <Name>VCEngine.Managed</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

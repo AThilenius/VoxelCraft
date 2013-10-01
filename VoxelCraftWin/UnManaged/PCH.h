@@ -11,6 +11,7 @@
 // Switches
 //#define GLFW_DLL
 #define GLEW_STATIC
+#define _CRT_SECURE_NO_DEPRECATE
 
 // Libraries
 #pragma comment(lib, "opengl32.lib")
@@ -40,14 +41,18 @@
 #include <exception>
 #include <iostream>
 #include <iomanip>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
 #include <map>
 #include <set>
+#include <regex>
 
 // Mono
 #include <mono/mini/jit.h>
@@ -64,6 +69,7 @@
 #include "VCTime.h"
 #include "VCInput.h"
 #include "VCTypes.h"
+#include "VCTexture.h"
 #include "Utilities.h"
 #include "VCObjectStore.h"
 

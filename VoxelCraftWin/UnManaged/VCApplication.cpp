@@ -19,6 +19,7 @@
 #include "VCCamera.h"
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
+#include "VCFont.h"
 
 VCApplication* VCApplication::Instance;
 
@@ -56,16 +57,14 @@ void VCApplication::Initialize()
     MonoRuntime = new VCMonoRuntime();
     MonoRuntime->Initalize();
     MonoRuntime->InvokeInitalize();
-    
-    // Test Chunk
-    cout << "Creating test chunk..." << endl;
- //   VCChunk* testChunk = new VCChunk(0, 0, 0, NULL);
- //   testChunk->SetParent(VCSceneGraph::Instance->RootNode);
-	//testChunk->Generate();
- //   testChunk->Rebuild();
+
+	// Debug
+	VCFont font ("C:\\Users\\Alec\\Desktop\\BmpTests\\Binary2.fnt", "");
+	font.Initialize();
 
 	VCWorld* testWorld = new VCWorld(4);
 	testWorld->Initialize();
+
     
     MonoRuntime->InvokeStart();
 }

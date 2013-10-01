@@ -28,6 +28,7 @@
     <ClCompile Include="VCCamera.cpp" />
     <ClCompile Include="VCChunk.cpp" />
     <ClCompile Include="VCChunkGenerator.cpp" />
+    <ClCompile Include="VCFont.cpp" />
     <ClCompile Include="VCGame.cpp" />
     <ClCompile Include="VCGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCTestShader.cpp" />
+    <ClCompile Include="VCTexture.cpp" />
     <ClCompile Include="VCTextureShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
@@ -53,12 +55,14 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="StreamHelpers.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="VCApplication.h" />
     <ClInclude Include="VCBlock.h" />
     <ClInclude Include="VCCamera.h" />
     <ClInclude Include="VCChunk.h" />
     <ClInclude Include="VCChunkGenerator.h" />
+    <ClInclude Include="VCFont.h" />
     <ClInclude Include="VCGame.h" />
     <ClInclude Include="VCGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
@@ -71,6 +75,7 @@
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTestShader.h" />
+    <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCTypes.h" />
@@ -85,7 +90,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85B49496-34A9-40F6-B52F-3663124FEC94}</ProjectGuid>
     <RootNamespace>VoxelCraft</RootNamespace>
-    <ProjectName>UnManaged</ProjectName>
+    <ProjectName>VCEngine.UnManaged</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

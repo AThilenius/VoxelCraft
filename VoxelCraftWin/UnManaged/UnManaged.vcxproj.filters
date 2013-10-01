@@ -29,6 +29,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{2906427e-bd57-46fd-81b4-d57f91b6c78b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{bd54c50f-9576-481c-bb72-4428380f39cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VCInspectorWindow.cpp" />
@@ -109,6 +112,10 @@
     </ClCompile>
     <ClCompile Include="VCPhysics.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="VCFont.cpp" />
+    <ClCompile Include="VCTexture.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +204,13 @@
     </ClInclude>
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="VCFont.h" />
+    <ClInclude Include="StreamHelpers.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTexture.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
