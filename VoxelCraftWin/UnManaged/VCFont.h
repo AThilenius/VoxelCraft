@@ -104,6 +104,7 @@ private:
 	bool ParseKerning(ifstream& f);
 	void PreCompileQuads();
 
+	string m_imageFileName;
 	GLuint m_ddsTexture;
 
 	CharDesc Charaters[256];
@@ -113,7 +114,6 @@ private:
 	InfoHeader m_info;
 	CommonHeader m_common;
 	string m_fontName;
-	vector<string> m_files;
 
 	friend class VCLexicalEngine;
 

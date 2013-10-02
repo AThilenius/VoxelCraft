@@ -13,7 +13,7 @@
 #include "VCShadowShader.h"
 #include "VCTextureShader.h"
 #include "VCLexShader.h"
-#include "VCCamera.h"
+#include "VCRenderable.h"
 
 class VCGLRenderer
 {
@@ -26,6 +26,11 @@ public:
 
 	void SetModelMatrix(mat4 matrix);
 
+	void RegisterState(VCRenderState* state);
+
+	void RegisterRenderable(VCRenderable* renderable);
+	void UnRegisterRenderable(VCRenderable* renderable);
+
 public:
 	static VCGLRenderer* Instance;
 
@@ -34,14 +39,21 @@ public:
 	VCTextureShader* TextureShader;
 	VCLexShader* LexShader;
 
+	GLuint DefaultFrameBuffer;
+	GLuint DepthFrameBuffer;
+	GLuint DepthTexture;
+
 private:
-	GLuint m_frameBufferId;
-	GLuint m_depthTexture;
-	GLuint m_textTexture;
+	typedef std::set<VCRenderable*, _VCRenderableCompare> RenderSet;
+	typedef std::map<VCRenderState*, RenderSet, _VCRenderStateCompare> RenderMap;
+
+	RenderMap m_renderMap;
+
 
 	// Debug
-	GLuint m_quad_VertexArrayID;
 	GLuint m_textVAO;
+	GLuint m_quad_VertexArrayID;
+	GLuint m_textTexture;
 
 };
 

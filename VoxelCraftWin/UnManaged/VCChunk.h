@@ -14,6 +14,7 @@
 #include "VCChunkGenerator.h"
 
 class VCWorld;
+class VCRenderState;
 
 using namespace std;
 
@@ -44,6 +45,7 @@ public:
 	void Rebuild ( );
 	
     void virtual Render();
+	static VCRenderState* VoxelRenderState;
 
 private:
 	BlockType m_blocks[CHUNK_TOTAL_COUNT];

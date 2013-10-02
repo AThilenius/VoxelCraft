@@ -45,5 +45,22 @@ protected:
 	string *m_vertexShaderLiteral, *m_fragShaderLiteral, *m_geometryShaderLiteral;
 	GLuint m_programId;
 
+	friend bool operator==(const Shader& lhs, const Shader& rhs);
+	friend bool operator< (const Shader& lhs, const Shader& rhs);
 };
+
+inline bool operator==(const Shader& lhs, const Shader& rhs)
+{
+	return lhs.m_programId == rhs.m_programId;
+}
+
+inline bool operator< (const Shader& lhs, const Shader& rhs)
+{
+	return lhs.m_programId < rhs.m_programId;
+}
+
+inline bool operator!=(const Shader& lhs, const Shader& rhs){return !operator==(lhs,rhs);}
+inline bool operator> (const Shader& lhs, const Shader& rhs){return  operator< (rhs,lhs);}
+inline bool operator<=(const Shader& lhs, const Shader& rhs){return !operator> (lhs,rhs);}
+inline bool operator>=(const Shader& lhs, const Shader& rhs){return !operator< (lhs,rhs);}
 

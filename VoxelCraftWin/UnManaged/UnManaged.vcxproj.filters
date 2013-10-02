@@ -32,6 +32,9 @@
     <Filter Include="Text">
       <UniqueIdentifier>{bd54c50f-9576-481c-bb72-4428380f39cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\State">
+      <UniqueIdentifier>{61e4bee6-7293-4e56-a940-58a6fbe89a14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VCInspectorWindow.cpp" />
@@ -121,6 +124,15 @@
     </ClCompile>
     <ClCompile Include="VCLexShader.cpp">
       <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderState.cpp">
+      <Filter>Rendering\State</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderStage.cpp">
+      <Filter>Rendering\State</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderable.cpp">
+      <Filter>Rendering\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +233,15 @@
     </ClInclude>
     <ClInclude Include="VCLexShader.h">
       <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCRenderState.h">
+      <Filter>Rendering\State</Filter>
+    </ClInclude>
+    <ClInclude Include="VCRenderStage.h">
+      <Filter>Rendering\State</Filter>
+    </ClInclude>
+    <ClInclude Include="VCRenderable.h">
+      <Filter>Rendering\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

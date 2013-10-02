@@ -9,7 +9,9 @@
 #include "VCWorld.h"
 #include "VCChunk.h"
 #include "VCGLRenderer.h"
+#include "VCRenderable.h"
 
+VCRenderState* VCChunk::VoxelRenderState = NULL;
 
 VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_x(x),
@@ -24,6 +26,23 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_vaoID(0),
     m_rebuildVerticies(NULL)
 {
+	if (VCChunk::VoxelRenderState == NULL)
+	{
+		VCChunk::VoxelRenderState = new VCRenderState();
+		VCChunk::VoxelRenderState->StageCount = 2;
+
+		// Stage 1
+		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
+		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+
+		// Stage 2
+		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
+
+		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
+	}
+
     //cout << "VCChunk created [ " << x << " : " << y << " : " << z << " ] with handle: " << Handle << endl;
 	m_chunkGenertor = new VCChunkGenerator(x, y, z);
 }
@@ -229,6 +248,13 @@ void VCChunk::Rebuild()
 	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
     
     glBindVertexArray(0);
+
+	// Create and register VCRenderable
+	VCRenderable* renderable = new VCRenderable();
+	renderable->State = VCChunk::VoxelRenderState;
+	renderable->VBO = m_vaoID;
+	renderable->VertexCount = m_vertexCount;
+	VCGLRenderer::Instance->RegisterRenderable(renderable);
 
 	// release heap malloc
 	free(m_rebuildVerticies);

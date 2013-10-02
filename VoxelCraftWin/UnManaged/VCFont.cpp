@@ -97,20 +97,19 @@ bool VCFont::ParsePages(ifstream& f)
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
 
-	for ( int i = 0; i < m_common.pages; i++ )
+	if ( m_common.pages != 1 )
 	{
-		string builder;
-		while(true)
-		{
-			char inC = ReadInt8(f);
+		ERROR("Only 1 font page per font is supported.");
+	}
 
-			if ( inC == 0 )
-				break;
+	while(true)
+	{
+		char inC = ReadInt8(f);
 
-			builder.push_back(inC);
-		}
+		if ( inC == 0 )
+			break;
 
-		m_files.push_back(builder);
+		m_imageFileName.push_back(inC);
 	}
 	
 	return true;
@@ -212,13 +211,5 @@ void VCFont::PreCompileQuads()
 		Charaters[i].Quad[3] = GlyphVerticie ( ulp, ulUV, color );
 		Charaters[i].Quad[4] = GlyphVerticie ( lrp, lrUV, color );
 		Charaters[i].Quad[5] = GlyphVerticie ( urp, urUV, color );
-
-		//Charaters[i].Quad[0] = GlyphVerticie ( ulp, GLfloat2(0, 0), color );
-		//Charaters[i].Quad[1] = GlyphVerticie ( urp, GLfloat2(1, 0), color );
-		//Charaters[i].Quad[2] = GlyphVerticie ( lrp, GLfloat2(1, 1), color );
-
-		//Charaters[i].Quad[3] = GlyphVerticie ( ulp, GLfloat2(0, 0), color );
-		//Charaters[i].Quad[4] = GlyphVerticie ( lrp, GLfloat2(1, 1), color );
-		//Charaters[i].Quad[5] = GlyphVerticie ( llp, GLfloat2(0, 1), color );
 	}
 }

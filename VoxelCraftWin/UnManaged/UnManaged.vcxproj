@@ -40,6 +40,9 @@
     <ClCompile Include="VCMonoRuntime.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCPhysics.cpp" />
+    <ClCompile Include="VCRenderable.cpp" />
+    <ClCompile Include="VCRenderStage.cpp" />
+    <ClCompile Include="VCRenderState.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -75,6 +78,9 @@
     <ClInclude Include="VCMonoRuntime.h" />
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />
+    <ClInclude Include="VCRenderable.h" />
+    <ClInclude Include="VCRenderStage.h" />
+    <ClInclude Include="VCRenderState.h" />
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTexture.h" />
