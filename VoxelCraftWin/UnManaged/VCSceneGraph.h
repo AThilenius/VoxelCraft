@@ -21,7 +21,7 @@ public:
     ~VCSceneGraph();
     
     void Initalize();
-    void RenderGraph();
+    void PrepareSceneGraph();
     
     void RegisterCamera(VCCamera* camera);
     

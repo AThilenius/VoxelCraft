@@ -26,7 +26,6 @@ public:
     virtual void LateUpdate();
     virtual void Gui();
     virtual void PreRender();
-    virtual void Render();
 	
 public:
     string Name;

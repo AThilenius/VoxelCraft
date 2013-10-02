@@ -63,12 +63,6 @@ void VCGameObject::PreRender()
         (*iter)->PreRender();
 }
 
-void VCGameObject::Render()
-{   
-    FOREACH(iter, Children)
-        (*iter)->Render();
-}
-
 VCGameObject* VCGameObject::GetParent()
 {
 	return m_parent;

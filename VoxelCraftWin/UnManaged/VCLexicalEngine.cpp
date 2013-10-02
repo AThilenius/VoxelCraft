@@ -87,10 +87,6 @@ GLuint VCLexicalEngine::MakeTextVAO ( string font, string text, int left, int up
 	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
 	glVertexAttribPointer( VC_ATTRIBUTE_COLOR,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
 
-	// Texture
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, vcfont->m_ddsTexture);
-
 	glBindVertexArray(0);
 
 	return vaoId;

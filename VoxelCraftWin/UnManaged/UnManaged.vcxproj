@@ -40,7 +40,6 @@
     <ClCompile Include="VCMonoRuntime.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCPhysics.cpp" />
-    <ClCompile Include="VCRenderable.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
@@ -72,13 +71,13 @@
     <ClInclude Include="VCGLRenderer.h" />
     <ClInclude Include="VCInput.h" />
     <ClInclude Include="VCInspectorWindow.h" />
+    <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLexicalEngine.h" />
     <ClInclude Include="VCLexShader.h" />
     <ClInclude Include="VCMarshalableObject.h" />
     <ClInclude Include="VCMonoRuntime.h" />
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />
-    <ClInclude Include="VCRenderable.h" />
     <ClInclude Include="VCRenderStage.h" />
     <ClInclude Include="VCRenderState.h" />
     <ClInclude Include="VCSceneGraph.h" />

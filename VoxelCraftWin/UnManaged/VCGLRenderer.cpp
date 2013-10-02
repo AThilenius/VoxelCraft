@@ -44,11 +44,13 @@ void VCGLRenderer::Initialize()
 	TextureShader = new VCTextureShader();
 	TextureShader->Initialize();
 
-	// ================    Create Frame-buffer for shadows    =============================
+	VoxelShader = new VCVoxelShader();
+	VoxelShader->Initialize();
+
+
+
 	CreateDepthFrameBuffer();
 
-	VoxelShader = new VCVoxelShader(DepthTexture);
-	VoxelShader->Initialize();
 
 	// ===================    Quad for visualize    =======================================
 	// The quad's FBO. Used only for visualizing the shadowmap.
@@ -96,39 +98,95 @@ void VCGLRenderer::Initialize()
 
 void VCGLRenderer::Render()
 {
-	// ====================    Shadow    =====================
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
-	//glViewport(0, 0, 1024, 1024);
+	static int lastFrameBuffer = -1;
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	ShadowShader->Bind();
-	VCSceneGraph::Instance->RenderGraph();
+	// Prep SceneGraph
+	VCSceneGraph::Instance->PrepareSceneGraph();
+
+	// For each RenderState
+	for ( auto mapIter = m_renderMap.begin(); mapIter != m_renderMap.end(); mapIter++ )
+	{
+		VCRenderState* state = mapIter->first;
+
+		// For each stage in the rState
+		for ( int stageId = 0; stageId < state->StageCount; stageId++ )
+		{
+
+			// Set Framebuffer
+			if (lastFrameBuffer != state->Stages[stageId].FrameBuffer)
+			{
+				lastFrameBuffer = state->Stages[stageId].FrameBuffer;
+				glBindFramebuffer(GL_FRAMEBUFFER, state->Stages[stageId].FrameBuffer);
+
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			}
+
+			// Set Shader ( will auto re-assign test )
+			state->Stages[stageId].Shader->Bind();
+
+			// Bind Textures
+			for ( int texId = 0; texId < MAX_TEXTURES; texId++ )
+			{
+				if (state->Stages[stageId].Textures[texId] != 0)
+				{
+					glActiveTexture(GL_TEXTURE0 + texId);
+					glBindTexture(GL_TEXTURE_2D, state->Stages[stageId].Textures[texId]);
+				}
+			}
+
+			// Bind DepthTest
+			if (state->Stages[stageId].DepthTest)
+				glEnable(GL_DEPTH_TEST);
+			else
+				glDisable(GL_DEPTH_TEST);
+
+			// Bind Blend
+			if (state->Stages[stageId].Blend)
+				glEnable(GL_BLEND);
+			else
+				glDisable(GL_BLEND);
+
+			// Render everything using this state
+			for ( auto iRendIter = mapIter->second.begin(); iRendIter != mapIter->second.end(); iRendIter++ )
+				(*iRendIter)->Render();
+
+		}
+
+	}
+
+	//// ====================    Shadow    =====================
+	////glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	//glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
+	////glViewport(0, 0, 1024, 1024);
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//
+	//ShadowShader->Bind();
+	//VCSceneGraph::Instance->PrepareSceneGraph();
 
 
-	// ====================    Diffuse    =====================
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	//glViewport(0, 0, 1280, 800);
+	//// ====================    Diffuse    =====================
+	////glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	////glViewport(0, 0, 1280, 800);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	VoxelShader->Bind();
-	VCSceneGraph::Instance->RenderGraph();
+	//VoxelShader->Bind();
+	//VCSceneGraph::Instance->PrepareSceneGraph();
 
-	
-	// =====================    Text    ========================
-	LexShader->Bind();
-	glBindVertexArray(m_textVAO);
-	
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_textTexture);
+	//
+	//// =====================    Text    ========================
+	//LexShader->Bind();
+	//glBindVertexArray(m_textVAO);
+	//
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_textTexture);
 
-	glDrawArrays(GL_TRIANGLES, 0, 96);
-	glBindVertexArray(0);
+	//glDrawArrays(GL_TRIANGLES, 0, 96);
+	//glBindVertexArray(0);
 
-	//// ===================    Visualize    =====================
+	////// ===================    Visualize    =====================
 	glViewport(0, 0, 256, 256);
 
 	TextureShader->Bind();
@@ -138,7 +196,7 @@ void VCGLRenderer::Render()
 	
 	glActiveTexture(GL_TEXTURE0);
 	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	glBindTexture(GL_TEXTURE_2D, m_textTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
 
 	TextureShader->SetTextureUnit(0);
 
@@ -157,9 +215,9 @@ void VCGLRenderer::RegisterState( VCRenderState* state )
 	m_renderMap.insert(RenderMap::value_type(state, RenderSet()));
 }
 
-void VCGLRenderer::RegisterRenderable( VCRenderable* renderable )
+void VCGLRenderer::RegisterIRenderable( VCIRenderable* renderable )
 {
-	auto iter = m_renderMap.find(renderable->State);
+	auto iter = m_renderMap.find(renderable->GetState());
 
 	if (iter == m_renderMap.end())
 	{
@@ -169,9 +227,9 @@ void VCGLRenderer::RegisterRenderable( VCRenderable* renderable )
 	iter->second.insert(RenderSet::value_type(renderable));
 }
 
-void VCGLRenderer::UnRegisterRenderable( VCRenderable* renderable )
+void VCGLRenderer::UnRegisterIRenderable( VCIRenderable* renderable )
 {
-	auto iter = m_renderMap.find(renderable->State);
+	auto iter = m_renderMap.find(renderable->GetState());
 
 	if (iter == m_renderMap.end())
 	{

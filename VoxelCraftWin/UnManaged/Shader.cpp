@@ -82,6 +82,9 @@ void Shader::Initialize()
 
 void Shader::Bind()
 {
+	if (Shader::BoundShader == this)
+		return;
+
 	Shader::BoundShader = this;
 	glUseProgram(m_programId);
 }

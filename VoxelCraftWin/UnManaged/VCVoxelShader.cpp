@@ -174,6 +174,8 @@ static string g_vcVoxFragmentShader =
 			// Lit Diffuse
 			"visibility * colorVarying * cosTheta * 0.6;"
 
+		"color.w = colorVarying.w;"
+
 	"}";
 
 
@@ -186,11 +188,10 @@ static string g_vcVoxFragmentShader =
 	//	"colorF = colorVarying;"
 	//"}";
 
-VCVoxelShader::VCVoxelShader(GLuint textId):
+VCVoxelShader::VCVoxelShader():
 	m_unifMVP(0),
 	m_unifDepthMVP(0),
-	m_unifShadow(0),
-	m_texID(textId)
+	m_unifShadow(0)
 {
 	m_vertexShaderLiteral = &g_vcVoxVertexShader;
 	m_fragShaderLiteral = &g_vcVoxFragmentShader;
@@ -203,12 +204,13 @@ VCVoxelShader::~VCVoxelShader(void)
 
 void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	// Re-create the exact same MVP matrix that was used for the shadow pass
-	glm::vec3 lightInvDir = glm::vec3(0.5f,2,2);
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -30, 30, -30, 30, -100, 100);
+	// Compute the MVP matrix from the light's point of view
+	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 100, -100, 100, -100, 100);
+
+	glm::vec3 lightInvDir = glm::vec3(0.5f, 2, 2);
 	glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	depthViewMatrix = glm::translate(depthViewMatrix, -15.0f, 0.0f, 0.0f);
-	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * modelMatrix;
+	depthViewMatrix = glm::translate(depthViewMatrix, -50.0f, 0.0f, 0.0f);
+	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix* modelMatrix;
 
 	// Multiply it be the bias matrix
 	glm::mat4 biasMatrix
@@ -236,8 +238,6 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 
 	glUniform3f(m_unifLightInvDirection, lightInvDir.x, lightInvDir.y, lightInvDir.z);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_texID);
 	glUniform1i(m_unifShadow, 0);
 
 	glErrorCheck();

@@ -17,7 +17,7 @@ using namespace std;
 class VCVoxelShader : public Shader
 {
 public:
-	VCVoxelShader(GLuint textId);
+	VCVoxelShader();
 	~VCVoxelShader(void);
 
 	virtual void SetModelMatrix(glm::mat4 modelMatrix);
@@ -28,8 +28,6 @@ protected:
 	virtual void PostInitialize();
 
 private:
-	GLuint m_texID;
-
 	GLint m_unifMVP;
 	GLint m_unifViewMatrix;
 	GLint m_unifModelMatrix;

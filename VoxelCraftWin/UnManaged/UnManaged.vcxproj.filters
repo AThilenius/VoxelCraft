@@ -131,9 +131,6 @@
     <ClCompile Include="VCRenderStage.cpp">
       <Filter>Rendering\State</Filter>
     </ClCompile>
-    <ClCompile Include="VCRenderable.cpp">
-      <Filter>Rendering\State</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VCInspectorWindow.h" />
@@ -240,9 +237,7 @@
     <ClInclude Include="VCRenderStage.h">
       <Filter>Rendering\State</Filter>
     </ClInclude>
-    <ClInclude Include="VCRenderable.h">
-      <Filter>Rendering\State</Filter>
-    </ClInclude>
+    <ClInclude Include="VCIRenderable.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

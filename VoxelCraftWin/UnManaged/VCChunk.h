@@ -12,6 +12,7 @@
 #include "VCGameObject.h"
 #include "VCBlock.h"
 #include "VCChunkGenerator.h"
+#include "VCIRenderable.h"
 
 class VCWorld;
 class VCRenderState;
@@ -33,7 +34,7 @@ struct BlockVerticie
 	GLubyte4 color;
 };
 
-class VCChunk : public VCGameObject
+class VCChunk : public VCGameObject, public VCIRenderable
 {
 public:
 	VCChunk(int x, int y, int z, VCWorld* world);
@@ -43,8 +44,10 @@ public:
 
 	void Generate( );
 	void Rebuild ( );
-	
+
+	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
     void virtual Render();
+
 	static VCRenderState* VoxelRenderState;
 
 private:

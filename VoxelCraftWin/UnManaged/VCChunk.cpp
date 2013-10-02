@@ -9,7 +9,6 @@
 #include "VCWorld.h"
 #include "VCChunk.h"
 #include "VCGLRenderer.h"
-#include "VCRenderable.h"
 
 VCRenderState* VCChunk::VoxelRenderState = NULL;
 
@@ -249,12 +248,8 @@ void VCChunk::Rebuild()
     
     glBindVertexArray(0);
 
-	// Create and register VCRenderable
-	VCRenderable* renderable = new VCRenderable();
-	renderable->State = VCChunk::VoxelRenderState;
-	renderable->VBO = m_vaoID;
-	renderable->VertexCount = m_vertexCount;
-	VCGLRenderer::Instance->RegisterRenderable(renderable);
+	// Register VCIRenderable
+	VCGLRenderer::Instance->RegisterIRenderable(this);
 
 	// release heap malloc
 	free(m_rebuildVerticies);
@@ -275,6 +270,7 @@ void VCChunk::Render()
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
+
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
     
     glBindVertexArray(0);

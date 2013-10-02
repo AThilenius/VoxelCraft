@@ -13,7 +13,7 @@
 #include "VCShadowShader.h"
 #include "VCTextureShader.h"
 #include "VCLexShader.h"
-#include "VCRenderable.h"
+#include "VCIRenderable.h"
 
 class VCGLRenderer
 {
@@ -28,10 +28,12 @@ public:
 
 	void RegisterState(VCRenderState* state);
 
-	void RegisterRenderable(VCRenderable* renderable);
-	void UnRegisterRenderable(VCRenderable* renderable);
+	void RegisterIRenderable(VCIRenderable* renderable);
+	void UnRegisterIRenderable(VCIRenderable* renderable);
 
 public:
+	void CreateDepthFrameBuffer();
+
 	static VCGLRenderer* Instance;
 
 	VCVoxelShader* VoxelShader;
@@ -44,7 +46,7 @@ public:
 	GLuint DepthTexture;
 
 private:
-	typedef std::set<VCRenderable*, _VCRenderableCompare> RenderSet;
+	typedef std::set<VCIRenderable*> RenderSet;
 	typedef std::map<VCRenderState*, RenderSet, _VCRenderStateCompare> RenderMap;
 
 	RenderMap m_renderMap;

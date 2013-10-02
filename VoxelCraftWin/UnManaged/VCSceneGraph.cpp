@@ -28,22 +28,30 @@ void VCSceneGraph::Initalize()
     cout << "VCSceneGraph Initalized" << endl;
 }
 
-void VCSceneGraph::RenderGraph()
+void VCSceneGraph::PrepareSceneGraph()
 {
-    if ( m_cameras.size() == 0 )
-        cout << "No cameras are registered with the SceneGraph. Please create at least 1 VCCamera." << endl;
-    
-    FOREACH(iter, m_cameras)
-    {
-        CurrentRenderingCamera = (*iter);
-        CurrentRenderingCamera->PreRender();
-        RootNode->Render();
-    }
+    //if ( m_cameras.size() == 0 )
+    //    cout << "No cameras are registered with the SceneGraph. Please create at least 1 VCCamera." << endl;
+    //
+    //FOREACH(iter, m_cameras)
+    //{
+    //    CurrentRenderingCamera = (*iter);
+    //    CurrentRenderingCamera->PreRender();
+    //    RootNode->Render();
+    //}
+
+	// HACK
+	CurrentRenderingCamera->PreRender();
+
+	RootNode->PreRender();
 }
 
 void VCSceneGraph::RegisterCamera(VCCamera* camera)
 {
-    m_cameras.insert(camera);
+	m_cameras.insert(camera);
+
+	// HACK
+	CurrentRenderingCamera = camera;
 }
 
 // ================================      Interop      ============
