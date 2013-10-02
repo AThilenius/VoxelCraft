@@ -164,7 +164,7 @@ void VCFont::PreCompileQuads()
 		// Lower Left
 		GLshort3 llp ( 
 			Charaters[i].XOffset, 
-			0, 
+			-Charaters[i].YOffset - Charaters[i].Height, 
 			0 );
 
 		GLfloat2 llUV (
@@ -175,7 +175,7 @@ void VCFont::PreCompileQuads()
 		// Upper Left
 		GLshort3 ulp ( 
 			Charaters[i].XOffset, 
-			Charaters[i].Height, 
+			-Charaters[i].YOffset, 
 			0 );
 
 		GLfloat2 ulUV (
@@ -186,7 +186,7 @@ void VCFont::PreCompileQuads()
 		// Lower Right
 		GLshort3 lrp ( 
 			Charaters[i].XOffset + Charaters[i].Width, 
-			0, 
+			-Charaters[i].YOffset - Charaters[i].Height, 
 			0 );
 
 		GLfloat2 lrUV (
@@ -197,7 +197,7 @@ void VCFont::PreCompileQuads()
 		// Upper right
 		GLshort3 urp ( 
 			Charaters[i].XOffset + Charaters[i].Width, 
-			Charaters[i].Height, 
+			-Charaters[i].YOffset, 
 			0 );
 
 		GLfloat2 urUV (
