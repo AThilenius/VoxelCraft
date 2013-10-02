@@ -84,6 +84,7 @@ class VCInput;
 #define VC_ATTRIBUTE_POSITION 0
 #define VC_ATTRIBUTE_NORMAL 1
 #define VC_ATTRIBUTE_COLOR 2
+#define VC_ATTRIBUTE_TEX_COORD_0 3
 
 #define BLOCK_RENDER_SIZE 1.0f
 
@@ -101,9 +102,10 @@ class VCInput;
 
 
 // ================= Macros ===============================================================================
-#define POSITIVE_CHECK(value) if(value < 0) { throw new std::exception("Positive Check Failed!"); }
-#define ZERO_CHECK(value) if(value == 0) { std::cout << "Zero Check Failed!" << std::endl; }
+#define POSITIVE_CHECK(value) if(value < 0) { SetConsoleColor(Red); cout << "Positive Check Failed!" << endl; SetConsoleColor(White); cin.clear(); cin.ignore(); }
+#define ZERO_CHECK(value) if(value == 0) { SetConsoleColor(Red); cout << "Zero Check Failed!" << endl; SetConsoleColor(White); cin.clear(); cin.ignore(); }
 #define FOREACH(iterName, variable) for (auto iterName = variable.begin(); iterName != variable.end(); iterName++)
+#define ERROR(message) SetConsoleColor(Red); cout << message << endl; SetConsoleColor(White); cin.clear(); cin.ignore();
 
 // Z -> X -> Y memory access pattern
 #define FLATTEN_CHUNK(X,Y,Z) ((((Z << LOG_CHUNK_WIDTH) + X) << LOG_CHUNK_WIDTH ) + Y)
@@ -114,27 +116,9 @@ class VCInput;
 // ================= OS X Macros ==========================================================================
 #ifdef __APPLE__
 
-#define CONSOLE_COLOR_WHITE 
-#define CONSOLE_COLOR_RED 
-#define CONSOLE_COLOR_YELLOW
-#define CONSOLE_COLOR_GREEN
-#define CONSOLE_COLOR_BLUE
-
-
 // ================= Windows Macros =======================================================================
 #elif defined _WIN32 || defined _WIN64
 
-//#define CONSOLE_COLOR_WHITE SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
-//#define CONSOLE_COLOR_RED SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED|FOREGROUND_INTENSITY);
-//#define CONSOLE_COLOR_YELLOW SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);
-//#define CONSOLE_COLOR_GREEN SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-//#define CONSOLE_COLOR_BLUE SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE |FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-
-#define CONSOLE_COLOR_WHITE 
-#define CONSOLE_COLOR_RED 
-#define CONSOLE_COLOR_YELLOW
-#define CONSOLE_COLOR_GREEN
-#define CONSOLE_COLOR_BLUE
 
 
 

@@ -77,6 +77,51 @@ struct GLbyte4
 	GLbyte w;
 };
 
+struct GLshort3
+{
+	GLshort3() {};
+
+	GLshort3(GLshort x, GLshort y, GLshort z )
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
+	GLshort x;
+	GLshort y;
+	GLshort z;
+};
+
+struct GLushort3
+{
+	GLushort3() {};
+
+	GLushort3(GLushort x, GLushort y, GLushort z )
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
+	GLushort x;
+	GLushort y;
+	GLushort z;
+};
+
+struct GLfloat2
+{
+	GLfloat2() {};
+
+	GLfloat2(GLfloat x, GLfloat y )
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	GLfloat x;
+	GLfloat y;
+};
 
 struct GLfloat3
 {

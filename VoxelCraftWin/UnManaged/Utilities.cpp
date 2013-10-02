@@ -75,3 +75,76 @@ unsigned long FastRandom()
 
 	return z;
 }
+
+// ================= OS X Macros ==========================================================================
+#ifdef __APPLE__
+
+void SetConsoleColor ( ConsoleColor color )
+{
+	switch ( color )
+	{
+	case White:
+		std::cout << "\033[0m";
+		break;
+
+	case Red:
+		std::cout << "\033[31m";
+		break;
+
+	case Yellow:
+		std::cout << "\033[33m";
+		break;
+
+	case Green:
+		std::cout << "\033[32m";
+		break;
+
+	case Blue:
+		std::cout << "\033[36m";
+		break;
+	}
+}
+
+// ================= Windows Macros =======================================================================
+#elif defined _WIN32 || defined _WIN64
+
+#include <Windows.h>
+
+void SetConsoleColor ( ConsoleColor color )
+{
+
+	switch ( color )
+	{
+	case White:
+		//HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 
+			FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
+		break;
+
+	case Red:
+		//HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 
+			FOREGROUND_RED|FOREGROUND_INTENSITY);
+		break;
+
+	case Yellow:
+		//HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 
+			FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);
+		break;
+
+	case Green:
+		//HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 
+			FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+
+	case Blue:
+		//HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE); 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE
+			|FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+		break;
+	}
+}
+
+#endif

@@ -14,6 +14,7 @@ class VCInput;
 class VCTime;
 class VCObjectStore;
 class VCMonoRuntime;
+class VCLexicalEngine;
 
 
 using namespace std;
@@ -35,6 +36,7 @@ public:
     VCTime* Time;
     VCObjectStore* ObjectStore;
     VCMonoRuntime* MonoRuntime;
+	VCLexicalEngine* LexEngine;
     
     static VCApplication* Instance;
 };

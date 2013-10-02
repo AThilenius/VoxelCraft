@@ -53,10 +53,12 @@ void VCFont::Initialize()
 	if (!ParseKerning(f) )
 		return;
 
+	PreCompileQuads();
+
 	f.close();
-	cout << "Done." << endl;
-	cin.clear();
-	cin.ignore();
+
+	// Load DDS
+	m_ddsTexture = loadDDS ( m_ddsPath.c_str() );
 }
 
 
@@ -147,4 +149,76 @@ bool VCFont::ParseKerning(ifstream& f)
 	}
 
 	return true;
+}
+
+void VCFont::PreCompileQuads()
+{
+	float width = m_common.scaleW;
+	float height = m_common.scaleH;
+
+	GLubyte4 color ( 255, 255, 255, 255 );
+
+	for ( int i = 0; i < 256; i++ )
+	{
+		
+		// Lower Left
+		GLshort3 llp ( 
+			Charaters[i].XOffset, 
+			0, 
+			0 );
+
+		GLfloat2 llUV (
+			Charaters[i].X / width,
+			(Charaters[i].Y + Charaters[i].Height) / height);
+
+
+		// Upper Left
+		GLshort3 ulp ( 
+			Charaters[i].XOffset, 
+			Charaters[i].Height, 
+			0 );
+
+		GLfloat2 ulUV (
+			Charaters[i].X / width,
+			Charaters[i].Y / height);
+		
+
+		// Lower Right
+		GLshort3 lrp ( 
+			Charaters[i].XOffset + Charaters[i].Width, 
+			0, 
+			0 );
+
+		GLfloat2 lrUV (
+			(Charaters[i].X + Charaters[i].Width) / width,
+			(Charaters[i].Y + Charaters[i].Height) / height);
+
+
+		// Upper right
+		GLshort3 urp ( 
+			Charaters[i].XOffset + Charaters[i].Width, 
+			Charaters[i].Height, 
+			0 );
+
+		GLfloat2 urUV (
+			(Charaters[i].X + Charaters[i].Width) / width,
+			Charaters[i].Y / height);
+
+
+		Charaters[i].Quad[0] = GlyphVerticie ( ulp, ulUV, color );
+		Charaters[i].Quad[1] = GlyphVerticie ( llp, llUV, color );
+		Charaters[i].Quad[2] = GlyphVerticie ( lrp, lrUV, color );
+		
+		Charaters[i].Quad[3] = GlyphVerticie ( ulp, ulUV, color );
+		Charaters[i].Quad[4] = GlyphVerticie ( lrp, lrUV, color );
+		Charaters[i].Quad[5] = GlyphVerticie ( urp, urUV, color );
+
+		//Charaters[i].Quad[0] = GlyphVerticie ( ulp, GLfloat2(0, 0), color );
+		//Charaters[i].Quad[1] = GlyphVerticie ( urp, GLfloat2(1, 0), color );
+		//Charaters[i].Quad[2] = GlyphVerticie ( lrp, GLfloat2(1, 1), color );
+
+		//Charaters[i].Quad[3] = GlyphVerticie ( ulp, GLfloat2(0, 0), color );
+		//Charaters[i].Quad[4] = GlyphVerticie ( lrp, GLfloat2(1, 1), color );
+		//Charaters[i].Quad[5] = GlyphVerticie ( llp, GLfloat2(0, 1), color );
+	}
 }

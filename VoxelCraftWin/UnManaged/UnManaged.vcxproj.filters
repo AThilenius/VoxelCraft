@@ -98,9 +98,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="VCTestShader.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="VCVoxelShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
@@ -113,9 +110,17 @@
     <ClCompile Include="VCPhysics.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="VCFont.cpp" />
     <ClCompile Include="VCTexture.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VCFont.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="VCLexicalEngine.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="VCLexShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +194,6 @@
     <ClInclude Include="Shader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="VCTestShader.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="VCVoxelShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
@@ -205,12 +207,20 @@
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="VCFont.h" />
     <ClInclude Include="StreamHelpers.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCTexture.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCFont.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="VCLexicalEngine.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="VCLexShader.h">
+      <Filter>Rendering\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

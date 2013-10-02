@@ -20,24 +20,9 @@ namespace TestGame
             m_camera.AttachComponent(simpleController);
         }
 
-        float next;
         public override void Update()
         {
-            base.Update();
-
-            //if (Time.TotalTime > next)
-            //{
-            Ray ray = m_camera.ScreenPointToRay(640, 400);
-
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-                Console.WriteLine("Hit: " + hit.X + " | " + hit.Y + " | " + hit.Z);
-
-            else
-                Console.WriteLine("Missed. Ray: " + ray);
-
-            next = Time.TotalTime + 1.0f;
-            //}
+            
         }
 
     }

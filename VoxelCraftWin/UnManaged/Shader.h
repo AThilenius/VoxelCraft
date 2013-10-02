@@ -20,9 +20,9 @@ public:
 	Shader();
 	~Shader();
 	void Initialize();
-	void Bind();
+	virtual void Bind();
 
-	virtual void SetModelMatrix(glm::mat4 modelMatrix) = 0;
+	virtual void SetModelMatrix(glm::mat4 modelMatrix){}
 
 	static Shader* BoundShader;
 

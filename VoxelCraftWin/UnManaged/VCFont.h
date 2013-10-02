@@ -11,6 +11,26 @@
 #include "PCH.h"
 #include "StreamHelpers.h"
 
+class VCLexicalEngine;
+
+struct GlyphVerticie
+{
+	GlyphVerticie(){}
+
+	GlyphVerticie(GLshort3 poistion, GLfloat2 uvDXFormat, GLubyte4 color):
+		Position(poistion),
+		UV(uvDXFormat),
+		Color(color)
+	{
+	}
+
+	GLshort3 Position;
+	GLfloat2 UV;
+	GLubyte4 Color;
+
+	GLbyte _padding1, _padding2;
+};
+
 struct CharDesc
 {
 	unsigned short X;
@@ -23,7 +43,8 @@ struct CharDesc
 	unsigned char Page;
 	unsigned char Chanel;
 
-	vec3 Quads[6];
+	GlyphVerticie Quad[6];
+
 	char KerningPairs[256];
 
 	CharDesc()
@@ -71,6 +92,7 @@ public:
 
 	void Initialize();
 
+	
 	string Name;
 	int Size;
 
@@ -80,6 +102,9 @@ private:
 	bool ParsePages(ifstream& f);
 	bool ParseCharacters(ifstream& f);
 	bool ParseKerning(ifstream& f);
+	void PreCompileQuads();
+
+	GLuint m_ddsTexture;
 
 	CharDesc Charaters[256];
 	string m_fntPath, m_ddsPath;
@@ -90,7 +115,7 @@ private:
 	string m_fontName;
 	vector<string> m_files;
 
-
+	friend class VCLexicalEngine;
 
 };
 

@@ -12,6 +12,7 @@
 #include "VCVoxelShader.h"
 #include "VCShadowShader.h"
 #include "VCTextureShader.h"
+#include "VCLexShader.h"
 #include "VCCamera.h"
 
 class VCGLRenderer
@@ -31,13 +32,16 @@ public:
 	VCVoxelShader* VoxelShader;
 	VCShadowShader* ShadowShader;
 	VCTextureShader* TextureShader;
+	VCLexShader* LexShader;
 
 private:
 	GLuint m_frameBufferId;
 	GLuint m_depthTexture;
+	GLuint m_textTexture;
 
 	// Debug
 	GLuint m_quad_VertexArrayID;
+	GLuint m_textVAO;
 
 };
 

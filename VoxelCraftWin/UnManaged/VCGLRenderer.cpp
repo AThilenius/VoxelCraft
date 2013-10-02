@@ -8,15 +8,14 @@
 
 #include "VCGLRenderer.h"
 
+#include "VCLexicalEngine.h"
+
 VCGLRenderer* VCGLRenderer::Instance;
 
 VCGLRenderer::VCGLRenderer(void):
 	m_frameBufferId(0)
 {
 	VCGLRenderer::Instance == this;
-
-	//VoxelShader = new VCVoxelShader();
-    ShadowShader = new VCShadowShader();
 
     glErrorCheck();
 }
@@ -31,14 +30,19 @@ void VCGLRenderer::Initialize()
 	// GL Setup
 	glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	//glEnable(GL_BLEND);
-	//glDepthFunc(GL_LEQUAL);
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
 	glDepthFunc(GL_LESS); 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//VoxelShader->Initialize();
+	ShadowShader = new VCShadowShader();
 	ShadowShader->Initialize();
+
+	LexShader = new VCLexShader();
+	LexShader->Initialize();
+
+	TextureShader = new VCTextureShader();
+	TextureShader->Initialize();
 
 	// ================    Create Frame-buffer for shadows    =============================
 	glGenFramebuffers(1, &m_frameBufferId);
@@ -94,11 +98,13 @@ void VCGLRenderer::Initialize()
 
 	glBindVertexArray(0);
 
-	TextureShader = new VCTextureShader();
-	TextureShader->Initialize();
-
     glErrorCheck();
     cout << "VCGLRenderer Initialized" << endl;
+
+	// ======================    Test Text      =============================================
+	m_textVAO = VCLexicalEngine::Instance->MakeTextVAO("Cambria-32", "Alec, T*^,.l", 100, 400, GLubyte4 ( 255, 255, 255, 255 ) );
+	m_textTexture = loadDDS ("C:\\Users\\Alec\\Desktop\\BmpTests\\Binary_0.DDS" );
+	//m_textTexture = loadBMP_custom("C:\\Users\\Alec\\Desktop\\BmpTests\\House.bmp");
 }
 
 void VCGLRenderer::Render()
@@ -124,22 +130,34 @@ void VCGLRenderer::Render()
 	VoxelShader->Bind();
 	VCSceneGraph::Instance->RenderGraph();
 
+	
+	// =====================    Text    ========================
+	LexShader->Bind();
+	glBindVertexArray(m_textVAO);
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_textTexture);
 
-	// ===================    Visualize    =====================
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	glDrawArrays(GL_TRIANGLES, 0, 96);
+	glBindVertexArray(0);
+
+	//// ===================    Visualize    =====================
 	glViewport(0, 0, 256, 256);
 
 	TextureShader->Bind();
 
 	// Bind our texture in Texture Unit 0
 	glBindVertexArray(m_quad_VertexArrayID);
-
+	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	glBindTexture(GL_TEXTURE_2D, m_textTexture);
+
 	TextureShader->SetTextureUnit(0);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
+
 }
 
 void VCGLRenderer::SetModelMatrix(mat4 matrix)

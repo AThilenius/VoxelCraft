@@ -19,7 +19,7 @@
 #include "VCCamera.h"
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
-#include "VCFont.h"
+#include "VCLexicalEngine.h"
 
 VCApplication* VCApplication::Instance;
 
@@ -44,6 +44,10 @@ void VCApplication::Initialize()
     
     Input = new VCInput();
     Input->Initalize();
+
+	LexEngine = new VCLexicalEngine();
+	LexEngine->Initialize();
+	LexEngine->LoadFont("Cambria-32", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary.fnt", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary_0.DDS");
     
 	Renderer = new VCGLRenderer();
 	Renderer->Initialize();
@@ -59,9 +63,6 @@ void VCApplication::Initialize()
     MonoRuntime->InvokeInitalize();
 
 	// Debug
-	VCFont font ("C:\\Users\\Alec\\Desktop\\BmpTests\\Binary2.fnt", "");
-	font.Initialize();
-
 	VCWorld* testWorld = new VCWorld(4);
 	testWorld->Initialize();
 
