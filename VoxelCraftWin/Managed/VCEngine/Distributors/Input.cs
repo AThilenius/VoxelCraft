@@ -31,7 +31,7 @@ namespace VCEngine
         public static bool Fire;
         public static bool AltFire;
 
-        public static MouseMoveMode MouseMode = MouseMoveMode.Locked;
+        public static MouseMoveMode MouseMode = MouseMoveMode.Free;
 
         private static float m_deltaMouseX;
         private static float m_deltaMouseY;
@@ -66,6 +66,16 @@ namespace VCEngine
         public static bool IsKeyDown(int keyCode)
         {
             return VCInteropInputGetKey(keyCode);
+        }
+
+        internal static void Start()
+        {
+            float x, y;
+            bool left, right;
+            VCInteropInputGetMouse(out x, out y, out left, out right);
+
+            m_lastMouseX = x;
+            m_lastMouseY = y;
         }
 
         internal static void Update()

@@ -24,27 +24,9 @@ namespace TestGame
 
         public override void Update()
         {
-            DrawBorderedRect(new Rectangle(1100, 138, 150, 25), Color.ControlDisabled, Color.ControlBorder);
+            Gui.DrawBorderedRect(new Rectangle(1100, 138, 150, 25), Color.ControlDisabled, Color.ControlBorder, 1);
 
             Gui.DrawString("Hello Managed GUI!", new Point(1110, 130), Color.Black, "Lucida Sans-13-Bold");
-        }
-
-        public void DrawBorderedRect(Rectangle rect, Color back, Color border)
-        {
-            // Background
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
-
-            // Left
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, 2, rect.Height), border);
-
-            // Top
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 2), border);
-
-            // Bottom
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y - rect.Height, rect.Width, 2), border);
-
-            // Right
-            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width, rect.Y, 2, rect.Height), border);
         }
 
     }

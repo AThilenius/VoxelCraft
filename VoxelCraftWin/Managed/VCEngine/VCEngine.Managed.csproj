@@ -38,6 +38,10 @@
   <ItemGroup>
     <Compile Include="Distributors\Input.cs" />
     <Compile Include="Distributors\SceneGraph.cs" />
+    <Compile Include="Editor\Editor.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Gui\Control.cs" />
+    <Compile Include="Gui\MouseEventArgs.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />
     <Compile Include="Gui\Gui.cs" />
@@ -61,7 +65,9 @@
     <Compile Include="Utilities\Types\Quaternion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utilities\Collections\" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

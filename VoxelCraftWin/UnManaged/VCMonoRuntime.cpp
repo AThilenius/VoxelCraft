@@ -66,7 +66,16 @@ void VCMonoRuntime::Initalize()
     // PreRender Method
     MonoMethodDesc* preRenderMethodDesc = mono_method_desc_new ("VCEngine.VCEngineCore:PreRender()", true);
     m_preRenderMethod = mono_method_desc_search_in_class (preRenderMethodDesc, m_engineType);
-    
+
+	// Editor
+	MonoClass* editorClass = mono_class_from_name(m_assemblyImage, "VCEngine", "Editor");
+	MonoMethodDesc* editorEntryPoint = mono_method_desc_new ("VCEngine.Editor:EditorMain()", true);
+	m_editorEntry = mono_method_desc_search_in_class (editorEntryPoint, editorClass);
+
+	// Game
+	MonoClass* gameClass = mono_class_from_name(m_assemblyImage, "VCEngine", "Game");
+	MonoMethodDesc* gameEntryPoint = mono_method_desc_new ("VCEngine.Game:GameMain()", true);
+	m_gameEntry = mono_method_desc_search_in_class (gameEntryPoint, gameClass);
 }
 
 void VCMonoRuntime::Bind()
@@ -103,4 +112,14 @@ void VCMonoRuntime::InvokeLateUpdate()
 void VCMonoRuntime::InvokePreRender()
 {
     mono_runtime_invoke(m_preRenderMethod, m_engineInstance, NULL, NULL);
+}
+
+void VCMonoRuntime::EditorMain()
+{
+	mono_runtime_invoke(m_editorEntry, NULL, NULL, NULL);
+}
+
+void VCMonoRuntime::GameMain()
+{
+	mono_runtime_invoke(m_gameEntry, NULL, NULL, NULL);
 }

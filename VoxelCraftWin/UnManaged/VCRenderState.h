@@ -17,6 +17,9 @@
 #define VC_BATCH_GUI_BASE 25
 #define VC_BATCH_GUI 30
 
+#define VC_BATCH_MIN 1
+#define VC_BATCH_MAX 1000000
+
 class VCRenderState
 {
 public:

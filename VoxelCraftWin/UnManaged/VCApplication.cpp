@@ -71,6 +71,8 @@ void VCApplication::Initialize()
 
     
     MonoRuntime->InvokeStart();
+	MonoRuntime->EditorMain();
+	MonoRuntime->GameMain();
 }
 
 void VCApplication::ShutDown()
@@ -89,7 +91,7 @@ void VCApplication::Step()
     MonoRuntime->InvokePreRender();
 
 	// Rendering
-    Renderer->Render();
+    Renderer->Render(VC_BATCH_MIN, VC_BATCH_MAX);
 
 	// Windowing
 	Window->SwapBuffers();

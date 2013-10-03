@@ -30,6 +30,9 @@ public:
     void InvokeUpdate();
     void InvokeLateUpdate();
     void InvokePreRender();
+
+	void EditorMain();
+	void GameMain();
     
 private:
     void Bind();
@@ -46,6 +49,9 @@ private:
     MonoMethod* m_updateMethod;
     MonoMethod* m_lateUpdateMethod;
     MonoMethod* m_preRenderMethod;
+
+	MonoMethod* m_editorEntry;
+	MonoMethod* m_gameEntry;
 };
 
 #endif /* defined(__VoxelCraftOSX__VCMonoBinder__) */

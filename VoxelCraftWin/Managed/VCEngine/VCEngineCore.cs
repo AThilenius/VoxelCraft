@@ -44,6 +44,8 @@ namespace VCEngine
         {
             try
             {
+                Input.Start();
+
                 foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
                     inst.Start();
 

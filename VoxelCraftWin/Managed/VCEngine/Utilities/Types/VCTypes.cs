@@ -45,6 +45,19 @@ namespace VCEngine
         public static Color ControlBlue { get { return new Color(0, 122, 204, 255); } }
         public static Color ControlGreen { get { return new Color(55, 138, 55, 255); } }
         public static Color ControlRed { get { return new Color(157, 36, 12, 255); } }
+        public static Color Trasparent { get { return new Color(0, 0, 0, 0); } }
+
+        public bool Equals(Color p)
+        {
+            return 
+                R == p.R &&
+                G == p.G &&
+                B == p.B &&
+                A == p.A;
+        }
+
+        public static bool operator ==(Color a, Color b) { return a.Equals(b); }
+        public static bool operator !=(Color a, Color b) { return !(a == b); }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -61,6 +74,15 @@ namespace VCEngine
             Y = y;
             Width = width;
             Height = height;
+        }
+
+        public bool IsPointWithin(Point point)
+        {
+            return
+                point.X >= X &&
+                point.X <= X + Width &&
+                point.Y <= Y &&
+                point.Y >= Y + Height;
         }
     }
 

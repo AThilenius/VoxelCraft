@@ -82,7 +82,7 @@ void VCGLRenderer::Initialize()
     cout << "VCGLRenderer Initialized" << endl;
 }
 
-void VCGLRenderer::Render()
+void VCGLRenderer::Render(int fromBatch, int toBatch)
 {
 	static int lastFrameBuffer = 0;
 	static RectangleF lastViewport;
@@ -100,6 +100,9 @@ void VCGLRenderer::Render()
 	for ( auto mapIter = m_renderMap.begin(); mapIter != m_renderMap.end(); mapIter++ )
 	{
 		VCRenderState* state = mapIter->first;
+
+		if (state->BatchingOrder < fromBatch || state->BatchingOrder > toBatch)
+			continue;
 
 		// For each stage in the rState
 		for ( int stageId = 0; stageId < state->StageCount; stageId++ )
@@ -157,38 +160,6 @@ void VCGLRenderer::Render()
 		}
 
 	}
-
-	//// ====================    Shadow    =====================
-	////glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	//glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
-	////glViewport(0, 0, 1024, 1024);
-
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//
-	//ShadowShader->Bind();
-	//VCSceneGraph::Instance->PrepareSceneGraph();
-
-
-	//// ====================    Diffuse    =====================
-	////glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	////glViewport(0, 0, 1280, 800);
-
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//VoxelShader->Bind();
-	//VCSceneGraph::Instance->PrepareSceneGraph();
-
-	//
-	//// =====================    Text    ========================
-	//LexShader->Bind();
-	//glBindVertexArray(m_textVAO);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_textTexture);
-
-	//glDrawArrays(GL_TRIANGLES, 0, 96);
-	//glBindVertexArray(0);
 
 	////// ===================    Visualize    =====================
 	//glViewport(0, 0, 256, 256);

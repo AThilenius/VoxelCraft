@@ -35,6 +35,24 @@ namespace VCEngine
             VCInteropGuiDrawRectangle(rect, color);
         }
 
+        public static void DrawBorderedRect(Rectangle rect, Color back, Color border, int borderWidth)
+        {
+            // Background
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
+
+            // Left
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, 2, rect.Height), border);
+
+            // Top
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 2), border);
+
+            // Bottom
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y - rect.Height, rect.Width, 2), border);
+
+            // Right
+            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width, rect.Y, 2, rect.Height), border);
+        }
+
         public static void DrawString(string text, Point llPoint, Color color, string font = "Lucida Sans-13-Bold")
         {
             VCInteropGuiDrawText(font, text, llPoint, color);

@@ -23,7 +23,7 @@ public:
 	~VCGLRenderer(void);
 
 	void Initialize();
-	void Render();
+	void Render(int fromBatch, int toBatch);
 
 	void SetModelMatrix(mat4 matrix);
 
