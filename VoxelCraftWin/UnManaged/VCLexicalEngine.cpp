@@ -88,5 +88,5 @@ VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int up, 
 
 	glBindVertexArray(0);
 
-	return new VCText(vcfont->RenderState, vaoId, verts.size());
+	return new VCText(vcfont->RenderState, vaoId, vboId, verts.size());
 }

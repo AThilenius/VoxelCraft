@@ -14,13 +14,21 @@
 #define MAX_STAGE_COUNT 4
 
 #define VC_BATCH_SCENE 20
+#define VC_BATCH_GUI_BASE 25
 #define VC_BATCH_GUI 30
 
 class VCRenderState
 {
 public:
-	VCRenderState(void);
-	~VCRenderState(void);
+	VCRenderState(void):
+		StageCount(1),
+		BatchingOrder(VC_BATCH_SCENE)
+	{
+	}
+
+	~VCRenderState(void)
+	{
+	}
 
 	int BatchingOrder;
 	int StageCount;

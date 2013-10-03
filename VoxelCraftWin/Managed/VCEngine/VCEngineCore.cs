@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace VCEngine
 {
@@ -55,7 +56,7 @@ namespace VCEngine
             }
         }
 
-		public void Update() 
+        public void Update() 
 		{
             try
             {

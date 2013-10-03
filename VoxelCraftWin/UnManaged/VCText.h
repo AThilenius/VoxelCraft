@@ -17,9 +17,10 @@ class VCText : VCIRenderable
 public:
 	VCText(void) {}
 
-	VCText(VCRenderState* state, GLuint vao, int vCount):
+	VCText(VCRenderState* state, GLuint vao, GLuint vbo, int vCount):
 		RenderState(state),
 		VAO(vao),
+		m_vbo(vbo),
 		VertCount(vCount)
 	{
 		VCGLRenderer::Instance->RegisterIRenderable(this);
@@ -27,6 +28,9 @@ public:
 
 	~VCText(void)
 	{
+		glDeleteBuffers(1, &m_vbo);
+		glDeleteBuffers(1, &VAO);
+
 		VCGLRenderer::Instance->UnRegisterIRenderable(this);
 	}
 
@@ -45,6 +49,9 @@ public:
 	VCRenderState* RenderState;
 	GLuint VAO;
 	int VertCount;
+
+private:
+	GLuint m_vbo;
 
 };
 

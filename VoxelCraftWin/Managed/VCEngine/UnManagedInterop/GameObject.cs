@@ -19,7 +19,7 @@ namespace VCEngine
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewGameObject; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseGameObject; } }
-
+        
 		#endregion
 
 		private GameObject m_parent;

@@ -32,6 +32,8 @@
     <ClCompile Include="VCGame.cpp" />
     <ClCompile Include="VCGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
+    <ClCompile Include="VCGui.cpp" />
+    <ClCompile Include="VCGuiShader.cpp" />
     <ClCompile Include="VCInput.cpp" />
     <ClCompile Include="VCLexicalEngine.cpp" />
     <ClCompile Include="VCLexShader.cpp" />
@@ -39,8 +41,6 @@
     <ClCompile Include="VCMonoRuntime.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCPhysics.cpp" />
-    <ClCompile Include="VCRenderStage.cpp" />
-    <ClCompile Include="VCRenderState.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -68,6 +68,8 @@
     <ClInclude Include="VCGame.h" />
     <ClInclude Include="VCGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
+    <ClInclude Include="VCGui.h" />
+    <ClInclude Include="VCGuiShader.h" />
     <ClInclude Include="VCInput.h" />
     <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLexicalEngine.h" />

@@ -17,10 +17,10 @@ namespace VCEngine
         extern static Vector3 VCInteropCameraScreenPointToRay(int handle, int x, int y);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame);
+        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, RectangleF frame);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out Rectangle frame);
+        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out RectangleF frame);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
@@ -91,8 +91,8 @@ namespace VCEngine
             }
         }
 
-        private Rectangle m_frame;
-        public Rectangle Frame
+        private RectangleF m_frame;
+        public RectangleF Frame
         {
             get
             {

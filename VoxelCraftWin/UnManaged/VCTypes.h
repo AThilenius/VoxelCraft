@@ -93,6 +93,20 @@ struct GLshort3
 	GLshort z;
 };
 
+struct GLushort2
+{
+	GLushort2() {};
+
+	GLushort2(GLushort x, GLushort y )
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	GLushort x;
+	GLushort y;
+};
+
 struct GLushort3
 {
 	GLushort3() {};
@@ -157,6 +171,15 @@ struct GLfloat4
 	GLfloat w;
 };
 
+struct Point
+{
+	Point() {};
+	Point(int x, int y) : X(x), Y(y) {}
+	int X;
+	int Y;
+
+};
+
 struct Rectangle
 {
     Rectangle() {};
@@ -168,19 +191,29 @@ struct Rectangle
     
 };
 
-struct int2
+struct vcint2
 {
-	int2(): X(0), Y(0) {};
-	int2(int x, int y, int z): X(x), Y(y) {}
+	vcint2(): X(0), Y(0) {};
+	vcint2(int x, int y, int z): X(x), Y(y) {}
 	int X;
 	int Y;
 };
 
-struct int3
+struct vcint3
 {
-	int3(): X(0), Y(0), Z(0) {};
-	int3(int x, int y, int z): X(x), Y(y), Z(z) {}
+	vcint3(): X(0), Y(0), Z(0) {};
+	vcint3(int x, int y, int z): X(x), Y(y), Z(z) {}
 	int X;
 	int Y;
 	int Z;
+};
+
+struct vcint4
+{
+	vcint4(): X(0), Y(0), Z(0), W(0) {};
+	vcint4(int x, int y, int z, int w): X(x), Y(y), Z(z), W(w) {}
+	int X;
+	int Y;
+	int Z;
+	int W;
 };

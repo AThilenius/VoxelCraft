@@ -15,6 +15,7 @@ class VCTime;
 class VCObjectStore;
 class VCMonoRuntime;
 class VCLexicalEngine;
+class VCGui;
 
 
 using namespace std;
@@ -37,6 +38,7 @@ public:
     VCObjectStore* ObjectStore;
     VCMonoRuntime* MonoRuntime;
 	VCLexicalEngine* LexEngine;
+	VCGui* Gui;
     
     static VCApplication* Instance;
 };

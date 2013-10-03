@@ -16,8 +16,19 @@
 class VCRenderStage
 {
 public:
-	VCRenderStage(void);
-	~VCRenderStage(void);
+	VCRenderStage(void):
+		FrameBuffer(0),
+		Shader(NULL),
+		Blend(true),
+		DepthTest(true)
+	{
+		for ( int i = 0; i < MAX_TEXTURES; i++ )
+			Textures[i] = 0;
+	}
+
+	~VCRenderStage(void)
+	{
+	}
 
 	GLuint FrameBuffer;
 	Shader* Shader;

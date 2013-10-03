@@ -152,6 +152,3 @@ void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, f
     cout << obj->Rotation.x << " " << obj->Rotation.y << " " << obj->Rotation.z << " " << obj->Rotation.w << endl;
     cout << obj->Scale.x << " " << obj->Scale.y << " " << obj->Scale.z << endl;
 }
-
-
-

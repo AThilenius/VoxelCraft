@@ -47,7 +47,8 @@ void VCGLRenderer::Initialize()
 	VoxelShader = new VCVoxelShader();
 	VoxelShader->Initialize();
 
-
+	GuiShader = new VCGuiShader();
+	GuiShader->Initialize();
 
 	CreateDepthFrameBuffer();
 
@@ -176,21 +177,21 @@ void VCGLRenderer::Render()
 	//glBindVertexArray(0);
 
 	////// ===================    Visualize    =====================
-	glViewport(0, 0, 256, 256);
+	//glViewport(0, 0, 256, 256);
 
-	TextureShader->Bind();
+	//TextureShader->Bind();
 
-	// Bind our texture in Texture Unit 0
-	glBindVertexArray(m_quad_VertexArrayID);
-	
-	glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	//// Bind our texture in Texture Unit 0
+	//glBindVertexArray(m_quad_VertexArrayID);
+	//
+	//glActiveTexture(GL_TEXTURE0);
+	////glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
 
-	TextureShader->SetTextureUnit(0);
+	//TextureShader->SetTextureUnit(0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glBindVertexArray(0);
 
 }
 
@@ -231,6 +232,8 @@ void VCGLRenderer::UnRegisterIRenderable( VCIRenderable* renderable )
 	{
 		ERROR("Cannot remove Renderable because it is not registered.");
 	}
+
+	iter->second.erase(setIter);
 }
 
 void VCGLRenderer::CreateDepthFrameBuffer()

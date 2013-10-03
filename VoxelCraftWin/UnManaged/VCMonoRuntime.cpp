@@ -76,6 +76,7 @@ void VCMonoRuntime::Bind()
     VCCamera::RegisterMonoHandlers();
     VCInput::RegisterMonoHandlers();
 	VCPhysics::RegisterMonoHandlers();
+	VCGui::RegisterMonoHandlers();
 }
 
 void VCMonoRuntime::InvokeStart()

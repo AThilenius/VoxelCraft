@@ -20,6 +20,7 @@
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
 #include "VCLexicalEngine.h"
+#include "VCGui.h"
 
 VCApplication* VCApplication::Instance;
 
@@ -51,6 +52,9 @@ void VCApplication::Initialize()
 	LexEngine = new VCLexicalEngine();
 	LexEngine->Initialize();
 	LexEngine->LoadFont("Cambria-32", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary.fnt", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary_0.DDS");
+
+	Gui = new VCGui();
+	Gui->Initialize();
     
     Time = new VCTime();
     Time->Initalize();

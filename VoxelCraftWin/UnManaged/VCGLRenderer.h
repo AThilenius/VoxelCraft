@@ -13,6 +13,7 @@
 #include "VCShadowShader.h"
 #include "VCTextureShader.h"
 #include "VCLexShader.h"
+#include "VCGuiShader.h"
 #include "VCIRenderable.h"
 
 class VCGLRenderer
@@ -40,6 +41,7 @@ public:
 	VCShadowShader* ShadowShader;
 	VCTextureShader* TextureShader;
 	VCLexShader* LexShader;
+	VCGuiShader* GuiShader;
 
 	GLuint DefaultFrameBuffer;
 	GLuint DepthFrameBuffer;

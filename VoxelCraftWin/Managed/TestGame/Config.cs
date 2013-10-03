@@ -22,7 +22,10 @@ namespace TestGame
 
         public override void Update()
         {
-            
+            Gui.Clear();
+
+            Gui.DrawRectangle(new Rectangle(100, 100, 250, 40), Color.Black);
+            Gui.DrawString("Hello Managed GUI!", new Point(110, 135), Color.White);
         }
 
     }

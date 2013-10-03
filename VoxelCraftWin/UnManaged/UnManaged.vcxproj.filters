@@ -29,11 +29,14 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{2906427e-bd57-46fd-81b4-d57f91b6c78b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Text">
-      <UniqueIdentifier>{bd54c50f-9576-481c-bb72-4428380f39cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering\State">
       <UniqueIdentifier>{61e4bee6-7293-4e56-a940-58a6fbe89a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{928e8ea0-798d-4273-9023-bff7442d1e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Text">
+      <UniqueIdentifier>{bd54c50f-9576-481c-bb72-4428380f39cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,19 +119,19 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="VCFont.cpp">
-      <Filter>Text</Filter>
+      <Filter>GUI\Text</Filter>
     </ClCompile>
     <ClCompile Include="VCLexicalEngine.cpp">
-      <Filter>Text</Filter>
+      <Filter>GUI\Text</Filter>
     </ClCompile>
     <ClCompile Include="VCLexShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="VCRenderState.cpp">
-      <Filter>Rendering\State</Filter>
+    <ClCompile Include="VCGui.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="VCRenderStage.cpp">
-      <Filter>Rendering\State</Filter>
+    <ClCompile Include="VCGuiShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +224,10 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="VCFont.h">
-      <Filter>Text</Filter>
+      <Filter>GUI\Text</Filter>
     </ClInclude>
     <ClInclude Include="VCLexicalEngine.h">
-      <Filter>Text</Filter>
+      <Filter>GUI\Text</Filter>
     </ClInclude>
     <ClInclude Include="VCLexShader.h">
       <Filter>Rendering\Shaders</Filter>
@@ -239,7 +242,13 @@
       <Filter>Rendering\State</Filter>
     </ClInclude>
     <ClInclude Include="VCText.h">
-      <Filter>Text</Filter>
+      <Filter>GUI\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGui.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGuiShader.h">
+      <Filter>Rendering\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
