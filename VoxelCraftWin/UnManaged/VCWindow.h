@@ -35,6 +35,14 @@ public:
 private:
     float m_lastDeltaTime;
     
+	// ================================      Interop      ============
+public:
+	static void RegisterMonoHandlers();
+	// ===============================================================
 };
+
+// Interop
+void VCInteropWindowSwapBuffers();
+bool VCInteropWindowShouldClose();
 
 #endif /* defined(__VoxelCraftOSX__VCWindow__) */

@@ -80,12 +80,14 @@ void VCWindow::Initalize()
 
 void VCWindow::SwapBuffers()
 {
+	VCTime::Instance->Update();
+
     // Framerate Check
     float framerate = 1.0f / VCTime::DeltaTime;
     framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
     m_lastDeltaTime = framerate;
     stringstream ss;
-    ss << "Voxel Craft - " << setprecision(2) << framerate << " FPS.";
+    ss << "Voxel Craft - " << (int)framerate << " FPS.";
 	SetTitle(ss.str());
     // ~Framerate Check
 
@@ -105,4 +107,20 @@ void VCWindow::SetVSync(bool enabled)
 	
 	else
 		glfwSwapInterval(0);
+}
+
+void VCWindow::RegisterMonoHandlers()
+{
+	mono_add_internal_call("VCEngine.Window::VCInteropWindowSwapBuffers", (void*)VCInteropWindowSwapBuffers);
+	mono_add_internal_call("VCEngine.Window::VCInteropWindowShouldClose", (void*)VCInteropWindowShouldClose);
+}
+
+void VCInteropWindowSwapBuffers()
+{
+	VCWindow::Instance->SwapBuffers();
+}
+
+bool VCInteropWindowShouldClose()
+{
+	return glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle);
 }

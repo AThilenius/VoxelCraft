@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Simi.Core.iOS.Utilities.Collections
+namespace VCEngine
 {
-    public class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IObservableCollection
+    public class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
 
         public event EventHandler OnPreCollectionChanged = delegate { };

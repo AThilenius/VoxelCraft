@@ -57,5 +57,11 @@ private:
 	// Debug
 	GLuint m_quad_VertexArrayID;
 
+	// ================================      Interop      ============
+public:
+	static void RegisterMonoHandlers();
+	// ===============================================================
 };
 
+// Interop
+void VCInteropRendererRender(int from, int to);

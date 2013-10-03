@@ -27,7 +27,6 @@ public:
 	~VCApplication(void);
 	virtual void Initialize();
     virtual void ShutDown();
-    virtual void Step();
 
 public:
     VCWindow* Window;

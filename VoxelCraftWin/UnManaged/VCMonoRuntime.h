@@ -16,6 +16,8 @@
 #include "VCPhysics.h"
 #include "VCGui.h"
 #include "VCLexicalEngine.h"
+#include "VCWindow.h"
+#include "VCGLRenderer.h"
 
 class VCMonoRuntime
 {
@@ -25,12 +27,6 @@ public:
     
     void Initalize();
     
-    void InvokeInitalize();
-    void InvokeStart();
-    void InvokeUpdate();
-    void InvokeLateUpdate();
-    void InvokePreRender();
-
 	void EditorMain();
 	void GameMain();
     
@@ -40,15 +36,6 @@ private:
 private:
     MonoDomain *m_pRootDomain;
 	MonoImage *m_assemblyImage;
-    
-	MonoClass *m_engineType;
-	MonoObject *m_engineInstance;
-    
-    MonoMethod* m_initMethod;
-    MonoMethod* m_startMethod;
-    MonoMethod* m_updateMethod;
-    MonoMethod* m_lateUpdateMethod;
-    MonoMethod* m_preRenderMethod;
 
 	MonoMethod* m_editorEntry;
 	MonoMethod* m_gameEntry;

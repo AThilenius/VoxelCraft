@@ -10,21 +10,11 @@ namespace VCEngine
 {
     public class VCEngineCore
 	{
-        public VCEngineCore()
-        {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionOccurred;
 
-            Console.WriteLine("VCEngineCore::CTor");
-        }
-
-        private static void UnhandledExceptionOccurred(object sender, UnhandledExceptionEventArgs e)
-        {
-            Console.WriteLine(e.ExceptionObject.ToString());
-        }
-
-		public void Initialize()
+		public static void Initialize()
 		{
 			Console.WriteLine ("= VCEngineCore::Initialize");
+            AppDomain.CurrentDomain.UnhandledException += (obj, e) => Console.WriteLine(e.ExceptionObject.ToString());
             try
             {
                 SceneGraph.RootNode = new GameObject();
@@ -40,7 +30,7 @@ namespace VCEngine
             }
 		}
 
-        public void Start()
+        public static void Start()
         {
             try
             {
@@ -58,7 +48,7 @@ namespace VCEngine
             }
         }
 
-        public void Update() 
+        public static void Update() 
 		{
             try
             {
@@ -78,7 +68,7 @@ namespace VCEngine
             }
 		}
 
-		public void LateUpdate() 
+        public static void LateUpdate() 
 		{
             try
             {
@@ -94,7 +84,7 @@ namespace VCEngine
             }
 		}
 
-        public void PreRender()
+        public static void PreRender()
         {
             try
             {

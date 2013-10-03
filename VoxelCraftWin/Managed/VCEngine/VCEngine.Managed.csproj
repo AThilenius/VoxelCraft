@@ -40,6 +40,7 @@
     <Compile Include="Distributors\SceneGraph.cs" />
     <Compile Include="Editor\Editor.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="GLRenderer.cs" />
     <Compile Include="Gui\Control.cs" />
     <Compile Include="Gui\MouseEventArgs.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
@@ -54,6 +55,9 @@
     <Compile Include="UnManagedInterop\ObjectStore.cs" />
     <Compile Include="UnManagedInterop\Transform.cs" />
     <Compile Include="UnManagedInterop\Window.cs" />
+    <Compile Include="Utilities\Collections\ObservableDictionary.cs" />
+    <Compile Include="Utilities\Collections\ObservableHashSet.cs" />
+    <Compile Include="Utilities\Collections\ObservableList.cs" />
     <Compile Include="Utilities\Time.cs" />
     <Compile Include="Utilities\Types\VCTypes.cs" />
     <Compile Include="VCEngineCore.cs" />
@@ -65,9 +69,7 @@
     <Compile Include="Utilities\Types\Quaternion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Utilities\Collections\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

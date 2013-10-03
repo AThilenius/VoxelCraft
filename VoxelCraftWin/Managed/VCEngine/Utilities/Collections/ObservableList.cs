@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Simi.Core.iOS.Utilities.Collections
+namespace VCEngine
 {
-    public class ObservableList<T> : List<T>, IObservableCollection
+    public class ObservableList<T> : List<T>
     {
 
         public event EventHandler OnPreCollectionChanged = delegate { };

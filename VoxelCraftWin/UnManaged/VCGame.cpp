@@ -31,6 +31,5 @@ void VCGame::Run()
 
 	while(!glfwGetKey(VCWindow::Instance->GLFWWindowHandle, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle) )
     {
-        VCApplication::Step();
     }
 }

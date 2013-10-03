@@ -10,7 +10,25 @@ namespace VCEngine
 
         public static void GameMain()
         {
-            Console.WriteLine("Game Main!");
+            VCEngineCore.Initialize();
+
+            // Load world here...
+
+            VCEngineCore.Start();
+
+            while (!Window.ShouldClose())
+            {
+                // Mono
+                VCEngineCore.Update();
+                VCEngineCore.LateUpdate();
+                VCEngineCore.PreRender();
+
+                // Rendering
+                GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
+
+                // Windowing
+                Window.SwapBuffers();
+            }
         }
 
     }

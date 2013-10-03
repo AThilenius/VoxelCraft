@@ -63,14 +63,11 @@ void VCApplication::Initialize()
     
     MonoRuntime = new VCMonoRuntime();
     MonoRuntime->Initalize();
-    MonoRuntime->InvokeInitalize();
 
 	// Debug
 	VCWorld* testWorld = new VCWorld(4);
 	testWorld->Initialize();
 
-    
-    MonoRuntime->InvokeStart();
 	MonoRuntime->EditorMain();
 	MonoRuntime->GameMain();
 }
@@ -79,21 +76,3 @@ void VCApplication::ShutDown()
 {
     glfwTerminate();
 }
-
-void VCApplication::Step()
-{
-	// PreFrame
-    Time->Update();
-    
-	// Mono
-    MonoRuntime->InvokeUpdate();
-    MonoRuntime->InvokeLateUpdate();
-    MonoRuntime->InvokePreRender();
-
-	// Rendering
-    Renderer->Render(VC_BATCH_MIN, VC_BATCH_MAX);
-
-	// Windowing
-	Window->SwapBuffers();
-}
-

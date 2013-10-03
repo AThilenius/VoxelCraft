@@ -34,7 +34,7 @@ void VCGLRenderer::Initialize()
 	glEnable(GL_BLEND);
 	glDepthFunc(GL_LESS); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 
 	ShadowShader = new VCShadowShader();
 	ShadowShader->Initialize();
@@ -248,4 +248,14 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Always check that our framebuffer is ok
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		cout << "Failed to initialize GLRenderer!" << endl;
+}
+
+void VCGLRenderer::RegisterMonoHandlers()
+{
+	mono_add_internal_call("VCEngine.GLRenderer::VCInteropRendererRender", (void*)VCInteropRendererRender);
+}
+
+void VCInteropRendererRender( int from, int to )
+{
+	VCGLRenderer::Instance->Render(from, to);
 }

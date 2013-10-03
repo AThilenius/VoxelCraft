@@ -1,12 +1,11 @@
-﻿using ProtoBuf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Simi.Core.iOS.Utilities.Collections
+namespace VCEngine
 {
-    public class ObservableHashSet<T> : HashSet<T>, IObservableCollection
+    public class ObservableHashSet<T> : HashSet<T>
     {
         public event EventHandler OnPreCollectionChanged = delegate { };
         public event EventHandler OnPostCollectionChanged = delegate { };
