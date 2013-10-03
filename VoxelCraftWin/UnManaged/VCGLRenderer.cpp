@@ -9,6 +9,7 @@
 #include "VCGLRenderer.h"
 
 #include "VCLexicalEngine.h"
+#include "VCWindow.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 
@@ -84,6 +85,7 @@ void VCGLRenderer::Initialize()
 void VCGLRenderer::Render()
 {
 	static int lastFrameBuffer = 0;
+	static RectangleF lastViewport;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,6 +111,18 @@ void VCGLRenderer::Render()
 			{
 				lastFrameBuffer = frameBuffer;
 				glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+			}
+
+			// Set Viewport
+			if (lastViewport.X != state->Stages[stageId].Viewport.X ||
+				lastViewport.Y != state->Stages[stageId].Viewport.Y ||
+				lastViewport.Width != state->Stages[stageId].Viewport.Width ||
+				lastViewport.Height != state->Stages[stageId].Viewport.Height)
+			{
+				lastViewport = state->Stages[stageId].Viewport;
+				int width = VCWindow::Instance->Width;
+				int height = VCWindow::Instance->Height;
+				glViewport(width * lastViewport.X, height * lastViewport.Y, width * lastViewport.Width, height * lastViewport.Height);
 			}
 
 			// Set Shader ( will auto re-assign test )

@@ -28,6 +28,7 @@ public:
 public:
 	static VCWindow* Instance;
 	GLFWwindow* GLFWWindowHandle;
+	Rectangle FullViewport;
 	int Width;
 	int Height;
 

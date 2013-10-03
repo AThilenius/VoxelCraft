@@ -20,7 +20,7 @@ public:
 	~VCLexicalEngine(void);
 
 	void Initialize();
-	void LoadFont ( string name, string fntPath, string ddsPath );
+	string LoadFont ( string fntPath, string ddsPath );
 
 	VCText* MakeText ( string font, string text, int left, int down, GLubyte4 color );
 	VCRenderState* GetRStateForFont ( string font )
@@ -42,5 +42,12 @@ private:
 	typedef unordered_map<string, VCFont*> FontsMap;
 	FontsMap m_fonts;
 
+	// ================================      Interop      ============
+public:
+	static void RegisterMonoHandlers();
+	// ===============================================================
 };
+
+// Interop
+MonoString* VCInteropLoadFont (MonoString* fntPath, MonoString* ddsPath);
 

@@ -72,7 +72,7 @@ void VCWindow::Initalize()
     cout << "Hardware: " << glGetString(GL_RENDERER) << endl << endl;
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
-
+	FullViewport = Rectangle(0, 0, Width, Height);
 
 	cout << "VCWindow Initialized." << endl;
     glErrorCheck();

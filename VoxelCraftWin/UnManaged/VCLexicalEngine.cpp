@@ -23,12 +23,13 @@ void VCLexicalEngine::Initialize()
 {
 }
 
-void VCLexicalEngine::LoadFont ( string name, string fntPath, string ddsPath )
+string VCLexicalEngine::LoadFont ( string fntPath, string ddsPath )
 {
 	VCFont* font = new VCFont(fntPath, ddsPath);
 	font->Initialize();
 
-	m_fonts.insert(FontsMap::value_type(name, font));
+	m_fonts.insert(FontsMap::value_type(font->Name, font));
+	return font->Name;
 }
 
 VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int up, GLubyte4 color )
@@ -89,4 +90,16 @@ VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int up, 
 	glBindVertexArray(0);
 
 	return new VCText(vcfont->RenderState, vaoId, vboId, verts.size());
+}
+
+// ================================      Interop      ============
+void VCLexicalEngine::RegisterMonoHandlers()
+{
+	mono_add_internal_call("VCEngine.Gui::VCInteropLoadFont",	(void*)VCInteropLoadFont);
+}
+
+MonoString* VCInteropLoadFont (MonoString* fntPath, MonoString* ddsPath)
+{
+	string name = VCLexicalEngine::Instance->LoadFont(mono_string_to_utf8(fntPath), mono_string_to_utf8(ddsPath));
+	return mono_string_new(mono_domain_get(), name.c_str());
 }

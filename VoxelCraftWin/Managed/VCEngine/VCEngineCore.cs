@@ -62,6 +62,7 @@ namespace VCEngine
             {
                 Time.Update();
                 Input.Update();
+                Gui.PreUpdate();
 
                 foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
                     inst.Update();

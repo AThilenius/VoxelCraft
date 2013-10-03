@@ -182,13 +182,24 @@ struct Point
 
 struct Rectangle
 {
-    Rectangle() {};
-    Rectangle(int x, int y, int width, int height) : X(x), Y(y), Width(width), Height(height) {}
-    int X;
-    int Y;
-    int Width;
-    int Height;
-    
+	Rectangle() {};
+	Rectangle(int x, int y, int width, int height) : X(x), Y(y), Width(width), Height(height) {}
+	int X;
+	int Y;
+	int Width;
+	int Height;
+
+};
+
+struct RectangleF
+{
+	RectangleF() {};
+	RectangleF(float x, float y, float width, float height) : X(x), Y(y), Width(width), Height(height) {}
+	float X;
+	float Y;
+	float Width;
+	float Height;
+
 };
 
 struct vcint2

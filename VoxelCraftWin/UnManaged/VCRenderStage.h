@@ -20,7 +20,8 @@ public:
 		FrameBuffer(0),
 		Shader(NULL),
 		Blend(true),
-		DepthTest(true)
+		DepthTest(true),
+		Viewport(RectangleF(0, 0, 1, 1))
 	{
 		for ( int i = 0; i < MAX_TEXTURES; i++ )
 			Textures[i] = 0;
@@ -33,6 +34,7 @@ public:
 	GLuint FrameBuffer;
 	Shader* Shader;
 	GLuint Textures[MAX_TEXTURES];
+	RectangleF Viewport;
 	bool Blend;
 	bool DepthTest;
 };

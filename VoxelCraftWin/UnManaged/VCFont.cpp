@@ -62,6 +62,18 @@ void VCFont::Initialize()
 	// Load DDS
 	m_ddsTexture = loadDDS ( m_ddsPath.c_str() );
 
+	// Name
+	ostringstream ss;
+	ss << m_fontName << "-" << m_info.fontSize;
+
+	if ( m_info.bitField & 32)
+		ss << "-Italic";
+
+	if ( m_info.bitField & 16)
+		ss << "-Bold";
+
+	Name = ss.str();
+
 	// Create a render state for text rendering
 	RenderState = new VCRenderState();
 	RenderState->StageCount = 1;

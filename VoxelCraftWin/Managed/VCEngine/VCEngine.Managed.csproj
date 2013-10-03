@@ -40,7 +40,7 @@
     <Compile Include="Distributors\SceneGraph.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />
-    <Compile Include="UnManagedInterop\Gui.cs" />
+    <Compile Include="Gui\Gui.cs" />
     <Compile Include="UnManagedInterop\MarshaledObject.cs" />
     <Compile Include="UnManagedInterop\Physics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,6 +49,7 @@
     <Compile Include="UnManagedInterop\GameObject.cs" />
     <Compile Include="UnManagedInterop\ObjectStore.cs" />
     <Compile Include="UnManagedInterop\Transform.cs" />
+    <Compile Include="UnManagedInterop\Window.cs" />
     <Compile Include="Utilities\Time.cs" />
     <Compile Include="Utilities\Types\VCTypes.cs" />
     <Compile Include="VCEngineCore.cs" />

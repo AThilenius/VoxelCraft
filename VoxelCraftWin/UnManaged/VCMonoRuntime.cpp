@@ -77,6 +77,7 @@ void VCMonoRuntime::Bind()
     VCInput::RegisterMonoHandlers();
 	VCPhysics::RegisterMonoHandlers();
 	VCGui::RegisterMonoHandlers();
+	VCLexicalEngine::RegisterMonoHandlers();
 }
 
 void VCMonoRuntime::InvokeStart()

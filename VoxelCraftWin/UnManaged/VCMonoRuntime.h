@@ -15,6 +15,7 @@
 #include "VCGameObject.h"
 #include "VCPhysics.h"
 #include "VCGui.h"
+#include "VCLexicalEngine.h"
 
 class VCMonoRuntime
 {
