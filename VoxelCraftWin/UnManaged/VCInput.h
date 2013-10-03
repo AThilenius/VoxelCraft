@@ -18,39 +18,17 @@ public:
     ~VCInput();
     
     void Initalize();
-    void Update();
-    
-    static bool IsKeyDown ( int keycode );
-    
-    static void GetMouse ( float* x, float* y );
-    static bool IsMouseDown ( int buttonID );
-    
-    static glm::vec2 GetMouse2 ( );
-    static glm::vec3 GetMouse3 ( );
-    static glm::vec3 GetStrafe ( );
-    
-    static VCInput* Instance;
-    
-private:
-    char* m_keysDown;
-    bool m_mouseButtonsDown[10];
-    float m_deltaX, m_deltaY;
-    
-	friend void KeyHanlder( GLFWwindow* window, int key, int scancode, int action, int mods  );
-	friend void MouseButtonHanlder(GLFWwindow* window, int button, int action, int mod );
 
     // ================================      Interop      ============
 public:
     int Handle;
     static void RegisterMonoHandlers();
     
-private:
-    friend void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);
-    friend int* VCInteropInputGetKeys();
-    
 };
 
 void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);
-int* VCInteropInputGetKeys();
+void VCInteropInputSetMouse(float x, float y);
+bool VCInteropInputGetKey(int key);
+void VCInteropInputSetCursorVisible(bool val);
 
 #endif /* defined(__VoxelCraftOSX__VCInputPreProcessor__) */

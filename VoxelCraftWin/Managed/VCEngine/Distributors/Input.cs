@@ -7,16 +7,31 @@ using System.Text;
 
 namespace VCEngine
 {
+    public enum MouseMoveMode
+    {
+        Free,
+        Locked
+    }
+
     public static class Input
     {
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropInputGetMouse(ref float x, ref float y, ref bool left, ref bool right);
-        
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static IntPtr VCInteropInputGetKeys();
+		
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropInputGetMouse(out float x, out float y, out bool left, out bool right);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropInputSetMouse(float x, float y);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static bool VCInteropInputGetKey(int key);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropInputSetCursorVisible(bool val);
 
         public static bool Fire;
         public static bool AltFire;
+
+        public static MouseMoveMode MouseMode = MouseMoveMode.Locked;
 
         private static float m_deltaMouseX;
         private static float m_deltaMouseY;
@@ -24,44 +39,62 @@ namespace VCEngine
         private static float m_lastMouseX;
         private static float m_lastMouseY;
 
-        private static Byte[] m_keys = new Byte[325];
+        public static Vector3 Look 
+        { 
+            get 
+            { 
+                return new Vector3(m_deltaMouseX, m_deltaMouseY, 0.0f); 
+            } 
+        }
 
-        public static Vector3 Look { get { return new Vector3(m_deltaMouseX, m_deltaMouseY, 0.0f); } }
         public static Vector2 Strafe
         {
             get
             {
                 Vector2 strafeVec = new Vector2(0.0f, 0.0f);
 
-                if ( m_keys['W'] != 0 ) strafeVec.X += 1.0f;
-                if (m_keys['S'] != 0) strafeVec.X += -1.0f;
+                if ( IsKeyDown('W') ) strafeVec.X += 1.0f;
+                if ( IsKeyDown('S') ) strafeVec.X += -1.0f;
 
-                if (m_keys['A'] != 0) strafeVec.Y += 1.0f;
-                if (m_keys['D'] != 0) strafeVec.Y += -1.0f;
+                if ( IsKeyDown('A') ) strafeVec.Y += 1.0f;
+                if ( IsKeyDown('D') ) strafeVec.Y += -1.0f;
 
                 return strafeVec;
             }
         }
 
-        internal static void Update()
-        {
-            float x = 0.0f;
-            float y = 0.0f;
-
-            VCInteropInputGetMouse(ref x, ref y, ref Fire, ref AltFire);
-
-            m_deltaMouseX = -x;
-            m_deltaMouseY = -y;
-
-            m_lastMouseX = x;
-            m_lastMouseY = y;
-
-            Marshal.Copy(VCInteropInputGetKeys(), m_keys, 0, 325);
-        }
-
         public static bool IsKeyDown(int keyCode)
         {
-            return m_keys[keyCode] == 1;
+            return VCInteropInputGetKey(keyCode);
+        }
+
+        internal static void Update()
+        {
+            float x;
+            float y;
+            bool left;
+            bool right;
+
+            VCInteropInputGetMouse(out x, out y, out left, out right);
+
+            m_deltaMouseX = -(m_lastMouseX - x) / Window.Size.X;
+            m_deltaMouseY = -(m_lastMouseY - y) / Window.Size.Y;
+
+            switch (MouseMode)
+            {
+                case MouseMoveMode.Free:
+                    VCInteropInputSetCursorVisible(true);
+                    m_lastMouseX = x;
+                    m_lastMouseY = y;
+                    break;
+
+                case MouseMoveMode.Locked:
+                    VCInteropInputSetCursorVisible(false);
+                    VCInteropInputSetMouse(Window.Size.X * 0.5f, Window.Size.Y * 0.5f);
+                    m_lastMouseX = Window.Size.X * 0.5f;
+                    m_lastMouseY = Window.Size.Y * 0.5f;
+                    break;
+            }
         }
     }
 }

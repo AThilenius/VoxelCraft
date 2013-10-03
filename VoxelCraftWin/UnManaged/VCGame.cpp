@@ -29,7 +29,7 @@ void VCGame::Run()
 {   
 	VCWindow::Instance->SetVSync(false);
 
-	while(!VCInput::IsKeyDown(GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle) )
+	while(!glfwGetKey(VCWindow::Instance->GLFWWindowHandle, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle) )
     {
         VCApplication::Step();
     }

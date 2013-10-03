@@ -82,7 +82,6 @@ void VCApplication::Step()
 {
 	// PreFrame
     Time->Update();
-    Input->Update();
     
 	// Mono
     MonoRuntime->InvokeUpdate();
