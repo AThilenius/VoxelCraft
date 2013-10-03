@@ -30,10 +30,10 @@ void VCGLRenderer::Initialize()
 	// GL Setup
 	glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glDepthFunc(GL_LESS); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_CULL_FACE);
 
 	ShadowShader = new VCShadowShader();
 	ShadowShader->Initialize();
@@ -78,27 +78,17 @@ void VCGLRenderer::Initialize()
 
     glErrorCheck();
     cout << "VCGLRenderer Initialized" << endl;
-
-	// ======================    Test Text      =============================================
-	m_textVAO = VCLexicalEngine::Instance->MakeTextVAO("Cambria-32", "Alec, T*^,.l", 100, 400, GLubyte4 ( 255, 255, 255, 255 ) );
-	m_textTexture = loadDDS ("C:\\Users\\Alec\\Desktop\\BmpTests\\Binary_0.DDS" );
-
-	//VCRenderState* state = new VCRenderState();
-	//state->StageCount = 1;
-	//state->Stages[0].Shader = LexShader;
-	//state->Stages[0].Textures[0] = m_textTexture;
-	//RegisterState(state);
-
-	//VCRenderable* renderable = new VCRenderable();
-	//renderable->State = state;
-	//renderable->VBO = m_textVAO;
-	//renderable->VertexCount = 96;
-	//RegisterRenderable(renderable);
 }
 
 void VCGLRenderer::Render()
 {
-	static int lastFrameBuffer = -1;
+	static int lastFrameBuffer = 0;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Prep SceneGraph
 	VCSceneGraph::Instance->PrepareSceneGraph();
@@ -113,12 +103,11 @@ void VCGLRenderer::Render()
 		{
 
 			// Set Framebuffer
-			if (lastFrameBuffer != state->Stages[stageId].FrameBuffer)
+			GLuint frameBuffer = state->Stages[stageId].FrameBuffer;
+			if (lastFrameBuffer != frameBuffer)
 			{
-				lastFrameBuffer = state->Stages[stageId].FrameBuffer;
-				glBindFramebuffer(GL_FRAMEBUFFER, state->Stages[stageId].FrameBuffer);
-
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				lastFrameBuffer = frameBuffer;
+				glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 			}
 
 			// Set Shader ( will auto re-assign test )

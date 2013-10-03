@@ -10,6 +10,8 @@
 
 #include "PCH.h"
 #include "VCFont.h"
+#include "VCRenderState.h"
+#include "VCText.h"
 
 class VCLexicalEngine
 {
@@ -20,7 +22,19 @@ public:
 	void Initialize();
 	void LoadFont ( string name, string fntPath, string ddsPath );
 
-	GLuint MakeTextVAO ( string font, string text, int left, int down, GLubyte4 color );
+	VCText* MakeText ( string font, string text, int left, int down, GLubyte4 color );
+	VCRenderState* GetRStateForFont ( string font )
+	{
+		auto iter = m_fonts.find(font);
+
+		if ( iter == m_fonts.end() )
+		{
+			ERROR("Font: " << font << " not added to Lexical Engine");
+		}
+
+		VCFont* vcfont = (*iter).second;
+		return vcfont->RenderState;
+	}
 
 	static VCLexicalEngine* Instance;
 

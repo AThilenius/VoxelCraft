@@ -33,7 +33,6 @@
     <ClCompile Include="VCGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
     <ClCompile Include="VCInput.cpp" />
-    <ClCompile Include="VCInspectorWindow.cpp" />
     <ClCompile Include="VCLexicalEngine.cpp" />
     <ClCompile Include="VCLexShader.cpp" />
     <ClCompile Include="VCMarshalableObject.cpp" />
@@ -70,7 +69,6 @@
     <ClInclude Include="VCGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
     <ClInclude Include="VCInput.h" />
-    <ClInclude Include="VCInspectorWindow.h" />
     <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLexicalEngine.h" />
     <ClInclude Include="VCLexShader.h" />
@@ -82,6 +80,7 @@
     <ClInclude Include="VCRenderState.h" />
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
+    <ClInclude Include="VCText.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />

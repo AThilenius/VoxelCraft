@@ -9,7 +9,7 @@
 #pragma once
 
 #include "PCH.h"
-#include "StreamHelpers.h"
+#include "VCRenderState.h"
 
 class VCLexicalEngine;
 
@@ -92,7 +92,7 @@ public:
 
 	void Initialize();
 
-	
+	VCRenderState* RenderState;
 	string Name;
 	int Size;
 

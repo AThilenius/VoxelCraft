@@ -37,7 +37,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VCInspectorWindow.cpp" />
     <ClCompile Include="SimplexNoise.cpp">
       <Filter>Voxel</Filter>
     </ClCompile>
@@ -133,7 +132,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VCInspectorWindow.h" />
     <ClInclude Include="SimplexNoise.h">
       <Filter>Voxel</Filter>
     </ClInclude>
@@ -237,7 +235,12 @@
     <ClInclude Include="VCRenderStage.h">
       <Filter>Rendering\State</Filter>
     </ClInclude>
-    <ClInclude Include="VCIRenderable.h" />
+    <ClInclude Include="VCIRenderable.h">
+      <Filter>Rendering\State</Filter>
+    </ClInclude>
+    <ClInclude Include="VCText.h">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

@@ -7,6 +7,8 @@
 //
 
 #include "VCFont.h"
+#include "VCGLRenderer.h"
+#include "StreamHelpers.h"
 
 VCFont::VCFont(string fntPath, string ddsPath) :
 	m_fntPath(fntPath),
@@ -59,6 +61,15 @@ void VCFont::Initialize()
 
 	// Load DDS
 	m_ddsTexture = loadDDS ( m_ddsPath.c_str() );
+
+	// Create a render state for text rendering
+	RenderState = new VCRenderState();
+	RenderState->StageCount = 1;
+	RenderState->BatchingOrder = VC_BATCH_GUI;
+	RenderState->Stages[0].Shader = VCGLRenderer::Instance->LexShader;
+	RenderState->Stages[0].Textures[0] = m_ddsTexture;
+	RenderState->Stages[0].DepthTest = false;
+	VCGLRenderer::Instance->RegisterState(RenderState);
 }
 
 

@@ -44,13 +44,13 @@ void VCApplication::Initialize()
     
     Input = new VCInput();
     Input->Initalize();
+    
+	Renderer = new VCGLRenderer();
+	Renderer->Initialize();
 
 	LexEngine = new VCLexicalEngine();
 	LexEngine->Initialize();
 	LexEngine->LoadFont("Cambria-32", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary.fnt", "C:\\Users\\Alec\\Desktop\\BmpTests\\Binary_0.DDS");
-    
-	Renderer = new VCGLRenderer();
-	Renderer->Initialize();
     
     Time = new VCTime();
     Time->Initalize();
@@ -65,6 +65,7 @@ void VCApplication::Initialize()
 	// Debug
 	VCWorld* testWorld = new VCWorld(4);
 	testWorld->Initialize();
+	LexEngine->MakeText("Cambria-32", "Alec, T*^,.l", 100, 400, GLubyte4 ( 255, 255, 255, 255 ) );
 
     
     MonoRuntime->InvokeStart();

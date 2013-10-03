@@ -21,7 +21,6 @@ VCLexicalEngine::~VCLexicalEngine(void)
 
 void VCLexicalEngine::Initialize()
 {
-
 }
 
 void VCLexicalEngine::LoadFont ( string name, string fntPath, string ddsPath )
@@ -32,7 +31,7 @@ void VCLexicalEngine::LoadFont ( string name, string fntPath, string ddsPath )
 	m_fonts.insert(FontsMap::value_type(name, font));
 }
 
-GLuint VCLexicalEngine::MakeTextVAO ( string font, string text, int left, int up, GLubyte4 color )
+VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int up, GLubyte4 color )
 {
 	auto iter = m_fonts.find(font);
 	
@@ -89,5 +88,5 @@ GLuint VCLexicalEngine::MakeTextVAO ( string font, string text, int left, int up
 
 	glBindVertexArray(0);
 
-	return vaoId;
+	return new VCText(vcfont->RenderState, vaoId, verts.size());
 }

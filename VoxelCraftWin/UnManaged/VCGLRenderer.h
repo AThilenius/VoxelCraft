@@ -53,9 +53,7 @@ private:
 
 
 	// Debug
-	GLuint m_textVAO;
 	GLuint m_quad_VertexArrayID;
-	GLuint m_textTexture;
 
 };
 

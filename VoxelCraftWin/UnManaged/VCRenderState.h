@@ -13,19 +13,23 @@
 
 #define MAX_STAGE_COUNT 4
 
+#define VC_BATCH_SCENE 20
+#define VC_BATCH_GUI 30
+
 class VCRenderState
 {
 public:
 	VCRenderState(void);
 	~VCRenderState(void);
 
+	int BatchingOrder;
 	int StageCount;
 	VCRenderStage Stages[MAX_STAGE_COUNT];
 };
 
 inline bool operator==(const VCRenderState& lhs, const VCRenderState& rhs)
 {
-	if (lhs.StageCount != rhs.StageCount)
+	if (lhs.BatchingOrder != rhs.BatchingOrder || lhs.StageCount != rhs.StageCount)
 		return false;
 
 	for ( int i = 0; i < lhs.StageCount; i++ )
@@ -36,6 +40,9 @@ inline bool operator==(const VCRenderState& lhs, const VCRenderState& rhs)
 }
 inline bool operator< (const VCRenderState& lhs, const VCRenderState& rhs)
 {
+	if (lhs.BatchingOrder < rhs.BatchingOrder) return true;
+	if (lhs.BatchingOrder > rhs.BatchingOrder) return false;
+
 	if (lhs.StageCount < rhs.StageCount) return true;
 	if (lhs.StageCount > rhs.StageCount) return false;
 

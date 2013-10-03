@@ -10,7 +10,8 @@
 
 
 VCRenderState::VCRenderState(void):
-	StageCount(0)
+	StageCount(1),
+	BatchingOrder(VC_BATCH_SCENE)
 {
 }
 
