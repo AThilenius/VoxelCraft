@@ -29,7 +29,6 @@
     <ClCompile Include="VCChunk.cpp" />
     <ClCompile Include="VCChunkGenerator.cpp" />
     <ClCompile Include="VCFont.cpp" />
-    <ClCompile Include="VCGame.cpp" />
     <ClCompile Include="VCGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
     <ClCompile Include="VCGui.cpp" />
@@ -65,7 +64,6 @@
     <ClInclude Include="VCChunk.h" />
     <ClInclude Include="VCChunkGenerator.h" />
     <ClInclude Include="VCFont.h" />
-    <ClInclude Include="VCGame.h" />
     <ClInclude Include="VCGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
     <ClInclude Include="VCGui.h" />
@@ -75,6 +73,7 @@
     <ClInclude Include="VCLexicalEngine.h" />
     <ClInclude Include="VCLexShader.h" />
     <ClInclude Include="VCMarshalableObject.h" />
+    <ClInclude Include="VCMonoMethod.h" />
     <ClInclude Include="VCMonoRuntime.h" />
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />

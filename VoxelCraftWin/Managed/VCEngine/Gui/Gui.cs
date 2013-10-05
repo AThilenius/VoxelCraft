@@ -41,21 +41,21 @@ namespace VCEngine
             Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
 
             // Left
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, 2, rect.Height), border);
-
-            // Top
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 2), border);
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, borderWidth, rect.Height), border);
 
             // Bottom
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y - rect.Height, rect.Width, 2), border);
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, borderWidth), border);
+
+            // Top
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - borderWidth, rect.Width, borderWidth), border);
 
             // Right
-            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width, rect.Y, 2, rect.Height), border);
+            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
         }
 
         public static void DrawString(string text, Point llPoint, Color color, string font = "Lucida Sans-13-Bold")
         {
-            VCInteropGuiDrawText(font, text, llPoint, color);
+            VCInteropGuiDrawText(font, text, new Point(llPoint.X, llPoint.Y + 13), color);
         }
 
         public static void LoadFontsFromForlder(string folder)
@@ -93,8 +93,8 @@ namespace VCEngine
             Gui.Clear();
 
             // 1280, 800
-            DrawNormalizedRectangle(new RectangleF(0.8f, 0.9f, 0.2f, 0.9f), Color.ControlLight);
-            DrawNormalizedRectangle(new RectangleF(0, 1, 1, 0.1f), Color.ControlLight);
+            //DrawNormalizedRectangle(new RectangleF(0.8f, 0.9f, 0.2f, 0.9f), Color.ControlLight);
+            //DrawNormalizedRectangle(new RectangleF(0, 1, 1, 0.1f), Color.ControlLight);
         }
 
     }

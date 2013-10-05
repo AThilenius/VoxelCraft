@@ -17,6 +17,24 @@ namespace VCEngine
             X = x;
             Y = y;
         }
+
+        public override string ToString()
+        {
+            return "[ " + X + ", " + Y + " ]";
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PointF
+    {
+        public float X;
+        public float Y;
+
+        public PointF(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -76,13 +94,26 @@ namespace VCEngine
             Height = height;
         }
 
+        public Rectangle(int x, int y, Point point)
+        {
+            X = x;
+            Y = y;
+            Width = point.X;
+            Height = point.Y;
+        }
+
         public bool IsPointWithin(Point point)
         {
             return
                 point.X >= X &&
                 point.X <= X + Width &&
-                point.Y <= Y &&
-                point.Y >= Y + Height;
+                point.Y >= Y &&
+                point.Y <= Y + Height;
+        }
+
+        public override string ToString()
+        {
+            return "[ " + X + ", " + Y + " | " + Width + ", " + Height + " ]";
         }
     }
 

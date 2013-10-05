@@ -13,59 +13,63 @@ namespace VCEngine
         public Color BackgroundColor = Color.ControlLight;
         public int BorderWidth = 1;
         public Color BorderColor = Color.ControlVeryDark;
+        public Color HighlightBackgroundColor = Color.White;
+        public Color HightlightBorderColor = Color.ControlBorder;
         public bool Enabled = true;
         public bool Visible = true;
         public String Font = "Lucida Sans-13-Bold";
         public HashSet<Control> Children = new HashSet<Control>();
 
-        public Rectangle Frame
-        {
-            get
-            {
-                if (Parent == null)
-                {
-                    return ScreenFrame;
-                }
+        //public Rectangle Frame
+        //{
+        //    get
+        //    {
+        //        if (Parent == null)
+        //        {
+        //            return ScreenFrame;
+        //        }
 
-                else
-                {
-                    return new Rectangle(
-                        ScreenFrame.X - Parent.ScreenFrame.X,
-                        ScreenFrame.Y - Parent.ScreenFrame.Y,
-                        ScreenFrame.Width,
-                        ScreenFrame.Height);
-                }
-            }
+        //        else
+        //        {
+        //            return new Rectangle(
+        //                ScreenFrame.X - Parent.ScreenFrame.X,
+        //                ScreenFrame.Y - Parent.ScreenFrame.Y,
+        //                ScreenFrame.Width,
+        //                ScreenFrame.Height);
+        //        }
+        //    }
 
-            set
-            {
-                if (Parent == null)
-                {
-                    ScreenFrame = value;
-                }
+        //    set
+        //    {
+        //        if (Parent == null)
+        //        {
+        //            ScreenFrame = value;
+        //        }
 
-                else
-                {
-                    ScreenFrame = new Rectangle(
-                        ScreenFrame.X + Parent.ScreenFrame.X,
-                        ScreenFrame.Y + Parent.ScreenFrame.Y,
-                        ScreenFrame.Width,
-                        ScreenFrame.Height);
-                }
-            }
-        }
+        //        else
+        //        {
+        //            ScreenFrame = new Rectangle(
+        //                ScreenFrame.X + Parent.ScreenFrame.X,
+        //                ScreenFrame.Y + Parent.ScreenFrame.Y,
+        //                ScreenFrame.Width,
+        //                ScreenFrame.Height);
+        //        }
+        //    }
+        //}
 
-        public event EventHandler<MouseEventArgs> Click;
-        public event EventHandler<MouseEventArgs> RightClick;
-        public event EventHandler<MouseEventArgs> DoubleClick;
-        public event EventHandler<MouseEventArgs> MouseEnter;
-        public event EventHandler<MouseEventArgs> MouseExit;
-        public event EventHandler<MouseEventArgs> MouseMove;
-        public event EventHandler<MouseEventArgs> DragBegin;
-        public event EventHandler<MouseEventArgs> DragEnd;
-        public event EventHandler<MouseEventArgs> Draging;
+        public event EventHandler Click = delegate { };
+        public event EventHandler RightClick = delegate { };
+        public event EventHandler DoubleClick = delegate { };
+        public event EventHandler MouseEnter = delegate { };
+        public event EventHandler MouseExit = delegate { };
+        public event EventHandler MouseMove = delegate { };
+        public event EventHandler<MouseEventArgs> DragBegin = delegate { };
+        public event EventHandler<MouseEventArgs> DragEnd = delegate { };
+        public event EventHandler<MouseEventArgs> Draging = delegate { };
+        public event EventHandler<KeyEventArgs> KeyPress = delegate { };
 
         private Control m_activeChild;
+        private bool m_wasPointInThis;
 
         public Control(Rectangle screenFrame, string name, Control parent)
         {
@@ -85,44 +89,37 @@ namespace VCEngine
 
         public virtual void Draw()
         {
-            // Draw background
-            if (BorderWidth > 0)
-                Gui.DrawBorderedRect(ScreenFrame, BackgroundColor, BorderColor, BorderWidth);
+            if (m_wasPointInThis)
+            {
+                if (BorderWidth > 0)
+                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HightlightBorderColor, BorderWidth);
 
-            else if (BackgroundColor != Color.Trasparent)
-                Gui.DrawRectangle(ScreenFrame, BackgroundColor);
+                if (HighlightBackgroundColor != Color.Trasparent)
+                    Gui.DrawRectangle(ScreenFrame, HighlightBackgroundColor);
+            }
+
+            else
+            {
+                if (BorderWidth > 0)
+                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
+
+                if (BackgroundColor != Color.Trasparent)
+                    Gui.DrawRectangle(ScreenFrame, BackgroundColor);
+            }
         }
 
-        public bool ProcessMouseEvent(Object sender, MouseEventArgs args)
+        internal bool ProcessKeyEvent(Object sender, KeyEventArgs args)
         {
-            // Check if event was within a child's frame
-            foreach (Control control in Children)
+            if (KeyPress != null)
             {
-                if (control.ScreenFrame.IsPointWithin(args.ScreenLocation))
-                {
-                    if (m_activeChild == null)
-                    {
-                        m_activeChild = control;
-
-                        if (control.MouseEnter != null)
-                            control.MouseEnter(sender, args);
-                    }
-
-                    // See if child wants to handle event
-                    if (control.ProcessMouseEvent(sender, args))
-                        return true;
-                }
+                KeyPress(sender, args);
+                return true;
             }
+            return false;
+        }
 
-            // I'm hading the event, was a child last handling it?
-            if (m_activeChild != null)
-            {
-                if (m_activeChild.MouseExit != null)
-                    m_activeChild.MouseExit(sender, args);
-
-                m_activeChild = null;
-            }
-
+        internal bool ProcessMouseEvent(Object sender, MouseEventArgs args)
+        {
             // Fire event handler if there is one. Return false if not.
             switch (args.EventType)
             {
@@ -188,14 +185,91 @@ namespace VCEngine
             }
         }
 
-        public virtual void KeyDown ()
+        internal void SetFirstResponder()
         {
+            Input.KeyClicked += ((sender, args) =>
+                {
+                    GetEndOfCommandChain().ProcessKeyEvent(
+                        this,
+                        new KeyEventArgs { State = args.State }
+                    );
+                });
 
+            Input.MouseClick += ((sender, args) =>
+                {
+                    GetEndOfCommandChain().ProcessMouseEvent(
+                        this,
+                        new MouseEventArgs
+                        {
+                            EventType = MouseEventType.Click,
+                            ScreenLocation = args.ScreenLocation
+                        }
+                    );
+                });
+
+            Input.MouseMove += ((sender, args) =>
+                {
+                    // Rebuild command chain
+                    RebuildCommandChain(args.ScreenLocation);
+
+                    GetEndOfCommandChain().ProcessMouseEvent(
+                        this, 
+                        new MouseEventArgs { 
+                            EventType = MouseEventType.Move, 
+                            ScreenLocation = args.ScreenLocation }
+                    );
+                });
+
+            Input.Focus += ((sender, args) =>
+                {
+                    // Rebuild command chain
+                    RebuildCommandChain(new Point(-1, -1));
+                });
         }
 
-        public virtual void KeyUp()
+        private void RebuildCommandChain(Point point)
         {
+            if (!m_wasPointInThis && ScreenFrame.IsPointWithin(point))
+            {
+                MouseEnter(this, EventArgs.Empty);
+                m_wasPointInThis = true;
+            }
 
+            else if (m_wasPointInThis && !ScreenFrame.IsPointWithin(point))
+            {
+                MouseExit(this, EventArgs.Empty);
+                m_wasPointInThis = false;
+            }
+
+            // If its in a child's frame...
+            foreach (Control child in Children)
+            {
+                if (child.ScreenFrame.IsPointWithin(point))
+                {
+                    if (m_activeChild != null && m_activeChild != child)
+                        m_activeChild.RebuildCommandChain(point);
+
+                    m_activeChild = child;
+                    child.RebuildCommandChain(point);
+
+                    return;
+                }
+            }
+
+            // Its in our frame, not a child's
+            if (m_activeChild != null)
+            {
+                m_activeChild.RebuildCommandChain(point);
+                m_activeChild = null;
+            }
+        }
+
+        private Control GetEndOfCommandChain()
+        {
+            if (m_activeChild == null)
+                return this;
+
+            return m_activeChild.GetEndOfCommandChain();
         }
 
     }

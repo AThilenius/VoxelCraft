@@ -9,8 +9,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "VCGame.h"
 #include <signal.h>
+#include "VCApplication.h"
 
 int main(int argc, char** argv)
 {
@@ -18,10 +18,11 @@ int main(int argc, char** argv)
 	//std::cout.rdbuf(out.rdbuf());
 	//std::cerr.rdbuf(out.rdbuf());
 
-	VCGame game;
-    game.Initalize();
-    game.Run();
-    game.ShutDown();
+	VCApplication app;
+    app.Initialize();
+	app.EditorMain();
+	//app.GameMain();
+    app.ShutDown();
 
 	return 0;
 }

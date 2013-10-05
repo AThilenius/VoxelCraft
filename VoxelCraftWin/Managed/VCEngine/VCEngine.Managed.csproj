@@ -36,25 +36,26 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Distributors\Input.cs" />
-    <Compile Include="Distributors\SceneGraph.cs" />
+    <Compile Include="Application\Input.cs" />
+    <Compile Include="Components\RidgedBody.cs" />
+    <Compile Include="SceneGraph\SceneGraph.cs" />
     <Compile Include="Editor\Editor.cs" />
     <Compile Include="Game\Game.cs" />
-    <Compile Include="GLRenderer.cs" />
+    <Compile Include="Rendering\GLRenderer.cs" />
     <Compile Include="Gui\Control.cs" />
     <Compile Include="Gui\MouseEventArgs.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />
     <Compile Include="Gui\Gui.cs" />
     <Compile Include="UnManagedInterop\MarshaledObject.cs" />
-    <Compile Include="UnManagedInterop\Physics.cs" />
+    <Compile Include="Application\Physics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnManagedInterop\Camera.cs" />
-    <Compile Include="UnManagedInterop\Component.cs" />
-    <Compile Include="UnManagedInterop\GameObject.cs" />
+    <Compile Include="SceneGraph\Camera.cs" />
+    <Compile Include="SceneGraph\Component.cs" />
+    <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="UnManagedInterop\ObjectStore.cs" />
-    <Compile Include="UnManagedInterop\Transform.cs" />
-    <Compile Include="UnManagedInterop\Window.cs" />
+    <Compile Include="SceneGraph\Transform.cs" />
+    <Compile Include="Application\Window.cs" />
     <Compile Include="Utilities\Collections\ObservableDictionary.cs" />
     <Compile Include="Utilities\Collections\ObservableHashSet.cs" />
     <Compile Include="Utilities\Collections\ObservableList.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Utilities\Types\Vector4.cs" />
     <Compile Include="Utilities\Types\Matrix4.cs" />
     <Compile Include="Utilities\Types\Quaternion.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

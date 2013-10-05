@@ -70,13 +70,13 @@ public:
 	{
 		if (m_vertCount >= VC_GUI_VERT_SIZE)
 		{
-			ERROR("You have 2000+ Gui rectangles... too much man.");
+			VC_ERROR("You have 2000+ Gui rectangles... too much man.");
 		}
 
-		GuiRectVerticie ll (GLushort2(frame.X,					frame.Y - frame.Height	), color);
-		GuiRectVerticie ul (GLushort2(frame.X,					frame.Y					), color);
-		GuiRectVerticie lr (GLushort2(frame.X + frame.Width,	frame.Y	- frame.Height	), color);
-		GuiRectVerticie ur (GLushort2(frame.X + frame.Width,	frame.Y					), color);
+		GuiRectVerticie ll (GLushort2(frame.X,					frame.Y					), color);
+		GuiRectVerticie ul (GLushort2(frame.X,					frame.Y	+ frame.Height	), color);
+		GuiRectVerticie lr (GLushort2(frame.X + frame.Width,	frame.Y					), color);
+		GuiRectVerticie ur (GLushort2(frame.X + frame.Width,	frame.Y	+ frame.Height	), color);
 
 		VCGui::m_verts[VCGui::m_vertCount++] = ul;
 		VCGui::m_verts[VCGui::m_vertCount++] = ll;

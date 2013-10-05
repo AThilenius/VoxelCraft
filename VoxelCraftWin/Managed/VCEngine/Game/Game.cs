@@ -16,7 +16,7 @@ namespace VCEngine
 
             VCEngineCore.Start();
 
-            while (!Window.ShouldClose())
+            while (!Window.ShouldClose() && !Input.IsKeyDown(Input.Keys.Escape))
             {
                 // Mono
                 VCEngineCore.Update();

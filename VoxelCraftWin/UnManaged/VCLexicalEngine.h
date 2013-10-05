@@ -29,7 +29,7 @@ public:
 
 		if ( iter == m_fonts.end() )
 		{
-			ERROR("Font: " << font << " not added to Lexical Engine");
+			VC_ERROR("Font: " << font << " not added to Lexical Engine");
 		}
 
 		VCFont* vcfont = (*iter).second;

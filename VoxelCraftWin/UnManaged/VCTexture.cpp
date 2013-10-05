@@ -131,7 +131,7 @@ GLuint loadDDS(const char * imagepath){
 	fp = fopen(imagepath, "rb"); 
 	if (fp == NULL) 
 	{
-		ERROR("Failed to load image file: " << imagepath);
+		VC_ERROR("Failed to load image file: " << imagepath);
 		return 0;
 	}
    
@@ -140,7 +140,7 @@ GLuint loadDDS(const char * imagepath){
 	fread(filecode, 1, 4, fp); 
 	if (strncmp(filecode, "DDS ", 4) != 0) { 
 		fclose(fp); 
-		ERROR("Image not in DDS format: " << imagepath);
+		VC_ERROR("Image not in DDS format: " << imagepath);
 		return 0;
 	}
 	
@@ -178,7 +178,7 @@ GLuint loadDDS(const char * imagepath){
 		break; 
 	default: 
 		free(buffer); 
-		ERROR("Unsupported compression type for image: " << imagepath);
+		VC_ERROR("Unsupported compression type for image: " << imagepath);
 		return 0;
 	}
 

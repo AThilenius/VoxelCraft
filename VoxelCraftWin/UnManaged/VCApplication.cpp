@@ -36,7 +36,10 @@ VCApplication::~VCApplication(void)
 void VCApplication::Initialize()
 {
     cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
-    
+
+	MonoRuntime = new VCMonoRuntime();
+	MonoRuntime->Initalize();
+
     Window = new VCWindow();
     Window->Initalize();
     
@@ -60,15 +63,19 @@ void VCApplication::Initialize()
     
     SceneGraph = new VCSceneGraph();
     SceneGraph->Initalize();
-    
-    MonoRuntime = new VCMonoRuntime();
-    MonoRuntime->Initalize();
 
 	// Debug
 	VCWorld* testWorld = new VCWorld(4);
 	testWorld->Initialize();
+}
 
+void VCApplication::EditorMain()
+{
 	MonoRuntime->EditorMain();
+}
+
+void VCApplication::GameMain()
+{
 	MonoRuntime->GameMain();
 }
 

@@ -105,7 +105,7 @@ class VCInput;
 #define POSITIVE_CHECK(value) if(value < 0) { SetConsoleColor(Red); cout << "Positive Check Failed!" << endl; SetConsoleColor(White); cin.clear(); cin.ignore(); }
 #define ZERO_CHECK(value) if(value == 0) { SetConsoleColor(Red); cout << "Zero Check Failed!" << endl; SetConsoleColor(White); cin.clear(); cin.ignore(); }
 #define FOREACH(iterName, variable) for (auto iterName = variable.begin(); iterName != variable.end(); iterName++)
-#define ERROR(message) SetConsoleColor(Red); cout << message << endl; SetConsoleColor(White); cin.clear(); cin.ignore();
+#define VC_ERROR(message) SetConsoleColor(Red); cout << message << endl; SetConsoleColor(White); cin.clear(); cin.ignore();
 
 // Z -> X -> Y memory access pattern
 #define FLATTEN_CHUNK(X,Y,Z) ((((Z << LOG_CHUNK_WIDTH) + X) << LOG_CHUNK_WIDTH ) + Y)

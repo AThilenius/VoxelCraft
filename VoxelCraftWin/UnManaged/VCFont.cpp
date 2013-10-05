@@ -122,7 +122,7 @@ bool VCFont::ParsePages(ifstream& f)
 
 	if ( m_common.pages != 1 )
 	{
-		ERROR("Only 1 font page per font is supported.");
+		VC_ERROR("Only 1 font page per font is supported.");
 	}
 
 	while(true)

@@ -11,6 +11,8 @@
 
 #include "PCH.h"
 
+class VCMonoMethod;
+
 class VCInput
 {
 public:
@@ -23,7 +25,12 @@ public:
 public:
     int Handle;
     static void RegisterMonoHandlers();
-    
+
+	static VCMonoMethod* KeyCallback;
+	static VCMonoMethod* MouseMoveCallback;
+	static VCMonoMethod* MouseClickCallback;
+	static VCMonoMethod* MouseEnterCallback;
+	static VCMonoMethod* MouseScrollCallback;
 };
 
 void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);

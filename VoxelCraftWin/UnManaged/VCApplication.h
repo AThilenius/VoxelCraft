@@ -26,6 +26,8 @@ public:
 	VCApplication(void);
 	~VCApplication(void);
 	virtual void Initialize();
+	virtual void EditorMain();
+	virtual void GameMain();
     virtual void ShutDown();
 
 public:

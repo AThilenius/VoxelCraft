@@ -15,6 +15,7 @@ namespace VCEngine
 		{
 			Console.WriteLine ("= VCEngineCore::Initialize");
             AppDomain.CurrentDomain.UnhandledException += (obj, e) => Console.WriteLine(e.ExceptionObject.ToString());
+
             try
             {
                 SceneGraph.RootNode = new GameObject();

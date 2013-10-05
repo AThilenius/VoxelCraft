@@ -71,5 +71,11 @@ private:
 	int m_logViewDistTwo;
 	VCChunk** m_chunks;
 
+	// ================================      Interop      ============
+public:
+	static void RegisterMonoHandlers();
+	// ===============================================================
 };
 
+// Interop
+int VCInteropWorldGetBlock ( int x, int y, int z );

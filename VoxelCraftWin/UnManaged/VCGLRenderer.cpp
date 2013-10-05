@@ -196,7 +196,7 @@ void VCGLRenderer::RegisterIRenderable( VCIRenderable* renderable )
 
 	if (iter == m_renderMap.end())
 	{
-		ERROR("UnRegistered state");
+		VC_ERROR("UnRegistered state");
 	}
 
 	iter->second.insert(RenderSet::value_type(renderable));
@@ -208,14 +208,14 @@ void VCGLRenderer::UnRegisterIRenderable( VCIRenderable* renderable )
 
 	if (iter == m_renderMap.end())
 	{
-		ERROR("Cannot remove RenderState because it is not registered.");
+		VC_ERROR("Cannot remove RenderState because it is not registered.");
 	}
 
 	auto setIter = iter->second.find(renderable);
 
 	if (setIter == iter->second.end())
 	{
-		ERROR("Cannot remove Renderable because it is not registered.");
+		VC_ERROR("Cannot remove Renderable because it is not registered.");
 	}
 
 	iter->second.erase(setIter);

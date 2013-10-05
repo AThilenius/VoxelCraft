@@ -18,6 +18,8 @@
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
 #include "VCGLRenderer.h"
+#include "VCWorld.h"
+#include "VCMonoMethod.h"
 
 class VCMonoRuntime
 {
@@ -29,13 +31,17 @@ public:
     
 	void EditorMain();
 	void GameMain();
+
+	static VCMonoMethod* GetMonoMethod (string className, string method);
+
+	static VCMonoRuntime* Instance;
     
 private:
     void Bind();
     
 private:
-    MonoDomain *m_pRootDomain;
-	MonoImage *m_assemblyImage;
+    static MonoDomain *m_pRootDomain;
+	static MonoImage *m_assemblyImage;
 
 	MonoMethod* m_editorEntry;
 	MonoMethod* m_gameEntry;

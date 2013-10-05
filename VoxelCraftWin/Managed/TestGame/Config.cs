@@ -20,13 +20,14 @@ namespace TestGame
 
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);
+
+            //m_camera.AttachComponent(new RidgedBody());
         }
 
         public override void Update()
         {
             Gui.DrawBorderedRect(new Rectangle(1100, 138, 150, 25), Color.ControlDisabled, Color.ControlBorder, 1);
-
-            Gui.DrawString("Hello Managed GUI!", new Point(1110, 130), Color.Black, "Lucida Sans-13-Bold");
+            Gui.DrawString("Hello Managed GUI!", new Point(1100, 138), Color.Black, "Lucida Sans-13-Bold");
         }
 
     }

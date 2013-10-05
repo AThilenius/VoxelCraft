@@ -47,3 +47,13 @@ void VCWorld::Initialize()
 	}}};
 
 }
+
+void VCWorld::RegisterMonoHandlers()
+{
+	mono_add_internal_call("VCEngine.World::VCInteropWorldGetBlock", (void*)VCInteropWorldGetBlock);
+}
+
+int VCInteropWorldGetBlock( int x, int y, int z )
+{
+	return VCWorld::Instance->GetBlock(x, y, z);
+}

@@ -85,9 +85,6 @@
     <ClCompile Include="VCApplication.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="VCGame.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="VCWindow.cpp">
       <Filter>Application</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
     <ClInclude Include="VCApplication.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="VCGame.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="VCWindow.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -249,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="VCGuiShader.h">
       <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMonoMethod.h">
+      <Filter>Interop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

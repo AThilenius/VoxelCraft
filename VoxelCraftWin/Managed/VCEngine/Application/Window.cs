@@ -19,7 +19,6 @@ namespace VCEngine
 		#endregion
 
         public static Point Size { get{ return new Point ( 1280, 800 ); } }
-        public static Control MainControl;
 
         public static void SwapBuffers()
         {
