@@ -204,13 +204,7 @@ VCVoxelShader::~VCVoxelShader(void)
 
 void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	// Compute the MVP matrix from the light's point of view
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 100, -100, 100, -100, 100);
-
-	glm::vec3 lightInvDir = glm::vec3(0.5f, 2, 2);
-	glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	depthViewMatrix = glm::translate(depthViewMatrix, -50.0f, 0.0f, 0.0f);
-	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix* modelMatrix;
+	glm::mat4 depthMVP = VCShadowShader::DepthVPMatrix * modelMatrix;
 
 	// Multiply it be the bias matrix
 	glm::mat4 biasMatrix
@@ -228,7 +222,7 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 	glm::mat4 ProjectionMatrix = currentCamera->ProjectionMatrix;
 	glm::mat4 ViewMatrix = currentCamera->ViewMatrix;
 	glm::mat4 ModelMatrix = modelMatrix;
-	glm::mat4 MVP = ProjectionMatrix * ViewMatrix * modelMatrix;
+	glm::mat4 MVP = currentCamera->ProjectionViewMatrix * modelMatrix;
 
 	// Update uniforms
 	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &MVP[0][0]);
@@ -236,7 +230,7 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 	glUniformMatrix4fv(m_unifViewMatrix, 1, GL_FALSE, &ViewMatrix[0][0]);
 	glUniformMatrix4fv(m_unifDepthMVP, 1, GL_FALSE, &depthBiasMVP[0][0]);
 
-	glUniform3f(m_unifLightInvDirection, lightInvDir.x, lightInvDir.y, lightInvDir.z);
+	glUniform3f(m_unifLightInvDirection, VCShadowShader::LightInverseDirection.x, VCShadowShader::LightInverseDirection.y, VCShadowShader::LightInverseDirection.z);
 
 	glUniform1i(m_unifShadow, 0);
 

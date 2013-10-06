@@ -20,6 +20,7 @@ public:
     
     void SetParent ( VCGameObject* parent );
 	VCGameObject* GetParent();
+	void MarkForRebuild() { m_rebuildNeeded = true; }
     
     virtual void Start();
     virtual void Update();
@@ -39,6 +40,7 @@ public:
     
 private:
     VCGameObject* m_parent;
+	bool m_rebuildNeeded;
     
     // ================================      Interop      ============
 public:

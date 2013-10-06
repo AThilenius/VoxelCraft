@@ -8,6 +8,9 @@
 
 #include "VCShadowShader.h"
 
+vec3 VCShadowShader::LightInverseDirection;
+glm::mat4 VCShadowShader::DepthVPMatrix;
+
 
 static string g_vcShadVertexShader =
     "#version 150\n"
@@ -40,6 +43,13 @@ VCShadowShader::VCShadowShader(void)
 	m_geometryShaderLiteral = NULL;
 
 	m_unifMVP = -1;
+
+	// Compute the MVP matrix from the light's point of view
+	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 100, -100, 100, -100, 100);
+	VCShadowShader::LightInverseDirection = glm::vec3(0.5f, 2, 2);
+	glm::mat4 depthViewMatrix = glm::lookAt(VCShadowShader::LightInverseDirection, glm::vec3(0,0,0), glm::vec3(0,1,0));
+	depthViewMatrix = glm::translate(depthViewMatrix, -50.0f, 0.0f, 0.0f);
+	VCShadowShader::DepthVPMatrix = depthProjectionMatrix * depthViewMatrix;
 }
 
 
@@ -49,18 +59,9 @@ VCShadowShader::~VCShadowShader(void)
 
 void VCShadowShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	// Compute the MVP matrix from the light's point of view
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 100, -100, 100, -100, 100);
-
-	glm::vec3 lightInvDir = glm::vec3(0.5f, 2, 2);
-	glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	depthViewMatrix = glm::translate(depthViewMatrix, -50.0f, 0.0f, 0.0f);
-	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix* modelMatrix;
-
-	// Send our transformation to the currently bound shader, 
-	// in the "MVP" uniform
+	
+	glm::mat4 depthMVP = VCShadowShader::DepthVPMatrix * modelMatrix;
 	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &depthMVP[0][0]);
-
 	glErrorCheck();
 }
 

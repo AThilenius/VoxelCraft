@@ -10,6 +10,7 @@
 
 void _glErrorCheck(std::string file, int line)
 {
+#ifdef DEBUG
 	GLenum errCode;
 	errCode = glGetError();
 	while (errCode != GL_NO_ERROR)
@@ -57,6 +58,7 @@ void _glErrorCheck(std::string file, int line)
 		printf("-[ %s ]- Line: %i - %s\n", file.c_str(), line, str);
         errCode = glGetError();
 	}
+#endif
 }
 
 unsigned long FastRandom() 

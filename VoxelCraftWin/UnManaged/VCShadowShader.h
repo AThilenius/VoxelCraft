@@ -18,6 +18,9 @@ public:
 
 	virtual void SetModelMatrix(glm::mat4 modelMatrix);
 
+	static vec3 LightInverseDirection;
+	static mat4 DepthVPMatrix;
+
 protected:
 	virtual void BindAttribLocations();
 	virtual void GetUniformIDs();

@@ -16,7 +16,8 @@ VCGameObject::VCGameObject(void):
     Position(glm::vec3(0, 0, 0)),
     Rotation(glm::quat()),
     Scale(glm::vec3(1, 1, 1)),
-    ModelMatrix(glm::mat4(1.0f))
+    ModelMatrix(glm::mat4(1.0f)),
+	m_rebuildNeeded(true)
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -51,13 +52,18 @@ void VCGameObject::Gui()
 
 void VCGameObject::PreRender()
 {   
-    // Rotate, Translate, Scale
-    ModelMatrix = glm::toMat4(Rotation);
-	ModelMatrix = glm::translate(ModelMatrix, Position);
-	ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);
+	if (m_rebuildNeeded)
+	{
+		m_rebuildNeeded = false;
+
+		// Rotate, Translate, Scale
+		ModelMatrix = glm::toMat4(Rotation);
+		ModelMatrix = glm::translate(ModelMatrix, Position);
+		ModelMatrix = glm::scale(ModelMatrix, Scale.x, Scale.y, Scale.z);
     
-	if (m_parent != NULL)
-		ModelMatrix = ModelMatrix * m_parent->ModelMatrix;
+		if (m_parent != NULL)
+			ModelMatrix = ModelMatrix * m_parent->ModelMatrix;
+	}
     
     FOREACH(iter, Children)
         (*iter)->PreRender();
@@ -71,12 +77,18 @@ VCGameObject* VCGameObject::GetParent()
 void VCGameObject::SetParent( VCGameObject* parent )
 {
 	if ( m_parent != NULL )
+	{
 		m_parent->Children.erase(parent);
+		m_parent->MarkForRebuild();
+	}
     
 	m_parent = parent;
     
 	if ( parent != NULL )
+	{
 		parent->Children.insert(this);
+		parent->MarkForRebuild();
+	}
 }
 
 // ================================      Interop      ============
@@ -143,8 +155,9 @@ void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, f
     obj->Position = vec3(posX, posY, posZ);
     obj->Rotation = quat(rotW, rotX, rotY, rotZ);
     obj->Scale = vec3(sclX, sclY, sclZ);
+	obj->MarkForRebuild();
     
-    if ( handle == 2 || true )
+    if ( true )
         return;
     
     cout << endl << "GameObject [" << handle << "] Set to: " << endl;
