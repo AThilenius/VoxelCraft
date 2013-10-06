@@ -7,7 +7,7 @@ namespace VCEngine
 {
     public class MenuBar : Control
     {
-        private const int c_buttonHeight = 25;
+        private const int c_buttonHeight = 20;
         private const int c_buttonWidth = 50;
 
         private Dictionary<Button, Menu> m_menues = new Dictionary<Button, Menu>();

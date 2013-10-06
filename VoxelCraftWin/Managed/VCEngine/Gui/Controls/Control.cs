@@ -19,7 +19,7 @@ namespace VCEngine
         public Color HightlightBorderColor = Color.ControlBorder;
         public bool Enabled = true;
         public bool Visible = true;
-        public String Font = "Lucida Sans-13-Bold";
+        public String Font = "Calibri-24";
         public HashSet<Control> Children = new HashSet<Control>();
         public bool IsHovered { get; protected set; }
 

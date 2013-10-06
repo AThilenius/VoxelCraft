@@ -24,3 +24,5 @@ BuildOutput/
 *.mdb
 *.userprefs
 *.suo
+*.psess
+*.vsp
