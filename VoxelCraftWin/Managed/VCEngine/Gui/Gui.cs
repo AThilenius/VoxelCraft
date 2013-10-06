@@ -53,7 +53,7 @@ namespace VCEngine
             Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
         }
 
-        public static void DrawString(string text, Point llPoint, Color color, string font = "Lucida Sans-13-Bold")
+        public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-16")
         {
             VCInteropGuiDrawText(font, text, new Point(llPoint.X, llPoint.Y + 13), color);
         }

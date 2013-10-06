@@ -28,15 +28,16 @@ namespace VCEngine
 
                 Menu testMenu1 = new Menu();
                 MainControl.AddControl(testMenu1);
-                testMenu1.AddItemReverse("Last");
-                testMenu1.AddItemReverse("Middle");
-                testMenu1.AddItemReverse("First");
+                testMenu1.AddItemReverse("Close");
+                testMenu1.AddItemReverse("Open");
+                testMenu1.AddItemReverse("Save");
 
                 Menu testMenu2 = new Menu();
                 MainControl.AddControl(testMenu2);
-                testMenu2.AddItemReverse("Last");
-                testMenu2.AddItemReverse("Middle");
-                testMenu2.AddItemReverse("First");
+                testMenu2.AddItemReverse("Options");
+                testMenu2.AddItemReverse("Find");
+                testMenu2.AddItemReverse("Redo");
+                testMenu2.AddItemReverse("Undo");
 
                 bar.AddMenu("File", testMenu1);
                 bar.AddMenu("Edit", testMenu2);

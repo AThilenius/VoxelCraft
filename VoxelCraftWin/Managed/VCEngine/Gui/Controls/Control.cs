@@ -254,25 +254,28 @@ namespace VCEngine
 
         private void RebuildCommandChain(Point point)
         {
-            if (!m_wasPointInThis && ScreenFrame.IsPointWithin(point))
+            if (Visible && !m_wasPointInThis && ScreenFrame.IsPointWithin(point))
             {
                 MouseEnter(this, EventArgs.Empty);
                 m_wasPointInThis = true;
             }
 
-            else if (m_wasPointInThis && !ScreenFrame.IsPointWithin(point))
-            {
-                MouseExit(this, EventArgs.Empty);
-                m_wasPointInThis = false;
-            }
-
             // If its in a child's frame...
             foreach (Control child in Children)
             {
-                if (child.ScreenFrame.IsPointWithin(point))
+                if (child.Visible && child.ScreenFrame.IsPointWithin(point))
                 {
                     if (m_activeChild != null && m_activeChild != child)
-                        m_activeChild.RebuildCommandChain(point);
+                    {
+                        //m_activeChild.RebuildCommandChain(point);
+                        Control ctrl = m_activeChild;
+                        while (ctrl != null)
+                        {
+                            ctrl.MouseExit(this, EventArgs.Empty);
+                            ctrl.m_wasPointInThis = false;
+                            ctrl = ctrl.m_activeChild;
+                        }
+                    }
 
                     m_activeChild = child;
                     child.RebuildCommandChain(point);
@@ -284,7 +287,14 @@ namespace VCEngine
             // Its in our frame, not a child's
             if (m_activeChild != null)
             {
-                m_activeChild.RebuildCommandChain(point);
+                //m_activeChild.RebuildCommandChain(point);
+                Control ctrl = m_activeChild;
+                while (ctrl != null)
+                {
+                    ctrl.MouseExit(this, EventArgs.Empty);
+                    ctrl.m_wasPointInThis = false;
+                    ctrl = ctrl.m_activeChild;
+                }
                 m_activeChild = null;
             }
         }
