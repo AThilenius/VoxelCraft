@@ -12,34 +12,34 @@ namespace VCEngine
 
         public new bool Add(T item)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
+            OnPreCollectionChanged(item, EventArgs.Empty);
             bool results = base.Add(item);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnPostCollectionChanged(item, EventArgs.Empty);
 
             return results;
         }
 
         public new void Clear()
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
+            OnPreCollectionChanged(null, EventArgs.Empty);
             base.Clear();
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnPostCollectionChanged(null, EventArgs.Empty);
         }
 
         public new bool Remove(T item)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
+            OnPreCollectionChanged(item, EventArgs.Empty);
             bool results = base.Remove(item);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnPostCollectionChanged(item, EventArgs.Empty);
 
             return results;
         }
 
         public new int RemoveWhere(Predicate<T> match)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
+            OnPreCollectionChanged(null, EventArgs.Empty);
             int results = base.RemoveWhere(match);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnPostCollectionChanged(null, EventArgs.Empty);
 
             return results;
         }

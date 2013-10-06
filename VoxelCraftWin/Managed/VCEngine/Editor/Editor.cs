@@ -15,19 +15,32 @@ namespace VCEngine
             try
             {
                 VCEngineCore.Initialize();
-                MainControl = new Control(new Rectangle(0, 0, Window.Size), "Main", null);
+
+                MainControl = new Control();
+                MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
                 MainControl.BorderColor = Color.Black;
                 MainControl.BackgroundColor = Color.Trasparent;
                 MainControl.HighlightBackgroundColor = Color.Trasparent;
                 MainControl.SetFirstResponder();
 
-                Control second = new Control(new Rectangle(200, 200, 400, 400), "Second", MainControl);
-                second.HighlightBackgroundColor = Color.ControlRed;
-                MainControl.Children.Add(second);
+                MenuBar bar = new MenuBar();
+                MainControl.AddControl(bar);
 
-                Control third = new Control(new Rectangle(200, 200, 150, 25), "Third", second);
-                third.HighlightBackgroundColor = Color.ControlGreen;
-                second.Children.Add(third);
+                Menu testMenu1 = new Menu();
+                MainControl.AddControl(testMenu1);
+                testMenu1.AddItemReverse("Last");
+                testMenu1.AddItemReverse("Middle");
+                testMenu1.AddItemReverse("First");
+
+                Menu testMenu2 = new Menu();
+                MainControl.AddControl(testMenu2);
+                testMenu2.AddItemReverse("Last");
+                testMenu2.AddItemReverse("Middle");
+                testMenu2.AddItemReverse("First");
+
+                bar.AddMenu("File", testMenu1);
+                bar.AddMenu("Edit", testMenu2);
+
 
                 // Load world here...
 

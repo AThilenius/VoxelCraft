@@ -7,11 +7,13 @@ namespace VCEngine
 {
     public class Control
     {
+        public static Control MainControl;
+
         public String Name;
-        public Rectangle ScreenFrame;
+        public Rectangle Frame = new Rectangle();
         public Control Parent;
         public Color BackgroundColor = Color.ControlLight;
-        public int BorderWidth = 1;
+        public int BorderWidth = 0;
         public Color BorderColor = Color.ControlVeryDark;
         public Color HighlightBackgroundColor = Color.White;
         public Color HightlightBorderColor = Color.ControlBorder;
@@ -19,43 +21,54 @@ namespace VCEngine
         public bool Visible = true;
         public String Font = "Lucida Sans-13-Bold";
         public HashSet<Control> Children = new HashSet<Control>();
+        public bool IsHovered { get; protected set; }
 
-        //public Rectangle Frame
-        //{
-        //    get
-        //    {
-        //        if (Parent == null)
-        //        {
-        //            return ScreenFrame;
-        //        }
+        public Point ScreenPoint
+        {
+            get
+            {
+                if (Parent == null)
+                    return new Point(Frame.X, Frame.Y);
 
-        //        else
-        //        {
-        //            return new Rectangle(
-        //                ScreenFrame.X - Parent.ScreenFrame.X,
-        //                ScreenFrame.Y - Parent.ScreenFrame.Y,
-        //                ScreenFrame.Width,
-        //                ScreenFrame.Height);
-        //        }
-        //    }
+                else
+                {
+                    // Recursive
+                    return Parent.ScreenPoint + new Point(Frame.X, Frame.Y);
+                }
+            }
 
-        //    set
-        //    {
-        //        if (Parent == null)
-        //        {
-        //            ScreenFrame = value;
-        //        }
+            set
+            {
+                if (Parent == null)
+                    Frame = new Rectangle(value.X, value.Y, Frame.Width, Frame.Height);
 
-        //        else
-        //        {
-        //            ScreenFrame = new Rectangle(
-        //                ScreenFrame.X + Parent.ScreenFrame.X,
-        //                ScreenFrame.Y + Parent.ScreenFrame.Y,
-        //                ScreenFrame.Width,
-        //                ScreenFrame.Height);
-        //        }
-        //    }
-        //}
+                else
+                {
+                    // Recursive
+                    Point p = new Point(Frame.X, Frame.Y) - Parent.ScreenPoint;
+                    Frame = new Rectangle(p, Frame.Width, Frame.Height);
+                }
+            }
+        }
+        public Rectangle ScreenFrame
+        {
+            get
+            {
+                return new Rectangle(ScreenPoint, Frame.Width, Frame.Height);
+            }
+
+            set
+            {
+                if (Parent == null)
+                    Frame = new Rectangle(value.X, value.Y, value.Width, value.Height);
+
+                else
+                {
+                    Point p = new Point(value.X, value.Y) - Parent.ScreenPoint;
+                    Frame = new Rectangle(p, value.Width, value.Height);
+                }
+            }
+        }
 
         public event EventHandler Click = delegate { };
         public event EventHandler RightClick = delegate { };
@@ -71,11 +84,10 @@ namespace VCEngine
         private Control m_activeChild;
         private bool m_wasPointInThis;
 
-        public Control(Rectangle screenFrame, string name, Control parent)
+        public Control()
         {
-            ScreenFrame = screenFrame;
-            Name = name;
-            Parent = parent;
+            MouseEnter += (s, a) => IsHovered = true;
+            MouseExit += (s, a) => IsHovered = false;
         }
 
         // Called externally
@@ -84,12 +96,25 @@ namespace VCEngine
             Draw();
 
             foreach (Control ctrl in Children)
-                ctrl.Render();
+                if (ctrl.Visible)
+                    ctrl.Render();
         }
 
-        public virtual void Draw()
+        public void AddControl(Control control)
         {
-            if (m_wasPointInThis)
+            Children.Add(control);
+            control.Parent = this;
+        }
+
+        public void RemoveControl(Control control)
+        {
+            Children.Remove(control);
+            control.Parent = null;
+        }
+
+        protected virtual void Draw()
+        {
+            if (IsHovered)
             {
                 if (BorderWidth > 0)
                     Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HightlightBorderColor, BorderWidth);

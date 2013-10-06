@@ -22,6 +22,16 @@ namespace VCEngine
         {
             return "[ " + X + ", " + Y + " ]";
         }
+
+        public static Point operator +(Point p1, Point p2)
+        {
+            return new Point(p1.X + p2.X, p1.Y + p2.Y);
+        }
+
+        public static Point operator -(Point p1, Point p2)
+        {
+            return new Point(p1.X - p2.X, p1.Y - p2.Y);
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -100,6 +110,14 @@ namespace VCEngine
             Y = y;
             Width = point.X;
             Height = point.Y;
+        }
+
+        public Rectangle(Point point, int width, int height)
+        {
+            X = point.X;
+            Y = point.Y;
+            Width = width;
+            Height = height;
         }
 
         public bool IsPointWithin(Point point)
