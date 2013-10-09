@@ -28,23 +28,25 @@ namespace VCEngine
                         m_state = TriState.Pressed;
                     break;
 
-                case TriState.Pressed:
-                    if (value)
-                        m_state = TriState.Replete;
-                    else
-                        m_state = TriState.Up;
-                    break;
-
                 case TriState.Replete:
                     if (!value)
                         m_state = TriState.Up;
                     break;
+            }
+
+        }
+
+        public void StepState()
+        {
+
+            switch (State)
+            {
+                case TriState.Pressed:
+                    m_state = TriState.Replete;
+                    break;
 
                 case TriState.Up:
-                    if (value)
-                        m_state = TriState.Pressed;
-                    else
-                        m_state = TriState.None;
+                    m_state = TriState.None;
                     break;
             }
 

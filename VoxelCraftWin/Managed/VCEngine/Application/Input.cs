@@ -207,14 +207,15 @@ namespace VCEngine
             get
             {
                 Vector2 strafeVec = new Vector2(0.0f, 0.0f);
+                
+                if (m_keyStates['W'].State != TriState.None) strafeVec.X += 1.0f;
+                if (m_keyStates['S'].State != TriState.None) strafeVec.X += -1.0f;
 
-                if (m_keyStates['W'].State == TriState.Replete) strafeVec.X += 1.0f;
-                if (m_keyStates['S'].State == TriState.Replete) strafeVec.X += -1.0f;
+                if (m_keyStates['A'].State != TriState.None) strafeVec.Y += 1.0f;
+                if (m_keyStates['D'].State != TriState.None) strafeVec.Y += -1.0f;
 
-                if (m_keyStates['A'].State == TriState.Replete) strafeVec.Y += 1.0f;
-                if (m_keyStates['D'].State == TriState.Replete) strafeVec.Y += -1.0f;
-
-                strafeVec.Normalize();
+                if (strafeVec.X > 0.1f || strafeVec.X < -0.1f || strafeVec.Y > 0.1f || strafeVec.Y < -0.1f )
+                    strafeVec.Normalize();
 
                 return strafeVec;
             }
@@ -249,6 +250,12 @@ namespace VCEngine
         internal static void ClearStates()
         {
             m_deltaMousePosition = new Point(0, 0);
+
+            for (int i = 0; i < 10; i++)
+                m_mouseStates[i].StepState();
+
+            for (int i = 0; i < 350; i++)
+                m_keyStates[i].StepState();
         }
 
         private static void GlfwKeyCallback(int key, int scancode, int action, int mods)
