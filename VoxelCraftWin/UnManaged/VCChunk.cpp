@@ -23,59 +23,41 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_vertexBufferID(0),
     m_vertexCount(0),
     m_vaoID(0),
-    m_rebuildVerticies(NULL)
+    m_rebuildVerticies(NULL),
+	m_isEmpty(true),
+	m_isRegistered(false),
+	NeedsRebuild(true)
 {
 	if (VCChunk::VoxelRenderState == NULL)
 	{
 		VCChunk::VoxelRenderState = new VCRenderState();
-		VCChunk::VoxelRenderState->StageCount = 2;
+		VCChunk::VoxelRenderState->StageCount = 1;
 
 		// Stage 1
-		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+		//VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
+		//VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
 
 		// Stage 2
-		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.9f);
-		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
+		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->VoxelShader;
+		VCChunk::VoxelRenderState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.9f);
+		VCChunk::VoxelRenderState->Stages[0].Textures[0] = VCGLRenderer::Instance->DepthTexture;
 
 		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
 	}
-
-    //cout << "VCChunk created [ " << x << " : " << y << " : " << z << " ] with handle: " << Handle << endl;
-	m_chunkGenertor = new VCChunkGenerator(x, y, z);
 }
 
 VCChunk::~VCChunk(void)
 {
-	delete m_chunkGenertor;
-}
-
-BlockType VCChunk::GetBlock ( int x, int y, int z )
-{
-	if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
-		return Block_Unknown;
-    
-    return m_blocks[FLATTEN_CHUNK(x,y,z)];
-}
-
-void VCChunk::Generate()
-{
-	//for (int i = 0; i < CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH; i++ )
-	//	m_blocks[i] = Block_Dirt;
-
-	m_chunkGenertor->generateToBuffer((byte*)m_blocks);
 }
 
 void VCChunk::Rebuild()
 {
+	if (!NeedsRebuild)
+		return;
+
 	m_vertexCount = 0;
 	float startTime = VCTime::CurrentTime;
-
-	// Alloc worst case for rebuild
-	if ( m_rebuildVerticies != NULL )
-		free(m_rebuildVerticies);
 
 	m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * 18 * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
 
@@ -93,23 +75,13 @@ void VCChunk::Rebuild()
                 // =========  Make a single block  ========
                 runCount++;
 
-                BlockType thisType = m_blocks[FLATTEN_CHUNK(x,y,z)];
-				GLubyte4 color = GLubyte4( 255, 0, 0, 255 );
+                VCBlock thisType = Blocks[FLATTEN_CHUNK(x,y,z)];
 
-				if ( thisType == Block_Air )
+				if ( thisType.IsTrasparent() )
                 {
                     airBlocks++;
                     continue;
                 }
-
-				if ( thisType == Block_Dirt )
-					color = GLubyte4(92, 86, 37, 255);
-
-				else if ( thisType == Block_Grass )
-					color = GLubyte4(110, 163, 40, 255);
-
-				else if ( thisType == Block_Stone )
-					color = GLubyte4(128, 128, 128, 255);
                 
                 //GLKVector3 normal;
 				GLbyte normal;
@@ -127,92 +99,84 @@ void VCChunk::Rebuild()
                 GLbyte3 V6 ( xO + 1,	yO,		zO		);
                 GLbyte3 V7 ( xO + 1,	yO + 1, zO		);
                 GLbyte3 V8 ( xO,		yO + 1, zO		);
-                
 
-                BlockType blockType = Block_Unknown;
                 
                 // Front face
-				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1);
-                if ( blockType == Block_Air || blockType == Block_Unknown )
+                if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTrasparent() )
                 {
                     normal = 5;
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
                     
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
                 }
 
 				//Right face
-				blockType = m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z);
-				if ( blockType == Block_Air || blockType == Block_Unknown )
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTrasparent() )
 				{
 					normal = 1;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
 				}
 
 				//Back face
-				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1);
-				if ( blockType == Block_Air || blockType == Block_Unknown )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTrasparent() )
 				{
 					normal = 4;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
 				}
 
 				//Left face
-				blockType = m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z);
-				if ( blockType == Block_Air || blockType == Block_Unknown )
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTrasparent() )
 				{
 					normal = 0;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
 				}
 
 				//Top face
-				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z);
-				if ( blockType == Block_Air || blockType == Block_Unknown )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTrasparent() )
 				{
 					normal = 3;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
 				}
 
 				//Bottom face
-				blockType = m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z);
-				if ( blockType == Block_Air || blockType == Block_Unknown )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTrasparent() )
 				{
 					normal = 2;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
 				}
                 // =========  END of make block  ========
             }
@@ -223,6 +187,24 @@ void VCChunk::Rebuild()
 	{
 		glDeleteBuffers(1, &m_vertexBufferID);
 		m_vertexBufferID = 0;
+	}
+
+	// Empty?
+	m_isEmpty = m_vertexCount == 0;
+
+	if (m_isEmpty)
+	{
+		if(m_isRegistered)
+		{
+			m_isRegistered = false;
+			VCGLRenderer::Instance->UnRegisterIRenderable(this);
+		}
+
+		// release heap malloc
+		free(m_rebuildVerticies);
+		m_rebuildVerticies = NULL;
+
+		return;
 	}
 
     
@@ -250,7 +232,11 @@ void VCChunk::Rebuild()
     glBindVertexArray(0);
 
 	// Register VCIRenderable
-	VCGLRenderer::Instance->RegisterIRenderable(this);
+	if (!m_isRegistered)
+	{
+		m_isRegistered = true;
+		VCGLRenderer::Instance->RegisterIRenderable(this);
+	}
 
 	// release heap malloc
 	free(m_rebuildVerticies);
@@ -263,7 +249,8 @@ void VCChunk::Rebuild()
 
 void VCChunk::Render()
 {
-	if (m_vertexBufferID == 0 )
+	// Shouldn't get here though
+	if ( m_isEmpty )
 		return;
     
     glBindVertexArray(m_vaoID);

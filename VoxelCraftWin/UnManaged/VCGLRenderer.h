@@ -14,6 +14,7 @@
 #include "VCTextureShader.h"
 #include "VCLexShader.h"
 #include "VCGuiShader.h"
+#include "VCColorPassThroughShader.h"
 #include "VCIRenderable.h"
 
 class VCGLRenderer
@@ -33,21 +34,25 @@ public:
 	void UnRegisterIRenderable(VCIRenderable* renderable);
 
 public:
-	void CreateDepthFrameBuffer();
-
+	// Static
 	static VCGLRenderer* Instance;
+	static VCRenderState* PassThroughState;
 
+	// Member
 	VCVoxelShader* VoxelShader;
 	VCShadowShader* ShadowShader;
 	VCTextureShader* TextureShader;
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
+	VCColorPassThroughShader* ColorPassThroughShader;
 
 	GLuint DefaultFrameBuffer;
 	GLuint DepthFrameBuffer;
 	GLuint DepthTexture;
 
 private:
+	void CreateDepthFrameBuffer();
+
 	typedef std::set<VCIRenderable*> RenderSet;
 	typedef std::map<VCRenderState*, RenderSet, _VCRenderStateCompare> RenderMap;
 

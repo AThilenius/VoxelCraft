@@ -38,6 +38,12 @@
     <Filter Include="GUI\Text">
       <UniqueIdentifier>{bd54c50f-9576-481c-bb72-4428380f39cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Voxel\Noise">
+      <UniqueIdentifier>{d5dd541d-60af-4766-82e0-9fbd2bdf063d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Voxel\Generators">
+      <UniqueIdentifier>{76418fe0-57d0-4d09-acac-9d38fd8e733f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -47,9 +53,6 @@
       <Filter>Voxel</Filter>
     </ClCompile>
     <ClCompile Include="VCChunk.cpp">
-      <Filter>Voxel</Filter>
-    </ClCompile>
-    <ClCompile Include="VCChunkGenerator.cpp">
       <Filter>Voxel</Filter>
     </ClCompile>
     <ClCompile Include="VCWorld.cpp">
@@ -130,6 +133,21 @@
     <ClCompile Include="VCGuiShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="VCNoise2D.cpp">
+      <Filter>Voxel\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="VCColorPassThroughShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCDebug.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCFlatGenerator.cpp">
+      <Filter>Voxel\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="VCNoiseGenerator.cpp">
+      <Filter>Voxel\Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -139,9 +157,6 @@
       <Filter>Voxel</Filter>
     </ClInclude>
     <ClInclude Include="VCChunk.h">
-      <Filter>Voxel</Filter>
-    </ClInclude>
-    <ClInclude Include="VCChunkGenerator.h">
       <Filter>Voxel</Filter>
     </ClInclude>
     <ClInclude Include="VCWorld.h">
@@ -246,6 +261,24 @@
     </ClInclude>
     <ClInclude Include="VCMonoMethod.h">
       <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCNoise2D.h">
+      <Filter>Voxel\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="VCColorPassThroughShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCDebug.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCIChunkGenerator.h">
+      <Filter>Voxel\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="VCFlatGenerator.h">
+      <Filter>Voxel\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="VCNoiseGenerator.h">
+      <Filter>Voxel\Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,32 +2,145 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
 {
-    public class World
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Ubyte4
+    {
+        byte R;
+        byte G;
+        byte B;
+        byte A;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Block
+    {
+        Ubyte4 Color;
+    }
+
+    public class World : MarshaledObject
     {
         #region Bindings
 
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static int VCInteropWorldGetBlock(int x, int y, int z);
+        extern static int VCInteropNewWorld();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropReleaseWorld(int handle);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSetGenerator(int wHandle, int cHandle);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSetViewDist(int handle, int distance);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldInitialize(int handle);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldGenerateRegenerate(int handle);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldRebuild(int handle);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static Block VCInteropWorldGetBlock(int handle, int x, int y, int z);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSetBlock(int handle, int x, int y, int z, Block block);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static int VCInteropWorldRaycast(int handle, Ray ray, out RaycastHit hitOut);
+
+        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewWorld; } }
+        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseWorld; } }
 
         #endregion
 
-        public static int GetBlock(int x, int y, int z)
+        private IChunkGenerator m_generator;
+        public IChunkGenerator Generator
         {
-            return VCInteropWorldGetBlock(x, y, z);
+            get
+            {
+                return m_generator;
+            }
+
+            set
+            {
+                m_generator = value;
+                VCInteropWorldSetGenerator(UnManagedHandle, ((MarshaledObject) value).UnManagedHandle);
+            }
         }
 
-        public static int GetBlock(float x, float y, float z)
+        private int m_viewDistance = 0;
+        public int ViewDistance
         {
-            return VCInteropWorldGetBlock((int)Math.Floor(x), (int)Math.Floor(y), (int)Math.Floor(z));
+            get
+            {
+                return m_viewDistance;
+            }
+
+            set
+            {
+                m_viewDistance = value;
+                VCInteropWorldSetViewDist(UnManagedHandle, value);
+            }
         }
 
-        public static int GetBlock(Vector3 position)
+        public void Initialize()
         {
-            return VCInteropWorldGetBlock((int) Math.Floor(position.X), (int) Math.Floor(position.Y), (int) Math.Floor(position.Z));
+            VCInteropWorldInitialize(UnManagedHandle);
+        }
+
+        public void GenerateRegenerate()
+        {
+            VCInteropWorldGenerateRegenerate(UnManagedHandle);
+        }
+
+        public void ReBuild()
+        {
+            VCInteropWorldRebuild(UnManagedHandle);
+        } 
+
+        public Block GetBlock(int x, int y, int z)
+        {
+            return VCInteropWorldGetBlock(UnManagedHandle, x, y, z);
+        }
+        public Block GetBlock(float x, float y, float z)
+        {
+            return VCInteropWorldGetBlock(UnManagedHandle, (int)Math.Floor(x), (int)Math.Floor(y), (int)Math.Floor(z));
+        }
+        public Block GetBlock(Vector3 position)
+        {
+            return VCInteropWorldGetBlock(UnManagedHandle, (int)Math.Floor(position.X), (int)Math.Floor(position.Y), (int)Math.Floor(position.Z));
+        }
+
+        public void SetBlock(int x, int y, int z, Block block)
+        {
+            VCInteropWorldSetBlock(UnManagedHandle, x, y, z, block);
+        }
+        public void SetBlock(float x, float y, float z, Block block)
+        {
+            VCInteropWorldSetBlock(UnManagedHandle, (int)Math.Floor(x), (int)Math.Floor(y), (int)Math.Floor(z), block);
+        }
+        public void SetBlock(Vector3 position, Block block)
+        {
+            VCInteropWorldSetBlock(UnManagedHandle, (int)Math.Floor(position.X), (int)Math.Floor(position.Y), (int)Math.Floor(position.Z), block);
+        }
+
+        public bool Raycast(Ray ray, out RaycastHit hit)
+        {
+            RaycastHit newHit = new RaycastHit();
+            bool result = VCInteropWorldRaycast(UnManagedHandle, ray, out newHit) > 0;
+            hit = newHit;
+
+            return result;
         }
 
     }

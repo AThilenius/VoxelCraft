@@ -18,6 +18,24 @@ namespace VCEngine
             {
                 VCEngineCore.Initialize();
 
+                Console.WriteLine("CTor");
+                World world = new World();
+
+                Console.WriteLine("FlatChunkGenerator");
+                world.Generator = new FlatChunkGenerator();
+
+                Console.WriteLine("ViewDistance");
+                world.ViewDistance = 4;
+
+                Console.WriteLine("Initialize");
+                world.Initialize();
+
+                Console.WriteLine("GenerateRegenerate");
+                world.GenerateRegenerate();
+
+                Console.WriteLine("ReBuild");
+                world.ReBuild();
+
                 MainControl = new Control();
                 MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
                 MainControl.BorderColor = Color.Black;

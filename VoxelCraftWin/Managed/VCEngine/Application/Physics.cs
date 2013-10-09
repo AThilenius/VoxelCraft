@@ -43,23 +43,23 @@ namespace VCEngine
         }
     }
 
-    public static class Physics
-    {
-        #region Bindings
+    //public static class Physics
+    //{
+    //    #region Bindings
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static bool VCInteropPhysicsRaycastWorld(Ray ray, ref RaycastHit hitOut);
+    //    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    //    extern static bool VCInteropPhysicsRaycastWorld(Ray ray, ref RaycastHit hitOut);
 
-        #endregion
+    //    #endregion
 
-        public static bool Raycast(Ray ray, out RaycastHit hit)
-        {
-            RaycastHit newHit = new RaycastHit();
-            bool result = VCInteropPhysicsRaycastWorld(ray, ref newHit);
-            hit = newHit;
+    //    public static bool Raycast(Ray ray, out RaycastHit hit)
+    //    {
+    //        RaycastHit newHit = new RaycastHit();
+    //        bool result = VCInteropPhysicsRaycastWorld(ray, ref newHit);
+    //        hit = newHit;
 
-            return result;
-        }
+    //        return result;
+    //    }
 
-    }
+    //}
 }

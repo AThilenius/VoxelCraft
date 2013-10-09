@@ -10,24 +10,24 @@
 
 #include "PCH.h"
 
-typedef enum : byte
-{
-	Block_Unknown = 0,
-	Block_Air = 1,
-	Block_Dirt = 2,
-	Block_Stone = 3,
-	Block_Grass = 4
-
-} BlockType;
 
 class VCBlock
 {
 public:
-	VCBlock(void);
-	~VCBlock(void);
+	VCBlock(void){}
+	VCBlock(GLubyte r, GLubyte g, GLubyte b): Color(GLubyte4(r, g, b, 255)){}
+	VCBlock(GLubyte r, GLubyte g, GLubyte b, GLubyte a): Color(GLubyte4(r, g, b, a)){}
+	~VCBlock(void){}
 
-	GLbyte4 GetColor();
+	GLubyte4 Color;
 
-	BlockType Type;
+	bool IsTrasparent()
+	{
+		return Color.w != 255;
+	}
+
+	// Statics:
+	static VCBlock ErrorBlock;
+	static VCBlock Air;
 };
 

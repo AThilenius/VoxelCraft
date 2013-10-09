@@ -38,9 +38,12 @@
   <ItemGroup>
     <Compile Include="Application\Input.cs" />
     <Compile Include="Components\RidgedBody.cs" />
+    <Compile Include="FlatChunkGenerator.cs" />
     <Compile Include="Gui\Controls\Button.cs" />
     <Compile Include="Gui\Controls\Menu.cs" />
     <Compile Include="Gui\Controls\MenuBar.cs" />
+    <Compile Include="IChunkGenerator.cs" />
+    <Compile Include="NoiseChunkGenerator.cs" />
     <Compile Include="SceneGraph\SceneGraph.cs" />
     <Compile Include="Editor\Editor.cs" />
     <Compile Include="Game\Game.cs" />

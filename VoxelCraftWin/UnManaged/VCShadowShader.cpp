@@ -45,10 +45,10 @@ VCShadowShader::VCShadowShader(void)
 	m_unifMVP = -1;
 
 	// Compute the MVP matrix from the light's point of view
-	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 100, -100, 100, -100, 100);
+	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -100, 0, -100, 0, -100, 100);
 	VCShadowShader::LightInverseDirection = glm::vec3(0.5f, 2, 2);
 	glm::mat4 depthViewMatrix = glm::lookAt(VCShadowShader::LightInverseDirection, glm::vec3(0,0,0), glm::vec3(0,1,0));
-	depthViewMatrix = glm::translate(depthViewMatrix, -50.0f, 0.0f, 0.0f);
+	depthViewMatrix = glm::translate(depthViewMatrix, -70.0f, -80.0f, 0.0f);
 	VCShadowShader::DepthVPMatrix = depthProjectionMatrix * depthViewMatrix;
 }
 

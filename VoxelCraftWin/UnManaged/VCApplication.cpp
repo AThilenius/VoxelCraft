@@ -21,6 +21,9 @@
 #include "VCMonoRuntime.h"
 #include "VCLexicalEngine.h"
 #include "VCGui.h"
+#include "VCDebug.h"
+#include "VCFlatGenerator.h"
+#include "VCNoiseGenerator.h"
 
 VCApplication* VCApplication::Instance;
 
@@ -64,9 +67,16 @@ void VCApplication::Initialize()
     SceneGraph = new VCSceneGraph();
     SceneGraph->Initalize();
 
+	Debug = new VCDebug();
+	Debug->Initialize();
+
 	// Debug
-	VCWorld* testWorld = new VCWorld(4);
-	testWorld->Initialize();
+	//VCWorld* testWorld = new VCWorld();
+	//testWorld->SetGenerator(new VCFlatGenerator());
+	//testWorld->SetViewDistance(8);
+	//testWorld->Initialize();
+	//testWorld->GenerateRegenerate();
+	//testWorld->Rebuild();
 }
 
 void VCApplication::EditorMain()

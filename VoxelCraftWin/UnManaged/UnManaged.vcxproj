@@ -27,7 +27,10 @@
     <ClCompile Include="VCBlock.cpp" />
     <ClCompile Include="VCCamera.cpp" />
     <ClCompile Include="VCChunk.cpp" />
-    <ClCompile Include="VCChunkGenerator.cpp" />
+    <ClCompile Include="VCNoiseGenerator.cpp" />
+    <ClCompile Include="VCColorPassThroughShader.cpp" />
+    <ClCompile Include="VCDebug.cpp" />
+    <ClCompile Include="VCFlatGenerator.cpp" />
     <ClCompile Include="VCFont.cpp" />
     <ClCompile Include="VCGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
@@ -38,6 +41,7 @@
     <ClCompile Include="VCLexShader.cpp" />
     <ClCompile Include="VCMarshalableObject.cpp" />
     <ClCompile Include="VCMonoRuntime.cpp" />
+    <ClCompile Include="VCNoise2D.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCPhysics.cpp" />
     <ClCompile Include="VCSceneGraph.cpp" />
@@ -62,12 +66,16 @@
     <ClInclude Include="VCBlock.h" />
     <ClInclude Include="VCCamera.h" />
     <ClInclude Include="VCChunk.h" />
-    <ClInclude Include="VCChunkGenerator.h" />
+    <ClInclude Include="VCNoiseGenerator.h" />
+    <ClInclude Include="VCColorPassThroughShader.h" />
+    <ClInclude Include="VCDebug.h" />
+    <ClInclude Include="VCFlatGenerator.h" />
     <ClInclude Include="VCFont.h" />
     <ClInclude Include="VCGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
     <ClInclude Include="VCGui.h" />
     <ClInclude Include="VCGuiShader.h" />
+    <ClInclude Include="VCIChunkGenerator.h" />
     <ClInclude Include="VCInput.h" />
     <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLexicalEngine.h" />
@@ -75,6 +83,7 @@
     <ClInclude Include="VCMarshalableObject.h" />
     <ClInclude Include="VCMonoMethod.h" />
     <ClInclude Include="VCMonoRuntime.h" />
+    <ClInclude Include="VCNoise2D.h" />
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />
     <ClInclude Include="VCRenderStage.h" />

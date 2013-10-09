@@ -8,6 +8,8 @@
 
 #include "VCMonoRuntime.h"
 #include "PathUtil.h"
+#include "VCFlatGenerator.h"
+#include "VCNoiseGenerator.h"
 
 VCMonoRuntime* VCMonoRuntime::Instance = NULL;
 MonoDomain* VCMonoRuntime::m_pRootDomain;
@@ -68,12 +70,13 @@ void VCMonoRuntime::Bind()
     VCGameObject::RegisterMonoHandlers();
     VCCamera::RegisterMonoHandlers();
     VCInput::RegisterMonoHandlers();
-	VCPhysics::RegisterMonoHandlers();
 	VCGui::RegisterMonoHandlers();
 	VCLexicalEngine::RegisterMonoHandlers();
 	VCGLRenderer::RegisterMonoHandlers();
 	VCWindow::RegisterMonoHandlers();
 	VCWorld::RegisterMonoHandlers();
+	VCFlatGenerator::RegisterMonoHandlers();
+	VCNoiseGenerator::RegisterMonoHandlers();
 }
 
 void VCMonoRuntime::EditorMain()

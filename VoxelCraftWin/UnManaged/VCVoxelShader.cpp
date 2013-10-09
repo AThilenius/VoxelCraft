@@ -105,6 +105,7 @@ static string g_vcVoxFragmentShader =
 	"out vec4 color;"
 
 	"uniform sampler2D shadowMap;"
+	//"uniform sampler2DShadow shadowMap;"
 
 	"vec2 poissonDisk[16] = vec2[]( "
 	   "vec2( -0.94201624, -0.39906216 ), "
@@ -155,13 +156,13 @@ static string g_vcVoxFragmentShader =
 		"for ( int i = 0; i < 4; i++ )"
 		"{"
 
-			//  - A random sample, based on the pixel's position in world space.
-			//    The position is rounded to the millimeter to avoid too much aliasing
-			"int index = int( 16.0 * random( floor( Position_worldspace.xyz * 1000.0 ), i) ) % 16;"
+			"int index = i;"
+			//"int index = int( 16.0 * random( floor( Position_worldspace.xyz * 1000.0 ), i) ) % 16;"
 		
 			//"visibility -= 0.2 * ( 1.0 - texture( shadowMap, vec3( ShadowCoord.xy + poissonDisk[index] / 700.0,  (ShadowCoord.z - bias) / ShadowCoord.w) ));"
 
-			"if ( texture( shadowMap, (ShadowCoord.xy/ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
+			"if ( texture( shadowMap, (ShadowCoord.xy + poissonDisk[index] / 700.0) ).z  <  (ShadowCoord.z - bias) / ShadowCoord.w )"
+			//"if ( texture( shadowMap, (ShadowCoord.xy / ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
 				"visibility -= 0.2;"
 
 		"}"

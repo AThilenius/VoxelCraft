@@ -16,6 +16,7 @@ class VCObjectStore;
 class VCMonoRuntime;
 class VCLexicalEngine;
 class VCGui;
+class VCDebug;
 
 
 using namespace std;
@@ -40,6 +41,7 @@ public:
     VCMonoRuntime* MonoRuntime;
 	VCLexicalEngine* LexEngine;
 	VCGui* Gui;
+	VCDebug* Debug;
     
     static VCApplication* Instance;
 };

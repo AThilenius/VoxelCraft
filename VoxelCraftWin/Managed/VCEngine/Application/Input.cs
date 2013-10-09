@@ -208,7 +208,7 @@ namespace VCEngine
         public static event EventHandler<MouseScrollEventArgs> MouseScroll = delegate { };
         public static event EventHandler<FocusEventArgs> Focus = delegate { };
         
-        public static MouseMoveMode MouseMode = MouseMoveMode.Free;
+        public static MouseMoveMode MouseMode = MouseMoveMode.Locked;
         public static bool Fire;
         public static bool AltFire;
         public static Vector3 Look 

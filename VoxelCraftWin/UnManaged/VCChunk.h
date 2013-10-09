@@ -11,7 +11,6 @@
 #include "PCH.h"
 #include "VCGameObject.h"
 #include "VCBlock.h"
-#include "VCChunkGenerator.h"
 #include "VCIRenderable.h"
 
 class VCWorld;
@@ -40,31 +39,45 @@ public:
 	VCChunk(int x, int y, int z, VCWorld* world);
 	~VCChunk(void);
 
-	BlockType GetBlock ( int x, int y, int z );
+	VCBlock GetBlock ( int x, int y, int z )
+	{
+		if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
+			return VCBlock::ErrorBlock;
 
-	void Generate( );
+		return Blocks[FLATTEN_CHUNK(x,y,z)];
+	}
+	
+	void SetBlock( int x, int y, int z, VCBlock block )
+	{
+		if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
+			return;
+
+		Blocks[FLATTEN_CHUNK(x,y,z)] = block;
+		NeedsRebuild = true;
+	}
+	
 	void Rebuild ( );
 
 	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
     void virtual Render();
-
+	
 	static VCRenderState* VoxelRenderState;
-
+	VCBlock Blocks[CHUNK_TOTAL_COUNT];
+	bool NeedsRebuild;
 private:
-	BlockType m_blocks[CHUNK_TOTAL_COUNT];
 	VCWorld* m_world;
-	VCChunkGenerator* m_chunkGenertor;
 
 	int m_x, m_y, m_z;
 	int m_blockX, m_blockY, m_blockZ;
+	bool m_isEmpty;
+	bool m_isRegistered;
 
 	// Rendering
     GLuint m_vaoID;
 	GLuint m_vertexBufferID;
 	GLint m_vertexCount;
 
-	//std::vector<BlockVerticie> m_rebuildVerticies;
 	BlockVerticie* m_rebuildVerticies;
 
+	friend class VCChunkGenerator;
 };
-

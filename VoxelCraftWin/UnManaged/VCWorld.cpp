@@ -11,21 +11,14 @@
 #include "VCChunk.h"
 #include "VCBlock.h"
 #include "VCSceneGraph.h"
+#include "VCDebug.h"
 
-VCWorld* VCWorld::Instance;
-
-VCWorld::VCWorld( int viewDistance ):
+VCWorld::VCWorld():
 	ChunkZeroX(0),
-	ChunkZeroY(0),
-	ChunkZeroZ(0)
+	ChunkZeroZ(0),
+	ChunkGenerator(NULL)
 {
-	VCWorld::Instance = this;
-
-	if (((viewDistance - 1) & viewDistance))
-		cout << "View distance must be a power of two!" << endl;
-
-	m_viewDistTwo = viewDistance;
-	m_logViewDistTwo = std::log(m_viewDistTwo) / std::log(2);
+	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
 
 VCWorld::~VCWorld(void)
@@ -36,24 +29,105 @@ void VCWorld::Initialize()
 {
 	m_chunks = (VCChunk**) malloc ( sizeof(VCChunk*) * m_viewDistTwo * m_viewDistTwo * m_viewDistTwo );
 
-	WORLD_ORDERED_ITTORATOR(X,Y,Z)
-		m_chunks[FLATTEN_WORLD(X,Y,Z)] = new VCChunk(X, Y, Z, this);
-		m_chunks[FLATTEN_WORLD(X,Y,Z)]->SetParent(VCSceneGraph::Instance->RootNode);
-		m_chunks[FLATTEN_WORLD(X,Y,Z)]->Generate();
-	}}};
+	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
+		m_chunks[FLATTEN_WORLD(x ,y, z)] = new VCChunk(cX, cY, cZ, this);
+		m_chunks[FLATTEN_WORLD(x ,y, z)]->SetParent(VCSceneGraph::Instance->RootNode);
+	}}}
+}
 
-	WORLD_ORDERED_ITTORATOR(X,Y,Z)
-		m_chunks[FLATTEN_WORLD(X,Y,Z)]->Rebuild();
-	}}};
+void VCWorld::GenerateRegenerate()
+{
+	if (ChunkGenerator == NULL)
+	{
+		VC_ERROR("NULL chunk generator.");
+	}
 
+	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
+		m_chunks[FLATTEN_WORLD(x ,y, z)]->NeedsRebuild = !ChunkGenerator->GenerateToBuffer( (VCBlock*) m_chunks[FLATTEN_WORLD(x ,y, z)]->Blocks, cX, cY, cZ );
+	}}}
+}
+
+void VCWorld::Rebuild()
+{
+	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
+		m_chunks[FLATTEN_WORLD(x ,y, z)]->Rebuild();
+	}}}
 }
 
 void VCWorld::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.World::VCInteropWorldGetBlock", (void*)VCInteropWorldGetBlock);
+	mono_add_internal_call("VCEngine.World::VCInteropNewWorld",					(void*)VCInteropNewWorld);
+	mono_add_internal_call("VCEngine.World::VCInteropReleaseWorld",				(void*)VCInteropReleaseWorld);
+
+	mono_add_internal_call("VCEngine.World::VCInteropWorldGetBlock",			(void*)VCInteropWorldGetBlock);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldSetBlock",			(void*)VCInteropWorldSetBlock);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldSetGenerator",		(void*)VCInteropWorldSetGenerator);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldInitialize",			(void*)VCInteropWorldInitialize);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldGenerateRegenerate",	(void*)VCInteropWorldGenerateRegenerate);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
+	mono_add_internal_call("VCEngine.World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
 }
 
-int VCInteropWorldGetBlock( int x, int y, int z )
+int VCInteropNewWorld()
 {
-	return VCWorld::Instance->GetBlock(x, y, z);
+	VCWorld* world = new VCWorld();
+	return world->Handle;
+}
+
+void VCInteropReleaseWorld( int handle )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	delete obj;
+}
+
+void VCInteropWorldSetGenerator( int wHandle, int cHandle )
+{
+	VCWorld* wObj = (VCWorld*) VCObjectStore::Instance->GetObject(wHandle);
+	VCIChunkGenerator* cObj = (VCIChunkGenerator*) VCObjectStore::Instance->GetObject(cHandle);
+
+	wObj->SetGenerator(cObj);
+}
+
+void VCInteropWorldSetViewDist( int handle, int distance )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->SetViewDistance(distance);
+}
+
+void VCInteropWorldInitialize( int handle )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->Initialize();
+}
+
+void VCInteropWorldGenerateRegenerate( int handle )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->GenerateRegenerate();
+}
+
+void VCInteropWorldRebuild( int handle )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->Rebuild();
+}
+
+
+VCBlock VCInteropWorldGetBlock( int handle, int x, int y, int z )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	return obj->GetBlock(x, y, z);
+}
+
+void VCInteropWorldSetBlock( int handle, int x, int y, int z, VCBlock block )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->SetBlock(x, y, z, block);
+}
+
+int VCInteropWorldRaycast(int handle, Ray ray, RaycastHit* hitOut )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	return obj->RaycastWorld(ray, hitOut);
 }

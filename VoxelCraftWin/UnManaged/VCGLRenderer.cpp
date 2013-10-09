@@ -12,6 +12,7 @@
 #include "VCWindow.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
+VCRenderState* VCGLRenderer::PassThroughState;
 
 VCGLRenderer::VCGLRenderer(void):
 	DepthFrameBuffer(0),
@@ -51,6 +52,9 @@ void VCGLRenderer::Initialize()
 	GuiShader = new VCGuiShader();
 	GuiShader->Initialize();
 
+	ColorPassThroughShader = new VCColorPassThroughShader();
+	ColorPassThroughShader->Initialize();
+
 	CreateDepthFrameBuffer();
 
 
@@ -77,6 +81,13 @@ void VCGLRenderer::Initialize()
 	glVertexAttribPointer( VC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, (void*)0 );
 
 	glBindVertexArray(0);
+
+	// Default States:
+	VCGLRenderer::PassThroughState = new VCRenderState();
+	VCGLRenderer::PassThroughState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+	VCGLRenderer::PassThroughState->Stages[0].Shader = VCGLRenderer::Instance->ColorPassThroughShader;
+	VCGLRenderer::PassThroughState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.9f);
+	RegisterState(VCGLRenderer::PassThroughState);
 
     glErrorCheck();
     cout << "VCGLRenderer Initialized" << endl;
@@ -161,22 +172,22 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 
 	}
 
-	////// ===================    Visualize    =====================
-	//glViewport(0, 0, 256, 256);
+	//// ===================    Visualize    =====================
+	glViewport(0, 0, 256, 256);
 
-	//TextureShader->Bind();
+	TextureShader->Bind();
 
-	//// Bind our texture in Texture Unit 0
-	//glBindVertexArray(m_quad_VertexArrayID);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	////glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	// Bind our texture in Texture Unit 0
+	glBindVertexArray(m_quad_VertexArrayID);
+	
+	glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
 
-	//TextureShader->SetTextureUnit(0);
+	TextureShader->SetTextureUnit(0);
 
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glBindVertexArray(0);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 
 }
 
@@ -236,6 +247,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	// Also tried using GL_COMPARE_R_TO_TEXTURE with sampler2DShadow in the shader. Same outcome.
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);

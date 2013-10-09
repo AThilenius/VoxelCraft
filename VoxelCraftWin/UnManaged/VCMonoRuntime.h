@@ -13,7 +13,6 @@
 
 #include "VCCamera.h"
 #include "VCGameObject.h"
-#include "VCPhysics.h"
 #include "VCGui.h"
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"

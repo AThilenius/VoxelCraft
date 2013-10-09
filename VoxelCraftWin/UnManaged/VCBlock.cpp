@@ -8,17 +8,5 @@
 
 #include "VCBlock.h"
 
-
-VCBlock::VCBlock(void)
-{
-}
-
-
-VCBlock::~VCBlock(void)
-{
-}
-
-GLbyte4 VCBlock::GetColor()
-{
-	return GLbyte4 ( 255, 0, 0, 255 );
-}
+VCBlock VCBlock::ErrorBlock = VCBlock(255, 0, 0, 255);
+VCBlock VCBlock::Air = VCBlock(0, 0, 0, 0);
