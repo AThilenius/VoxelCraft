@@ -16,7 +16,7 @@ namespace VCEngine
 
             VCEngineCore.Start();
 
-            while (!Window.ShouldClose() && !Input.IsKeyDown(Input.Keys.Escape))
+            while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
             {
                 // Mono
                 VCEngineCore.Update();

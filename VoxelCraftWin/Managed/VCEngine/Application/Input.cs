@@ -25,15 +25,8 @@ namespace VCEngine
 
     public struct KeyState
     {
-        public enum KeyAction : int
-        {
-            Released = 0,
-            Pressed = 1,
-            Repeat = 2
-        }
-
         public int Key;
-        public KeyAction Action;
+        public TriState Action;
         public KeyModFlags Modifiers;
 
         public bool Shift { get { return (Modifiers & KeyModFlags.Shift) == KeyModFlags.Shift; } }
@@ -41,10 +34,10 @@ namespace VCEngine
         public bool Alt { get { return (Modifiers & KeyModFlags.Alt) == KeyModFlags.Alt; } }
         public bool Super { get { return (Modifiers & KeyModFlags.Super) == KeyModFlags.Super; } }
 
-        public KeyState(int key, int action, int mods)
+        public KeyState(int key, TriState action, int mods)
         {
             Key = key;
-            Action = (KeyAction) action;
+            Action = action;
             Modifiers = (KeyModFlags)(short) mods;
         }
 
@@ -69,14 +62,8 @@ namespace VCEngine
             Right = 1
         }
 
-        public enum MouseAction : int
-        {
-            Released = 0,
-            Pressed = 1
-        }
-
         public MouseButton Button;
-        public MouseAction Action;
+        public TriState Action;
         public KeyModFlags Modifiers;
         public Point ScreenLocation;
 
@@ -113,13 +100,10 @@ namespace VCEngine
         #region Bindings
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropInputGetMouse(out float x, out float y, out bool left, out bool right);
+        extern static void VCInteropInputGetMouse(out float x, out float y);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropInputSetMouse(float x, float y);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static bool VCInteropInputGetKey(int key);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropInputSetCursorVisible(bool val);
@@ -202,20 +186,20 @@ namespace VCEngine
         }
         #endregion
 
+        #region Events
         public static event EventHandler<KeyEventArgs> KeyClicked = delegate { };
         public static event EventHandler<MouseMoveEventArgs> MouseMove = delegate { };
         public static event EventHandler<MouseClickEventArgs> MouseClick = delegate { };
         public static event EventHandler<MouseScrollEventArgs> MouseScroll = delegate { };
         public static event EventHandler<FocusEventArgs> Focus = delegate { };
-        
+        #endregion
+
         public static MouseMoveMode MouseMode = MouseMoveMode.Locked;
-        public static bool Fire;
-        public static bool AltFire;
-        public static Vector3 Look 
+        public static Vector2 DeltaLook 
         { 
             get 
             { 
-                return new Vector3(m_deltaMouseX, m_deltaMouseY, 0.0f); 
+                return new Vector2(m_deltaMousePosition.X, m_deltaMousePosition.Y);
             } 
         }
         public static Vector2 Strafe
@@ -224,28 +208,55 @@ namespace VCEngine
             {
                 Vector2 strafeVec = new Vector2(0.0f, 0.0f);
 
-                if ( IsKeyDown('W') ) strafeVec.X += 1.0f;
-                if ( IsKeyDown('S') ) strafeVec.X += -1.0f;
+                if (m_keyStates['W'].State == TriState.Replete) strafeVec.X += 1.0f;
+                if (m_keyStates['S'].State == TriState.Replete) strafeVec.X += -1.0f;
 
-                if ( IsKeyDown('A') ) strafeVec.Y += 1.0f;
-                if ( IsKeyDown('D') ) strafeVec.Y += -1.0f;
+                if (m_keyStates['A'].State == TriState.Replete) strafeVec.Y += 1.0f;
+                if (m_keyStates['D'].State == TriState.Replete) strafeVec.Y += -1.0f;
+
+                strafeVec.Normalize();
 
                 return strafeVec;
             }
         }
 
         
-        private static float m_deltaMouseX;
-        private static float m_deltaMouseY;
-        private static float m_lastMouseX;
-        private static float m_lastMouseY;
-        private static Point m_lastMousePosition;
+        private static Point m_lastMousePosition = new Point();
+        private static Point m_deltaMousePosition = new Point();
 
-        static void GlfwKeyCallback(int key, int scancode, int action, int mods)
+        private static TrinaryStateTracker[] m_mouseStates = new TrinaryStateTracker[10];
+        private static TrinaryStateTracker[] m_keyStates = new TrinaryStateTracker[350];
+
+        public static TriState GetKey(int keyCode)
+        {
+            return m_keyStates[keyCode].State;
+        }
+
+        public static TriState GetMouse(int button)
+        {
+            return m_mouseStates[button].State;
+        }
+
+        internal static void Start()
+        {
+            float x, y;
+            VCInteropInputGetMouse(out x, out y);
+
+            m_lastMousePosition = new Point ((int)x, (int)y);
+            m_deltaMousePosition = new Point(0, 0);
+        }
+
+        internal static void ClearStates()
+        {
+            m_deltaMousePosition = new Point(0, 0);
+        }
+
+        private static void GlfwKeyCallback(int key, int scancode, int action, int mods)
         {
             try
             {
-                KeyClicked(null, new KeyEventArgs { State = new KeyState(key, action, mods) });
+                m_keyStates[key].Update(action > 0);
+                KeyClicked(null, new KeyEventArgs { State = new KeyState(key, m_keyStates[key].State, mods) });
             }
             catch (Exception ex)
             {
@@ -254,15 +265,28 @@ namespace VCEngine
             }
         }
 
-        static void GlfwMouseMoveCallback(double x, double y)
+        private static void GlfwMouseMoveCallback(double x, double y)
         {
             try
             {
                 Point newLocation = new Point((int)x, Window.Size.Y - (int)y);
-                Point delta = new Point(m_lastMousePosition.X - newLocation.X, m_lastMousePosition.Y - newLocation.Y);
-                m_lastMousePosition = newLocation;
+                m_deltaMousePosition = new Point ( -(m_lastMousePosition.X - newLocation.X), -(m_lastMousePosition.Y - newLocation.Y));
 
-                MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = delta });
+                switch (MouseMode)
+                {
+                    case MouseMoveMode.Free:
+                        VCInteropInputSetCursorVisible(true);
+                        m_lastMousePosition = newLocation;
+                        break;
+
+                    case MouseMoveMode.Locked:
+                        VCInteropInputSetCursorVisible(false);
+                        VCInteropInputSetMouse(Window.Size.X * 0.5f, Window.Size.Y * 0.5f);
+                        m_lastMousePosition = new Point((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
+                        break;
+                }
+
+                MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
             }
             catch (Exception ex)
             {
@@ -271,13 +295,16 @@ namespace VCEngine
             }
         }
 
-        static void GlfwMouseClickCallback(int button, int action, int mods)
+        private static void GlfwMouseClickCallback(int button, int action, int mods)
         {
             try
             {
-                MouseClick(null, new MouseClickEventArgs { 
-                    Action = (MouseClickEventArgs.MouseAction) action,
-                    Button = (MouseClickEventArgs.MouseButton) button,
+                m_mouseStates[button].Update(action > 0);
+
+                MouseClick(null, new MouseClickEventArgs
+                {
+                    Action = m_mouseStates[button].State,
+                    Button = (MouseClickEventArgs.MouseButton)button,
                     Modifiers = (KeyModFlags)(short)mods,
                     ScreenLocation = m_lastMousePosition
                 });
@@ -289,11 +316,11 @@ namespace VCEngine
             }
         }
 
-        static void GlfwMouseEnterCallback(int entered)
+        private static void GlfwMouseEnterCallback(int entered)
         {
             try
             {
-                Focus(null, new FocusEventArgs { Action = (FocusEventArgs.ForcusAction) entered, ScreenLocation = m_lastMousePosition } );
+                Focus(null, new FocusEventArgs { Action = (FocusEventArgs.ForcusAction)entered, ScreenLocation = m_lastMousePosition });
             }
             catch (Exception ex)
             {
@@ -302,7 +329,7 @@ namespace VCEngine
             }
         }
 
-        static void GlfwMouseScrollCallback(double xOffset, double yOffset)
+        private static void GlfwMouseScrollCallback(double xOffset, double yOffset)
         {
             try
             {
@@ -312,53 +339,6 @@ namespace VCEngine
             {
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
-            }
-        }
-
-
-        internal static void Start()
-        {
-            float x, y;
-            bool left, right;
-            VCInteropInputGetMouse(out x, out y, out left, out right);
-
-            m_lastMouseX = x;
-            m_lastMouseY = y;
-
-            m_lastMousePosition = new Point ((int)x, (int)y);
-        }
-        
-        public static bool IsKeyDown(int keyCode)
-        {
-            return VCInteropInputGetKey(keyCode);
-        }
-
-        internal static void Update()
-        {
-            float x;
-            float y;
-            bool left;
-            bool right;
-
-            VCInteropInputGetMouse(out x, out y, out left, out right);
-
-            m_deltaMouseX = -(m_lastMouseX - x) / Window.Size.X;
-            m_deltaMouseY = -(m_lastMouseY - y) / Window.Size.Y;
-
-            switch (MouseMode)
-            {
-                case MouseMoveMode.Free:
-                    VCInteropInputSetCursorVisible(true);
-                    m_lastMouseX = x;
-                    m_lastMouseY = y;
-                    break;
-
-                case MouseMoveMode.Locked:
-                    VCInteropInputSetCursorVisible(false);
-                    VCInteropInputSetMouse(Window.Size.X * 0.5f, Window.Size.Y * 0.5f);
-                    m_lastMouseX = Window.Size.X * 0.5f;
-                    m_lastMouseY = Window.Size.Y * 0.5f;
-                    break;
             }
         }
     }

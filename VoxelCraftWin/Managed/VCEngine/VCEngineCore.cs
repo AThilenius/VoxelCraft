@@ -13,15 +13,11 @@ namespace VCEngine
 
 		public static void Initialize()
 		{
-			Console.WriteLine ("= VCEngineCore::Initialize");
             AppDomain.CurrentDomain.UnhandledException += (obj, e) => Console.WriteLine(e.ExceptionObject.ToString());
 
             try
             {
                 SceneGraph.RootNode = new GameObject();
-
-                Console.WriteLine("Loading: ");
-                Console.WriteLine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
                 AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
             }
             catch (Exception ex)
@@ -54,7 +50,6 @@ namespace VCEngine
             try
             {
                 Time.Update();
-                Input.Update();
                 Gui.PreUpdate();
 
                 foreach (StaticInstance inst in AssemblyLoader.StaticInstances)

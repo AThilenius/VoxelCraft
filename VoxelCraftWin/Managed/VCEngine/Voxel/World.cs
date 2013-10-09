@@ -10,16 +10,29 @@ namespace VCEngine
     [StructLayout(LayoutKind.Sequential)]
     public struct Ubyte4
     {
-        byte R;
-        byte G;
-        byte B;
-        byte A;
+        public Ubyte4 (byte x, byte y, byte z, byte w)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
+        }
+
+        public byte X;
+        public byte Y;
+        public byte Z;
+        public byte W;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct Block
     {
-        Ubyte4 Color;
+        public Block(byte r, byte g, byte b, byte a)
+        {
+            Color = new Ubyte4(r, g, b, a);
+        }
+
+        public Ubyte4 Color;
     }
 
     public class World : MarshaledObject

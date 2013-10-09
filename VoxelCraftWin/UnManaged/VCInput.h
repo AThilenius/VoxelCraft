@@ -33,9 +33,8 @@ public:
 	static VCMonoMethod* MouseScrollCallback;
 };
 
-void VCInteropInputGetMouse(float* x, float* y, bool* left, bool* right);
+void VCInteropInputGetMouse(float* x, float* y);
 void VCInteropInputSetMouse(float x, float y);
-bool VCInteropInputGetKey(int key);
 void VCInteropInputSetCursorVisible(bool val);
 
 #endif /* defined(__VoxelCraftOSX__VCInputPreProcessor__) */

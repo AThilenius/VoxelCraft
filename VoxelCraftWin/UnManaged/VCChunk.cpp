@@ -56,6 +56,7 @@ void VCChunk::Rebuild()
 	if (!NeedsRebuild)
 		return;
 
+	NeedsRebuild = false;
 	m_vertexCount = 0;
 	float startTime = VCTime::CurrentTime;
 
