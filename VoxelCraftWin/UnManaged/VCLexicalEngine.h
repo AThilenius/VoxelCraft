@@ -23,6 +23,7 @@ public:
 	string LoadFont ( string fntPath, string ddsPath );
 
 	VCText* MakeText ( string font, string text, int left, int down, GLubyte4 color );
+	int MakeTextToQuadBuffer ( string font, string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
 	VCRenderState* GetRStateForFont ( string font )
 	{
 		auto iter = m_fonts.find(font);

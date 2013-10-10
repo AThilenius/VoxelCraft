@@ -41,8 +41,8 @@ namespace VCEngine
                 testMenu2.AddItemReverse("Redo");
                 testMenu2.AddItemReverse("Undo");
 
-                bar.AddMenu("File", testMenu1);
-                bar.AddMenu("Edit", testMenu2);
+                bar.AddMenu("Close", testMenu1);
+                bar.AddMenu("Options", testMenu2);
 
 
                 // Load world here...
@@ -56,6 +56,9 @@ namespace VCEngine
                     VCEngineCore.LateUpdate();
                     VCEngineCore.PreRender();
                     MainControl.Render();
+
+                    for (int i = 0; i < 40; i++)
+                        Gui.DrawString("Hello World", new Point(20, Window.Size.Y - 15 * i), Color.Black);
 
                     // Rendering
                     GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);

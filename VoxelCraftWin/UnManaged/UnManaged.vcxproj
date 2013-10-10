@@ -66,6 +66,7 @@
     <ClInclude Include="VCBlock.h" />
     <ClInclude Include="VCCamera.h" />
     <ClInclude Include="VCChunk.h" />
+    <ClInclude Include="VCGeometryBuilder.h" />
     <ClInclude Include="VCNoiseGenerator.h" />
     <ClInclude Include="VCColorPassThroughShader.h" />
     <ClInclude Include="VCDebug.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCText.h" />
+    <ClInclude Include="VCTextBuilder.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />

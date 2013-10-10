@@ -280,6 +280,8 @@
     <ClInclude Include="VCNoiseGenerator.h">
       <Filter>Voxel\Generators</Filter>
     </ClInclude>
+    <ClInclude Include="VCGeometryBuilder.h" />
+    <ClInclude Include="VCTextBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

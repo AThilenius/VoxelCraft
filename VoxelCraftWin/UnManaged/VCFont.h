@@ -27,8 +27,6 @@ struct GlyphVerticie
 	GLshort3 Position;
 	GLfloat2 UV;
 	GLubyte4 Color;
-
-	GLbyte _padding1, _padding2;
 };
 
 struct CharDesc
@@ -96,7 +94,7 @@ public:
 	string Name;
 	int Size;
 
-private:	
+private:
 	bool ParseInfo(ifstream& f);
 	bool ParseCommon(ifstream& f);
 	bool ParsePages(ifstream& f);

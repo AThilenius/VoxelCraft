@@ -8,11 +8,6 @@
 
 #include "VCGui.h"
 
-GLuint VCGui::m_VAO = 0;
-GLuint VCGui::m_VBO = 0;
-int VCGui::m_vertCount = 0;
-GuiRectVerticie VCGui::m_verts[] = {};
-vector<VCText*> VCGui::m_textFields;
 VCGui* VCGui::Instance = NULL;
 
 void VCGui::RegisterMonoHandlers()
@@ -24,16 +19,16 @@ void VCGui::RegisterMonoHandlers()
 
 void VCInteropGuiClear()
 {
-	VCGui::Reset();
+	VCGui::Instance->Reset();
 }
 
 void VCInteropGuiDrawRectangle(Rectangle rect, vcint4 color)
 {
-	VCGui::DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
+	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
 void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint4 color)
 {
-	VCGui::DrawText(mono_string_to_utf8(text), point, mono_string_to_utf8(font), GLubyte4(color.X, color.Y, color.Z, color.W));
+	VCGui::Instance->Text.DrawText(mono_string_to_utf8(text), point, mono_string_to_utf8(font), GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 

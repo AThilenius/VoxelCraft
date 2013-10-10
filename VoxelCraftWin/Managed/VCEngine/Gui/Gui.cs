@@ -53,9 +53,9 @@ namespace VCEngine
             Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
         }
 
-        public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-24")
+        public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-16")
         {
-            VCInteropGuiDrawText(font, text, new Point(llPoint.X, llPoint.Y + 24), color);
+            VCInteropGuiDrawText(font, text, new Point(llPoint.X, llPoint.Y + 16), color);
         }
 
         public static void LoadFontsFromForlder(string folder)

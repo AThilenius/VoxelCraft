@@ -194,7 +194,38 @@ namespace VCEngine
         public static event EventHandler<FocusEventArgs> Focus = delegate { };
         #endregion
 
-        public static MouseMoveMode MouseMode = MouseMoveMode.Locked;
+        private static MouseMoveMode m_mouseMode = MouseMoveMode.Free;
+        public static MouseMoveMode MouseMode
+        {
+            get { return m_mouseMode; }
+            set
+            {
+                if (value == m_mouseMode)
+                    return;
+
+                switch (value)
+                {
+                    case MouseMoveMode.Free:
+                        VCInteropInputSetCursorVisible(true);
+                        break;
+
+                    case MouseMoveMode.Locked:
+                        VCInteropInputSetCursorVisible(false);
+                        break;
+                }
+
+                m_mouseMode = value;
+            }
+        }
+        public static Point MousePoistion
+        {
+            get { return m_lastMousePosition; }
+            set
+            {
+                m_lastMousePosition = value;
+                VCInteropInputSetMouse(value.X, Window.Size.Y - value.Y);
+            }
+        }
         public static Vector2 DeltaLook 
         { 
             get 
@@ -282,12 +313,10 @@ namespace VCEngine
                 switch (MouseMode)
                 {
                     case MouseMoveMode.Free:
-                        VCInteropInputSetCursorVisible(true);
                         m_lastMousePosition = newLocation;
                         break;
 
                     case MouseMoveMode.Locked:
-                        VCInteropInputSetCursorVisible(false);
                         VCInteropInputSetMouse(Window.Size.X * 0.5f, Window.Size.Y * 0.5f);
                         m_lastMousePosition = new Point((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
                         break;

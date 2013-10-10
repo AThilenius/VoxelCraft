@@ -18,8 +18,7 @@ namespace VCEngine
         protected override void Draw()
         {
             base.Draw();
-
-            Gui.DrawString(Title, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 6), Color.Black);
+            Gui.DrawString(Title, new Point(ScreenFrame.X + 10, ScreenFrame.Y ), Color.Black, Font);
         }
 
     }
