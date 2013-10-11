@@ -20,9 +20,9 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 	m_blockY(y * CHUNK_WIDTH),
 	m_blockZ(z * CHUNK_WIDTH),
     m_world(world),
-    m_vertexBufferID(0),
+    m_VBO(0),
     m_vertexCount(0),
-    m_vaoID(0),
+    m_VAO(0),
     m_rebuildVerticies(NULL),
 	m_isEmpty(true),
 	m_isRegistered(false),
@@ -50,6 +50,31 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 VCChunk::~VCChunk(void)
 {
 }
+
+void VCChunk::Initialize()
+{
+	// Create VAO
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
+	glErrorCheck();
+
+	// Create VBO
+	glGenBuffers(1, &m_VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	ZERO_CHECK(m_VBO);
+
+	// Bind Attributes
+	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+
+	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
+	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
+	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
+
+	glBindVertexArray(0);
+}
+
 
 void VCChunk::Rebuild()
 {
@@ -184,15 +209,8 @@ void VCChunk::Rebuild()
         }
     }
 
-	if(m_vertexBufferID != 0)
-	{
-		glDeleteBuffers(1, &m_vertexBufferID);
-		m_vertexBufferID = 0;
-	}
-
 	// Empty?
 	m_isEmpty = m_vertexCount == 0;
-
 	if (m_isEmpty)
 	{
 		if(m_isRegistered)
@@ -208,29 +226,10 @@ void VCChunk::Rebuild()
 		return;
 	}
 
-    
-    // Create VAO
-    glGenVertexArrays(1, &m_vaoID);
-    glBindVertexArray(m_vaoID);
-    glErrorCheck();
-    
-    // Create VBO
-    glGenBuffers(1, &m_vertexBufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
-	ZERO_CHECK(m_vertexBufferID);
-
+	// Update VBO
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
-    
-    // Bind Attributes
-    glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-    
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
-	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
-    
-    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Register VCIRenderable
 	if (!m_isRegistered)
@@ -254,7 +253,7 @@ void VCChunk::Render()
 	if ( m_isEmpty )
 		return;
     
-    glBindVertexArray(m_vaoID);
+    glBindVertexArray(m_VAO);
 	VCGLRenderer::Instance->SetModelMatrix(glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 

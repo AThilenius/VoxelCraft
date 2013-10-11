@@ -39,6 +39,8 @@ public:
 	VCChunk(int x, int y, int z, VCWorld* world);
 	~VCChunk(void);
 
+	void Initialize();
+
 	VCBlock GetBlock ( int x, int y, int z )
 	{
 		if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
@@ -73,8 +75,8 @@ private:
 	bool m_isRegistered;
 
 	// Rendering
-    GLuint m_vaoID;
-	GLuint m_vertexBufferID;
+    GLuint m_VAO;
+	GLuint m_VBO;
 	GLint m_vertexCount;
 
 	BlockVerticie* m_rebuildVerticies;

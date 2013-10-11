@@ -32,6 +32,7 @@ void VCWorld::Initialize()
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
 		m_chunks[FLATTEN_WORLD(x ,y, z)] = new VCChunk(cX, cY, cZ, this);
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->SetParent(VCSceneGraph::Instance->RootNode);
+		m_chunks[FLATTEN_WORLD(x ,y, z)]->Initialize();
 	}}}
 }
 
