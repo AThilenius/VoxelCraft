@@ -30,13 +30,10 @@ namespace TestGame
 
         public override void Update()
         {
-            Gui.DrawBorderedRect(new Rectangle(1100, 138, 150, 25), Color.ControlDisabled, Color.ControlBorder, 1);
-            Gui.DrawString("Hello Managed GUI!", new Point(1100, 138), Color.Black, "Lucida Sans-13-Bold");
-
             if (Input.GetMouse(0) == TriState.Pressed)
             {
                 Console.Write("Raycasting... ");
-                Ray ray = m_camera.ScreenPointToRay(0, 0);
+                Ray ray = m_camera.ScreenPointToRay(Input.MousePoistion, 1000);
                 RaycastHit hit;
 
                 if (m_world.Raycast(ray, out hit))
@@ -53,7 +50,7 @@ namespace TestGame
 
             if (Input.GetMouse(1) == TriState.Pressed)
             {
-                Ray ray = m_camera.ScreenPointToRay(0, 0);
+                Ray ray = m_camera.ScreenPointToRay(Input.MousePoistion, 1000);
                 RaycastHit hit;
 
                 if (m_world.Raycast(ray, out hit))

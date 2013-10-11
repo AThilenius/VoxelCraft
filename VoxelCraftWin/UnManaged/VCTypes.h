@@ -7,11 +7,11 @@
 //
 
 #pragma once
-#include "PCH.h"
+//#include "PCH.h"
 
 struct GLubyte3
 {
-	GLubyte3() {};
+	GLubyte3() {}
 
 	GLubyte3(GLubyte x, GLubyte y, GLubyte z )
 	{
@@ -27,7 +27,7 @@ struct GLubyte3
 
 struct GLbyte3
 {
-	GLbyte3() {};
+	GLbyte3() {}
 
 	GLbyte3(GLbyte x, GLbyte y, GLbyte z )
 	{
@@ -43,7 +43,7 @@ struct GLbyte3
 
 struct GLubyte4
 {
-	GLubyte4() {};
+	GLubyte4() {}
 
 	GLubyte4(GLubyte x, GLubyte y, GLubyte z, GLubyte w)
 	{
@@ -61,7 +61,7 @@ struct GLubyte4
 
 struct GLbyte4
 {
-	GLbyte4() {};
+	GLbyte4() {}
 
 	GLbyte4(GLbyte x, GLbyte y, GLbyte z, GLbyte w)
 	{
@@ -79,7 +79,7 @@ struct GLbyte4
 
 struct GLshort3
 {
-	GLshort3() {};
+	GLshort3() {}
 
 	GLshort3(GLshort x, GLshort y, GLshort z )
 	{
@@ -95,7 +95,7 @@ struct GLshort3
 
 struct GLushort2
 {
-	GLushort2() {};
+	GLushort2() {}
 
 	GLushort2(GLushort x, GLushort y )
 	{
@@ -109,7 +109,7 @@ struct GLushort2
 
 struct GLushort3
 {
-	GLushort3() {};
+	GLushort3() {}
 
 	GLushort3(GLushort x, GLushort y, GLushort z )
 	{
@@ -125,7 +125,7 @@ struct GLushort3
 
 struct GLfloat2
 {
-	GLfloat2() {};
+	GLfloat2() {}
 
 	GLfloat2(GLfloat x, GLfloat y )
 	{
@@ -139,7 +139,7 @@ struct GLfloat2
 
 struct GLfloat3
 {
-	GLfloat3() {};
+	GLfloat3() {}
 
 	GLfloat3(GLfloat x, GLfloat y, GLfloat z )
 	{
@@ -155,7 +155,7 @@ struct GLfloat3
 
 struct GLfloat4
 {
-	GLfloat4() {};
+	GLfloat4() {}
 
 	GLfloat4(GLfloat x, GLfloat y, GLfloat z, GLfloat w)
 	{
@@ -173,7 +173,7 @@ struct GLfloat4
 
 struct Point
 {
-	Point() {};
+	Point() {}
 	Point(int x, int y) : X(x), Y(y) {}
 	int X;
 	int Y;
@@ -182,7 +182,7 @@ struct Point
 
 struct Rectangle
 {
-	Rectangle() {};
+	Rectangle() {}
 	Rectangle(int x, int y, int width, int height) : X(x), Y(y), Width(width), Height(height) {}
 	int X;
 	int Y;
@@ -193,7 +193,7 @@ struct Rectangle
 
 struct RectangleF
 {
-	RectangleF() {};
+	RectangleF() {}
 	RectangleF(float x, float y, float width, float height) : X(x), Y(y), Width(width), Height(height) {}
 	float X;
 	float Y;
@@ -204,7 +204,7 @@ struct RectangleF
 
 struct vcint2
 {
-	vcint2(): X(0), Y(0) {};
+	vcint2(): X(0), Y(0) {}
 	vcint2(int x, int y, int z): X(x), Y(y) {}
 	int X;
 	int Y;
@@ -212,7 +212,7 @@ struct vcint2
 
 struct vcint3
 {
-	vcint3(): X(0), Y(0), Z(0) {};
+	vcint3(): X(0), Y(0), Z(0) {}
 	vcint3(int x, int y, int z): X(x), Y(y), Z(z) {}
 	int X;
 	int Y;
@@ -221,7 +221,7 @@ struct vcint3
 
 struct vcint4
 {
-	vcint4(): X(0), Y(0), Z(0), W(0) {};
+	vcint4(): X(0), Y(0), Z(0), W(0) {}
 	vcint4(int x, int y, int z, int w): X(x), Y(y), Z(z), W(w) {}
 	int X;
 	int Y;

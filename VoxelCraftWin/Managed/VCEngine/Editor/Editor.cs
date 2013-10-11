@@ -57,9 +57,6 @@ namespace VCEngine
                     VCEngineCore.PreRender();
                     MainControl.Render();
 
-                    for (int i = 0; i < 40; i++)
-                        Gui.DrawString("Hello World", new Point(20, Window.Size.Y - 15 * i), Color.Black);
-
                     // Rendering
                     GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
 

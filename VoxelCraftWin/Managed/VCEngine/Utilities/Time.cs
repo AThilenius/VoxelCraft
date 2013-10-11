@@ -10,6 +10,7 @@ namespace VCEngine
     {
         public static float TotalTime;
         public static float DeltaTime = 0.1f;
+        public static float CurrentTime { get { return (float)m_stopwatch.ElapsedMilliseconds * 0.001f; } }
 
         private static Stopwatch m_stopwatch = new Stopwatch();
 

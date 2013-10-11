@@ -19,6 +19,7 @@ struct GuiTextDrawReq
 {
 	unsigned short X;
 	unsigned short Y;
+	string Text;
 
 	GuiTextDrawReq(){}
 	GuiTextDrawReq(unsigned short x, unsigned short y): X(x), Y(y){}
@@ -31,7 +32,7 @@ struct GuiTextDrawReq
 
 	bool operator==(const GuiTextDrawReq &other) const
 	{ 
-		return (X == other.X && Y == other.Y);
+		return (X == other.X && Y == other.Y && Text == other.Text);
 	}
 };
 
@@ -39,7 +40,8 @@ struct _GuiTextDrawReqHasher
 {
 	std::size_t operator()(const GuiTextDrawReq& k) const
 	{
-		return ((k.X << 16) | (k.Y));
+		hash<string> hasher;
+		return ((k.X << 16) | (k.Y)) + hasher(k.Text);
 	}
 };
 
@@ -52,20 +54,25 @@ public:
 
 	void Reset()
 	{
-		// Anything remaining in m_rebuilds is 'old' and needs to go.
-		for ( auto iter = m_rebuilds.begin(); iter != m_rebuilds.end(); iter++ )
-		{
-			cout << "Freeing VCText" << endl;
-			auto vctextIter = m_text.find(*iter);
-			delete vctextIter->second;
-			m_text.erase(vctextIter);
-		}
+		//// Anything remaining in m_rebuilds is 'old' and needs to go.
+		//for ( auto iter = m_rebuilds.begin(); iter != m_rebuilds.end(); iter++ )
+		//{
+		//	cout << "Freeing VCText" << endl;
+		//	auto vctextIter = m_text.find(*iter);
+		//	delete vctextIter->second;
+		//	m_text.erase(vctextIter);
+		//}
 
-		m_rebuilds.clear();
+		//m_rebuilds.clear();
 
-		// Insert them all back into m_rebuild
-		for ( auto iter = m_text.begin(); iter != m_text.end(); iter++ )
-			m_rebuilds.insert(ReqSet::value_type(iter->first));
+		//// Insert them all back into m_rebuild
+		//for ( auto iter = m_text.begin(); iter != m_text.end(); iter++ )
+		//	m_rebuilds.insert(ReqSet::value_type(iter->first));
+
+		for (int i = 0; i < m_text.size(); i++)
+			delete m_text[i];
+
+		m_text.clear();
 	}
 
 	void Initialize()
@@ -75,7 +82,7 @@ public:
 
 	void DrawText( string text, Point llPoint, string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) )
 	{
-		GuiTextDrawReq v (llPoint.X, llPoint.Y);
+		/*GuiTextDrawReq v (llPoint.X, llPoint.Y);
 
 		if (m_text.find(v) == m_text.end())
 		{
@@ -84,14 +91,18 @@ public:
 		}
 
 		else
-			m_rebuilds.erase(m_rebuilds.find(v));
+			m_rebuilds.erase(m_rebuilds.find(v));*/
+
+		m_text.push_back(VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color));
 	}
 
 private:
-	typedef unordered_map<GuiTextDrawReq, VCText*, _GuiTextDrawReqHasher> ReqToText;
-	typedef unordered_set<GuiTextDrawReq, _GuiTextDrawReqHasher> ReqSet;
+	//typedef unordered_map<GuiTextDrawReq, VCText*, _GuiTextDrawReqHasher> ReqToText;
+	//typedef unordered_set<GuiTextDrawReq, _GuiTextDrawReqHasher> ReqSet;
 
-	ReqToText m_text;
-	ReqSet m_rebuilds;
+	//ReqToText m_text;
+	//ReqSet m_rebuilds;
+
+	vector<VCText*> m_text;
 };
 

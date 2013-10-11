@@ -1325,6 +1325,11 @@ namespace VCEngine
 			return String.Format("({0}, {1}, {2})", X, Y, Z);
 		}
 
+        public string ToString(string format)
+        {
+            return "(" + X.ToString(format) + ", " + Y.ToString(format) + ", " + Z.ToString(format) + ")"; //String.Format("({0}, {1}, {2})", X, Y, Z);
+        }
+
 		#endregion
 
 		#region public override int GetHashCode()

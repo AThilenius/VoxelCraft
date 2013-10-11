@@ -38,43 +38,45 @@ void VCCamera::PreRender()
     // Set Camera's bounds
     glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
     
-    // Build the Projection Matrix ( Can have branchling later )
 	ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
-    
-    // Pre-Compute for later use
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;
 }
 
-// Algorithm from:
-// http://www.mvps.org/directx/articles/rayproj.htm
-vec3 VCCamera::ScreenPointToRay( int x, int y )
+vec3 VCCamera::ScreenPointToDirection( Rectangle viewPort, Point screenPoint )
 {
-	float dx,dy;
+	// Convert viewport
+	Rectangle screenBounds = VCWindow::Instance->FullViewport;
+	vec2 ll (viewPort.X /*/ (float)screenBounds.Width*/, viewPort.Y /*/ (float)screenBounds.Height*/);
+	vec2 ur (viewPort.X + viewPort.Width /*/ (float)screenBounds.Width*/, viewPort.Y + viewPort.Height /*/ (float)screenBounds.Height*/);
+	vec2 sp (screenPoint.X /*/ (float)screenBounds.Width*/, screenPoint.Y /*/ (float)screenBounds.Height*/);
 
-	dx=tanf(FovDeg * 0.0174532925f * 0.5f) * ( x / Frame.Width * 0.5f - 1.0f ) / Aspect ;
-	dy=tanf(FovDeg * 0.0174532925f * 0.5f) * ( 1.0f - y / Frame.Height * 0.5f );
+	vec2 delta = ur - ll;
+	vec2 spInViewport (2.0f * sp.x / delta.x - 1.0f, 2.0f * sp.y / delta.y - 1.0f);
 
-	vec3 p1 = vec3( dx * NearClip, dy * NearClip, NearClip);
-	vec3 p2 = vec3( dx * FarClip, dy * FarClip, FarClip);
+	float x = (2.0f * screenPoint.X) / (float)screenBounds.Width - 1.0f;
+	float y = (2.0f * screenPoint.Y) / (float)screenBounds.Height - 1.0f;
 
-	vec4 t1 = InverseViewMatrix * vec4(p1.x, p1.y, p1.z, 1);
-	vec4 t2 = InverseViewMatrix * vec4(p2.x, p2.y, p2.z, 1);
+	vec4 ray_clip = vec4 (spInViewport.x, spInViewport.y, -1.0f, 1.0f);
 
-	vec3 delta = vec3(t2) - vec3(t1);
-	delta = normalize(delta);
+	vec4 ray_eye = inverse (ProjectionMatrix) * ray_clip;
+	ray_eye = vec4 (ray_eye.x, ray_eye.y, -1.0, 0.0);
 
-	return delta;
+	vec4 rayWorld4 = inverse (ViewMatrix) * ray_eye;
+	vec3 ray_wor (rayWorld4);
+	ray_wor = normalize (ray_wor);
+
+	return ray_wor;
 }
 
 
 // ================================      Interop      ============
 void VCCamera::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",				(void*)VCInteropNewCamera);
-    mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",			(void*)VCInteropReleaseCamera);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraScreenPointToRay",  (void*)VCInteropCameraScreenPointToRay);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraSetFields",			(void*)VCInteropCameraSetFields);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraGetFields",			(void*)VCInteropCameraGetFields);
+    mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",						(void*)VCInteropNewCamera);
+    mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",					(void*)VCInteropReleaseCamera);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraScreenPointToDirection",	(void*)VCInteropCameraScreenPointToDirection);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraSetFields",					(void*)VCInteropCameraSetFields);
+	mono_add_internal_call("VCEngine.Camera::VCInteropCameraGetFields",					(void*)VCInteropCameraGetFields);
 }
 
 int VCInteropNewCamera()
@@ -90,10 +92,10 @@ void VCInteropReleaseCamera(int handle)
     delete obj;
 }
 
-vec3 VCInteropCameraScreenPointToRay(int handle, int x, int y)
+vec3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
-	return obj->ScreenPointToRay(x, y);
+	return obj->ScreenPointToDirection(viewPort, screenPoint);
 }
 
 void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame)

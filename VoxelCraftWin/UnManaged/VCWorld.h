@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "PCH.h"
 #include "VCBlock.h"
 #include "VCWorld.h"
 #include "VCChunk.h"
@@ -17,22 +18,24 @@
 #define FLATTEN_WORLD(X,Y,Z) ((((Z << m_logViewDistTwo) + X) << m_logViewDistTwo ) + Y)
 #define WORLD_ORDERED_ITTORATOR(xName,yName,zName) for ( int z = 0; z < m_viewDistTwo; z++ ) { int zName = ChunkZeroZ + z; for ( int x = 0; x < m_viewDistTwo; x++ ) { int xName = ChunkZeroX + x; for ( int y = 0; y < m_viewDistTwo; y++ ) { int yName = ChunkZeroY + y;
 
-typedef struct
+struct Ray
 {
+	Ray() {}
+	Ray(vec3 origin, vec3 direction, float maxDist) : Origin(origin), Direction(direction), MaxDistance(maxDist){}
 	vec3 Origin;
 	vec3 Direction;
 	float MaxDistance;
 
-} Ray;
+};
 
-typedef struct
+struct RaycastHit
 {
 	float Distance;
 	VCBlock Type;
 	vec3 Normal;
 	int X, Y, Z;
 
-} RaycastHit;
+};
 
 inline float IntBound ( float s, float ds )
 {
