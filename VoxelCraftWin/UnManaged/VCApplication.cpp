@@ -69,14 +69,6 @@ void VCApplication::Initialize()
 
 	Debug = new VCDebug();
 	Debug->Initialize();
-
-	// Debug
-	//VCWorld* testWorld = new VCWorld();
-	//testWorld->SetGenerator(new VCFlatGenerator());
-	//testWorld->SetViewDistance(8);
-	//testWorld->Initialize();
-	//testWorld->GenerateRegenerate();
-	//testWorld->Rebuild();
 }
 
 void VCApplication::EditorMain()

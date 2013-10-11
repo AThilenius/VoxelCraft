@@ -46,15 +46,12 @@ vec3 VCCamera::ScreenPointToDirection( Rectangle viewPort, Point screenPoint )
 {
 	// Convert viewport
 	Rectangle screenBounds = VCWindow::Instance->FullViewport;
-	vec2 ll (viewPort.X /*/ (float)screenBounds.Width*/, viewPort.Y /*/ (float)screenBounds.Height*/);
-	vec2 ur (viewPort.X + viewPort.Width /*/ (float)screenBounds.Width*/, viewPort.Y + viewPort.Height /*/ (float)screenBounds.Height*/);
-	vec2 sp (screenPoint.X /*/ (float)screenBounds.Width*/, screenPoint.Y /*/ (float)screenBounds.Height*/);
+	vec2 ll (viewPort.X, viewPort.Y);
+	vec2 ur (viewPort.X + viewPort.Width, viewPort.Y + viewPort.Height);
+	vec2 sp (screenPoint.X, screenPoint.Y);
 
 	vec2 delta = ur - ll;
 	vec2 spInViewport (2.0f * sp.x / delta.x - 1.0f, 2.0f * sp.y / delta.y - 1.0f);
-
-	float x = (2.0f * screenPoint.X) / (float)screenBounds.Width - 1.0f;
-	float y = (2.0f * screenPoint.Y) / (float)screenBounds.Height - 1.0f;
 
 	vec4 ray_clip = vec4 (spInViewport.x, spInViewport.y, -1.0f, 1.0f);
 

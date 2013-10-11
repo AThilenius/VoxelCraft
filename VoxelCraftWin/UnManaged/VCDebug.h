@@ -121,14 +121,14 @@ public:
 			glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
 			glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
 
-			//glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
+			glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
 
 			glBindVertexArray(0);
 		}
 		else
 		{
 			glBindVertexArray(VCDebug::m_VAO);
-			//glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
+			glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
 			glBindVertexArray(0);
 		}
 	}
@@ -140,5 +140,12 @@ private:
 	static GLuint m_VBO;
 	static LineVerticie m_lineVerts[MAX_LINE_COUNT];
 
+	// ================================      Interop      ============
+public:
+	static void RegisterMonoHandlers();
+	// ===============================================================
 };
 
+void VCInteropDebugReset();
+void VCInteropDebugDrawLine (vec3 from, vec3 to, vcint4 color);
+void VCInteropDebugDrawCube (vec3 corner, vec3 scale, vcint4 color);

@@ -30,35 +30,28 @@ namespace TestGame
 
         public override void Update()
         {
-            if (Input.GetMouse(0) == TriState.Pressed)
-            {
-                Console.Write("Raycasting... ");
-                Ray ray = m_camera.ScreenPointToRay(Input.MousePoistion, 1000);
-                RaycastHit hit;
+            Ray ray = m_camera.ScreenPointToRay(Input.MousePoistion, 1000);
+            RaycastHit hit;
 
-                if (m_world.Raycast(ray, out hit))
+            if (m_world.Raycast(ray, out hit))
+            {
+                Vector3 block = new Vector3(hit.X, hit.Y, hit.Z);
+                Vector3 normalBlock = new Vector3(hit.X, hit.Y, hit.Z) + hit.Normal;
+                Debug.DrawCube(block - new Vector3(0.1f, 0.1f, 0.1f), new Vector3(1.2f, 1.2f, 1.2f), Color.ControlGreen);
+
+                if (Input.GetMouse(0) == TriState.Pressed)
                 {
                     Console.WriteLine("Hit at: " + hit.X + ", " + hit.Y + ", " + hit.Z + ". Normal: " + hit.Normal);
-                    Vector3 block = new Vector3(hit.X, hit.Y, hit.Z) + hit.Normal;
-                    m_world.SetBlock(block, new Block(255, 0, 0, 255));
+                    
+                    m_world.SetBlock(normalBlock, new Block(255, 0, 0, 255));
                     m_world.ReBuild();
                 }
-                else
-                    Console.WriteLine("Missed");
 
-            }
-
-            if (Input.GetMouse(1) == TriState.Pressed)
-            {
-                Ray ray = m_camera.ScreenPointToRay(Input.MousePoistion, 1000);
-                RaycastHit hit;
-
-                if (m_world.Raycast(ray, out hit))
+                if (Input.GetMouse(1) == TriState.Pressed)
                 {
                     m_world.SetBlock(hit.X, hit.Y, hit.Z, new Block(0, 0, 0, 0));
                     m_world.ReBuild();
                 }
-
             }
         }
 
