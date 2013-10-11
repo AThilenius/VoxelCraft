@@ -205,7 +205,7 @@ struct RectangleF
 struct vcint2
 {
 	vcint2(): X(0), Y(0) {}
-	vcint2(int x, int y, int z): X(x), Y(y) {}
+	vcint2(int x, int y): X(x), Y(y) {}
 	int X;
 	int Y;
 };

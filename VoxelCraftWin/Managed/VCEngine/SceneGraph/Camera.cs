@@ -110,7 +110,8 @@ namespace VCEngine
 		public Camera ()
 		{
             Transform.InvertPosition = true;
-
+            GetData();
+            AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
 			Console.WriteLine("= Camera created with handle: " + UnManagedHandle);
 		}
 

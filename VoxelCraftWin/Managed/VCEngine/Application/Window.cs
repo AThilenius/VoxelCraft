@@ -15,10 +15,25 @@ namespace VCEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static bool VCInteropWindowShouldClose();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWindowGetSize(out int width, out int height);
         
 		#endregion
 
-        public static Point Size { get{ return new Point ( 1280, 800 ); } }
+        public static Point Size { get; private set; }
+
+        internal static void Initialize()
+        {
+            int w, h;
+            VCInteropWindowGetSize(out w, out h);
+            Size = new Point(w, h);
+        }
+
+        private static void GlfwSizeChangeHandler(int width, int height)
+        {
+            Size = new Point(width, height);
+        }
 
         public static void SwapBuffers()
         {

@@ -172,22 +172,22 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 
 	}
 
-	// ===================    Visualize    =====================
-	glViewport(0, 0, 256, 256);
+	//// ===================    Visualize    =====================
+	//glViewport(0, 0, 256, 256);
 
-	TextureShader->Bind();
+	//TextureShader->Bind();
 
-	// Bind our texture in Texture Unit 0
-	glBindVertexArray(m_quad_VertexArrayID);
-	
-	glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	//// Bind our texture in Texture Unit 0
+	//glBindVertexArray(m_quad_VertexArrayID);
+	//
+	//glActiveTexture(GL_TEXTURE0);
+	////glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
 
-	TextureShader->SetTextureUnit(0);
+	//TextureShader->SetTextureUnit(0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glBindVertexArray(0);
 
 }
 
@@ -240,7 +240,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
 	glGenTextures(1, &DepthTexture);
 	glBindTexture(GL_TEXTURE_2D, DepthTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1280, 800, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1280, 600, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

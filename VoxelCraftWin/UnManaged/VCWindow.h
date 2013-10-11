@@ -10,6 +10,7 @@
 #define __VoxelCraftOSX__VCWindow__
 
 #include "PCH.h"
+#include "VCMonoMethod.h"
 
 // Creates and manages a window and OpenGL context
 class VCWindow
@@ -34,7 +35,8 @@ public:
 
 private:
     float m_lastDeltaTime;
-    
+	VCMonoMethod* SizeChangeFunction;
+    friend void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height);
 	// ================================      Interop      ============
 public:
 	static void RegisterMonoHandlers();
@@ -44,5 +46,6 @@ public:
 // Interop
 void VCInteropWindowSwapBuffers();
 bool VCInteropWindowShouldClose();
+void VCInteropWindowGetSize(int* width, int* height);
 
 #endif /* defined(__VoxelCraftOSX__VCWindow__) */

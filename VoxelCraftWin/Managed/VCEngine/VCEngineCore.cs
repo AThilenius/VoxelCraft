@@ -18,6 +18,7 @@ namespace VCEngine
             try
             {
                 SceneGraph.RootNode = new GameObject();
+                Window.Initialize();
                 AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
             }
             catch (Exception ex)

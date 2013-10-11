@@ -7,8 +7,19 @@
 //
 
 #include "VCWindow.h"
+#include "VCMonoRuntime.h"
 
 VCWindow* VCWindow::Instance;
+
+void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
+{
+	VCWindow::Instance->Width = width;
+	VCWindow::Instance->Height = height;
+	VCWindow::Instance->FullViewport = Rectangle(0, 0, width, height);
+
+	void* args[2] = { &width, &height };
+	VCWindow::Instance->SizeChangeFunction->Invoke(args);
+}
 
 VCWindow::VCWindow():
 	m_lastDeltaTime(60.0f)
@@ -40,11 +51,11 @@ void VCWindow::Initalize()
 	}
 	
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWWindowHandle = glfwCreateWindow(1280, 800, "Voxel Craft", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1280, 600, "Voxel Craft", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
@@ -73,6 +84,9 @@ void VCWindow::Initalize()
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = Rectangle(0, 0, Width, Height);
+
+	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
+	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
 	cout << "VCWindow Initialized." << endl;
     glErrorCheck();
@@ -111,8 +125,9 @@ void VCWindow::SetVSync(bool enabled)
 
 void VCWindow::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.Window::VCInteropWindowSwapBuffers", (void*)VCInteropWindowSwapBuffers);
-	mono_add_internal_call("VCEngine.Window::VCInteropWindowShouldClose", (void*)VCInteropWindowShouldClose);
+	mono_add_internal_call("VCEngine.Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
+	mono_add_internal_call("VCEngine.Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
+	mono_add_internal_call("VCEngine.Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
 }
 
 void VCInteropWindowSwapBuffers()
@@ -123,4 +138,11 @@ void VCInteropWindowSwapBuffers()
 bool VCInteropWindowShouldClose()
 {
 	return glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle);
+}
+
+void VCInteropWindowGetSize(int* width, int* height)
+{
+	//return Point(VCWindow::Instance->Width, VCWindow::Instance->Height);
+	*width = 1280;
+	*height = 600;
 }
