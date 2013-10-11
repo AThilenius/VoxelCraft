@@ -87,7 +87,7 @@ VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int down
 	glVertexAttribPointer( VC_ATTRIBUTE_COLOR,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
 
 	glBindVertexArray(0);
-	delete[] verts;
+	delete verts;
 
 	return new VCText(vcfont->RenderState, vaoId, vboId, text.length() * 6);
 }

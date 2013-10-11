@@ -8,22 +8,53 @@ namespace VCEngine
 		#region Bindings
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropTransformGetData(int handle,
-            out float posX, out float posY, out float posZ,
-            out float rotX, out float rotY, out float rotZ, out float rotW,
-            out float sclX, out float sclY, out float sclZ);
+        extern static Vector3 VCInteropTransformGetPosition(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropTransformSetData(int handle, 
-            float posX, float posY, float posZ, 
-            float rotX, float rotY, float rotZ, float rotW, 
-            float sclX, float sclY, float sclZ);
+        extern static Quaternion VCInteropTransformGetRotation(int handle);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static Vector3 VCInteropTransformGetScale(int handle);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropTransformSetPosition(int handle, Vector3 pos);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropTransformSetRotation(int handle, Quaternion rot);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropTransformSetScale(int handle, Vector3 scale);
 
 		#endregion
 
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public Vector3 Scale;
+        public Vector3 Position
+        {
+            get 
+            { 
+                if (InvertPosition)
+                    return -VCInteropTransformGetPosition(GameObject.UnManagedHandle); 
+                else
+                    return VCInteropTransformGetPosition(GameObject.UnManagedHandle);
+            }
+            set 
+            {
+                if (InvertPosition)
+                    VCInteropTransformSetPosition(GameObject.UnManagedHandle, -value); 
+                else
+                    VCInteropTransformSetPosition(GameObject.UnManagedHandle, value); 
+            }
+        }
+        public Quaternion Rotation
+        {
+            get { return VCInteropTransformGetRotation(GameObject.UnManagedHandle); }
+            set { VCInteropTransformSetRotation(GameObject.UnManagedHandle, value); }
+        }
+        public Vector3 Scale
+        {
+            get { return VCInteropTransformGetScale(GameObject.UnManagedHandle); }
+            set { VCInteropTransformSetScale(GameObject.UnManagedHandle, value); }
+        }
         
         public GameObject GameObject;
 
@@ -32,51 +63,7 @@ namespace VCEngine
 		internal Transform (GameObject parent)
 		{
             GameObject = parent;
-            GetData();
 		}
-
-        internal void SetData()
-        {
-            if ( InvertPosition )
-                VCInteropTransformSetData(GameObject.UnManagedHandle,
-                    -Position.X, -Position.Y, -Position.Z,
-                    Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
-                    Scale.X, Scale.Y, Scale.Z);
-            else
-                VCInteropTransformSetData(GameObject.UnManagedHandle,
-                    Position.X, Position.Y, Position.Z,
-                    Rotation.X, Rotation.Y, Rotation.Z, Rotation.W,
-                    Scale.X, Scale.Y, Scale.Z);
-        }
-
-        internal void GetData()
-        {
-            float px = 0.0f;
-            float py = 0.0f;
-            float pz = 0.0f;
-
-            float rx = 1.0f;
-            float ry = 1.0f;
-            float rz = 1.0f;
-            float rw = 0.0f;
-
-            float sx = 1.0f;
-            float sy = 1.0f;
-            float sz = 1.0f;
-
-            VCInteropTransformGetData(GameObject.UnManagedHandle,
-                out px, out py, out pz,
-                out rx, out ry, out rz, out rw,
-                out sx, out sy, out sz);
-
-            if ( InvertPosition )
-                Position = new Vector3(-px, -py, -pz);
-            else
-                Position = new Vector3(px, py, pz);
-
-            Rotation = new Quaternion(rx, ry, rz, rw);
-            Scale = new Vector3(sx, sy, sz);
-        }
 
 	}
 }

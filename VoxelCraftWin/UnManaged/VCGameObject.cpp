@@ -102,8 +102,13 @@ void VCGameObject::RegisterMonoHandlers()
     mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectSetParent",     (void*)VCInteropGameObjectSetParent);
     
     // Transform
-    mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetData",         (void*)VCInteropTransformGetData);
-    mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetData",         (void*)VCInteropTransformSetData);
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetPosition",         (void*)VCInteropTransformGetPosition);
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetRotation",         (void*)VCInteropTransformGetRotation);
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetScale",         (void*)VCInteropTransformGetScale);
+
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetPosition",         (void*)VCInteropTransformSetPosition);
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetRotation",         (void*)VCInteropTransformSetRotation);
+	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetScale",         (void*)VCInteropTransformSetScale);
 }
 
 // CTor / DTor
@@ -127,41 +132,41 @@ void VCInteropGameObjectSetParent(int handle, int parentHandle)
     obj->SetParent((VCGameObject*) VCObjectStore::Instance->GetObject(parentHandle));
 }
 
-// Transform
-void VCInteropTransformGetData(int handle, float* posX, float* posY, float* posZ, float* rotX, float* rotY, float* rotZ, float* rotW, float* sclX, float* sclY, float* sclZ)
+vec3 VCInteropTransformGetPosition( int handle )
 {
-    VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    vec3 pos = obj->Position;
-    quat rot = obj->Rotation;
-    vec3 scale = obj->Scale;
-    
-    *posX = pos.x;
-    *posY = pos.y;
-    *posZ = pos.z;
-    
-    *rotX = rot.x;
-    *rotY = rot.y;
-    *rotZ = rot.z;
-    *rotW = rot.w;
-    
-    *sclX = scale.x;
-    *sclY = scale.y;
-    *sclZ = scale.z;
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	return obj->Position;
 }
 
-void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW, float sclX, float sclY, float sclZ)
+quat VCInteropTransformGetRotation( int handle )
 {
-    VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
-    obj->Position = vec3(posX, posY, posZ);
-    obj->Rotation = quat(rotW, rotX, rotY, rotZ);
-    obj->Scale = vec3(sclX, sclY, sclZ);
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	return obj->Rotation;
+}
+
+vec3 VCInteropTransformGetScale( int handle )
+{
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	return obj->Scale;
+}
+
+void VCInteropTransformSetPosition( int handle, vec3 pos )
+{
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	obj->Position = pos;
 	obj->MarkForRebuild();
-    
-    if ( true )
-        return;
-    
-    cout << endl << "GameObject [" << handle << "] Set to: " << endl;
-    cout << obj->Position.x << " " << obj->Position.y << " " << obj->Position.z << endl;
-    cout << obj->Rotation.x << " " << obj->Rotation.y << " " << obj->Rotation.z << " " << obj->Rotation.w << endl;
-    cout << obj->Scale.x << " " << obj->Scale.y << " " << obj->Scale.z << endl;
+}
+
+void VCInteropTransformSetRotation( int handle, quat rot )
+{
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	obj->Rotation = rot;
+	obj->MarkForRebuild();
+}
+
+void VCInteropTransformSetScale( int handle, vec3 scale )
+{
+	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	obj->Scale = scale;
+	obj->MarkForRebuild();
 }

@@ -172,22 +172,22 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 
 	}
 
-	//// ===================    Visualize    =====================
-	//glViewport(0, 0, 256, 256);
+	// ===================    Visualize    =====================
+	glViewport(0, 0, 256, 256);
 
-	//TextureShader->Bind();
+	TextureShader->Bind();
 
-	//// Bind our texture in Texture Unit 0
-	//glBindVertexArray(m_quad_VertexArrayID);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	////glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	// Bind our texture in Texture Unit 0
+	glBindVertexArray(m_quad_VertexArrayID);
+	
+	glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_depthTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
 
-	//TextureShader->SetTextureUnit(0);
+	TextureShader->SetTextureUnit(0);
 
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glBindVertexArray(0);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 
 }
 

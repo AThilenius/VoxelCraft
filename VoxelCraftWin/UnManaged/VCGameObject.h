@@ -62,5 +62,10 @@ void VCInteropReleaseGameObject(int handle);
 void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
 // Transform
-void VCInteropTransformGetData(int handle, float* posX, float* posY, float* posZ, float* rotX, float* rotY, float* rotZ, float* rotW, float* sclX, float* sclY, float* sclZ);
-void VCInteropTransformSetData(int handle, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW, float sclX, float sclY, float sclZ);
+vec3 VCInteropTransformGetPosition(int handle);
+quat VCInteropTransformGetRotation(int handle);
+vec3 VCInteropTransformGetScale(int handle);
+
+void VCInteropTransformSetPosition(int handle, vec3 pos );
+void VCInteropTransformSetRotation(int handle, quat rot );
+void VCInteropTransformSetScale(int handle, vec3 scale );

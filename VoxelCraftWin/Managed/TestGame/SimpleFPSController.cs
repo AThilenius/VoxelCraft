@@ -9,24 +9,24 @@ namespace TestGame
     public class SimpleFPSController : Component
     {
 
-        public Vector3 m_rot = new Vector3(1.5f, 0, 0);
+        public Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
         Point m_startPosition;
 
         public override void Update()
         {
-            if (Input.GetMouse(1) == TriState.Pressed)
+            if (Input.GetKey(' ') == TriState.Pressed)
             {
                 m_startPosition = Input.MousePoistion;
                 Input.MouseMode = MouseMoveMode.Locked;
             }
 
-            if (Input.GetMouse(1) != TriState.None)
+            if (Input.GetKey(' ') != TriState.None)
             {
                 m_rot.X -= Input.DeltaLook.Y * 0.0174532925f * 0.1f;
                 m_rot.Y += Input.DeltaLook.X * 0.0174532925f * 0.1f;
             }
 
-            if (Input.GetMouse(1) == TriState.Up)
+            if (Input.GetKey(' ') == TriState.Up)
             {
                 Input.MouseMode = MouseMoveMode.Free;
                 Input.MousePoistion = m_startPosition;

@@ -16,13 +16,13 @@ namespace TestGame
             Gui.LoadFontsFromForlder(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Fonts");
 
             m_camera = new Camera();
-            m_camera.Transform.Position = new Vector3(20, 80, 20);
+            m_camera.Transform.Position = new Vector3(50, 20, 50);
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);
 
             m_world = new World();
             m_world.Generator = new FlatChunkGenerator();
-            m_world.ViewDistance = 4;
+            m_world.ViewDistance = 2;
             m_world.Initialize();
             m_world.GenerateRegenerate();
             m_world.ReBuild();

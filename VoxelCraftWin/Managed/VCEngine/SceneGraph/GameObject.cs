@@ -68,7 +68,6 @@ namespace VCEngine
 
         internal void PropagateStart()
         {
-            Transform.SetData();
             Start();
 
             for (int i = 0; i < Components.Count; i++)
@@ -76,13 +75,10 @@ namespace VCEngine
 
             for (int i = 0; i < Children.Count; i++)
                 Children[i].PropagateStart();
-
-            Transform.SetData();
         }
 
         internal void PropagateUpdate()
         {
-            Transform.GetData();
             Update();
 
             for (int i = 0; i < Components.Count; i++)
@@ -90,13 +86,10 @@ namespace VCEngine
 
             for (int i = 0; i < Children.Count; i++)
                 Children[i].PropagateUpdate();
-
-            Transform.SetData();
         }
 
         internal void PropagateLateUpdate()
         {
-            Transform.GetData();
             LateUpdate();
 
             for (int i = 0; i < Components.Count; i++)
@@ -104,13 +97,10 @@ namespace VCEngine
 
             for (int i = 0; i < Children.Count; i++)
                 Children[i].PropagateLateUpdate();
-
-            Transform.SetData();
         }
 
         internal void PropagatePreRender()
         {
-            Transform.GetData();
             PreRender();
 
             for (int i = 0; i < Components.Count; i++)
@@ -118,8 +108,6 @@ namespace VCEngine
 
             for (int i = 0; i < Children.Count; i++)
                 Children[i].PropagatePreRender();
-
-            Transform.SetData();
         }
 
         // Need to finish later

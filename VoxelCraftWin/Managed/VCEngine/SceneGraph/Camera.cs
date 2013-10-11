@@ -116,17 +116,17 @@ namespace VCEngine
 
         public override void Update()
         {
-            //Vector3 direction = VCInteropCameraScreenPointToDirection(
-            //        UnManagedHandle,
-            //        new Rectangle(0, 0, (int)(0.8f * Window.Size.X), (int)(0.9f * Window.Size.Y)),
-            //        Input.MousePoistion);
+            Vector3 direction = VCInteropCameraScreenPointToDirection(
+                    UnManagedHandle,
+                    new Rectangle(0, 0, (int)(0.8f * Window.Size.X), (int)(0.9f * Window.Size.Y)),
+                    Input.MousePoistion);
 
-            //Gui.DrawString(("Main Camera - Pos: " + Transform.Position.ToString("n2") + " Forward: " + Transform.Rotation.Forward.ToString("n2") + " MouseDir: " + direction.ToString("n2")),
-            //    new Point(20, (int)(0.9f * Window.Size.Y) - 20),
-            //    Color.White);
-            //Gui.DrawString(("Mouse - Pos: " + Input.MousePoistion),
-            //    new Point(20, (int)(0.9f * Window.Size.Y) - 40),
-            //    Color.White);
+            Gui.DrawString(("Main Camera - Pos: " + Transform.Position.ToString("n2") + " Forward: " + Transform.Rotation.Forward.ToString("n2") + " MouseDir: " + direction.ToString("n2")),
+                new Point(20, (int)(0.9f * Window.Size.Y) - 20),
+                Color.White);
+            Gui.DrawString(("Mouse - Pos: " + Input.MousePoistion),
+                new Point(20, (int)(0.9f * Window.Size.Y) - 40),
+                Color.White);
         }
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)
