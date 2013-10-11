@@ -32,18 +32,31 @@ public:
 	void Initialize()
 	{
 		VCGLRenderer::Instance->RegisterIRenderable(this);
+
+		// Create VAO
+		glGenVertexArrays(1, &VCDebug::m_VAO);
+		glBindVertexArray(VCDebug::m_VAO);
+		glErrorCheck();
+
+		// Create VBO
+		glGenBuffers(1, &VCDebug::m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VCDebug::m_VBO);
+		ZERO_CHECK(VCDebug::m_VBO);
+
+		// Bind Attributes
+		glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
+		glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+
+		glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
+		glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
+
+		glBindVertexArray(0);
 	}
 
 	static void Reset()
 	{
-		VCDebug::m_lineVertCount = 0;
+		
 
-		if (VCDebug::m_VAO != 0)
-		{
-			glDeleteBuffers(1, &VCDebug::m_VAO);
-			glDeleteBuffers(1, &VCDebug::m_VBO);
-			VCDebug::m_VAO = 0;
-		}
 	}
 
 	static void DrawLine (vec3 from, vec3 to, GLubyte4 color)
@@ -100,37 +113,14 @@ public:
 
 		VCGLRenderer::Instance->SetModelMatrix(mat4());
 
-		if (VCDebug::m_VAO == 0)
-		{
-			// Create VAO
-			glGenVertexArrays(1, &VCDebug::m_VAO);
-			glBindVertexArray(VCDebug::m_VAO);
-			glErrorCheck();
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * m_lineVertCount, m_lineVerts , GL_STREAM_DRAW);
 
-			// Create VBO
-			glGenBuffers(1, &VCDebug::m_VBO);
-			glBindBuffer(GL_ARRAY_BUFFER, VCDebug::m_VBO);
-			ZERO_CHECK(VCDebug::m_VBO);
+		glBindVertexArray(m_VAO);
+		glDrawArrays(GL_LINES, 0, m_lineVertCount);
+		glBindVertexArray(0);
 
-			glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * VCDebug::m_lineVertCount, VCDebug::m_lineVerts , GL_STREAM_DRAW);
-
-			// Bind Attributes
-			glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-			glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-
-			glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
-			glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
-
-			glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
-
-			glBindVertexArray(0);
-		}
-		else
-		{
-			glBindVertexArray(VCDebug::m_VAO);
-			glDrawArrays(GL_LINES, 0, VCDebug::m_lineVertCount);
-			glBindVertexArray(0);
-		}
+		m_lineVertCount = 0;
 	}
 
 

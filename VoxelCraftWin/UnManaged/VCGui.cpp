@@ -29,6 +29,10 @@ void VCInteropGuiDrawRectangle(Rectangle rect, vcint4 color)
 
 void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint4 color)
 {
-	VCGui::Instance->Text.DrawText(mono_string_to_utf8(text), point, mono_string_to_utf8(font), GLubyte4(color.X, color.Y, color.Z, color.W));
+	char* t = mono_string_to_utf8(text);
+	char* f = mono_string_to_utf8(font);
+	VCGui::Instance->Text.DrawText(t, point, f, GLubyte4(color.X, color.Y, color.Z, color.W));
+	mono_free(t);
+	mono_free(f);
 }
 

@@ -28,8 +28,8 @@ public:
 
 	~VCText(void)
 	{
+		glDeleteVertexArrays(1, &VAO);
 		glDeleteBuffers(1, &m_vbo);
-		glDeleteBuffers(1, &VAO);
 
 		VCGLRenderer::Instance->UnRegisterIRenderable(this);
 	}

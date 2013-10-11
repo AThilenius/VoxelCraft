@@ -59,14 +59,6 @@ public:
 
 	void Reset()
 	{
-		m_vCount = 0;
-
-		if (m_VAO != 0)
-		{
-			glDeleteBuffers(1, &m_VAO);
-			glDeleteBuffers(1, &m_VBO);
-			m_VAO = 0;
-		}
 	}
 
 	void Initialize()
@@ -79,6 +71,25 @@ public:
 		RenderState->Stages[0].DepthTest = false;
 		VCGLRenderer::Instance->RegisterState(RenderState);
 		VCGLRenderer::Instance->RegisterIRenderable(this);
+
+		// Create VAO
+		glGenVertexArrays(1, &m_VAO);
+		glBindVertexArray(m_VAO);
+		glErrorCheck();
+
+		// Create VBO
+		glGenBuffers(1, &m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		ZERO_CHECK(m_VBO);
+
+		// Bind Attributes
+		glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
+		glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+
+		glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	2,	GL_UNSIGNED_SHORT,	GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
+		glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
+
+		glBindVertexArray(0);
 	}
 
 	virtual VCRenderState* GetState() { return RenderState; }
@@ -88,38 +99,14 @@ public:
 		if (m_vCount == 0)
 			return;
 
-		if (m_VAO == 0)
-		{
-			// Create VAO
-			glGenVertexArrays(1, &m_VAO);
-			glBindVertexArray(m_VAO);
-			glErrorCheck();
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GuiRectVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);
 
-			// Create VBO
-			glGenBuffers(1, &m_VBO);
-			glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-			ZERO_CHECK(m_VBO);
+		glBindVertexArray(m_VAO);
+		glDrawArrays(GL_TRIANGLES, 0, m_vCount);
+		glBindVertexArray(0);
 
-			glBufferData(GL_ARRAY_BUFFER, sizeof(GuiRectVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);
-
-			// Bind Attributes
-			glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-			glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-
-			glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	2,	GL_UNSIGNED_SHORT,	GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
-			glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
-
-			glDrawArrays(GL_TRIANGLES, 0, m_vCount);
-
-			glBindVertexArray(0);
-		}
-		else
-		{
-			glBindVertexArray(m_VAO);
-			glDrawArrays(GL_TRIANGLES, 0, m_vCount);
-			glBindVertexArray(0);
-		}
-
+		m_vCount = 0;
 	}
 private:
 	VCRenderState* RenderState;
