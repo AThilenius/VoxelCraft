@@ -10,7 +10,6 @@ namespace VCEngine
 {
     public class Editor
     {
-        public static Control MainControl;
 
         public static void EditorMain()
         {
@@ -18,24 +17,24 @@ namespace VCEngine
             {
                 VCEngineCore.Initialize();
 
-                MainControl = new Control();
-                MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
-                MainControl.BorderColor = Color.Black;
-                MainControl.BackgroundColor = Color.Trasparent;
-                MainControl.HighlightBackgroundColor = Color.Trasparent;
-                MainControl.SetFirstResponder();
+                Control.MainControl = new Control();
+                Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
+                Control.MainControl.BorderColor = Color.Black;
+                Control.MainControl.BackgroundColor = Color.Trasparent;
+                Control.MainControl.HighlightBackgroundColor = Color.Trasparent;
+                Control.MainControl.SetFirstResponder();
 
                 MenuBar bar = new MenuBar();
-                MainControl.AddControl(bar);
+                Control.MainControl.AddControl(bar);
 
                 Menu testMenu1 = new Menu();
-                MainControl.AddControl(testMenu1);
+                Control.MainControl.AddControl(testMenu1);
                 testMenu1.AddItemReverse("Close");
                 testMenu1.AddItemReverse("Open");
                 testMenu1.AddItemReverse("Save");
 
                 Menu testMenu2 = new Menu();
-                MainControl.AddControl(testMenu2);
+                Control.MainControl.AddControl(testMenu2);
                 testMenu2.AddItemReverse("Options");
                 testMenu2.AddItemReverse("Find");
                 testMenu2.AddItemReverse("Redo");
@@ -55,7 +54,7 @@ namespace VCEngine
                     VCEngineCore.Update();
                     VCEngineCore.LateUpdate();
                     VCEngineCore.PreRender();
-                    MainControl.Render();
+                    Control.MainControl.Render();
 
                     // Rendering
                     GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);

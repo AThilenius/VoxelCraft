@@ -229,7 +229,10 @@ namespace VCEngine
         public static Vector2 DeltaLook 
         { 
             get 
-            { 
+            {
+                if (m_isSupressingUpdate)
+                    return new Vector2(0.0f, 0.0f);
+
                 return new Vector2(m_deltaMousePosition.X, m_deltaMousePosition.Y);
             } 
         }
@@ -237,6 +240,9 @@ namespace VCEngine
         {
             get
             {
+                if (m_isSupressingUpdate)
+                    return new Vector2(0.0f, 0.0f);
+
                 Vector2 strafeVec = new Vector2(0.0f, 0.0f);
                 
                 if (m_keyStates['W'].State != TriState.None) strafeVec.X += 1.0f;
@@ -259,13 +265,21 @@ namespace VCEngine
         private static TrinaryStateTracker[] m_mouseStates = new TrinaryStateTracker[10];
         private static TrinaryStateTracker[] m_keyStates = new TrinaryStateTracker[350];
 
+        private static bool m_isSupressingUpdate;
+
         public static TriState GetKey(int keyCode)
         {
+            if (m_isSupressingUpdate)
+                return TriState.None;
+
             return m_keyStates[keyCode].State;
         }
 
         public static TriState GetMouse(int button)
         {
+            if (m_isSupressingUpdate)
+                return TriState.None;
+
             return m_mouseStates[button].State;
         }
 
@@ -278,9 +292,15 @@ namespace VCEngine
             m_deltaMousePosition = new Point(0, 0);
         }
 
+        internal static void SuppressNextUpdate()
+        {
+            m_isSupressingUpdate = true;
+        }
+
         internal static void ClearStates()
         {
             m_deltaMousePosition = new Point(0, 0);
+            m_isSupressingUpdate = false;
 
             for (int i = 0; i < 10; i++)
                 m_mouseStates[i].StepState();

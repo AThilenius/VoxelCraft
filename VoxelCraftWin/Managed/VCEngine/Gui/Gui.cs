@@ -3,10 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
 {
+    [StructLayout(LayoutKind.Sequential)]
+    public struct GuiRectVerticie
+    {
+        public ushort PositionX;
+        public ushort PositionY;
+        public byte R;
+        public byte G;
+        public byte B;
+        public byte A;
+
+        public GuiRectVerticie(Point pt, Color color)
+        {
+            PositionX = (ushort)pt.X;
+            PositionY = (ushort)pt.Y;
+            R = (byte)color.R;
+            G = (byte)color.G;
+            B = (byte)color.B;
+            A = (byte)color.A;
+        }
+    }
+
     public class Gui
     {
         #region Bindings
@@ -22,6 +44,9 @@ namespace VCEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static string VCInteropLoadFont(string fntPath, string ddsPath);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 
         #endregion
 
@@ -51,6 +76,11 @@ namespace VCEngine
 
             // Right
             Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
+        }
+
+        public static void AddVerticie(GuiRectVerticie vert)
+        {
+            VCInteropGuiAddVerticie(vert);
         }
 
         public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-16")

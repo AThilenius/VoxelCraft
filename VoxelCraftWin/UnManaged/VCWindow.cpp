@@ -88,6 +88,7 @@ void VCWindow::Initalize()
 	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
 	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
+	SetVSync(false);
 	cout << "VCWindow Initialized." << endl;
     glErrorCheck();
 }

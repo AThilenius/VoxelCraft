@@ -11,13 +11,13 @@ namespace TestGame
     {
         private Camera m_camera;
         private World m_world;
+        private HslColorPicker m_picker;
 
         public override void Start()
         {
             Gui.LoadFontsFromForlder(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Fonts");
             //Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
             
-
             m_camera = new Camera();
             m_camera.Transform.Position = new Vector3(50, 20, 50);
             SimpleFPSController simpleController = new SimpleFPSController();
@@ -29,6 +29,15 @@ namespace TestGame
             m_world.Initialize();
             m_world.GenerateRegenerate();
             m_world.ReBuild();
+
+            m_picker = new HslColorPicker();
+            Control.MainControl.AddControl(m_picker);
+            m_picker.ScreenFrame = new Rectangle(100, 100, 300, 140);
+
+            Vector4 HSL = Color.RgbaToHsl(new Color(24, 48, 92, 255));
+            Console.WriteLine("RGB: 24, 48, 92 => HSL: " + HSL);
+            Color RGB = Color.HslToRgba(HSL);
+            Console.WriteLine("HSL: " + HSL + " => RGB: " + RGB);
         }
 
         public override void Update()
@@ -44,8 +53,6 @@ namespace TestGame
 
                 if (Input.GetMouse(0) == TriState.Pressed)
                 {
-                    Console.WriteLine("Hit at: " + hit.X + ", " + hit.Y + ", " + hit.Z + ". Normal: " + hit.Normal);
-                    
                     m_world.SetBlock(normalBlock, new Block(255, 0, 0, 255));
                     m_world.ReBuild();
                 }
@@ -56,7 +63,11 @@ namespace TestGame
                     m_world.ReBuild();
                 }
             }
+
         }
+
+        
+
 
     }
 }

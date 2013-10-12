@@ -57,6 +57,16 @@ public:
 		m_verts[m_vCount++] = ur;
 	}
 
+	void AddQuad( GuiRectVerticie vert ) 
+	{
+		if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
+		{
+			VC_ERROR("You have 125000+ Gui rectangles... too much man.");
+		}
+
+		m_verts[m_vCount++] = vert;
+	}
+
 	void Reset()
 	{
 	}
@@ -108,6 +118,8 @@ public:
 
 		m_vCount = 0;
 	}
+
+
 private:
 	VCRenderState* RenderState;
 

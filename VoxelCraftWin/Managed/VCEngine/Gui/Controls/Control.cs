@@ -7,7 +7,7 @@ namespace VCEngine
 {
     public class Control
     {
-        public static Control MainControl;
+        public static Control MainControl = null;
 
         public String Name;
         public Rectangle Frame = new Rectangle();
@@ -70,12 +70,12 @@ namespace VCEngine
             }
         }
 
-        public event EventHandler Click = delegate { };
-        public event EventHandler RightClick = delegate { };
-        public event EventHandler DoubleClick = delegate { };
+        public event EventHandler<MouseEventArgs> Click = delegate { };
+        public event EventHandler<MouseEventArgs> RightClick = delegate { };
+        public event EventHandler<MouseEventArgs> DoubleClick = delegate { };
         public event EventHandler MouseEnter = delegate { };
         public event EventHandler MouseExit = delegate { };
-        public event EventHandler MouseMove = delegate { };
+        public event EventHandler<MouseEventArgs> MouseMove = delegate { };
         public event EventHandler<MouseEventArgs> DragBegin = delegate { };
         public event EventHandler<MouseEventArgs> DragEnd = delegate { };
         public event EventHandler<MouseEventArgs> Draging = delegate { };

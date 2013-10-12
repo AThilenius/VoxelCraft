@@ -15,6 +15,7 @@ void VCGui::RegisterMonoHandlers()
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiClear",			(void*)VCInteropGuiClear);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawRectangle",	(void*)VCInteropGuiDrawRectangle);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawText",		(void*)VCInteropGuiDrawText);
+	mono_add_internal_call("VCEngine.Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
 }
 
 void VCInteropGuiClear()
@@ -36,3 +37,7 @@ void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint
 	mono_free(f);
 }
 
+void VCInteropGuiAddVerticie( GuiRectVerticie vert )
+{
+	VCGui::Instance->Geometry.AddQuad(vert);
+}
