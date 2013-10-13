@@ -15,6 +15,7 @@
 
 VCWorld::VCWorld():
 	ChunkZeroX(0),
+	ChunkZeroY(0),
 	ChunkZeroZ(0),
 	ChunkGenerator(NULL)
 {

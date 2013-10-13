@@ -81,6 +81,7 @@ namespace VCEngine
         public event EventHandler<MouseEventArgs> DragEnd = delegate { };
         public event EventHandler<MouseEventArgs> Draging = delegate { };
         public event EventHandler<KeyEventArgs> KeyPress = delegate { };
+        public event EventHandler Resize = delegate { };
 
         private Control m_activeChild;
         private bool m_wasPointInThis;
@@ -101,13 +102,17 @@ namespace VCEngine
                     ctrl.Render();
         }
 
-        public void AddControl(Control control)
+        public virtual void AddControl(Control control)
         {
             Children.Add(control);
+
+            if (control.Parent != null)
+                control.Parent.RemoveControl(control);
+
             control.Parent = this;
         }
 
-        public void RemoveControl(Control control)
+        public virtual void RemoveControl(Control control)
         {
             Children.Remove(control);
             control.Parent = null;

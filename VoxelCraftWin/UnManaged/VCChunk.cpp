@@ -40,7 +40,7 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 		// Stage 2
 		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.9f);
+		VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
 		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
 
 		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
@@ -128,7 +128,7 @@ void VCChunk::Rebuild()
 
                 
                 // Front face
-                if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTrasparent() )
+                if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTranslucent() )
                 {
                     normal = 5;
                     m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
@@ -141,7 +141,7 @@ void VCChunk::Rebuild()
                 }
 
 				//Right face
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTrasparent() )
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 1;
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
@@ -154,7 +154,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Back face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTrasparent() )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTranslucent() )
 				{
 					normal = 4;
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
@@ -167,7 +167,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Left face
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTrasparent() )
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 0;
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
@@ -180,7 +180,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Top face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTrasparent() )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 3;
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
@@ -193,7 +193,7 @@ void VCChunk::Rebuild()
 				}
 
 				//Bottom face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTrasparent() )
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 2;
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
@@ -242,7 +242,7 @@ void VCChunk::Rebuild()
 	free(m_rebuildVerticies);
 	m_rebuildVerticies = NULL;
 
-	std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << endl;
+	//std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << endl;
     
 	glErrorCheck();
 }

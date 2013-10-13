@@ -38,7 +38,7 @@ public:
 				{
 					int wy = addativeY + cy;
 
-					if ( wy >= 0 && wy <= 10)
+					if ( wy == 0 )
 					{
 						int mod = (FastRandom() % 6) - 3;
 						buffer[FLATTEN_CHUNK(cx, cy, cz)] = VCBlock(128 + mod, 128 + mod, 128 + mod);

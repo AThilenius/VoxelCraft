@@ -73,7 +73,6 @@ public:
 
 		m_viewDistTwo = viewDistTwo;
 		m_logViewDistTwo = std::log(m_viewDistTwo) / std::log(2);
-		ChunkZeroY = -(viewDistTwo / 2);
 	}
 
 	void SetGenerator(VCIChunkGenerator* generator) { ChunkGenerator = generator; }

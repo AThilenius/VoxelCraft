@@ -23,6 +23,11 @@ public:
 
 	bool IsTrasparent()
 	{
+		return Color.w == 0;
+	}
+
+	bool IsTranslucent()
+	{
 		return Color.w != 255;
 	}
 

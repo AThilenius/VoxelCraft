@@ -86,7 +86,7 @@ void VCGLRenderer::Initialize()
 	VCGLRenderer::PassThroughState = new VCRenderState();
 	VCGLRenderer::PassThroughState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 	VCGLRenderer::PassThroughState->Stages[0].Shader = VCGLRenderer::Instance->ColorPassThroughShader;
-	VCGLRenderer::PassThroughState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.9f);
+	VCGLRenderer::PassThroughState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
 	RegisterState(VCGLRenderer::PassThroughState);
 
     glErrorCheck();
