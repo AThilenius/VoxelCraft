@@ -46,51 +46,10 @@ static string g_vcVoxVertexShader =
 		"gl_Position =  MVP * position;"
 		"colorVarying = color;"
 		"ShadowCoord = DepthBiasMVP * position;"
-	
-		// Position of the vertex, in worldspace : ModelMatrix * position
 		"Position_worldspace = ( ModelMatrix * position ).xyz;"
-	
-		// Vector that goes from the vertex to the light, in camera space
 		"LightDirection_cameraspace = ( ViewMatrix * vec4( LightInvDirection_worldspace, 0 ) ).xyz;"
-	
-		// Normal of the the vertex, in camera space
-		// Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.
 		"Normal_cameraspace = ( ViewMatrix * ModelMatrix * vec4( vertexNormal_modelspace, 0 ) ).xyz;"
 	"}";
-
-
-// Old Shader:
-	//"in vec4 position;"
-	//"in int normal;"
-	//"in vec4 color;"
-	//
-	//"uniform mat4 modelViewProjectionMatrix;"
-	//"uniform mat3 normalMatrix;"
-	//"uniform vec3 lightPos;"
-	//"uniform vec3 NormalLookupTable[6] = vec3[6] ("
-	//	"vec3(-1.0, 0.0, 0.0),"
-	//	"vec3(1.0, 0.0, 0.0),"
-	//	"vec3(0.0, -1.0, 0.0),"
-	//	"vec3(0.0, 1.0, 0.0),"
-	//	"vec3(0.0, 0.0, -1.0),"
-	//	"vec3(0.0, 0.0, 1.0)"
-	//");"
-
-	//"out vec4 colorVarying;"
-
-
-	//"void main()"
-	//"{"
-	//	"vec3 normalVal = NormalLookupTable[int(normal)];"
-	//	"vec3 eyeNormal = normalize(normalMatrix * normalVal);"
-
-	//	"float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPos)));"
-
-	//	"colorVarying.xyz = (color.xyz * 0.4) + (color.xyz * nDotVP * 0.2);"
-	//	"colorVarying.w = color.w;"
-
-	//	"gl_Position = modelViewProjectionMatrix * position;"
-	//"}"
 
 static string g_vcVoxFragmentShader =
     "#version 150\n"
@@ -105,7 +64,6 @@ static string g_vcVoxFragmentShader =
 	"out vec4 color;"
 
 	"uniform sampler2D shadowMap;"
-	//"uniform sampler2DShadow shadowMap;"
 
 	"vec2 poissonDisk[16] = vec2[]( "
 	   "vec2( -0.94201624, -0.39906216 ), "
@@ -135,17 +93,8 @@ static string g_vcVoxFragmentShader =
 
 	"void main()"
 	"{"
-		// Normal of the computed fragment, in camera space
 		"vec3 n = normalize( Normal_cameraspace );"
-
-		// Direction of the light (from the fragment to the light)
 		"vec3 l = normalize( LightDirection_cameraspace );"
-
-		// Cosine of the angle between the normal and the light direction, 
-		// clamped above 0
-		//  - light is at the vertical of the triangle -> 1
-		//  - light is perpendiular to the triangle -> 0
-		//  - light is behind the triangle -> 0
 		"float cosTheta = clamp( dot( n,l ), 0, 1 );"
 	
 		"float visibility = 1.0;"
@@ -170,26 +119,38 @@ static string g_vcVoxFragmentShader =
 			"visibility -= 0.8;"
 
 		"color = "
-
-			// Ambient
 			"colorVarying * 0.3 +"
-		
-			// Lit Diffuse
 			"visibility * colorVarying * cosTheta * 0.6;"
 
 		"color.w = colorVarying.w;"
 
 	"}";
 
+static string g_vcVoxFallbackFragmentShader =
+	"#version 150\n"
+	//"#version 330 core\n"
 
-// Old Shader:
-	//"in vec4 colorVarying;"
-	//"out vec4 colorF;"
+	"in vec3 Position_worldspace;"
+	"in vec3 Normal_cameraspace;"
+	"in vec3 LightDirection_cameraspace;"
+	"in vec4 ShadowCoord;"
+	"in vec4 colorVarying;"
 
-	//"void main()"
-	//"{"
-	//	"colorF = colorVarying;"
-	//"}";
+	"out vec4 color;"
+
+	"void main()"
+	"{"
+		"vec3 n = normalize( Normal_cameraspace );"
+		"vec3 l = normalize( LightDirection_cameraspace );"
+		"float cosTheta = clamp( dot( n,l ), 0, 1 );"
+
+		"color = "
+		"colorVarying * 0.6 +"
+		"colorVarying * cosTheta * 0.3;"
+
+		"color.w = colorVarying.w;"
+
+	"}";
 
 VCVoxelShader::VCVoxelShader():
 	m_unifMVP(0),
@@ -197,7 +158,13 @@ VCVoxelShader::VCVoxelShader():
 	m_unifShadow(0)
 {
 	m_vertexShaderLiteral = &g_vcVoxVertexShader;
-	m_fragShaderLiteral = &g_vcVoxFragmentShader;
+
+	if ( VCGLRenderer::Instance->DepthTexture == NULL )
+		m_fragShaderLiteral = &g_vcVoxFallbackFragmentShader;
+
+	else
+		m_fragShaderLiteral = &g_vcVoxFragmentShader;
+
 	m_geometryShaderLiteral = NULL;
 }
 

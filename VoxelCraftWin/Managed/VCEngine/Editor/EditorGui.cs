@@ -11,6 +11,7 @@ namespace VCEngine
         public static TabbedContainer InspectorWindow;
         public static VerticalContainer ColorPage;
         public static HslColorPicker ColorPicker;
+        public static DiagnosticsPane Diagnostics;
 
         public static void Initialize()
         {
@@ -29,7 +30,7 @@ namespace VCEngine
         private static void FillColorControls()
         {
             ColorPicker = new HslColorPicker();
-            ColorPicker.Frame = new Rectangle(0, 0, 0, 200);
+            ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
             ColorPage.AddControl(ColorPicker);
         }
 
@@ -45,6 +46,10 @@ namespace VCEngine
             ColorPage.BorderWidth = 1;
             ColorPage.HighlightBackgroundColor = ColorPage.BackgroundColor;
             InspectorWindow.AddTab("Colors", ColorPage);
+
+            Diagnostics = new DiagnosticsPane();
+            Diagnostics.HighlightBackgroundColor = Diagnostics.BackgroundColor;
+            InspectorWindow.AddTab("Diagnostics", Diagnostics);
 
             FillColorControls();
         }

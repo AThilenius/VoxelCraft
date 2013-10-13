@@ -34,7 +34,6 @@ public:
 	int Height;
 
 private:
-    float m_lastDeltaTime;
 	VCMonoMethod* SizeChangeFunction;
     friend void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height);
 	// ================================      Interop      ============

@@ -88,8 +88,8 @@ namespace VCEngine
 
         public Control()
         {
-            MouseEnter += (s, a) => IsHovered = true;
-            MouseExit += (s, a) => IsHovered = false;
+            MouseEnter += (s, a) => { IsHovered = true; IsClickDown = false; };
+            MouseExit += (s, a) => { IsHovered = false;  IsClickDown = false; };
         }
 
         // Called externally

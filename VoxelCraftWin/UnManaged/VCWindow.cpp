@@ -21,8 +21,7 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
 }
 
-VCWindow::VCWindow():
-	m_lastDeltaTime(60.0f)
+VCWindow::VCWindow()
 {
 	VCWindow::Instance = this;
 }
@@ -55,7 +54,7 @@ void VCWindow::Initalize()
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWWindowHandle = glfwCreateWindow(1280, 600, "Voxel Craft", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1280, 600, "Love Monkey Engine <3", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
@@ -96,15 +95,6 @@ void VCWindow::Initalize()
 void VCWindow::SwapBuffers()
 {
 	VCTime::Instance->Update();
-
-    // Framerate Check
-    float framerate = 1.0f / VCTime::DeltaTime;
-    framerate = framerate * 0.05f + m_lastDeltaTime * 0.95f;
-    m_lastDeltaTime = framerate;
-    stringstream ss;
-    ss << "Voxel Craft - " << (int)framerate << " FPS.";
-	SetTitle(ss.str());
-    // ~Framerate Check
 
 	glfwSwapBuffers(GLFWWindowHandle);
     glfwPollEvents();

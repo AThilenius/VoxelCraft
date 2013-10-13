@@ -37,6 +37,8 @@ void VCGLRenderer::Initialize()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_CULL_FACE);
 
+	CreateDepthFrameBuffer();
+
 	ShadowShader = new VCShadowShader();
 	ShadowShader->Initialize();
 
@@ -54,8 +56,6 @@ void VCGLRenderer::Initialize()
 
 	ColorPassThroughShader = new VCColorPassThroughShader();
 	ColorPassThroughShader->Initialize();
-
-	CreateDepthFrameBuffer();
 
 
 	// ===================    Quad for visualize    =======================================
@@ -240,6 +240,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
 	glGenTextures(1, &DepthTexture);
 	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+
 	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1280, 600, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
@@ -249,9 +250,6 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
-	// Also tried using GL_COMPARE_R_TO_TEXTURE with sampler2DShadow in the shader. Same outcome.
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, DepthTexture, 0);
 
 	// No color output in the bound framebuffer, only depth.
@@ -259,7 +257,10 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 
 	// Always check that our framebuffer is ok
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		cout << "Failed to initialize GLRenderer!" << endl;
+	{
+		cout << "Failed to initialize GL Depth frame buffer!" << endl;
+		DepthTexture = NULL;
+	}
 }
 
 void VCGLRenderer::RegisterMonoHandlers()

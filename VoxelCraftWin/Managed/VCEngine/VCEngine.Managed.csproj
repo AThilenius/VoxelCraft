@@ -39,6 +39,7 @@
     <Compile Include="Application\Input.cs" />
     <Compile Include="Components\RidgedBody.cs" />
     <Compile Include="Editor\EditorGui.cs" />
+    <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
     <Compile Include="Gui\Controls\TabbedContainer.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />

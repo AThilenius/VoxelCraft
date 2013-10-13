@@ -30,18 +30,33 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 {
 	if (VCChunk::VoxelRenderState == NULL)
 	{
+		
 		VCChunk::VoxelRenderState = new VCRenderState();
-		VCChunk::VoxelRenderState->StageCount = 2;
 
-		// Stage 1
-		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+		// Shadows supported?
+		if (VCGLRenderer::Instance->DepthTexture != NULL)
+		{
+			VCChunk::VoxelRenderState->StageCount = 2;
 
-		// Stage 2
-		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		//VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
-		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
+			// Stage 1
+			VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
+			VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+
+			// Stage 2
+			VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+			VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+			VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
+		}
+
+		else
+		{
+			VCChunk::VoxelRenderState->StageCount = 1;
+
+			// Stage 1
+			VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+			VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+		}
+		
 
 		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
 	}

@@ -36,6 +36,9 @@ namespace VCEngine
             else if (m_saturationFrame.IsPointWithin(e.ScreenLocation))
             {
                 float value = (e.ScreenLocation.X - m_saturationFrame.X) / (float)m_saturationFrame.Width;
+                if (value > 0.95f)
+                    value = 1.0f;
+
                 ColorHSL = new Vector4(ColorHSL.X, value, ColorHSL.Z, ColorHSL.W);
                 ColorRGB = Color.HslToRgba(ColorHSL);
             }
@@ -43,6 +46,9 @@ namespace VCEngine
             else if (m_LuminosityFrame.IsPointWithin(e.ScreenLocation))
             {
                 float value = (e.ScreenLocation.X - m_LuminosityFrame.X) / (float)m_LuminosityFrame.Width;
+                if (value > 0.475f && value < 0.525)
+                    value = 0.5f;
+
                 ColorHSL = new Vector4(ColorHSL.X, ColorHSL.Y, value, ColorHSL.W);
                 ColorRGB = Color.HslToRgba(ColorHSL);
             }
@@ -52,6 +58,9 @@ namespace VCEngine
                 float value = (e.ScreenLocation.X - m_trasparentFrame.X) / (float)m_trasparentFrame.Width;
                 if (value > 0.95f)
                     value = 1.0f;
+
+                if (value < 0.05)
+                    value = 0.0f;
 
                 ColorHSL = new Vector4(ColorHSL.X, ColorHSL.Y, ColorHSL.Z, value);
                 ColorRGB = Color.HslToRgba(ColorHSL);

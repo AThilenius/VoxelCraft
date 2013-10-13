@@ -18,13 +18,14 @@ namespace TestGame
             //Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
             
             m_camera = new Camera();
+            Camera.MainCamera = m_camera;
             m_camera.Transform.Position = new Vector3(50, 20, 50);
             SimpleFPSController simpleController = new SimpleFPSController();
             m_camera.AttachComponent(simpleController);
 
             m_world = new World();
             m_world.Generator = new FlatChunkGenerator();
-            m_world.ViewDistance = 2;
+            m_world.ViewDistance = 4;
             m_world.Initialize();
             m_world.GenerateRegenerate();
             m_world.ReBuild();
