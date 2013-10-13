@@ -11,6 +11,7 @@ namespace TestGame
     {
         private Camera m_camera;
         private World m_world;
+        private TabbedContainer m_inspector;
         private HslColorPicker m_picker;
 
         public override void Start()
@@ -30,9 +31,14 @@ namespace TestGame
             m_world.GenerateRegenerate();
             m_world.ReBuild();
 
+            m_inspector = new TabbedContainer();
+            m_inspector.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y);
+            Control.MainControl.AddControl(m_inspector);
+
             m_picker = new HslColorPicker();
-            Control.MainControl.AddControl(m_picker);
-            m_picker.ScreenFrame = new Rectangle(100, 100, 300, 140);
+            m_inspector.AddTab("Color", m_picker);
+            m_inspector.AddTab("Test", new Button("Test"));
+            //m_picker.ScreenFrame = new Rectangle(100, 100, 300, 140);
 
             Vector4 HSL = Color.RgbaToHsl(new Color(24, 48, 92, 255));
             Console.WriteLine("RGB: 24, 48, 92 => HSL: " + HSL);
@@ -53,7 +59,7 @@ namespace TestGame
 
                 if (Input.GetMouse(0) == TriState.Pressed)
                 {
-                    m_world.SetBlock(normalBlock, new Block(255, 0, 0, 255));
+                    m_world.SetBlock(normalBlock, new Block(m_picker.ColorRGB));
                     m_world.ReBuild();
                 }
 

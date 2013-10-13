@@ -7,19 +7,20 @@ namespace VCEngine
 {
     public class HslColorPicker : Control
     {
+        public Vector4 ColorHSL;
+        public Color ColorRGB;
+
         private Rectangle m_spectrumFrame;
         private Rectangle m_saturationFrame;
         private Rectangle m_LuminosityFrame;
 
-        private Vector4 m_activeHsl;
-        private Color m_activeRgb;
-
         public HslColorPicker()
         {
-            m_activeRgb = new Color(255, 0, 0, 255);
-            m_activeHsl = Color.RgbaToHsl(m_activeRgb);
+            ColorRGB = new Color(255, 0, 0, 255);
+            ColorHSL = Color.RgbaToHsl(ColorRGB);
 
             Click += OnClick;
+            Draging += OnClick;
         }
 
         void OnClick(object sender, MouseEventArgs e)
@@ -27,22 +28,22 @@ namespace VCEngine
             if (m_spectrumFrame.IsPointWithin(e.ScreenLocation))
             {
                 float value = (e.ScreenLocation.X - m_spectrumFrame.X) / (float)m_spectrumFrame.Width;
-                m_activeHsl = new Vector4(value, m_activeHsl.Y, m_activeHsl.Z, m_activeHsl.W);
-                m_activeRgb = Color.HslToRgba(m_activeHsl);
+                ColorHSL = new Vector4(value, ColorHSL.Y, ColorHSL.Z, ColorHSL.W);
+                ColorRGB = Color.HslToRgba(ColorHSL);
             }
 
             else if (m_saturationFrame.IsPointWithin(e.ScreenLocation))
             {
                 float value = (e.ScreenLocation.X - m_saturationFrame.X) / (float)m_saturationFrame.Width;
-                m_activeHsl = new Vector4(m_activeHsl.X, value, m_activeHsl.Z, m_activeHsl.W);
-                m_activeRgb = Color.HslToRgba(m_activeHsl);
+                ColorHSL = new Vector4(ColorHSL.X, value, ColorHSL.Z, ColorHSL.W);
+                ColorRGB = Color.HslToRgba(ColorHSL);
             }
 
             else if (m_LuminosityFrame.IsPointWithin(e.ScreenLocation))
             {
                 float value = (e.ScreenLocation.X - m_LuminosityFrame.X) / (float)m_LuminosityFrame.Width;
-                m_activeHsl = new Vector4(m_activeHsl.X, m_activeHsl.Y, value, m_activeHsl.W);
-                m_activeRgb = Color.HslToRgba(m_activeHsl);
+                ColorHSL = new Vector4(ColorHSL.X, ColorHSL.Y, value, ColorHSL.W);
+                ColorRGB = Color.HslToRgba(ColorHSL);
             }
         }
 
@@ -52,24 +53,24 @@ namespace VCEngine
             Rectangle sf = ScreenFrame;
             int delta = (int)(sf.Height / 7.0f);
 
-            Gui.DrawBorderedRect(sf, Color.Trasparent, m_activeRgb, 10);
+            Gui.DrawBorderedRect(sf, Color.Trasparent, ColorRGB, 10);
 
             m_spectrumFrame = new Rectangle(sf.X + 20, sf.Y + delta * 5, sf.Width - 40, delta);
             m_saturationFrame = new Rectangle(sf.X + 20, sf.Y + delta * 3, sf.Width - 40, delta);
             m_LuminosityFrame = new Rectangle(sf.X + 20, sf.Y + delta * 1, sf.Width - 40, delta);
 
-            DrawColorSpectrum(m_spectrumFrame, m_activeHsl.Y, m_activeHsl.Z);
-            DrawSauration(m_saturationFrame, new Color(255, 0, 0, 255), m_activeHsl.Z);
-            DrawLuminosity(m_LuminosityFrame, new Color(255, 0, 0, 255), m_activeHsl.Y);
+            DrawColorSpectrum(m_spectrumFrame, ColorHSL.Y, ColorHSL.Z);
+            DrawSauration(m_saturationFrame, new Color(255, 0, 0, 255), ColorHSL.Z);
+            DrawLuminosity(m_LuminosityFrame, new Color(255, 0, 0, 255), ColorHSL.Y);
 
             // Draw selection rectangles
-            Rectangle spectrumSelect = new Rectangle(m_spectrumFrame.X + (int)(m_spectrumFrame.Width * m_activeHsl.X) - 5, m_spectrumFrame.Y - 5, 10, m_spectrumFrame.Height + 10);
-            Rectangle saturationSelect = new Rectangle(m_saturationFrame.X + (int)(m_saturationFrame.Width * m_activeHsl.Y) - 5, m_saturationFrame.Y - 5, 10, m_saturationFrame.Height + 10);
-            Rectangle luminocitySelect = new Rectangle(m_LuminosityFrame.X + (int)(m_LuminosityFrame.Width * m_activeHsl.Z) - 5, m_LuminosityFrame.Y - 5, 10, m_LuminosityFrame.Height + 10);
+            Rectangle spectrumSelect = new Rectangle(m_spectrumFrame.X + (int)(m_spectrumFrame.Width * ColorHSL.X) - 5, m_spectrumFrame.Y - 5, 10, m_spectrumFrame.Height + 10);
+            Rectangle saturationSelect = new Rectangle(m_saturationFrame.X + (int)(m_saturationFrame.Width * ColorHSL.Y) - 5, m_saturationFrame.Y - 5, 10, m_saturationFrame.Height + 10);
+            Rectangle luminocitySelect = new Rectangle(m_LuminosityFrame.X + (int)(m_LuminosityFrame.Width * ColorHSL.Z) - 5, m_LuminosityFrame.Y - 5, 10, m_LuminosityFrame.Height + 10);
 
-            Gui.DrawBorderedRect(spectrumSelect, Color.Trasparent, m_activeRgb, 2);
-            Gui.DrawBorderedRect(saturationSelect, Color.Trasparent, m_activeRgb, 2);
-            Gui.DrawBorderedRect(luminocitySelect, Color.Trasparent, m_activeRgb, 2);
+            Gui.DrawBorderedRect(spectrumSelect, Color.Trasparent, ColorRGB, 2);
+            Gui.DrawBorderedRect(saturationSelect, Color.Trasparent, ColorRGB, 2);
+            Gui.DrawBorderedRect(luminocitySelect, Color.Trasparent, ColorRGB, 2);
         }
 
         private static void DrawDualToneQuad(Rectangle frame, Color left, Color right)

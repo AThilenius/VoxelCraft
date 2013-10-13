@@ -292,15 +292,19 @@ namespace VCEngine
             m_deltaMousePosition = new Point(0, 0);
         }
 
-        internal static void SuppressNextUpdate()
+        internal static void SuppressUpdates()
         {
             m_isSupressingUpdate = true;
+        }
+
+        internal static void ActivateUpdates()
+        {
+            m_isSupressingUpdate = false;
         }
 
         internal static void ClearStates()
         {
             m_deltaMousePosition = new Point(0, 0);
-            m_isSupressingUpdate = false;
 
             for (int i = 0; i < 10; i++)
                 m_mouseStates[i].StepState();

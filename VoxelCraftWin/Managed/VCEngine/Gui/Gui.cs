@@ -121,9 +121,6 @@ namespace VCEngine
         public static void PreUpdate()
         {
             Gui.Clear();
-
-            DrawNormalizedRectangle(new RectangleF(0.0f, 0.9f, 1.0f, 0.1f), Color.ControlLight);
-            DrawNormalizedRectangle(new RectangleF(0.8f, 0.0f, 0.2f, 1.0f), Color.ControlLight);
         }
 
     }

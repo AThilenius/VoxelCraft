@@ -32,6 +32,11 @@ namespace VCEngine
             Color = new Ubyte4(r, g, b, a);
         }
 
+        public Block(Color color)
+        {
+            Color = new Ubyte4((byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+        }
+
         public Ubyte4 Color;
     }
 

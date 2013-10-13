@@ -22,6 +22,7 @@ namespace VCEngine
         public String Font = "Calibri-16";
         public HashSet<Control> Children = new HashSet<Control>();
         public bool IsHovered { get; protected set; }
+        public bool IsClickDown { get; protected set; }
 
         public Point ScreenPoint
         {
@@ -222,33 +223,73 @@ namespace VCEngine
 
             Input.MouseClick += ((sender, args) =>
                 {
-                    GetEndOfCommandChain().ProcessMouseEvent(
-                        this,
-                        new MouseEventArgs
-                        {
-                            EventType = MouseEventType.Click,
-                            ScreenLocation = args.ScreenLocation
-                        }
-                    );
+                    Control active = GetEndOfCommandChain();
+
+                    if (args.Action == TriState.Pressed)
+                    {
+                        active.IsClickDown = true;
+                    }
+
+                    else if (args.Action == TriState.Up)
+                    {
+                        active.ProcessMouseEvent(
+                            this,
+                            new MouseEventArgs
+                            {
+                                EventType = args.Button == MouseClickEventArgs.MouseButton.Left ? MouseEventType.Click : MouseEventType.RightClick,
+                                ScreenLocation = args.ScreenLocation
+                            }
+                        );
+
+                        active.IsClickDown = false;
+                    }
                 });
 
             Input.MouseMove += ((sender, args) =>
                 {
                     // Rebuild command chain
                     RebuildCommandChain(args.ScreenLocation);
+                    Control active = GetEndOfCommandChain();
 
-                    GetEndOfCommandChain().ProcessMouseEvent(
-                        this, 
-                        new MouseEventArgs { 
-                            EventType = MouseEventType.Move, 
-                            ScreenLocation = args.ScreenLocation }
-                    );
+                    if (m_activeChild == null)
+                        Input.ActivateUpdates();
+                    else
+                        Input.SuppressUpdates();
+
+                    if (active.IsClickDown)
+                    {
+                        active.ProcessMouseEvent(
+                            this,
+                            new MouseEventArgs
+                            {
+                                EventType = MouseEventType.Draging,
+                                ScreenLocation = args.ScreenLocation
+                            }
+                        );
+                    }
+
+                    else
+                    {
+                        active.ProcessMouseEvent(
+                            this,
+                            new MouseEventArgs
+                            {
+                                EventType = MouseEventType.Move,
+                                ScreenLocation = args.ScreenLocation
+                            }
+                        );
+                    }
                 });
 
             Input.Focus += ((sender, args) =>
                 {
                     // Rebuild command chain
                     RebuildCommandChain(new Point(-1, -1));
+
+                    if (m_activeChild == null)
+                        Input.ActivateUpdates();
+                    else
+                        Input.SuppressUpdates();
                 });
         }
 
