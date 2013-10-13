@@ -119,7 +119,7 @@ namespace VCEngine
         {
             Vector3 direction = VCInteropCameraScreenPointToDirection(
                     UnManagedHandle,
-                    new Rectangle(0, 0, (int)(0.8f * Window.Size.X), (int)(0.97222f * Window.Size.Y)),
+                    new Rectangle(0, 0, (int)(Window.Size.X), (int)(Window.Size.Y)),
                     Input.MousePoistion);
 
             Gui.DrawString(("Main Camera - Pos: " + Transform.Position.ToString("n2") + " Forward: " + Transform.Rotation.Forward.ToString("n2") + " MouseDir: " + direction.ToString("n2")),
@@ -134,7 +134,7 @@ namespace VCEngine
         {
             Vector3 direction = VCInteropCameraScreenPointToDirection(
                     UnManagedHandle,
-                    new Rectangle(0, 0, (int)(0.8f * Window.Size.X), (int)(0.97222f * Window.Size.Y)), 
+                    new Rectangle(0, 0, (int)(Window.Size.X), (int)(Window.Size.Y)), 
                     point);
 
             return new Ray

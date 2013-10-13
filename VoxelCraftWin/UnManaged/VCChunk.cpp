@@ -40,7 +40,7 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 		// Stage 2
 		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
+		//VCChunk::VoxelRenderState->Stages[1].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
 		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
 
 		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
