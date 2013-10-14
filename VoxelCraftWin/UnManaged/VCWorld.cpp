@@ -116,16 +116,16 @@ void VCInteropWorldRebuild( int handle )
 }
 
 
-VCBlock VCInteropWorldGetBlock( int handle, int x, int y, int z )
+VCInteropBlock VCInteropWorldGetBlock( int handle, int x, int y, int z )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	return obj->GetBlock(x, y, z);
+	return obj->GetBlock(x, y, z).AsInterop();
 }
 
-void VCInteropWorldSetBlock( int handle, int x, int y, int z, VCBlock block )
+void VCInteropWorldSetBlock( int handle, int x, int y, int z, VCInteropBlock block )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	obj->SetBlock(x, y, z, block);
+	obj->SetBlock(x, y, z, VCBlock(block));
 }
 
 int VCInteropWorldRaycast(int handle, Ray ray, RaycastHit* hitOut )

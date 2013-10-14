@@ -15,16 +15,18 @@ namespace VCEngine
         {
             try
             {
+                VCEngineCore.EditorMode = true;
+
                 VCEngineCore.Initialize();
                 EditorGui.Initialize();
+                EditorWorld.Initialize();
+
                 VCEngineCore.Start();
 
                 while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
                 {
-                    // Mono
-                    VCEngineCore.Update();
-                    VCEngineCore.LateUpdate();
-                    VCEngineCore.PreRender();
+                    VCEngineCore.PropagateUpdates();
+
                     Control.MainControl.Render();
 
                     // Rendering

@@ -29,9 +29,15 @@ namespace VCEngine
 
         private static void FillColorControls()
         {
+            ColorPage.AddControl(new TextField("Color"));
+
             ColorPicker = new HslColorPicker();
             ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
             ColorPage.AddControl(ColorPicker);
+
+            Button eyeDropButton = new Button("Eye Dropper");
+            eyeDropButton.Click += (sender, args) => EditorWorld.CameraController.RequestEyeDrop();
+            ColorPage.AddControl(eyeDropButton); 
         }
 
         private static void CreateInspector()

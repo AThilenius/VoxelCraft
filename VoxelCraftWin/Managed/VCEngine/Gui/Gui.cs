@@ -29,6 +29,19 @@ namespace VCEngine
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct TextMetrics
+    {
+        public int TotalWidth;
+        public int TotalHeight;
+
+        public TextMetrics(int width, int height)
+        {
+            TotalWidth = width;
+            TotalHeight = height;
+        }
+    }
+
     public class Gui
     {
         #region Bindings
@@ -41,6 +54,9 @@ namespace VCEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawText(string font, string text, Point point, Color color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiGetTextMetrics(string font, string text, out TextMetrics metrics);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static string VCInteropLoadFont(string fntPath, string ddsPath);
@@ -86,6 +102,13 @@ namespace VCEngine
         public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-16")
         {
             VCInteropGuiDrawText(font, text, new Point(llPoint.X, llPoint.Y + 16), color);
+        }
+
+        public static TextMetrics GetMetrics(string text, string font = "Calibri-16")
+        {
+            TextMetrics tm;
+            VCInteropGuiGetTextMetrics(font, text, out tm);
+            return tm;
         }
 
         public static void LoadFontsFromForlder(string folder)

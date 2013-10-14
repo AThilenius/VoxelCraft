@@ -303,6 +303,6 @@ void VCInteropWorldSetViewDist(int handle, int distance);
 void VCInteropWorldInitialize(int handle);
 void VCInteropWorldGenerateRegenerate(int handle);
 void VCInteropWorldRebuild(int handle);
-VCBlock VCInteropWorldGetBlock (int handle, int x, int y, int z );
-void VCInteropWorldSetBlock (int handle, int x, int y, int z, VCBlock block);
+VCInteropBlock VCInteropWorldGetBlock (int handle, int x, int y, int z );
+void VCInteropWorldSetBlock (int handle, int x, int y, int z, VCInteropBlock block);
 int VCInteropWorldRaycast(int handle, Ray ray, RaycastHit* hitOut);

@@ -93,8 +93,10 @@ public:
 		else
 			m_rebuilds.erase(m_rebuilds.find(v));*/
 
-		m_text.push_back(VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color));
+		VCText* vctext = VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color);
+		m_text.push_back(vctext);
 	}
+
 
 private:
 	//typedef unordered_map<GuiTextDrawReq, VCText*, _GuiTextDrawReqHasher> ReqToText;

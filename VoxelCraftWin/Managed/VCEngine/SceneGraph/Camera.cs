@@ -115,7 +115,6 @@ namespace VCEngine
             Transform.InvertPosition = true;
             GetData();
             AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
-			Console.WriteLine("= Camera created with handle: " + UnManagedHandle);
 		}
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)

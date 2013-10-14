@@ -27,17 +27,17 @@ namespace VCEngine
     [StructLayout(LayoutKind.Sequential)]
     public struct Block
     {
-        public Block(byte r, byte g, byte b, byte a)
+        public Block(int r, int g, int b, int a)
         {
-            Color = new Ubyte4(r, g, b, a);
+            Color = new Color(r, g, b, a);
         }
 
         public Block(Color color)
         {
-            Color = new Ubyte4((byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+            Color = color;
         }
 
-        public Ubyte4 Color;
+        public Color Color;
     }
 
     public class World : MarshaledObject

@@ -89,7 +89,32 @@ VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int down
 	glBindVertexArray(0);
 	free(verts);
 
-	return new VCText(vcfont->RenderState, vaoId, vboId, text.length() * 6);
+	return new VCText(vcfont->RenderState, vaoId, vboId, text.length() * 6, xOffset, vcfont->Size);
+}
+
+VCTextMetrics VCLexicalEngine::GetMetrics( string font, string text )
+{
+	auto iter = m_fonts.find(font);
+
+	if ( iter == m_fonts.end() )
+	{
+		VC_ERROR("Font: " << font << " not added to Lexical Engine");
+	}
+
+	VCFont* vcfont = (*iter).second;
+	int xOffset = 0;
+
+	for ( int i = 0; i < text.length(); i++ )
+	{
+		char c = text[i];
+		CharDesc cDesc = vcfont->Charaters[c];
+		int kerning = i == 0 ? 0 : cDesc.KerningPairs[ text[i - 1] ];
+
+		// Advance xOffset by xAdvance + kerning
+		xOffset += cDesc.XAdvance + kerning;
+	}
+
+	return VCTextMetrics(xOffset, vcfont->Size);
 }
 
 int VCLexicalEngine::MakeTextToQuadBuffer( string font, string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset )

@@ -13,6 +13,16 @@
 #include "VCRenderState.h"
 #include "VCText.h"
 
+struct VCTextMetrics
+{
+	int TotalWidth;
+	int TotalHeight;
+
+	VCTextMetrics(){}
+	VCTextMetrics(int width, int height): TotalWidth(width), TotalHeight(height){}
+	~VCTextMetrics(){}
+};
+
 class VCLexicalEngine
 {
 public:
@@ -23,6 +33,7 @@ public:
 	string LoadFont ( string fntPath, string ddsPath );
 
 	VCText* MakeText ( string font, string text, int left, int down, GLubyte4 color );
+	VCTextMetrics GetMetrics ( string font, string text ); 
 	int MakeTextToQuadBuffer ( string font, string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
 	VCRenderState* GetRStateForFont ( string font )
 	{

@@ -13,6 +13,7 @@ namespace VCEngine
         public Button(String title)
         {
             Title = title;
+            Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 20);
         }
 
         protected override void Draw()

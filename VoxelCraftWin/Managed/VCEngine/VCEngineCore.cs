@@ -10,6 +10,7 @@ namespace VCEngine
 {
     public class VCEngineCore
 	{
+        public static bool EditorMode;
 
 		public static void Initialize()
 		{
@@ -19,7 +20,15 @@ namespace VCEngine
             {
                 SceneGraph.RootNode = new GameObject();
                 Window.Initialize();
-                AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
+
+#if DEBUG
+                Gui.LoadFontsFromForlder(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Fonts");
+#else
+                Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
+#endif
+
+                if (!EditorMode)
+                    AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
             }
             catch (Exception ex)
             {
@@ -34,8 +43,11 @@ namespace VCEngine
             {
                 Input.Start();
 
-                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                    inst.Start();
+                if (!EditorMode)
+                {
+                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                        inst.Start();
+                }
 
                 SceneGraph.RootNode.PropagateStart();
             }
@@ -46,6 +58,12 @@ namespace VCEngine
             }
         }
 
+        internal static void PropagateUpdates()
+        {
+            VCEngineCore.Update();
+            VCEngineCore.LateUpdate();
+            VCEngineCore.PreRender();
+        }
         public static void Update() 
 		{
             try
@@ -54,8 +72,11 @@ namespace VCEngine
                 Gui.PreUpdate();
                 Debug.Reset();
 
-                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                    inst.Update();
+                if (!EditorMode)
+                {
+                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                        inst.Update();
+                }
 
                 SceneGraph.RootNode.PropagateUpdate();
             }
@@ -70,8 +91,11 @@ namespace VCEngine
 		{
             try
             {
-                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                    inst.LateUpdate();
+                if (!EditorMode)
+                {
+                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                        inst.LateUpdate();
+                }
 
                 SceneGraph.RootNode.PropagateLateUpdate();
             }
@@ -86,8 +110,11 @@ namespace VCEngine
         {
             try
             {
-                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                    inst.PreRender();
+                if (!EditorMode)
+                {
+                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                        inst.PreRender();
+                }
 
                 SceneGraph.RootNode.PropagatePreRender();
             }
@@ -97,6 +124,7 @@ namespace VCEngine
                 Console.ReadLine();
             }
         }
-	}
+
+    }
 }
 

@@ -102,6 +102,8 @@ bool VCFont::ParseInfo(ifstream& f)
 		m_fontName.push_back(inC);
 	}
 
+	Size = m_info.fontSize;
+
 	return true;
 }
 

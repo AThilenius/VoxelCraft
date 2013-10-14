@@ -17,11 +17,13 @@ class VCText : VCIRenderable
 public:
 	VCText(void) {}
 
-	VCText(VCRenderState* state, GLuint vao, GLuint vbo, int vCount):
+	VCText(VCRenderState* state, GLuint vao, GLuint vbo, int vCount, int width, int height):
 		RenderState(state),
 		VAO(vao),
 		m_vbo(vbo),
-		VertCount(vCount)
+		VertCount(vCount),
+		TotalWidth(width),
+		TotalHeight(height)
 	{
 		VCGLRenderer::Instance->RegisterIRenderable(this);
 	}
@@ -46,6 +48,8 @@ public:
 		glBindVertexArray(0);
 	}
 
+	int TotalWidth;
+	int TotalHeight;
 	VCRenderState* RenderState;
 	GLuint VAO;
 	int VertCount;

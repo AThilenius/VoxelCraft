@@ -31,6 +31,8 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -38,10 +40,14 @@
   <ItemGroup>
     <Compile Include="Application\Input.cs" />
     <Compile Include="Components\RidgedBody.cs" />
+    <Compile Include="Editor\EditorCameraController.cs" />
     <Compile Include="Editor\EditorGui.cs" />
+    <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
+    <Compile Include="Gui\Controls\GameControl.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
     <Compile Include="Gui\Controls\TabbedContainer.cs" />
+    <Compile Include="Gui\Controls\TextField.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Utilities\TrinaryStateTracker.cs" />

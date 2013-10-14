@@ -13,6 +13,7 @@ namespace VCEngine
         private Dictionary<Button, Menu> m_menues = new Dictionary<Button, Menu>();
         private bool m_isActive;
         private Menu m_lastActiveMenu;
+        private int m_xOffset;
 
         public MenuBar()
         {
@@ -25,9 +26,11 @@ namespace VCEngine
         {
             AddControl(menu);
 
+            int textWidth = Gui.GetMetrics(title).TotalWidth;
+
             Button nButton = new Button(title);
             AddControl(nButton);
-            nButton.Frame = new Rectangle(m_menues.Count * c_buttonWidth, 0, c_buttonWidth - 1, c_buttonHeight);
+            nButton.Frame = new Rectangle(m_xOffset, 0, textWidth + 20, c_buttonHeight);
 
             // When  clicked, activate control, register OnClick handler
             // On Mouse Enter, activate menu
@@ -56,9 +59,10 @@ namespace VCEngine
                     }
                 };
 
-            menu.Frame = new Rectangle(m_menues.Count * c_buttonWidth, -menu.Frame.Height, menu.Frame.Width, menu.Frame.Height);
+            menu.Frame = new Rectangle(m_xOffset, -menu.Frame.Height, menu.Frame.Width, menu.Frame.Height);
             menu.Visible = false;
 
+            m_xOffset += textWidth + 20 + 1;
             m_menues.Add(nButton, menu);
         }
 

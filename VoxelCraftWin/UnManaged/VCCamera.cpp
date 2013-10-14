@@ -18,8 +18,6 @@ VCCamera::VCCamera(void):
 	FarClip(400.0f)
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
-    cout << "VCCamera created with handle: " << Handle << endl;
-    
 	Frame = Rectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height);
 }
 

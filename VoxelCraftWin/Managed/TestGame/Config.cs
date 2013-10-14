@@ -14,8 +14,6 @@ namespace TestGame
 
         public override void Start()
         {
-            Gui.LoadFontsFromForlder(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Fonts");
-            //Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
             
             m_camera = new Camera();
             Camera.MainCamera = m_camera;
