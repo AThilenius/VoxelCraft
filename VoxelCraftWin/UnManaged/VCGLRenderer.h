@@ -45,6 +45,7 @@ public:
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
 	VCColorPassThroughShader* ColorPassThroughShader;
+	bool ShadowFallback;
 
 	GLuint DefaultFrameBuffer;
 	GLuint DepthFrameBuffer;

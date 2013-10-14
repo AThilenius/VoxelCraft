@@ -16,7 +16,8 @@ VCRenderState* VCGLRenderer::PassThroughState;
 
 VCGLRenderer::VCGLRenderer(void):
 	DepthFrameBuffer(0),
-	DefaultFrameBuffer(0)
+	DefaultFrameBuffer(0),
+	ShadowFallback(false)
 {
 	VCGLRenderer::Instance = this;
     glErrorCheck();
@@ -258,8 +259,8 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Always check that our framebuffer is ok
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		cout << "Failed to initialize GL Depth frame buffer!" << endl;
-		DepthTexture = NULL;
+		cout << "Failed to initialize GL Depth frame buffer! Using fallback." << endl;
+		ShadowFallback = true;
 	}
 }
 

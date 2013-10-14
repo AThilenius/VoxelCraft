@@ -159,7 +159,7 @@ VCVoxelShader::VCVoxelShader():
 {
 	m_vertexShaderLiteral = &g_vcVoxVertexShader;
 
-	if ( VCGLRenderer::Instance->DepthTexture == NULL )
+	if ( VCGLRenderer::Instance->ShadowFallback )
 		m_fragShaderLiteral = &g_vcVoxFallbackFragmentShader;
 
 	else
@@ -202,7 +202,8 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 
 	glUniform3f(m_unifLightInvDirection, VCShadowShader::LightInverseDirection.x, VCShadowShader::LightInverseDirection.y, VCShadowShader::LightInverseDirection.z);
 
-	glUniform1i(m_unifShadow, 0);
+	if ( !VCGLRenderer::Instance->ShadowFallback )
+		glUniform1i(m_unifShadow, 0);
 
 	glErrorCheck();
 }
@@ -226,7 +227,8 @@ void VCVoxelShader::GetUniformIDs()
 	m_unifLightInvDirection = glGetUniformLocation(m_programId, "LightInvDirection_worldspace");
 
 	// Fragment
-	m_unifShadow = glGetUniformLocation(m_programId, "shadowMap");
+	if ( !VCGLRenderer::Instance->ShadowFallback )
+		m_unifShadow = glGetUniformLocation(m_programId, "shadowMap");
 
 	glErrorCheck();
 }
