@@ -27,8 +27,6 @@ public:
 	VCBlock(GLubyte r, GLubyte g, GLubyte b, GLubyte a): Color(GLubyte4(r, g, b, a)){}
 	~VCBlock(void){}
 
-	GLubyte4 Color;
-
 	bool IsTrasparent()
 	{
 		return Color.w == 0;
@@ -47,5 +45,6 @@ public:
 	// Statics:
 	static VCBlock ErrorBlock;
 	static VCBlock Air;
-};
 
+	GLubyte4 Color;
+};

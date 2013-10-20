@@ -59,13 +59,21 @@ namespace VCEngine
         extern static void VCInteropWorldSetViewDist(int handle, int distance);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropWorldInitialize(int handle);
+        extern static void VCInteropWorldInitializeEmpty(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldGenerateRegenerate(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldRebuild(int handle);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSaveToFile(int handle, string path);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldLoadFromFile(int handle, string path);
+
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static Block VCInteropWorldGetBlock(int handle, int x, int y, int z);
@@ -113,12 +121,22 @@ namespace VCEngine
 
         public void Initialize()
         {
-            VCInteropWorldInitialize(UnManagedHandle);
+            VCInteropWorldInitializeEmpty(UnManagedHandle);
         }
 
         public void GenerateRegenerate()
         {
             VCInteropWorldGenerateRegenerate(UnManagedHandle);
+        }
+
+        public void SaveToFile(string path)
+        {
+            VCInteropWorldSaveToFile(UnManagedHandle, path);
+        }
+
+        public void LoadFromFile(string path)
+        {
+            VCInteropWorldLoadFromFile(UnManagedHandle, path);
         }
 
         public void ReBuild()

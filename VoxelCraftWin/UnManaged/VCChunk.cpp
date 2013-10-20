@@ -12,6 +12,25 @@
 
 VCRenderState* VCChunk::VoxelRenderState = NULL;
 
+VCChunk::VCChunk():
+	m_x(0),
+	m_y(0),
+	m_z(0),
+	m_blockX(0),
+	m_blockY(0),
+	m_blockZ(0),
+	m_world(NULL),
+	m_VBO(0),
+	m_vertexCount(0),
+	m_VAO(0),
+	m_rebuildVerticies(NULL),
+	m_isEmpty(true),
+	m_isRegistered(false),
+	NeedsRebuild(true)
+{
+
+}
+
 VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
     m_x(x),
     m_y(y),
@@ -33,37 +52,35 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 		
 		VCChunk::VoxelRenderState = new VCRenderState();
 
-		//// Shadows supported?
-		//if (VCGLRenderer::Instance->DepthTexture != NULL)
-		//{
-			VCChunk::VoxelRenderState->StageCount = 2;
+		VCChunk::VoxelRenderState->StageCount = 2;
 
-			// Stage 1
-			VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
-			VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+		// Stage 1
+		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
+		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
 
-			// Stage 2
-			VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-			VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-			VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
-		//}
-
-		//else
-		//{
-		//	VCChunk::VoxelRenderState->StageCount = 1;
-
-		//	// Stage 1
-		//	VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		//	VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		//}
+		// Stage 2
+		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+		VCChunk::VoxelRenderState->Stages[1].Textures[0] = VCGLRenderer::Instance->DepthTexture;
 		
-
 		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
 	}
 }
 
 VCChunk::~VCChunk(void)
 {
+	if(m_isRegistered)
+	{
+		m_isRegistered = false;
+		VCGLRenderer::Instance->UnRegisterIRenderable(this);
+	}
+
+	if (m_VAO != 0)
+	{
+		glDeleteVertexArrays(1, &m_VAO);
+		glDeleteBuffers(1, &m_VBO);
+		m_VAO = 0;
+	}
 }
 
 void VCChunk::Initialize()
@@ -278,4 +295,59 @@ void VCChunk::Render()
     
     glBindVertexArray(0);
 	glErrorCheck();
+}
+
+// ===== Serialization ======================================================
+void VCChunk::Save( ofstream& stream )
+{
+	// Run Length Encode chunk data
+	
+	int i = 0;
+	int runs = 0;
+	while ( i < CHUNK_TOTAL_COUNT ) // 32768
+	{
+		VCRunLengtth rl;
+		runs++;
+		rl.Length = 0;
+		rl.Color = Blocks[i].Color;
+	
+		// Run the length
+		while(i < CHUNK_TOTAL_COUNT && rl.Color == Blocks[i].Color)
+		{
+			rl.Length++;
+			i++;
+		}
+	
+		if (rl.Length == 0)
+		{
+			VC_ERROR("rl.Length == 0. HOW!!!");
+		}
+
+		stream.write((char*) &rl, sizeof(VCRunLengtth));
+	}
+
+}
+
+void VCChunk::Load( ifstream& stream )
+{
+	// Run Length Decode data
+	int i = 0;
+	while ( i < CHUNK_TOTAL_COUNT )
+	{
+		VCRunLengtth rl;
+		stream.read((char*) &rl, sizeof(VCRunLengtth));
+	
+		if (rl.Length == 0)
+		{
+			VC_ERROR("rl.Length == 0. HOW!!!");
+		}
+	
+		for ( int o = 0; o < rl.Length; o++ )
+		{
+			Blocks[i] = VCBlock(rl.Color.x, rl.Color.y, rl.Color.z, rl.Color.w);
+			i++;
+		}
+	}
+	
+	NeedsRebuild = true;
 }

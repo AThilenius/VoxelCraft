@@ -59,6 +59,15 @@ struct GLubyte4
 	GLubyte w;
 };
 
+inline bool operator==(const GLubyte4& lhs, const GLubyte4& rhs)
+{
+	return 
+		lhs.x == rhs.x && 
+		lhs.y == rhs.y &&
+		lhs.z == rhs.z &&
+		lhs.w == rhs.w;
+}
+
 struct GLbyte4
 {
 	GLbyte4() {}

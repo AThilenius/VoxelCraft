@@ -41,3 +41,18 @@ inline int ReadInt32 ( ifstream& f )
 
 	return value;
 }
+
+inline void WriteInt8 ( ofstream& f, char value )
+{
+	f.write((char*) &value, 1);
+}
+
+inline void WriteInt16 ( ofstream& f, short value )
+{
+	f.write((char*) &value, 2);
+}
+
+inline void WriteInt32 ( ofstream& f, int value )
+{
+	f.write((char*) &value, 4);
+}

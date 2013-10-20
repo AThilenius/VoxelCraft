@@ -31,9 +31,6 @@ namespace VCEngine
 			}
 			set
 			{
-                if (value == null)
-                    Console.WriteLine("Null parent assignment from GO: " + UnManagedHandle);
-
                 if (m_parent != null)
                     m_parent.Children.Remove(this);
 

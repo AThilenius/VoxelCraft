@@ -23,14 +23,6 @@
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3dll.lib")
 
-//mono.lib
-//opengl32.lib
-//glfw3dll.lib
-//kernel32.lib
-//user32.lib
-//glew32s.lib
-//glu32.lib
-
 // Glew, Glfw, GLM
 #include "glew.h"
 #include "glfw3.h"
@@ -53,6 +45,9 @@
 #include <map>
 #include <set>
 #include <regex>
+#include <math.h>
+
+// Boost
 
 // Mono
 #include <mono/mini/jit.h>
@@ -111,7 +106,9 @@ class VCInput;
 #define FLATTEN_CHUNK(X,Y,Z) ((((Z << LOG_CHUNK_WIDTH) + X) << LOG_CHUNK_WIDTH ) + Y)
 #define FLATTEN_2D(X,Z,WIDTH) ((X << WIDTH) + Z)
 
-
+#define DISALLOW_COPY_AND_ASSIGN(TypeName) \
+	TypeName(const TypeName&);   \
+	void operator=(const TypeName&)
 
 // ================= OS X Macros ==========================================================================
 #ifdef __APPLE__

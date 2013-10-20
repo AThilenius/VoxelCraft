@@ -38,6 +38,30 @@ namespace VCEngine
             Button eyeDropButton = new Button("Eye Dropper");
             eyeDropButton.Click += (sender, args) => EditorWorld.CameraController.RequestEyeDrop();
             ColorPage.AddControl(eyeDropButton); 
+
+            // Debug:
+            Button testRebuild = new Button("ReBuild World");
+            testRebuild.Click += (sender, args) => EditorWorld.ResetWorld();
+            ColorPage.AddControl(testRebuild);
+
+            Button saveTest = new Button("Save");
+            saveTest.Click += (sender, args) =>
+                {
+                    EditorWorld.World.SaveToFile(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Saves\TestWorld.vcew");
+                };
+            ColorPage.AddControl(saveTest);
+
+            Button loadTest = new Button("Load");
+            loadTest.Click += (sender, args) =>
+                {
+                    //EditorWorld.World.Dispose();
+                    //EditorWorld.World = null;
+
+                    //EditorWorld.World = new World();
+                    EditorWorld.World.LoadFromFile(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Saves\TestWorld.vcew");
+                    EditorWorld.World.ReBuild();
+                };
+            ColorPage.AddControl(loadTest);
         }
 
         private static void CreateInspector()

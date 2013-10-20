@@ -21,21 +21,24 @@ using namespace std;
 struct BlockVerticie
 {
 	BlockVerticie() {}
-	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color )
-	{
-		this->position = position;
-		this->normal = normal;
-		this->color = color;
-	}
+	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color ) : position(position), normal(normal), color(color){}
 
 	GLbyte3  position;
 	GLbyte	 normal;
 	GLubyte4 color;
 };
 
+struct VCRunLengtth
+{
+	VCRunLengtth(): Color(0, 0, 0, 0), Length(0){}
+	GLubyte4 Color;
+	unsigned int Length;
+};
+
 class VCChunk : public VCGameObject, public VCIRenderable
 {
 public:
+	VCChunk();
 	VCChunk(int x, int y, int z, VCWorld* world);
 	~VCChunk(void);
 
@@ -57,15 +60,20 @@ public:
 		Blocks[FLATTEN_CHUNK(x,y,z)] = block;
 		NeedsRebuild = true;
 	}
-	
-	void Rebuild ( );
 
-	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
-    void virtual Render();
-	
-	static VCRenderState* VoxelRenderState;
+	void Rebuild ( );
 	VCBlock Blocks[CHUNK_TOTAL_COUNT];
 	bool NeedsRebuild;
+
+	// ===== Serialization ======================================================
+	void Save (ofstream& stream);
+	void Load (ifstream& stream);
+
+	// ===== Render State Fulfillment ===========================================
+	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
+    void virtual Render();
+	static VCRenderState* VoxelRenderState;
+
 private:
 	VCWorld* m_world;
 

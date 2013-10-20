@@ -66,7 +66,7 @@ void VCGameObject::PreRender()
 	}
     
     FOREACH(iter, Children)
-        (*iter)->PreRender();
+         (*iter)->PreRender();
 }
 
 VCGameObject* VCGameObject::GetParent()
@@ -78,7 +78,7 @@ void VCGameObject::SetParent( VCGameObject* parent )
 {
 	if ( m_parent != NULL )
 	{
-		m_parent->Children.erase(parent);
+		m_parent->Children.erase(this);
 		m_parent->MarkForRebuild();
 	}
     
