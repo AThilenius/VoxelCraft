@@ -7,20 +7,32 @@ namespace VCEngine
 {
     public class Control
     {
+        // static (Used by main control only)
         public static Control MainControl = null;
+        private static HashSet<Control> s_currentFocus = new HashSet<Control>();
+        private static HashSet<Control> s_lastFocus = new HashSet<Control>();
 
-        public String Name;
-        public Rectangle Frame = new Rectangle();
+        // Appearance
+        public String       Name;
+        public Rectangle    Frame = new Rectangle();
+        public int          BorderWidth;
+
+        public Color        BackgroundColor = Color.ControlMediumBackground;
+        public Color        BorderColor = Color.ControlVeryDark;
+
+        public bool         DrawHover;
+        public Color        HoverBackgroundColor = Color.White;
+        public Color        HoverBorderColor = Color.ControlBorder;
+
+        public String       Font = "Calibri-16";
+
+        // Control
         public Control Parent;
-        public Color BackgroundColor = Color.ControlLight;
-        public int BorderWidth = 0;
-        public Color BorderColor = Color.ControlVeryDark;
-        public Color HighlightBackgroundColor = Color.White;
-        public Color HightlightBorderColor = Color.ControlBorder;
         public bool Enabled = true;
         public bool Visible = true;
-        public String Font = "Calibri-16";
+        public bool CanFocus;
         public HashSet<Control> Children = new HashSet<Control>();
+        public bool IsFocused;
         public bool IsHovered { get; protected set; }
         public bool IsClickDown { get; protected set; }
 
@@ -81,6 +93,8 @@ namespace VCEngine
         public event EventHandler<MouseEventArgs> DragEnd = delegate { };
         public event EventHandler<MouseEventArgs> Draging = delegate { };
         public event EventHandler<KeyEventArgs> KeyPress = delegate { };
+        public event EventHandler<CharEventArgs> CharPress = delegate { };
+        public event EventHandler<ControlFocusArgs> Focused = delegate { };
         public event EventHandler Resize = delegate { };
 
         private Control m_activeChild;
@@ -120,22 +134,33 @@ namespace VCEngine
 
         protected virtual void Draw()
         {
-            if (IsHovered)
+            if (IsFocused)
             {
+                if (HoverBackgroundColor != Color.Trasparent)
+                    Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
+
                 if (BorderWidth > 0)
-                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HightlightBorderColor, BorderWidth);
-
-                if (HighlightBackgroundColor != Color.Trasparent)
-                    Gui.DrawRectangle(ScreenFrame, HighlightBackgroundColor);
+                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, Color.ControlBlue, BorderWidth);
             }
-
             else
             {
-                if (BorderWidth > 0)
-                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
+                if (IsHovered && DrawHover)
+                {
+                    if (HoverBackgroundColor != Color.Trasparent)
+                        Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
 
-                if (BackgroundColor != Color.Trasparent)
-                    Gui.DrawRectangle(ScreenFrame, BackgroundColor);
+                    if (BorderWidth > 0)
+                        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HoverBorderColor, BorderWidth);
+                }
+
+                else
+                {
+                    if (BackgroundColor != Color.Trasparent)
+                        Gui.DrawRectangle(ScreenFrame, BackgroundColor);
+
+                    if (BorderWidth > 0)
+                        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
+                }
             }
         }
 
@@ -226,17 +251,60 @@ namespace VCEngine
                     );
                 });
 
+            Input.CharClicked += (sender, args) =>
+                {
+                    Control end = GetEndOfCommandChain();
+                    if (end.IsFocused)
+                        end.CharPress(sender, args);
+                };
+
             Input.MouseClick += ((sender, args) =>
                 {
+                    // Rebuild command chain
+                    RebuildCommandChain(args.ScreenLocation);
+
                     Control active = GetEndOfCommandChain();
+
 
                     if (args.Action == TriState.Pressed)
                     {
                         active.IsClickDown = true;
+
+                        // Walk up the chain, set focus flags
+                        Control cursor = active;
+                        while (cursor.Parent != null)
+                        {
+                            if (cursor.CanFocus)
+                            {
+                                s_currentFocus.Add(cursor);
+
+                                if (!cursor.IsFocused)
+                                {
+                                    cursor.IsFocused = true;
+                                    cursor.Focused(this, new ControlFocusArgs { IsFocused = true });
+                                }
+                            }
+
+                            cursor = cursor.Parent;
+                        }
+
+                        // UnFocus any control not touched while walking
+                        foreach (Control ctrl in s_lastFocus)
+                        {
+                            if (!s_currentFocus.Contains(ctrl))
+                            {
+                                ctrl.IsFocused = false;
+                                ctrl.Focused(this, new ControlFocusArgs { IsFocused = false });
+                            }
+                        }
+
+                        s_lastFocus = s_currentFocus;
+                        s_currentFocus = new HashSet<Control>();
                     }
 
                     else if (args.Action == TriState.Up)
                     {
+                        // Forward event for further processing
                         active.ProcessMouseEvent(
                             this,
                             new MouseEventArgs

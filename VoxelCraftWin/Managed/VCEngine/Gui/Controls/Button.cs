@@ -14,6 +14,7 @@ namespace VCEngine
         {
             Title = title;
             Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 20);
+            DrawHover = true;
         }
 
         protected override void Draw()

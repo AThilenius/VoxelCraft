@@ -65,8 +65,9 @@ namespace VCEngine
 
         public static Color White { get { return new Color(255, 255, 255, 255); } }
         public static Color Black { get { return new Color(0, 0, 0, 255); } }
-        public static Color ControlLight { get { return new Color(239, 239, 242, 255); } }
         public static Color ControlDisabled { get { return new Color(246, 242, 246, 255); } }
+        public static Color ControlLightBackground { get { return new Color(246, 246, 246, 255); } }
+        public static Color ControlMediumBackground { get { return new Color(239, 239, 242, 255); } }
         public static Color ControlDark { get { return new Color(136, 136, 136, 255); } }
         public static Color ControlVeryDark { get { return new Color(66, 66, 66, 255); } }
         public static Color ControlBorder { get { return Color.ControlBlue; } }

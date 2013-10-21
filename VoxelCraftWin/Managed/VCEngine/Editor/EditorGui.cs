@@ -13,6 +13,9 @@ namespace VCEngine
         public static HslColorPicker ColorPicker;
         public static DiagnosticsPane Diagnostics;
 
+        // Debug
+        private static TextField m_text;
+
         public static void Initialize()
         {
             // Main Control
@@ -20,16 +23,21 @@ namespace VCEngine
             Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
             Control.MainControl.BorderColor = Color.Black;
             Control.MainControl.BackgroundColor = Color.Trasparent;
-            Control.MainControl.HighlightBackgroundColor = Color.Trasparent;
+            Control.MainControl.HoverBackgroundColor = Color.Trasparent;
             Control.MainControl.SetFirstResponder();
 
             CreateMenuBar();
             CreateInspector();
+
+            // Debug
+            m_text = new TextField();
+            Control.MainControl.AddControl(m_text);
+            m_text.Frame = new Rectangle(100, 100, 200, 25);
         }
 
         private static void FillColorControls()
         {
-            ColorPage.AddControl(new TextField("Color"));
+            ColorPage.AddControl(new Label("Color"));
 
             ColorPicker = new HslColorPicker();
             ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
@@ -67,18 +75,18 @@ namespace VCEngine
         private static void CreateInspector()
         {
             InspectorWindow = new TabbedContainer();
-            InspectorWindow.HighlightBackgroundColor = InspectorWindow.BackgroundColor;
+            InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
             InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
             Control.MainControl.AddControl(InspectorWindow);
 
             ColorPage = new VerticalContainer();
             ColorPage.BorderColor = Color.ControlBorder;
             ColorPage.BorderWidth = 1;
-            ColorPage.HighlightBackgroundColor = ColorPage.BackgroundColor;
+            ColorPage.HoverBackgroundColor = ColorPage.BackgroundColor;
             InspectorWindow.AddTab("Colors", ColorPage);
 
             Diagnostics = new DiagnosticsPane();
-            Diagnostics.HighlightBackgroundColor = Diagnostics.BackgroundColor;
+            Diagnostics.HoverBackgroundColor = Diagnostics.BackgroundColor;
             InspectorWindow.AddTab("Diagnostics", Diagnostics);
 
             FillColorControls();
@@ -90,13 +98,11 @@ namespace VCEngine
             Control.MainControl.AddControl(MainMenuBar);
 
             Menu testMenu1 = new Menu();
-            Control.MainControl.AddControl(testMenu1);
             testMenu1.AddItemReverse("Close");
             testMenu1.AddItemReverse("Open");
             testMenu1.AddItemReverse("Save");
 
             Menu testMenu2 = new Menu();
-            Control.MainControl.AddControl(testMenu2);
             testMenu2.AddItemReverse("Options");
             testMenu2.AddItemReverse("Find");
             testMenu2.AddItemReverse("Redo");

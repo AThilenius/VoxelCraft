@@ -48,6 +48,11 @@ namespace VCEngine
         public KeyState State;
     }
 
+    public class CharEventArgs : EventArgs
+    {
+        public int CharCode;
+    }
+
     public class MouseMoveEventArgs : EventArgs
     {
         public Point ScreenLocation;
@@ -188,6 +193,7 @@ namespace VCEngine
 
         #region Events
         public static event EventHandler<KeyEventArgs> KeyClicked = delegate { };
+        public static event EventHandler<CharEventArgs> CharClicked = delegate { };
         public static event EventHandler<MouseMoveEventArgs> MouseMove = delegate { };
         public static event EventHandler<MouseClickEventArgs> MouseClick = delegate { };
         public static event EventHandler<MouseScrollEventArgs> MouseScroll = delegate { };
@@ -325,6 +331,11 @@ namespace VCEngine
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        private static void GlfwCharCallback(int charCode)
+        {
+            CharClicked(null, new CharEventArgs { CharCode = charCode });
         }
 
         private static void GlfwMouseMoveCallback(double x, double y)

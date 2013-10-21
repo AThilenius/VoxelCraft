@@ -27,6 +27,7 @@ public:
     static void RegisterMonoHandlers();
 
 	static VCMonoMethod* KeyCallback;
+	static VCMonoMethod* CharCallback;
 	static VCMonoMethod* MouseMoveCallback;
 	static VCMonoMethod* MouseClickCallback;
 	static VCMonoMethod* MouseEnterCallback;

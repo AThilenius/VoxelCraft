@@ -11,56 +11,55 @@ namespace VCEngine
         private const int c_buttonPadding = 3;
 
         private Button m_activeButton;
-        private Control m_activeControl;
+        private Tab m_activeTab;
         private int m_xOffset;
 
-        public int Padding = 10;
 
         public TabbedContainer()
         {
+            CanFocus = true;
         }
-
-        //protected override void Draw()
-        //{
-        //    // Suppress background drawing
-        //}
 
         public void AddTab(string name, Control control)
         {
             Rectangle sc = ScreenFrame;
 
             int textWidth = Gui.GetMetrics(name).TotalWidth;
+
+            // Button
             Button nb = new Button(name);
             AddControl(nb);
-            AddControl(control);
-
             nb.Frame = new Rectangle(m_xOffset, 0, textWidth + 20, c_buttonHeight);
-            control.Frame = new Rectangle(Padding, c_buttonHeight + Padding, sc.Width - 2 * Padding, sc.Height - c_buttonHeight - 2 * Padding);
+
+            // Tab
+            Tab tab = new Tab(this, name);
+            AddControl(tab);
+            tab.Frame = new Rectangle(0, c_buttonHeight, sc.Width, sc.Height - c_buttonHeight);
+            tab.SetContent(control);
 
             nb.Click += (sender, args) =>
                 {
-                    m_activeButton.BackgroundColor = Color.ControlLight;
-                    m_activeButton.HighlightBackgroundColor = Color.White;
-                    m_activeControl.Visible = false;
+                    if (nb != m_activeButton)
+                    {
+                        // Deactivate other button and tab
+                        m_activeButton.BackgroundColor = Color.ControlMediumBackground;
+                        m_activeTab.DeActivate();
 
-                    m_activeButton = nb;
-                    m_activeControl = control;
-                    nb.BackgroundColor = Color.ControlBlue;
-                    nb.HighlightBackgroundColor = Color.ControlBlue;
-                    control.Visible = true;
+                        // Activate new button and tab. God I love closures
+                        m_activeButton = nb;
+                        m_activeTab = tab;
+                        m_activeTab.Activate();
+                        nb.BackgroundColor = Color.White;
+                    }
                 };
 
             if (m_activeButton == null)
             {
                 m_activeButton = nb;
-                m_activeControl = control;
-                nb.BackgroundColor = Color.ControlBlue;
-                nb.HighlightBackgroundColor = Color.ControlBlue;
-            }
+                m_activeTab = tab;
+                m_activeTab.Activate();
 
-            else
-            {
-                control.Visible = false;
+                nb.BackgroundColor = Color.White;
             }
 
             m_xOffset += textWidth + 20 + c_buttonPadding;

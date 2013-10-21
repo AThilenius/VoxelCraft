@@ -43,9 +43,12 @@
     <Compile Include="Editor\EditorCameraController.cs" />
     <Compile Include="Editor\EditorGui.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
+    <Compile Include="Gui\Args\ControlFocusArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
     <Compile Include="Gui\Controls\GameControl.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
+    <Compile Include="Gui\Controls\Label.cs" />
+    <Compile Include="Gui\Controls\Tab.cs" />
     <Compile Include="Gui\Controls\TabbedContainer.cs" />
     <Compile Include="Gui\Controls\TextField.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
@@ -62,7 +65,7 @@
     <Compile Include="Game\Game.cs" />
     <Compile Include="Rendering\GLRenderer.cs" />
     <Compile Include="Gui\Controls\Control.cs" />
-    <Compile Include="Gui\MouseEventArgs.cs" />
+    <Compile Include="Gui\Args\MouseEventArgs.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />
     <Compile Include="Gui\Gui.cs" />

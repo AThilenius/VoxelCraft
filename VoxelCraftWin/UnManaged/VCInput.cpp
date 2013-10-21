@@ -10,16 +10,24 @@
 #include "VCWindow.h"
 #include "VCMonoRuntime.h"
 
+VCMonoMethod* VCInput::KeyCallback;
+VCMonoMethod* VCInput::CharCallback;
 VCMonoMethod* VCInput::MouseScrollCallback;
 VCMonoMethod* VCInput::MouseEnterCallback;
 VCMonoMethod* VCInput::MouseClickCallback;
 VCMonoMethod* VCInput::MouseMoveCallback;
-VCMonoMethod* VCInput::KeyCallback;
+
 
 void _GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	void* args[4] = { &key, &scancode, &action, &mods };
 	VCInput::KeyCallback->Invoke(args);
+}
+
+void _GlfwCharCallback(GLFWwindow* window, unsigned int charCode)
+{
+	void* args[1] = { &charCode };
+	VCInput::CharCallback->Invoke(args);
 }
 
 void _GlfwMouseMoveCallback(GLFWwindow* window, double x, double y)
@@ -63,12 +71,14 @@ void VCInput::Initalize()
 	VCInput::MouseEnterCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseEnterCallback(int)");
 	VCInput::MouseClickCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseClickCallback(int,int,int)");
 	VCInput::MouseMoveCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseMoveCallback(double,double)");
+	VCInput::CharCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwCharCallback(int)");
 	VCInput::KeyCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwKeyCallback(int,int,int,int)");
 
 	glfwSetScrollCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseScrollCallback);
 	glfwSetCursorEnterCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseEnterCallback);
 	glfwSetMouseButtonCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseClickCallback);
 	glfwSetCursorPosCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseMoveCallback);
+	glfwSetCharCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwCharCallback);
 	glfwSetKeyCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwKeyCallback);
 }
 
