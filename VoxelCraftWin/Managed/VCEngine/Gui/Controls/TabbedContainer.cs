@@ -14,10 +14,10 @@ namespace VCEngine
         private Tab m_activeTab;
         private int m_xOffset;
 
-
         public TabbedContainer()
         {
             CanFocus = true;
+            HoverBackgroundColor = BackgroundColor;
         }
 
         public void AddTab(string name, Control control)
@@ -30,6 +30,7 @@ namespace VCEngine
             Button nb = new Button(name);
             AddControl(nb);
             nb.Frame = new Rectangle(m_xOffset, 0, textWidth + 20, c_buttonHeight);
+            nb.BorderWidth = 0;
 
             // Tab
             Tab tab = new Tab(this, name);
@@ -63,6 +64,11 @@ namespace VCEngine
             }
 
             m_xOffset += textWidth + 20 + c_buttonPadding;
+        }
+
+        protected override void Draw()
+        {
+            base.Draw();
         }
 
     }

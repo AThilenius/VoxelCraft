@@ -12,6 +12,7 @@ namespace VCEngine
         public static VerticalContainer ColorPage;
         public static HslColorPicker ColorPicker;
         public static DiagnosticsPane Diagnostics;
+        public static SolutionExplorer Solution;
 
         // Debug
         private static TextField m_text;
@@ -28,48 +29,17 @@ namespace VCEngine
 
             CreateMenuBar();
             CreateInspector();
-
-            // Debug
-            m_text = new TextField();
-            Control.MainControl.AddControl(m_text);
-            m_text.Frame = new Rectangle(100, 100, 200, 25);
         }
 
         private static void FillColorControls()
         {
-            ColorPage.AddControl(new Label("Color"));
-
             ColorPicker = new HslColorPicker();
             ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
             ColorPage.AddControl(ColorPicker);
 
             Button eyeDropButton = new Button("Eye Dropper");
             eyeDropButton.Click += (sender, args) => EditorWorld.CameraController.RequestEyeDrop();
-            ColorPage.AddControl(eyeDropButton); 
-
-            // Debug:
-            Button testRebuild = new Button("ReBuild World");
-            testRebuild.Click += (sender, args) => EditorWorld.ResetWorld();
-            ColorPage.AddControl(testRebuild);
-
-            Button saveTest = new Button("Save");
-            saveTest.Click += (sender, args) =>
-                {
-                    EditorWorld.World.SaveToFile(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Saves\TestWorld.vcew");
-                };
-            ColorPage.AddControl(saveTest);
-
-            Button loadTest = new Button("Load");
-            loadTest.Click += (sender, args) =>
-                {
-                    //EditorWorld.World.Dispose();
-                    //EditorWorld.World = null;
-
-                    //EditorWorld.World = new World();
-                    EditorWorld.World.LoadFromFile(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Saves\TestWorld.vcew");
-                    EditorWorld.World.ReBuild();
-                };
-            ColorPage.AddControl(loadTest);
+            ColorPage.AddControl(eyeDropButton);
         }
 
         private static void CreateInspector()
@@ -80,10 +50,10 @@ namespace VCEngine
             Control.MainControl.AddControl(InspectorWindow);
 
             ColorPage = new VerticalContainer();
-            ColorPage.BorderColor = Color.ControlBorder;
-            ColorPage.BorderWidth = 1;
-            ColorPage.HoverBackgroundColor = ColorPage.BackgroundColor;
             InspectorWindow.AddTab("Colors", ColorPage);
+
+            Solution = new SolutionExplorer();
+            InspectorWindow.AddTab("Solution Explorer", Solution);
 
             Diagnostics = new DiagnosticsPane();
             Diagnostics.HoverBackgroundColor = Diagnostics.BackgroundColor;

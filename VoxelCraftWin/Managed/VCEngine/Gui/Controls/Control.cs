@@ -11,10 +11,20 @@ namespace VCEngine
         public static Control MainControl = null;
         private static HashSet<Control> s_currentFocus = new HashSet<Control>();
         private static HashSet<Control> s_lastFocus = new HashSet<Control>();
+        private static Control m_focusedChild;
 
         // Appearance
         public String       Name;
-        public Rectangle    Frame = new Rectangle();
+        public Rectangle    Frame
+        {
+            get { return m_frame; }
+            set
+            {
+                ResizeEventArgs args = new ResizeEventArgs { From = m_frame, To = value };
+                m_frame = value;
+                Resize(this, args);
+            }
+        }
         public int          BorderWidth;
 
         public Color        BackgroundColor = Color.ControlMediumBackground;
@@ -95,8 +105,10 @@ namespace VCEngine
         public event EventHandler<KeyEventArgs> KeyPress = delegate { };
         public event EventHandler<CharEventArgs> CharPress = delegate { };
         public event EventHandler<ControlFocusArgs> Focused = delegate { };
-        public event EventHandler Resize = delegate { };
+        public event EventHandler<ResizeEventArgs> Resize = delegate { };
+        public event EventHandler<ParentChangeEventArgs> ParentChanged = delegate { };
 
+        private Rectangle m_frame = new Rectangle();
         private Control m_activeChild;
         private bool m_wasPointInThis;
 
@@ -123,13 +135,17 @@ namespace VCEngine
             if (control.Parent != null)
                 control.Parent.RemoveControl(control);
 
+            ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = this };
             control.Parent = this;
+            control.ParentChanged(this, args);
         }
 
         public virtual void RemoveControl(Control control)
         {
             Children.Remove(control);
+            ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = null };
             control.Parent = null;
+            control.ParentChanged(this, args);
         }
 
         protected virtual void Draw()
@@ -144,7 +160,7 @@ namespace VCEngine
             }
             else
             {
-                if (IsHovered && DrawHover)
+                if (IsHovered && DrawHover && Enabled)
                 {
                     if (HoverBackgroundColor != Color.Trasparent)
                         Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
@@ -176,6 +192,9 @@ namespace VCEngine
 
         internal bool ProcessMouseEvent(Object sender, MouseEventArgs args)
         {
+            if (!Enabled)
+                return false;
+
             // Fire event handler if there is one. Return false if not.
             switch (args.EventType)
             {
@@ -245,17 +264,14 @@ namespace VCEngine
         {
             Input.KeyClicked += ((sender, args) =>
                 {
-                    GetEndOfCommandChain().ProcessKeyEvent(
-                        this,
-                        new KeyEventArgs { State = args.State }
-                    );
+                    if (m_focusedChild != null)
+                        m_focusedChild.ProcessKeyEvent(this, new KeyEventArgs { State = args.State });
                 });
 
             Input.CharClicked += (sender, args) =>
                 {
-                    Control end = GetEndOfCommandChain();
-                    if (end.IsFocused)
-                        end.CharPress(sender, args);
+                    if (m_focusedChild != null)
+                        m_focusedChild.CharPress(sender, args);
                 };
 
             Input.MouseClick += ((sender, args) =>
@@ -269,6 +285,7 @@ namespace VCEngine
                     if (args.Action == TriState.Pressed)
                     {
                         active.IsClickDown = true;
+                        m_focusedChild = null;
 
                         // Walk up the chain, set focus flags
                         Control cursor = active;
@@ -276,6 +293,9 @@ namespace VCEngine
                         {
                             if (cursor.CanFocus)
                             {
+                                if (m_focusedChild == null)
+                                    m_focusedChild = cursor;
+
                                 s_currentFocus.Add(cursor);
 
                                 if (!cursor.IsFocused)

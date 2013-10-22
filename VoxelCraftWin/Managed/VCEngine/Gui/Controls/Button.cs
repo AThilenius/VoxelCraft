@@ -8,19 +8,25 @@ namespace VCEngine
     public class Button : Control
     {
 
-        public String Title;
-
+        public String Text;
+        
         public Button(String title)
         {
-            Title = title;
-            Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 20);
+            Text = title;
+            Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 25);
             DrawHover = true;
+            BorderWidth = 1;
         }
 
         protected override void Draw()
         {
             base.Draw();
-            Gui.DrawString(Title, new Point(ScreenFrame.X + 10, ScreenFrame.Y ), Color.Black, Font);
+
+            if ( Enabled )
+                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3 ), Color.Black, Font);
+
+            else
+                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText, Font);
         }
 
     }

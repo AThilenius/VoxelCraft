@@ -44,10 +44,13 @@
     <Compile Include="Editor\EditorGui.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />
+    <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
+    <Compile Include="Gui\Args\ResizeEventArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
     <Compile Include="Gui\Controls\GameControl.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
     <Compile Include="Gui\Controls\Label.cs" />
+    <Compile Include="Gui\Controls\SolutionExplorer.cs" />
     <Compile Include="Gui\Controls\Tab.cs" />
     <Compile Include="Gui\Controls\TabbedContainer.cs" />
     <Compile Include="Gui\Controls\TextField.cs" />

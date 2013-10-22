@@ -17,7 +17,9 @@ namespace VCEngine
             Name = name;
             ParentContainer = container;
             CanFocus = true;
-            BackgroundColor = Color.White;
+
+            BackgroundColor = Color.Trasparent;
+            HoverBackgroundColor = BackgroundColor;
         }
 
         internal void SetContent(Control content)
@@ -56,7 +58,7 @@ namespace VCEngine
 
             else
             {
-                Gui.DrawRectangle(new Rectangle(headerBounds.X, headerBounds.Y, Frame.Width, 1), Color.ControlDark);
+                Gui.DrawBorderedRect(headerBounds, Color.ControlDisabled, Color.ControlVeryDark, 1);
                 Gui.DrawString(Name, new Point(headerBounds.X + 5, headerBounds.Y + 2), Color.Black);
             }
         }
