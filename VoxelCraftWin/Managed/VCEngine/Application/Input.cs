@@ -352,12 +352,12 @@ namespace VCEngine
                         break;
 
                     case MouseMoveMode.Locked:
-                        VCInteropInputSetMouse(Window.Size.X * 0.5f, Window.Size.Y * 0.5f);
+                        VCInteropInputSetMouse((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
                         m_lastMousePosition = new Point((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
                         break;
                 }
 
-                MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
+                //9MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
             }
             catch (Exception ex)
             {

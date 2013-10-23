@@ -23,6 +23,7 @@ namespace VCEngine
             DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
             DrawText("Main Camera: " + Camera.MainCamera.Transform.Position.ToString("n2"), sf);
+            DrawText("Mouse: " + Input.MousePoistion, sf);
         }
 
         private void DrawText(string text, Rectangle sf)
