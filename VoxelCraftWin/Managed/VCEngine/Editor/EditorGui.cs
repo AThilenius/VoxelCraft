@@ -48,6 +48,7 @@ namespace VCEngine
             InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
             InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
             Control.MainControl.AddControl(InspectorWindow);
+            Window.Resize += (s, a) => InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
 
             ColorPage = new VerticalContainer();
             InspectorWindow.AddTab("Colors", ColorPage);

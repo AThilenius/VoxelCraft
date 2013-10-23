@@ -23,6 +23,8 @@ namespace VCEngine
 
         public static Point Size { get; private set; }
 
+        public static event EventHandler<ResizeEventArgs> Resize = delegate { };
+
         internal static void Initialize()
         {
             int w, h;
@@ -32,7 +34,9 @@ namespace VCEngine
 
         private static void GlfwSizeChangeHandler(int width, int height)
         {
+            ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(0, 0, Size), To = new Rectangle(0, 0, width, height) };
             Size = new Point(width, height);
+            Resize(null, args);
         }
 
         public static void SwapBuffers()

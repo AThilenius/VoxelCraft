@@ -18,6 +18,7 @@ public:
 	~VCLexShader(void);
 
 protected:
+	virtual void Bind();
 	virtual void BindAttribLocations();
 	virtual void GetUniformIDs();
 	virtual void PostInitialize();

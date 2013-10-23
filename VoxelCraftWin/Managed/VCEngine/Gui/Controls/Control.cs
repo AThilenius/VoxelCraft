@@ -262,6 +262,11 @@ namespace VCEngine
 
         internal void SetFirstResponder()
         {
+            Window.Resize += (sender, args) =>
+                {
+                    MainControl.Frame = args.To;
+                };
+
             Input.KeyClicked += ((sender, args) =>
                 {
                     if (m_focusedChild != null)

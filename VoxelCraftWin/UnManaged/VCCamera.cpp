@@ -28,13 +28,15 @@ VCCamera::~VCCamera(void)
 
 void VCCamera::PreRender()
 {
+	Aspect = (float) VCWindow::Instance->Width / (float) VCWindow::Instance->Height;
+
     // Build ModelMatrix ( This will be the View matrix )
     VCGameObject::PreRender();
     ViewMatrix = ModelMatrix;
 	InverseViewMatrix = inverse(ViewMatrix);
     
     // Set Camera's bounds
-    glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
+    //glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
     
 	ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;

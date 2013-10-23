@@ -129,7 +129,7 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 			}
 
 			// Set Viewport
-			if (lastViewport.X != state->Stages[stageId].Viewport.X ||
+			/*if (lastViewport.X != state->Stages[stageId].Viewport.X ||
 				lastViewport.Y != state->Stages[stageId].Viewport.Y ||
 				lastViewport.Width != state->Stages[stageId].Viewport.Width ||
 				lastViewport.Height != state->Stages[stageId].Viewport.Height)
@@ -138,7 +138,7 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 				int width = VCWindow::Instance->Width;
 				int height = VCWindow::Instance->Height;
 				glViewport(width * lastViewport.X, height * lastViewport.Y, width * lastViewport.Width, height * lastViewport.Height);
-			}
+			}*/
 
 			// Set Shader ( will auto re-assign test )
 			state->Stages[stageId].Shader->Bind();

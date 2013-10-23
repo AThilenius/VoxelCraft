@@ -10,6 +10,8 @@ namespace VCEngine
         private const int c_buttonHeight = 20;
         private const int c_buttonPadding = 3;
 
+        public Dictionary<String, Tab> Tabs = new Dictionary<String, Tab>();
+
         private Button m_activeButton;
         private Tab m_activeTab;
         private int m_xOffset;
@@ -18,6 +20,7 @@ namespace VCEngine
         {
             CanFocus = true;
             HoverBackgroundColor = BackgroundColor;
+            Resize += TabbedContainer_Resize;
         }
 
         public void AddTab(string name, Control control)
@@ -35,6 +38,7 @@ namespace VCEngine
             // Tab
             Tab tab = new Tab(this, name);
             AddControl(tab);
+            Tabs.Add(name, tab);
             tab.Frame = new Rectangle(0, c_buttonHeight, sc.Width, sc.Height - c_buttonHeight);
             tab.SetContent(control);
 
@@ -64,6 +68,14 @@ namespace VCEngine
             }
 
             m_xOffset += textWidth + 20 + c_buttonPadding;
+        }
+
+        private void TabbedContainer_Resize(object sender, ResizeEventArgs e)
+        {
+            Rectangle sc = ScreenFrame;
+
+            foreach ( Tab tab in Tabs.Values )
+                tab.Frame = new Rectangle(0, c_buttonHeight, sc.Width, sc.Height - c_buttonHeight);
         }
 
         protected override void Draw()

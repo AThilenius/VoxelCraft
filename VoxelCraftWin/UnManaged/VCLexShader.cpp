@@ -65,6 +65,16 @@ VCLexShader::~VCLexShader(void)
 {
 }
 
+void VCLexShader::Bind()
+{
+	Shader::Bind();
+
+	// Set Projection Matrix and Tex unit
+	mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
+	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
+}
+
+
 void VCLexShader::BindAttribLocations()
 {
 	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "Position");
@@ -86,7 +96,7 @@ void VCLexShader::PostInitialize()
 {
 	// Set Projection Matrix and Tex unit
 	mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
-
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
+
 	glUniform1i(m_unifGlyphsTex, 0);
 }

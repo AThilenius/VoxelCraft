@@ -19,6 +19,7 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 
 	void* args[2] = { &width, &height };
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
+	glViewport(0, 0, width, height);
 }
 
 VCWindow::VCWindow()

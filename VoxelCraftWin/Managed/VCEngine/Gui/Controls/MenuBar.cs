@@ -18,6 +18,7 @@ namespace VCEngine
         public MenuBar()
         {
             ScreenFrame = new Rectangle(0, Window.Size.Y - c_buttonHeight, Window.Size.X, c_buttonHeight);
+            Window.Resize += (s, a) => ScreenFrame = new Rectangle(0, Window.Size.Y - c_buttonHeight, Window.Size.X, c_buttonHeight);
         }
 
         public void AddMenu(string title, Menu menu)

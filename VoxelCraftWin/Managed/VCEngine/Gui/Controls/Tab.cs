@@ -20,6 +20,12 @@ namespace VCEngine
 
             BackgroundColor = Color.Trasparent;
             HoverBackgroundColor = BackgroundColor;
+
+            Resize += (s, a) =>
+            {
+                if (Content != null)
+                    Content.Frame = new Rectangle(HorizontalPadding, 0, Frame.Width - 2 * HorizontalPadding, Frame.Height - HeaderSize - 10);
+            };
         }
 
         internal void SetContent(Control content)
