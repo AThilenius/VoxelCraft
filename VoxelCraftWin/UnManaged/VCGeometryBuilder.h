@@ -14,7 +14,8 @@
 #include "VCIRenderable.h"
 
 // 1.00 MB
-#define VC_GEOMETRY_MAX_VERT_SIZE 125000
+#define VC_GEOMETRY_MAX_VERT_SIZE 256000
+#define VC_GEOMETRY_RESOLUTION 36
 
 struct GuiRectVerticie
 {
@@ -33,7 +34,18 @@ struct GuiRectVerticie
 class VCGeometryBuilder : public VCIRenderable
 {
 public:
-	VCGeometryBuilder(void) : m_VAO(0), m_VBO(0), m_vCount(0){}
+	VCGeometryBuilder(void) : m_VAO(0), m_VBO(0), m_vCount(0)
+	{
+		// Pre-Compute a unit circle
+		for (int i = 0; i < VC_GEOMETRY_RESOLUTION; i++)
+		{
+			double rad1 = (double)i * 0.314159265;
+
+			m_unitCircle[i] = vec2(
+				(float)cos(rad1),
+				(float)sin(rad1));
+		}
+	}
 	~VCGeometryBuilder(void){}
 
 	void DrawRectangle ( Rectangle frame, GLubyte4 color )
@@ -55,6 +67,51 @@ public:
 		m_verts[m_vCount++] = ul;
 		m_verts[m_vCount++] = lr;
 		m_verts[m_vCount++] = ur;
+	}
+
+	void DrawEllipse ( Point centroid, int width, int height, GLubyte4 color )
+	{
+		if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
+		{
+			VC_ERROR("You have 125000+ Gui rectangles... too much man.");
+		}
+
+		vec2 firstRad = m_unitCircle[0];
+
+		// Scale
+		firstRad.x *= width;
+		firstRad.y *= height;
+
+		// Shift
+		firstRad.x += centroid.X;
+		firstRad.y += centroid.Y;
+
+		// Truncate
+		Point p1 (firstRad.x, firstRad.y);
+
+		for (int i = 1; i < VC_GEOMETRY_RESOLUTION; i++)
+		{
+			vec2 rad2 = m_unitCircle[i];
+
+			// Scale
+			rad2.x *= width;
+			rad2.y *= height;
+			
+			// Shift
+			rad2.x += centroid.X;
+			rad2.y += centroid.Y;
+
+			// Truncate
+			Point p2 (rad2.x, rad2.y);
+
+			// Add verts ( This way is actually faster... I <3 the profiler )
+			m_verts[m_vCount].Position.x = (GLushort)centroid.X;	m_verts[m_vCount].Position.y = (GLushort)centroid.Y;	m_verts[m_vCount++].Color = color;
+			m_verts[m_vCount].Position.x = (GLushort)p1.X;			m_verts[m_vCount].Position.y = (GLushort)p1.Y;			m_verts[m_vCount++].Color = color;
+			m_verts[m_vCount].Position.x = (GLushort)p2.X;			m_verts[m_vCount].Position.y = (GLushort)p2.Y;			m_verts[m_vCount++].Color = color;
+
+			p1 = p2;
+		}
+
 	}
 
 	void AddQuad( GuiRectVerticie vert ) 
@@ -127,5 +184,6 @@ private:
 	GLuint m_VBO;
 	int m_vCount;
 	GuiRectVerticie m_verts[VC_GEOMETRY_MAX_VERT_SIZE];
+	vec2 m_unitCircle[VC_GEOMETRY_RESOLUTION];
 };
 

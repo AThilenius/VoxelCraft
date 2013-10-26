@@ -13,6 +13,7 @@ namespace VCEngine
         public static HslColorPicker ColorPicker;
         public static DiagnosticsPane Diagnostics;
         public static SolutionExplorer Solution;
+        public static Slider RandomColorFactor;
 
         // Debug
         private static TextField m_text;
@@ -40,6 +41,10 @@ namespace VCEngine
             Button eyeDropButton = new Button("Eye Dropper");
             eyeDropButton.Click += (sender, args) => EditorWorld.CameraController.RequestEyeDrop();
             ColorPage.AddControl(eyeDropButton);
+
+            ColorPage.AddControl(new Label("Random Multiplier:"));
+            RandomColorFactor = new Slider { Value = 0.1f };
+            ColorPage.AddControl(RandomColorFactor);
         }
 
         private static void CreateInspector()

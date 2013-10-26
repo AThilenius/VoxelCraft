@@ -148,6 +148,9 @@
     <ClCompile Include="VCNoiseGenerator.cpp">
       <Filter>Voxel\Generators</Filter>
     </ClCompile>
+    <ClCompile Include="VCMonoMethod.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">

@@ -357,7 +357,7 @@ namespace VCEngine
                         break;
                 }
 
-                //9MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
+                MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
             }
             catch (Exception ex)
             {

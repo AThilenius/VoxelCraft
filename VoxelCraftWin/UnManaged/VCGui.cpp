@@ -14,6 +14,7 @@ void VCGui::RegisterMonoHandlers()
 {
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiClear",			(void*)VCInteropGuiClear);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawRectangle",	(void*)VCInteropGuiDrawRectangle);
+	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawText",		(void*)VCInteropGuiDrawText);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
 	mono_add_internal_call("VCEngine.Gui::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
@@ -27,6 +28,11 @@ void VCInteropGuiClear()
 void VCInteropGuiDrawRectangle(Rectangle rect, vcint4 color)
 {
 	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
+}
+
+void VCInteropGuiDrawEllipse(Point centroid, int width, int height, vcint4 color)
+{
+	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
 void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint4 color)

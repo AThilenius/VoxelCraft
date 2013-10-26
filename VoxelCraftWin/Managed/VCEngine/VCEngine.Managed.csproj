@@ -47,14 +47,16 @@
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
     <Compile Include="Gui\Args\ResizeEventArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
-    <Compile Include="Gui\Controls\GameControl.cs" />
+    <Compile Include="Gui\Controls\GameWindow.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
     <Compile Include="Gui\Controls\Label.cs" />
+    <Compile Include="Gui\Controls\Slider.cs" />
     <Compile Include="Gui\Controls\SolutionExplorer.cs" />
     <Compile Include="Gui\Controls\Tab.cs" />
     <Compile Include="Gui\Controls\TabbedContainer.cs" />
     <Compile Include="Gui\Controls\TextField.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
+    <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Utilities\TrinaryStateTracker.cs" />
     <Compile Include="Voxel\FlatChunkGenerator.cs" />

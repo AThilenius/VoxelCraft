@@ -82,6 +82,13 @@ struct CommonHeader
 	unsigned char blueChnl;
 };
 
+struct KerningPairIMR
+{
+	unsigned int first;
+	unsigned int second;
+	short ammount;
+};
+
 class VCFont
 {
 public:

@@ -163,14 +163,30 @@ bool VCFont::ParseKerning(ifstream& f)
 
 	int kerningCount = blockSize / 10;
 
+	// Pre-Buffer data ( Used to be a bottleneck - Profiled )
+	KerningPairIMR* pairsIMR = (KerningPairIMR*) malloc (sizeof(KerningPairIMR) * kerningCount);
+	int size = sizeof(KerningPairIMR);
+	//f.read((char*)pairsIMR, sizeof(KerningPairIMR) * kerningCount);
+
 	for ( int i = 0; i < kerningCount; i++ )
 	{
+		// Truncated Endian swap ( Truncated to 8 bits, hopefully enough )
+		//KerningPairIMR p = pairsIMR[i];
+		//p.first = p.first >> 28;
+		//p.second = p.second >> 28;
+		//p.ammount = p.ammount >> 8;
+		//
+		//Charaters[p.second].KerningPairs[p.first] = p.ammount;
 		unsigned int first = ReadInt32(f);
 		unsigned int second = ReadInt32(f);
 		short ammount = ReadInt16(f);
+		//Int8 sh = 0;
 
 		Charaters[second].KerningPairs[first] = ammount;
+
 	}
+
+	free(pairsIMR);
 
 	return true;
 }

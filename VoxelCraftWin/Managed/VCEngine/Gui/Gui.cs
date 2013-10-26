@@ -53,6 +53,9 @@ namespace VCEngine
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color color );
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawText(string font, string text, Point point, Color color);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -92,6 +95,11 @@ namespace VCEngine
 
             // Right
             Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
+        }
+
+        public static void DrawEllipse(Point centroid, int width, int height, Color color)
+        {
+            VCInteropGuiDrawEllipse(centroid, width, height, color);
         }
 
         public static void AddVerticie(GuiRectVerticie vert)

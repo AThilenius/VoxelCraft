@@ -10,6 +10,7 @@ namespace VCEngine
         private Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
         private Point m_startPosition;
         private bool m_isEyedrop;
+        private Random m_random = new Random();
 
         public override void Update()
         {
@@ -63,7 +64,22 @@ namespace VCEngine
 
                     else
                     {
-                        EditorWorld.World.SetBlock(normalBlock, new Block(EditorGui.ColorPicker.ColorRGB));
+                        // Randomize color
+                        float Value = EditorGui.RandomColorFactor.Value;
+                        float RandOffset = (float) m_random.NextDouble() * Value - (Value * 0.5f);
+
+                        Vector4 hsl = EditorGui.ColorPicker.ColorHSL;
+                        hsl.Z += RandOffset;
+
+                        if (hsl.Z < 0.0)
+                            hsl.Z = 0.0f;
+
+                        if (hsl.Z > 1.0f)
+                            hsl.Z = 1.0f;
+
+                        Color c = Color.HslToRgba(hsl);
+
+                        EditorWorld.World.SetBlock(normalBlock, new Block(c));
                         EditorWorld.World.ReBuild();
                     }
                 }

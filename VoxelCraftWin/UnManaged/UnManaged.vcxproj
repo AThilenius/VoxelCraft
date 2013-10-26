@@ -27,6 +27,7 @@
     <ClCompile Include="VCBlock.cpp" />
     <ClCompile Include="VCCamera.cpp" />
     <ClCompile Include="VCChunk.cpp" />
+    <ClCompile Include="VCMonoMethod.cpp" />
     <ClCompile Include="VCNoiseGenerator.cpp" />
     <ClCompile Include="VCColorPassThroughShader.cpp" />
     <ClCompile Include="VCDebug.cpp" />

@@ -106,10 +106,10 @@ struct GLushort2
 {
 	GLushort2() {}
 
-	GLushort2(GLushort x, GLushort y )
+	GLushort2(GLushort x, GLushort y ) : 
+		x(x),
+		y(y)
 	{
-		this->x = x;
-		this->y = y;
 	}
 
 	GLushort x;

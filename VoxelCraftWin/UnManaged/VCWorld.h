@@ -116,6 +116,15 @@ public:
 		int ly = y & MASK_CHUNK_WIDTH;
 		int lz = z & MASK_CHUNK_WIDTH;
 
+		// If its on a chunk boundary, flag other chunk for rebuild
+		if (lx == 0 && cx - 1 >= 0) m_chunks[FLATTEN_WORLD(cx - 1, cy, cz)]->NeedsRebuild = true;
+		if (ly == 0 && cy - 1 >= 0) m_chunks[FLATTEN_WORLD(cx, cy - 1, cz)]->NeedsRebuild = true;
+		if (lz == 0 && cz - 1 >= 0) m_chunks[FLATTEN_WORLD(cx, cy, cz - 1)]->NeedsRebuild = true;
+
+		if (lx == CHUNK_WIDTH - 1 && cx + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx + 1, cy, cz)]->NeedsRebuild = true;
+		if (ly == CHUNK_WIDTH - 1 && cy + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx, cy + 1, cz)]->NeedsRebuild = true;
+		if (lz == CHUNK_WIDTH - 1 && cz + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx, cy, cz + 1)]->NeedsRebuild = true;
+
 		return chunk->SetBlock(lx, ly, lz, block);
 	}
 
