@@ -9,6 +9,7 @@
 #include "VCFont.h"
 #include "VCGLRenderer.h"
 #include "StreamHelpers.h"
+#include "VCTexture.h"
 
 VCFont::VCFont(string fntPath, string ddsPath) :
 	m_fntPath(fntPath),

@@ -28,6 +28,7 @@
     <ClCompile Include="VCCamera.cpp" />
     <ClCompile Include="VCChunk.cpp" />
     <ClCompile Include="VCMonoMethod.cpp" />
+    <ClCompile Include="VCMonoString.cpp" />
     <ClCompile Include="VCNoiseGenerator.cpp" />
     <ClCompile Include="VCColorPassThroughShader.cpp" />
     <ClCompile Include="VCDebug.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="VCCamera.h" />
     <ClInclude Include="VCChunk.h" />
     <ClInclude Include="VCGeometryBuilder.h" />
+    <ClInclude Include="VCMonoString.h" />
     <ClInclude Include="VCNoiseGenerator.h" />
     <ClInclude Include="VCColorPassThroughShader.h" />
     <ClInclude Include="VCDebug.h" />

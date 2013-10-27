@@ -8,6 +8,7 @@
 
 #include "VCWindow.h"
 #include "VCMonoRuntime.h"
+#include "VCTime.h"
 
 VCWindow* VCWindow::Instance;
 

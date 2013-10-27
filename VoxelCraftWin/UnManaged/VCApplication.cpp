@@ -8,7 +8,7 @@
 
 #include "VCApplication.h"
 
-#include "PCH.h"
+//#include "PCH.h"
 #include "VCWorld.h"
 #include "VCWindow.h"
 #include "VCGLRenderer.h"
@@ -24,6 +24,7 @@
 #include "VCDebug.h"
 #include "VCFlatGenerator.h"
 #include "VCNoiseGenerator.h"
+#include "VCTime.h"
 
 VCApplication* VCApplication::Instance;
 

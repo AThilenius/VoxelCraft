@@ -1,5 +1,5 @@
 //
-//  VCMonoBinder.cpp
+//  VCMonoRuntime.cpp
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 9/1/13.
@@ -11,6 +11,15 @@
 #include "VCFlatGenerator.h"
 #include "VCNoiseGenerator.h"
 #include "VCDebug.h"
+#include "VCInput.h"
+
+// Added
+#include "VCCamera.h"
+#include "VCGameObject.h"
+//#include "VCLexicalEngine.h"
+//#include "VCWindow.h"
+//#include "VCGLRenderer.h"
+//#include "VCWorld.h"
 
 VCMonoRuntime* VCMonoRuntime::Instance = NULL;
 MonoDomain* VCMonoRuntime::m_pRootDomain;
@@ -91,7 +100,7 @@ void VCMonoRuntime::GameMain()
 	mono_runtime_invoke(m_gameEntry, NULL, NULL, NULL);
 }
 
-VCMonoMethod* VCMonoRuntime::GetMonoMethod( string className, string method )
+VCMonoMethod* VCMonoRuntime::GetMonoMethod( std::string className, std::string method )
 {
 	ostringstream oss;
 	oss << "VCEngine.";
@@ -109,6 +118,11 @@ VCMonoMethod* VCMonoRuntime::GetMonoMethod( string className, string method )
 	}
 
 	return new VCMonoMethod(mMethod);
+}
+
+void VCMonoRuntime::SetMethod( std::string classMethodName, const void* method )
+{
+	mono_add_internal_call(("VCEngine." + classMethodName).c_str(), method);
 }
 
 

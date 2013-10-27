@@ -61,10 +61,8 @@
 #include <mono/metadata/mono-gc.h>
 
 // User
+#include "VCMonoString.h"
 #include "VCTypes.h"
-#include "VCTime.h"
-#include "VCInput.h"
-#include "VCTexture.h"
 #include "Utilities.h"
 #include "VCObjectStore.h"
 

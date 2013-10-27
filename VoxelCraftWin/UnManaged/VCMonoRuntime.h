@@ -1,5 +1,5 @@
 //
-//  VCMonoBinder.h
+//  VCMonoRuntime.h
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 9/1/13.
@@ -11,13 +11,12 @@
 
 #include "PCH.h"
 
-#include "VCCamera.h"
-#include "VCGameObject.h"
 #include "VCGui.h"
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
 #include "VCGLRenderer.h"
 #include "VCWorld.h"
+#include <string>
 #include "VCMonoMethod.h"
 
 class VCMonoRuntime
@@ -31,7 +30,8 @@ public:
 	void EditorMain();
 	void GameMain();
 
-	static VCMonoMethod* GetMonoMethod (string className, string method);
+	static VCMonoMethod* GetMonoMethod (std::string className, std::string method);
+	static void SetMethod (std::string classMethodName, const void* method);
 
 	static VCMonoRuntime* Instance;
     

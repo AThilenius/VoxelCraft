@@ -9,6 +9,7 @@
 #include "VCWorld.h"
 #include "VCChunk.h"
 #include "VCGLRenderer.h"
+#include "VCTime.h"
 
 VCRenderState* VCChunk::VoxelRenderState = NULL;
 

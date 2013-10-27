@@ -7,6 +7,7 @@
 //
 
 #pragma once
+
 class VCWindow;
 class VCGLRenderer;
 class VCSceneGraph;

@@ -151,6 +151,9 @@
     <ClCompile Include="VCMonoMethod.cpp">
       <Filter>Interop</Filter>
     </ClCompile>
+    <ClCompile Include="VCMonoString.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -288,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="VCTextBuilder.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMonoString.h">
+      <Filter>Interop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

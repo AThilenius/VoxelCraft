@@ -13,8 +13,6 @@
 #include "VCGeometryBuilder.h"
 #include "VCTextBuilder.h"
 
-
-
 class VCGui
 {
 public:

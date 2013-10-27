@@ -6,10 +6,12 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <signal.h>
+//#include <iostream>
+//#include <fstream>
+//#include <string>
+//#include <signal.h>
+
+
 #include "VCApplication.h"
 
 int main(int argc, char** argv)
