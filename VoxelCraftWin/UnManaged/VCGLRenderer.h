@@ -8,14 +8,22 @@
 
 #pragma once
 
-#include "PCH.h"
+class VCVoxelShader;
+class VCShadowShader;
+class VCTextureShader;
+class VCLexShader;
+class VCGuiShader;
+class VCColorPassThroughShader;
+class VCRenderState;
+class VCIRenderable;
+
+#include <map>
+#include <set>
+
 #include "VCVoxelShader.h"
-#include "VCShadowShader.h"
-#include "VCTextureShader.h"
-#include "VCLexShader.h"
-#include "VCGuiShader.h"
-#include "VCColorPassThroughShader.h"
-#include "VCIRenderable.h"
+
+#include "Shader.h"
+#include "VCRenderState.h"
 
 class VCGLRenderer
 {

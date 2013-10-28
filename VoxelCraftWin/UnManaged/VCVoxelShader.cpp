@@ -8,7 +8,11 @@
 
 #include "stdafx.h"
 #include "VCVoxelShader.h"
+
+#include "VCSceneGraph.h"
 #include "VCGLRenderer.h"
+#include "VCShadowShader.h"
+#include "VCCamera.h"
 
 
 static std::string g_vcVoxVertexShader =

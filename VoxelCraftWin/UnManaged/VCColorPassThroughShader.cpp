@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "VCColorPassThroughShader.h"
+#include "VCCamera.h"
 #include "VCSceneGraph.h"
 
 

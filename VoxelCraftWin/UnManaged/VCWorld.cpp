@@ -13,7 +13,10 @@
 #include "VCBlock.h"
 #include "VCSceneGraph.h"
 #include "VCDebug.h"
-#include "StreamHelpers.h"
+#include "VCStreamHelpers.h"
+#include "VCIChunkGenerator.h"
+#include "VCPhysics.h"
+#include "VCObjectStore.h"
 
 float IntBound ( float s, float ds )
 {
@@ -83,6 +86,91 @@ void VCWorld::Rebuild()
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->Rebuild();
 	}}}
+}
+
+void VCWorld::SetViewDistance( int viewDistTwo )
+{
+	if (((viewDistTwo - 1) & viewDistTwo))
+	{
+		VC_ERROR("View distance must be a power of two!");
+	}
+
+	m_viewDistTwo = viewDistTwo;
+	m_logViewDistTwo = std::log(m_viewDistTwo) / std::log(2);
+}
+
+VCBlock VCWorld::GetBlock ( int x, int y, int z )
+{
+	// What chunk?
+	int cx = (x >> LOG_CHUNK_WIDTH) - ChunkZeroX;
+	int cy = (y >> LOG_CHUNK_WIDTH) - ChunkZeroY;
+	int cz = (z >> LOG_CHUNK_WIDTH) - ChunkZeroZ;
+
+	// Out of range?
+	if (cx < 0 || cx >= m_viewDistTwo)
+		return VCBlock::ErrorBlock;
+
+	if (cy < 0 || cy >= m_viewDistTwo)
+		return VCBlock::ErrorBlock;
+
+	if (cz < 0 || cz >= m_viewDistTwo)
+		return VCBlock::ErrorBlock;
+
+	VCChunk* chunk = m_chunks[FLATTEN_WORLD(cx, cy, cz)];
+
+	// Where in chunk?
+	int lx = x & MASK_CHUNK_WIDTH;
+	int ly = y & MASK_CHUNK_WIDTH;
+	int lz = z & MASK_CHUNK_WIDTH;
+
+	return chunk->GetBlock(lx, ly, lz);
+}
+
+void VCWorld::SetBlock ( int x, int y, int z, VCBlock block )
+{
+	// What chunk?
+	int cx = (x >> LOG_CHUNK_WIDTH) - ChunkZeroX;
+	int cy = (y >> LOG_CHUNK_WIDTH) - ChunkZeroY;
+	int cz = (z >> LOG_CHUNK_WIDTH) - ChunkZeroZ;
+
+	// Out of range?
+	if (cx < 0 || cx >= m_viewDistTwo)
+		return;
+
+	if (cy < 0 || cy >= m_viewDistTwo)
+		return;
+
+	if (cz < 0 || cz >= m_viewDistTwo)
+		return;
+
+	VCChunk* chunk = m_chunks[FLATTEN_WORLD(cx, cy, cz)];
+
+	// Where in chunk?
+	int lx = x & MASK_CHUNK_WIDTH;
+	int ly = y & MASK_CHUNK_WIDTH;
+	int lz = z & MASK_CHUNK_WIDTH;
+
+	// If its on a chunk boundary, flag other chunk for rebuild
+	if (lx == 0 && cx - 1 >= 0) m_chunks[FLATTEN_WORLD(cx - 1, cy, cz)]->NeedsRebuild = true;
+	if (ly == 0 && cy - 1 >= 0) m_chunks[FLATTEN_WORLD(cx, cy - 1, cz)]->NeedsRebuild = true;
+	if (lz == 0 && cz - 1 >= 0) m_chunks[FLATTEN_WORLD(cx, cy, cz - 1)]->NeedsRebuild = true;
+
+	if (lx == CHUNK_WIDTH - 1 && cx + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx + 1, cy, cz)]->NeedsRebuild = true;
+	if (ly == CHUNK_WIDTH - 1 && cy + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx, cy + 1, cz)]->NeedsRebuild = true;
+	if (lz == CHUNK_WIDTH - 1 && cz + 1 < m_viewDistTwo) m_chunks[FLATTEN_WORLD(cx, cy, cz + 1)]->NeedsRebuild = true;
+
+	return chunk->SetBlock(lx, ly, lz, block);
+}
+
+void VCWorld::GetWorldBounds ( glm::vec3* lower, glm::vec3* upper )
+{
+	lower->x = ChunkZeroX * CHUNK_WIDTH;
+	lower->y = ChunkZeroY * CHUNK_WIDTH;
+	lower->z = ChunkZeroZ * CHUNK_WIDTH;
+
+	upper->x = lower->x + m_viewDistTwo * CHUNK_WIDTH;
+	upper->y = lower->y + m_viewDistTwo * CHUNK_WIDTH;
+	upper->z = lower->z + m_viewDistTwo * CHUNK_WIDTH;
 }
 
 bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
@@ -222,14 +310,14 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 }
 
 // =====   Serialize   ======================================================
-void VCWorld::Save( ofstream& stream )
+void VCWorld::Save( std::ofstream& stream )
 {
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->Save(stream);
 	}}}
 }
 
-void VCWorld::Load( ifstream& stream )
+void VCWorld::Load( std::ifstream& stream )
 {
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->Load(stream);
@@ -307,7 +395,7 @@ void VCInteropWorldSaveToFile( int handle, MonoString* path )
 	char* p = mono_string_to_utf8(path);
 
 	{
-		std::ofstream ofs(p, ios::in | ios::binary);
+		std::ofstream ofs(p, std::ios::in | std::ios::binary);
 		obj->Save(ofs);
 	}
 
@@ -320,7 +408,7 @@ void VCInteropWorldLoadFromFile( int handle, MonoString* path )
 	char* p = mono_string_to_utf8(path);
 
 	{
-		std::ifstream ifs(p, ios::out | ios::binary);
+		std::ifstream ifs(p, std::ios::out | std::ios::binary);
 		obj->Load(ifs);
 	}
 

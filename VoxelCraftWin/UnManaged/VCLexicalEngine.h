@@ -8,19 +8,22 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCFont.h"
-#include "VCRenderState.h"
-#include "VCText.h"
+class VCText;
+class VCRenderState;
+class VCFont;
+struct GlyphVerticie;
+
+#include <unordered_map>
+#include "VCAllPrimitives.h"
 
 struct VCTextMetrics
 {
 	int TotalWidth;
 	int TotalHeight;
 
-	VCTextMetrics(){}
-	VCTextMetrics(int width, int height): TotalWidth(width), TotalHeight(height){}
-	~VCTextMetrics(){}
+	VCTextMetrics();
+	VCTextMetrics(int width, int height);
+	~VCTextMetrics();
 };
 
 class VCLexicalEngine
@@ -35,23 +38,12 @@ public:
 	VCText* MakeText ( std::string font, std::string text, int left, int down, GLubyte4 color );
 	VCTextMetrics GetMetrics ( std::string font, std::string text ); 
 	int MakeTextToQuadBuffer ( std::string font, std::string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
-	VCRenderState* GetRStateForFont ( std::string font )
-	{
-		auto iter = m_fonts.find(font);
-
-		if ( iter == m_fonts.end() )
-		{
-			VC_ERROR("Font: " << font << " not added to Lexical Engine");
-		}
-
-		VCFont* vcfont = (*iter).second;
-		return vcfont->RenderState;
-	}
+	VCRenderState* GetRStateForFont ( std::string font );
 
 	static VCLexicalEngine* Instance;
 
 private:
-	typedef unordered_map<std::string, VCFont*> FontsMap;
+	typedef std::unordered_map<std::string, VCFont*> FontsMap;
 	FontsMap m_fonts;
 
 	// ================================      Interop      ============

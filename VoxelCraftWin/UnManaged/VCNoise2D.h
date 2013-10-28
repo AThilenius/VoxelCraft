@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "PCH.h"
-
 class VCNoise2D
 {
 public:

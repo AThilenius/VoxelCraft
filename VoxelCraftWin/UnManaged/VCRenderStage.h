@@ -8,29 +8,19 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "Shader.h"
+class Shader;
+
+#include "VCAllPrimitives.h"
 
 #define MAX_TEXTURES 4
 
 class VCRenderStage
 {
 public:
-	VCRenderStage(void):
-		FrameBuffer(0),
-		Shader(NULL),
-		Blend(true),
-		DepthTest(true),
-		Viewport(RectangleF(0, 0, 1, 1))
-	{
-		for ( int i = 0; i < MAX_TEXTURES; i++ )
-			Textures[i] = 0;
-	}
+	VCRenderStage(void);
+	~VCRenderStage(void);
 
-	~VCRenderStage(void)
-	{
-	}
-
+public:
 	GLuint FrameBuffer;
 	Shader* Shader;
 	GLuint Textures[MAX_TEXTURES];
@@ -39,59 +29,14 @@ public:
 	bool DepthTest;
 };
 
-
-inline bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs)
-{
-	if (lhs.FrameBuffer != rhs.FrameBuffer)
-		return false;
-
-	if (lhs.Shader != rhs.Shader)
-		return false;
-
-	for ( int i = 0; i < MAX_TEXTURES; i++ )
-		if (lhs.Textures[i] != rhs.Textures[i])
-			return false;
-
-	return lhs.Blend == rhs.Blend && lhs.DepthTest == rhs.DepthTest;
-}
-inline bool operator< (const VCRenderStage& lhs, const VCRenderStage& rhs)
-{
-	// Order or priority:
-	// FrameBuffer
-	// Shader
-	// Textures
-	// Blend / Depth
-
-	if (lhs.FrameBuffer < rhs.FrameBuffer) return true;
-	if (lhs.FrameBuffer > rhs.FrameBuffer) return false;
-
-	if (lhs.Shader < rhs.Shader) return true;
-	if (lhs.Shader > rhs.Shader) return false;
-
-	for ( int i = 0; i < MAX_TEXTURES; i++ )
-	{
-		if (lhs.Textures[i] < rhs.Textures[i]) return true;
-		if (lhs.Textures[i] > rhs.Textures[i]) return false;
-	}
-
-	if (lhs.Blend < rhs.Blend) return true;
-	if (lhs.Blend > rhs.Blend) return false;
-
-	if (lhs.DepthTest < rhs.DepthTest) return true;
-	if (lhs.DepthTest > rhs.DepthTest) return false;
-
-	return false;
-}
-
-inline bool operator!=(const VCRenderStage& lhs, const VCRenderStage& rhs){return !operator==(lhs,rhs);}
-inline bool operator> (const VCRenderStage& lhs, const VCRenderStage& rhs){return  operator< (rhs,lhs);}
-inline bool operator<=(const VCRenderStage& lhs, const VCRenderStage& rhs){return !operator> (lhs,rhs);}
-inline bool operator>=(const VCRenderStage& lhs, const VCRenderStage& rhs){return !operator< (lhs,rhs);}
+bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs);
+bool operator< (const VCRenderStage& lhs, const VCRenderStage& rhs);
+bool operator!=(const VCRenderStage& lhs, const VCRenderStage& rhs);
+bool operator> (const VCRenderStage& lhs, const VCRenderStage& rhs);
+bool operator<=(const VCRenderStage& lhs, const VCRenderStage& rhs);
+bool operator>=(const VCRenderStage& lhs, const VCRenderStage& rhs);
 
 struct _VCRenderStageCompare 
 {
-	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const
-	{
-		return (*lhs) < (*rhs);
-	}
+	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const;
 };

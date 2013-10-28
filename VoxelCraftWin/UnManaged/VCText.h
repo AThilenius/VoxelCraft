@@ -8,45 +8,19 @@
 
 #pragma once
 
-#include "PCH.h"
+class VCRenderState;
+
 #include "VCIRenderable.h"
-#include "VCGLRenderer.h"
 
 class VCText : VCIRenderable
 {
 public:
-	VCText(void) {}
+	VCText(void);
+	VCText(VCRenderState* state, GLuint vao, GLuint vbo, int vCount, int width, int height);
+	~VCText(void);
 
-	VCText(VCRenderState* state, GLuint vao, GLuint vbo, int vCount, int width, int height):
-		RenderState(state),
-		VAO(vao),
-		m_vbo(vbo),
-		VertCount(vCount),
-		TotalWidth(width),
-		TotalHeight(height)
-	{
-		VCGLRenderer::Instance->RegisterIRenderable(this);
-	}
-
-	~VCText(void)
-	{
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &m_vbo);
-
-		VCGLRenderer::Instance->UnRegisterIRenderable(this);
-	}
-
-	virtual VCRenderState* GetState() 
-	{ 
-		return RenderState; 
-	}
-
-	virtual void Render()
-	{
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, VertCount);
-		glBindVertexArray(0);
-	}
+	virtual VCRenderState* GetState();
+	virtual void Render();
 
 	int TotalWidth;
 	int TotalHeight;

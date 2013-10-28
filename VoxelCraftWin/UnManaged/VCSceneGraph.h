@@ -6,13 +6,14 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__SceneGraph__
-#define __VoxelCraftOSX__SceneGraph__
+#pragma once
 
-#include "PCH.h"
-#include "VCGameObject.h"
+class VCGameObject;
+class VCCamera;
+
+#include <unordered_set>
+// HACK: Removing causes compiler error
 #include "VCCamera.h"
-#include "Shader.h"
 
 class VCSceneGraph
 {
@@ -31,7 +32,7 @@ public:
     VCGameObject* RootNode;
     
 private:
-    unordered_set<VCCamera*> m_cameras;
+    std::unordered_set<VCCamera*> m_cameras;
     
     // ================================      Interop      ============
 public:
@@ -46,6 +47,3 @@ private:
 
 // Interop
 int VCInteropGetStaticHandle();
-
-
-#endif /* defined(__VoxelCraftOSX__SceneGraph__) */

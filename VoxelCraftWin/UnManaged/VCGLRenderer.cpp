@@ -9,8 +9,16 @@
 #include "stdafx.h"
 #include "VCGLRenderer.h"
 
+#include "VCIRenderable.h"
+#include "VCShadowShader.h"
+#include "VCTextureShader.h"
+#include "VCLexShader.h"
+#include "VCGuiShader.h"
+#include "VCColorPassThroughShader.h"
+
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
+#include "VCSceneGraph.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 VCRenderState* VCGLRenderer::PassThroughState;

@@ -9,6 +9,20 @@
 #include "stdafx.h"
 #include "VCNoiseGenerator.h"
 
+#include "VCBlock.h"
+#include "SimplexNoise.h"
+#include "VCObjectStore.h"
+
+
+VCNoiseGenerator::VCNoiseGenerator()
+{
+	VCObjectStore::Instance->UpdatePointer(Handle, this);
+}
+
+VCNoiseGenerator::~VCNoiseGenerator()
+{
+
+}
 
 void VCNoiseGenerator::BuildHeightMapToBuffer ( int* buffer, float octaves, float persistence, float scale, float loBound, float hiBound, short offset, int x, int z )
 {   

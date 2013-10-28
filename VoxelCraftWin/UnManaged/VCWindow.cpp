@@ -8,6 +8,8 @@
 
 #include "stdafx.h"
 #include "VCWindow.h"
+
+#include "VCMonoMethod.h"
 #include "VCMonoRuntime.h"
 #include "VCTime.h"
 
@@ -49,7 +51,7 @@ void VCWindow::Initalize()
 	if (!glfwInit())
 	{
 		std::cout << "Failed to initialize GLFW." << std::endl;
-		cin.ignore();
+		std::cin.ignore();
 	}
 	
 	glfwWindowHint(GLFW_SAMPLES, 4);
@@ -57,12 +59,12 @@ void VCWindow::Initalize()
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWWindowHandle = glfwCreateWindow(1280, 600, "Love Monkey Engine <3", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1280, 600, "VoxelEngine 0.2.1 - Thilenius", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
 		std::cout << "Failed to create a window." << std::endl;
-		cin.ignore();
+		std::cin.ignore();
 	}
 
 	glfwMakeContextCurrent(GLFWWindowHandle);
@@ -72,7 +74,7 @@ void VCWindow::Initalize()
 	if( glewError != GLEW_OK )
 	{
 		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
-		cin.ignore();
+		std::cin.ignore();
 	}
 
 	// ====

@@ -17,10 +17,11 @@
 // Added
 #include "VCCamera.h"
 #include "VCGameObject.h"
-//#include "VCLexicalEngine.h"
-//#include "VCWindow.h"
-//#include "VCGLRenderer.h"
-//#include "VCWorld.h"
+#include "VCGui.h"
+#include "VCLexicalEngine.h"
+#include "VCWindow.h"
+#include "VCGLRenderer.h"
+#include "VCWorld.h"
 
 VCMonoRuntime* VCMonoRuntime::Instance = NULL;
 MonoDomain* VCMonoRuntime::m_pRootDomain;
@@ -103,7 +104,7 @@ void VCMonoRuntime::GameMain()
 
 VCMonoMethod* VCMonoRuntime::GetMonoMethod( std::string className, std::string method )
 {
-	ostringstream oss;
+	std::ostringstream oss;
 	oss << "VCEngine.";
 	oss << className;
 	oss << ":";

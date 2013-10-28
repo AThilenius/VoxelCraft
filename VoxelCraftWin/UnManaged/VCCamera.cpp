@@ -8,8 +8,10 @@
 
 #include "stdafx.h"
 #include "VCCamera.h"
+
 #include "VCSceneGraph.h"
 #include "VCWindow.h"
+#include "VCObjectStore.h"
 
 
 VCCamera::VCCamera(void):
@@ -86,8 +88,8 @@ int VCInteropNewCamera()
 
 void VCInteropReleaseCamera(int handle)
 {
-    VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
-    delete obj;
+	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
+	delete obj;
 }
 
 glm::vec3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint)

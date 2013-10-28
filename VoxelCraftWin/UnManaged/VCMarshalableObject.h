@@ -6,11 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __Engine__MarshalableObject__
-#define __Engine__MarshalableObject__
-
-#include "PCH.h"
-#include "VCObjectStore.h"
+#pragma once
 
 class VCMarshalableObject
 {
@@ -20,5 +16,3 @@ public:
     
     int Handle;
 };
-
-#endif /* defined(__Engine__MarshalableObject__) */

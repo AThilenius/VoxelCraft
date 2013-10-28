@@ -8,21 +8,15 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCRenderState.h"
+class VCRenderState;
 
-class VCLexicalEngine;
+#include <string>
+#include "VCAllPrimitives.h"
 
 struct GlyphVerticie
 {
-	GlyphVerticie(){}
-
-	GlyphVerticie(GLshort3 poistion, GLfloat2 uvDXFormat, GLubyte4 color):
-		Position(poistion),
-		UV(uvDXFormat),
-		Color(color)
-	{
-	}
+	GlyphVerticie();
+	GlyphVerticie(GLshort3 poistion, GLfloat2 uvDXFormat, GLubyte4 color);
 
 	GLshort3 Position;
 	GLfloat2 UV;
@@ -31,6 +25,8 @@ struct GlyphVerticie
 
 struct CharDesc
 {
+	CharDesc();
+
 	unsigned short X;
 	unsigned short Y;
 	unsigned short Width;
@@ -42,14 +38,7 @@ struct CharDesc
 	unsigned char Chanel;
 
 	GlyphVerticie Quad[6];
-
 	char KerningPairs[256];
-
-	CharDesc()
-	{
-		memset(KerningPairs, 0, sizeof(KerningPairs));
-	}
-
 };
 
 struct InfoHeader
@@ -102,11 +91,11 @@ public:
 	int Size;
 
 private:
-	bool ParseInfo(ifstream& f);
-	bool ParseCommon(ifstream& f);
-	bool ParsePages(ifstream& f);
-	bool ParseCharacters(ifstream& f);
-	bool ParseKerning(ifstream& f);
+	bool ParseInfo(std::ifstream& f);
+	bool ParseCommon(std::ifstream& f);
+	bool ParsePages(std::ifstream& f);
+	bool ParseCharacters(std::ifstream& f);
+	bool ParseKerning(std::ifstream& f);
 	void PreCompileQuads();
 
 	std::string m_imageFileName;

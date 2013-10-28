@@ -6,10 +6,15 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__VCMonoBinder__
-#define __VoxelCraftOSX__VCMonoBinder__
+#pragma once
 
-#include "PCH.h"
+struct _MonoDomain;
+struct _MonoImage;
+struct _MonoMethod;
+typedef struct _MonoClass MonoClass;
+typedef struct _MonoDomain MonoDomain;
+typedef struct _MonoMethod MonoMethod;
+class VCMonoMethod;
 
 #include "VCGui.h"
 #include "VCLexicalEngine.h"
@@ -39,11 +44,9 @@ private:
     void Bind();
     
 private:
-    static MonoDomain *m_pRootDomain;
-	static MonoImage *m_assemblyImage;
+    static MonoDomain* m_pRootDomain;
+	static MonoImage* m_assemblyImage;
 
 	MonoMethod* m_editorEntry;
 	MonoMethod* m_gameEntry;
 };
-
-#endif /* defined(__VoxelCraftOSX__VCMonoBinder__) */

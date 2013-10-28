@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__VCObjectStore__
-#define __VoxelCraftOSX__VCObjectStore__
+#pragma once
 
-#include "PCH.h"
+#include <set>
 
 class VCObjectStore
 {
@@ -33,5 +32,3 @@ private:
     
     int m_length, m_count;
 };
-
-#endif /* defined(__VoxelCraftOSX__VCObjectStore__) */

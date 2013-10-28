@@ -9,6 +9,10 @@
 #include "stdafx.h"
 #include "VCSceneGraph.h"
 
+#include "VCGameObject.h"
+#include "VCCamera.h"
+#include "VCObjectStore.h"
+
 VCSceneGraph* VCSceneGraph::Instance;
 int VCSceneGraph::s_handle;
 
@@ -26,7 +30,7 @@ VCSceneGraph::~VCSceneGraph()
 
 void VCSceneGraph::Initalize()
 {
-    std::cout << "VCSceneGraph Initalized" << std::endl;
+    std::cout << "VCSceneGraph Initialized" << std::endl;
 }
 
 void VCSceneGraph::PrepareSceneGraph()

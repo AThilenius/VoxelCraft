@@ -8,8 +8,25 @@
 
 #include "stdafx.h"
 #include "VCLexicalEngine.h"
+#include "VCFont.h"
+#include "VCText.h"
 
 VCLexicalEngine* VCLexicalEngine::Instance;
+
+VCTextMetrics::VCTextMetrics()
+{
+
+}
+
+VCTextMetrics::VCTextMetrics( int width, int height ) : TotalWidth(width), TotalHeight(height)
+{
+
+}
+
+VCTextMetrics::~VCTextMetrics()
+{
+
+}
 
 VCLexicalEngine::VCLexicalEngine(void)
 {
@@ -151,6 +168,19 @@ int VCLexicalEngine::MakeTextToQuadBuffer( std::string font, std::string text, i
 	}
 
 	return text.length() * 6;
+}
+
+VCRenderState* VCLexicalEngine::GetRStateForFont( std::string font )
+{
+	auto iter = m_fonts.find(font);
+
+	if ( iter == m_fonts.end() )
+	{
+		VC_ERROR("Font: " << font << " not added to Lexical Engine");
+	}
+
+	VCFont* vcfont = (*iter).second;
+	return vcfont->RenderState;
 }
 
 // ================================      Interop      ============

@@ -8,32 +8,13 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCGameObject.h"
-#include "VCBlock.h"
-#include "VCIRenderable.h"
-
 class VCWorld;
 class VCRenderState;
+struct BlockVerticie;
 
-using namespace std;
-
-struct BlockVerticie
-{
-	BlockVerticie() {}
-	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color ) : position(position), normal(normal), color(color){}
-
-	GLbyte3  position;
-	GLbyte	 normal;
-	GLubyte4 color;
-};
-
-struct VCRunLengtth
-{
-	VCRunLengtth(): Color(0, 0, 0, 0), Length(0){}
-	GLubyte4 Color;
-	unsigned int Length;
-};
+#include "VCGameObject.h"
+#include "VCIRenderable.h"
+#include "VCBlock.h"
 
 class VCChunk : public VCGameObject, public VCIRenderable
 {
@@ -43,36 +24,23 @@ public:
 	~VCChunk(void);
 
 	void Initialize();
-
-	VCBlock GetBlock ( int x, int y, int z )
-	{
-		if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
-			return VCBlock::ErrorBlock;
-
-		return Blocks[FLATTEN_CHUNK(x,y,z)];
-	}
-	
-	void SetBlock( int x, int y, int z, VCBlock block )
-	{
-		if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
-			return;
-
-		Blocks[FLATTEN_CHUNK(x,y,z)] = block;
-		NeedsRebuild = true;
-	}
-
 	void Rebuild ( );
-	VCBlock Blocks[CHUNK_TOTAL_COUNT];
-	bool NeedsRebuild;
 
+	VCBlock GetBlock ( int x, int y, int z );
+	void SetBlock( int x, int y, int z, VCBlock block );
+	
 	// ===== Serialization ======================================================
-	void Save (ofstream& stream);
-	void Load (ifstream& stream);
+	void Save (std::ofstream& stream);
+	void Load (std::ifstream& stream);
 
 	// ===== Render State Fulfillment ===========================================
 	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
-    void virtual Render();
+	void virtual Render();
 	static VCRenderState* VoxelRenderState;
+
+public:
+	VCBlock Blocks[CHUNK_TOTAL_COUNT];
+	bool NeedsRebuild;
 
 private:
 	VCWorld* m_world;

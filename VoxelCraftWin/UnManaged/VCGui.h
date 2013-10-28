@@ -8,31 +8,19 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCText.h"
+struct VCTextMetrics;
+
 #include "VCGeometryBuilder.h"
 #include "VCTextBuilder.h"
 
 class VCGui
 {
 public:
-	VCGui(void)
-	{
-		VCGui::Instance = this;
-	}
-	~VCGui(void){}
+	VCGui(void);
+	~VCGui(void);
 
-	void Reset()
-	{
-		Geometry.Reset();
-		Text.Reset();
-	}
-
-	void Initialize()
-	{
-		Geometry.Initialize();
-		Text.Initialize();
-	}
+	void Reset();
+	void Initialize();
 
 	VCGeometryBuilder Geometry;
 	VCTextBuilder Text;

@@ -8,10 +8,6 @@
 
 #pragma once
 
-#include "PCH.h"
-
-using namespace std;
-
 // Matrix Multiple Order: Projection * View * Model
 
 class Shader
@@ -49,18 +45,10 @@ protected:
 	friend bool operator< (const Shader& lhs, const Shader& rhs);
 };
 
-inline bool operator==(const Shader& lhs, const Shader& rhs)
-{
-	return lhs.m_programId == rhs.m_programId;
-}
-
-inline bool operator< (const Shader& lhs, const Shader& rhs)
-{
-	return lhs.m_programId < rhs.m_programId;
-}
-
-inline bool operator!=(const Shader& lhs, const Shader& rhs){return !operator==(lhs,rhs);}
-inline bool operator> (const Shader& lhs, const Shader& rhs){return  operator< (rhs,lhs);}
-inline bool operator<=(const Shader& lhs, const Shader& rhs){return !operator> (lhs,rhs);}
-inline bool operator>=(const Shader& lhs, const Shader& rhs){return !operator< (lhs,rhs);}
+bool operator==(const Shader& lhs, const Shader& rhs);
+bool operator< (const Shader& lhs, const Shader& rhs);
+bool operator!=(const Shader& lhs, const Shader& rhs);
+bool operator> (const Shader& lhs, const Shader& rhs);
+bool operator<=(const Shader& lhs, const Shader& rhs);
+bool operator>=(const Shader& lhs, const Shader& rhs);
 

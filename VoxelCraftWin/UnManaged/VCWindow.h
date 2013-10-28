@@ -6,11 +6,12 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__VCWindow__
-#define __VoxelCraftOSX__VCWindow__
+#pragma once
 
-#include "PCH.h"
-#include "VCMonoMethod.h"
+class VCMonoMethod;
+struct GLFWwindow;
+
+#include "VCAllPrimitives.h"
 
 // Creates and manages a window and OpenGL context
 class VCWindow
@@ -46,5 +47,3 @@ public:
 void VCInteropWindowSwapBuffers();
 bool VCInteropWindowShouldClose();
 void VCInteropWindowGetSize(int* width, int* height);
-
-#endif /* defined(__VoxelCraftOSX__VCWindow__) */

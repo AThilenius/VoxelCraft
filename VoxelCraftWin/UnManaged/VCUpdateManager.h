@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__VCUpdateManager__
-#define __VoxelCraftOSX__VCUpdateManager__
-
-#include "PCH.h"
+#pragma once
 
 typedef void (*noArgCallback) ();
 
@@ -38,6 +35,3 @@ private:
 };
 
 void VCInteropRegisterUpdateHandler(noArgCallback* callback);
-
-
-#endif /* defined(__VoxelCraftOSX__VCUpdateManager__) */

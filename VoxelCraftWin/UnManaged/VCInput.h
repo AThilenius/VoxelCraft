@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#ifndef __VoxelCraftOSX__VCInputPreProcessor__
-#define __VoxelCraftOSX__VCInputPreProcessor__
-
-#include "PCH.h"
+#pragma once
 
 class VCMonoMethod;
 
@@ -37,5 +34,3 @@ public:
 void VCInteropInputGetMouse(float* x, float* y);
 void VCInteropInputSetMouse(float x, float y);
 void VCInteropInputSetCursorVisible(bool val);
-
-#endif /* defined(__VoxelCraftOSX__VCInputPreProcessor__) */

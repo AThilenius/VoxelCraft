@@ -125,7 +125,7 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* sha
 	{
         glDeleteShader(*ShaderId);
         std::cout << "Failed to compile shader." << std::endl;
-		cin.ignore();
+		std::cin.ignore();
     }
 
 	glErrorCheck();
@@ -150,7 +150,7 @@ void Shader::LinkProgram()
 			printf("%s\n\n", log);
 			free(log);
 
-			cin.ignore();
+			std::cin.ignore();
 		}
     }
     
@@ -158,4 +158,34 @@ void Shader::LinkProgram()
 		std::cout << "Failed to link OpenGL program." << std::endl;
 
 	glErrorCheck();
+}
+
+bool operator==( const Shader& lhs, const Shader& rhs )
+{
+	return lhs.m_programId == rhs.m_programId;
+}
+
+bool operator<( const Shader& lhs, const Shader& rhs )
+{
+	return lhs.m_programId < rhs.m_programId;
+}
+
+bool operator!=( const Shader& lhs, const Shader& rhs )
+{
+	return !operator==(lhs,rhs);
+}
+
+bool operator>( const Shader& lhs, const Shader& rhs )
+{
+	return  operator< (rhs,lhs);
+}
+
+bool operator<=( const Shader& lhs, const Shader& rhs )
+{
+	return !operator> (lhs,rhs);
+}
+
+bool operator>=( const Shader& lhs, const Shader& rhs )
+{
+	return !operator< (lhs,rhs);
 }

@@ -8,25 +8,13 @@
 
 #include "stdafx.h"
 #include "VCPhysics.h"
-//
-//
-//VCPhysics::VCPhysics(void)
-//{
-//}
-//
-//
-//VCPhysics::~VCPhysics(void)
-//{
-//}
-//
-//void VCPhysics::RegisterMonoHandlers()
-//{
-//	mono_add_internal_call("VCEngine.Physics::VCInteropPhysicsRaycastWorld", (void*)VCInteropPhysicsRaycastWorld);
-//}
-//
-//bool VCInteropPhysicsRaycastWorld(Ray ray, RaycastHit* hitOut)
-//{
-//	bool result = VCPhysics::RaycastWorld(ray, hitOut);
-//	return result;
-//}
-//
+
+Ray::Ray()
+{
+
+}
+
+Ray::Ray( glm::vec3 origin, glm::vec3 direction, float maxDist ) : Origin(origin), Direction(direction), MaxDistance(maxDist)
+{
+
+}

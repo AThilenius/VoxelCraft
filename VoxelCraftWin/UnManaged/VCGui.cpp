@@ -9,7 +9,31 @@
 #include "stdafx.h"
 #include "VCGui.h"
 
+#include "VCLexicalEngine.h"
+
 VCGui* VCGui::Instance = NULL;
+
+VCGui::VCGui( void )
+{
+	VCGui::Instance = this;
+}
+
+VCGui::~VCGui( void )
+{
+
+}
+
+void VCGui::Reset()
+{
+	Geometry.Reset();
+	Text.Reset();
+}
+
+void VCGui::Initialize()
+{
+	Geometry.Initialize();
+	Text.Initialize();
+}
 
 void VCGui::RegisterMonoHandlers()
 {

@@ -19,9 +19,6 @@ class VCLexicalEngine;
 class VCGui;
 class VCDebug;
 
-
-using namespace std;
-
 class VCApplication
 {
 public:
@@ -46,5 +43,3 @@ public:
     
     static VCApplication* Instance;
 };
-
-void SayHelloUnmanaged();

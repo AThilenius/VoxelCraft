@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "PCH.h"
 #include "Shader.h"
 
 class VCLexShader : public Shader

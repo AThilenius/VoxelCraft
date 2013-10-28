@@ -1,30 +1,22 @@
 //
-//  StreamHelpers.h
+//  VCStreamHelpers.cpp
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 10/1/13.
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#pragma once
+#include "stdafx.h"
+#include "VCStreamHelpers.h"
 
-#include <iostream>
-#include <sstream>
-#include <cstring>
-#include <fstream>
-#include <intrin.h>
-
-using namespace std;
-
-
-inline char ReadInt8 ( ifstream& f )
+char ReadInt8( std::ifstream& f )
 {
 	char value;
 	f.read((char*)&value, 1);
 	return value;
 }
 
-inline short ReadInt16 ( ifstream& f )
+short ReadInt16( std::ifstream& f )
 {
 	short value;
 	//f >> value;
@@ -33,7 +25,7 @@ inline short ReadInt16 ( ifstream& f )
 	return value;
 }
 
-inline int ReadInt32 ( ifstream& f )
+int ReadInt32( std::ifstream& f )
 {
 	int value;
 	//f >> value;
@@ -42,17 +34,17 @@ inline int ReadInt32 ( ifstream& f )
 	return value;
 }
 
-inline void WriteInt8 ( ofstream& f, char value )
+void WriteInt8( std::ofstream& f, char value )
 {
 	f.write((char*) &value, 1);
 }
 
-inline void WriteInt16 ( ofstream& f, short value )
+void WriteInt16( std::ofstream& f, short value )
 {
 	f.write((char*) &value, 2);
 }
 
-inline void WriteInt32 ( ofstream& f, int value )
+void WriteInt32( std::ofstream& f, int value )
 {
 	f.write((char*) &value, 4);
 }

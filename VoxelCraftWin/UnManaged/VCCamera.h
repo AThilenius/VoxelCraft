@@ -8,10 +8,8 @@
 
 #pragma once
 
-#include "PCH.h"
 #include "VCGameObject.h"
-
-class VCSceneGraph;
+#include "VCAllPrimitives.h"
 
 class VCCamera : public VCGameObject
 {

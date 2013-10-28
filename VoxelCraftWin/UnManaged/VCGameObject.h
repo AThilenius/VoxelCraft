@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "PCH.h"
+#include <unordered_set>
 #include "VCMarshalableObject.h"
 
 // Container class for any game object.

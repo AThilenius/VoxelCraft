@@ -1,5 +1,5 @@
 //
-//  Utilities.h
+//  VCUtilities.h
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 8/20/13.
@@ -7,9 +7,6 @@
 //
 
 #pragma once
-#include <string>
-#include <iostream>
-#include <glew.h>
 
 // OpenGL
 #ifdef __FUNCTION__
@@ -21,7 +18,7 @@
 #endif
 
 #ifndef _FNAME_
-#define _FNAME_ "No funtion macro found"
+#define _FNAME_ "No function macro found"
 #endif
 
 #define glErrorCheck() _glErrorCheck(_FNAME_, __LINE__);

@@ -10,10 +10,10 @@ namespace VCEngine
 
         public static void PerUpdate()
         {
-            for (int i = 0; i < 500; i++)
-            {
-                Gui.DrawEllipse(new Point(200 + i, 200), 100, 50, Color.ControlRed);
-            }
+            //for (int i = 0; i < 500; i++)
+            //{
+            //    Gui.DrawEllipse(new Point(200 + i, 200), 100, 50, Color.ControlRed);
+            //}
         }
 
     }

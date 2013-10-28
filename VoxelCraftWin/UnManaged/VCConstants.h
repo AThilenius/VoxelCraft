@@ -1,5 +1,5 @@
 //
-//  Constants.h
+//  VCConstants.h
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 10/27/13.

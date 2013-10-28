@@ -8,7 +8,9 @@
 
 #include "stdafx.h"
 #include "VCGameObject.h"
+
 #include "VCSceneGraph.h"
+#include "VCObjectStore.h"
 
 
 VCGameObject::VCGameObject(void):

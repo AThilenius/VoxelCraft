@@ -8,9 +8,7 @@
 
 #pragma once
 
-#include "PCH.h"
 #include "VCRenderState.h"
-
 
 class VCIRenderable
 {

@@ -8,12 +8,12 @@
 
 #pragma once
 
-#include "PCH.h"
+#include "VCAllPrimitives.h"
 
 struct VCInteropBlock
 {
-	VCInteropBlock(): Color(vcint4()) {}
-	VCInteropBlock(GLubyte4 color): Color(vcint4(color.x, color.y, color.z, color.w)) {}
+	VCInteropBlock();
+	VCInteropBlock(GLubyte4 color);
 
 	vcint4 Color;
 };
@@ -21,26 +21,15 @@ struct VCInteropBlock
 class VCBlock
 {
 public:
-	VCBlock(void){}
-	VCBlock(VCInteropBlock interopBlock): Color((GLubyte) interopBlock.Color.X, (GLubyte) interopBlock.Color.Y, (GLubyte) interopBlock.Color.Z, (GLubyte) interopBlock.Color.W){}
-	VCBlock(GLubyte r, GLubyte g, GLubyte b): Color(GLubyte4(r, g, b, 255)){}
-	VCBlock(GLubyte r, GLubyte g, GLubyte b, GLubyte a): Color(GLubyte4(r, g, b, a)){}
-	~VCBlock(void){}
+	VCBlock(void);
+	VCBlock(VCInteropBlock interopBlock);
+	VCBlock(GLubyte r, GLubyte g, GLubyte b);
+	VCBlock(GLubyte r, GLubyte g, GLubyte b, GLubyte a);
+	~VCBlock(void);
 
-	bool IsTrasparent()
-	{
-		return Color.w == 0;
-	}
-
-	bool IsTranslucent()
-	{
-		return Color.w != 255;
-	}
-
-	VCInteropBlock AsInterop()
-	{
-		return VCInteropBlock(Color);
-	}
+	bool IsTrasparent();
+	bool IsTranslucent();
+	VCInteropBlock AsInterop();
 
 	// Statics:
 	static VCBlock ErrorBlock;

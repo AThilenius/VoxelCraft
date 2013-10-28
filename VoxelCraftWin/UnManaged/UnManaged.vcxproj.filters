@@ -44,6 +44,9 @@
     <Filter Include="Voxel\Generators">
       <UniqueIdentifier>{76418fe0-57d0-4d09-acac-9d38fd8e733f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\VCTypes">
+      <UniqueIdentifier>{7ed08fd1-52d3-4b9c-8f41-5e1495619670}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -90,9 +93,6 @@
     </ClCompile>
     <ClCompile Include="VCWindow.cpp">
       <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="VCTime.cpp">
       <Filter>Utils</Filter>
@@ -157,6 +157,42 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="VCStreamHelpers.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCUtilities.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderState.cpp">
+      <Filter>Rendering\State</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderStage.cpp">
+      <Filter>Rendering\State</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLXByteX.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLXShortX.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGeometryTypes.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLFloatX.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCXIntX.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTextBuilder.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGeometryBuilder.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VCText.cpp">
+      <Filter>GUI\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -207,13 +243,7 @@
     <ClInclude Include="PCH.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="VCTime.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTypes.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCInput.h">
@@ -234,9 +264,6 @@
     </ClInclude>
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="StreamHelpers.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCTexture.h">
       <Filter>Rendering</Filter>
@@ -301,10 +328,34 @@
     <ClInclude Include="stdafx.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.h">
+    <ClInclude Include="VCStreamHelpers.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Macros.h">
+    <ClInclude Include="VCUtilities.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMacros.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCConstants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLXByteX.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLXShortX.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGeometryTypes.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLFloatX.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCXIntX.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCAllPrimitives.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

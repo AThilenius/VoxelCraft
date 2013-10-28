@@ -7,12 +7,33 @@
 //
 
 #include "stdafx.h"
-#include "VCWorld.h"
 #include "VCChunk.h"
+
+#include "Shader.h"
+#include "VCShadowShader.h"
+#include "VCVoxelShader.h"
+#include "VCWorld.h"
 #include "VCGLRenderer.h"
 #include "VCTime.h"
 
 VCRenderState* VCChunk::VoxelRenderState = NULL;
+
+struct BlockVerticie
+{
+	BlockVerticie() {}
+	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color ) : position(position), normal(normal), color(color){}
+
+	GLbyte3  position;
+	GLbyte	 normal;
+	GLubyte4 color;
+};
+
+struct VCRunLengtth
+{
+	VCRunLengtth(): Color(0, 0, 0, 0), Length(0){}
+	GLubyte4 Color;
+	unsigned int Length;
+};
 
 VCChunk::VCChunk():
 	m_x(0),
@@ -109,6 +130,22 @@ void VCChunk::Initialize()
 	glBindVertexArray(0);
 }
 
+VCBlock VCChunk::GetBlock ( int x, int y, int z )
+{
+	if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
+		return VCBlock::ErrorBlock;
+
+	return Blocks[FLATTEN_CHUNK(x,y,z)];
+}
+
+void VCChunk::SetBlock( int x, int y, int z, VCBlock block )
+{
+	if ( x < 0 || y < 0 || z < 0 ||  x >= CHUNK_WIDTH || y >= CHUNK_WIDTH || z >= CHUNK_WIDTH )
+		return;
+
+	Blocks[FLATTEN_CHUNK(x,y,z)] = block;
+	NeedsRebuild = true;
+}
 
 void VCChunk::Rebuild()
 {
@@ -300,7 +337,7 @@ void VCChunk::Render()
 }
 
 // ===== Serialization ======================================================
-void VCChunk::Save( ofstream& stream )
+void VCChunk::Save( std::ofstream& stream )
 {
 	// Run Length Encode chunk data
 	
@@ -330,7 +367,7 @@ void VCChunk::Save( ofstream& stream )
 
 }
 
-void VCChunk::Load( ifstream& stream )
+void VCChunk::Load( std::ifstream& stream )
 {
 	// Run Length Decode data
 	int i = 0;

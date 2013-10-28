@@ -8,24 +8,16 @@
 
 #pragma once
 
-#include "PCH.h"
-#include "VCBlock.h"
-#include "SimplexNoise.h"
-#include "VCIChunkGenerator.h"
+class VCBlock;
+
 #include "VCMarshalableObject.h"
+#include "VCIChunkGenerator.h"
 
 class VCNoiseGenerator : public VCIChunkGenerator, public VCMarshalableObject
 {
 public:
-	VCNoiseGenerator()
-	{
-		VCObjectStore::Instance->UpdatePointer(Handle, this);
-	}
-
-	~VCNoiseGenerator()
-	{
-
-	}
+	VCNoiseGenerator();
+	~VCNoiseGenerator();
 
 	virtual bool GenerateToBuffer ( VCBlock* buffer, int chunkX, int chunkY, int chunkZ );
 

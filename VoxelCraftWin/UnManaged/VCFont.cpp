@@ -7,10 +7,32 @@
 //
 
 #include "stdafx.h"
+#include "Shader.h"
+
+#include "VCLexShader.h"
 #include "VCFont.h"
 #include "VCGLRenderer.h"
-#include "StreamHelpers.h"
+#include "VCStreamHelpers.h"
 #include "VCTexture.h"
+
+
+GlyphVerticie::GlyphVerticie()
+{
+
+}
+
+GlyphVerticie::GlyphVerticie( GLshort3 poistion, GLfloat2 uvDXFormat, GLubyte4 color ) :
+	Position(poistion),
+	UV(uvDXFormat),
+	Color(color)
+{
+
+}
+
+CharDesc::CharDesc()
+{
+	memset(KerningPairs, 0, sizeof(KerningPairs));
+}
 
 VCFont::VCFont(std::string fntPath, std::string ddsPath) :
 	m_fntPath(fntPath),
@@ -26,7 +48,7 @@ VCFont::~VCFont(void)
 
 void VCFont::Initialize()
 {
-	ifstream f (m_fntPath, ios::in | ios::binary);
+	std::ifstream f (m_fntPath, std::ios::in | std::ios::binary);
 	if (!f.is_open())
 	{
 		std::cout << "Failed to open file: " << m_fntPath << std::endl;
@@ -65,7 +87,7 @@ void VCFont::Initialize()
 	m_ddsTexture = loadDDS ( m_ddsPath.c_str() );
 
 	// Name
-	ostringstream ss;
+	std::ostringstream ss;
 	ss << m_fontName << "-" << m_info.fontSize;
 
 	if ( m_info.bitField & 32)
@@ -87,7 +109,7 @@ void VCFont::Initialize()
 }
 
 
-bool VCFont::ParseInfo(ifstream& f)
+bool VCFont::ParseInfo(std::ifstream& f)
 {
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
@@ -109,7 +131,7 @@ bool VCFont::ParseInfo(ifstream& f)
 	return true;
 }
 
-bool VCFont::ParseCommon(ifstream& f)
+bool VCFont::ParseCommon(std::ifstream& f)
 {
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
@@ -119,7 +141,7 @@ bool VCFont::ParseCommon(ifstream& f)
 	return true;
 }
 
-bool VCFont::ParsePages(ifstream& f)
+bool VCFont::ParsePages(std::ifstream& f)
 {
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
@@ -142,7 +164,7 @@ bool VCFont::ParsePages(ifstream& f)
 	return true;
 }
 
-bool VCFont::ParseCharacters(ifstream& f)
+bool VCFont::ParseCharacters(std::ifstream& f)
 {
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
@@ -158,7 +180,7 @@ bool VCFont::ParseCharacters(ifstream& f)
 	return true;
 }
 
-bool VCFont::ParseKerning(ifstream& f)
+bool VCFont::ParseKerning(std::ifstream& f)
 {
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);

@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "VCMarshalableObject.h"
+#include "VCObjectStore.h"
 
 VCMarshalableObject::VCMarshalableObject():
     Handle(-1)

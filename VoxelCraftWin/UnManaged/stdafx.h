@@ -23,11 +23,11 @@
 #include <sstream>
 #include <cstring>
 #include <fstream>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <map>
-#include <set>
+//#include <vector>
+//#include <unordered_map>
+//#include <unordered_set>
+//#include <map>
+//#include <set>
 #include <regex>
 #include <math.h>
 
@@ -46,7 +46,11 @@
 #include <mono/metadata/environment.h>
 #include <mono/metadata/mono-gc.h>
 
-#include "VCTypes.h"
-#include "Utilities.h"
-#include "Constants.h"
-#include "Macros.h"
+//#include "VCGLXByteX.h"
+//#include "VCGLXShortX.h"
+//#include "VCGLFloatX.h"
+//#include "VCGeometryTypes.h"
+//#include "VCXIntX.h"
+#include "VCUtilities.h"
+#include "VCConstants.h"
+#include "VCMacros.h"

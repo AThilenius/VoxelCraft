@@ -8,11 +8,8 @@
 
 #pragma once
 
-#include "PCH.h"
 #include "Shader.h"
 #include "VCSceneGraph.h"
-
-using namespace std;
 
 class VCVoxelShader : public Shader
 {

@@ -1,5 +1,5 @@
 //
-//  Utilities.cpp
+//  VCUtilities.cpp
 //  VoxelCraftOSX
 //
 //  Created by Alec Thilenius on 8/20/13.
@@ -7,7 +7,7 @@
 //
 
 #include "stdafx.h"
-#include "Utilities.h"
+#include "VCUtilities.h"
 
 void _glErrorCheck(std::string file, int line)
 {
