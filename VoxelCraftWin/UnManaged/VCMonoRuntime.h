@@ -8,11 +8,13 @@
 
 #pragma once
 
+struct _MonoClass;
 struct _MonoDomain;
 struct _MonoImage;
 struct _MonoMethod;
 typedef struct _MonoClass MonoClass;
 typedef struct _MonoDomain MonoDomain;
+typedef struct _MonoImage MonoImage;
 typedef struct _MonoMethod MonoMethod;
 class VCMonoMethod;
 

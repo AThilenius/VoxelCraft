@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "VCUpdateManager.h"
 #include "VCObjectStore.h"
+#include "VCMonoRuntime.h"
 
 VCUpdateManager* VCUpdateManager::Instance;
 static noArgCallback* staticCallback;
@@ -37,7 +38,7 @@ void VCUpdateManager::Update()
 // ================================      Interop      ===========
 void VCUpdateManager::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.VCEngineCore::VCInteropRegisterUpdateHandler", (void*)VCInteropRegisterUpdateHandler);
+    VCMonoRuntime::SetMethod("VCEngineCore::VCInteropRegisterUpdateHandler", (void*)VCInteropRegisterUpdateHandler);
 }
 
 void VCInteropRegisterUpdateHandler(noArgCallback* callback)

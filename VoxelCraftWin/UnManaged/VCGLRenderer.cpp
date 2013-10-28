@@ -20,6 +20,7 @@
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
 #include "VCSceneGraph.h"
+#include "VCMonoRuntime.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 VCRenderState* VCGLRenderer::PassThroughState;
@@ -275,7 +276,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 
 void VCGLRenderer::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.GLRenderer::VCInteropRendererRender", (void*)VCInteropRendererRender);
+	VCMonoRuntime::SetMethod("GLRenderer::VCInteropRendererRender", (void*)VCInteropRendererRender);
 }
 
 void VCInteropRendererRender( int from, int to )

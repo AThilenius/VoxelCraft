@@ -10,6 +10,7 @@
 #include "VCGui.h"
 
 #include "VCLexicalEngine.h"
+#include "VCMonoRuntime.h"
 
 VCGui* VCGui::Instance = NULL;
 
@@ -37,12 +38,12 @@ void VCGui::Initialize()
 
 void VCGui::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiClear",			(void*)VCInteropGuiClear);
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawRectangle",	(void*)VCInteropGuiDrawRectangle);
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiDrawText",		(void*)VCInteropGuiDrawText);
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
-	mono_add_internal_call("VCEngine.Gui::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiClear",				(void*)VCInteropGuiClear);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawRectangle",		(void*)VCInteropGuiDrawRectangle);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiGetTextMetrics",		(void*)VCInteropGuiGetTextMetrics);
 }
 
 void VCInteropGuiClear()
@@ -60,15 +61,9 @@ void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 col
 	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropGuiDrawText(MonoString* font, MonoString* text, VCPoint point, vcint4 color)
+void VCInteropGuiDrawText(VCMonoStringPtr font,VCMonoStringPtr text, VCPoint point, vcint4 color)
 {
-	char* t = mono_string_to_utf8(text);
-	char* f = mono_string_to_utf8(font);
-
-	VCGui::Instance->Text.DrawText(t, point, f, GLubyte4(color.X, color.Y, color.Z, color.W));
-
-	mono_free(t);
-	mono_free(f);
+	VCGui::Instance->Text.DrawText(VCMonoString(text), point, VCMonoString(font), GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
 void VCInteropGuiAddVerticie( GuiRectVerticie vert )
@@ -76,13 +71,7 @@ void VCInteropGuiAddVerticie( GuiRectVerticie vert )
 	VCGui::Instance->Geometry.AddQuad(vert);
 }
 
-void VCInteropGuiGetTextMetrics(MonoString* font, MonoString* text, VCTextMetrics* metrics)
+void VCInteropGuiGetTextMetrics(VCMonoStringPtr font, VCMonoStringPtr text, VCTextMetrics* metrics)
 {
-	char* t = mono_string_to_utf8(text);
-	char* f = mono_string_to_utf8(font);
-
-	*metrics = VCLexicalEngine::Instance->GetMetrics(f, t);
-
-	mono_free(t);
-	mono_free(f);
+	*metrics = VCLexicalEngine::Instance->GetMetrics(VCMonoString(font), VCMonoString(text));
 }

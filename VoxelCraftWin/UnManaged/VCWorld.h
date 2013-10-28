@@ -20,6 +20,7 @@ struct RaycastHit;
 struct VCInteropBlock;
 
 #include "VCMarshalableObject.h"
+#include "VCMonoString.h"
 
 
 struct VCEditorFileHeader001
@@ -78,8 +79,8 @@ void VCInteropWorldInitializeEmpty(int handle);
 void VCInteropWorldGenerateRegenerate(int handle);
 void VCInteropWorldRebuild(int handle);
 
-void VCInteropWorldSaveToFile (int handle, MonoString* path);
-void VCInteropWorldLoadFromFile (int handle, MonoString* path);
+void VCInteropWorldSaveToFile (int handle, VCMonoStringPtr path);
+void VCInteropWorldLoadFromFile (int handle, VCMonoStringPtr path);
 
 VCInteropBlock VCInteropWorldGetBlock (int handle, int x, int y, int z );
 void VCInteropWorldSetBlock (int handle, int x, int y, int z, VCInteropBlock block);

@@ -19,14 +19,18 @@
 #include <mono/metadata/environment.h>
 #include <mono/metadata/mono-gc.h>
 
-VCMonoString::VCMonoString(_MonoString* monoString)
+VCMonoString::VCMonoString(VCMonoStringPtr monoString)
 {
-	m_charStar = mono_string_to_utf8(monoString);
-	m_stdString = std::string(m_charStar);
+	m_charStar = mono_string_to_utf8((MonoString*) monoString);
 }
 
 
 VCMonoString::~VCMonoString(void)
 {
 	mono_free(m_charStar);
+}
+
+VCMonoStringPtr VCMonoString::MakeString( const char* text )
+{
+	return mono_string_new (mono_domain_get(), text);
 }

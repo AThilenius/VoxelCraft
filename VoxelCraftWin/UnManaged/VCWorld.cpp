@@ -17,6 +17,7 @@
 #include "VCIChunkGenerator.h"
 #include "VCPhysics.h"
 #include "VCObjectStore.h"
+#include "VCMonoRuntime.h"
 
 float IntBound ( float s, float ds )
 {
@@ -327,21 +328,21 @@ void VCWorld::Load( std::ifstream& stream )
 // =====   Interop   ======================================================
 void VCWorld::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.World::VCInteropNewWorld",					(void*)VCInteropNewWorld);
-	mono_add_internal_call("VCEngine.World::VCInteropReleaseWorld",				(void*)VCInteropReleaseWorld);
+	VCMonoRuntime::SetMethod("World::VCInteropNewWorld",					(void*)VCInteropNewWorld);
+	VCMonoRuntime::SetMethod("World::VCInteropReleaseWorld",				(void*)VCInteropReleaseWorld);
 
-	mono_add_internal_call("VCEngine.World::VCInteropWorldGetBlock",			(void*)VCInteropWorldGetBlock);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldSetBlock",			(void*)VCInteropWorldSetBlock);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldSetGenerator",		(void*)VCInteropWorldSetGenerator);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldGetBlock",				(void*)VCInteropWorldGetBlock);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSetBlock",				(void*)VCInteropWorldSetBlock);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSetGenerator",			(void*)VCInteropWorldSetGenerator);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
 
-	mono_add_internal_call("VCEngine.World::VCInteropWorldSaveToFile",			(void*)VCInteropWorldSaveToFile);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldLoadFromFile",		(void*)VCInteropWorldLoadFromFile);
-
-	mono_add_internal_call("VCEngine.World::VCInteropWorldGenerateRegenerate",	(void*)VCInteropWorldGenerateRegenerate);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
-	mono_add_internal_call("VCEngine.World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
+	
+	VCMonoRuntime::SetMethod("World::VCInteropWorldGenerateRegenerate",		(void*)VCInteropWorldGenerateRegenerate);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
 }
 
 int VCInteropNewWorld()
@@ -388,31 +389,26 @@ void VCInteropWorldRebuild( int handle )
 	obj->Rebuild();
 }
 
-
-void VCInteropWorldSaveToFile( int handle, MonoString* path )
+void VCInteropWorldSaveToFile( int handle, VCMonoStringPtr path )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	char* p = mono_string_to_utf8(path);
 
 	{
-		std::ofstream ofs(p, std::ios::in | std::ios::binary);
+		std::ofstream ofs((char*)VCMonoString(path), std::ios::in | std::ios::binary);
 		obj->Save(ofs);
 	}
 
-	mono_free(p);
 }
 
-void VCInteropWorldLoadFromFile( int handle, MonoString* path )
+void VCInteropWorldLoadFromFile( int handle, VCMonoStringPtr path )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	char* p = mono_string_to_utf8(path);
 
 	{
-		std::ifstream ifs(p, std::ios::out | std::ios::binary);
+		std::ifstream ifs((char*)VCMonoString(path), std::ios::out | std::ios::binary);
 		obj->Load(ifs);
 	}
 
-	mono_free(p);
 }
 
 

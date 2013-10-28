@@ -8,23 +8,18 @@
 
 #pragma once
 
-#include <string>
-#include <memory>
-
-struct _MonoString;
+typedef void* VCMonoStringPtr;
 
 class VCMonoString
 {
 public:
-	VCMonoString(_MonoString* monoString);
+	VCMonoString(VCMonoStringPtr monoString);
 	~VCMonoString(void);
 
-	operator std::string() { return m_stdString; }
+	static VCMonoStringPtr MakeString (const char* text);
+	operator std::string() { return std::string(m_charStar); }
 	operator char*() { return m_charStar; }
 
 private:
-	std::string m_stdString;
 	char* m_charStar;
 };
-
-typedef std::shared_ptr<VCMonoString> VCMonoStrinPtr;

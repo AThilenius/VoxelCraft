@@ -121,9 +121,9 @@ void VCWindow::SetVSync(bool enabled)
 
 void VCWindow::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
-	mono_add_internal_call("VCEngine.Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
-	mono_add_internal_call("VCEngine.Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
 }
 
 void VCInteropWindowSwapBuffers()

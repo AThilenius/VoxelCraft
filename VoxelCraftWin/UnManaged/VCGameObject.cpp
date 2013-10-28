@@ -11,6 +11,7 @@
 
 #include "VCSceneGraph.h"
 #include "VCObjectStore.h"
+#include "VCMonoRuntime.h"
 
 
 VCGameObject::VCGameObject(void):
@@ -98,20 +99,21 @@ void VCGameObject::SetParent( VCGameObject* parent )
 void VCGameObject::RegisterMonoHandlers()
 {
     // CTor / DTor
-    mono_add_internal_call("VCEngine.GameObject::VCInteropNewGameObject",           (void*)VCInteropNewGameObject);
-    mono_add_internal_call("VCEngine.GameObject::VCInteropReleaseGameObject",       (void*)VCInteropReleaseGameObject);
+    VCMonoRuntime::SetMethod("GameObject::VCInteropNewGameObject",           (void*)VCInteropNewGameObject);
+	VCMonoRuntime::SetMethod("GameObject::VCInteropNewGameObject", (void*)VCInteropNewGameObject);
+    VCMonoRuntime::SetMethod("GameObject::VCInteropReleaseGameObject",       (void*)VCInteropReleaseGameObject);
     
     // Parent / Children
-    mono_add_internal_call("VCEngine.GameObject::VCInteropGameObjectSetParent",     (void*)VCInteropGameObjectSetParent);
+    VCMonoRuntime::SetMethod("GameObject::VCInteropGameObjectSetParent",     (void*)VCInteropGameObjectSetParent);
     
     // Transform
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetPosition",         (void*)VCInteropTransformGetPosition);
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetRotation",         (void*)VCInteropTransformGetRotation);
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformGetScale",         (void*)VCInteropTransformGetScale);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetPosition",         (void*)VCInteropTransformGetPosition);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetRotation",         (void*)VCInteropTransformGetRotation);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetScale",         (void*)VCInteropTransformGetScale);
 
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetPosition",         (void*)VCInteropTransformSetPosition);
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetRotation",         (void*)VCInteropTransformSetRotation);
-	mono_add_internal_call("VCEngine.Transform::VCInteropTransformSetScale",         (void*)VCInteropTransformSetScale);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetPosition",         (void*)VCInteropTransformSetPosition);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetRotation",         (void*)VCInteropTransformSetRotation);
+	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetScale",         (void*)VCInteropTransformSetScale);
 }
 
 // CTor / DTor

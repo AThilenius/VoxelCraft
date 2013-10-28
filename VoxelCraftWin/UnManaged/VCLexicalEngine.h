@@ -15,6 +15,7 @@ struct GlyphVerticie;
 
 #include <unordered_map>
 #include "VCAllPrimitives.h"
+#include "VCMonoString.h"
 
 struct VCTextMetrics
 {
@@ -53,5 +54,5 @@ public:
 };
 
 // Interop
-MonoString* VCInteropLoadFont (MonoString* fntPath, MonoString* ddsPath);
+VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath);
 

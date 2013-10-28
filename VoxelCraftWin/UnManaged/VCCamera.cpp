@@ -12,6 +12,7 @@
 #include "VCSceneGraph.h"
 #include "VCWindow.h"
 #include "VCObjectStore.h"
+#include "VCMonoRuntime.h"
 
 
 VCCamera::VCCamera(void):
@@ -72,11 +73,11 @@ glm::vec3 VCCamera::ScreenPointToDirection( VCRectangle viewPort, VCPoint screen
 // ================================      Interop      ============
 void VCCamera::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.Camera::VCInteropNewCamera",						(void*)VCInteropNewCamera);
-    mono_add_internal_call("VCEngine.Camera::VCInteropReleaseCamera",					(void*)VCInteropReleaseCamera);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraScreenPointToDirection",	(void*)VCInteropCameraScreenPointToDirection);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraSetFields",					(void*)VCInteropCameraSetFields);
-	mono_add_internal_call("VCEngine.Camera::VCInteropCameraGetFields",					(void*)VCInteropCameraGetFields);
+    VCMonoRuntime::SetMethod("Camera::VCInteropNewCamera",							(void*)VCInteropNewCamera);
+    VCMonoRuntime::SetMethod("Camera::VCInteropReleaseCamera",						(void*)VCInteropReleaseCamera);
+	VCMonoRuntime::SetMethod("Camera::VCInteropCameraScreenPointToDirection",		(void*)VCInteropCameraScreenPointToDirection);
+	VCMonoRuntime::SetMethod("Camera::VCInteropCameraSetFields",					(void*)VCInteropCameraSetFields);
+	VCMonoRuntime::SetMethod("Camera::VCInteropCameraGetFields",					(void*)VCInteropCameraGetFields);
 }
 
 int VCInteropNewCamera()

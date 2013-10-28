@@ -23,11 +23,6 @@
 #include <sstream>
 #include <cstring>
 #include <fstream>
-//#include <vector>
-//#include <unordered_map>
-//#include <unordered_set>
-//#include <map>
-//#include <set>
 #include <regex>
 #include <math.h>
 
@@ -36,21 +31,12 @@
 #include "glfw3.h"
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
-#include <mono/mini/jit.h>
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/mono-debug.h>
-#include <mono/metadata/debug-helpers.h>
-#include <mono/metadata/appdomain.h>
-#include <mono/metadata/object.h>
-#include <mono/metadata/threads.h>
-#include <mono/metadata/environment.h>
-#include <mono/metadata/mono-gc.h>
 
-//#include "VCGLXByteX.h"
-//#include "VCGLXShortX.h"
-//#include "VCGLFloatX.h"
-//#include "VCGeometryTypes.h"
-//#include "VCXIntX.h"
+#include "VCGLXByteX.h"
+#include "VCGLXShortX.h"
+#include "VCGLFloatX.h"
+#include "VCGeometryTypes.h"
+#include "VCXIntX.h"
 #include "VCUtilities.h"
 #include "VCConstants.h"
 #include "VCMacros.h"

@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "VCDebug.h"
+#include "VCMonoRuntime.h"
 
 int VCDebug::m_lineVertCount = 0;
 LineVerticie VCDebug::m_lineVerts[] = {};
@@ -124,9 +125,9 @@ void VCDebug::Render()
 
 void VCDebug::RegisterMonoHandlers()
 {
-	mono_add_internal_call("VCEngine.Debug::VCInteropDebugReset",		(void*) VCInteropDebugReset);
-	mono_add_internal_call("VCEngine.Debug::VCInteropDebugDrawLine",	(void*) VCInteropDebugDrawLine);
-	mono_add_internal_call("VCEngine.Debug::VCInteropDebugDrawCube",	(void*) VCInteropDebugDrawCube);
+	VCMonoRuntime::SetMethod("Debug::VCInteropDebugReset",		(void*) VCInteropDebugReset);
+	VCMonoRuntime::SetMethod("Debug::VCInteropDebugDrawLine",	(void*) VCInteropDebugDrawLine);
+	VCMonoRuntime::SetMethod("Debug::VCInteropDebugDrawCube",	(void*) VCInteropDebugDrawCube);
 }
 
 void VCInteropDebugReset()

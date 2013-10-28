@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "VCGLXByteX.h"
-#include "VCGLXShortX.h"
-#include "VCGLFloatX.h"
-#include "VCGeometryTypes.h"
-#include "VCXIntX.h"
+//#include "VCGLXByteX.h"
+//#include "VCGLXShortX.h"
+//#include "VCGLFloatX.h"
+//#include "VCGeometryTypes.h"
+//#include "VCXIntX.h"

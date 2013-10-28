@@ -9,6 +9,16 @@
 #include "stdafx.h"
 #include "VCMonoMethod.h"
 
+#include <mono/mini/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/mono-debug.h>
+#include <mono/metadata/debug-helpers.h>
+#include <mono/metadata/appdomain.h>
+#include <mono/metadata/object.h>
+#include <mono/metadata/threads.h>
+#include <mono/metadata/environment.h>
+#include <mono/metadata/mono-gc.h>
+
 VCMonoMethod::VCMonoMethod( MonoMethod* method ) :
 	InternalMethod(method)
 {

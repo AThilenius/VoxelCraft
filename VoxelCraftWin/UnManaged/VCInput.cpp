@@ -87,9 +87,9 @@ void VCInput::Initalize()
 // ================================      Interop      ============
 void VCInput::RegisterMonoHandlers()
 {
-    mono_add_internal_call("VCEngine.Input::VCInteropInputGetMouse",			(void*)VCInteropInputGetMouse);
-    mono_add_internal_call("VCEngine.Input::VCInteropInputSetMouse",			(void*)VCInteropInputSetMouse);
-	mono_add_internal_call("VCEngine.Input::VCInteropInputSetCursorVisible",    (void*)VCInteropInputSetCursorVisible);
+    VCMonoRuntime::SetMethod("Input::VCInteropInputGetMouse",			(void*)VCInteropInputGetMouse);
+    VCMonoRuntime::SetMethod("Input::VCInteropInputSetMouse",			(void*)VCInteropInputSetMouse);
+	VCMonoRuntime::SetMethod("Input::VCInteropInputSetCursorVisible",    (void*)VCInteropInputSetCursorVisible);
 }
 
 void VCInteropInputGetMouse(float* x, float* y)

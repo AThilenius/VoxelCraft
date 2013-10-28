@@ -12,6 +12,7 @@ struct VCTextMetrics;
 
 #include "VCGeometryBuilder.h"
 #include "VCTextBuilder.h"
+#include "VCMonoString.h"
 
 class VCGui
 {
@@ -39,5 +40,5 @@ void VCInteropGuiClear();
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
 void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color);
-void VCInteropGuiDrawText(MonoString* font, MonoString* text, VCPoint point, vcint4 color);
-void VCInteropGuiGetTextMetrics(MonoString* font, MonoString* text, VCTextMetrics* metrics);
+void VCInteropGuiDrawText(VCMonoStringPtr font, VCMonoStringPtr text, VCPoint point, vcint4 color);
+void VCInteropGuiGetTextMetrics(VCMonoStringPtr font, VCMonoStringPtr text, VCTextMetrics* metrics);
