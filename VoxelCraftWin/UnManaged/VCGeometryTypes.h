@@ -8,19 +8,21 @@
 
 #pragma once
 
-struct Point
+class VCPoint
 {
-	Point();
-	Point(int x, int y);
+public:
+	VCPoint();
+	VCPoint(int x, int y);
 	int X;
 	int Y;
 
 };
 
-struct Rectangle
+class VCRectangle
 {
-	Rectangle();
-	Rectangle(int x, int y, int width, int height);
+public:
+	VCRectangle();
+	VCRectangle(int x, int y, int width, int height);
 	int X;
 	int Y;
 	int Width;
@@ -28,10 +30,11 @@ struct Rectangle
 
 };
 
-struct RectangleF
+class VCRectangleF
 {
-	RectangleF();
-	RectangleF(float x, float y, float width, float height);
+public:
+	VCRectangleF();
+	VCRectangleF(float x, float y, float width, float height);
 	float X;
 	float Y;
 	float Width;

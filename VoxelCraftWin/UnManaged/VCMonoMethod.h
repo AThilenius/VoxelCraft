@@ -8,19 +8,16 @@
 
 #pragma once
 
-#include "PCH.h"
+struct _MonoMethod;
+typedef struct _MonoMethod MonoMethod;
 
 class VCMonoMethod
 {
 public:
-	VCMonoMethod(MonoMethod* method):
-		InternalMethod(method){}
+	VCMonoMethod(MonoMethod* method);
 	~VCMonoMethod(void);
 
-	void Invoke (void ** args)
-	{
-		mono_runtime_invoke(InternalMethod, NULL, args, NULL);
-	}
+	void Invoke (void ** args);
 
 	MonoMethod* InternalMethod;
 };

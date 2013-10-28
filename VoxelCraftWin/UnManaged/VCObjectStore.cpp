@@ -11,14 +11,11 @@
 
 VCObjectStore* VCObjectStore::Instance;
 
-VCObjectStore::VCObjectStore()
+VCObjectStore::VCObjectStore():
+	m_length(1000),
+	m_count(0)
 {
     VCObjectStore::Instance = this;
-    
-    // Init size of 1K objects
-    m_objectArray = (void**) malloc(sizeof(void*) * 1000);
-    m_length = 1000;
-    m_count = 0;
 }
 
 VCObjectStore::~VCObjectStore()
@@ -28,6 +25,8 @@ VCObjectStore::~VCObjectStore()
 
 void VCObjectStore::Initalize()
 {
+	// Init size of 1K objects
+	m_objectArray = (void**) malloc(sizeof(void*) * 1000);
     std::cout << "VCObjectStore Initialized." << std::endl;
 }
 

@@ -15,7 +15,7 @@ VCRenderStage::VCRenderStage(void):
 	Shader(NULL),
 	Blend(true),
 	DepthTest(true),
-	Viewport(RectangleF(0, 0, 1, 1))
+	Viewport(VCRectangleF(0, 0, 1, 1))
 {
 	for ( int i = 0; i < MAX_TEXTURES; i++ )
 		Textures[i] = 0;

@@ -22,6 +22,7 @@
 #include "VCWindow.h"
 #include "VCGLRenderer.h"
 #include "VCWorld.h"
+#include "VCMonoMethod.h"
 
 VCMonoRuntime* VCMonoRuntime::Instance = NULL;
 MonoDomain* VCMonoRuntime::m_pRootDomain;

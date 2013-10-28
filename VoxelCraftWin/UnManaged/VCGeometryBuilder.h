@@ -31,8 +31,8 @@ public:
 	VCGeometryBuilder(void);
 	~VCGeometryBuilder(void);
 
-	void DrawRectangle ( Rectangle frame, GLubyte4 color );
-	void DrawEllipse ( Point centroid, int width, int height, GLubyte4 color );
+	void DrawRectangle ( VCRectangle frame, GLubyte4 color );
+	void DrawEllipse ( VCPoint centroid, int width, int height, GLubyte4 color );
 	void AddQuad( GuiRectVerticie vert );
 
 	void Reset();

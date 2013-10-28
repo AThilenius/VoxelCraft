@@ -12,7 +12,6 @@
 //#include <signal.h>
 
 #include "stdafx.h"
-#include "VCCamera.h"
 #include "VCApplication.h"
 
 int main(int argc, char** argv)

@@ -8,8 +8,8 @@
 
 #include "stdafx.h"
 #include "VCColorPassThroughShader.h"
-#include "VCCamera.h"
 #include "VCSceneGraph.h"
+#include "VCCamera.h"
 
 
 static std::string g_vcPTVertexShader =

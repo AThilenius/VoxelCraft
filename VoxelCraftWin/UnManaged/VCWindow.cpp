@@ -19,7 +19,7 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	VCWindow::Instance->Width = width;
 	VCWindow::Instance->Height = height;
-	VCWindow::Instance->FullViewport = Rectangle(0, 0, width, height);
+	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
 
 	void* args[2] = { &width, &height };
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
@@ -87,7 +87,7 @@ void VCWindow::Initalize()
     std::cout << "Hardware: " << glGetString(GL_RENDERER) << std::endl << std::endl;
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
-	FullViewport = Rectangle(0, 0, Width, Height);
+	FullViewport = VCRectangle(0, 0, Width, Height);
 
 	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
 	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);

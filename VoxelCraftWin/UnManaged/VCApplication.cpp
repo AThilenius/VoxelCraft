@@ -9,24 +9,6 @@
 #include "stdafx.h"
 #include "VCApplication.h"
 
-//#include "PCH.h"
-#include "VCWorld.h"
-#include "VCWindow.h"
-#include "VCGLRenderer.h"
-#include "VCChunk.h"
-#include "VCGameObject.h"
-#include "VCInput.h"
-#include "VCSceneGraph.h"
-#include "VCCamera.h"
-#include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
-#include "VCLexicalEngine.h"
-#include "VCGui.h"
-#include "VCDebug.h"
-#include "VCFlatGenerator.h"
-#include "VCNoiseGenerator.h"
-#include "VCTime.h"
-
 VCApplication* VCApplication::Instance;
 
 VCApplication::VCApplication(void)

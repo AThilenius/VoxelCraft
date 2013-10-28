@@ -19,9 +19,6 @@ int VCSceneGraph::s_handle;
 VCSceneGraph::VCSceneGraph()
 {
     VCSceneGraph::Instance = this;
-    VCSceneGraph::s_handle = VCObjectStore::Instance->RegisterObject(this);
-    RootNode = new VCGameObject();
-    RootNode->Name = "Root";
 }
 
 VCSceneGraph::~VCSceneGraph()
@@ -30,6 +27,9 @@ VCSceneGraph::~VCSceneGraph()
 
 void VCSceneGraph::Initalize()
 {
+	VCSceneGraph::s_handle = VCObjectStore::Instance->RegisterObject(this);
+	RootNode = new VCGameObject();
+	RootNode->Name = "Root";
     std::cout << "VCSceneGraph Initialized" << std::endl;
 }
 

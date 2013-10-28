@@ -7,17 +7,17 @@
 //
 
 #include "stdafx.h"
-#include <Windows.h>
 #include "VCTime.h"
+//#include <Windows.h>
 
 VCTime* VCTime::Instance;
 float VCTime::CurrentTime;
 float VCTime::DeltaTime;
 
-INT64 vctime_tickFrequancy = 0;
-double vctime_ticksPerSecond = 0;
-INT64 vctime_startTicks = 0;
-INT64 vctime_lastTime = 0;
+//INT64 vctime_tickFrequancy = 0;
+//double vctime_ticksPerSecond = 0;
+//INT64 vctime_startTicks = 0;
+//INT64 vctime_lastTime = 0;
 
 VCTime::VCTime(void)
 {
@@ -33,17 +33,20 @@ void VCTime::Initalize()
 {
     //vctime_startTime = boost::posix_time::microsec_clock::local_time();
     //vctime_lastFrameTime = boost::posix_time::microsec_clock::local_time();
-	LARGE_INTEGER li;
 
-    QueryPerformanceFrequency(&li);
-	vctime_tickFrequancy = li.QuadPart;
-	vctime_ticksPerSecond = (double)(vctime_tickFrequancy);
 
-	QueryPerformanceCounter(&li);
-	vctime_startTicks = li.QuadPart;
-	vctime_lastTime = vctime_startTicks;
 
-    std::cout << "VCTime Initialized [ " << (int)vctime_ticksPerSecond << " T/S ]" << std::endl;
+	//LARGE_INTEGER li;
+
+ //   QueryPerformanceFrequency(&li);
+	//vctime_tickFrequancy = li.QuadPart;
+	//vctime_ticksPerSecond = (double)(vctime_tickFrequancy);
+
+	//QueryPerformanceCounter(&li);
+	//vctime_startTicks = li.QuadPart;
+	//vctime_lastTime = vctime_startTicks;
+
+    //std::cout << "VCTime Initialized [ " << (int)vctime_ticksPerSecond << " T/S ]" << std::endl;
 }
 
 void VCTime::Update()
@@ -54,15 +57,17 @@ void VCTime::Update()
     //vctime_deltaTime = delta.total_microseconds() / 1000000.0f;
     //
     //vctime_lastFrameTime = currentTime;
-	LARGE_INTEGER li;
 
-	QueryPerformanceCounter(&li);
-	INT64 newCurrentTime = li.QuadPart;
 
-	VCTime::DeltaTime = (float)((double)(newCurrentTime - vctime_lastTime) / vctime_ticksPerSecond);
-	VCTime::CurrentTime = (float)((double)(newCurrentTime - vctime_startTicks) / vctime_ticksPerSecond);
+	//LARGE_INTEGER li;
 
-	vctime_lastTime = newCurrentTime;
+	//QueryPerformanceCounter(&li);
+	//INT64 newCurrentTime = li.QuadPart;
+
+	//VCTime::DeltaTime = (float)((double)(newCurrentTime - vctime_lastTime) / vctime_ticksPerSecond);
+	//VCTime::CurrentTime = (float)((double)(newCurrentTime - vctime_startTicks) / vctime_ticksPerSecond);
+
+	//vctime_lastTime = newCurrentTime;
 }
 
 //double VCTime::CurrentTime()

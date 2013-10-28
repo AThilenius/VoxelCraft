@@ -19,10 +19,6 @@ class VCIRenderable;
 
 #include <map>
 #include <set>
-
-#include "VCVoxelShader.h"
-
-#include "Shader.h"
 #include "VCRenderState.h"
 
 class VCGLRenderer

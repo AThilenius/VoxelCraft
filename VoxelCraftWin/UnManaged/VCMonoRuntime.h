@@ -16,13 +16,13 @@ typedef struct _MonoDomain MonoDomain;
 typedef struct _MonoMethod MonoMethod;
 class VCMonoMethod;
 
-#include "VCGui.h"
-#include "VCLexicalEngine.h"
-#include "VCWindow.h"
-#include "VCGLRenderer.h"
-#include "VCWorld.h"
-#include <string>
-#include "VCMonoMethod.h"
+//#include "VCGui.h"
+//#include "VCLexicalEngine.h"
+//#include "VCWindow.h"
+//#include "VCGLRenderer.h"
+//#include "VCWorld.h"
+//#include <string>
+//#include "VCMonoMethod.h"
 
 class VCMonoRuntime
 {

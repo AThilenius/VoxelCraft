@@ -37,7 +37,7 @@ public:
 // Interop
 void VCInteropGuiClear();
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);
-void VCInteropGuiDrawRectangle(Rectangle rect, vcint4 color);
-void VCInteropGuiDrawEllipse(Point centroid, int width, int height, vcint4 color);
-void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint4 color);
+void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
+void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color);
+void VCInteropGuiDrawText(MonoString* font, MonoString* text, VCPoint point, vcint4 color);
 void VCInteropGuiGetTextMetrics(MonoString* font, MonoString* text, VCTextMetrics* metrics);

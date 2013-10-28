@@ -13,7 +13,7 @@ class VCCamera;
 
 #include <unordered_set>
 // HACK: Removing causes compiler error
-#include "VCCamera.h"
+//#include "VCCamera.h"
 
 class VCSceneGraph
 {

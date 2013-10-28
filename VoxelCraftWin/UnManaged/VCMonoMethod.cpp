@@ -8,3 +8,19 @@
 
 #include "stdafx.h"
 #include "VCMonoMethod.h"
+
+VCMonoMethod::VCMonoMethod( MonoMethod* method ) :
+	InternalMethod(method)
+{
+
+}
+
+VCMonoMethod::~VCMonoMethod()
+{
+
+}
+
+void VCMonoMethod::Invoke( void ** args )
+{
+	mono_runtime_invoke(InternalMethod, NULL, args, NULL);
+}

@@ -10,32 +10,32 @@
 #include "VCGeometryTypes.h"
 
 
-Point::Point()
+VCPoint::VCPoint()
 {
 
 }
 
-Point::Point( int x, int y ) : X(x), Y(y)
+VCPoint::VCPoint( int x, int y ) : X(x), Y(y)
 {
 
 }
 
-Rectangle::Rectangle()
+VCRectangle::VCRectangle()
 {
 
 }
 
-Rectangle::Rectangle( int x, int y, int width, int height ) : X(x), Y(y), Width(width), Height(height)
+VCRectangle::VCRectangle( int x, int y, int width, int height ) : X(x), Y(y), Width(width), Height(height)
 {
 
 }
 
-RectangleF::RectangleF()
+VCRectangleF::VCRectangleF()
 {
 
 }
 
-RectangleF::RectangleF( float x, float y, float width, float height ) : X(x), Y(y), Width(width), Height(height)
+VCRectangleF::VCRectangleF( float x, float y, float width, float height ) : X(x), Y(y), Width(width), Height(height)
 {
 
 }

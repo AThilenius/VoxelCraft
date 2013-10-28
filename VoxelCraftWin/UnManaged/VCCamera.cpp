@@ -21,7 +21,7 @@ VCCamera::VCCamera(void):
 	FarClip(400.0f)
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
-	Frame = Rectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height);
+	Frame = VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height);
 }
 
 
@@ -45,10 +45,10 @@ void VCCamera::PreRender()
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;
 }
 
-glm::vec3 VCCamera::ScreenPointToDirection( Rectangle viewPort, Point screenPoint )
+glm::vec3 VCCamera::ScreenPointToDirection( VCRectangle viewPort, VCPoint screenPoint )
 {
 	// Convert viewport
-	Rectangle screenBounds = VCWindow::Instance->FullViewport;
+	VCRectangle screenBounds = VCWindow::Instance->FullViewport;
 	glm::vec2 ll (viewPort.X, viewPort.Y);
 	glm::vec2 ur (viewPort.X + viewPort.Width, viewPort.Y + viewPort.Height);
 	glm::vec2 sp (screenPoint.X, screenPoint.Y);
@@ -92,13 +92,13 @@ void VCInteropReleaseCamera(int handle)
 	delete obj;
 }
 
-glm::vec3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint)
+glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort, VCPoint screenPoint)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 	return obj->ScreenPointToDirection(viewPort, screenPoint);
 }
 
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame)
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle frame)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 
@@ -109,7 +109,7 @@ void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float near
 	obj->Frame = frame;
 }
 
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, Rectangle* frame)
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* frame)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 

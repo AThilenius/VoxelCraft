@@ -24,7 +24,7 @@ public:
 
 	void Reset();
 	void Initialize();
-	void DrawText( std::string text, Point llPoint, std::string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) );
+	void DrawText( std::string text, VCPoint llPoint, std::string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) );
 
 private:
 	std::vector<VCText*> m_text;

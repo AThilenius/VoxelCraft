@@ -30,7 +30,7 @@ public:
 public:
 	static VCWindow* Instance;
 	GLFWwindow* GLFWWindowHandle;
-	Rectangle FullViewport;
+	VCRectangle FullViewport;
 	int Width;
 	int Height;
 

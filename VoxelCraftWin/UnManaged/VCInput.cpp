@@ -10,6 +10,7 @@
 #include "VCInput.h"
 #include "VCWindow.h"
 #include "VCMonoRuntime.h"
+#include "VCMonoMethod.h"
 
 VCMonoMethod* VCInput::KeyCallback;
 VCMonoMethod* VCInput::CharCallback;

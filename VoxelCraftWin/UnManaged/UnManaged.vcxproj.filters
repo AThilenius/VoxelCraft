@@ -240,9 +240,6 @@
     <ClInclude Include="PathUtil.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PCH.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="VCTime.h">
       <Filter>Utils</Filter>
     </ClInclude>

@@ -77,7 +77,6 @@
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
-    <ClInclude Include="PCH.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />

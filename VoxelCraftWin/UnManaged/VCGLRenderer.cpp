@@ -15,6 +15,7 @@
 #include "VCLexShader.h"
 #include "VCGuiShader.h"
 #include "VCColorPassThroughShader.h"
+#include "VCVoxelShader.h"
 
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
@@ -29,7 +30,6 @@ VCGLRenderer::VCGLRenderer(void):
 	ShadowFallback(false)
 {
 	VCGLRenderer::Instance = this;
-    glErrorCheck();
 }
 
 
@@ -106,7 +106,7 @@ void VCGLRenderer::Initialize()
 void VCGLRenderer::Render(int fromBatch, int toBatch)
 {
 	static int lastFrameBuffer = 0;
-	static RectangleF lastViewport;
+	static VCRectangleF lastViewport;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

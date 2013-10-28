@@ -49,7 +49,7 @@ VCGeometryBuilder::~VCGeometryBuilder( void )
 
 }
 
-void VCGeometryBuilder::DrawRectangle( Rectangle frame, GLubyte4 color )
+void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
@@ -70,7 +70,7 @@ void VCGeometryBuilder::DrawRectangle( Rectangle frame, GLubyte4 color )
 	m_verts[m_vCount++] = ur;
 }
 
-void VCGeometryBuilder::DrawEllipse( Point centroid, int width, int height, GLubyte4 color )
+void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 color )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
@@ -88,7 +88,7 @@ void VCGeometryBuilder::DrawEllipse( Point centroid, int width, int height, GLub
 	firstRad.y += centroid.Y;
 
 	// Truncate
-	Point p1 (firstRad.x, firstRad.y);
+	VCPoint p1 (firstRad.x, firstRad.y);
 
 	for (int i = 1; i < VC_GEOMETRY_RESOLUTION; i++)
 	{
@@ -103,7 +103,7 @@ void VCGeometryBuilder::DrawEllipse( Point centroid, int width, int height, GLub
 		rad2.y += centroid.Y;
 
 		// Truncate
-		Point p2 (rad2.x, rad2.y);
+		VCPoint p2 (rad2.x, rad2.y);
 
 		// Add verts ( This way is actually faster... I <3 the profiler )
 		m_verts[m_vCount].Position.x = (GLushort)centroid.X;	m_verts[m_vCount].Position.y = (GLushort)centroid.Y;	m_verts[m_vCount++].Color = color;

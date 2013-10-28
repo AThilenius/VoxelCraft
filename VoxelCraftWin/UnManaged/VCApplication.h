@@ -8,16 +8,16 @@
 
 #pragma once
 
-class VCWindow;
-class VCGLRenderer;
-class VCSceneGraph;
-class VCInput;
-class VCTime;
-class VCObjectStore;
-class VCMonoRuntime;
-class VCLexicalEngine;
-class VCGui;
-class VCDebug;
+#include "VCMonoRuntime.h"
+#include "VCWindow.h"
+#include "VCObjectStore.h"
+#include "VCInput.h"
+#include "VCGLRenderer.h"
+#include "VCLexicalEngine.h"
+#include "VCGui.h"
+#include "VCTime.h"
+#include "VCSceneGraph.h"
+#include "VCDebug.h"
 
 class VCApplication
 {

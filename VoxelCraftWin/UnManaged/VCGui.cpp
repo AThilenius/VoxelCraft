@@ -50,17 +50,17 @@ void VCInteropGuiClear()
 	VCGui::Instance->Reset();
 }
 
-void VCInteropGuiDrawRectangle(Rectangle rect, vcint4 color)
+void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)
 {
 	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropGuiDrawEllipse(Point centroid, int width, int height, vcint4 color)
+void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color)
 {
 	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropGuiDrawText(MonoString* font, MonoString* text, Point point, vcint4 color)
+void VCInteropGuiDrawText(MonoString* font, MonoString* text, VCPoint point, vcint4 color)
 {
 	char* t = mono_string_to_utf8(text);
 	char* f = mono_string_to_utf8(font);

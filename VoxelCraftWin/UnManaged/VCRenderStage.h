@@ -24,7 +24,7 @@ public:
 	GLuint FrameBuffer;
 	Shader* Shader;
 	GLuint Textures[MAX_TEXTURES];
-	RectangleF Viewport;
+	VCRectangleF Viewport;
 	bool Blend;
 	bool DepthTest;
 };

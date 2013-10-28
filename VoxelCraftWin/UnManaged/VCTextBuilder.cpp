@@ -35,7 +35,7 @@ void VCTextBuilder::Initialize()
 
 }
 
-void VCTextBuilder::DrawText( std::string text, Point llPoint, std::string font /*= "Cambria-16"*/, GLubyte4 color /*= GLubyte4(255, 255, 255, 255) */ )
+void VCTextBuilder::DrawText( std::string text, VCPoint llPoint, std::string font /*= "Cambria-16"*/, GLubyte4 color /*= GLubyte4(255, 255, 255, 255) */ )
 {
 	VCText* vctext = VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color);
 	m_text.push_back(vctext);
