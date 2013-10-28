@@ -11,19 +11,14 @@
 //#include <string>
 //#include <signal.h>
 
-
+#include "stdafx.h"
 #include "VCApplication.h"
 
 int main(int argc, char** argv)
 {
-	//std::ofstream out("VCDebugLog.txt");
-	//std::cout.rdbuf(out.rdbuf());
-	//std::cerr.rdbuf(out.rdbuf());
-
 	VCApplication app;
     app.Initialize();
 	app.EditorMain();
-	//app.GameMain();
     app.ShutDown();
 
 	return 0;

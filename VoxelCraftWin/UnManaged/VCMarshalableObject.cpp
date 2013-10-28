@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "stdafx.h"
 #include "VCMarshalableObject.h"
 
 VCMarshalableObject::VCMarshalableObject():

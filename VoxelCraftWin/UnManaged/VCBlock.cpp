@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "stdafx.h"
 #include "VCBlock.h"
 
 VCBlock VCBlock::ErrorBlock = VCBlock(255, 0, 0, 255);

@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "stdafx.h"
 #include "VCUpdateManager.h"
+#include "VCObjectStore.h"
 
 VCUpdateManager* VCUpdateManager::Instance;
 static noArgCallback* staticCallback;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "stdafx.h"
 #include "VCWorld.h"
 #include "VCChunk.h"
 #include "VCGLRenderer.h"

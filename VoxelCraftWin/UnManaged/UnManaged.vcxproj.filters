@@ -154,6 +154,9 @@
     <ClCompile Include="VCMonoString.cpp">
       <Filter>Interop</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -294,6 +297,15 @@
     </ClInclude>
     <ClInclude Include="VCMonoString.h">
       <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Macros.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

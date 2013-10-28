@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#include "stdafx.h"
 #include "Utilities.h"
 
 void _glErrorCheck(std::string file, int line)

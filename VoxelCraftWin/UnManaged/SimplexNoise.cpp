@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include <stdio.h>
 #include "SimplexNoise.h"
 

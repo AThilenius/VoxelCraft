@@ -22,6 +22,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
+    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="VCApplication.cpp" />
     <ClCompile Include="VCBlock.cpp" />
@@ -57,11 +58,14 @@
     <ClCompile Include="VCWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Macros.h" />
     <ClInclude Include="PathUtil.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="StreamHelpers.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="VCApplication.h" />
@@ -172,6 +176,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
