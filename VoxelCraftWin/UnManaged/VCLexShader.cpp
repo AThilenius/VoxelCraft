@@ -11,7 +11,7 @@
 
 #include "VCWindow.h"
 
-static string g_vcLexVertexShader =
+static std::string g_vcLexVertexShader =
     "#version 150\n"
 	//"#version 330 core\n"
 
@@ -31,7 +31,7 @@ static string g_vcLexVertexShader =
 		"VaryingColor =  Color;"
 	"}";
 
-static string g_vcLexFragmentShader =
+static std::string g_vcLexFragmentShader =
 	"#version 150\n"
 	//"#version 330 core\n"
 

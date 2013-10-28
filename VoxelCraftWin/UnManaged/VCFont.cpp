@@ -12,7 +12,7 @@
 #include "StreamHelpers.h"
 #include "VCTexture.h"
 
-VCFont::VCFont(string fntPath, string ddsPath) :
+VCFont::VCFont(std::string fntPath, std::string ddsPath) :
 	m_fntPath(fntPath),
 	m_ddsPath(ddsPath)
 {
@@ -29,7 +29,7 @@ void VCFont::Initialize()
 	ifstream f (m_fntPath, ios::in | ios::binary);
 	if (!f.is_open())
 	{
-		cout << "Failed to open file: " << m_fntPath << endl;
+		std::cout << "Failed to open file: " << m_fntPath << std::endl;
 		return;
 	}
 
@@ -38,7 +38,7 @@ void VCFont::Initialize()
 	f >> c1 >> c2 >> c3 >> c4;
 	if (c1 != 66 || c2 != 77 || c3 != 70 || c4 != 3)
 	{
-		cout << "FNT must be binary, version 3!" << endl;
+		std::cout << "FNT must be binary, version 3!" << std::endl;
 		return;
 	}
 	

@@ -88,23 +88,23 @@ void SetConsoleColor ( ConsoleColor color )
 	switch ( color )
 	{
 	case White:
-		std::cout << "\033[0m";
+		std::std::cout << "\033[0m";
 		break;
 
 	case Red:
-		std::cout << "\033[31m";
+		std::std::cout << "\033[31m";
 		break;
 
 	case Yellow:
-		std::cout << "\033[33m";
+		std::std::cout << "\033[33m";
 		break;
 
 	case Green:
-		std::cout << "\033[32m";
+		std::std::cout << "\033[32m";
 		break;
 
 	case Blue:
-		std::cout << "\033[36m";
+		std::std::cout << "\033[36m";
 		break;
 	}
 }

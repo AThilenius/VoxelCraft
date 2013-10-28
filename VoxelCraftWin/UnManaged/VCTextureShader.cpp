@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "VCTextureShader.h"
 
-static string g_vcShadVertexShader =
+static std::string g_vcShadVertexShader =
     "#version 150\n"
 	
 	"in vec3 position;"
@@ -21,7 +21,7 @@ static string g_vcShadVertexShader =
 		"UV = (position.xy + vec2(1, 1)) / 2.0;"
 	"}";
 
-static string g_vcShadFragmentShader =
+static std::string g_vcShadFragmentShader =
 	"#version 150\n"
 
 	"in vec2 UV;"

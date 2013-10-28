@@ -23,7 +23,7 @@ public:
     void Initalize();
 
 	void SwapBuffers();
-	void SetTitle(string title);
+	void SetTitle(std::string title);
 	void SetVSync(bool enabled);
 
 public:

@@ -19,7 +19,7 @@ struct GuiTextDrawReq
 {
 	unsigned short X;
 	unsigned short Y;
-	string Text;
+	std::string Text;
 
 	GuiTextDrawReq(){}
 	GuiTextDrawReq(unsigned short x, unsigned short y): X(x), Y(y){}
@@ -57,7 +57,7 @@ public:
 		//// Anything remaining in m_rebuilds is 'old' and needs to go.
 		//for ( auto iter = m_rebuilds.begin(); iter != m_rebuilds.end(); iter++ )
 		//{
-		//	cout << "Freeing VCText" << endl;
+		//	std::cout << "Freeing VCText" << std::endl;
 		//	auto vctextIter = m_text.find(*iter);
 		//	delete vctextIter->second;
 		//	m_text.erase(vctextIter);
@@ -80,13 +80,13 @@ public:
 		
 	}
 
-	void DrawText( string text, Point llPoint, string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) )
+	void DrawText( std::string text, Point llPoint, string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) )
 	{
 		/*GuiTextDrawReq v (llPoint.X, llPoint.Y);
 
 		if (m_text.find(v) == m_text.end())
 		{
-			cout << "Allocating new VCText" << endl;
+			std::cout << "Allocating new VCText" << std::endl;
 			m_text.insert(ReqToText::value_type(v, VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color)));
 		}
 

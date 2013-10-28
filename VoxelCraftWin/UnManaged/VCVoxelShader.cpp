@@ -11,7 +11,7 @@
 #include "VCGLRenderer.h"
 
 
-static string g_vcVoxVertexShader =
+static std::string g_vcVoxVertexShader =
     "#version 150\n"
 	//"#version 330 core\n"
 
@@ -52,7 +52,7 @@ static string g_vcVoxVertexShader =
 		"Normal_cameraspace = ( ViewMatrix * ModelMatrix * vec4( vertexNormal_modelspace, 0 ) ).xyz;"
 	"}";
 
-static string g_vcVoxFragmentShader =
+static std::string g_vcVoxFragmentShader =
     "#version 150\n"
 	//"#version 330 core\n"
 
@@ -127,7 +127,7 @@ static string g_vcVoxFragmentShader =
 
 	"}";
 
-static string g_vcVoxFallbackFragmentShader =
+static std::string g_vcVoxFallbackFragmentShader =
 	"#version 150\n"
 	//"#version 330 core\n"
 

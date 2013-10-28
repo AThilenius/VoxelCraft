@@ -10,7 +10,7 @@
 #include "VCGuiShader.h"
 #include "VCWindow.h"
 
-static string g_vcGuiVertexShader =
+static std::string g_vcGuiVertexShader =
 	"#version 150\n"
 	//"#version 330 core\n"
 
@@ -27,7 +27,7 @@ static string g_vcGuiVertexShader =
 		"VaryingColor =  Color;"
 	"}";
 
-static string g_vcGuiFragmentShader =
+static std::string g_vcGuiFragmentShader =
 	"#version 150\n"
 	//"#version 330 core\n"
 

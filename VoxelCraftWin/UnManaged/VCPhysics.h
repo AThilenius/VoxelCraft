@@ -93,7 +93,7 @@
 //		// Avoids an infinite loop.
 //		if (dx == 0 && dy == 0 && dz == 0)
 //		{
-//			cout << "Attempted to ray-cast with a zero direction vector." << endl;
+//			std::cout << "Attempted to ray-cast with a zero direction vector." << std::endl;
 //			return false;
 //		}
 //

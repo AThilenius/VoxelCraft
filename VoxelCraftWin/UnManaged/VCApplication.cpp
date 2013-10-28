@@ -40,7 +40,7 @@ VCApplication::~VCApplication(void)
 
 void VCApplication::Initialize()
 {
-    cout << "====================   VoxelCraft Engine Begin   ====================" << endl;
+    std::cout << "====================   VoxelCraft Engine Begin   ====================" << std::endl;
 
 	MonoRuntime = new VCMonoRuntime();
 	MonoRuntime->Initalize();

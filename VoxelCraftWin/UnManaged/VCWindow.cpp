@@ -37,18 +37,18 @@ VCWindow::~VCWindow()
 static void error_callback(int error, const char* description)
 {
     //fputs(description, stderr);
-	cout << "GLFW Error Callback: " << description << endl;
+	std::cout << "GLFW Error Callback: " << description << std::endl;
 }
 
 void VCWindow::Initalize()
 {
-    cout << "Creating a VCWindow..." << endl;
+    std::cout << "Creating a VCWindow..." << std::endl;
     
 	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit())
 	{
-		cout << "Failed to initialize GLFW." << endl;
+		std::cout << "Failed to initialize GLFW." << std::endl;
 		cin.ignore();
 	}
 	
@@ -61,7 +61,7 @@ void VCWindow::Initalize()
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
-		cout << "Failed to create a window." << endl;
+		std::cout << "Failed to create a window." << std::endl;
 		cin.ignore();
 	}
 
@@ -81,8 +81,8 @@ void VCWindow::Initalize()
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major); 
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
-    cout << "OpenGL version: " << major << "." << minor << endl;
-    cout << "Hardware: " << glGetString(GL_RENDERER) << endl << endl;
+    std::cout << "OpenGL version: " << major << "." << minor << std::endl;
+    std::cout << "Hardware: " << glGetString(GL_RENDERER) << std::endl << std::endl;
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = Rectangle(0, 0, Width, Height);
@@ -91,7 +91,7 @@ void VCWindow::Initalize()
 	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
 	SetVSync(false);
-	cout << "VCWindow Initialized." << endl;
+	std::cout << "VCWindow Initialized." << std::endl;
     glErrorCheck();
 }
 
@@ -103,7 +103,7 @@ void VCWindow::SwapBuffers()
     glfwPollEvents();
 }
 
-void VCWindow::SetTitle(string title)
+void VCWindow::SetTitle(std::string title)
 {
 	glfwSetWindowTitle(GLFWWindowHandle, title.c_str());
 }

@@ -30,12 +30,12 @@ public:
 	~VCLexicalEngine(void);
 
 	void Initialize();
-	string LoadFont ( string fntPath, string ddsPath );
+	std::string LoadFont ( std::string fntPath, std::string ddsPath );
 
-	VCText* MakeText ( string font, string text, int left, int down, GLubyte4 color );
-	VCTextMetrics GetMetrics ( string font, string text ); 
-	int MakeTextToQuadBuffer ( string font, string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
-	VCRenderState* GetRStateForFont ( string font )
+	VCText* MakeText ( std::string font, std::string text, int left, int down, GLubyte4 color );
+	VCTextMetrics GetMetrics ( std::string font, std::string text ); 
+	int MakeTextToQuadBuffer ( std::string font, std::string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
+	VCRenderState* GetRStateForFont ( std::string font )
 	{
 		auto iter = m_fonts.find(font);
 
@@ -51,7 +51,7 @@ public:
 	static VCLexicalEngine* Instance;
 
 private:
-	typedef unordered_map<string, VCFont*> FontsMap;
+	typedef unordered_map<std::string, VCFont*> FontsMap;
 	FontsMap m_fonts;
 
 	// ================================      Interop      ============

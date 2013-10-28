@@ -29,7 +29,7 @@ public:
     virtual void PreRender();
 	
 public:
-    string Name;
+    std::string Name;
     vec3 Position;
     quat Rotation;
     vec3 Scale;

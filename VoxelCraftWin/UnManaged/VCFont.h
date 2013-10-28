@@ -92,13 +92,13 @@ struct KerningPairIMR
 class VCFont
 {
 public:
-	VCFont(string fntPath, string ddsPath);
+	VCFont(std::string fntPath, std::string ddsPath);
 	~VCFont(void);
 
 	void Initialize();
 
 	VCRenderState* RenderState;
-	string Name;
+	std::string Name;
 	int Size;
 
 private:
@@ -109,16 +109,16 @@ private:
 	bool ParseKerning(ifstream& f);
 	void PreCompileQuads();
 
-	string m_imageFileName;
+	std::string m_imageFileName;
 	GLuint m_ddsTexture;
 
 	CharDesc Charaters[256];
-	string m_fntPath, m_ddsPath;
+	std::string m_fntPath, m_ddsPath;
 
 	// Info:
 	InfoHeader m_info;
 	CommonHeader m_common;
-	string m_fontName;
+	std::string m_fontName;
 
 	friend class VCLexicalEngine;
 

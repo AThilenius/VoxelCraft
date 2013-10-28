@@ -13,7 +13,7 @@ vec3 VCShadowShader::LightInverseDirection;
 glm::mat4 VCShadowShader::DepthVPMatrix;
 
 
-static string g_vcShadVertexShader =
+static std::string g_vcShadVertexShader =
     "#version 150\n"
 	//"#version 330 core\n"
 
@@ -25,7 +25,7 @@ static string g_vcShadVertexShader =
 		"gl_Position =  depthMVP * vertexPosition_modelspace;"
 	"}";
 
-static string g_vcShadFragmentShader =
+static std::string g_vcShadFragmentShader =
 	"#version 150\n"
 	//"#version 330 core\n"
 

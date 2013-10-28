@@ -28,7 +28,7 @@ VCObjectStore::~VCObjectStore()
 
 void VCObjectStore::Initalize()
 {
-    cout << "VCObjectStore Initialized." << endl;
+    std::cout << "VCObjectStore Initialized." << std::endl;
 }
 
 int VCObjectStore::RegisterObject (void* obj)

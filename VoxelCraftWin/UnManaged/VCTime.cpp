@@ -43,7 +43,7 @@ void VCTime::Initalize()
 	vctime_startTicks = li.QuadPart;
 	vctime_lastTime = vctime_startTicks;
 
-    cout << "VCTime Initialized [ " << (int)vctime_ticksPerSecond << " T/S ]" << endl;
+    std::cout << "VCTime Initialized [ " << (int)vctime_ticksPerSecond << " T/S ]" << std::endl;
 }
 
 void VCTime::Update()

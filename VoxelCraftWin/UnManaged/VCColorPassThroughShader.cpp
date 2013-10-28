@@ -11,7 +11,7 @@
 #include "VCSceneGraph.h"
 
 
-static string g_vcPTVertexShader =
+static std::string g_vcPTVertexShader =
 	"#version 150\n"
 
 	"in vec4 Position;"
@@ -27,7 +27,7 @@ static string g_vcPTVertexShader =
 		"ColorVarying = Color;"
 	"}";
 
-static string g_vcPTFragmentShader =
+static std::string g_vcPTFragmentShader =
 	"#version 150\n"
 
 	"in vec4 ColorVarying;"

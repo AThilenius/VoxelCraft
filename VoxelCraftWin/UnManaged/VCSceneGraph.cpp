@@ -26,13 +26,13 @@ VCSceneGraph::~VCSceneGraph()
 
 void VCSceneGraph::Initalize()
 {
-    cout << "VCSceneGraph Initalized" << endl;
+    std::cout << "VCSceneGraph Initalized" << std::endl;
 }
 
 void VCSceneGraph::PrepareSceneGraph()
 {
     //if ( m_cameras.size() == 0 )
-    //    cout << "No cameras are registered with the SceneGraph. Please create at least 1 VCCamera." << endl;
+    //    std::cout << "No cameras are registered with the SceneGraph. Please create at least 1 VCCamera." << std::endl;
     //
     //FOREACH(iter, m_cameras)
     //{

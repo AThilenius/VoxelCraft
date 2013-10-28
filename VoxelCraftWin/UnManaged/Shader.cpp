@@ -77,7 +77,7 @@ void Shader::Initialize()
 	glUseProgram(m_programId);
 	PostInitialize();
 	
-	cout << "VCShader Initialized." << endl;
+	std::cout << "VCShader Initialized." << std::endl;
 	glErrorCheck(); 
 }
 
@@ -90,7 +90,7 @@ void Shader::Bind()
 	glUseProgram(m_programId);
 }
 
-void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, string* shaderLiteral)
+void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* shaderLiteral)
 {
 	GLint status;
         
@@ -124,7 +124,7 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, string* shaderLi
     if (status == 0) 
 	{
         glDeleteShader(*ShaderId);
-        cout << "Failed to compile shader." << endl;
+        std::cout << "Failed to compile shader." << std::endl;
 		cin.ignore();
     }
 
@@ -155,7 +155,7 @@ void Shader::LinkProgram()
     }
     
     if (status == 0)
-		cout << "Failed to link OpenGL program." << endl;
+		std::cout << "Failed to link OpenGL program." << std::endl;
 
 	glErrorCheck();
 }

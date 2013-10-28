@@ -24,7 +24,7 @@ void VCLexicalEngine::Initialize()
 {
 }
 
-string VCLexicalEngine::LoadFont ( string fntPath, string ddsPath )
+std::string VCLexicalEngine::LoadFont ( std::string fntPath, std::string ddsPath )
 {
 	VCFont* font = new VCFont(fntPath, ddsPath);
 	font->Initialize();
@@ -33,7 +33,7 @@ string VCLexicalEngine::LoadFont ( string fntPath, string ddsPath )
 	return font->Name;
 }
 
-VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int down, GLubyte4 color )
+VCText* VCLexicalEngine::MakeText ( std::string font, std::string text, int left, int down, GLubyte4 color )
 {
 	auto iter = m_fonts.find(font);
 	
@@ -93,7 +93,7 @@ VCText* VCLexicalEngine::MakeText ( string font, string text, int left, int down
 	return new VCText(vcfont->RenderState, vaoId, vboId, text.length() * 6, xOffset, vcfont->Size);
 }
 
-VCTextMetrics VCLexicalEngine::GetMetrics( string font, string text )
+VCTextMetrics VCLexicalEngine::GetMetrics( std::string font, std::string text )
 {
 	auto iter = m_fonts.find(font);
 
@@ -118,7 +118,7 @@ VCTextMetrics VCLexicalEngine::GetMetrics( string font, string text )
 	return VCTextMetrics(xOffset, vcfont->Size);
 }
 
-int VCLexicalEngine::MakeTextToQuadBuffer( string font, string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset )
+int VCLexicalEngine::MakeTextToQuadBuffer( std::string font, std::string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset )
 {
 	auto iter = m_fonts.find(font);
 
@@ -161,6 +161,6 @@ void VCLexicalEngine::RegisterMonoHandlers()
 
 MonoString* VCInteropLoadFont (MonoString* fntPath, MonoString* ddsPath)
 {
-	string name = VCLexicalEngine::Instance->LoadFont(mono_string_to_utf8(fntPath), mono_string_to_utf8(ddsPath));
+	std::string name = VCLexicalEngine::Instance->LoadFont(mono_string_to_utf8(fntPath), mono_string_to_utf8(ddsPath));
 	return mono_string_new(mono_domain_get(), name.c_str());
 }

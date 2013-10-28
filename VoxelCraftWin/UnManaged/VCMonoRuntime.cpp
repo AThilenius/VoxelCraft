@@ -38,10 +38,10 @@ VCMonoRuntime::~VCMonoRuntime()
 
 void VCMonoRuntime::Initalize()
 {
-	//cout << "MonoRuntime setting directories to:" << endl;
-	//cout << "Library: " << PathUtil::GetLibDirectory() << endl;
-	//cout << "Config: " << PathUtil::GetConfigDirectory() << endl;
-	//cout << "Game Library: " << PathUtil::GetBinDirectory().append("VCEngine.dll") << endl;
+	//std::cout << "MonoRuntime setting directories to:" << std::endl;
+	//std::cout << "Library: " << PathUtil::GetLibDirectory() << std::endl;
+	//std::cout << "Config: " << PathUtil::GetConfigDirectory() << std::endl;
+	//std::cout << "Game Library: " << PathUtil::GetBinDirectory().append("VCEngine.dll") << std::endl;
 
 	mono_set_dirs(PathUtil::GetLibDirectory().c_str(), PathUtil::GetConfigDirectory().c_str());
 	

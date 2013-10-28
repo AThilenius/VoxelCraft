@@ -276,7 +276,7 @@ void VCChunk::Rebuild()
 	free(m_rebuildVerticies);
 	m_rebuildVerticies = NULL;
 
-	//std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << endl;
+	//std::std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << std::endl;
     
 	glErrorCheck();
 }
