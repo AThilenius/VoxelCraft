@@ -17,7 +17,7 @@
 struct LineVerticie
 {
 	LineVerticie(){}
-	LineVerticie(vec3 position, GLubyte4 color) : Position(GLfloat3(position.x, position.y, position.z)), Color(color){}
+	LineVerticie(glm::vec3 position, GLubyte4 color) : Position(GLfloat3(position.x, position.y, position.z)), Color(color){}
 
 	GLfloat3 Position;
 	GLubyte4 Color;
@@ -59,7 +59,7 @@ public:
 
 	}
 
-	static void DrawLine (vec3 from, vec3 to, GLubyte4 color)
+	static void DrawLine (glm::vec3 from, glm::vec3 to, GLubyte4 color)
 	{
 		if (m_lineVertCount + 2 >= MAX_LINE_COUNT)
 		{
@@ -70,17 +70,17 @@ public:
 		m_lineVerts[m_lineVertCount++] = LineVerticie(to, color);
 	}
 
-	static void DrawCube (vec3 corner, vec3 scale, GLubyte4 color)
+	static void DrawCube (glm::vec3 corner, glm::vec3 scale, GLubyte4 color)
 	{
-		vec3 V1 = corner + vec3(0,			0,			0);
-		vec3 V2 = corner + vec3(scale.x,	0,			0);
-		vec3 V3 = corner + vec3(scale.x,	0,			scale.z);
-		vec3 V4 = corner + vec3(0,			0,			scale.z);
+		glm::vec3 V1 = corner + glm::vec3(0,			0,			0);
+		glm::vec3 V2 = corner + glm::vec3(scale.x,	0,			0);
+		glm::vec3 V3 = corner + glm::vec3(scale.x,	0,			scale.z);
+		glm::vec3 V4 = corner + glm::vec3(0,			0,			scale.z);
 
-		vec3 V5 = corner + vec3(0,			scale.y,	0);
-		vec3 V6 = corner + vec3(scale.x,	scale.y,	0);
-		vec3 V7 = corner + vec3(scale.x,	scale.y,	scale.z);
-		vec3 V8 = corner + vec3(0,			scale.y,	scale.z);
+		glm::vec3 V5 = corner + glm::vec3(0,			scale.y,	0);
+		glm::vec3 V6 = corner + glm::vec3(scale.x,	scale.y,	0);
+		glm::vec3 V7 = corner + glm::vec3(scale.x,	scale.y,	scale.z);
+		glm::vec3 V8 = corner + glm::vec3(0,			scale.y,	scale.z);
 
 		// Bot
 		DrawLine(V1, V2, color);
@@ -111,7 +111,7 @@ public:
 		if (VCDebug::m_lineVertCount == 0)
 			return;
 
-		VCGLRenderer::Instance->SetModelMatrix(mat4());
+		VCGLRenderer::Instance->SetModelMatrix(glm::mat4());
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * m_lineVertCount, m_lineVerts , GL_STREAM_DRAW);
@@ -137,5 +137,5 @@ public:
 };
 
 void VCInteropDebugReset();
-void VCInteropDebugDrawLine (vec3 from, vec3 to, vcint4 color);
-void VCInteropDebugDrawCube (vec3 corner, vec3 scale, vcint4 color);
+void VCInteropDebugDrawLine (glm::vec3 from, glm::vec3 to, vcint4 color);
+void VCInteropDebugDrawCube (glm::vec3 corner, glm::vec3 scale, vcint4 color);

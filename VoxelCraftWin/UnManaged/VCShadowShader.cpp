@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "VCShadowShader.h"
 
-vec3 VCShadowShader::LightInverseDirection;
+glm::vec3 VCShadowShader::LightInverseDirection;
 glm::mat4 VCShadowShader::DepthVPMatrix;
 
 
@@ -47,7 +47,7 @@ VCShadowShader::VCShadowShader(void)
 
 	// Compute the MVP matrix from the light's point of view
 	glm::mat4 depthProjectionMatrix = glm::ortho<float>( -50, 50, -50, 50, -50, 0);
-	VCShadowShader::LightInverseDirection = normalize(glm::vec3(1, 2, 1));
+	VCShadowShader::LightInverseDirection = glm::normalize(glm::vec3(1, 2, 1));
 	glm::mat4 depthViewMatrix = glm::lookAt(VCShadowShader::LightInverseDirection, glm::vec3(0,0,0), glm::vec3(0,1,0));
 	depthViewMatrix = glm::translate(depthViewMatrix, -16.0f, 0.0f, -16.0f);
 	VCShadowShader::DepthVPMatrix = depthProjectionMatrix * depthViewMatrix;

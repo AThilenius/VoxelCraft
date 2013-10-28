@@ -26,7 +26,7 @@ public:
 	void Initialize();
 	void Render(int fromBatch, int toBatch);
 
-	void SetModelMatrix(mat4 matrix);
+	void SetModelMatrix(glm::mat4 matrix);
 
 	void RegisterState(VCRenderState* state);
 

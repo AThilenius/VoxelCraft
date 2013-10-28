@@ -133,39 +133,39 @@ void VCInteropGameObjectSetParent(int handle, int parentHandle)
     obj->SetParent((VCGameObject*) VCObjectStore::Instance->GetObject(parentHandle));
 }
 
-vec3 VCInteropTransformGetPosition( int handle )
+glm::vec3 VCInteropTransformGetPosition( int handle )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	return obj->Position;
 }
 
-quat VCInteropTransformGetRotation( int handle )
+glm::quat VCInteropTransformGetRotation( int handle )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	return obj->Rotation;
 }
 
-vec3 VCInteropTransformGetScale( int handle )
+glm::vec3 VCInteropTransformGetScale( int handle )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	return obj->Scale;
 }
 
-void VCInteropTransformSetPosition( int handle, vec3 pos )
+void VCInteropTransformSetPosition( int handle, glm::vec3 pos )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	obj->Position = pos;
 	obj->MarkForRebuild();
 }
 
-void VCInteropTransformSetRotation( int handle, quat rot )
+void VCInteropTransformSetRotation( int handle, glm::quat rot )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	obj->Rotation = rot;
 	obj->MarkForRebuild();
 }
 
-void VCInteropTransformSetScale( int handle, vec3 scale )
+void VCInteropTransformSetScale( int handle, glm::vec3 scale )
 {
 	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
 	obj->Scale = scale;

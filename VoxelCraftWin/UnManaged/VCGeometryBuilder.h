@@ -41,7 +41,7 @@ public:
 		{
 			double rad1 = (double)i * 0.314159265;
 
-			m_unitCircle[i] = vec2(
+			m_unitCircle[i] = glm::vec2(
 				(float)cos(rad1),
 				(float)sin(rad1));
 		}
@@ -76,7 +76,7 @@ public:
 			VC_ERROR("You have 125000+ Gui rectangles... too much man.");
 		}
 
-		vec2 firstRad = m_unitCircle[0];
+		glm::vec2 firstRad = m_unitCircle[0];
 
 		// Scale
 		firstRad.x *= width;
@@ -91,7 +91,7 @@ public:
 
 		for (int i = 1; i < VC_GEOMETRY_RESOLUTION; i++)
 		{
-			vec2 rad2 = m_unitCircle[i];
+			glm::vec2 rad2 = m_unitCircle[i];
 
 			// Scale
 			rad2.x *= width;
@@ -184,6 +184,6 @@ private:
 	GLuint m_VBO;
 	int m_vCount;
 	GuiRectVerticie m_verts[VC_GEOMETRY_MAX_VERT_SIZE];
-	vec2 m_unitCircle[VC_GEOMETRY_RESOLUTION];
+	glm::vec2 m_unitCircle[VC_GEOMETRY_RESOLUTION];
 };
 

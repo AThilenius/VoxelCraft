@@ -55,7 +55,7 @@
 //#include "VCObjectStore.h"
 
 //using namespace std;
-using namespace glm;
+//using namespace glm;
 
 //class VCInput;
 

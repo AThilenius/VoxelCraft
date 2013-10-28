@@ -193,7 +193,7 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 
 }
 
-void VCGLRenderer::SetModelMatrix(mat4 matrix)
+void VCGLRenderer::SetModelMatrix(glm::mat4 matrix)
 {
 	Shader::BoundShader->SetModelMatrix(matrix);
 }

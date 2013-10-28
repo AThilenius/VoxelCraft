@@ -13,8 +13,8 @@
 //
 //typedef struct
 //{
-//	vec3 Origin;
-//	vec3 Direction;
+//	glm::vec3 Origin;
+//	glm::vec3 Direction;
 //	float MaxDistance;
 //
 //} Ray;
@@ -23,7 +23,7 @@
 //{
 //	float Distance;
 //	VCBlock Type;
-//	vec3 Normal;
+//	glm::vec3 Normal;
 //	int X, Y, Z;
 //
 //} RaycastHit;
@@ -55,7 +55,7 @@
 //	{
 //		VCWorld* world = NULL; //VCWorld::Instance;
 //
-//		vec3 wLoBound, wHiBound;
+//		glm::vec3 wLoBound, wHiBound;
 //		world->GetWorldBounds(&wLoBound, &wHiBound);
 //
 //		// Normalize Direction
@@ -88,7 +88,7 @@
 //		float tDeltaZ = stepZ/dz;
 //
 //		// Buffer for reporting faces to the callback.
-//		vec3 face;
+//		glm::vec3 face;
 //
 //		// Avoids an infinite loop.
 //		if (dx == 0 && dy == 0 && dz == 0)
@@ -145,7 +145,7 @@
 //					// Adjust tMaxX to the next X-oriented boundary crossing.
 //					tMaxX += tDeltaX;
 //					// Record the normal vector of the cube face we entered.
-//					face = vec3(-stepX, 0, 0);
+//					face = glm::vec3(-stepX, 0, 0);
 //				} 
 //				
 //				else 
@@ -155,7 +155,7 @@
 //
 //					z += stepZ;
 //					tMaxZ += tDeltaZ;
-//					face = vec3(0, 0, -stepZ);
+//					face = glm::vec3(0, 0, -stepZ);
 //				}
 //			} 
 //			
@@ -169,7 +169,7 @@
 //
 //					y += stepY;
 //					tMaxY += tDeltaY;
-//					face = vec3(0, -stepY, 0);
+//					face = glm::vec3(0, -stepY, 0);
 //				} 
 //				
 //				else 
@@ -181,7 +181,7 @@
 //
 //					z += stepZ;
 //					tMaxZ += tDeltaZ;
-//					face = vec3(0, 0, -stepZ);
+//					face = glm::vec3(0, 0, -stepZ);
 //				}
 //			}
 //		}

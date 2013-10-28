@@ -30,11 +30,11 @@ public:
 	
 public:
     std::string Name;
-    vec3 Position;
-    quat Rotation;
-    vec3 Scale;
+    glm::vec3 Position;
+    glm::quat Rotation;
+    glm::vec3 Scale;
     
-    mat4 ModelMatrix;
+    glm::mat4 ModelMatrix;
     
 	std::unordered_set<VCGameObject*> Children;
     
@@ -62,10 +62,10 @@ void VCInteropReleaseGameObject(int handle);
 void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
 // Transform
-vec3 VCInteropTransformGetPosition(int handle);
-quat VCInteropTransformGetRotation(int handle);
-vec3 VCInteropTransformGetScale(int handle);
+glm::vec3 VCInteropTransformGetPosition(int handle);
+glm::quat VCInteropTransformGetRotation(int handle);
+glm::vec3 VCInteropTransformGetScale(int handle);
 
-void VCInteropTransformSetPosition(int handle, vec3 pos );
-void VCInteropTransformSetRotation(int handle, quat rot );
-void VCInteropTransformSetScale(int handle, vec3 scale );
+void VCInteropTransformSetPosition(int handle, glm::vec3 pos );
+void VCInteropTransformSetRotation(int handle, glm::quat rot );
+void VCInteropTransformSetScale(int handle, glm::vec3 scale );

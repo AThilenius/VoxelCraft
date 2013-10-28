@@ -87,11 +87,11 @@ void VCWorld::Rebuild()
 
 bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 {
-	vec3 wLoBound, wHiBound;
+	glm::vec3 wLoBound, wHiBound;
 	GetWorldBounds(&wLoBound, &wHiBound);
 
 	// Normalize Direction
-	ray.Direction = normalize(ray.Direction);
+	ray.Direction = glm::normalize(ray.Direction);
 
 	// Cube containing origin point.
 	int x = FAST_FLOOR(ray.Origin.x);
@@ -120,7 +120,7 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 	float tDeltaZ = stepZ/dz;
 
 	// Buffer for reporting faces to the callback.
-	vec3 face;
+	glm::vec3 face;
 
 	// Avoids an infinite loop.
 	if (dx == 0 && dy == 0 && dz == 0)
@@ -177,7 +177,7 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 				// Adjust tMaxX to the next X-oriented boundary crossing.
 				tMaxX += tDeltaX;
 				// Record the normal vector of the cube face we entered.
-				face = vec3(-stepX, 0, 0);
+				face = glm::vec3(-stepX, 0, 0);
 			} 
 
 			else 
@@ -187,7 +187,7 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 
 				z += stepZ;
 				tMaxZ += tDeltaZ;
-				face = vec3(0, 0, -stepZ);
+				face = glm::vec3(0, 0, -stepZ);
 			}
 		} 
 
@@ -201,7 +201,7 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 
 				y += stepY;
 				tMaxY += tDeltaY;
-				face = vec3(0, -stepY, 0);
+				face = glm::vec3(0, -stepY, 0);
 			} 
 
 			else 
@@ -213,7 +213,7 @@ bool VCWorld::RaycastWorld( Ray ray, RaycastHit* hit )
 
 				z += stepZ;
 				tMaxZ += tDeltaZ;
-				face = vec3(0, 0, -stepZ);
+				face = glm::vec3(0, 0, -stepZ);
 			}
 		}
 	}

@@ -21,9 +21,9 @@
 struct Ray
 {
 	Ray() {}
-	Ray(vec3 origin, vec3 direction, float maxDist) : Origin(origin), Direction(direction), MaxDistance(maxDist){}
-	vec3 Origin;
-	vec3 Direction;
+	Ray(glm::vec3 origin, glm::vec3 direction, float maxDist) : Origin(origin), Direction(direction), MaxDistance(maxDist){}
+	glm::vec3 Origin;
+	glm::vec3 Direction;
 	float MaxDistance;
 
 };
@@ -32,7 +32,7 @@ struct RaycastHit
 {
 	float Distance;
 	VCBlock Type;
-	vec3 Normal;
+	glm::vec3 Normal;
 	int X, Y, Z;
 
 };
@@ -133,7 +133,7 @@ public:
 	void Load (ifstream& stream);
 	
 	// ===== Physics ======================================================
-	void GetWorldBounds ( vec3* lower, vec3* upper )
+	void GetWorldBounds ( glm::vec3* lower, glm::vec3* upper )
 	{
 		lower->x = ChunkZeroX * CHUNK_WIDTH;
 		lower->y = ChunkZeroY * CHUNK_WIDTH;

@@ -35,12 +35,12 @@ void VCInteropDebugReset()
 	VCDebug::Reset();
 }
 
-void VCInteropDebugDrawLine (vec3 from, vec3 to, vcint4 color)
+void VCInteropDebugDrawLine (glm::vec3 from, glm::vec3 to, vcint4 color)
 {
 	VCDebug::DrawLine(from, to, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropDebugDrawCube (vec3 corner, vec3 scale, vcint4 color)
+void VCInteropDebugDrawCube (glm::vec3 corner, glm::vec3 scale, vcint4 color)
 {
 	VCDebug::DrawCube(corner, scale, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
