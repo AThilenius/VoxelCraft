@@ -190,7 +190,10 @@
     <ClCompile Include="VCGeometryBuilder.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="VCText.cpp">
+    <ClCompile Include="VCTypeDefs.cpp">
+      <Filter>Utils\VCTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTextBuffer.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
   </ItemGroup>
@@ -283,9 +286,6 @@
     <ClInclude Include="VCIRenderable.h">
       <Filter>Rendering\State</Filter>
     </ClInclude>
-    <ClInclude Include="VCText.h">
-      <Filter>GUI\Text</Filter>
-    </ClInclude>
     <ClInclude Include="VCGui.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -352,8 +352,11 @@
     <ClInclude Include="VCXIntX.h">
       <Filter>Utils\VCTypes</Filter>
     </ClInclude>
-    <ClInclude Include="VCAllPrimitives.h">
-      <Filter>Utils</Filter>
+    <ClInclude Include="VCTypeDefs.h">
+      <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTextBuffer.h">
+      <Filter>GUI\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

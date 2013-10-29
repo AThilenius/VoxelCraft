@@ -31,7 +31,10 @@ GuiRectVerticie::~GuiRectVerticie()
 
 }
 
-VCGeometryBuilder::VCGeometryBuilder( void ) : m_VAO(0), m_VBO(0), m_vCount(0)
+VCGeometryBuilder::VCGeometryBuilder( void ) : 
+	m_VAO(0), 
+	m_VBO(0), 
+	m_vCount(0)
 {
 	// Pre-Compute a unit circle
 	for (int i = 0; i < VC_GEOMETRY_RESOLUTION; i++)

@@ -25,6 +25,7 @@
 #include <fstream>
 #include <regex>
 #include <math.h>
+#include <stdint.h>
 
 // External
 #include "glew.h"
@@ -37,6 +38,7 @@
 #include "VCGLFloatX.h"
 #include "VCGeometryTypes.h"
 #include "VCXIntX.h"
+#include "VCTypeDefs.h"
 #include "VCUtilities.h"
 #include "VCConstants.h"
 #include "VCMacros.h"

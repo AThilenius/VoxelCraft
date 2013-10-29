@@ -34,9 +34,10 @@ CharDesc::CharDesc()
 	memset(KerningPairs, 0, sizeof(KerningPairs));
 }
 
-VCFont::VCFont(std::string fntPath, std::string ddsPath) :
+VCFont::VCFont(std::string fntPath, std::string ddsPath, int id) :
 	m_fntPath(fntPath),
-	m_ddsPath(ddsPath)
+	m_ddsPath(ddsPath),
+	FontID(id)
 {
 }
 

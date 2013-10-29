@@ -11,6 +11,7 @@
 
 #include "VCLexicalEngine.h"
 #include "VCMonoRuntime.h"
+#include "VCMonoString.h"
 
 VCGui* VCGui::Instance = NULL;
 
@@ -61,17 +62,17 @@ void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 col
 	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropGuiDrawText(VCMonoStringPtr font,VCMonoStringPtr text, VCPoint point, vcint4 color)
-{
-	VCGui::Instance->Text.DrawText(VCMonoString(text), point, VCMonoString(font), GLubyte4(color.X, color.Y, color.Z, color.W));
-}
-
 void VCInteropGuiAddVerticie( GuiRectVerticie vert )
 {
 	VCGui::Instance->Geometry.AddQuad(vert);
 }
 
-void VCInteropGuiGetTextMetrics(VCMonoStringPtr font, VCMonoStringPtr text, VCTextMetrics* metrics)
+void VCInteropGuiDrawText(int font,VCMonoStringPtr text, VCPoint point, vcint4 color)
 {
-	*metrics = VCLexicalEngine::Instance->GetMetrics(VCMonoString(font), VCMonoString(text));
+	VCGui::Instance->Text.DrawText(font, VCMonoString(text), point, GLubyte4(color.X, color.Y, color.Z, color.W));
+}
+
+void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics)
+{
+	*metrics = VCLexicalEngine::Instance->GetMetrics(font, VCMonoString(text));
 }

@@ -12,7 +12,7 @@ namespace VCEngine
         {
             //for (int i = 0; i < 500; i++)
             //{
-            //    Gui.DrawEllipse(new Point(200 + i, 200), 100, 50, Color.ControlRed);
+            //    Gui.DrawString("Test text string", new Point(20, i), Color.Black);
             //}
         }
 

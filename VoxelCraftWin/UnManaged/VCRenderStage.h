@@ -10,8 +10,6 @@
 
 class Shader;
 
-#include "VCAllPrimitives.h"
-
 #define MAX_TEXTURES 4
 
 class VCRenderStage

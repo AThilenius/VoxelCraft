@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "VCAllPrimitives.h"
-
 struct VCInteropBlock
 {
 	VCInteropBlock();

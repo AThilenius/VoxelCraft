@@ -14,7 +14,6 @@ class VCFont;
 struct GlyphVerticie;
 
 #include <unordered_map>
-#include "VCAllPrimitives.h"
 #include "VCMonoString.h"
 
 struct VCTextMetrics
@@ -34,18 +33,18 @@ public:
 	~VCLexicalEngine(void);
 
 	void Initialize();
-	std::string LoadFont ( std::string fntPath, std::string ddsPath );
+	std::string LoadFont ( std::string fntPath, std::string ddsPath, int* fontOut );
 
-	VCText* MakeText ( std::string font, std::string text, int left, int down, GLubyte4 color );
-	VCTextMetrics GetMetrics ( std::string font, std::string text ); 
-	int MakeTextToQuadBuffer ( std::string font, std::string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset);
-	VCRenderState* GetRStateForFont ( std::string font );
+	VCTextMetrics GetMetrics ( int font, std::string text ); 
+	int MakeTextToQuadBuffer ( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset);
+	VCRenderState* GetRStateForFont ( int font );
+	VCFont* GetFontById ( int fontID );
 
 	static VCLexicalEngine* Instance;
 
 private:
-	typedef std::unordered_map<std::string, VCFont*> FontsMap;
-	FontsMap m_fonts;
+	VCFont* m_fonts[50];
+	int m_fontsCount;
 
 	// ================================      Interop      ============
 public:
@@ -54,5 +53,5 @@ public:
 };
 
 // Interop
-VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath);
+VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath, int* fontOut);
 

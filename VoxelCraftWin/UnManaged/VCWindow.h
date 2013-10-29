@@ -11,8 +11,6 @@
 class VCMonoMethod;
 struct GLFWwindow;
 
-#include "VCAllPrimitives.h"
-
 // Creates and manages a window and OpenGL context
 class VCWindow
 {

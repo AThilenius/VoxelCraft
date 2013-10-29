@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "VCAllPrimitives.h"
 #include "VCIRenderable.h"
 
 // 1.00 MB

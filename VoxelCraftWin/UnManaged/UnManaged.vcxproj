@@ -30,8 +30,9 @@
     <ClCompile Include="VCGLXShortX.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
-    <ClCompile Include="VCText.cpp" />
+    <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
+    <ClCompile Include="VCTypeDefs.cpp" />
     <ClCompile Include="VCUtilities.cpp" />
     <ClCompile Include="VCApplication.cpp" />
     <ClCompile Include="VCBlock.cpp" />
@@ -69,7 +70,6 @@
     <ClCompile Include="VCXIntX.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VCAllPrimitives.h" />
     <ClInclude Include="VCConstants.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
@@ -82,6 +82,7 @@
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCStreamHelpers.h" />
+    <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />
     <ClInclude Include="VCApplication.h" />
     <ClInclude Include="VCBlock.h" />
@@ -113,7 +114,7 @@
     <ClInclude Include="VCRenderState.h" />
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
-    <ClInclude Include="VCText.h" />
+    <ClInclude Include="VCTextBuffer.h" />
     <ClInclude Include="VCTextBuilder.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTextureShader.h" />

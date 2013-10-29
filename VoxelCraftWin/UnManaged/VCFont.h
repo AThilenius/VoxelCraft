@@ -11,7 +11,6 @@
 class VCRenderState;
 
 #include <string>
-#include "VCAllPrimitives.h"
 
 struct GlyphVerticie
 {
@@ -81,13 +80,14 @@ struct KerningPairIMR
 class VCFont
 {
 public:
-	VCFont(std::string fntPath, std::string ddsPath);
+	VCFont(std::string fntPath, std::string ddsPath, int id);
 	~VCFont(void);
 
 	void Initialize();
 
 	VCRenderState* RenderState;
 	std::string Name;
+	int FontID;
 	int Size;
 
 private:

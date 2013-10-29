@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCLexicalEngine.h"
 #include "VCFont.h"
-#include "VCText.h"
 #include "VCMonoRuntime.h"
 
 VCLexicalEngine* VCLexicalEngine::Instance;
@@ -29,7 +28,8 @@ VCTextMetrics::~VCTextMetrics()
 
 }
 
-VCLexicalEngine::VCLexicalEngine(void)
+VCLexicalEngine::VCLexicalEngine(void) :
+	m_fontsCount(0)
 {
 	VCLexicalEngine::Instance = this;
 }
@@ -42,85 +42,27 @@ void VCLexicalEngine::Initialize()
 {
 }
 
-std::string VCLexicalEngine::LoadFont ( std::string fntPath, std::string ddsPath )
+std::string VCLexicalEngine::LoadFont ( std::string fntPath, std::string ddsPath, int* font )
 {
-	VCFont* font = new VCFont(fntPath, ddsPath);
-	font->Initialize();
+	VCFont* vcfont = new VCFont(fntPath, ddsPath, m_fontsCount);
+	vcfont->Initialize();
 
-	m_fonts.insert(FontsMap::value_type(font->Name, font));
-	return font->Name;
-}
-
-VCText* VCLexicalEngine::MakeText ( std::string font, std::string text, int left, int down, GLubyte4 color )
-{
-	auto iter = m_fonts.find(font);
-	
-	if ( iter == m_fonts.end() )
+	for (int i = 0; i < m_fontsCount; i++ )
 	{
-		VC_ERROR("Font: " << font << " not added to Lexical Engine");
-	}
-
-	VCFont* vcfont = (*iter).second;
-
-	GlyphVerticie* verts = (GlyphVerticie*) malloc(sizeof(GlyphVerticie) * text.length() * 6);
-	int xOffset = 0;
-
-	for ( int i = 0; i < text.length(); i++ )
-	{
-		char c = text[i];
-		CharDesc cDesc = vcfont->Charaters[c];
-		int kerning = i == 0 ? 0 : cDesc.KerningPairs[ text[i - 1] ];
-
-		// Advance verts by xOffset + kerning, set color, add to vector
-		for ( int v = 0; v < 6; v++ )
+		if (m_fonts[i]->Name == vcfont->Name)
 		{
-			cDesc.Quad[v].Position.x += xOffset + kerning + left;
-			cDesc.Quad[v].Position.y += down;
-			cDesc.Quad[v].Color = color;
-			verts[i * 6 + v] = cDesc.Quad[v];
+			VC_ERROR("Cannot load duplicate font: " << vcfont->Name);
 		}
-
-		// Advance xOffset by xAdvance + kerning
-		xOffset += cDesc.XAdvance + kerning;
 	}
 
-	GLuint vaoId;
-	GLuint vboId;
-
-	glGenVertexArrays(1, &vaoId);
-	glBindVertexArray(vaoId);
-
-	// Data
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GlyphVerticie) * text.length() * 6, &verts[0], GL_STATIC_DRAW);
-
-	// Verts
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glVertexAttribPointer( VC_ATTRIBUTE_POSITION,		3,	GL_SHORT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Position));
-
-	glEnableVertexAttribArray(VC_ATTRIBUTE_TEX_COORD_0);
-	glVertexAttribPointer( VC_ATTRIBUTE_TEX_COORD_0,	2,	GL_FLOAT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, UV));
-
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-	glVertexAttribPointer( VC_ATTRIBUTE_COLOR,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
-
-	glBindVertexArray(0);
-	free(verts);
-
-	return new VCText(vcfont->RenderState, vaoId, vboId, text.length() * 6, xOffset, vcfont->Size);
+	*font = m_fontsCount;
+	m_fonts[m_fontsCount++] = vcfont;
+	return vcfont->Name;
 }
 
-VCTextMetrics VCLexicalEngine::GetMetrics( std::string font, std::string text )
+VCTextMetrics VCLexicalEngine::GetMetrics( int font, std::string text )
 {
-	auto iter = m_fonts.find(font);
-
-	if ( iter == m_fonts.end() )
-	{
-		VC_ERROR("Font: " << font << " not added to Lexical Engine");
-	}
-
-	VCFont* vcfont = (*iter).second;
+	VCFont* vcfont = m_fonts[font];
 	int xOffset = 0;
 
 	for ( int i = 0; i < text.length(); i++ )
@@ -136,17 +78,9 @@ VCTextMetrics VCLexicalEngine::GetMetrics( std::string font, std::string text )
 	return VCTextMetrics(xOffset, vcfont->Size);
 }
 
-int VCLexicalEngine::MakeTextToQuadBuffer( std::string font, std::string text, int left, int down, GLubyte4 color, GlyphVerticie* buffer, int offset )
+int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset )
 {
-	auto iter = m_fonts.find(font);
-
-	if ( iter == m_fonts.end() )
-	{
-		VC_ERROR("Font: " << font << " not added to Lexical Engine");
-	}
-
-	VCFont* vcfont = (*iter).second;
-
+	VCFont* vcfont = m_fonts[font];
 	int xOffset = 0;
 
 	for ( int i = 0; i < text.length(); i++ )
@@ -158,11 +92,15 @@ int VCLexicalEngine::MakeTextToQuadBuffer( std::string font, std::string text, i
 		// Advance verts by xOffset + kerning, set color, add to vector
 		for ( int v = 0; v < 6; v++ )
 		{
-			cDesc.Quad[v].Position.x += xOffset + kerning + left;
-			cDesc.Quad[v].Position.y += down;
+			cDesc.Quad[v].Position.x += xOffset + kerning + llPoint.X;
+			cDesc.Quad[v].Position.y += llPoint.Y;
 			cDesc.Quad[v].Color = color;
-			buffer[(i * 6) + v + offset] = cDesc.Quad[v];
+
+			// Optimized to a memcpy ( 30% frame time -> 8% frame time )
+			//buffer[(i * 6) + v + offset] = cDesc.Quad[v];
 		}
+
+		memcpy(&buffer[(i * 6) + offset], cDesc.Quad, sizeof(GlyphVerticie) * 6);
 
 		// Advance xOffset by xAdvance + kerning
 		xOffset += cDesc.XAdvance + kerning;
@@ -171,17 +109,20 @@ int VCLexicalEngine::MakeTextToQuadBuffer( std::string font, std::string text, i
 	return text.length() * 6;
 }
 
-VCRenderState* VCLexicalEngine::GetRStateForFont( std::string font )
+VCRenderState* VCLexicalEngine::GetRStateForFont( int font )
 {
-	auto iter = m_fonts.find(font);
+	VCFont* vcfont = m_fonts[font];
+	return vcfont->RenderState;
+}
 
-	if ( iter == m_fonts.end() )
+VCFont* VCLexicalEngine::GetFontById( int fontID )
+{
+	if (fontID >= m_fontsCount)
 	{
-		VC_ERROR("Font: " << font << " not added to Lexical Engine");
+		VC_ERROR("Font ID: " << fontID << " not loaded into VCLexEngine.");
 	}
 
-	VCFont* vcfont = (*iter).second;
-	return vcfont->RenderState;
+	return m_fonts[fontID];
 }
 
 // ================================      Interop      ============
@@ -190,8 +131,8 @@ void VCLexicalEngine::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("Gui::VCInteropLoadFont",	(void*)VCInteropLoadFont);
 }
 
-VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath)
+VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath, int* fontOut)
 {
-	std::string name = VCLexicalEngine::Instance->LoadFont(VCMonoString(fntPath), VCMonoString(ddsPath));
+	std::string name = VCLexicalEngine::Instance->LoadFont(VCMonoString(fntPath), VCMonoString(ddsPath), fontOut);
 	return VCMonoString::MakeString(name.c_str());
 }

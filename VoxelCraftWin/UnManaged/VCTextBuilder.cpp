@@ -8,9 +8,8 @@
 
 #include "stdafx.h"
 #include "VCTextBuilder.h"
-
+#include "VCTextBuffer.h"
 #include "VCLexicalEngine.h"
-#include "VCText.h"
 
 VCTextBuilder::VCTextBuilder( void )
 {
@@ -22,21 +21,22 @@ VCTextBuilder::~VCTextBuilder( void )
 
 }
 
-void VCTextBuilder::Reset()
-{
-	for (int i = 0; i < m_text.size(); i++)
-		delete m_text[i];
-
-	m_text.clear();
-}
-
 void VCTextBuilder::Initialize()
 {
-
 }
 
-void VCTextBuilder::DrawText( std::string text, VCPoint llPoint, std::string font /*= "Cambria-16"*/, GLubyte4 color /*= GLubyte4(255, 255, 255, 255) */ )
+void VCTextBuilder::Reset()
 {
-	VCText* vctext = VCLexicalEngine::Instance->MakeText(font, text, llPoint.X, llPoint.Y, color);
-	m_text.push_back(vctext);
+}
+
+void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color )
+{
+	while (m_bufferByFont.size() <= font)
+	{
+		VCTextBuffer* vcTextBuffer = new VCTextBuffer(VCLexicalEngine::Instance->GetFontById(font));
+		vcTextBuffer->Initialize();
+		m_bufferByFont.push_back( vcTextBuffer );
+	}
+
+	m_bufferByFont[font]->DrawText(text, llPoint, color);
 }

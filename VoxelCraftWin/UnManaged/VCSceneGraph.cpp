@@ -48,7 +48,6 @@ void VCSceneGraph::PrepareSceneGraph()
 
 	// HACK
 	CurrentRenderingCamera->PreRender();
-
 	RootNode->PreRender();
 }
 

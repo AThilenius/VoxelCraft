@@ -40,5 +40,5 @@ void VCInteropGuiClear();
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
 void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color);
-void VCInteropGuiDrawText(VCMonoStringPtr font, VCMonoStringPtr text, VCPoint point, vcint4 color);
-void VCInteropGuiGetTextMetrics(VCMonoStringPtr font, VCMonoStringPtr text, VCTextMetrics* metrics);
+void VCInteropGuiDrawText(int font, VCMonoStringPtr text, VCPoint point, vcint4 color);
+void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics);

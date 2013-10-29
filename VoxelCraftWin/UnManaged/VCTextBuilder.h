@@ -8,13 +8,10 @@
 
 #pragma once
 
-class VCText;
+class VCTextBuffer;
 
 #include <vector>
-#include "VCAllPrimitives.h"
-
-// 1.44 MB - 10,000 Characters
-#define VC_TEXT_MAX_VERT_SIZE 60000
+#include "VCIRenderable.h"
 
 class VCTextBuilder
 {
@@ -22,11 +19,11 @@ public:
 	VCTextBuilder(void);
 	~VCTextBuilder(void);
 
-	void Reset();
 	void Initialize();
-	void DrawText( std::string text, VCPoint llPoint, std::string font = "Cambria-16", GLubyte4 color = GLubyte4(255, 255, 255, 255) );
+	void Reset();
+	void DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color = GLubyte4(255, 255, 255, 255) );
 
 private:
-	std::vector<VCText*> m_text;
+	std::vector<VCTextBuffer*> m_bufferByFont;
 };
 
