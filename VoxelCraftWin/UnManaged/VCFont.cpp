@@ -13,7 +13,6 @@
 #include "VCFont.h"
 #include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"
-#include "VCTexture.h"
 
 
 GlyphVerticie::GlyphVerticie()
@@ -85,7 +84,13 @@ void VCFont::Initialize()
 	f.close();
 
 	// Load DDS
-	m_ddsTexture = loadDDS ( m_ddsPath.c_str() );
+	m_ddsTexture = SOIL_load_OGL_texture
+		(
+		m_ddsPath.c_str(),
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_DDS_LOAD_DIRECT
+		);
 
 	// Name
 	std::ostringstream ss;

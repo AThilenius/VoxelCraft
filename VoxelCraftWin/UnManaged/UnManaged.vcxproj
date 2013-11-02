@@ -32,6 +32,7 @@
     <ClCompile Include="VCRenderState.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
+    <ClCompile Include="VCTexture.cpp" />
     <ClCompile Include="VCTypeDefs.cpp" />
     <ClCompile Include="VCUtilities.cpp" />
     <ClCompile Include="VCApplication.cpp" />
@@ -60,7 +61,6 @@
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCStreamHelpers.cpp" />
-    <ClCompile Include="VCTexture.cpp" />
     <ClCompile Include="VCTextureShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
@@ -82,6 +82,7 @@
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCStreamHelpers.h" />
+    <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />
     <ClInclude Include="VCApplication.h" />
@@ -116,7 +117,6 @@
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTextBuffer.h" />
     <ClInclude Include="VCTextBuilder.h" />
-    <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCUpdateManager.h" />

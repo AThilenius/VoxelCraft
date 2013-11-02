@@ -47,6 +47,9 @@
     <Filter Include="Utils\VCTypes">
       <UniqueIdentifier>{7ed08fd1-52d3-4b9c-8f41-5e1495619670}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GLResources">
+      <UniqueIdentifier>{0d0056bb-e13a-435f-811a-6a5b33463a2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -114,9 +117,6 @@
     </ClCompile>
     <ClCompile Include="VCPhysics.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="VCTexture.cpp">
-      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="VCFont.cpp">
       <Filter>GUI\Text</Filter>
@@ -196,6 +196,7 @@
     <ClCompile Include="VCTextBuffer.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
+    <ClCompile Include="VCTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -264,9 +265,6 @@
     </ClInclude>
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTexture.h">
-      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="VCFont.h">
       <Filter>GUI\Text</Filter>
@@ -358,6 +356,7 @@
     <ClInclude Include="VCTextBuffer.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
+    <ClInclude Include="VCTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">
