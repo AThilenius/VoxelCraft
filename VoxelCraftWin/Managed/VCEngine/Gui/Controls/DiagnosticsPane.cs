@@ -48,6 +48,12 @@ namespace VCEngine
             DrawText("Main Camera: " + Camera.MainCamera.Transform.Position.ToString("n2"), sf);
             DrawText("Mouse: " + Input.MousePoistion, sf);
 
+            DrawText("", sf);
+            DrawText("Mouse Inputs:", sf);
+
+            for ( int i = 0; i < 10; i++ )
+                if (Input.GetMouse(i) != TriState.None)
+                    DrawText(i.ToString(), sf);
             //if (m_mouseStates.Count == 0)
             //    DrawText("Mouse Inputs: None", sf);
             //else

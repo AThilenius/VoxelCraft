@@ -7,39 +7,52 @@ namespace VCEngine
 {
     public class EditorCameraController : Component
     {
+        private float m_speed = 20.0f;
         private Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
         private Point m_startPosition;
 
         public override void Update()
         {
-            if (Input.GetKey(' ') == TriState.Pressed)
+            if (Input.GetMouse(2) == TriState.Pressed || Input.GetMouse(3) == TriState.Pressed || Input.GetMouse(4) == TriState.Pressed)
             {
                 m_startPosition = Input.MousePoistion;
                 Input.MouseMode = MouseMoveMode.Locked;
             }
 
-            if (Input.GetKey(' ') != TriState.None)
+            if (Input.GetMouse(2) != TriState.None || Input.GetMouse(3) != TriState.None || Input.GetMouse(4) != TriState.None)
             {
                 m_rot.X -= Input.DeltaLook.Y * 0.0174532925f * 0.1f;
                 m_rot.Y += Input.DeltaLook.X * 0.0174532925f * 0.1f;
             }
 
-            if (Input.GetKey(' ') == TriState.Up)
+            if (Input.GetMouse(2) == TriState.Up || Input.GetMouse(3) == TriState.Up || Input.GetMouse(4) == TriState.Up)
             {
                 Input.MouseMode = MouseMoveMode.Free;
                 Input.MousePoistion = m_startPosition;
             }
 
-            if (m_rot.X > 90.0f * 0.0174532925f)
-                m_rot.X = 90.0f * 0.0174532925f;
+            if (Input.GetKey(Input.Keys.LeftControl) != TriState.None)
+                m_speed = 5.0f;
+            else
+                m_speed = 20.0f;
 
-            if (m_rot.X < -90.0f * 0.0174532925f)
-                m_rot.X = -90.0f * 0.0174532925f;
+            m_rot.X = MathHelper.Clamp(m_rot.X, -90.0f * 0.0174532925f, 90.0f * 0.0174532925f);
 
             Transform.Rotation = Quaternion.FromEuler(m_rot);
 
-            Transform.Position -= Transform.Rotation.Forward * Input.Strafe.X * Time.DeltaTime * 10.0f;
-            Transform.Position -= Transform.Rotation.Right * Input.Strafe.Y * Time.DeltaTime * 10.0f;
+            Vector3 forward = Transform.Rotation.Forward;
+            forward.Y = 0;
+            forward.Normalize();
+            forward *= Input.Strafe.X * Time.DeltaTime * m_speed;
+
+            Transform.Position -= forward;
+            Transform.Position -= Transform.Rotation.Right * Input.Strafe.Y * Time.DeltaTime * m_speed;
+
+            if (Input.GetKey(Input.Keys.LeftShift) != TriState.None)
+                Transform.Position -= Vector3.UnitY * Time.DeltaTime * m_speed;
+
+            if (Input.GetKey(' ') != TriState.None)
+                Transform.Position += Vector3.UnitY * Time.DeltaTime * m_speed;
         }
 
     }

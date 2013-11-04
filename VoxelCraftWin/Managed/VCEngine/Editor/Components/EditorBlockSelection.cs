@@ -26,7 +26,7 @@ namespace VCEngine
                 Location normalBlockLoc = new Location (normalBlock);
 
                 if (Input.GetMouse(0) == TriState.None && Input.GetMouse(1) == TriState.None)
-                    Debug.DrawCube(block - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
 
                 // Set start / Eye Dropper out
                 if (Input.GetMouse(0) == TriState.Pressed)
