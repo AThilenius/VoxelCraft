@@ -9,16 +9,16 @@
 #include "stdafx.h"
 #include "VCRenderState.h"
 
-VCRenderState::VCRenderState(void):
-	StageCount(1),
+VCRenderState::VCRenderState(int stageCount):
+	StageCount(stageCount),
 	BatchingOrder(VC_BATCH_SCENE)
 {
-
+	Stages = new VCRenderStage[stageCount];
 }
 
 VCRenderState::~VCRenderState( void )
 {
-
+	delete[] Stages;
 }
 
 bool _VCRenderStateCompare::operator() (const VCRenderState* lhs, const VCRenderState* rhs) const

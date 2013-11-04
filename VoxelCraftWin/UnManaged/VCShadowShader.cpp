@@ -61,7 +61,7 @@ VCShadowShader::~VCShadowShader(void)
 void VCShadowShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
 	
-	glm::mat4 depthMVP = VCShadowShader::DepthVPMatrix;// * modelMatrix;
+	glm::mat4 depthMVP = VCShadowShader::DepthVPMatrix * modelMatrix;
 	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &depthMVP[0][0]);
 	glErrorCheck();
 }

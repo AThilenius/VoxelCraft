@@ -104,16 +104,27 @@ namespace VCEngine
 			Z = v.Z;
 		}
 
-		/// <summary>
-		/// Constructs a new Vector3 from the given Vector4.
-		/// </summary>
-		/// <param name="v">The Vector4 to copy components from.</param>
-		public Vector3(Vector4 v)
-		{
-			X = v.X;
-			Y = v.Y;
-			Z = v.Z;
-		}
+        /// <summary>
+        /// Constructs a new Vector3 from the given Vector4.
+        /// </summary>
+        /// <param name="v">The Vector4 to copy components from.</param>
+        public Vector3(Vector4 v)
+        {
+            X = v.X;
+            Y = v.Y;
+            Z = v.Z;
+        }
+
+        /// <summary>
+        /// Constructs a new Vector3 from a Location.
+        /// </summary>
+        /// <param name="v">The Vector4 to copy components from.</param>
+        public Vector3(Location l)
+        {
+            X = l.X;
+            Y = l.Y;
+            Z = l.Z;
+        }
 
 		#endregion
 

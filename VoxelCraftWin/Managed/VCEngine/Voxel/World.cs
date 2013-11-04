@@ -27,6 +27,10 @@ namespace VCEngine
     [StructLayout(LayoutKind.Sequential)]
     public struct Block
     {
+        public static Block Empty { get { return new Block(0, 0, 0, 0); } }
+
+        public Color Color;
+
         public Block(int r, int g, int b, int a)
         {
             Color = new Color(r, g, b, a);
@@ -36,8 +40,6 @@ namespace VCEngine
         {
             Color = color;
         }
-
-        public Color Color;
     }
 
     public class World : MarshaledObject
@@ -157,17 +159,50 @@ namespace VCEngine
             return VCInteropWorldGetBlock(UnManagedHandle, (int)Math.Floor(position.X), (int)Math.Floor(position.Y), (int)Math.Floor(position.Z));
         }
 
+        public void SetBlock(Location location, Block block)
+        {
+            VCInteropWorldSetBlock(UnManagedHandle, location.X, location.Y, location.Z, block);
+        }
+
         public void SetBlock(int x, int y, int z, Block block)
         {
             VCInteropWorldSetBlock(UnManagedHandle, x, y, z, block);
         }
+
         public void SetBlock(float x, float y, float z, Block block)
         {
             VCInteropWorldSetBlock(UnManagedHandle, (int)Math.Floor(x), (int)Math.Floor(y), (int)Math.Floor(z), block);
         }
+
         public void SetBlock(Vector3 position, Block block)
         {
             VCInteropWorldSetBlock(UnManagedHandle, (int)Math.Floor(position.X), (int)Math.Floor(position.Y), (int)Math.Floor(position.Z), block);
+        }
+
+        public static Location[] GetBlocksInRegion (Location from, Location to)
+        {
+            int minX = Math.Min(from.X, to.X);
+            int maxX = Math.Max(from.X, to.X);
+            int minY = Math.Min(from.Y, to.Y);
+            int maxY = Math.Max(from.Y, to.Y);
+            int minZ = Math.Min(from.Z, to.Z);
+            int maxZ = Math.Max(from.Z, to.Z);
+
+            // Can optimize by pre computing array size.
+            List<Location> locs = new List<Location>();
+
+            for (int z = minZ; z <= maxZ; z++)
+            {
+                for (int x = minX; x <= maxX; x++)
+                {
+                    for (int y = minY; y <= maxY; y++)
+                    {
+                        locs.Add(new Location(x, y, z));
+                    }
+                }
+            }
+
+            return locs.ToArray();
         }
 
         public bool Raycast(Ray ray, out RaycastHit hit)

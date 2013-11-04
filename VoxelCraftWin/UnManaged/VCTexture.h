@@ -10,8 +10,6 @@
 
 class VCTexture;
 
-typedef std::shared_ptr<VCTexture> VCTexturePtr;
-
 class VCTexture
 {
 public:
@@ -22,6 +20,7 @@ public:
 	static VCTexturePtr CreateUnfilteredTexture (const char* path);
 	static VCTexturePtr CreateTrilinearTexture (const char* path);
 	static VCTexturePtr CreateAnsiotropicTexture (const char* path);
+	static VCTexturePtr ManageExistingBuffer (GLuint bufferId);
 
 	void Bind(int texUnit);
 	void SetUVWrapMode ( GLenum uMode, GLenum vMode );

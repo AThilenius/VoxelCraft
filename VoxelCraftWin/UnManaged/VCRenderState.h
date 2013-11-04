@@ -10,7 +10,6 @@
 
 #include "VCRenderStage.h"
 
-#define MAX_STAGE_COUNT 4
 #define VC_BATCH_SCENE 20
 #define VC_BATCH_GUI_BASE 25
 #define VC_BATCH_GUI 30
@@ -20,12 +19,12 @@
 class VCRenderState
 {
 public:
-	VCRenderState(void);
+	VCRenderState(int stageCount);
 	~VCRenderState(void);
 
 	int BatchingOrder;
 	int StageCount;
-	VCRenderStage Stages[MAX_STAGE_COUNT];
+	VCRenderStage* Stages;
 };
 
 bool operator==(const VCRenderState& lhs, const VCRenderState& rhs);

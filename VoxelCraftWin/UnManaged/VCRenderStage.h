@@ -10,7 +10,7 @@
 
 class Shader;
 
-#define MAX_TEXTURES 4
+#include <vector>
 
 class VCRenderStage
 {
@@ -21,7 +21,7 @@ public:
 public:
 	GLuint FrameBuffer;
 	Shader* Shader;
-	GLuint Textures[MAX_TEXTURES];
+	std::vector<VCTexturePtr> Textures;
 	VCRectangleF Viewport;
 	bool Blend;
 	bool DepthTest;

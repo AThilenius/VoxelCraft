@@ -99,7 +99,7 @@ private:
 	void PreCompileQuads();
 
 	std::string m_imageFileName;
-	GLuint m_ddsTexture;
+	VCTexturePtr m_ddsTexture;
 
 	CharDesc Charaters[256];
 	std::string m_fntPath, m_ddsPath;

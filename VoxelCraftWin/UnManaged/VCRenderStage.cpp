@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "Shader.h"
 #include "VCRenderStage.h"
+#include "VCTexture.h"
 
 VCRenderStage::VCRenderStage(void):
 	FrameBuffer(0),
@@ -17,8 +18,6 @@ VCRenderStage::VCRenderStage(void):
 	DepthTest(true),
 	Viewport(VCRectangleF(0, 0, 1, 1))
 {
-	for ( int i = 0; i < MAX_TEXTURES; i++ )
-		Textures[i] = 0;
 }
 
 VCRenderStage::~VCRenderStage(void)
@@ -33,7 +32,10 @@ bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs)
 	if (lhs.Shader != rhs.Shader)
 		return false;
 
-	for ( int i = 0; i < MAX_TEXTURES; i++ )
+	if (lhs.Textures.size() != rhs.Textures.size())
+		return false;
+
+	for ( int i = 0; i < lhs.Textures.size(); i++ )
 		if (lhs.Textures[i] != rhs.Textures[i])
 			return false;
 
@@ -54,7 +56,10 @@ bool operator< (const VCRenderStage& lhs, const VCRenderStage& rhs)
 	if (lhs.Shader < rhs.Shader) return true;
 	if (lhs.Shader > rhs.Shader) return false;
 
-	for ( int i = 0; i < MAX_TEXTURES; i++ )
+	if (lhs.Textures.size() < rhs.Textures.size()) return true;
+	if (lhs.Textures.size() > rhs.Textures.size()) return false;
+
+	for ( int i = 0; i < lhs.Textures.size(); i++ )
 	{
 		if (lhs.Textures[i] < rhs.Textures[i]) return true;
 		if (lhs.Textures[i] > rhs.Textures[i]) return false;

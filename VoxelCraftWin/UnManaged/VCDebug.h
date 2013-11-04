@@ -38,6 +38,7 @@ public:
 
 
 private:
+	static bool m_warningIssued;
 	static int m_lineVertCount;
 	static GLuint m_VAO;
 	static GLuint m_VBO;

@@ -39,7 +39,7 @@ namespace VCEngine
             ColorPage.AddControl(ColorPicker);
 
             Button eyeDropButton = new Button("Eye Dropper");
-            eyeDropButton.Click += (sender, args) => EditorWorld.CameraController.RequestEyeDrop();
+            eyeDropButton.Click += (sender, args) => EditorWorld.BlockSelection.RequestEyeDrop();
             ColorPage.AddControl(eyeDropButton);
 
             ColorPage.AddControl(new Label("Random Multiplier:"));

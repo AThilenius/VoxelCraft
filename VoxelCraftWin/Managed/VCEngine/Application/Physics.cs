@@ -29,15 +29,13 @@ namespace VCEngine
         public float Distance;
         public byte Type;
         public Vector3 Normal;
-        public int X;
-        public int Y;
-        public int Z;
+        public Location CubeLocation;
 
         public override string ToString()
         {
             return
                 "[ Distance: " + Distance + " ] " +
-                "[ At: " + X + " | " + Y + " | " + Z + " ]" +
+                "[ At: " + CubeLocation.X + " | " + CubeLocation.Y + " | " + CubeLocation.Z + " ]" +
                 "[ Type: " + Type + " ]" +
                 "[ Normal: " + Normal.X + " | " + Normal.Y + " | " + Normal.Z + " ]";
         }

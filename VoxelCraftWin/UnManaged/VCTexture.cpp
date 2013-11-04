@@ -58,6 +58,17 @@ VCTexturePtr VCTexture::CreateTrilinearTexture( const char* path )
 VCTexturePtr VCTexture::CreateAnsiotropicTexture( const char* path )
 {
 	VC_ERROR("Anisotropic filtering not yet implemented.");
+	return NULL;
+}
+
+VCTexturePtr VCTexture::ManageExistingBuffer( GLuint bufferId )
+{
+	VCTexture* tex = new VCTexture();
+	tex->m_glTextID = bufferId;
+
+	VCTexturePtr ptr (tex);
+	tex->m_weakPtr = ptr;
+	return ptr;
 }
 
 void VCTexture::Bind( int texUnit )

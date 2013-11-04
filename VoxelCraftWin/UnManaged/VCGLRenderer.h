@@ -53,7 +53,7 @@ public:
 
 	GLuint DefaultFrameBuffer;
 	GLuint DepthFrameBuffer;
-	GLuint DepthTexture;
+	VCTexturePtr DepthTexture;
 
 private:
 	void CreateDepthFrameBuffer();

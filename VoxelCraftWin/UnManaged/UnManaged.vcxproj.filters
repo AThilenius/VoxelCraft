@@ -50,6 +50,9 @@
     <Filter Include="GLResources">
       <UniqueIdentifier>{0d0056bb-e13a-435f-811a-6a5b33463a2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{2715d72e-70ad-498d-bbcc-a59487741603}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -196,7 +199,15 @@
     <ClCompile Include="VCTextBuffer.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
-    <ClCompile Include="VCTexture.cpp" />
+    <ClCompile Include="VCTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCResourceManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCResourcePool.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -356,7 +367,15 @@
     <ClInclude Include="VCTextBuffer.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
-    <ClInclude Include="VCTexture.h" />
+    <ClInclude Include="VCTexture.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCResourceManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCResourcePool.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

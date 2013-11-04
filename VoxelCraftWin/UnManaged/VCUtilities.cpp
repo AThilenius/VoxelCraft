@@ -55,8 +55,8 @@ void _glErrorCheck(std::string file, int line)
                 break;
         }
         
-        
-		printf("-[ %s ]- Line: %i - %s\n", file.c_str(), line, str);
+		//std::string errStr("-[ %s ]- Line: %i - %s\n", file.c_str(), line, str);
+		VC_ERROR("-[ " << file << " ]- Line: " << line << " - " << str);
         errCode = glGetError();
 	}
 

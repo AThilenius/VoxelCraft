@@ -21,6 +21,7 @@
 #include "VCWindow.h"
 #include "VCSceneGraph.h"
 #include "VCMonoRuntime.h"
+#include "VCTexture.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 VCRenderState* VCGLRenderer::PassThroughState;
@@ -94,7 +95,7 @@ void VCGLRenderer::Initialize()
 	glBindVertexArray(0);
 
 	// Default States:
-	VCGLRenderer::PassThroughState = new VCRenderState();
+	VCGLRenderer::PassThroughState = new VCRenderState(1);
 	VCGLRenderer::PassThroughState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 	VCGLRenderer::PassThroughState->Stages[0].Shader = VCGLRenderer::Instance->ColorPassThroughShader;
 	//VCGLRenderer::PassThroughState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
@@ -154,13 +155,10 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 			state->Stages[stageId].Shader->Bind();
 
 			// Bind Textures
-			for ( int texId = 0; texId < MAX_TEXTURES; texId++ )
+			for ( int texId = 0; texId < state->Stages[stageId].Textures.size(); texId++ )
 			{
 				if (state->Stages[stageId].Textures[texId] != 0)
-				{
-					glActiveTexture(GL_TEXTURE0 + texId);
-					glBindTexture(GL_TEXTURE_2D, state->Stages[stageId].Textures[texId]);
-				}
+					state->Stages[stageId].Textures[texId]->Bind(texId);
 			}
 
 			// Bind DepthTest
@@ -249,8 +247,9 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
 
 	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
-	glGenTextures(1, &DepthTexture);
-	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	GLuint depthTex;
+	glGenTextures(1, &depthTex);
+	glBindTexture(GL_TEXTURE_2D, depthTex);
 
 	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1280, 600, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -261,7 +260,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, DepthTexture, 0);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTex, 0);
 
 	// No color output in the bound framebuffer, only depth.
 	glDrawBuffer(GL_NONE);
@@ -272,6 +271,8 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 		std::cout << "Failed to initialize GL Depth frame buffer! Using fallback." << std::endl;
 		ShadowFallback = true;
 	}
+
+	DepthTexture = VCTexture::ManageExistingBuffer(depthTex);
 }
 
 void VCGLRenderer::RegisterMonoHandlers()

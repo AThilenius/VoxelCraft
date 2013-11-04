@@ -135,8 +135,7 @@ void VCGeometryBuilder::Reset()
 void VCGeometryBuilder::Initialize()
 {
 	// Create a render state for text rendering
-	RenderState = new VCRenderState();
-	RenderState->StageCount = 1;
+	RenderState = new VCRenderState(1);
 	RenderState->BatchingOrder = VC_BATCH_GUI_BASE;
 	RenderState->Stages[0].Shader = VCGLRenderer::Instance->GuiShader;
 	RenderState->Stages[0].DepthTest = false;

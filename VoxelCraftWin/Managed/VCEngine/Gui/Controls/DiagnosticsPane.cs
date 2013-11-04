@@ -11,6 +11,29 @@ namespace VCEngine
 
         private float m_lastDeltaTime = 0.001f;
         private int m_yOffset = 0;
+        private List<KeyState> m_activateStates = new List<KeyState>();
+        private List<MouseClickEventArgs> m_mouseStates = new List<MouseClickEventArgs>();
+
+        internal DiagnosticsPane()
+        {
+            //Input.KeyClicked += (s, a) =>
+            //    {
+            //        if (a.State.Action == TriState.Pressed)
+            //            m_activateStates.Add(a.State);
+
+            //        else if (a.State.Action == TriState.Up)
+            //            m_activateStates.Remove(a.State);
+            //    };
+
+            //Input.MouseClick += (s, a) =>
+            //    {
+            //        if (a.Action == TriState.Pressed)
+            //            m_mouseStates.Add(a);
+
+            //        else if (a.Action == TriState.Up)
+            //            m_mouseStates.Remove(a);
+            //    };
+        }
 
         protected override void Draw()
         {
@@ -24,6 +47,27 @@ namespace VCEngine
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
             DrawText("Main Camera: " + Camera.MainCamera.Transform.Position.ToString("n2"), sf);
             DrawText("Mouse: " + Input.MousePoistion, sf);
+
+            //if (m_mouseStates.Count == 0)
+            //    DrawText("Mouse Inputs: None", sf);
+            //else
+            //{
+            //    DrawText("Mouse Inputs:", sf);
+
+            //    foreach (MouseClickEventArgs a in m_mouseStates)
+            //        DrawText("Button: " + a.Button + ". Mods: " + a.Modifiers, sf);
+            //}
+
+            //if (m_activateStates.Count == 0)
+            //    DrawText("Key Inputs: None", sf);
+            //else
+            //{
+            //    DrawText("Key Inputs:", sf);
+
+            //    foreach (KeyState s in m_activateStates)
+            //        DrawText("Key: " + s.Key + ". Mods: " + s.Modifiers, sf);
+            //}
+
         }
 
         private void DrawText(string text, Rectangle sf)

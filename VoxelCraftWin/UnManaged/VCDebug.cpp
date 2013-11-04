@@ -10,6 +10,7 @@
 #include "VCDebug.h"
 #include "VCMonoRuntime.h"
 
+bool VCDebug::m_warningIssued = false;
 int VCDebug::m_lineVertCount = 0;
 LineVerticie VCDebug::m_lineVerts[] = {};
 GLuint VCDebug::m_VAO = 0;
@@ -61,9 +62,13 @@ void VCDebug::Initialize()
 
 void VCDebug::DrawLine( glm::vec3 from, glm::vec3 to, GLubyte4 color )
 {
-	if (m_lineVertCount + 2 >= MAX_LINE_COUNT)
+	if (m_warningIssued)
+		return;
+
+	else if (m_lineVertCount + 2 >= MAX_LINE_COUNT)
 	{
-		VC_ERROR("Too many VCDebug line verticies.");
+		VC_WARN("Too many VCDebug line verticies.");
+		m_warningIssued = true;
 	}
 
 	m_lineVerts[m_lineVertCount++] = LineVerticie(from, color);
@@ -121,6 +126,7 @@ void VCDebug::Render()
 	glBindVertexArray(0);
 
 	m_lineVertCount = 0;
+	m_warningIssued = false;
 }
 
 void VCDebug::RegisterMonoHandlers()

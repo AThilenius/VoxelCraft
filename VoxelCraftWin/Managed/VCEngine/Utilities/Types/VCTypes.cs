@@ -251,4 +251,26 @@ namespace VCEngine
             Height = height;
         }
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Location
+    {
+        public int X;
+        public int Y;
+        public int Z;
+
+        public Location(int x, int y, int z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public Location(Vector3 v)
+        {
+            X = (int) v.X;
+            Y = (int) v.Y;
+            Z = (int) v.Z;
+        }
+    }
 }

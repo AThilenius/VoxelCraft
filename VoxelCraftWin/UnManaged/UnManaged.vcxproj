@@ -30,6 +30,8 @@
     <ClCompile Include="VCGLXShortX.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
+    <ClCompile Include="VCResourceManager.cpp" />
+    <ClCompile Include="VCResourcePool.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -81,6 +83,8 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="VCResourceManager.h" />
+    <ClInclude Include="VCResourcePool.h" />
     <ClInclude Include="VCStreamHelpers.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />

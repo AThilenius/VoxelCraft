@@ -13,6 +13,7 @@
 #include "VCFont.h"
 #include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"
+#include "VCTexture.h"
 
 
 GlyphVerticie::GlyphVerticie()
@@ -84,13 +85,14 @@ void VCFont::Initialize()
 	f.close();
 
 	// Load DDS
-	m_ddsTexture = SOIL_load_OGL_texture
-		(
-		m_ddsPath.c_str(),
-		SOIL_LOAD_AUTO,
-		SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_DDS_LOAD_DIRECT
-		);
+	/*m_ddsTexture = SOIL_load_OGL_texture
+	(
+	m_ddsPath.c_str(),
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_DDS_LOAD_DIRECT
+	);*/
+	m_ddsTexture = VCTexture::CreateUnfilteredTexture(m_ddsPath.c_str());
 
 	// Name
 	std::ostringstream ss;
@@ -105,11 +107,10 @@ void VCFont::Initialize()
 	Name = ss.str();
 
 	// Create a render state for text rendering
-	RenderState = new VCRenderState();
-	RenderState->StageCount = 1;
+	RenderState = new VCRenderState(1);
 	RenderState->BatchingOrder = VC_BATCH_GUI;
 	RenderState->Stages[0].Shader = VCGLRenderer::Instance->LexShader;
-	RenderState->Stages[0].Textures[0] = m_ddsTexture;
+	RenderState->Stages[0].Textures.push_back(m_ddsTexture);
 	RenderState->Stages[0].DepthTest = false;
 	VCGLRenderer::Instance->RegisterState(RenderState);
 }

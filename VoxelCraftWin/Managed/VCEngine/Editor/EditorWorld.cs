@@ -9,6 +9,7 @@ namespace VCEngine
     {
         internal static World World;
         internal static EditorCameraController CameraController;
+        internal static EditorBlockSelection BlockSelection;
 
         internal static void Initialize()
         {
@@ -17,6 +18,9 @@ namespace VCEngine
 
             CameraController = new EditorCameraController();
             Camera.MainCamera.AttachComponent(CameraController);
+
+            BlockSelection = new EditorBlockSelection();
+            Camera.MainCamera.AttachComponent(BlockSelection);
 
             World = new World();
             World.Generator = new FlatChunkGenerator();
