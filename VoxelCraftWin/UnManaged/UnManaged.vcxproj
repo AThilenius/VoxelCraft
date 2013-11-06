@@ -23,15 +23,15 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="VCCollection.cpp" />
     <ClCompile Include="VCGeometryBuilder.cpp" />
     <ClCompile Include="VCGeometryTypes.cpp" />
     <ClCompile Include="VCGLFloatX.cpp" />
     <ClCompile Include="VCGLXByteX.cpp" />
     <ClCompile Include="VCGLXShortX.cpp" />
+    <ClCompile Include="VCPoolableResource.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
-    <ClCompile Include="VCResourceManager.cpp" />
-    <ClCompile Include="VCResourcePool.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -72,6 +72,7 @@
     <ClCompile Include="VCXIntX.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
@@ -83,8 +84,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="VCResourceManager.h" />
-    <ClInclude Include="VCResourcePool.h" />
+    <ClInclude Include="VCPoolableResource.h" />
     <ClInclude Include="VCStreamHelpers.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />

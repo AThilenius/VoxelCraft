@@ -42,6 +42,10 @@ namespace VCEngine
             eyeDropButton.Click += (sender, args) => EditorWorld.BlockSelection.RequestEyeDrop();
             ColorPage.AddControl(eyeDropButton);
 
+            Button circleButton = new Button("Circle Tool");
+            circleButton.Click += (s, a) => EditorWorld.BlockSelection.RequestCircle();
+            ColorPage.AddControl(circleButton);
+
             ColorPage.AddControl(new Label("Random Multiplier:"));
             RandomColorFactor = new Slider { Value = 0.1f };
             ColorPage.AddControl(RandomColorFactor);

@@ -205,6 +205,29 @@ namespace VCEngine
             return locs.ToArray();
         }
 
+        public static Location[] GetBlocksInSphere(Location centroid, float radius)
+        {
+            List<Location> locs = new List<Location>();
+            Vector3 centroidF = new Vector3(centroid);
+            int radiusi = (int)radius;
+
+            for (int z = centroid.Z - radiusi; z < centroid.Z + (radiusi * 2); z++)
+            {
+                for (int x = centroid.X - radiusi; x < centroid.X + (radiusi * 2); x++)
+                {
+                    for (int y = centroid.Y - radiusi; y < centroid.Y + (radiusi * 2); y++)
+                    {
+                        // Distance test
+                        Vector3 thisLoc = new Vector3(x, y, z);
+                        if ((thisLoc - centroidF).LengthFast <= radius)
+                            locs.Add(new Location(x, y, z));
+                    }
+                }
+            }
+
+            return locs.ToArray();
+        }
+
         public bool Raycast(Ray ray, out RaycastHit hit)
         {
             RaycastHit newHit = new RaycastHit();

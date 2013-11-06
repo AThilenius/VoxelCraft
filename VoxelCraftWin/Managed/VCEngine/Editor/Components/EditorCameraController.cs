@@ -36,7 +36,7 @@ namespace VCEngine
             else
                 m_speed = 20.0f;
 
-            m_rot.X = MathHelper.Clamp(m_rot.X, -90.0f * 0.0174532925f, 90.0f * 0.0174532925f);
+            m_rot.X = MathHelper.Clamp(m_rot.X, MathHelper.DegreesToRadians(-89.0f), MathHelper.DegreesToRadians(89.0f));
 
             Transform.Rotation = Quaternion.FromEuler(m_rot);
 

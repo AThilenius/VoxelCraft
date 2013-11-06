@@ -36,6 +36,11 @@
 #include <math.h>
 #include <stdint.h>
 #include <memory>
+#include <unordered_map>
+#include <unordered_set>
+#include <map>
+#include <set>
+#include <vector>
 
 // External
 #include "glew.h"

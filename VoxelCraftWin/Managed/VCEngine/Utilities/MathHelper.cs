@@ -291,10 +291,10 @@ namespace VCEngine
         public static float Clamp(float value, float min, float max)
         {
             if (value < min)
-                value = min;
+                return min;
 
-            else if (value > max)
-                value = max;
+            if (value > max)
+                return max;
 
             return value;
         }

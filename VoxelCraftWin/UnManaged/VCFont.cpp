@@ -85,14 +85,10 @@ void VCFont::Initialize()
 	f.close();
 
 	// Load DDS
-	/*m_ddsTexture = SOIL_load_OGL_texture
-	(
-	m_ddsPath.c_str(),
-	SOIL_LOAD_AUTO,
-	SOIL_CREATE_NEW_ID,
-	SOIL_FLAG_DDS_LOAD_DIRECT
-	);*/
-	m_ddsTexture = VCTexture::CreateUnfilteredTexture(m_ddsPath.c_str());
+	//m_ddsTexture = VCTexture::CreateUnfilteredTexture(m_ddsPath.c_str());
+	VCTextureParams tparam;
+	tparam.Filtering = VCTextureFiltering::None;
+	m_ddsTexture = VCTexture::Get(m_ddsPath, tparam);
 
 	// Name
 	std::ostringstream ss;

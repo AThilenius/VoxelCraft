@@ -40,7 +40,7 @@ void VCCamera::PreRender()
 	InverseViewMatrix = glm::inverse(ViewMatrix);
     
     // Set Camera's bounds
-    //glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
+    glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
     
 	ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;

@@ -8,6 +8,7 @@ namespace VCEngine
     public class EditorBlockSelection : Component
     {
         private bool m_isEyedrop;
+        private bool m_isCircle;
         private Random m_random = new Random();
         private bool m_suppressUp;
         private Location m_startLocation;
@@ -48,8 +49,18 @@ namespace VCEngine
                 // Highlight blocks
                 else if (Input.GetMouse(0) == TriState.Replete && !m_suppressUp)
                 {
-                    foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
-                        Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    if (m_isCircle)
+                    {
+                        int distance = (int) Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
+                        foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
+                            Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    }
+
+                    else
+                    {
+                        foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
+                            Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    }
                 }
 
                 // Set all blocks between start and end
@@ -57,15 +68,37 @@ namespace VCEngine
                 {
                     float Value = EditorGui.RandomColorFactor.Value;
 
-                    foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
+                    if (m_isCircle)
                     {
-                        float RandOffset = (float)m_random.NextDouble() * Value - (Value * 0.5f);
-                        Vector4 hsl = EditorGui.ColorPicker.ColorHSL;
-                        hsl.Z += RandOffset;
-                        hsl.Z = MathHelper.Clamp(hsl.Z, 0.0f, 1.0f);
-                        Color c = Color.HslToRgba(hsl);
+                        int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
+                        foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
+                        {
+                            float RandOffset = (float)m_random.NextDouble() * Value - (Value * 0.5f);
+                            Vector4 hsl = EditorGui.ColorPicker.ColorHSL;
+                            hsl.Z += RandOffset;
+                            hsl.Z = MathHelper.Clamp(hsl.Z, 0.0f, 1.0f);
+                            Color c = Color.HslToRgba(hsl);
 
-                        EditorWorld.World.SetBlock(loc, new Block(c));
+                            if (loc.Y > 0)
+                                EditorWorld.World.SetBlock(loc, new Block(c));
+                        }
+
+                        m_isCircle = false;
+                    }
+
+                    else
+                    {
+                        foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
+                        {
+                            float RandOffset = (float)m_random.NextDouble() * Value - (Value * 0.5f);
+                            Vector4 hsl = EditorGui.ColorPicker.ColorHSL;
+                            hsl.Z += RandOffset;
+                            hsl.Z = MathHelper.Clamp(hsl.Z, 0.0f, 1.0f);
+                            Color c = Color.HslToRgba(hsl);
+
+                            if (loc.Y > 0)
+                                EditorWorld.World.SetBlock(loc, new Block(c));
+                        }
                     }
 
                     EditorWorld.World.ReBuild();
@@ -101,6 +134,11 @@ namespace VCEngine
         internal void RequestEyeDrop()
         {
             m_isEyedrop = true;
+        }
+
+        internal void RequestCircle()
+        {
+            m_isCircle = true;
         }
     }
 }
