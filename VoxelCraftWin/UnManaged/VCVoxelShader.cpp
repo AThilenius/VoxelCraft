@@ -109,19 +109,14 @@ static std::string g_vcVoxFragmentShader =
 		// Sample the shadow map 4 times
 		//"for ( int i = 0; i < 4; i++ )"
 		//"{"
+		//	"int index = int( 16.0 * random( floor( Position_worldspace.xyz * 1000.0 ), i) ) % 16;"
 
-			//"int index = i;"
-			//"int index = int( 16.0 * random( floor( Position_worldspace.xyz * 1000.0 ), i) ) % 16;"
-		
-			//"visibility -= 0.2 * ( 1.0 - texture( shadowMap, vec3( ShadowCoord.xy + poissonDisk[index] / 700.0,  (ShadowCoord.z - bias) / ShadowCoord.w) ));"
-
-			//"if ( texture( shadowMap, (ShadowCoord.xy + poissonDisk[index] / 700.0) ).z  <  (ShadowCoord.z - bias) / ShadowCoord.w )"
-			//"if ( texture( shadowMap, (ShadowCoord.xy / ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
-				//"visibility -= 0.2;"
+		//	"if ( texture( shadowMap, (ShadowCoord.xy + poissonDisk[index] / 700.0) ).z  <  (ShadowCoord.z - bias) / ShadowCoord.w )"
+		//		"visibility -= 0.2;"
 
 		//"}"
-		"if ( texture( shadowMap, (ShadowCoord.xy / ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
-			"visibility -= 0.8;"
+		//"if ( texture( shadowMap, (ShadowCoord.xy / ShadowCoord.w) ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )"
+		//	"visibility -= 0.8;"
 
 		"color = "
 			"colorVarying * 0.3 +"

@@ -38,6 +38,10 @@ struct GLubyte4
 	GLubyte y;
 	GLubyte z;
 	GLubyte w;
+
+	GLubyte4 operator+(const GLubyte4&) const;
+	GLubyte4 operator-(const GLubyte4&) const;
+	GLubyte4 operator*(const glm::vec4&) const;
 };
 
 bool operator==(const GLubyte4& lhs, const GLubyte4& rhs);

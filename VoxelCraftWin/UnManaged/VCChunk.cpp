@@ -145,6 +145,13 @@ void VCChunk::SetBlock( int x, int y, int z, VCBlock block )
 	NeedsRebuild = true;
 }
 
+// Helper:
+#define OccusionValue 3
+void Occlude ( GLubyte4& c )
+{
+	c = c + GLubyte4 ( OccusionValue, OccusionValue, OccusionValue, 0 );
+}
+
 void VCChunk::Rebuild()
 {
 	if (!NeedsRebuild)
@@ -178,13 +185,13 @@ void VCChunk::Rebuild()
                     continue;
                 }
                 
-                //GLKVector3 normal;
 				GLbyte normal;
                 
                 GLbyte xO = x;
                 GLbyte yO = y;
                 GLbyte zO = z;
                 
+				// Verts
 				GLbyte3 V1 ( xO,		yO,		zO + 1	);
                 GLbyte3 V2 ( xO + 1,	yO,		zO + 1	);
                 GLbyte3 V3 ( xO + 1,	yO + 1, zO + 1	);
@@ -195,83 +202,126 @@ void VCChunk::Rebuild()
                 GLbyte3 V7 ( xO + 1,	yO + 1, zO		);
                 GLbyte3 V8 ( xO,		yO + 1, zO		);
 
-                
+				// Color Corrections
+				GLubyte4 V1C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V2C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V3C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V4C ( 10, 10, 10, thisType.Color.w );
+
+				GLubyte4 V5C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V6C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V7C ( 10, 10, 10, thisType.Color.w );
+				GLubyte4 V8C ( 10, 10, 10, thisType.Color.w );
+
+				// =====   Color Corrections Computations   ======================================================
+
+				// Upper ( +Y )
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	 ).IsTranslucent() ) { Occlude(V3C); Occlude(V7C); }
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V3C); }
+				if ( !m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V3C); Occlude(V4C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V4C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	 ).IsTranslucent() ) { Occlude(V4C); Occlude(V8C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V8C); }
+				if ( !m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V7C); Occlude(V8C); }
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V7C); }
+
+				// lOWWER ( -Y )
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	 ).IsTranslucent() ) { Occlude(V2C); Occlude(V6C); }
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V2C); }
+				if ( !m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V1C); Occlude(V2C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1 ).IsTranslucent() ) { Occlude(V1C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	 ).IsTranslucent() ) { Occlude(V1C); Occlude(V5C); }
+				if ( !m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V5C); }
+				if ( !m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V5C); Occlude(V6C); }
+				if ( !m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1 ).IsTranslucent() ) { Occlude(V6C); }
+
+				V1C = thisType.Color * glm::vec4 ( 10.0f / V1C.x, 10.0f / V1C.y, 10.0f / V1C.z, 1.0f );
+				V2C = thisType.Color * glm::vec4 ( 10.0f / V2C.x, 10.0f / V2C.y, 10.0f / V2C.z, 1.0f );
+				V3C = thisType.Color * glm::vec4 ( 10.0f / V3C.x, 10.0f / V3C.y, 10.0f / V3C.z, 1.0f );
+				V4C = thisType.Color * glm::vec4 ( 10.0f / V4C.x, 10.0f / V4C.y, 10.0f / V4C.z, 1.0f );
+				V5C = thisType.Color * glm::vec4 ( 10.0f / V5C.x, 10.0f / V5C.y, 10.0f / V5C.z, 1.0f );
+				V6C = thisType.Color * glm::vec4 ( 10.0f / V6C.x, 10.0f / V6C.y, 10.0f / V6C.z, 1.0f );
+				V7C = thisType.Color * glm::vec4 ( 10.0f / V7C.x, 10.0f / V7C.y, 10.0f / V7C.z, 1.0f );
+				V8C = thisType.Color * glm::vec4 ( 10.0f / V8C.x, 10.0f / V8C.y, 10.0f / V8C.z, 1.0f );
+
+				// =====   Verticie Computations   ======================================================
+
                 // Front face
                 if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTranslucent() )
                 {
                     normal = 5;
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, V1C ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, V3C ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, V4C ));
                     
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
-                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, V1C ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, V2C ));
+                    m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, V3C ));
                 }
 
 				//Right face
 				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 1;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, V2C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, V7C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, V3C ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, V2C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, V6C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, V7C ));
 				}
 
 				//Back face
 				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTranslucent() )
 				{
 					normal = 4;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, V6C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, V8C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, V7C ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, V6C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, V5C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, V8C ));
 				}
 
 				//Left face
 				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 0;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, V5C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, V4C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, V8C ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, V5C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, V1C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, V4C ));
 				}
 
 				//Top face
 				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 3;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, V4C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, V3C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, V7C ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, V4C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, V7C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, V8C ));
 				}
 
 				//Bottom face
 				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTranslucent() )
 				{
 					normal = 2;
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color  - V1C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color  - V1C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, thisType.Color  - V1C ));
 
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, thisType.Color  - V1C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, thisType.Color  - V1C ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, thisType.Color  - V1C ));
 				}
                 // =========  END of make block  ========
             }

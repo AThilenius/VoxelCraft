@@ -21,11 +21,11 @@ namespace VCEngine
                 SceneGraph.RootNode = new GameObject();
                 Window.Initialize();
 
-#if DEBUG
+//#if DEBUG
                 Gui.LoadFontsFromForlder(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Fonts");
-#else
-                Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
-#endif
+//#else
+//                Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
+//#endif
 
                 if (!EditorMode)
                     AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
