@@ -82,6 +82,12 @@ namespace VCEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldRebuild(int handle, VCWorldRebuildParams param);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSGetViewport(int handle, out Rectangle frame);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWorldSetViewport(int handle, Rectangle frame);
+
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldSaveToFile(int handle, string path);
@@ -105,6 +111,17 @@ namespace VCEngine
         #endregion
 
         public VCWorldRebuildParams RebuildParams = new VCWorldRebuildParams(true, false);
+
+        public Rectangle Viewport
+        {
+            get 
+            { 
+                Rectangle viewport;
+                VCInteropWorldSGetViewport(UnManagedHandle, out viewport); 
+                return viewport; 
+            }
+            set { VCInteropWorldSetViewport(UnManagedHandle, value); }
+        }
 
         private IChunkGenerator m_generator;
         public IChunkGenerator Generator

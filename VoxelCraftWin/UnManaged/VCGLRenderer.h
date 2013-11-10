@@ -33,6 +33,7 @@ public:
 	void SetModelMatrix(glm::mat4 matrix);
 
 	void RegisterState(VCRenderState* state);
+	void UnRegisterState(VCRenderState* state);
 
 	void RegisterIRenderable(VCIRenderable* renderable);
 	void UnRegisterIRenderable(VCIRenderable* renderable);

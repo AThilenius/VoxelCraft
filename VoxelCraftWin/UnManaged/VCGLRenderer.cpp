@@ -168,6 +168,18 @@ void VCGLRenderer::RegisterState( VCRenderState* state )
 	m_renderMap.insert(RenderMap::value_type(state, RenderSet()));
 }
 
+void VCGLRenderer::UnRegisterState( VCRenderState* state )
+{
+	auto iter = m_renderMap.find(state);
+
+	if (iter == m_renderMap.end())
+	{
+		VC_ERROR("Cannot remove RenderState because it is not registered.");
+	}
+
+	m_renderMap.erase(iter);
+}
+
 void VCGLRenderer::RegisterIRenderable( VCIRenderable* renderable )
 {
 	auto iter = m_renderMap.find(renderable->GetState());
@@ -186,14 +198,14 @@ void VCGLRenderer::UnRegisterIRenderable( VCIRenderable* renderable )
 
 	if (iter == m_renderMap.end())
 	{
-		VC_ERROR("Cannot remove RenderState because it is not registered.");
+		VC_ERROR("Cannot remove IRenderable from RenderState because the state it is not registered.");
 	}
 
 	auto setIter = iter->second.find(renderable);
 
 	if (setIter == iter->second.end())
 	{
-		VC_ERROR("Cannot remove Renderable because it is not registered.");
+		VC_ERROR("Cannot remove IRenderable because it is not registered with the state.");
 	}
 
 	iter->second.erase(setIter);

@@ -10,14 +10,9 @@
 #include "VCChunk.h"
 
 #include "VCWorld.h"
-#include "Shader.h"
-#include "VCShadowShader.h"
-#include "VCVoxelShader.h"
 #include "VCWorld.h"
 #include "VCGLRenderer.h"
 #include "VCTime.h"
-
-VCRenderState* VCChunk::VoxelRenderState = NULL;
 
 struct BlockVerticie
 {
@@ -71,22 +66,6 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 	m_isRegistered(false),
 	NeedsRebuild(true)
 {
-	if (VCChunk::VoxelRenderState == NULL)
-	{
-
-		VCChunk::VoxelRenderState = new VCRenderState(2);
-
-		// Stage 1
-		VCChunk::VoxelRenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
-
-		// Stage 2
-		VCChunk::VoxelRenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		VCChunk::VoxelRenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
-		VCChunk::VoxelRenderState->Stages[1].Textures.push_back(VCGLRenderer::Instance->DepthTexture);
-
-		VCGLRenderer::Instance->RegisterState(VoxelRenderState);
-	}
 }
 
 VCChunk::~VCChunk(void)
@@ -439,6 +418,12 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 
 	glErrorCheck();
 }
+
+VCRenderState* VCChunk::GetState()
+{
+	return m_world->RenderState;
+}
+
 
 void VCChunk::Render()
 {

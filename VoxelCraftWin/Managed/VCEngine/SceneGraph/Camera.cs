@@ -132,6 +132,21 @@ namespace VCEngine
             };
         }
 
+        public Ray ScreenPointToRay(Point point, float maxViewDistance, Rectangle viewport)
+        {
+            Vector3 direction = VCInteropCameraScreenPointToDirection(
+                    UnManagedHandle,
+                    viewport,
+                    point);
+
+            return new Ray
+            {
+                Direction = direction,
+                Origin = Transform.Position,
+                MaxDistance = float.PositiveInfinity
+            };
+        }
+
         private void SetData()
         {
             VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far, m_frame);

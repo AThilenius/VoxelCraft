@@ -15,7 +15,13 @@ namespace VCEngine
         {
             Camera.MainCamera = new Camera();
             Camera.MainCamera.Transform.Position = new Vector3(50, 20, 50);
-            Window.Resize += (s, a) => Camera.MainCamera.Frame = new Rectangle(0, 0, Window.Size.X, Window.Size.Y);
+            Window.Resize += (s, a) =>
+                {
+                    Camera.MainCamera.Frame = new Rectangle(0, 0, Window.Size.X, Window.Size.Y);
+
+                    if (World != null)
+                        World.Viewport = new Rectangle(0, 0, Window.Size.X, Window.Size.Y);
+                };
 
             CameraController = new EditorCameraController();
             Camera.MainCamera.AttachComponent(CameraController);

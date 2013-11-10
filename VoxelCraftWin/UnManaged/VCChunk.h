@@ -35,9 +35,8 @@ public:
 	void Load (std::ifstream& stream);
 
 	// ===== Render State Fulfillment ===========================================
-	virtual VCRenderState* GetState() { return VCChunk::VoxelRenderState; }
+	virtual VCRenderState* GetState();
 	void virtual Render();
-	static VCRenderState* VoxelRenderState;
 
 public:
 	VCBlock Blocks[CHUNK_TOTAL_COUNT];

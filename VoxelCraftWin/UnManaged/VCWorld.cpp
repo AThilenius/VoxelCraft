@@ -18,6 +18,9 @@
 #include "VCPhysics.h"
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
+#include "Shader.h"
+#include "VCShadowShader.h"
+#include "VCVoxelShader.h"
 
 float IntBound ( float s, float ds )
 {
@@ -41,7 +44,8 @@ VCWorld::VCWorld():
 	ChunkZeroY(0),
 	ChunkZeroZ(0),
 	ChunkGenerator(NULL),
-	m_chunks(NULL)
+	m_chunks(NULL),
+	RenderState(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -57,10 +61,36 @@ VCWorld::~VCWorld(void)
 
 		free(m_chunks);
 	}
+
+	if (RenderState)
+	{
+		VCGLRenderer::Instance->UnRegisterState(RenderState);
+		RenderState = NULL;
+	}
 }
 
 void VCWorld::InitializeEmpty()
 {
+	// RenderState
+	if (!RenderState)
+	{
+		RenderState = new VCRenderState(2);
+
+		// Stage 1 - Shadow
+		RenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
+		RenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
+
+		// Stage 2 - Draw
+		RenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
+		RenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+		RenderState->Stages[1].Textures.push_back(VCGLRenderer::Instance->DepthTexture);
+		RenderState->Stages[1].Fullscreen = false;
+
+		VCGLRenderer::Instance->RegisterState(RenderState);
+	}
+	
+
+	// Chunks
 	m_chunks = (VCChunk**) malloc ( sizeof(VCChunk*) * m_viewDistTwo * m_viewDistTwo * m_viewDistTwo );
 
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
@@ -336,7 +366,9 @@ void VCWorld::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetGenerator",			(void*)VCInteropWorldSetGenerator);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
-
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSGetViewport",			(void*)VCInteropWorldSGetViewport);
+	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewport",			(void*)VCInteropWorldSetViewport);
+	
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
 	
@@ -388,6 +420,19 @@ void VCInteropWorldRebuild( int handle, VCWorldRebuildParams params )
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	obj->Rebuild(params);
 }
+
+void VCInteropWorldSGetViewport( int handle, VCRectangle* frame )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	*frame = obj->RenderState->Stages[1].Viewport;
+}
+
+void VCInteropWorldSetViewport( int handle, VCRectangle frame )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	obj->RenderState->Stages[1].Viewport = frame;
+}
+
 
 void VCInteropWorldSaveToFile( int handle, VCMonoStringPtr path )
 {

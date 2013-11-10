@@ -16,7 +16,7 @@ namespace VCEngine
         public override void Update()
         {
             // Ray cast
-            Ray ray = Camera.MainCamera.ScreenPointToRay(Input.MousePoistion, 1000);
+            Ray ray = Camera.MainCamera.ScreenPointToRay(Input.MousePoistion, 1000, EditorWorld.World.Viewport);
             RaycastHit hit;
 
             if (EditorWorld.World.Raycast(ray, out hit))
