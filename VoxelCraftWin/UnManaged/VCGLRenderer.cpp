@@ -69,36 +69,10 @@ void VCGLRenderer::Initialize()
 	ColorPassThroughShader = new VCColorPassThroughShader();
 	ColorPassThroughShader->Initialize();
 
-
-	// ===================    Quad for visualize    =======================================
-	// The quad's FBO. Used only for visualizing the shadowmap.
-	glGenVertexArrays(1, &m_quad_VertexArrayID);
-	glBindVertexArray(m_quad_VertexArrayID);
-
-	static const GLfloat g_quad_vertex_buffer_data[] = { 
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		-1.0f,  1.0f, 0.0f,
-		-1.0f,  1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 1.0f,  1.0f, 0.0f,
-	};
-
-	GLuint quad_vertexbuffer;
-	glGenBuffers(1, &quad_vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, quad_vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer( VC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, (void*)0 );
-
-	glBindVertexArray(0);
-
 	// Default States:
 	VCGLRenderer::PassThroughState = new VCRenderState(1);
 	VCGLRenderer::PassThroughState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 	VCGLRenderer::PassThroughState->Stages[0].Shader = VCGLRenderer::Instance->ColorPassThroughShader;
-	//VCGLRenderer::PassThroughState->Stages[0].Viewport = RectangleF(0, 0, 0.8f, 0.97222f);
 	RegisterState(VCGLRenderer::PassThroughState);
 
     glErrorCheck();
@@ -108,7 +82,7 @@ void VCGLRenderer::Initialize()
 void VCGLRenderer::Render(int fromBatch, int toBatch)
 {
 	static int lastFrameBuffer = 0;
-	static VCRectangleF lastViewport;
+	static VCRectangle lastViewport;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -140,16 +114,17 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 			}
 
 			// Set Viewport
-			/*if (lastViewport.X != state->Stages[stageId].Viewport.X ||
-				lastViewport.Y != state->Stages[stageId].Viewport.Y ||
-				lastViewport.Width != state->Stages[stageId].Viewport.Width ||
-				lastViewport.Height != state->Stages[stageId].Viewport.Height)
+			if (state->Stages[stageId].Fullscreen && lastViewport != VCWindow::Instance->FullViewport)
+			{
+				lastViewport = VCWindow::Instance->FullViewport;
+				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
+			}
+
+			else if (!state->Stages[stageId].Fullscreen && lastViewport != state->Stages[stageId].Viewport)
 			{
 				lastViewport = state->Stages[stageId].Viewport;
-				int width = VCWindow::Instance->Width;
-				int height = VCWindow::Instance->Height;
-				glViewport(width * lastViewport.X, height * lastViewport.Y, width * lastViewport.Width, height * lastViewport.Height);
-			}*/
+				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
+			}
 
 			// Set Shader ( will auto re-assign test )
 			state->Stages[stageId].Shader->Bind();
@@ -180,23 +155,6 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 		}
 
 	}
-
-	//// ===================    Visualize    =====================
-	//glViewport(0, 0, 256, 256);
-
-	//TextureShader->Bind();
-
-	//// Bind our texture in Texture Unit 0
-	//glBindVertexArray(m_quad_VertexArrayID);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	////glBindTexture(GL_TEXTURE_2D, m_depthTexture);
-	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
-
-	//TextureShader->SetTextureUnit(0);
-
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glBindVertexArray(0);
 
 }
 

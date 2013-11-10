@@ -27,8 +27,10 @@ public:
 	int Y;
 	int Width;
 	int Height;
-
 };
+
+bool operator==(const VCRectangle& lhs, const VCRectangle& rhs);
+bool operator!=(const VCRectangle& lhs, const VCRectangle& rhs);
 
 class VCRectangleF
 {

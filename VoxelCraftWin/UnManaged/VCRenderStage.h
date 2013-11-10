@@ -22,7 +22,8 @@ public:
 	GLuint FrameBuffer;
 	Shader* Shader;
 	std::vector<VCTexturePtr> Textures;
-	VCRectangleF Viewport;
+	VCRectangle Viewport;
+	bool Fullscreen;
 	bool Blend;
 	bool DepthTest;
 };

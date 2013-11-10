@@ -10,13 +10,15 @@
 #include "Shader.h"
 #include "VCRenderStage.h"
 #include "VCTexture.h"
+#include "VCWindow.h"
 
 VCRenderStage::VCRenderStage(void):
 	FrameBuffer(0),
 	Shader(NULL),
 	Blend(true),
 	DepthTest(true),
-	Viewport(VCRectangleF(0, 0, 1, 1))
+	Fullscreen(true),
+	Viewport(VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height))
 {
 }
 

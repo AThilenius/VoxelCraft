@@ -30,6 +30,20 @@ VCRectangle::VCRectangle( int x, int y, int width, int height ) : X(x), Y(y), Wi
 
 }
 
+bool operator==( const VCRectangle& lhs, const VCRectangle& rhs )
+{
+	return 
+		lhs.X == rhs.X && 
+		lhs.Y == rhs.Y &&
+		lhs.Width == rhs.Width &&
+		lhs.Height == rhs.Width;
+}
+
+bool operator!=( const VCRectangle& lhs, const VCRectangle& rhs )
+{
+	return !operator==(lhs, rhs);
+}
+
 VCRectangleF::VCRectangleF()
 {
 
@@ -39,3 +53,4 @@ VCRectangleF::VCRectangleF( float x, float y, float width, float height ) : X(x)
 {
 
 }
+
