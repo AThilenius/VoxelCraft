@@ -22,12 +22,17 @@ struct VCInteropBlock;
 #include "VCMarshalableObject.h"
 #include "VCMonoString.h"
 
-
 struct VCEditorFileHeader001
 {
 	int ChunkWidth;
 	int WorldSizeX, WorldSizeY, WorldSizeZ;
 	int ChunkZeroX, ChunkZeroY, ChunkZeroZ;
+};
+
+struct VCWorldRebuildParams
+{
+	bool ShowShadows;
+	bool ForceRebuildAll;
 };
 
 class VCWorld : public VCMarshalableObject
@@ -38,7 +43,7 @@ public:
 
 	void InitializeEmpty();
 	void GenerateRegenerate();
-	void Rebuild();
+	void Rebuild(VCWorldRebuildParams params);
 
 	void SetViewDistance(int viewDistTwo);
 
@@ -77,7 +82,7 @@ void VCInteropWorldSetGenerator(int wHandle, int cHandle);
 void VCInteropWorldSetViewDist(int handle, int distance);
 void VCInteropWorldInitializeEmpty(int handle);
 void VCInteropWorldGenerateRegenerate(int handle);
-void VCInteropWorldRebuild(int handle);
+void VCInteropWorldRebuild(int handle, VCWorldRebuildParams params);
 
 void VCInteropWorldSaveToFile (int handle, VCMonoStringPtr path);
 void VCInteropWorldLoadFromFile (int handle, VCMonoStringPtr path);

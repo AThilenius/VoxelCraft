@@ -11,6 +11,7 @@
 class VCWorld;
 class VCRenderState;
 struct BlockVerticie;
+struct VCWorldRebuildParams;
 
 #include "VCGameObject.h"
 #include "VCIRenderable.h"
@@ -24,7 +25,7 @@ public:
 	~VCChunk(void);
 
 	void Initialize();
-	void Rebuild ( );
+	void Rebuild (VCWorldRebuildParams params);
 
 	VCBlock GetBlock ( int x, int y, int z );
 	void SetBlock( int x, int y, int z, VCBlock block );

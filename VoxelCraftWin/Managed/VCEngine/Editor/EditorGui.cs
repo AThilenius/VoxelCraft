@@ -46,6 +46,22 @@ namespace VCEngine
             circleButton.Click += (s, a) => EditorWorld.BlockSelection.RequestCircle();
             ColorPage.AddControl(circleButton);
 
+            Button shadowButton = new Button("Hide Shadows");
+            shadowButton.Click += (s, a) =>
+                {
+                    EditorWorld.World.RebuildParams.ShowShadows = !EditorWorld.World.RebuildParams.ShowShadows;
+                    EditorWorld.World.RebuildParams.ForceRebuildAll = true;
+
+                    if (EditorWorld.World.RebuildParams.ShowShadows)
+                        shadowButton.Text = "Hide Shadows";
+
+                    else
+                        shadowButton.Text = "Show Shadows";
+
+                    EditorWorld.World.ReBuild();
+                };
+            ColorPage.AddControl(shadowButton);
+
             ColorPage.AddControl(new Label("Random Multiplier:"));
             RandomColorFactor = new Slider { Value = 0.1f };
             ColorPage.AddControl(RandomColorFactor);

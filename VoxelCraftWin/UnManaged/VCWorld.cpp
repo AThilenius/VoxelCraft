@@ -82,10 +82,10 @@ void VCWorld::GenerateRegenerate()
 	}}}
 }
 
-void VCWorld::Rebuild()
+void VCWorld::Rebuild(VCWorldRebuildParams params)
 {
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
-		m_chunks[FLATTEN_WORLD(x ,y, z)]->Rebuild();
+		m_chunks[FLATTEN_WORLD(x ,y, z)]->Rebuild(params);
 	}}}
 }
 
@@ -383,10 +383,10 @@ void VCInteropWorldGenerateRegenerate( int handle )
 	obj->GenerateRegenerate();
 }
 
-void VCInteropWorldRebuild( int handle )
+void VCInteropWorldRebuild( int handle, VCWorldRebuildParams params )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	obj->Rebuild();
+	obj->Rebuild(params);
 }
 
 void VCInteropWorldSaveToFile( int handle, VCMonoStringPtr path )

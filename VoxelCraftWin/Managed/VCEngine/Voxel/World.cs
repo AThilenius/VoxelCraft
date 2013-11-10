@@ -42,6 +42,19 @@ namespace VCEngine
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct VCWorldRebuildParams
+    {
+        public bool ShowShadows;
+        public bool ForceRebuildAll;
+
+        public VCWorldRebuildParams(bool showShadows, bool forceRebuild)
+        {
+            ShowShadows = showShadows;
+            ForceRebuildAll = forceRebuild;
+        }
+    }
+
     public class World : MarshaledObject
     {
         #region Bindings
@@ -67,7 +80,7 @@ namespace VCEngine
         extern static void VCInteropWorldGenerateRegenerate(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropWorldRebuild(int handle);
+        extern static void VCInteropWorldRebuild(int handle, VCWorldRebuildParams param);
 
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -90,6 +103,8 @@ namespace VCEngine
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseWorld; } }
 
         #endregion
+
+        public VCWorldRebuildParams RebuildParams = new VCWorldRebuildParams(true, false);
 
         private IChunkGenerator m_generator;
         public IChunkGenerator Generator
@@ -143,7 +158,8 @@ namespace VCEngine
 
         public void ReBuild()
         {
-            VCInteropWorldRebuild(UnManagedHandle);
+            VCInteropWorldRebuild(UnManagedHandle, RebuildParams);
+            RebuildParams.ForceRebuildAll = false;
         } 
 
         public Block GetBlock(int x, int y, int z)

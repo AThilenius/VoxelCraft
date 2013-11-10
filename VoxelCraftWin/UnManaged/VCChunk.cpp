@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "VCChunk.h"
 
+#include "VCWorld.h"
 #include "Shader.h"
 #include "VCShadowShader.h"
 #include "VCVoxelShader.h"
@@ -149,9 +150,9 @@ void VCChunk::SetBlock( int x, int y, int z, VCBlock block )
 #define OccusionValue 20
 #define Occlude(val) val += 0.3f
 
-void VCChunk::Rebuild()
+void VCChunk::Rebuild(VCWorldRebuildParams params)
 {
-	if (!NeedsRebuild)
+	if (!NeedsRebuild && !params.ForceRebuildAll)
 		return;
 
 	NeedsRebuild = false;
@@ -224,16 +225,19 @@ void VCChunk::Rebuild()
 
 					V1C = V2C = V3C = V4C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
 
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
@@ -251,16 +255,19 @@ void VCChunk::Rebuild()
 
 					V5C = V6C = V7C = V8C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
 
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
@@ -278,16 +285,19 @@ void VCChunk::Rebuild()
 
 					V2C = V3C = V6C = V7C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V2C); Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V3C); Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V2C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V3C); Occlude(V7C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
@@ -305,16 +315,19 @@ void VCChunk::Rebuild()
 
 					V1C = V4C = V5C = V8C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V1C); Occlude(V5C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V1C); Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V8C); }
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
@@ -332,16 +345,19 @@ void VCChunk::Rebuild()
 
 					V3C = V4C = V7C = V8C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V8C); Occlude(V4C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V8C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
 
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V7C); Occlude(V3C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V7C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
@@ -359,16 +375,19 @@ void VCChunk::Rebuild()
 
 					V1C = V2C = V5C = V6C = 0.0f;
 
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V1C); }
-					if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
 
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
 
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V6C); Occlude(V2C); }
-					if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V6C); Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+					}
 
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
 					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
