@@ -59,6 +59,29 @@ GLubyte4 GLubyte4::operator+( const GLubyte4& o ) const
 		((int)w + (int)o.w) >= 255 ? 255 : w + o.w );
 }
 
+GLubyte4 GLubyte4::Lerp( const GLubyte4& from, const GLubyte4& to, float ammount )
+{
+	if (ammount == 0.0f)
+		return from;
+
+	if (ammount == 1.0f)
+		return to;
+
+	return GLubyte4 (
+		(int)(from.x + (to.x - from.x) * ammount),
+		(int)(from.y + (to.y - from.y) * ammount),
+		(int)(from.z + (to.z - from.z) * ammount),
+		(int)(from.w + (to.w - from.w) * ammount));
+}
+
+void GLubyte4::Lerp( GLubyte4& value, const GLubyte4& from, const GLubyte4& to, float ammount )
+{
+	value.x = (int)(from.x + (to.x - from.x) * ammount);
+	value.y = (int)(from.y + (to.y - from.y) * ammount);
+	value.z = (int)(from.z + (to.z - from.z) * ammount);
+	value.w = (int)(from.w + (to.w - from.w) * ammount);
+}
+
 GLubyte4 GLubyte4::operator-( const GLubyte4& o ) const
 {
 	return GLubyte4 (

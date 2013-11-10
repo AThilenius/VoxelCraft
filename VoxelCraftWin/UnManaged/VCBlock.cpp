@@ -57,6 +57,11 @@ bool VCBlock::IsTranslucent()
 	return Color.w != 255;
 }
 
+bool VCBlock::IsSolid()
+{
+	return Color.w == 255;
+}
+
 VCInteropBlock VCBlock::AsInterop()
 {
 	return VCInteropBlock(Color);

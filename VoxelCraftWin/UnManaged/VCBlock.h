@@ -27,6 +27,7 @@ public:
 
 	bool IsTrasparent();
 	bool IsTranslucent();
+	bool IsSolid();
 	VCInteropBlock AsInterop();
 
 	// Statics:
