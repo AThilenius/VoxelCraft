@@ -18,11 +18,13 @@ public:
     
 	virtual void PreRender();
 	glm::vec3 ScreenPointToDirection( VCRectangle viewPort, VCPoint screenPoint );
-    
 	float FovDeg;
 	float Aspect;
 	float NearClip;
 	float FarClip;
+	bool Orthographic;
+	float OrthoWidth;
+	float OrthoHeight;
 
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
@@ -30,7 +32,6 @@ public:
 
 	glm::mat4 InverseViewMatrix;
     
-    VCRectangle Frame;
     
     
     // ================================      Interop      ============
@@ -47,5 +48,5 @@ private:
 int VCInteropNewCamera();
 void VCInteropReleaseCamera(int handle);
 glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort, VCPoint screenPoint);
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle frame);
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* frame);
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip);
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip);

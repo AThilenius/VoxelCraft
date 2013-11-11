@@ -40,11 +40,11 @@
   <ItemGroup>
     <Compile Include="Application\Input.cs" />
     <Compile Include="Components\RidgedBody.cs" />
-    <Compile Include="Editor\Components\EditorBlockSelection.cs" />
     <Compile Include="Editor\Components\EditorCameraController.cs" />
     <Compile Include="Editor\EditorGui.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />
+    <Compile Include="Gui\Args\GPMouseEventArgs.cs" />
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
     <Compile Include="Gui\Args\ResizeEventArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />

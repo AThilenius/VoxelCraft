@@ -21,10 +21,27 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	VCWindow::Instance->Height = height;
 	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
 
+	// UnManaged event
+	//VCWindowResizeArgs evArgs (VCRectangle(), VCRectangle());
+	//VCWindow::Instance->Resize.operator()((void*) VCWindow::Instance, (void*) &evArgs);
+
+	// Managed event
 	void* args[2] = { &width, &height };
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
 	glViewport(0, 0, width, height);
 }
+
+
+VCWindowResizeArgs::VCWindowResizeArgs( VCRectangle from, VCRectangle to )
+{
+
+}
+
+VCWindowResizeArgs::~VCWindowResizeArgs()
+{
+
+}
+
 
 VCWindow::VCWindow()
 {

@@ -56,6 +56,9 @@
     <Filter Include="Utils\Templates">
       <UniqueIdentifier>{6fbee781-1eb3-4f68-9d98-2ac7bb8c33d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\Events">
+      <UniqueIdentifier>{7556fd40-2084-4a53-9a6b-575e960494fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -210,6 +213,12 @@
     </ClCompile>
     <ClCompile Include="VCPoolableResource.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCEventArgs.cpp">
+      <Filter>Utils\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="VCEvent.cpp">
+      <Filter>Utils\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,6 +387,18 @@
     </ClInclude>
     <ClInclude Include="VCPoolableResource.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCEventArgs.h">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="VCEvent.h">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="FastDelegate.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="FastDelegateBind.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

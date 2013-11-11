@@ -39,26 +39,26 @@ namespace VCEngine
             ColorPage.AddControl(ColorPicker);
 
             Button eyeDropButton = new Button("Eye Dropper");
-            eyeDropButton.Click += (sender, args) => EditorWorld.BlockSelection.RequestEyeDrop();
+            eyeDropButton.Click += (sender, args) => EditorWorld.MasterGameWindow.RequestEyeDrop();
             ColorPage.AddControl(eyeDropButton);
 
             Button circleButton = new Button("Circle Tool");
-            circleButton.Click += (s, a) => EditorWorld.BlockSelection.RequestCircle();
+            circleButton.Click += (s, a) => EditorWorld.MasterGameWindow.RequestCircle();
             ColorPage.AddControl(circleButton);
 
             Button shadowButton = new Button("Hide Shadows");
             shadowButton.Click += (s, a) =>
                 {
-                    EditorWorld.World.RebuildParams.ShowShadows = !EditorWorld.World.RebuildParams.ShowShadows;
-                    EditorWorld.World.RebuildParams.ForceRebuildAll = true;
+                    EditorWorld.MasterGameWindow.World.RebuildParams.ShowShadows = !EditorWorld.MasterGameWindow.World.RebuildParams.ShowShadows;
+                    EditorWorld.MasterGameWindow.World.RebuildParams.ForceRebuildAll = true;
 
-                    if (EditorWorld.World.RebuildParams.ShowShadows)
+                    if (EditorWorld.MasterGameWindow.World.RebuildParams.ShowShadows)
                         shadowButton.Text = "Hide Shadows";
 
                     else
                         shadowButton.Text = "Show Shadows";
 
-                    EditorWorld.World.ReBuild();
+                    EditorWorld.MasterGameWindow.World.ReBuild();
                 };
             ColorPage.AddControl(shadowButton);
 

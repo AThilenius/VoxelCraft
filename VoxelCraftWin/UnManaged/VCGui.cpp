@@ -12,6 +12,7 @@
 #include "VCLexicalEngine.h"
 #include "VCMonoRuntime.h"
 #include "VCMonoString.h"
+#include "VCCamera.h"
 
 VCGui* VCGui::Instance = NULL;
 
@@ -33,6 +34,7 @@ void VCGui::Reset()
 
 void VCGui::Initialize()
 {
+	GuiCamera = new VCCamera();
 	Geometry.Initialize();
 	Text.Initialize();
 }

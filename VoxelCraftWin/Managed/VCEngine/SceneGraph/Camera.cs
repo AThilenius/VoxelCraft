@@ -17,16 +17,15 @@ namespace VCEngine
         extern static Vector3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle frame);
+        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out Rectangle frame);
+        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
 
         #endregion
-
 
         public static Camera MainCamera;
 
@@ -94,22 +93,6 @@ namespace VCEngine
             }
         }
 
-        private Rectangle m_frame;
-        public Rectangle Frame
-        {
-            get
-            {
-                GetData();
-                return m_frame;
-            }
-
-            set
-            {
-                m_frame = value;
-                SetData();
-            }
-        }
-
 		public Camera ()
 		{
             Transform.InvertPosition = true;
@@ -149,12 +132,12 @@ namespace VCEngine
 
         private void SetData()
         {
-            VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far, m_frame);
+            VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far);
         }
 
         private void GetData()
         {
-            VCInteropCameraGetFields(UnManagedHandle, out m_fov, out m_aspect, out m_near, out m_far, out m_frame);
+            VCInteropCameraGetFields(UnManagedHandle, out m_fov, out m_aspect, out m_near, out m_far);
         }
 
 	}

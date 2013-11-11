@@ -11,6 +11,19 @@
 class VCMonoMethod;
 struct GLFWwindow;
 
+#include "VCEventArgs.h"
+
+class VCWindowResizeArgs : public VCEventArgs
+{
+public:
+	VCWindowResizeArgs(VCRectangle from, VCRectangle to);
+	~VCWindowResizeArgs();
+
+public:
+	VCRectangle From;
+	VCRectangle To;
+};
+
 // Creates and manages a window and OpenGL context
 class VCWindow
 {

@@ -198,6 +198,7 @@ namespace VCEngine
         public static event EventHandler<MouseClickEventArgs> MouseClick = delegate { };
         public static event EventHandler<MouseScrollEventArgs> MouseScroll = delegate { };
         public static event EventHandler<FocusEventArgs> Focus = delegate { };
+        public static event EventHandler<GPMouseEventArgs> GPMouseEvent = delegate { };
         #endregion
 
         private static MouseMoveMode m_mouseMode = MouseMoveMode.Free;
@@ -264,7 +265,6 @@ namespace VCEngine
             }
         }
 
-        
         private static Point m_lastMousePosition = new Point();
         private static Point m_deltaMousePosition = new Point();
 
@@ -358,6 +358,11 @@ namespace VCEngine
                 }
 
                 MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
+
+                TriState[] states = new TriState[10];
+                for (int i = 0; i < 10; i++)
+                    states[i] = m_mouseStates[i].State;
+                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
             }
             catch (Exception ex)
             {
@@ -379,6 +384,12 @@ namespace VCEngine
                     Modifiers = (KeyModFlags)(short)mods,
                     ScreenLocation = m_lastMousePosition
                 });
+
+                TriState[] states = new TriState[10];
+                for (int i = 0; i < 10; i++)
+                    states[i] = m_mouseStates[i].State;
+
+                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
             }
             catch (Exception ex)
             {
@@ -392,6 +403,11 @@ namespace VCEngine
             try
             {
                 Focus(null, new FocusEventArgs { Action = (FocusEventArgs.ForcusAction)entered, ScreenLocation = m_lastMousePosition });
+
+                TriState[] states = new TriState[10];
+                for (int i = 0; i < 10; i++)
+                    states[i] = m_mouseStates[i].State;
+                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
             }
             catch (Exception ex)
             {

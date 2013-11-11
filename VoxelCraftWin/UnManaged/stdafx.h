@@ -58,3 +58,4 @@
 #include "VCUtilities.h"
 #include "VCConstants.h"
 #include "VCMacros.h"
+#include "VCEvent.h"

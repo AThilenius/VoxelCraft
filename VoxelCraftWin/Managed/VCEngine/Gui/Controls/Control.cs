@@ -96,6 +96,7 @@ namespace VCEngine
         public event EventHandler<MouseEventArgs> Click = delegate { };
         public event EventHandler<MouseEventArgs> RightClick = delegate { };
         public event EventHandler<MouseEventArgs> DoubleClick = delegate { };
+        public event EventHandler<GPMouseEventArgs> GPMouseEvent = delegate { };
         public event EventHandler MouseEnter = delegate { };
         public event EventHandler MouseExit = delegate { };
         public event EventHandler<MouseEventArgs> MouseMove = delegate { };
@@ -279,6 +280,14 @@ namespace VCEngine
                         m_focusedChild.CharPress(sender, args);
                 };
 
+            Input.GPMouseEvent += (sender, args) =>
+                {
+                    // Do not need to rebuild command chain, its already built 
+                    // by other mouse events.
+                    Control active = GetEndOfCommandChain();
+                    active.GPMouseEvent(this, args);
+                };
+
             Input.MouseClick += ((sender, args) =>
                 {
                     // Rebuild command chain
@@ -355,6 +364,7 @@ namespace VCEngine
                     else
                         Input.SuppressUpdates();
 
+                    // Process specialized events
                     if (active.IsClickDown)
                     {
                         active.ProcessMouseEvent(

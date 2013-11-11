@@ -24,6 +24,8 @@
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VCCollection.cpp" />
+    <ClCompile Include="VCEvent.cpp" />
+    <ClCompile Include="VCEventArgs.cpp" />
     <ClCompile Include="VCGeometryBuilder.cpp" />
     <ClCompile Include="VCGeometryTypes.cpp" />
     <ClCompile Include="VCGLFloatX.cpp" />
@@ -72,8 +74,12 @@
     <ClCompile Include="VCXIntX.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FastDelegate.h" />
+    <ClInclude Include="FastDelegateBind.h" />
     <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
+    <ClInclude Include="VCEvent.h" />
+    <ClInclude Include="VCEventArgs.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />

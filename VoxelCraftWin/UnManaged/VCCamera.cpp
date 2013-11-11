@@ -22,7 +22,6 @@ VCCamera::VCCamera(void):
 	FarClip(400.0f)
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
-	Frame = VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height);
 }
 
 
@@ -32,16 +31,12 @@ VCCamera::~VCCamera(void)
 
 void VCCamera::PreRender()
 {
-	Aspect = (float) VCWindow::Instance->Width / (float) VCWindow::Instance->Height;
-
-    // Build ModelMatrix ( This will be the View matrix )
+    // View Matrix ( Using the Model Matrix for this GameObject )
     VCGameObject::PreRender();
     ViewMatrix = ModelMatrix;
 	InverseViewMatrix = glm::inverse(ViewMatrix);
     
-    // Set Camera's bounds
-    glViewport(Frame.X, Frame.Y, Frame.Width, Frame.Height);
-    
+	// Projection Matrix
 	ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;
 }
@@ -99,7 +94,7 @@ glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort
 	return obj->ScreenPointToDirection(viewPort, screenPoint);
 }
 
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle frame)
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 
@@ -107,10 +102,9 @@ void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float near
 	obj->Aspect = aspect;
 	obj->NearClip = nearClip;
 	obj->FarClip = farClip;
-	obj->Frame = frame;
 }
 
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* frame)
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 
@@ -118,6 +112,5 @@ void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* n
 	*aspect = obj->Aspect;
 	*nearClip = obj->NearClip;
 	*farClip = obj->FarClip;
-	*frame = obj->Frame;
 }
 // ===============================================================

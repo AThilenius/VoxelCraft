@@ -8,6 +8,8 @@
 
 #pragma once
 
+class VCCamera;
+
 #include "VCRenderStage.h"
 
 #define VC_BATCH_SCENE 20
@@ -25,6 +27,7 @@ public:
 	int BatchingOrder;
 	int StageCount;
 	VCRenderStage* Stages;
+	VCCamera* Camera;
 };
 
 bool operator==(const VCRenderState& lhs, const VCRenderState& rhs);

@@ -59,8 +59,8 @@ namespace VCEngine
         {
             string filePath = Path.Combine(header, m_activeField.Text);
 
-            EditorWorld.World.LoadFromFile(filePath);
-            EditorWorld.World.ReBuild();
+            EditorWorld.MasterGameWindow.World.LoadFromFile(filePath);
+            EditorWorld.MasterGameWindow.World.ReBuild();
         }
 
 
@@ -74,7 +74,7 @@ namespace VCEngine
             if (!File.Exists(filePath))
                 File.Create(filePath).Dispose();
 
-            EditorWorld.World.SaveToFile(filePath);
+            EditorWorld.MasterGameWindow.World.SaveToFile(filePath);
             m_activeField_TextEntry(this, null);
         }
 

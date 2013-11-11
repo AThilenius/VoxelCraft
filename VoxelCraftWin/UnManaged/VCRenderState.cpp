@@ -11,7 +11,8 @@
 
 VCRenderState::VCRenderState(int stageCount):
 	StageCount(stageCount),
-	BatchingOrder(VC_BATCH_SCENE)
+	BatchingOrder(VC_BATCH_SCENE),
+	Camera(NULL)
 {
 	Stages = new VCRenderStage[stageCount];
 }

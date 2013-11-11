@@ -8,6 +8,7 @@
 
 #pragma once
 
+class VCCamera;
 struct VCTextMetrics;
 
 #include "VCGeometryBuilder.h"
@@ -25,6 +26,7 @@ public:
 
 	VCGeometryBuilder Geometry;
 	VCTextBuilder Text;
+	VCCamera* GuiCamera;
 
 public:
 	static VCGui* Instance;

@@ -22,6 +22,7 @@ namespace VCEngine
 		#endregion
 
         public static Point Size { get; private set; }
+        public static Rectangle FullViewport { get { return new Rectangle(0, 0, Size); } }
 
         public static event EventHandler<ResizeEventArgs> Resize = delegate { };
 
