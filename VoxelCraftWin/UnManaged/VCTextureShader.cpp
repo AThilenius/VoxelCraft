@@ -48,10 +48,6 @@ VCTextureShader::~VCTextureShader(void)
 {
 }
 
-void VCTextureShader::SetModelMatrix( glm::mat4 modelMatrix )
-{
-}
-
 void VCTextureShader::SetTextureUnit(GLint tex)
 {
 	glUniform1i(m_unifTexture, tex);

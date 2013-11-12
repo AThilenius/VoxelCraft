@@ -9,11 +9,17 @@ namespace VCEngine
     {
         public World World;
 
+        // Selection
         private bool m_isEyedrop;
         private bool m_isCircle;
         private Random m_random = new Random();
         private bool m_suppressUp;
         private Location m_startLocation;
+
+        // Camera
+        private float m_speed = 20.0f;
+        private Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
+        private Point m_startPosition;
 
         public GameWindow(int viewDistance)
         {
@@ -27,6 +33,8 @@ namespace VCEngine
             World.Generator = new FlatChunkGenerator();
             World.ViewDistance = viewDistance;
             World.Initialize();
+            World.Camera.Fullscreen = false;
+            World.Camera.Transform.Position = new Vector3(50, 20, 50);
             World.GenerateRegenerate();
             World.ReBuild();
 
@@ -36,14 +44,14 @@ namespace VCEngine
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)
         {
-            World.Viewport = ScreenFrame;
-            Camera.MainCamera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
+            World.Camera.Viewport = ScreenFrame;
+            World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 
         void GameWindow_GPMouseEvent(object sender, GPMouseEventArgs e)
         {
             // Ray cast
-            Ray ray = Camera.MainCamera.ScreenPointToRay(e.MousePoistion, 1000, World.Viewport);
+            Ray ray = World.Camera.ScreenPointToRay(e.MousePoistion, 1000);
             RaycastHit hit;
 
             if (World.Raycast(ray, out hit))
@@ -156,6 +164,48 @@ namespace VCEngine
             }
 
             Debug.DrawCube(Vector3.Zero, Vector3.One * 32 * World.ViewDistance, Color.ControlGreen);
+
+            // Camera
+            if (e.ButtonStates[2] == TriState.Pressed || e.ButtonStates[3] == TriState.Pressed || e.ButtonStates[4] == TriState.Pressed)
+            {
+                m_startPosition = Input.MousePoistion;
+                Input.MouseMode = MouseMoveMode.Locked;
+            }
+
+            if (e.ButtonStates[2] != TriState.None || e.ButtonStates[3] != TriState.None || e.ButtonStates[4] != TriState.None)
+            {
+                m_rot.X -= Input.DeltaLook.Y * 0.0174532925f * 0.1f;
+                m_rot.Y += Input.DeltaLook.X * 0.0174532925f * 0.1f;
+            }
+
+            if (e.ButtonStates[2] == TriState.Up || e.ButtonStates[3] == TriState.Up || e.ButtonStates[4] == TriState.Up)
+            {
+                Input.MouseMode = MouseMoveMode.Free;
+                Input.MousePoistion = m_startPosition;
+            }
+
+            //if (Input.GetKey(Input.Keys.LeftControl) != TriState.None)
+            //    m_speed = 5.0f;
+            //else
+            //    m_speed = 20.0f;
+
+            m_rot.X = MathHelper.Clamp(m_rot.X, MathHelper.DegreesToRadians(-89.0f), MathHelper.DegreesToRadians(89.0f));
+
+            World.Camera.Transform.Rotation = Quaternion.FromEuler(m_rot);
+
+            Vector3 forward = World.Camera.Transform.Rotation.Forward;
+            forward.Y = 0;
+            forward.Normalize();
+            forward *= Input.Strafe.X * Time.DeltaTime * m_speed;
+
+            World.Camera.Transform.Position -= forward;
+            World.Camera.Transform.Position -= World.Camera.Transform.Rotation.Right * Input.Strafe.Y * Time.DeltaTime * m_speed;
+
+            if (Input.GetKey(Input.Keys.LeftShift) != TriState.None)
+                World.Camera.Transform.Position -= Vector3.UnitY * Time.DeltaTime * m_speed;
+
+            if (Input.GetKey(' ') != TriState.None)
+                World.Camera.Transform.Position += Vector3.UnitY * Time.DeltaTime * m_speed;
         }
 
         void GameWindow_RightClick(object sender, MouseEventArgs e)

@@ -22,6 +22,8 @@
 #include "VCSceneGraph.h"
 #include "VCMonoRuntime.h"
 #include "VCTexture.h"
+#include "VCRenderState.h"
+#include "VCCamera.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 VCRenderState* VCGLRenderer::PassThroughState;
@@ -114,20 +116,22 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 			}
 
 			// Set Viewport
-			if (state->Stages[stageId].Fullscreen && lastViewport != VCWindow::Instance->FullViewport)
+			if (state->Camera == NULL && lastViewport != VCWindow::Instance->FullViewport)
 			{
+				// Default full screen
 				lastViewport = VCWindow::Instance->FullViewport;
 				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
 			}
 
-			else if (!state->Stages[stageId].Fullscreen && lastViewport != state->Stages[stageId].Viewport)
+			else if (state->Camera->Viewport != lastViewport)
 			{
-				lastViewport = state->Stages[stageId].Viewport;
+				// Use Camera's Viewport
+				lastViewport = state->Camera->Viewport;
 				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
 			}
 
 			// Set Shader ( will auto re-assign test )
-			state->Stages[stageId].Shader->Bind();
+			state->Stages[stageId].Shader->Bind(state->Camera);
 
 			// Bind Textures
 			for ( int texId = 0; texId < state->Stages[stageId].Textures.size(); texId++ )

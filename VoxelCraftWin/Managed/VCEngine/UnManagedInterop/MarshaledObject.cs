@@ -21,6 +21,12 @@ namespace VCEngine
             ObjectStore.RegisterObject(this, UnManagedHandle);
         }
 
+        public MarshaledObject(int existingHandle)
+        {
+            UnManagedHandle = existingHandle;
+            ObjectStore.RegisterObject(this, UnManagedHandle);
+        }
+
         ~MarshaledObject()
         {
             if (UnManagedHandle == -1)

@@ -9,7 +9,9 @@
 #include "stdafx.h"
 #include "Shader.h"
 
-Shader* Shader::BoundShader;
+Shader* Shader::BoundShader = NULL;
+VCCamera* Shader::BoundCamera = NULL;
+
 
 Shader::Shader()
 {
@@ -81,8 +83,10 @@ void Shader::Initialize()
 	glErrorCheck(); 
 }
 
-void Shader::Bind()
+void Shader::Bind(VCCamera* camera)
 {
+	Shader::BoundCamera = camera;
+
 	if (Shader::BoundShader == this)
 		return;
 

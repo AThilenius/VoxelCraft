@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCVoxelShader.h"
 
-#include "VCSceneGraph.h"
 #include "VCGLRenderer.h"
 #include "VCShadowShader.h"
 #include "VCCamera.h"
@@ -94,6 +93,22 @@ static std::string g_vcVoxFragmentShader =
 		"vec4 seed4 = vec4( seed, i );"
 		"float dot_product = dot( seed4, vec4( 12.9898, 78.233, 45.164, 94.673 ) );"
 		"return fract( sin( dot_product ) * 43758.5453 );"
+	"}"
+
+	"vec4 bypassPS(vec4 base)"
+	"{"
+		//"float4 base = tex2D(SceneSampler, IN.UV);"
+		"vec3 lumCoeff = vec3(0.25,0.65,0.1);"
+		"float lum = dot(lumCoeff,base.rgb);"
+		"vec3 blend = vec3(lum,lum,lum);"
+		"float L = min(1,max(0,10*(lum- 0.45)));"
+		"vec3 result1 = 2.0f * base.rgb * blend;"
+		"vec3 result2 = 1.0f - 2.0f*(1.0f-blend)*(1.0f-base.rgb);"
+		"vec3 newColor = mix(result1,result2,L);"
+		"float A2 = 1.0 * base.a;"
+		"vec3 mixRGB = A2 * newColor.rgb;"
+		"mixRGB += ((1.0f-A2) * base.rgb);"
+		"return vec4(mixRGB,base.a);"
 	"}"
 
 	"void main()"
@@ -188,7 +203,7 @@ void VCVoxelShader::SetModelMatrix( glm::mat4 modelMatrix )
 	glm::mat4 depthBiasMVP = biasMatrix * depthMVP;
 
 	// Create Camera's MVP
-    VCCamera* currentCamera = VCSceneGraph::Instance->CurrentRenderingCamera;
+    VCCamera* currentCamera = Shader::BoundCamera;
 	glm::mat4 ProjectionMatrix = currentCamera->ProjectionMatrix;
 	glm::mat4 ViewMatrix = currentCamera->ViewMatrix;
 	glm::mat4 ModelMatrix = modelMatrix;

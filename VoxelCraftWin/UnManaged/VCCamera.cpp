@@ -19,7 +19,12 @@ VCCamera::VCCamera(void):
 	FovDeg(65.0f),
 	Aspect(4.0f / 3.0f),
 	NearClip(0.1f),
-	FarClip(400.0f)
+	FarClip(400.0f),
+	Orthographic(false),
+	OrthoHeight(1.0f),
+	OrthoWidth(1.0f),
+	FullScreen(true),
+	Viewport(VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height))
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -31,13 +36,22 @@ VCCamera::~VCCamera(void)
 
 void VCCamera::PreRender()
 {
+	// Viewport
+	if (FullScreen)
+		Viewport = VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height);
+
     // View Matrix ( Using the Model Matrix for this GameObject )
     VCGameObject::PreRender();
     ViewMatrix = ModelMatrix;
 	InverseViewMatrix = glm::inverse(ViewMatrix);
     
 	// Projection Matrix
-	ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
+	if (Orthographic)
+		ProjectionMatrix = glm::ortho<float>(-OrthoWidth * 0.5f, OrthoWidth * 0.5f, -OrthoHeight * 0.5f, OrthoHeight * 0.5f, NearClip, FarClip);
+
+	else
+		ProjectionMatrix = glm::perspective(FovDeg, Aspect, NearClip, FarClip);
+
 	ProjectionViewMatrix =  ProjectionMatrix * ViewMatrix;
 }
 
@@ -77,8 +91,8 @@ void VCCamera::RegisterMonoHandlers()
 
 int VCInteropNewCamera()
 {
+	VC_ERROR("VCInteropNewCamera() Deprecated.")
     VCCamera* newCamera = new VCCamera();
-    VCSceneGraph::Instance->RegisterCamera(newCamera);
     return newCamera->Handle;
 }
 
@@ -94,7 +108,7 @@ glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort
 	return obj->ScreenPointToDirection(viewPort, screenPoint);
 }
 
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip)
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle viewport, int fullscreen)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 
@@ -102,9 +116,11 @@ void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float near
 	obj->Aspect = aspect;
 	obj->NearClip = nearClip;
 	obj->FarClip = farClip;
+	obj->Viewport = viewport;
+	obj->FullScreen = fullscreen > 0;
 }
 
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip)
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* viewport, int* fullscreen)
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 
@@ -112,5 +128,7 @@ void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* n
 	*aspect = obj->Aspect;
 	*nearClip = obj->NearClip;
 	*farClip = obj->FarClip;
+	*viewport = obj->Viewport;
+	*fullscreen = obj->FullScreen ? 1 : 0;
 }
 // ===============================================================

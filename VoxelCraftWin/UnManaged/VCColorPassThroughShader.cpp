@@ -55,8 +55,8 @@ VCColorPassThroughShader::~VCColorPassThroughShader(void)
 
 void VCColorPassThroughShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	glm::mat4 MVP = VCSceneGraph::Instance->CurrentRenderingCamera->ProjectionViewMatrix * modelMatrix;
-	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &MVP[0][0]);
+	//glm::mat4 MVP = Shader::BoundCamera->ProjectionViewMatrix * modelMatrix;
+	//glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &MVP[0][0]);
 	glErrorCheck();
 }
 

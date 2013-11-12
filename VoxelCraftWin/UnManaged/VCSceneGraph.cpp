@@ -46,17 +46,7 @@ void VCSceneGraph::PrepareSceneGraph()
     //    RootNode->Render();
     //}
 
-	// HACK
-	CurrentRenderingCamera->PreRender();
 	RootNode->PreRender();
-}
-
-void VCSceneGraph::RegisterCamera(VCCamera* camera)
-{
-	m_cameras.insert(camera);
-
-	// HACK
-	CurrentRenderingCamera = camera;
 }
 
 // ================================      Interop      ============

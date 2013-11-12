@@ -16,6 +16,7 @@ class VCWorld;
 class VCChunk;
 class VCIChunkGenerator;
 class VCRenderState;
+class VCCamera;
 struct Ray;
 struct RaycastHit;
 struct VCInteropBlock;
@@ -61,6 +62,7 @@ public:
 
 public:
 	VCRenderState* RenderState;
+	VCCamera* Camera;
 	int ChunkZeroX, ChunkZeroY, ChunkZeroZ;
 	VCIChunkGenerator* ChunkGenerator;
 
@@ -80,13 +82,12 @@ public:
 int VCInteropNewWorld();
 void VCInteropReleaseWorld(int handle);
 
+int VCInteropWorldGetCamera(int handle);
 void VCInteropWorldSetGenerator(int wHandle, int cHandle);
 void VCInteropWorldSetViewDist(int handle, int distance);
 void VCInteropWorldInitializeEmpty(int handle);
 void VCInteropWorldGenerateRegenerate(int handle);
 void VCInteropWorldRebuild(int handle, VCWorldRebuildParams params);
-void VCInteropWorldSGetViewport(int handle, VCRectangle* frame);
-void VCInteropWorldSetViewport(int handle, VCRectangle frame);
 
 void VCInteropWorldSaveToFile (int handle, VCMonoStringPtr path);
 void VCInteropWorldLoadFromFile (int handle, VCMonoStringPtr path);

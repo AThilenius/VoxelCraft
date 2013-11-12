@@ -16,9 +16,7 @@ VCRenderStage::VCRenderStage(void):
 	FrameBuffer(0),
 	Shader(NULL),
 	Blend(true),
-	DepthTest(true),
-	Fullscreen(true),
-	Viewport(VCRectangle(0, 0, VCWindow::Instance->Width, VCWindow::Instance->Height))
+	DepthTest(true)
 {
 }
 

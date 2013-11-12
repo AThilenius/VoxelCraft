@@ -17,19 +17,16 @@ namespace VCEngine
         extern static Vector3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip);
+        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle viewport, int fullscreen);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip);
+        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out Rectangle viewport, out int fullscreen);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
 
         #endregion
 
-        public static Camera MainCamera;
-
-        private float m_fov;
         public float FieldOfViewDegrees
         {
             get
@@ -44,8 +41,6 @@ namespace VCEngine
                 SetData();
             }
         }
-
-        private float m_aspect;
         public float AspectRatio
         {
             get
@@ -60,8 +55,6 @@ namespace VCEngine
                 SetData();
             }
         }
-
-        private float m_near;
         public float NearClip
         {
             get
@@ -76,8 +69,6 @@ namespace VCEngine
                 SetData();
             }
         }
-
-        private float m_far;
         public float FarClip
         {
             get
@@ -92,7 +83,43 @@ namespace VCEngine
                 SetData();
             }
         }
+        public Rectangle Viewport
+        {
+            get
+            {
+                GetData();
+                return m_viewport;
+            }
 
+            set
+            {
+                m_viewport = value;
+                SetData();
+            }
+        }
+        public bool Fullscreen
+        {
+            get
+            {
+                GetData();
+                return m_fullscreen;
+            }
+
+            set
+            {
+                m_fullscreen = value;
+                SetData();
+            }
+        }
+
+        private float m_fov;
+        private float m_aspect;
+        private float m_near;
+        private float m_far;
+        private Rectangle m_viewport;
+        private bool m_fullscreen;
+
+        [Obsolete("Deprecated.", true)]
 		public Camera ()
 		{
             Transform.InvertPosition = true;
@@ -100,11 +127,18 @@ namespace VCEngine
             AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
 		}
 
+        public Camera(int existingHandle) : base(existingHandle)
+        {
+            Transform.InvertPosition = true;
+            GetData();
+            AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
+        }
+
         public Ray ScreenPointToRay(Point point, float maxViewDistance)
         {
             Vector3 direction = VCInteropCameraScreenPointToDirection(
                     UnManagedHandle,
-                    new Rectangle(0, 0, (int)(Window.Size.X), (int)(Window.Size.Y)), 
+                    Fullscreen ? Window.FullViewport : m_viewport, 
                     point);
 
             return new Ray
@@ -132,12 +166,14 @@ namespace VCEngine
 
         private void SetData()
         {
-            VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far);
+            VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far, m_viewport, m_fullscreen ? 1 : 0);
         }
 
         private void GetData()
         {
-            VCInteropCameraGetFields(UnManagedHandle, out m_fov, out m_aspect, out m_near, out m_far);
+            int fullScreen;
+            VCInteropCameraGetFields(UnManagedHandle, out m_fov, out m_aspect, out m_near, out m_far, out m_viewport, out fullScreen);
+            m_fullscreen = fullScreen > 0;
         }
 
 	}

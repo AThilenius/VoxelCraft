@@ -24,15 +24,9 @@ public:
     void Initalize();
     void PrepareSceneGraph();
     
-    void RegisterCamera(VCCamera* camera);
-    
 public:
     static VCSceneGraph* Instance;
-    VCCamera* CurrentRenderingCamera;
     VCGameObject* RootNode;
-    
-private:
-    std::unordered_set<VCCamera*> m_cameras;
     
     // ================================      Interop      ============
 public:

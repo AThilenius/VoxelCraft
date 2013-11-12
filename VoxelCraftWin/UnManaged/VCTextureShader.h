@@ -16,7 +16,6 @@ public:
 	VCTextureShader(void);
 	~VCTextureShader(void);
 
-	virtual void SetModelMatrix(glm::mat4 modelMatrix);
 	void SetTextureUnit(GLint tex);
 
 protected:

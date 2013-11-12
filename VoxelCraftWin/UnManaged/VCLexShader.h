@@ -17,7 +17,7 @@ public:
 	~VCLexShader(void);
 
 protected:
-	virtual void Bind();
+	virtual void Bind(VCCamera* camera);
 	virtual void BindAttribLocations();
 	virtual void GetUniformIDs();
 	virtual void PostInitialize();

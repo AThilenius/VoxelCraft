@@ -22,7 +22,7 @@ namespace VCEngine
         
 		#endregion
 
-		private GameObject m_parent;
+		
 		public GameObject Parent
 		{
 			get
@@ -47,21 +47,44 @@ namespace VCEngine
         public List<Component> Components = new List<Component>();
         public Transform Transform { get; private set; }
 
+        private GameObject m_parent;
+
 		public GameObject ()
 		{
             this.Transform = new VCEngine.Transform(this);
             Parent = SceneGraph.RootNode;
 		}
 
+        public GameObject(int existingHandle) : base (existingHandle)
+        {
+            this.Transform = new VCEngine.Transform(this);
+            Parent = SceneGraph.RootNode;
+        }
+
         ~GameObject()
         {
             Parent = null;
         }
 
-        public virtual void Start() { }
-        public virtual void Update() { }
-        public virtual void LateUpdate() { }
-        public virtual void PreRender() { }
+        public virtual void Start() 
+        { 
+        
+        }
+
+        public virtual void Update() 
+        { 
+        
+        }
+
+        public virtual void LateUpdate() 
+        { 
+        
+        }
+
+        public virtual void PreRender() 
+        { 
+        
+        }
 
         internal void PropagateStart()
         {

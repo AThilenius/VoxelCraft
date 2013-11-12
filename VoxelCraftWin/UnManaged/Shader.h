@@ -8,6 +8,8 @@
 
 #pragma once
 
+class VCCamera;
+
 // Matrix Multiple Order: Projection * View * Model
 
 class Shader
@@ -16,11 +18,12 @@ public:
 	Shader();
 	~Shader();
 	void Initialize();
-	virtual void Bind();
+	virtual void Bind(VCCamera* camera);
 
 	virtual void SetModelMatrix(glm::mat4 modelMatrix){}
 
 	static Shader* BoundShader;
+	static VCCamera* BoundCamera;
 
 protected:
 	// Use glBindAttribLocation(GLuint program, GLuint name(ID), "attribute name");

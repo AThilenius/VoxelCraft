@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VCShadowShader.h"
-#include "VCSceneGraph.h"
 #include "VCCamera.h"
 
 glm::vec3 VCShadowShader::LightInverseDirection;
@@ -68,7 +67,7 @@ void VCShadowShader::SetModelMatrix( glm::mat4 modelMatrix )
 	VCShadowShader::LightInverseDirection = glm::normalize(glm::vec3(1, 2, 1));
 	glm::mat4 depthViewMatrix = glm::lookAt(VCShadowShader::LightInverseDirection, glm::vec3(0,0,0), glm::vec3(0,1,0));
 	//depthViewMatrix = glm::translate(depthViewMatrix, -16.0f, 0.0f, -16.0f);
-	depthViewMatrix = glm::translate(depthViewMatrix, glm::vec3( VCSceneGraph::Instance->CurrentRenderingCamera->Position.x, 0, VCSceneGraph::Instance->CurrentRenderingCamera->Position.z));
+	depthViewMatrix = glm::translate(depthViewMatrix, glm::vec3( Shader::BoundCamera->Position.x, 0, Shader::BoundCamera->Position.z));
 	VCShadowShader::DepthVPMatrix = depthProjectionMatrix * depthViewMatrix;
 
 	glm::mat4 depthMVP = VCShadowShader::DepthVPMatrix * modelMatrix;

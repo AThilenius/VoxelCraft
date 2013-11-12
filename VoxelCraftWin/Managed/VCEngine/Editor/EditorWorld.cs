@@ -8,25 +8,17 @@ namespace VCEngine
     public class EditorWorld
     {
         //internal static World World { get { return gw.World; } }
-        internal static EditorCameraController CameraController;
+        //internal static EditorCameraController CameraController;
         internal static GameWindow MasterGameWindow;
 
         internal static void Initialize()
         {
-            Camera.MainCamera = new Camera();
-            Camera.MainCamera.Transform.Position = new Vector3(50, 20, 50);
-            Window.Resize += (s, a) =>
-                {
-                    //if (World != null)
-                    //    World.Viewport = new Rectangle(0, 0, Window.Size.X, Window.Size.Y);
-                };
-
             MasterGameWindow = new GameWindow(2);
             Control.MainControl.AddControl(MasterGameWindow);
             MasterGameWindow.Frame = new Rectangle(0, 0, 400, 800);
 
-            CameraController = new EditorCameraController();
-            Camera.MainCamera.AttachComponent(CameraController);
+            //CameraController = new EditorCameraController();
+            //MasterGameWindow.World.Camera.AttachComponent(CameraController);
 
             //BlockSelection = new EditorBlockSelection();
             //Camera.MainCamera.AttachComponent(BlockSelection);

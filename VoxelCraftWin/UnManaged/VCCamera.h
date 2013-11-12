@@ -25,6 +25,8 @@ public:
 	bool Orthographic;
 	float OrthoWidth;
 	float OrthoHeight;
+	bool FullScreen;
+	VCRectangle Viewport;
 
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
@@ -48,5 +50,5 @@ private:
 int VCInteropNewCamera();
 void VCInteropReleaseCamera(int handle);
 glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort, VCPoint screenPoint);
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip);
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip);
+void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle viewport, int fullscreen);
+void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* viewport, int* fullscreen);

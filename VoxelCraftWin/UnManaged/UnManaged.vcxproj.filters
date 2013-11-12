@@ -59,6 +59,9 @@
     <Filter Include="Utils\Events">
       <UniqueIdentifier>{7556fd40-2084-4a53-9a6b-575e960494fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Drawers">
+      <UniqueIdentifier>{40fa63a4-fa4e-4b04-b1b1-9f280870f60b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -219,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="VCEvent.cpp">
       <Filter>Utils\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="VCLineDrawer.cpp">
+      <Filter>Rendering\Drawers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +405,21 @@
     </ClInclude>
     <ClInclude Include="FastDelegateBind.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="delegate.hpp">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="delegate_list.hpp">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="delegate_template.hpp">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="event.hpp">
+      <Filter>Utils\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="VCLineDrawer.h">
+      <Filter>Rendering\Drawers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

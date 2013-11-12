@@ -31,6 +31,7 @@
     <ClCompile Include="VCGLFloatX.cpp" />
     <ClCompile Include="VCGLXByteX.cpp" />
     <ClCompile Include="VCGLXShortX.cpp" />
+    <ClCompile Include="VCLineDrawer.cpp" />
     <ClCompile Include="VCPoolableResource.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
@@ -74,6 +75,10 @@
     <ClCompile Include="VCXIntX.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="delegate.hpp" />
+    <ClInclude Include="delegate_list.hpp" />
+    <ClInclude Include="delegate_template.hpp" />
+    <ClInclude Include="event.hpp" />
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="FastDelegateBind.h" />
     <ClInclude Include="VCCollection.h" />
@@ -84,6 +89,7 @@
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
+    <ClInclude Include="VCLineDrawer.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
     <ClInclude Include="resource.h" />

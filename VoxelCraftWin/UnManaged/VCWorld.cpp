@@ -21,6 +21,7 @@
 #include "Shader.h"
 #include "VCShadowShader.h"
 #include "VCVoxelShader.h"
+#include "VCCamera.h"
 
 float IntBound ( float s, float ds )
 {
@@ -71,10 +72,15 @@ VCWorld::~VCWorld(void)
 
 void VCWorld::InitializeEmpty()
 {
-	// RenderState
+	// RenderState / Camera
 	if (!RenderState)
 	{
+		// Camera
+		Camera = new VCCamera();
+		Camera->FullScreen = false;
+
 		RenderState = new VCRenderState(2);
+		RenderState->Camera = Camera;
 
 		// Stage 1 - Shadow
 		RenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
@@ -84,7 +90,6 @@ void VCWorld::InitializeEmpty()
 		RenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
 		RenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
 		RenderState->Stages[1].Textures.push_back(VCGLRenderer::Instance->DepthTexture);
-		RenderState->Stages[1].Fullscreen = false;
 
 		VCGLRenderer::Instance->RegisterState(RenderState);
 	}
@@ -361,13 +366,12 @@ void VCWorld::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("World::VCInteropNewWorld",					(void*)VCInteropNewWorld);
 	VCMonoRuntime::SetMethod("World::VCInteropReleaseWorld",				(void*)VCInteropReleaseWorld);
 
+	VCMonoRuntime::SetMethod("World::VCInteropWorldGetCamera",				(void*)VCInteropWorldGetCamera);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldGetBlock",				(void*)VCInteropWorldGetBlock);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetBlock",				(void*)VCInteropWorldSetBlock);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetGenerator",			(void*)VCInteropWorldSetGenerator);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSGetViewport",			(void*)VCInteropWorldSGetViewport);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewport",			(void*)VCInteropWorldSetViewport);
 	
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
@@ -388,6 +392,13 @@ void VCInteropReleaseWorld( int handle )
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	delete obj;
 }
+
+int VCInteropWorldGetCamera( int handle )
+{
+	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
+	return obj->Camera->Handle;
+}
+
 
 void VCInteropWorldSetGenerator( int wHandle, int cHandle )
 {
@@ -419,18 +430,6 @@ void VCInteropWorldRebuild( int handle, VCWorldRebuildParams params )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	obj->Rebuild(params);
-}
-
-void VCInteropWorldSGetViewport( int handle, VCRectangle* frame )
-{
-	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	*frame = obj->RenderState->Stages[1].Viewport;
-}
-
-void VCInteropWorldSetViewport( int handle, VCRectangle frame )
-{
-	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	obj->RenderState->Stages[1].Viewport = frame;
 }
 
 
