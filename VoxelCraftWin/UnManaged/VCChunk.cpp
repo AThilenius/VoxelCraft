@@ -10,9 +10,9 @@
 #include "VCChunk.h"
 
 #include "VCWorld.h"
-#include "VCWorld.h"
 #include "VCGLRenderer.h"
 #include "VCTime.h"
+#include "VCCamera.h"
 
 struct BlockVerticie
 {

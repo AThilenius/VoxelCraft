@@ -64,7 +64,7 @@ glm::vec3 VCCamera::ScreenPointToDirection( VCRectangle viewPort, VCPoint screen
 	glm::vec2 sp (screenPoint.X, screenPoint.Y);
 
 	glm::vec2 delta = ur - ll;
-	glm::vec2 spInViewport (2.0f * sp.x / delta.x - 1.0f, 2.0f * sp.y / delta.y - 1.0f);
+	glm::vec2 spInViewport (2.0f * ((sp.x - ll.x) / delta.x) - 1.0f, 2.0f * ((sp.y - ll.y) / delta.y) - 1.0f);
 
 	glm::vec4 ray_clip = glm::vec4 (spInViewport.x, spInViewport.y, -1.0f, 1.0f);
 

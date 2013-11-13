@@ -29,7 +29,7 @@ bool _VCRenderStateCompare::operator() (const VCRenderState* lhs, const VCRender
 
 bool operator==(const VCRenderState& lhs, const VCRenderState& rhs)
 {
-	if (lhs.BatchingOrder != rhs.BatchingOrder || lhs.StageCount != rhs.StageCount)
+	if (lhs.BatchingOrder != rhs.BatchingOrder || lhs.StageCount != rhs.StageCount || lhs.Camera != rhs.Camera)
 		return false;
 
 	for ( int i = 0; i < lhs.StageCount; i++ )
@@ -52,7 +52,8 @@ bool operator< (const VCRenderState& lhs, const VCRenderState& rhs)
 		if (rhs.Stages[i] > rhs.Stages[i]) return false;
 	}
 
-	return false;
+	// Arbitrary camera compare ( Add layer order here later )
+	return lhs.Camera < rhs.Camera;
 }
 
 bool operator!=(const VCRenderState& lhs, const VCRenderState& rhs){return !operator==(lhs,rhs);}

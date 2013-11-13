@@ -42,7 +42,6 @@
     <Compile Include="Application\GlfwInputState.cs" />
     <Compile Include="Application\Input.cs" />
     <Compile Include="Components\RidgedBody.cs" />
-    <Compile Include="Editor\Components\EditorCameraController.cs" />
     <Compile Include="Editor\EditorGui.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />

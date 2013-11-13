@@ -163,20 +163,29 @@ namespace VCEngine
             Debug.DrawCube(Vector3.Zero, Vector3.One * 32 * World.ViewDistance, Color.ControlGreen);
 
             // Camera
-            if (GlfwInputState.MouseStates[2].State == TriState.Pressed || GlfwInputState.MouseStates[3].State == TriState.Pressed || GlfwInputState.MouseStates[4].State == TriState.Pressed)
+            if (GlfwInputState.MouseStates[2].State == TriState.Pressed || 
+                GlfwInputState.MouseStates[3].State == TriState.Pressed || 
+                GlfwInputState.MouseStates[4].State == TriState.Pressed ||
+                GlfwInputState.KeyStates[Input.Keys.LeftControl].State == TriState.Pressed )
             {
                 m_startPosition = GlfwInputState.MouseLocation;
                 GlfwInputState.MouseVisible = false;
             }
 
-            if (GlfwInputState.MouseStates[2].State != TriState.None || GlfwInputState.MouseStates[3].State != TriState.None || GlfwInputState.MouseStates[4].State != TriState.None)
+            if (GlfwInputState.MouseStates[2].State != TriState.None || 
+                GlfwInputState.MouseStates[3].State != TriState.None ||
+                GlfwInputState.MouseStates[4].State != TriState.None ||
+                GlfwInputState.KeyStates[Input.Keys.LeftControl].State != TriState.None)
             {
                 m_rot.X -= GlfwInputState.DeltaMouseLocation.Y * 0.0174532925f * 0.1f;
                 m_rot.Y += GlfwInputState.DeltaMouseLocation.X * 0.0174532925f * 0.1f;
                 GlfwInputState.MouseLocation = m_startPosition;
             }
 
-            if (GlfwInputState.MouseStates[2].State == TriState.Up || GlfwInputState.MouseStates[3].State == TriState.Up || GlfwInputState.MouseStates[4].State == TriState.Up)
+            if (GlfwInputState.MouseStates[2].State == TriState.Up || 
+                GlfwInputState.MouseStates[3].State == TriState.Up ||
+                GlfwInputState.MouseStates[4].State == TriState.Up ||
+                GlfwInputState.KeyStates[Input.Keys.LeftControl].State == TriState.Up)
             {
                 GlfwInputState.MouseLocation = m_startPosition;
                 GlfwInputState.MouseVisible = true;

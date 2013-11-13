@@ -169,6 +169,15 @@ void VCGLRenderer::SetModelMatrix(glm::mat4 matrix)
 
 void VCGLRenderer::RegisterState( VCRenderState* state )
 {
+#ifdef DEBUG
+	if (m_renderMap.find(state) != m_renderMap.end())
+	{
+		VC_ERROR("Cannot add duplicate render state!");
+	}
+
+	std::cout << "VCGLRenderer::RegisterState - " << m_renderMap.size() + 1 << std::endl;
+#endif
+
 	m_renderMap.insert(RenderMap::value_type(state, RenderSet()));
 }
 
