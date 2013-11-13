@@ -25,6 +25,7 @@ namespace VCEngine
 
                 while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
                 {
+                    Control.MainControl.PropagateUpdate();
                     VCEngineCore.PropagateUpdates();
 
                     Control.MainControl.Render();
@@ -32,8 +33,8 @@ namespace VCEngine
                     // Rendering
                     GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
 
-                    // Clear Input states & swap buffers
-                    Input.ClearStates();
+                    // Step Input states & swap buffers
+                    GlfwInputState.StepStates();
                     Window.SwapBuffers();
                 }
             }

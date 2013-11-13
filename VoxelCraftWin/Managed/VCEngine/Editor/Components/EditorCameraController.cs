@@ -13,28 +13,30 @@ namespace VCEngine
 
         public override void Update()
         {
-            if (Input.GetMouse(2) == TriState.Pressed || Input.GetMouse(3) == TriState.Pressed || Input.GetMouse(4) == TriState.Pressed)
+            if (GlfwInputState.MouseStates[2].State == TriState.Pressed || GlfwInputState.MouseStates[3].State == TriState.Pressed || GlfwInputState.MouseStates[4].State == TriState.Pressed)
             {
-                m_startPosition = Input.MousePoistion;
-                Input.MouseMode = MouseMoveMode.Locked;
+                Console.WriteLine("1");
+                m_startPosition = GlfwInputState.MouseLocation;
+                //Input.MouseMode = MouseMoveMode.Locked;
             }
 
             if (Input.GetMouse(2) != TriState.None || Input.GetMouse(3) != TriState.None || Input.GetMouse(4) != TriState.None)
             {
-                m_rot.X -= Input.DeltaLook.Y * 0.0174532925f * 0.1f;
-                m_rot.Y += Input.DeltaLook.X * 0.0174532925f * 0.1f;
+                m_rot.X -= GlfwInputState.DeltaMouseLocation.Y * 0.0174532925f * 0.1f;
+                m_rot.Y += GlfwInputState.DeltaMouseLocation.X * 0.0174532925f * 0.1f;
             }
 
             if (Input.GetMouse(2) == TriState.Up || Input.GetMouse(3) == TriState.Up || Input.GetMouse(4) == TriState.Up)
             {
-                Input.MouseMode = MouseMoveMode.Free;
-                Input.MousePoistion = m_startPosition;
+                Console.WriteLine("3");
+                //Input.MouseMode = MouseMoveMode.Free;
+                //GlfwInputState.MouseLocation = m_startPosition;
             }
 
-            if (Input.GetKey(Input.Keys.LeftControl) != TriState.None)
-                m_speed = 5.0f;
-            else
-                m_speed = 20.0f;
+            //if (Input.GetKey(Input.Keys.LeftControl) != TriState.None)
+            //    m_speed = 5.0f;
+            //else
+            //    m_speed = 20.0f;
 
             m_rot.X = MathHelper.Clamp(m_rot.X, MathHelper.DegreesToRadians(-89.0f), MathHelper.DegreesToRadians(89.0f));
 
@@ -48,10 +50,10 @@ namespace VCEngine
             Transform.Position -= forward;
             Transform.Position -= Transform.Rotation.Right * Input.Strafe.Y * Time.DeltaTime * m_speed;
 
-            if (Input.GetKey(Input.Keys.LeftShift) != TriState.None)
+            if (GlfwInputState.KeyStates[Input.Keys.LeftShift].State != TriState.None)
                 Transform.Position -= Vector3.UnitY * Time.DeltaTime * m_speed;
 
-            if (Input.GetKey(' ') != TriState.None)
+            if (GlfwInputState.KeyStates[' '].State != TriState.None)
                 Transform.Position += Vector3.UnitY * Time.DeltaTime * m_speed;
         }
 

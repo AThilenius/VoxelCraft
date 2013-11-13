@@ -19,7 +19,7 @@ namespace VCEngine
         public TextField()
         {
             CharPress += OnCharPress;
-            KeyPress += OnKeyPress;
+            RawKeyChange += OnKeyPress;
             BackgroundColor = Color.White;
             BorderWidth = 1;
             CanFocus = true;
@@ -28,7 +28,7 @@ namespace VCEngine
 
         void OnKeyPress(object sender, KeyEventArgs e)
         {
-            if (e.State.Key == Input.Keys.Backspace && e.State.Action != TriState.Up)
+            if (e.Key == Input.Keys.Backspace && e.State != TriState.Up)
             {
                 if (CursorOffset == 0)
                     return;
@@ -40,10 +40,10 @@ namespace VCEngine
                     Text = Text.Remove(CursorOffset - 1, 1);
 
                 CursorOffset--;
-                TextEntry(this, new CharEventArgs { CharCode = e.State.Key });
+                TextEntry(this, new CharEventArgs { Char = e.Key });
             }
 
-            if (e.State.Key == Input.Keys.Left && e.State.Action != TriState.Up)
+            if (e.Key == Input.Keys.Left && e.State != TriState.Up)
             {
                 if (CursorOffset == 0)
                     return;
@@ -53,7 +53,7 @@ namespace VCEngine
                 m_isCursurVisible = true;
             }
 
-            if (e.State.Key == Input.Keys.Right && e.State.Action != TriState.Up)
+            if (e.Key == Input.Keys.Right && e.State != TriState.Up)
             {
                 if (CursorOffset < Text.Length)
                     CursorOffset++;
@@ -67,10 +67,10 @@ namespace VCEngine
         void OnCharPress(object sender, CharEventArgs e)
         {
             if (Text.Length == CursorOffset)
-                Text = Text + char.ConvertFromUtf32(e.CharCode);
+                Text = Text + char.ConvertFromUtf32(e.Char);
 
             else
-                Text = Text.Insert(CursorOffset, char.ConvertFromUtf32(e.CharCode));
+                Text = Text.Insert(CursorOffset, char.ConvertFromUtf32(e.Char));
 
             CursorOffset++;
             TextEntry(this, e);

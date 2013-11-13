@@ -42,7 +42,7 @@ namespace VCEngine
                         m_isActive = true;
                         m_menues[nButton].Visible = true;
                         m_lastActiveMenu = m_menues[nButton];
-                        Input.MouseClick += TemporaryMouseHandler;
+                        GlfwInputState.OnMouseClick += TemporaryMouseHandler;
                     }
                 };
 
@@ -69,11 +69,11 @@ namespace VCEngine
         {
             foreach (Button b in m_menues.Keys)
             {
-                if (b.ScreenFrame.IsPointWithin(e.ScreenLocation))
+                if (b.ScreenFrame.IsPointWithin(e.Location))
                     return;
             }
 
-            if (m_lastActiveMenu != null && m_lastActiveMenu.ScreenFrame.IsPointWithin(e.ScreenLocation))
+            if (m_lastActiveMenu != null && m_lastActiveMenu.ScreenFrame.IsPointWithin(e.Location))
                 return;
 
             if (m_lastActiveMenu != null)
@@ -81,7 +81,7 @@ namespace VCEngine
 
             m_isActive = false;
             m_lastActiveMenu = null;
-            Input.MouseClick -= TemporaryMouseHandler;
+            GlfwInputState.OnMouseClick -= TemporaryMouseHandler;
         }
 
 

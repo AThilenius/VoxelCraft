@@ -7,114 +7,9 @@ using System.Text;
 
 namespace VCEngine
 {
-    #region Enums, Args, Helpers
-    public enum MouseMoveMode
-    {
-        Free,
-        Locked
-    }
-
-    [Flags]
-    public enum KeyModFlags : short
-    {
-        Shift = 0x0001,
-        Ctrl = 0x0002,
-        Alt = 0x0004,
-        Super = 0x0008
-    }
-
-    public struct KeyState
-    {
-        public int Key;
-        public TriState Action;
-        public KeyModFlags Modifiers;
-
-        public bool Shift { get { return (Modifiers & KeyModFlags.Shift) == KeyModFlags.Shift; } }
-        public bool Ctrl { get { return (Modifiers & KeyModFlags.Ctrl) == KeyModFlags.Ctrl; } }
-        public bool Alt { get { return (Modifiers & KeyModFlags.Alt) == KeyModFlags.Alt; } }
-        public bool Super { get { return (Modifiers & KeyModFlags.Super) == KeyModFlags.Super; } }
-
-        public KeyState(int key, TriState action, int mods)
-        {
-            Key = key;
-            Action = action;
-            Modifiers = (KeyModFlags)(short) mods;
-        }
-
-    }
-
-    public class KeyEventArgs : EventArgs
-    {
-        public KeyState State;
-    }
-
-    public class CharEventArgs : EventArgs
-    {
-        public int CharCode;
-    }
-
-    public class MouseMoveEventArgs : EventArgs
-    {
-        public Point ScreenLocation;
-        public Point DeltaLocation;
-    }
-
-    public class MouseClickEventArgs : EventArgs
-    {
-        public enum MouseButton : int
-        {
-            Left = 0,
-            Right = 1
-        }
-
-        public MouseButton Button;
-        public TriState Action;
-        public KeyModFlags Modifiers;
-        public Point ScreenLocation;
-
-        public bool Shift { get { return (Modifiers & KeyModFlags.Shift) == KeyModFlags.Shift; } }
-        public bool Ctrl { get { return (Modifiers & KeyModFlags.Ctrl) == KeyModFlags.Ctrl; } }
-        public bool Alt { get { return (Modifiers & KeyModFlags.Alt) == KeyModFlags.Alt; } }
-        public bool Super { get { return (Modifiers & KeyModFlags.Super) == KeyModFlags.Super; } }
-
-    }
-
-    public class FocusEventArgs : EventArgs
-    {
-        public enum ForcusAction : int
-        {
-            Exited = 0,
-            Entered = 1
-        }
-
-        public ForcusAction Action;
-        public Point ScreenLocation;
-    }
-
-    public class MouseScrollEventArgs : EventArgs
-    {
-        public PointF Offset;
-        public Point ScreenLocation;
-    }
-
-
-    #endregion
-
+    
     public static class Input
     {
-        #region Bindings
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropInputGetMouse(out float x, out float y);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropInputSetMouse(float x, float y);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropInputSetCursorVisible(bool val);
-
-        #endregion
-
         #region Keys
         public struct Keys
         {
@@ -191,72 +86,31 @@ namespace VCEngine
         }
         #endregion
 
-        #region Events
-        public static event EventHandler<KeyEventArgs> KeyClicked = delegate { };
-        public static event EventHandler<CharEventArgs> CharClicked = delegate { };
-        public static event EventHandler<MouseMoveEventArgs> MouseMove = delegate { };
-        public static event EventHandler<MouseClickEventArgs> MouseClick = delegate { };
-        public static event EventHandler<MouseScrollEventArgs> MouseScroll = delegate { };
-        public static event EventHandler<FocusEventArgs> Focus = delegate { };
-        public static event EventHandler<GPMouseEventArgs> GPMouseEvent = delegate { };
-        #endregion
-
-        private static MouseMoveMode m_mouseMode = MouseMoveMode.Free;
-        public static MouseMoveMode MouseMode
-        {
-            get { return m_mouseMode; }
-            set
-            {
-                if (value == m_mouseMode)
-                    return;
-
-                switch (value)
-                {
-                    case MouseMoveMode.Free:
-                        VCInteropInputSetCursorVisible(true);
-                        break;
-
-                    case MouseMoveMode.Locked:
-                        VCInteropInputSetCursorVisible(false);
-                        break;
-                }
-
-                m_mouseMode = value;
-            }
-        }
-        public static Point MousePoistion
-        {
-            get { return m_lastMousePosition; }
-            set
-            {
-                m_lastMousePosition = value;
-                VCInteropInputSetMouse(value.X, Window.Size.Y - value.Y);
-            }
-        }
+        public static bool IsSuppressingUpdate;
         public static Vector2 DeltaLook 
         { 
             get 
             {
-                if (m_isSupressingUpdate)
+                if (IsSuppressingUpdate)
                     return new Vector2(0.0f, 0.0f);
 
-                return new Vector2(m_deltaMousePosition.X, m_deltaMousePosition.Y);
+                return new Vector2(GlfwInputState.MouseLocation.X, GlfwInputState.MouseLocation.Y);
             } 
         }
         public static Vector2 Strafe
         {
             get
             {
-                if (m_isSupressingUpdate)
+                if (IsSuppressingUpdate)
                     return new Vector2(0.0f, 0.0f);
 
                 Vector2 strafeVec = new Vector2(0.0f, 0.0f);
-                
-                if (m_keyStates['W'].State != TriState.None) strafeVec.X += 1.0f;
-                if (m_keyStates['S'].State != TriState.None) strafeVec.X += -1.0f;
 
-                if (m_keyStates['A'].State != TriState.None) strafeVec.Y += 1.0f;
-                if (m_keyStates['D'].State != TriState.None) strafeVec.Y += -1.0f;
+                if (GlfwInputState.KeyStates['W'].State != TriState.None) strafeVec.X += 1.0f;
+                if (GlfwInputState.KeyStates['S'].State != TriState.None) strafeVec.X += -1.0f;
+
+                if (GlfwInputState.KeyStates['A'].State != TriState.None) strafeVec.Y += 1.0f;
+                if (GlfwInputState.KeyStates['D'].State != TriState.None) strafeVec.Y += -1.0f;
 
                 if (strafeVec.X > 0.1f || strafeVec.X < -0.1f || strafeVec.Y > 0.1f || strafeVec.Y < -0.1f )
                     strafeVec.Normalize();
@@ -265,168 +119,20 @@ namespace VCEngine
             }
         }
 
-        private static Point m_lastMousePosition = new Point();
-        private static Point m_deltaMousePosition = new Point();
-
-        private static TrinaryStateTracker[] m_mouseStates = new TrinaryStateTracker[10];
-        private static TrinaryStateTracker[] m_keyStates = new TrinaryStateTracker[350];
-
-        private static bool m_isSupressingUpdate;
-
         public static TriState GetKey(int keyCode)
         {
-            if (m_isSupressingUpdate)
+            if (IsSuppressingUpdate)
                 return TriState.None;
 
-            return m_keyStates[keyCode].State;
+            return GlfwInputState.KeyStates[keyCode].State;
         }
 
         public static TriState GetMouse(int button)
         {
-            if (m_isSupressingUpdate)
+            if (IsSuppressingUpdate)
                 return TriState.None;
 
-            return m_mouseStates[button].State;
-        }
-
-        internal static void Start()
-        {
-            float x, y;
-            VCInteropInputGetMouse(out x, out y);
-
-            m_lastMousePosition = new Point ((int)x, (int)y);
-            m_deltaMousePosition = new Point(0, 0);
-        }
-
-        internal static void SuppressUpdates()
-        {
-            m_isSupressingUpdate = true;
-        }
-
-        internal static void ActivateUpdates()
-        {
-            m_isSupressingUpdate = false;
-        }
-
-        internal static void ClearStates()
-        {
-            m_deltaMousePosition = new Point(0, 0);
-
-            for (int i = 0; i < 10; i++)
-                m_mouseStates[i].StepState();
-
-            for (int i = 0; i < 350; i++)
-                m_keyStates[i].StepState();
-        }
-
-        private static void GlfwKeyCallback(int key, int scancode, int action, int mods)
-        {
-            try
-            {
-                m_keyStates[key].Update(action > 0);
-                KeyClicked(null, new KeyEventArgs { State = new KeyState(key, m_keyStates[key].State, mods) });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-        }
-
-        private static void GlfwCharCallback(int charCode)
-        {
-            CharClicked(null, new CharEventArgs { CharCode = charCode });
-        }
-
-        private static void GlfwMouseMoveCallback(double x, double y)
-        {
-            try
-            {
-                Point newLocation = new Point((int)x, Window.Size.Y - (int)y);
-                m_deltaMousePosition = new Point ( -(m_lastMousePosition.X - newLocation.X), -(m_lastMousePosition.Y - newLocation.Y));
-
-                switch (MouseMode)
-                {
-                    case MouseMoveMode.Free:
-                        m_lastMousePosition = newLocation;
-                        break;
-
-                    case MouseMoveMode.Locked:
-                        VCInteropInputSetMouse((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
-                        m_lastMousePosition = new Point((int)(Window.Size.X * 0.5f), (int)(Window.Size.Y * 0.5f));
-                        break;
-                }
-
-                MouseMove(null, new MouseMoveEventArgs { ScreenLocation = newLocation, DeltaLocation = m_deltaMousePosition });
-
-                TriState[] states = new TriState[10];
-                for (int i = 0; i < 10; i++)
-                    states[i] = m_mouseStates[i].State;
-                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-        }
-
-        private static void GlfwMouseClickCallback(int button, int action, int mods)
-        {
-            try
-            {
-                m_mouseStates[button].Update(action > 0);
-
-                MouseClick(null, new MouseClickEventArgs
-                {
-                    Action = m_mouseStates[button].State,
-                    Button = (MouseClickEventArgs.MouseButton)button,
-                    Modifiers = (KeyModFlags)(short)mods,
-                    ScreenLocation = m_lastMousePosition
-                });
-
-                TriState[] states = new TriState[10];
-                for (int i = 0; i < 10; i++)
-                    states[i] = m_mouseStates[i].State;
-
-                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-        }
-
-        private static void GlfwMouseEnterCallback(int entered)
-        {
-            try
-            {
-                Focus(null, new FocusEventArgs { Action = (FocusEventArgs.ForcusAction)entered, ScreenLocation = m_lastMousePosition });
-
-                TriState[] states = new TriState[10];
-                for (int i = 0; i < 10; i++)
-                    states[i] = m_mouseStates[i].State;
-                GPMouseEvent(null, new GPMouseEventArgs { ButtonStates = states, MousePoistion = m_lastMousePosition, DeltaLook = m_deltaMousePosition });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-        }
-
-        private static void GlfwMouseScrollCallback(double xOffset, double yOffset)
-        {
-            try
-            {
-                MouseScroll(null, new MouseScrollEventArgs { Offset = new PointF((float)xOffset, (float)yOffset), ScreenLocation = m_lastMousePosition });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
+            return GlfwInputState.MouseStates[button].State;
         }
     }
 }

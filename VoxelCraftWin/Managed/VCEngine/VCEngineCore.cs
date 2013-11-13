@@ -41,8 +41,6 @@ namespace VCEngine
         {
             try
             {
-                Input.Start();
-
                 if (!EditorMode)
                 {
                     foreach (StaticInstance inst in AssemblyLoader.StaticInstances)

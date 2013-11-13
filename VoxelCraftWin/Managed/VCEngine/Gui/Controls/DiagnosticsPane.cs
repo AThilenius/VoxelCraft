@@ -11,8 +11,6 @@ namespace VCEngine
 
         private float m_lastDeltaTime = 0.001f;
         private int m_yOffset = 0;
-        private List<KeyState> m_activateStates = new List<KeyState>();
-        private List<MouseClickEventArgs> m_mouseStates = new List<MouseClickEventArgs>();
 
         internal DiagnosticsPane()
         {
@@ -45,7 +43,6 @@ namespace VCEngine
 
             DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
-            DrawText("Mouse: " + Input.MousePoistion, sf);
 
             DrawText("", sf);
             DrawText("Mouse Inputs:", sf);

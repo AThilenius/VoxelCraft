@@ -30,7 +30,5 @@ public:
 	static VCMonoMethod* MouseEnterCallback;
 	static VCMonoMethod* MouseScrollCallback;
 };
-
-void VCInteropInputGetMouse(float* x, float* y);
 void VCInteropInputSetMouse(float x, float y);
 void VCInteropInputSetCursorVisible(bool val);

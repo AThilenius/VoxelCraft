@@ -45,6 +45,7 @@ namespace VCEngine
         public bool IsFocused;
         public bool IsHovered { get; protected set; }
         public bool IsClickDown { get; protected set; }
+        public bool IsRightClickDown { get; protected set; }
 
         public Point ScreenPoint
         {
@@ -93,21 +94,22 @@ namespace VCEngine
             }
         }
 
-        public event EventHandler<MouseEventArgs> Click = delegate { };
-        public event EventHandler<MouseEventArgs> RightClick = delegate { };
-        public event EventHandler<MouseEventArgs> DoubleClick = delegate { };
-        public event EventHandler<GPMouseEventArgs> GPMouseEvent = delegate { };
-        public event EventHandler MouseEnter = delegate { };
-        public event EventHandler MouseExit = delegate { };
-        public event EventHandler<MouseEventArgs> MouseMove = delegate { };
-        public event EventHandler<MouseEventArgs> DragBegin = delegate { };
-        public event EventHandler<MouseEventArgs> DragEnd = delegate { };
-        public event EventHandler<MouseEventArgs> Draging = delegate { };
-        public event EventHandler<KeyEventArgs> KeyPress = delegate { };
-        public event EventHandler<CharEventArgs> CharPress = delegate { };
-        public event EventHandler<ControlFocusArgs> Focused = delegate { };
-        public event EventHandler<ResizeEventArgs> Resize = delegate { };
-        public event EventHandler<ParentChangeEventArgs> ParentChanged = delegate { };
+        public event EventHandler<MouseEventArgs>           Click = delegate { };
+        public event EventHandler<MouseEventArgs>           RightClick = delegate { };
+        public event EventHandler<MouseEventArgs>           DoubleClick = delegate { };
+        public event EventHandler                           MouseEnter = delegate { };
+        public event EventHandler                           MouseExit = delegate { };
+        public event EventHandler<MouseClickEventArgs>      RawMouseClick = delegate { };
+        public event EventHandler                           RawMouseMove = delegate { };
+        public event EventHandler<KeyEventArgs>             RawKeyChange = delegate { };
+        public event EventHandler<MouseEventArgs>           MouseMove = delegate { };
+        public event EventHandler<MouseEventArgs>           DragBegin = delegate { };
+        public event EventHandler<MouseEventArgs>           DragEnd = delegate { };
+        public event EventHandler<MouseEventArgs>           Draging = delegate { };
+        public event EventHandler<CharEventArgs>            CharPress = delegate { };
+        public event EventHandler<ControlFocusArgs>         Focused = delegate { };
+        public event EventHandler<ResizeEventArgs>          Resize = delegate { };
+        public event EventHandler<ParentChangeEventArgs>    ParentChanged = delegate { };
 
         private Rectangle m_frame = new Rectangle();
         private Control m_activeChild;
@@ -127,6 +129,14 @@ namespace VCEngine
             foreach (Control ctrl in Children)
                 if (ctrl.Visible)
                     ctrl.Render();
+        }
+
+        public void PropagateUpdate()
+        {
+            Update();
+
+            foreach (Control ctrl in Children)
+                ctrl.Update();
         }
 
         public virtual void AddControl(Control control)
@@ -181,83 +191,50 @@ namespace VCEngine
             }
         }
 
-        internal bool ProcessKeyEvent(Object sender, KeyEventArgs args)
+        protected virtual void Update()
         {
-            if (KeyPress != null)
-            {
-                KeyPress(sender, args);
-                return true;
-            }
-            return false;
         }
 
-        internal bool ProcessMouseEvent(Object sender, MouseEventArgs args)
+
+        internal void ProcessMouseEvent(Object sender, MouseEventArgs args)
         {
             if (!Enabled)
-                return false;
+                return;
 
             // Fire event handler if there is one. Return false if not.
             switch (args.EventType)
             {
                 case MouseEventType.Click:
-                    if (Click != null)
-                    {
-                        Click(sender, args);
-                        return true;
-                    }
-                    return false;
+                    Click(sender, args);
+                    return;
 
                 case MouseEventType.RightClick:
-                    if (RightClick != null)
-                    {
-                        RightClick(sender, args);
-                        return true;
-                    }
-                    return false;
+                    RightClick(sender, args);
+                    return;
 
                 case MouseEventType.DoubleClick:
-                    if (DoubleClick != null)
-                    {
-                        DoubleClick(sender, args);
-                        return true;
-                    }
-                    return false;
+                    DoubleClick(sender, args);
+                    return;
 
                 case MouseEventType.Move:
-                    if (MouseMove != null)
-                    {
-                        MouseMove(sender, args);
-                        return true;
-                    }
-                    return false;
+                    MouseMove(sender, args);
+                    return;
 
                 case MouseEventType.DragBegin:
-                    if (DragBegin != null)
-                    {
-                        DragBegin(sender, args);
-                        return true;
-                    }
-                    return false;
+                    DragBegin(sender, args);
+                    return;
 
                 case MouseEventType.DragEnd:
-                    if (DragEnd != null)
-                    {
-                        DragEnd(sender, args);
-                        return true;
-                    }
-                    return false;
+                    DragEnd(sender, args);
+                    return;
 
                 case MouseEventType.Draging:
-                    if (Draging != null)
-                    {
-                        Draging(sender, args);
-                        return true;
-                    }
-                    return false;
+                    Draging(sender, args);
+                    return;
 
                 default:
                     Console.WriteLine("Unknown mouse event type.");
-                    return false;
+                    return;
             }
         }
 
@@ -268,37 +245,30 @@ namespace VCEngine
                     MainControl.Frame = args.To;
                 };
 
-            Input.KeyClicked += ((sender, args) =>
+            GlfwInputState.OnKey += (sender, args) =>
                 {
                     if (m_focusedChild != null)
-                        m_focusedChild.ProcessKeyEvent(this, new KeyEventArgs { State = args.State });
-                });
+                        m_focusedChild.RawKeyChange(this, args);
+                };
 
-            Input.CharClicked += (sender, args) =>
+            GlfwInputState.OnCharClicked += (sender, args) =>
                 {
                     if (m_focusedChild != null)
                         m_focusedChild.CharPress(sender, args);
                 };
 
-            Input.GPMouseEvent += (sender, args) =>
+            GlfwInputState.OnMouseClick += (sender, args) =>
                 {
-                    // Do not need to rebuild command chain, its already built 
-                    // by other mouse events.
-                    Control active = GetEndOfCommandChain();
-                    active.GPMouseEvent(this, args);
-                };
+                    if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
+                        return;
 
-            Input.MouseClick += ((sender, args) =>
-                {
-                    // Rebuild command chain
-                    RebuildCommandChain(args.ScreenLocation);
-
+                    // =====   Rebuild command chain   ======================================================
+                    RebuildCommandChain(GlfwInputState.MouseLocation);
                     Control active = GetEndOfCommandChain();
 
-
-                    if (args.Action == TriState.Pressed)
+                    // =====   If Left/Right - Pressed, focus the control   ======================================================
+                    if (GlfwInputState.MouseStates[0].State == TriState.Pressed || GlfwInputState.MouseStates[1].State == TriState.Pressed)
                     {
-                        active.IsClickDown = true;
                         m_focusedChild = null;
 
                         // Walk up the chain, set focus flags
@@ -336,33 +306,61 @@ namespace VCEngine
                         s_currentFocus = new HashSet<Control>();
                     }
 
-                    else if (args.Action == TriState.Up)
+                    // =====   Process Left - Pressed   ======================================================
+                    if (GlfwInputState.MouseStates[0].State == TriState.Pressed)
+                    {
+                        active.IsClickDown = true;
+                    }
+
+                    // =====   Process Left - Up   ======================================================
+                    if (GlfwInputState.MouseStates[0].State == TriState.Up)
                     {
                         // Forward event for further processing
                         active.ProcessMouseEvent(
                             this,
                             new MouseEventArgs
                             {
-                                EventType = args.Button == MouseClickEventArgs.MouseButton.Left ? MouseEventType.Click : MouseEventType.RightClick,
-                                ScreenLocation = args.ScreenLocation
+                                EventType = MouseEventType.Click,
+                                ScreenLocation = GlfwInputState.MouseLocation
                             }
                         );
 
                         active.IsClickDown = false;
                     }
 
-                });
+                    // =====   Process Right - Pressed   ======================================================
+                    if (GlfwInputState.MouseStates[1].State == TriState.Pressed)
+                    {
+                        active.IsRightClickDown = true;
+                    }
 
-            Input.MouseMove += ((sender, args) =>
+                    // =====   Process Right - Up   ======================================================
+                    if (GlfwInputState.MouseStates[1].State == TriState.Up)
+                    {
+                        // Forward event for further processing
+                        active.ProcessMouseEvent(
+                            this,
+                            new MouseEventArgs
+                            {
+                                EventType = MouseEventType.RightClick,
+                                ScreenLocation = GlfwInputState.MouseLocation
+                            }
+                        );
+
+                        active.IsRightClickDown = false;
+                    }
+
+                    // =====   Forward Raw Mouse   ======================================================
+                    active.RawMouseClick(this, args);
+                };
+
+            GlfwInputState.OnMouseMove += (sender, args) =>
                 {
                     // Rebuild command chain
-                    RebuildCommandChain(args.ScreenLocation);
+                    RebuildCommandChain(GlfwInputState.MouseLocation);
                     Control active = GetEndOfCommandChain();
 
-                    if (m_activeChild == null)
-                        Input.ActivateUpdates();
-                    else
-                        Input.SuppressUpdates();
+                    Input.IsSuppressingUpdate = (m_activeChild != null);
 
                     // Process specialized events
                     if (active.IsClickDown)
@@ -372,7 +370,7 @@ namespace VCEngine
                             new MouseEventArgs
                             {
                                 EventType = MouseEventType.Draging,
-                                ScreenLocation = args.ScreenLocation
+                                ScreenLocation = GlfwInputState.MouseLocation
                             }
                         );
                     }
@@ -384,22 +382,14 @@ namespace VCEngine
                             new MouseEventArgs
                             {
                                 EventType = MouseEventType.Move,
-                                ScreenLocation = args.ScreenLocation
+                                ScreenLocation = GlfwInputState.MouseLocation
                             }
                         );
                     }
-                });
 
-            Input.Focus += ((sender, args) =>
-                {
-                    // Rebuild command chain
-                    RebuildCommandChain(new Point(-1, -1));
-
-                    if (m_activeChild == null)
-                        Input.ActivateUpdates();
-                    else
-                        Input.SuppressUpdates();
-                });
+                    // =====   Forward Raw Mouse   ======================================================
+                    active.RawMouseMove(this, args);
+                };
         }
 
         private void RebuildCommandChain(Point point)

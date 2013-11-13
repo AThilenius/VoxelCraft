@@ -8,21 +8,21 @@ namespace VCEngine
     public class EditorWorld
     {
         //internal static World World { get { return gw.World; } }
-        //internal static EditorCameraController CameraController;
+        internal static EditorCameraController CameraController;
         internal static GameWindow MasterGameWindow;
 
         internal static void Initialize()
         {
             MasterGameWindow = new GameWindow(2);
             Control.MainControl.AddControl(MasterGameWindow);
-            MasterGameWindow.Frame = new Rectangle(0, 0, 400, 800);
+            MasterGameWindow.Frame = new Rectangle(0, 0, 800, 700);
 
             //CameraController = new EditorCameraController();
             //MasterGameWindow.World.Camera.AttachComponent(CameraController);
 
             //BlockSelection = new EditorBlockSelection();
             //Camera.MainCamera.AttachComponent(BlockSelection);
-
+                
             //World = new World();
             //World.Generator = new FlatChunkGenerator();
             //World.ViewDistance = 2;

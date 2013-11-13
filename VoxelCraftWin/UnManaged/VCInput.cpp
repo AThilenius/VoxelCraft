@@ -69,12 +69,12 @@ VCInput::~VCInput()
 void VCInput::Initalize()
 {
 	// Get mono methods
-	VCInput::MouseScrollCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseScrollCallback(double,double)");
-	VCInput::MouseEnterCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseEnterCallback(int)");
-	VCInput::MouseClickCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseClickCallback(int,int,int)");
-	VCInput::MouseMoveCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwMouseMoveCallback(double,double)");
-	VCInput::CharCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwCharCallback(int)");
-	VCInput::KeyCallback = VCMonoRuntime::GetMonoMethod("Input", "GlfwKeyCallback(int,int,int,int)");
+	VCInput::MouseScrollCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwMouseScrollCallback(double,double)");
+	VCInput::MouseEnterCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwMouseEnterCallback(int)");
+	VCInput::MouseClickCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwMouseClickCallback(int,int,int)");
+	VCInput::MouseMoveCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwMouseMoveCallback(double,double)");
+	VCInput::CharCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwCharCallback(int)");
+	VCInput::KeyCallback = VCMonoRuntime::GetMonoMethod("GlfwInputState", "GlfwKeyCallback(int,int,int,int)");
 
 	glfwSetScrollCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseScrollCallback);
 	glfwSetCursorEnterCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseEnterCallback);
@@ -82,22 +82,18 @@ void VCInput::Initalize()
 	glfwSetCursorPosCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseMoveCallback);
 	glfwSetCharCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwCharCallback);
 	glfwSetKeyCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwKeyCallback);
+
+	// Set initial mouse position
+	double x, y;
+	glfwGetCursorPos(VCWindow::Instance->GLFWWindowHandle, &x, &y);
+	_GlfwMouseMoveCallback(VCWindow::Instance->GLFWWindowHandle, x, y);
 }
 
 // ================================      Interop      ============
 void VCInput::RegisterMonoHandlers()
 {
-    VCMonoRuntime::SetMethod("Input::VCInteropInputGetMouse",			(void*)VCInteropInputGetMouse);
-    VCMonoRuntime::SetMethod("Input::VCInteropInputSetMouse",			(void*)VCInteropInputSetMouse);
-	VCMonoRuntime::SetMethod("Input::VCInteropInputSetCursorVisible",    (void*)VCInteropInputSetCursorVisible);
-}
-
-void VCInteropInputGetMouse(float* x, float* y)
-{
-	double dx, dy;
-	glfwGetCursorPos(VCWindow::Instance->GLFWWindowHandle, &dx, &dy);
-	*x = dx;
-	*y = dy;
+    VCMonoRuntime::SetMethod("GlfwInputState::VCInteropInputSetMouse",			(void*)VCInteropInputSetMouse);
+	VCMonoRuntime::SetMethod("GlfwInputState::VCInteropInputSetCursorVisible",    (void*)VCInteropInputSetCursorVisible);
 }
 
 void VCInteropInputSetMouse(float x, float y)
