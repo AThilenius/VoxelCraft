@@ -35,6 +35,10 @@
     <ClCompile Include="VCPoolableResource.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCRenderState.cpp" />
+    <ClCompile Include="VCSparseVoxelOctree.cpp" />
+    <ClCompile Include="VCSvoLeafBlock.cpp" />
+    <ClCompile Include="VCSvoNode.cpp" />
+    <ClCompile Include="VCSvoNodeBlock.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -97,7 +101,11 @@
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCPoolableResource.h" />
+    <ClInclude Include="VCSparseVoxelOctree.h" />
     <ClInclude Include="VCStreamHelpers.h" />
+    <ClInclude Include="VCSvoLeafBlock.h" />
+    <ClInclude Include="VCSvoNode.h" />
+    <ClInclude Include="VCSvoNodeBlock.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />

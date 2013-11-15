@@ -62,6 +62,9 @@
     <Filter Include="Rendering\Drawers">
       <UniqueIdentifier>{40fa63a4-fa4e-4b04-b1b1-9f280870f60b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Voxel\SVO">
+      <UniqueIdentifier>{e19d7cb4-7193-4664-909d-772bf9f40364}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -225,6 +228,18 @@
     </ClCompile>
     <ClCompile Include="VCLineDrawer.cpp">
       <Filter>Rendering\Drawers</Filter>
+    </ClCompile>
+    <ClCompile Include="VCSparseVoxelOctree.cpp">
+      <Filter>Voxel\SVO</Filter>
+    </ClCompile>
+    <ClCompile Include="VCSvoNode.cpp">
+      <Filter>Voxel\SVO</Filter>
+    </ClCompile>
+    <ClCompile Include="VCSvoNodeBlock.cpp">
+      <Filter>Voxel\SVO</Filter>
+    </ClCompile>
+    <ClCompile Include="VCSvoLeafBlock.cpp">
+      <Filter>Voxel\SVO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +435,18 @@
     </ClInclude>
     <ClInclude Include="VCLineDrawer.h">
       <Filter>Rendering\Drawers</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSparseVoxelOctree.h">
+      <Filter>Voxel\SVO</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSvoNode.h">
+      <Filter>Voxel\SVO</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSvoNodeBlock.h">
+      <Filter>Voxel\SVO</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSvoLeafBlock.h">
+      <Filter>Voxel\SVO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

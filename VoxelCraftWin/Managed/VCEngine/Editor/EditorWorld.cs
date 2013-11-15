@@ -12,15 +12,16 @@ namespace VCEngine
 
         internal static void Initialize()
         {
-            // Test:
-            SecondaryGameWindow = new GameWindow(2);
-            Control.MainControl.AddControl(SecondaryGameWindow);
-            SecondaryGameWindow.Frame = new Rectangle(400, 0, 300, 500);
-
             MasterGameWindow = new GameWindow(2);
             Control.MainControl.AddControl(MasterGameWindow);
-            MasterGameWindow.Frame = new Rectangle(0, 0, 300, 500);
+            MasterGameWindow.Frame = Window.FullViewport;
 
+            Window.Resize += (s, a) => MasterGameWindow.Frame = a.To;
+
+            // Test:
+            //SecondaryGameWindow = new GameWindow(2);
+            //Control.MainControl.AddControl(SecondaryGameWindow);
+            //SecondaryGameWindow.Frame = new Rectangle(400, 0, 300, 500);
         }
     }
 }
