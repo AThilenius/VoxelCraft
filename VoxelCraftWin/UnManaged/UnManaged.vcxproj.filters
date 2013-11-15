@@ -241,6 +241,9 @@
     <ClCompile Include="VCSvoLeafBlock.cpp">
       <Filter>Voxel\SVO</Filter>
     </ClCompile>
+    <ClCompile Include="VCTerrianShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -447,6 +450,9 @@
     </ClInclude>
     <ClInclude Include="VCSvoLeafBlock.h">
       <Filter>Voxel\SVO</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTerrianShader.h">
+      <Filter>Rendering\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

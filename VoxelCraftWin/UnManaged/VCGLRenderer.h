@@ -14,6 +14,7 @@ class VCTextureShader;
 class VCLexShader;
 class VCGuiShader;
 class VCColorPassThroughShader;
+class VCTerrianShader;
 class VCRenderState;
 class VCIRenderable;
 
@@ -50,6 +51,7 @@ public:
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
 	VCColorPassThroughShader* ColorPassThroughShader;
+	VCTerrianShader* TerrainShader;
 	bool ShadowFallback;
 
 	GLuint DefaultFrameBuffer;

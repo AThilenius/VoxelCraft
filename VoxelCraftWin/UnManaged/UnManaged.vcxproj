@@ -39,6 +39,7 @@
     <ClCompile Include="VCSvoLeafBlock.cpp" />
     <ClCompile Include="VCSvoNode.cpp" />
     <ClCompile Include="VCSvoNodeBlock.cpp" />
+    <ClCompile Include="VCTerrianShader.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="VCSvoLeafBlock.h" />
     <ClInclude Include="VCSvoNode.h" />
     <ClInclude Include="VCSvoNodeBlock.h" />
+    <ClInclude Include="VCTerrianShader.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />

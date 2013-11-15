@@ -17,11 +17,16 @@
 struct BlockVerticie
 {
 	BlockVerticie() {}
-	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color ) : position(position), normal(normal), color(color){}
+	BlockVerticie(GLubyte3 position, GLubyte3 color, GLushort flags ) : 
+		Position(position), 
+		Color(color),
+		Flags(flags)
+	{
+	}
 
-	GLbyte3  position;
-	GLbyte	 normal;
-	GLubyte4 color;
+	GLubyte3 Position;
+	GLubyte3 Color;
+	GLushort Flags;
 };
 
 struct VCRunLengtth
@@ -98,12 +103,12 @@ void VCChunk::Initialize()
 
 	// Bind Attributes
 	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
 	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_FLAGS);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
-	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
+	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, Position) );
+	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		3,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, Color) );
+	glVertexAttribIPointer(VC_ATTRIBUTE_FLAGS,		1,	GL_SHORT,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, Flags) );
 
 	glBindVertexArray(0);
 }
@@ -138,27 +143,12 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	m_vertexCount = 0;
 	float startTime = VCTime::CurrentTime;
 
-	m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * 18 * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
+	m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
 
 	// Metrics
 	int airBlocks = 0;
 	int runCount = 0;
-
-	// =====   Per-Iteration Variables   ======================================================
-
-	GLbyte normal;
-
-	// Color Corrections
-	float V1C;
-	float V2C;
-	float V3C;
-	float V4C;
-
-	float V5C;
-	float V6C;
-	float V7C;
-	float V8C;
-
+	
 	// =====   Iterator   ======================================================
 	for(int z = 0; z < CHUNK_WIDTH; z++ )
 	{
@@ -166,7 +156,6 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 		{
 			for(int y = 0; y < CHUNK_WIDTH; y++ )
 			{
-
 				// =========  Make a single block  ========
 				runCount++;
 
@@ -178,204 +167,10 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 					continue;
 				}
 
-				GLbyte xO = x;
-				GLbyte yO = y;
-				GLbyte zO = z;
+				// =====   Flags   ======================================================
+				GLushort flags = 0;
 
-				// Verts
-				GLbyte3 V1 ( xO,		yO,		zO + 1	);
-				GLbyte3 V2 ( xO + 1,	yO,		zO + 1	);
-				GLbyte3 V3 ( xO + 1,	yO + 1, zO + 1	);
-				GLbyte3 V4 ( xO,		yO + 1, zO + 1	);
-
-				GLbyte3 V5 ( xO,		yO,		zO		);
-				GLbyte3 V6 ( xO + 1,	yO,		zO		);
-				GLbyte3 V7 ( xO + 1,	yO + 1, zO		);
-				GLbyte3 V8 ( xO,		yO + 1, zO		);
-
-				GLubyte4 black ( 0, 0, 0, thisType.Color.w );
-
-				// =====   Verticie Computations   ======================================================
-
-				// Front face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTranslucent() )
-				{
-					normal = 5;
-
-					V1C = V2C = V3C = V4C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
-
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
-				}
-
-				//Back face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTranslucent() )
-				{
-					normal = 4;
-
-					V5C = V6C = V7C = V8C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
-
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
-				}
-
-				//Right face
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
-				{
-					normal = 1;
-
-					V2C = V3C = V6C = V7C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V2C); Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V3C); Occlude(V7C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
-				}
-
-				//Left face
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
-				{
-					normal = 0;
-
-					V1C = V4C = V5C = V8C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
-
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V1C); Occlude(V5C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V8C); }
-
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
-				}
-
-				//Top face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTranslucent() )
-				{
-					normal = 3;
-
-					V3C = V4C = V7C = V8C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V8C); Occlude(V4C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
-
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V7C); Occlude(V3C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
-				}
-
-				//Bottom face
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTranslucent() )
-				{
-					normal = 2;
-
-					V1C = V2C = V5C = V6C = 0.0f;
-
-					if (params.ShowShadows)
-					{
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V1C); }
-						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
-
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
-
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V6C); Occlude(V2C); }
-						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
-					}
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
-
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
-					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
-				}
+				m_rebuildVerticies[m_vertexCount++] = BlockVerticie(GLubyte3(x, y, z), GLubyte3(thisType.Color.x, thisType.Color.y, thisType.Color.z), flags );
 				// =========  END of make block  ========
 			}
 		}
@@ -408,6 +203,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	{
 		m_isRegistered = true;
 		VCGLRenderer::Instance->RegisterIRenderable(this);
+		std::cout << "Registering Chunk IRenderable." << std::endl;
 	}
 
 	// release heap malloc
@@ -437,7 +233,7 @@ void VCChunk::Render()
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 
-	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+	glDrawArrays(GL_POINTS, 0, m_vertexCount);
 
 	glBindVertexArray(0);
 	glErrorCheck();

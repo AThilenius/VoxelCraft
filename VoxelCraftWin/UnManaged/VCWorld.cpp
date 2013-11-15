@@ -20,6 +20,7 @@
 #include "VCMonoRuntime.h"
 #include "Shader.h"
 #include "VCShadowShader.h"
+#include "VCTerrianShader.h"
 #include "VCVoxelShader.h"
 #include "VCCamera.h"
 
@@ -88,7 +89,7 @@ void VCWorld::InitializeEmpty()
 
 		// Stage 2 - Draw
 		RenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		RenderState->Stages[1].Shader = VCGLRenderer::Instance->VoxelShader;
+		RenderState->Stages[1].Shader = VCGLRenderer::Instance->TerrainShader;
 		RenderState->Stages[1].Textures.push_back(VCGLRenderer::Instance->DepthTexture);
 
 		VCGLRenderer::Instance->RegisterState(RenderState);

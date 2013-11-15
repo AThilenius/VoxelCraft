@@ -16,6 +16,7 @@
 #include "VCGuiShader.h"
 #include "VCColorPassThroughShader.h"
 #include "VCVoxelShader.h"
+#include "VCTerrianShader.h"
 
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
@@ -70,6 +71,9 @@ void VCGLRenderer::Initialize()
 
 	ColorPassThroughShader = new VCColorPassThroughShader();
 	ColorPassThroughShader->Initialize();
+
+	TerrainShader = new VCTerrianShader();
+	TerrainShader->Initialize();
 
 	// Default States:
 	VCGLRenderer::PassThroughState = new VCRenderState(1);
