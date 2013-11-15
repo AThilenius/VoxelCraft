@@ -25,4 +25,5 @@ protected:
 
 private:
 	GLint m_unifMVP;
+	GLint m_unifLightDir;
 };

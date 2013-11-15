@@ -170,6 +170,24 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 				// =====   Flags   ======================================================
 				GLushort flags = 0;
 
+				// Upper
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y + 1, m_blockZ + z).IsSolid() ) flags = flags | 1;
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z - 1).IsSolid() ) flags = flags | 2;
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y + 1, m_blockZ + z).IsSolid() ) flags = flags | 4;
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z + 1).IsSolid() ) flags = flags | 8;
+
+				// Middle
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z + 1).IsSolid() ) flags = flags | 16;
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z - 1).IsSolid() ) flags = flags | 32;
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z - 1).IsSolid() ) flags = flags | 64;
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z + 1).IsSolid() ) flags = flags | 128;
+
+				// Lower
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y - 1, m_blockZ + z).IsSolid() ) flags = flags | 256;
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z - 1).IsSolid() ) flags = flags | 512;
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY - y + 1, m_blockZ + z).IsSolid() ) flags = flags | 1024;
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z + 1).IsSolid() ) flags = flags | 2048;
+
 				m_rebuildVerticies[m_vertexCount++] = BlockVerticie(GLubyte3(x, y, z), GLubyte3(thisType.Color.x, thisType.Color.y, thisType.Color.z), flags );
 				// =========  END of make block  ========
 			}
