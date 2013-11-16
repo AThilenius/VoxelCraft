@@ -14,37 +14,11 @@ glm::vec3 VCShadowShader::LightInverseDirection;
 glm::mat4 VCShadowShader::DepthVPMatrix;
 
 
-static std::string g_vcShadVertexShader =
-    "#version 150\n"
-	//"#version 330 core\n"
-
-	"in vec4 vertexPosition_modelspace;"
-	"uniform mat4 depthMVP;"
-
-	"void main()"
-	"{"
-		"gl_Position =  depthMVP * vertexPosition_modelspace;"
-	"}";
-
-static std::string g_vcShadFragmentShader =
-	"#version 150\n"
-	//"#version 330 core\n"
-
-	"out float fragmentdepth;"
-
-	"void main()"
-	"{"
-		"fragmentdepth = gl_FragCoord.z;"
-	"}";
-
-
-VCShadowShader::VCShadowShader(void)
+VCShadowShader::VCShadowShader(void):
+	m_unifMVP(-1)
 {
-	m_vertexShaderLiteral = &g_vcShadVertexShader;
-	m_fragShaderLiteral = &g_vcShadFragmentShader;
-	m_geometryShaderLiteral = NULL;
-
-	m_unifMVP = -1;
+	m_vertexShader = "ShadowZBuffer";
+	m_fragShader = "ShadowZBuffer";
 }
 
 

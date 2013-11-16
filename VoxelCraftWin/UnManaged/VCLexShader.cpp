@@ -11,53 +11,13 @@
 
 #include "VCWindow.h"
 
-static std::string g_vcLexVertexShader =
-    "#version 150\n"
-	//"#version 330 core\n"
-
-	"in vec4 Position;"
-	"in vec2 UV;"
-	"in vec4 Color;"
-
-	"uniform mat4 projMatrix;"
-
-	"out vec2 VaryingUV;"
-	"out vec4 VaryingColor;"
-
-	"void main()"
-	"{"
-		"gl_Position =  projMatrix * Position;"
-		"VaryingUV =  UV;"
-		"VaryingColor =  Color;"
-	"}";
-
-static std::string g_vcLexFragmentShader =
-	"#version 150\n"
-	//"#version 330 core\n"
-
-	"in vec2 VaryingUV;"
-	"in vec4 VaryingColor;"
-
-	"uniform sampler2D glyphs;"
-
-	"out vec4 fragColor;"
-
-	"void main()"
-	"{"
-		"vec4 tcolor = texture2D(glyphs, VaryingUV);"
-		"float alpha = 1.0 - (tcolor.x );"
-		"fragColor.xyz = VaryingColor.xyz;"
-		"fragColor.w = alpha;"
-	"}";
-
 
 VCLexShader::VCLexShader(void):
 	m_unifProjMatrix(-1),
 	m_unifGlyphsTex(-1)
 {
-	m_vertexShaderLiteral = &g_vcLexVertexShader;
-	m_fragShaderLiteral = &g_vcLexFragmentShader;
-	m_geometryShaderLiteral = NULL;
+	m_vertexShader = "Lex";
+	m_fragShader = "Lex";
 }
 
 

@@ -10,43 +10,12 @@
 #include "VCGuiShader.h"
 #include "VCWindow.h"
 
-static std::string g_vcGuiVertexShader =
-	"#version 150\n"
-	//"#version 330 core\n"
-
-	"in vec2 Position;"
-	"in vec4 Color;"
-
-	"uniform mat4 projMatrix;"
-
-	"out vec4 VaryingColor;"
-
-	"void main()"
-	"{"
-		"gl_Position =  projMatrix * vec4(Position.x, Position.y, 0, 1);"
-		"VaryingColor =  Color;"
-	"}";
-
-static std::string g_vcGuiFragmentShader =
-	"#version 150\n"
-	//"#version 330 core\n"
-
-	"in vec4 VaryingColor;"
-
-	"out vec4 fragColor;"
-
-	"void main()"
-	"{"
-	"	fragColor = VaryingColor;"
-	"}";
-
 
 VCGuiShader::VCGuiShader(void):
 	m_unifProjMatrix(-1)
 {
-	m_vertexShaderLiteral = &g_vcGuiVertexShader;
-	m_fragShaderLiteral = &g_vcGuiFragmentShader;
-	m_geometryShaderLiteral = NULL;
+	m_vertexShader = "Gui";
+	m_fragShader = "Gui";
 }
 
 

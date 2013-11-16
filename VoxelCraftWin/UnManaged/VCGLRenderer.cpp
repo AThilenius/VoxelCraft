@@ -15,7 +15,6 @@
 #include "VCLexShader.h"
 #include "VCGuiShader.h"
 #include "VCColorPassThroughShader.h"
-#include "VCVoxelShader.h"
 #include "VCTerrianShader.h"
 
 #include "VCLexicalEngine.h"
@@ -62,9 +61,6 @@ void VCGLRenderer::Initialize()
 
 	TextureShader = new VCTextureShader();
 	TextureShader->Initialize();
-
-	VoxelShader = new VCVoxelShader();
-	VoxelShader->Initialize();
 
 	GuiShader = new VCGuiShader();
 	GuiShader->Initialize();

@@ -9,16 +9,20 @@
 #include "stdafx.h"
 #include "Shader.h"
 
+#define VERT_FILE_EXTENSION ".vert"
+#define GEOM_FILE_EXTENSION ".geom"
+#define FRAG_FILE_EXTENSION ".frag"
+
 Shader* Shader::BoundShader = NULL;
 VCCamera* Shader::BoundCamera = NULL;
 
 
-Shader::Shader()
+Shader::Shader():
+	m_programId(0),
+	m_vertexShader(0),
+	m_geometryShader(0),
+	m_fragShader(0)
 {
-	m_programId = 0;
-	m_vertexShaderLiteral = NULL;
-	m_fragShaderLiteral = NULL;
-	m_geometryShaderLiteral = NULL;
 }
 
 Shader::~Shader()
@@ -33,27 +37,39 @@ Shader::~Shader()
 void Shader::Initialize()
 {
 	
-	GLuint vertShader, geometryShader, fragShader = 0;
+	GLuint vertShader = 0;
+	GLuint geometryShader = 0;
+	GLuint fragShader = 0;
 	
     // Create shader program.
 	GLuint id = glCreateProgram();
 	
 	m_programId = id;
     
-    // Create and compile vertex shader.
-    CompileShader(GL_VERTEX_SHADER, &vertShader, m_vertexShaderLiteral);
-	CompileShader(GL_FRAGMENT_SHADER, &fragShader, m_fragShaderLiteral);
-	
-	if ( m_geometryShaderLiteral != NULL )
-		CompileShader(GL_GEOMETRY_SHADER, &geometryShader, m_geometryShaderLiteral);
-	
-    // Attach vertex shader to program.
-    glAttachShader(m_programId, vertShader);
-    glAttachShader(m_programId, fragShader);
-	
-	if ( m_geometryShaderLiteral != NULL )
+	// =====   Create and compile shaders   ======================================================
+	if (m_vertexShader != NULL)
+	{
+		std::string literal = LoadTextFile(std::string(m_vertexShader) + VERT_FILE_EXTENSION);
+		CompileShader(GL_VERTEX_SHADER, &vertShader, literal);
+
+		glAttachShader(m_programId, vertShader);
+	}
+
+	if (m_geometryShader != NULL)
+	{
+		std::string literal = LoadTextFile(std::string(m_geometryShader) + GEOM_FILE_EXTENSION);
+		CompileShader(GL_GEOMETRY_SHADER, &geometryShader, literal);
+
 		glAttachShader(m_programId, geometryShader);
-    
+	}
+
+	if (m_fragShader != NULL)
+	{
+		std::string literal = LoadTextFile(std::string(m_fragShader) + FRAG_FILE_EXTENSION);
+		CompileShader(GL_FRAGMENT_SHADER, &fragShader, literal);
+
+		glAttachShader(m_programId, fragShader);
+	}
 	
     BindAttribLocations();
 	LinkProgram();
@@ -65,7 +81,7 @@ void Shader::Initialize()
         glDetachShader(m_programId, vertShader);
         glDeleteShader(vertShader);
     }
-	if ( m_geometryShaderLiteral != NULL && geometryShader )
+	if (geometryShader)
 	{
 		glDetachShader(m_programId, geometryShader);
 		glDeleteShader(geometryShader);
@@ -94,13 +110,13 @@ void Shader::Bind(VCCamera* camera)
 	glUseProgram(m_programId);
 }
 
-void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* shaderLiteral)
+void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
 {
 	GLint status;
         
     *ShaderId = glCreateShader(shaderType);
     
-	const char *c_str = shaderLiteral->c_str();
+	const char *c_str = shaderLiteral.c_str();
 	glShaderSource(*ShaderId, 1, &c_str, NULL);
     glCompileShader(*ShaderId);
     
@@ -117,9 +133,18 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* sha
 
 		if (status == 0) 
 		{
-			printf("\n========================  Shader compellation log:  ===========================\n");
-			printf("%s\n\n", log);
+			SetConsoleColor(Red);
+
+			printf("\n========================  Shader Compilation Error:  ============================\n\n");
+			std::istringstream iss(shaderLiteral);
+			std::string str;
+			int line = 1;
+			while(std::getline(iss, str))
+				std::cout << std::setw(5) << std::right << line++ << " " << str << std::endl;
+
+			std::cout << std::endl << log << std::endl;;
 			free(log);
+			VC_ERROR("");
 		}
     }
 
@@ -128,8 +153,7 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* sha
     if (status == 0) 
 	{
         glDeleteShader(*ShaderId);
-        std::cout << "Failed to compile shader." << std::endl;
-		std::cin.ignore();
+		VC_ERROR("Failed to compile shader.");
     }
 
 	glErrorCheck();

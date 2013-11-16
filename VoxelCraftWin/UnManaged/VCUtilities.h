@@ -23,6 +23,7 @@
 
 #define glErrorCheck() _glErrorCheck(_FNAME_, __LINE__);
 void _glErrorCheck(std::string file, int line);
+std::string LoadTextFile (std::string path);
 
 // Math
 unsigned long FastRandom();

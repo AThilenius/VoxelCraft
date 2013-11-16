@@ -8,7 +8,6 @@
 
 #pragma once
 
-class VCVoxelShader;
 class VCShadowShader;
 class VCTextureShader;
 class VCLexShader;
@@ -45,7 +44,6 @@ public:
 	static VCRenderState* PassThroughState;
 
 	// Member
-	VCVoxelShader* VoxelShader;
 	VCShadowShader* ShadowShader;
 	VCTextureShader* TextureShader;
 	VCLexShader* LexShader;

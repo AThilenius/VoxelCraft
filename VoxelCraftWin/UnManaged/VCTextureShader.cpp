@@ -9,38 +9,12 @@
 #include "stdafx.h"
 #include "VCTextureShader.h"
 
-static std::string g_vcShadVertexShader =
-    "#version 150\n"
-	
-	"in vec3 position;"
-	"out vec2 UV;"
-
-	"void main()"
-	"{"
-		"gl_Position =  vec4(position, 1);"
-		"UV = (position.xy + vec2(1, 1)) / 2.0;"
-	"}";
-
-static std::string g_vcShadFragmentShader =
-	"#version 150\n"
-
-	"in vec2 UV;"
-	"out vec4 color;"
-	"uniform sampler2D texture;"
-
-	"void main()"
-	"{"
-		"color = texture2D(texture, UV);"
-	"}";
-
-
 
 VCTextureShader::VCTextureShader(void):
 	m_unifTexture(-1)
 {
-	m_vertexShaderLiteral = &g_vcShadVertexShader;
-	m_fragShaderLiteral = &g_vcShadFragmentShader;
-	m_geometryShaderLiteral = NULL;
+	m_vertexShader = "TexturePassThrough";
+	m_fragShader = "TexturePassThrough";
 }
 
 

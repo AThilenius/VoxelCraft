@@ -37,11 +37,11 @@ protected:
 	virtual void PostInitialize() {};
 
 private:
-	void CompileShader(GLenum shaderType, GLuint* ShaderId, std::string* shaderLiteral);
+	void CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral);
 	void LinkProgram();
 
 protected:
-	std::string *m_vertexShaderLiteral, *m_fragShaderLiteral, *m_geometryShaderLiteral;
+	char *m_vertexShader, *m_fragShader, *m_geometryShader;
 	GLuint m_programId;
 
 	friend bool operator==(const Shader& lhs, const Shader& rhs);

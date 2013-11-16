@@ -65,6 +65,9 @@
     <Filter Include="Voxel\SVO">
       <UniqueIdentifier>{e19d7cb4-7193-4664-909d-772bf9f40364}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Shaders\GLSL">
+      <UniqueIdentifier>{8378b5da-9736-4dfc-97ba-2b03458ee5ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -119,9 +122,6 @@
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="VCVoxelShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VCShadowShader.cpp">
@@ -244,6 +244,9 @@
     <ClCompile Include="VCTerrianShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="VCVoxelShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -298,9 +301,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="VCVoxelShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
@@ -454,10 +454,54 @@
     <ClInclude Include="VCTerrianShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="VCVoxelShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ColorPassThrough.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="ColorPassThrough.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Gui.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Gui.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Lex.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Lex.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="ShadowZBuffer.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="ShadowZBuffer.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Terrain.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Terrain.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="TexturePassThrough.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="TexturePassThrough.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="Terrain.geom">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

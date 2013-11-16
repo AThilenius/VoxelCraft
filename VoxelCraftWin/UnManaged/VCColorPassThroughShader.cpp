@@ -12,40 +12,11 @@
 #include "VCCamera.h"
 
 
-static std::string g_vcPTVertexShader =
-	"#version 150\n"
-
-	"in vec4 Position;"
-	"in vec4 Color;"
-
-	"uniform mat4 MVP;"
-
-	"out vec4 ColorVarying;"
-
-	"void main()"
-	"{"
-		"gl_Position =  MVP * Position;"
-		"ColorVarying = Color;"
-	"}";
-
-static std::string g_vcPTFragmentShader =
-	"#version 150\n"
-
-	"in vec4 ColorVarying;"
-	"out vec4 FragColor;"
-
-	"void main()"
-	"{"
-		"FragColor = ColorVarying;"
-	"}";
-
-
 VCColorPassThroughShader::VCColorPassThroughShader(void) :
 	m_unifMVP(-1)
 {
-	m_vertexShaderLiteral = &g_vcPTVertexShader;
-	m_fragShaderLiteral = &g_vcPTFragmentShader;
-	m_geometryShaderLiteral = NULL;
+	m_vertexShader = "ColorPassThrough";
+	m_fragShader = "ColorPassThrough";
 }
 
 

@@ -41,6 +41,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <iomanip>
 
 // External
 #include "glew.h"

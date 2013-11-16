@@ -154,6 +154,21 @@
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ColorPassThrough.frag" />
+    <None Include="ColorPassThrough.vert" />
+    <None Include="Gui.frag" />
+    <None Include="Gui.vert" />
+    <None Include="Lex.frag" />
+    <None Include="Lex.vert" />
+    <None Include="ShadowZBuffer.frag" />
+    <None Include="ShadowZBuffer.vert" />
+    <None Include="Terrain.frag" />
+    <None Include="Terrain.geom" />
+    <None Include="Terrain.vert" />
+    <None Include="TexturePassThrough.frag" />
+    <None Include="TexturePassThrough.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85B49496-34A9-40F6-B52F-3663124FEC94}</ProjectGuid>
     <RootNamespace>VoxelCraft</RootNamespace>

@@ -80,6 +80,29 @@ unsigned long FastRandom()
 	return z;
 }
 
+std::string LoadTextFile (std::string path)
+{
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		VC_ERROR("Failed to open file: " << path);
+	}
+
+	std::string ss;
+
+	while (file.good())
+	{
+		char c = file.get();
+		if (file.good())
+			ss += c;
+	}
+
+	file.close();
+
+	return ss;
+}
+
+
 // ================= OS X Macros ==========================================================================
 #ifdef __APPLE__
 
