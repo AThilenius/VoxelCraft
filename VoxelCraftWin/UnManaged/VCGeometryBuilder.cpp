@@ -10,7 +10,7 @@
 #include "VCGeometryBuilder.h"
 
 #include "VCGLRenderer.h"
-#include "Shader.h"
+#include "VCShader.h"
 #include "VCGuiShader.h"
 
 

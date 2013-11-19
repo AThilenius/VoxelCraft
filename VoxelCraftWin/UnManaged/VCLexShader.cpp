@@ -28,7 +28,7 @@ VCLexShader::~VCLexShader(void)
 void VCLexShader::Bind(VCCamera* camera)
 {
 	// Takes a null camera
-	Shader::Bind(camera);
+	VCShader::Bind(camera);
 
 	// Set Projection Matrix and Tex unit
 	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);

@@ -12,17 +12,17 @@ class VCCamera;
 
 // Matrix Multiple Order: Projection * View * Model
 
-class Shader
+class VCShader
 {
 public:
-	Shader();
-	~Shader();
+	VCShader();
+	~VCShader();
 	void Initialize();
 	virtual void Bind(VCCamera* camera);
 
 	virtual void SetModelMatrix(glm::mat4 modelMatrix){}
 
-	static Shader* BoundShader;
+	static VCShader* BoundShader;
 	static VCCamera* BoundCamera;
 
 protected:
@@ -44,14 +44,14 @@ protected:
 	char *m_vertexShader, *m_fragShader, *m_geometryShader;
 	GLuint m_programId;
 
-	friend bool operator==(const Shader& lhs, const Shader& rhs);
-	friend bool operator< (const Shader& lhs, const Shader& rhs);
+	friend bool operator==(const VCShader& lhs, const VCShader& rhs);
+	friend bool operator< (const VCShader& lhs, const VCShader& rhs);
 };
 
-bool operator==(const Shader& lhs, const Shader& rhs);
-bool operator< (const Shader& lhs, const Shader& rhs);
-bool operator!=(const Shader& lhs, const Shader& rhs);
-bool operator> (const Shader& lhs, const Shader& rhs);
-bool operator<=(const Shader& lhs, const Shader& rhs);
-bool operator>=(const Shader& lhs, const Shader& rhs);
+bool operator==(const VCShader& lhs, const VCShader& rhs);
+bool operator< (const VCShader& lhs, const VCShader& rhs);
+bool operator!=(const VCShader& lhs, const VCShader& rhs);
+bool operator> (const VCShader& lhs, const VCShader& rhs);
+bool operator<=(const VCShader& lhs, const VCShader& rhs);
+bool operator>=(const VCShader& lhs, const VCShader& rhs);
 

@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Shader.h"
+#include "VCShader.h"
 
-class VCTerrianShader : public Shader
+class VCTerrianShader : public VCShader
 {
 public:
 	VCTerrianShader();

@@ -7,7 +7,6 @@
 //
 
 #include "stdafx.h"
-#include "Shader.h"
 #include "VCRenderStage.h"
 #include "VCTexture.h"
 #include "VCWindow.h"
@@ -23,6 +22,26 @@ VCRenderStage::VCRenderStage(void):
 VCRenderStage::~VCRenderStage(void)
 {
 }
+
+//VCRenderStagePtr VCRenderStage::Create( Shader* shader )
+//{
+//	return Create ( shader, std::vector<VCTexturePtr>(), 0, true, true );
+//}
+//
+//VCRenderStagePtr VCRenderStage::Create( Shader* shader, std::vector<VCTexturePtr> textures )
+//{
+//	return Create ( shader, textures, 0, true, true );
+//}
+//
+//VCRenderStagePtr VCRenderStage::Create( Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer )
+//{
+//	return Create ( shader, textures, frameBuffer, true, true );
+//}
+//
+//VCRenderStagePtr VCRenderStage::Create( Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer, bool blend, bool depthTest )
+//{
+//	
+//}
 
 bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs)
 {

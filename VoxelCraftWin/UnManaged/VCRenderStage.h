@@ -8,22 +8,32 @@
 
 #pragma once
 
-class Shader;
+class VCRenderStage;
 
-#include <vector>
+#include "VCShader.h"
+
+typedef std::shared_ptr<VCRenderStage> VCRenderStagePtr;
 
 class VCRenderStage
 {
 public:
-	VCRenderStage(void);
 	~VCRenderStage(void);
+	//VCRenderStagePtr Create (Shader* shader); 
+	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures);
+	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer);
+	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer, bool blend, bool depthTest);
+
+//private:
+	VCRenderStage(void);
 
 public:
+	UInt64 ID;
 	GLuint FrameBuffer;
-	Shader* Shader;
+	VCShader* Shader;
 	std::vector<VCTexturePtr> Textures;
 	bool Blend;
 	bool DepthTest;
+
 };
 
 bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs);

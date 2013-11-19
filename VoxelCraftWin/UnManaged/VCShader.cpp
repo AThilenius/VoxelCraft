@@ -7,17 +7,17 @@
 //
 
 #include "stdafx.h"
-#include "Shader.h"
+#include "VCShader.h"
 
 #define VERT_FILE_EXTENSION ".vert"
 #define GEOM_FILE_EXTENSION ".geom"
 #define FRAG_FILE_EXTENSION ".frag"
 
-Shader* Shader::BoundShader = NULL;
-VCCamera* Shader::BoundCamera = NULL;
+VCShader* VCShader::BoundShader = NULL;
+VCCamera* VCShader::BoundCamera = NULL;
 
 
-Shader::Shader():
+VCShader::VCShader():
 	m_programId(0),
 	m_vertexShader(0),
 	m_geometryShader(0),
@@ -25,7 +25,7 @@ Shader::Shader():
 {
 }
 
-Shader::~Shader()
+VCShader::~VCShader()
 {
 	if ( m_programId != 0 )
 	{
@@ -34,7 +34,7 @@ Shader::~Shader()
 	}
 }
 
-void Shader::Initialize()
+void VCShader::Initialize()
 {
 	
 	GLuint vertShader = 0;
@@ -99,18 +99,18 @@ void Shader::Initialize()
 	glErrorCheck(); 
 }
 
-void Shader::Bind(VCCamera* camera)
+void VCShader::Bind(VCCamera* camera)
 {
-	Shader::BoundCamera = camera;
+	VCShader::BoundCamera = camera;
 
-	if (Shader::BoundShader == this)
+	if (VCShader::BoundShader == this)
 		return;
 
-	Shader::BoundShader = this;
+	VCShader::BoundShader = this;
 	glUseProgram(m_programId);
 }
 
-void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
+void VCShader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
 {
 	GLint status;
         
@@ -159,7 +159,7 @@ void Shader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shad
 	glErrorCheck();
 }
 
-void Shader::LinkProgram()
+void VCShader::LinkProgram()
 {
 	GLint status;
     glLinkProgram(m_programId);
@@ -188,32 +188,32 @@ void Shader::LinkProgram()
 	glErrorCheck();
 }
 
-bool operator==( const Shader& lhs, const Shader& rhs )
+bool operator==( const VCShader& lhs, const VCShader& rhs )
 {
 	return lhs.m_programId == rhs.m_programId;
 }
 
-bool operator<( const Shader& lhs, const Shader& rhs )
+bool operator<( const VCShader& lhs, const VCShader& rhs )
 {
 	return lhs.m_programId < rhs.m_programId;
 }
 
-bool operator!=( const Shader& lhs, const Shader& rhs )
+bool operator!=( const VCShader& lhs, const VCShader& rhs )
 {
 	return !operator==(lhs,rhs);
 }
 
-bool operator>( const Shader& lhs, const Shader& rhs )
+bool operator>( const VCShader& lhs, const VCShader& rhs )
 {
 	return  operator< (rhs,lhs);
 }
 
-bool operator<=( const Shader& lhs, const Shader& rhs )
+bool operator<=( const VCShader& lhs, const VCShader& rhs )
 {
 	return !operator> (lhs,rhs);
 }
 
-bool operator>=( const Shader& lhs, const Shader& rhs )
+bool operator>=( const VCShader& lhs, const VCShader& rhs )
 {
 	return !operator< (lhs,rhs);
 }

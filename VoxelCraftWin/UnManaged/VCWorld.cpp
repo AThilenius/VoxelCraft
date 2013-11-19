@@ -18,7 +18,7 @@
 #include "VCPhysics.h"
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
-#include "Shader.h"
+#include "VCShader.h"
 #include "VCShadowShader.h"
 #include "VCTerrianShader.h"
 #include "VCVoxelShader.h"

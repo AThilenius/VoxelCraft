@@ -26,7 +26,7 @@ VCGuiShader::~VCGuiShader(void)
 void VCGuiShader::Bind(VCCamera* camera)
 {
 	// Takes a null camera
-	Shader::Bind(camera);
+	VCShader::Bind(camera);
 
 	// Set Projection Matrix
 	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);

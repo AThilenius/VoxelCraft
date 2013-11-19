@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Shader.h"
+#include "VCShader.h"
 
-class VCColorPassThroughShader : public Shader
+class VCColorPassThroughShader : public VCShader
 {
 public:
 	VCColorPassThroughShader(void);

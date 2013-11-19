@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "shader.h"
+#include "VCShader.h"
 
-class VCTextureShader : public Shader
+class VCTextureShader : public VCShader
 {
 public:
 	VCTextureShader(void);

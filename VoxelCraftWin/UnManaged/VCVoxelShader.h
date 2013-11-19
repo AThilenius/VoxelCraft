@@ -8,7 +8,7 @@
 //
 //#pragma once
 //
-//#include "Shader.h"
+//#include "VCShader.h"
 //#include "VCSceneGraph.h"
 //
 //class VCVoxelShader : public Shader

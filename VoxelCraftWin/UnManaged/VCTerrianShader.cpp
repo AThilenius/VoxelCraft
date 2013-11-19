@@ -29,12 +29,12 @@ VCTerrianShader::~VCTerrianShader(void)
 void VCTerrianShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
 	// MVP
-	glm::mat4 MVP = Shader::BoundCamera->ProjectionViewMatrix * modelMatrix;
+	glm::mat4 MVP = VCShader::BoundCamera->ProjectionViewMatrix * modelMatrix;
 	glUniformMatrix4fv(m_unifMVP, 1, GL_FALSE, &MVP[0][0]);
 
 	// Light Dir
 	glm::vec4 lightInvDirWorld(VCShadowShader::LightInverseDirection.x, VCShadowShader::LightInverseDirection.y, VCShadowShader::LightInverseDirection.z, 1);
-	glm::vec4 lightDirCameraSpace = Shader::BoundCamera->ViewMatrix * lightInvDirWorld;
+	glm::vec4 lightDirCameraSpace = VCShader::BoundCamera->ViewMatrix * lightInvDirWorld;
 
 	//"LightDirection_cameraspace = ( ViewMatrix * vec4( LightInvDirection_worldspace, 0 ) ).xyz;"
 

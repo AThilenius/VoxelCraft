@@ -121,9 +121,6 @@
     <ClCompile Include="VCInput.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="VCShadowShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
@@ -247,6 +244,9 @@
     <ClCompile Include="VCVoxelShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="VCShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -299,9 +299,6 @@
     </ClInclude>
     <ClInclude Include="VCInput.h">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="VCTextureShader.h">
@@ -455,6 +452,9 @@
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VCVoxelShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
