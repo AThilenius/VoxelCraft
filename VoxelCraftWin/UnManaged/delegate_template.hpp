@@ -16,31 +16,16 @@
 
 namespace srutil
 {
-#ifdef SRUTIL_DELEGATE_PREFERRED_SYNTAX
 #define SRUTIL_DELEGATE_CLASS_NAME delegate
 #define SRUTIL_DELEGATE_INVOKER_CLASS_NAME delegate_invoker
-#else
-#define SRUTIL_DELEGATE_CLASS_NAME SRUTIL_DELEGATE_JOIN_MACRO(delegate,SRUTIL_DELEGATE_PARAM_COUNT)
-#define SRUTIL_DELEGATE_INVOKER_CLASS_NAME SRUTIL_DELEGATE_JOIN_MACRO(delegate_invoker,SRUTIL_DELEGATE_PARAM_COUNT)
-	template <typename R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_PARAMS>
-	class SRUTIL_DELEGATE_INVOKER_CLASS_NAME;
-#endif
 
 	template <typename R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_PARAMS>
-#ifdef SRUTIL_DELEGATE_PREFERRED_SYNTAX
 	class SRUTIL_DELEGATE_CLASS_NAME<R (SRUTIL_DELEGATE_TEMPLATE_ARGS)>
-#else
-	class SRUTIL_DELEGATE_CLASS_NAME
-#endif
 	{
 	public:
 		typedef R return_type;
-#ifdef SRUTIL_DELEGATE_PREFERRED_SYNTAX
 		typedef return_type (SRUTIL_DELEGATE_CALLTYPE *signature_type)(SRUTIL_DELEGATE_TEMPLATE_ARGS);
 		typedef SRUTIL_DELEGATE_INVOKER_CLASS_NAME<signature_type> invoker_type;
-#else
-		typedef SRUTIL_DELEGATE_INVOKER_CLASS_NAME<R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_ARGS> invoker_type;
-#endif
 
 		SRUTIL_DELEGATE_CLASS_NAME()
 			: object_ptr(0)
@@ -80,12 +65,12 @@ namespace srutil
 			return !(operator bool());
 		}
 
-	private:
-		
 		typedef return_type (SRUTIL_DELEGATE_CALLTYPE *stub_type)(void* object_ptr SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_PARAMS);
-
 		void* object_ptr;
 		stub_type stub_ptr;
+
+	private:
+		
 
 		static SRUTIL_DELEGATE_CLASS_NAME from_stub(void* object_ptr, stub_type stub_ptr)
 		{
@@ -117,11 +102,19 @@ namespace srutil
 	};
 
 	template <typename R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_PARAMS>
-#ifdef SRUTIL_DELEGATE_PREFERRED_SYNTAX
+	bool operator==(const SRUTIL_DELEGATE_CLASS_NAME<R>& one, const SRUTIL_DELEGATE_CLASS_NAME<R>& other)
+	{
+		return one.object_ptr == other.object_ptr;
+	}
+
+	template <typename R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_PARAMS>
+	bool operator<(const SRUTIL_DELEGATE_CLASS_NAME<R>& one, const SRUTIL_DELEGATE_CLASS_NAME<R>& other)
+	{
+		return one.object_ptr < other.object_ptr;
+	}
+
+	template <typename R SRUTIL_DELEGATE_SEPARATOR SRUTIL_DELEGATE_TEMPLATE_PARAMS>
 	class SRUTIL_DELEGATE_INVOKER_CLASS_NAME<R (SRUTIL_DELEGATE_TEMPLATE_ARGS)>
-#else
-	class SRUTIL_DELEGATE_INVOKER_CLASS_NAME
-#endif
 	{
 		SRUTIL_DELEGATE_INVOKER_DATA
 

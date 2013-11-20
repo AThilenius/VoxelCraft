@@ -12,6 +12,7 @@
 #include "VCGLRenderer.h"
 #include "VCShader.h"
 #include "VCGuiShader.h"
+#include "VCRenderStage.h"
 
 
 GuiRectVerticie::GuiRectVerticie()
@@ -134,13 +135,12 @@ void VCGeometryBuilder::Reset()
 
 void VCGeometryBuilder::Initialize()
 {
-	// Create a render state for text rendering
-	RenderState = new VCRenderState(1);
-	RenderState->BatchingOrder = VC_BATCH_GUI_BASE;
-	RenderState->Stages[0].Shader = VCGLRenderer::Instance->GuiShader;
-	RenderState->Stages[0].DepthTest = false;
-	VCGLRenderer::Instance->RegisterState(RenderState);
-	VCGLRenderer::Instance->RegisterIRenderable(this);
+	// Create a render stage for text rendering
+	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
+	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
+	m_renderStage->Shader = VCGLRenderer::Instance->GuiShader;
+	m_renderStage->DepthTest = false;
+	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
@@ -160,11 +160,6 @@ void VCGeometryBuilder::Initialize()
 	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
 
 	glBindVertexArray(0);
-}
-
-VCRenderState* VCGeometryBuilder::GetState()
-{
-	return RenderState;
 }
 
 void VCGeometryBuilder::Render()

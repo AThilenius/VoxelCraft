@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCGLRenderer.h"
 
-#include "VCIRenderable.h"
 #include "VCShadowShader.h"
 #include "VCTextureShader.h"
 #include "VCLexShader.h"
@@ -22,11 +21,16 @@
 #include "VCSceneGraph.h"
 #include "VCMonoRuntime.h"
 #include "VCTexture.h"
-#include "VCRenderState.h"
 #include "VCCamera.h"
+#include "VCRenderStage.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
-VCRenderState* VCGLRenderer::PassThroughState;
+
+// _VCRenderStageCompare::Operator() Struct
+bool _VCRenderStageCompare::operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const
+{
+	return (*lhs) < (*rhs);
+}
 
 VCGLRenderer::VCGLRenderer(void):
 	DepthFrameBuffer(0),
@@ -71,21 +75,12 @@ void VCGLRenderer::Initialize()
 	TerrainShader = new VCTerrianShader();
 	TerrainShader->Initialize();
 
-	// Default States:
-	VCGLRenderer::PassThroughState = new VCRenderState(1);
-	VCGLRenderer::PassThroughState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-	VCGLRenderer::PassThroughState->Stages[0].Shader = VCGLRenderer::Instance->ColorPassThroughShader;
-	RegisterState(VCGLRenderer::PassThroughState);
-
     glErrorCheck();
     std::cout << "VCGLRenderer Initialized" << std::endl;
 }
 
 void VCGLRenderer::Render(int fromBatch, int toBatch)
 {
-	static int lastFrameBuffer = 0;
-	static VCRectangle lastViewport;
-
 	glBindFramebuffer(GL_FRAMEBUFFER, DepthFrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -96,70 +91,17 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 	VCSceneGraph::Instance->PrepareSceneGraph();
 
 	// For each RenderState
-	for ( auto mapIter = m_renderMap.begin(); mapIter != m_renderMap.end(); mapIter++ )
+	static VCRenderStage* lastBoundStage = NULL;
+	for ( auto setIter = m_renderSet.begin(); setIter != m_renderSet.end(); setIter++ )
 	{
-		VCRenderState* state = mapIter->first;
+		VCRenderStage* stage = *setIter;
 
-		if (state->BatchingOrder < fromBatch || state->BatchingOrder > toBatch)
+		if (stage->ExectionType == VCRenderStage::ExecutionTypes::Never || stage->BatchOrder < fromBatch || stage->BatchOrder > toBatch)
 			continue;
 
-		// For each stage in the rState
-		for ( int stageId = 0; stageId < state->StageCount; stageId++ )
-		{
-
-			// Set Framebuffer
-			GLuint frameBuffer = state->Stages[stageId].FrameBuffer;
-			if (lastFrameBuffer != frameBuffer)
-			{
-				lastFrameBuffer = frameBuffer;
-				glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-			}
-
-			// Set Viewport
-			if (state->Camera == NULL && lastViewport != VCWindow::Instance->FullViewport)
-			{
-				// Default full screen
-				lastViewport = VCWindow::Instance->FullViewport;
-				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
-			}
-
-			else if (state->Camera->Viewport != lastViewport)
-			{
-				// Use Camera's Viewport
-				lastViewport = state->Camera->Viewport;
-				glViewport(lastViewport.X, lastViewport.Y, lastViewport.Width, lastViewport.Height);
-			}
-
-			// Set Shader ( will auto re-assign test )
-			state->Stages[stageId].Shader->Bind(state->Camera);
-
-			// Bind Textures
-			for ( int texId = 0; texId < state->Stages[stageId].Textures.size(); texId++ )
-			{
-				if (state->Stages[stageId].Textures[texId] != 0)
-					state->Stages[stageId].Textures[texId]->Bind(texId);
-			}
-
-			// Bind DepthTest
-			if (state->Stages[stageId].DepthTest)
-				glEnable(GL_DEPTH_TEST);
-			else
-				glDisable(GL_DEPTH_TEST);
-
-			// Bind Blend
-			if (state->Stages[stageId].Blend)
-				glEnable(GL_BLEND);
-			else
-				glDisable(GL_BLEND);
-
-			// Render everything using this state
-			for ( auto iRendIter = mapIter->second.begin(); iRendIter != mapIter->second.end(); iRendIter++ )
-				(*iRendIter)->Render();
-
-		}
-
+		VCRenderStage::TransitionAndExecute(lastBoundStage, stage);
+		lastBoundStage = stage;
 	}
-
 }
 
 void VCGLRenderer::SetModelMatrix(glm::mat4 matrix)
@@ -167,61 +109,32 @@ void VCGLRenderer::SetModelMatrix(glm::mat4 matrix)
 	VCShader::BoundShader->SetModelMatrix(matrix);
 }
 
-void VCGLRenderer::RegisterState( VCRenderState* state )
+void VCGLRenderer::RegisterStage( VCRenderStage* stage )
 {
+	stage->BuildKey();
+
 #ifdef DEBUG
-	if (m_renderMap.find(state) != m_renderMap.end())
+	if (m_renderSet.find(stage) != m_renderSet.end())
 	{
-		VC_ERROR("Cannot add duplicate render state!");
+		VC_ERROR("Cannot add duplicate render stage!");
 	}
 
-	std::cout << "VCGLRenderer::RegisterState - " << m_renderMap.size() + 1 << std::endl;
+	std::cout << "VCGLRenderer::RegisterStage - " << m_renderSet.size() + 1 << std::endl;
 #endif
 
-	m_renderMap.insert(RenderMap::value_type(state, RenderSet()));
+	m_renderSet.insert(stage);
 }
 
-void VCGLRenderer::UnRegisterState( VCRenderState* state )
+void VCGLRenderer::UnRegisterStage( VCRenderStage* stage )
 {
-	auto iter = m_renderMap.find(state);
+	auto iter = m_renderSet.find(stage);
 
-	if (iter == m_renderMap.end())
+	if (iter == m_renderSet.end())
 	{
 		VC_ERROR("Cannot remove RenderState because it is not registered.");
 	}
 
-	m_renderMap.erase(iter);
-}
-
-void VCGLRenderer::RegisterIRenderable( VCIRenderable* renderable )
-{
-	auto iter = m_renderMap.find(renderable->GetState());
-
-	if (iter == m_renderMap.end())
-	{
-		VC_ERROR("UnRegistered state");
-	}
-
-	iter->second.insert(RenderSet::value_type(renderable));
-}
-
-void VCGLRenderer::UnRegisterIRenderable( VCIRenderable* renderable )
-{
-	auto iter = m_renderMap.find(renderable->GetState());
-
-	if (iter == m_renderMap.end())
-	{
-		VC_ERROR("Cannot remove IRenderable from RenderState because the state it is not registered.");
-	}
-
-	auto setIter = iter->second.find(renderable);
-
-	if (setIter == iter->second.end())
-	{
-		VC_ERROR("Cannot remove IRenderable because it is not registered with the state.");
-	}
-
-	iter->second.erase(setIter);
+	m_renderSet.erase(iter);
 }
 
 void VCGLRenderer::CreateDepthFrameBuffer()
@@ -251,7 +164,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Always check that our framebuffer is ok
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		std::cout << "Failed to initialize GL Depth frame buffer! Using fallback." << std::endl;
+		std::cout << "Failed to initialize GL Depth frame buffer! Using fall-back." << std::endl;
 		ShadowFallback = true;
 	}
 

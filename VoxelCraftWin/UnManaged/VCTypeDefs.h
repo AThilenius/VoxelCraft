@@ -19,3 +19,5 @@ typedef uint64_t UInt64;
 
 class VCTexture;
 typedef std::shared_ptr<VCTexture> VCTexturePtr;
+
+typedef srutil::delegate<void (void)> VCVoidDelegate;

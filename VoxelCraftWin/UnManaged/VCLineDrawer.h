@@ -8,7 +8,8 @@
 
 #pragma once
 
-#include "VCIRenderable.h"
+class VCRenderStage;
+
 #include "VCGLRenderer.h"
 
 #define MAX_LINE_COUNT 1000000
@@ -22,7 +23,7 @@ struct LineVerticie
 	GLubyte4 Color;
 };
 
-class VCLineDrawer : VCIRenderable
+class VCLineDrawer
 {
 public:
 	VCLineDrawer(void);
@@ -33,11 +34,11 @@ public:
 	void DrawLine (glm::vec3 from, glm::vec3 to, GLubyte4 color);
 	void DrawCube (glm::vec3 corner, glm::vec3 scale, GLubyte4 color);
 
-	virtual VCRenderState* GetState();
-	virtual void Render();
-
+private:
+	void Render();
 
 private:
+	VCRenderStage* m_renderStage;
 	bool m_warningIssued;
 	int m_lineVertCount;
 	GLuint m_VAO;

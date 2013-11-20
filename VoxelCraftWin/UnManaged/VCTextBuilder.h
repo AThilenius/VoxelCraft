@@ -11,7 +11,6 @@
 class VCTextBuffer;
 
 #include <vector>
-#include "VCIRenderable.h"
 
 class VCTextBuilder
 {

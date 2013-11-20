@@ -8,16 +8,15 @@
 
 #pragma once
 
-class VCRenderState;
+class VCRenderStage;
 class VCFont;
 
-#include "VCIRenderable.h"
 #include "VCFont.h"
 
 // 1.00 MB
 #define VC_TEXT_BUFFER_MAX_VERT_SIZE 50000
 
-class VCTextBuffer : VCIRenderable
+class VCTextBuffer
 {
 public:
 	VCTextBuffer(VCFont* font);
@@ -27,13 +26,12 @@ public:
 
 	void DrawText( std::string text, VCPoint llPoint, GLubyte4 color );
 
-	virtual VCRenderState* GetState();
-	virtual void Render();
-
 public:
+	void Render();
 	VCFont* Font;
 
 private:
+	VCRenderStage* m_renderStage;
 	GLuint m_VAO;
 	GLuint m_VBO;
 	GlyphVerticie m_verts[VC_TEXT_BUFFER_MAX_VERT_SIZE];

@@ -61,7 +61,6 @@ public:
 	bool RaycastWorld(Ray ray, RaycastHit* hit);
 
 public:
-	VCRenderState* RenderState;
 	VCCamera* Camera;
 	int ChunkZeroX, ChunkZeroY, ChunkZeroZ;
 	VCIChunkGenerator* ChunkGenerator;

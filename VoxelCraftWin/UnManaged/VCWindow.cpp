@@ -32,17 +32,6 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 }
 
 
-VCWindowResizeArgs::VCWindowResizeArgs( VCRectangle from, VCRectangle to )
-{
-
-}
-
-VCWindowResizeArgs::~VCWindowResizeArgs()
-{
-
-}
-
-
 VCWindow::VCWindow()
 {
 	VCWindow::Instance = this;

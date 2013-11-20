@@ -24,8 +24,6 @@
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VCCollection.cpp" />
-    <ClCompile Include="VCEvent.cpp" />
-    <ClCompile Include="VCEventArgs.cpp" />
     <ClCompile Include="VCGeometryBuilder.cpp" />
     <ClCompile Include="VCGeometryTypes.cpp" />
     <ClCompile Include="VCGLFloatX.cpp" />
@@ -83,13 +81,8 @@
     <ClInclude Include="delegate.hpp" />
     <ClInclude Include="delegate_list.hpp" />
     <ClInclude Include="delegate_template.hpp" />
-    <ClInclude Include="event.hpp" />
-    <ClInclude Include="FastDelegate.h" />
-    <ClInclude Include="FastDelegateBind.h" />
     <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
-    <ClInclude Include="VCEvent.h" />
-    <ClInclude Include="VCEventArgs.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />
@@ -128,7 +121,6 @@
     <ClInclude Include="VCGuiShader.h" />
     <ClInclude Include="VCIChunkGenerator.h" />
     <ClInclude Include="VCInput.h" />
-    <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLexicalEngine.h" />
     <ClInclude Include="VCLexShader.h" />
     <ClInclude Include="VCMarshalableObject.h" />

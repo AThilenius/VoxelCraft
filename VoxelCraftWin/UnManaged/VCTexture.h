@@ -56,4 +56,5 @@ private:
 	static VCTexturePtr m_boundTexture;
 	GLuint m_glTextID;
 
+	friend class VCRenderStage;
 };

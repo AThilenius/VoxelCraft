@@ -8,8 +8,6 @@
 
 #pragma once
 
-class VCRenderState;
-
 #include <string>
 
 struct GlyphVerticie
@@ -85,7 +83,6 @@ public:
 
 	void Initialize();
 
-	VCRenderState* RenderState;
 	std::string Name;
 	int FontID;
 	int Size;
@@ -110,6 +107,6 @@ private:
 	std::string m_fontName;
 
 	friend class VCLexicalEngine;
-
+	friend class VCTextBuffer;
 };
 

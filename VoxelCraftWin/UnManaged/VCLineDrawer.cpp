@@ -9,13 +9,17 @@
 #include "stdafx.h"
 #include "VCLineDrawer.h"
 #include "VCMonoRuntime.h"
+#include "VCRenderStage.h"
+#include "VCShader.h"
+#include "VCColorPassThroughShader.h"
 
 
 VCLineDrawer::VCLineDrawer(void):
 	m_warningIssued(false),
 	m_lineVertCount(0),
 	m_VAO(0),
-	m_VBO(0)
+	m_VBO(0),
+	m_renderStage(NULL)
 {
 }
 
@@ -26,7 +30,12 @@ VCLineDrawer::~VCLineDrawer(void)
 
 void VCLineDrawer::Initialize()
 {
-	VCGLRenderer::Instance->RegisterIRenderable(this);
+	// Create Render Stage
+	//m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCLineDrawer, &VCLineDrawer::Render>(this));
+	//m_renderStage->BatchOrder = VC_BATCH_GUI;
+	//m_renderStage->Shader = VCGLRenderer::Instance->ColorPassThroughShader;
+	//m_renderStage->DepthTest = false;
+	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
@@ -92,11 +101,6 @@ void VCLineDrawer::DrawCube( glm::vec3 corner, glm::vec3 scale, GLubyte4 color )
 	DrawLine(V2, V6, color);
 	DrawLine(V3, V7, color);
 	DrawLine(V4, V8, color);
-}
-
-VCRenderState* VCLineDrawer::GetState()
-{
-	return VCGLRenderer::Instance->PassThroughState;
 }
 
 void VCLineDrawer::Render()

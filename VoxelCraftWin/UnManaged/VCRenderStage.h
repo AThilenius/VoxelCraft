@@ -6,34 +6,52 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+// Key Bit-Layout:
+// 0      -4-      4      -4-      8      -4-      12       -8-       20             -16-            36  -1-  37  -1-  38              -26-              64
+// |===============|===============|===============|==================|==============================|========|========|=================================|
+// | BatchingOrder |  StageOrder   |      FBO      |      Shader      |            Texture           | Blend  | DepthT |          Not Yet Used           |
+// |===============|===============|===============|==================|==============================|========|========|=================================|
+
 #pragma once
+
+#define VC_BATH_DEFAULT 2
+#define VC_BATCH_SCENE 2
+#define VC_BATCH_GUI_BASE 3
+#define VC_BATCH_GUI 5
+#define VC_BATCH_MIN 1
+#define VC_BATCH_MAX 16
 
 class VCRenderStage;
 
 #include "VCShader.h"
 
-typedef std::shared_ptr<VCRenderStage> VCRenderStagePtr;
-
 class VCRenderStage
 {
 public:
+	VCRenderStage(VCVoidDelegate function);
 	~VCRenderStage(void);
-	//VCRenderStagePtr Create (Shader* shader); 
-	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures);
-	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer);
-	//VCRenderStagePtr Create (Shader* shader, std::vector<VCTexturePtr> textures, GLuint frameBuffer, bool blend, bool depthTest);
+	void BuildKey();
 
-//private:
-	VCRenderStage(void);
+	// Sets all delta-states and executes the bound function.
+	static void TransitionAndExecute(VCRenderStage* fromState, VCRenderStage* toState);
 
 public:
-	UInt64 ID;
+	UInt64 Key;
+
+	// Compared in descending sort order:
+	int BatchOrder;
+	int StageOrder;
 	GLuint FrameBuffer;
 	VCShader* Shader;
-	std::vector<VCTexturePtr> Textures;
+	VCTexturePtr Texture;
 	bool Blend;
 	bool DepthTest;
+	VCVoidDelegate ExecutionFunction;
 
+	// Not Compared
+	enum ExecutionTypes { Always, Once, Never };
+	ExecutionTypes ExectionType;
+	VCCamera* Camera;
 };
 
 bool operator==(const VCRenderStage& lhs, const VCRenderStage& rhs);
@@ -42,8 +60,3 @@ bool operator!=(const VCRenderStage& lhs, const VCRenderStage& rhs);
 bool operator> (const VCRenderStage& lhs, const VCRenderStage& rhs);
 bool operator<=(const VCRenderStage& lhs, const VCRenderStage& rhs);
 bool operator>=(const VCRenderStage& lhs, const VCRenderStage& rhs);
-
-struct _VCRenderStageCompare 
-{
-	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const;
-};

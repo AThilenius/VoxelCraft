@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include "VCIRenderable.h"
-
 // 1.00 MB
 #define VC_GEOMETRY_MAX_VERT_SIZE 256000
 #define VC_GEOMETRY_RESOLUTION 36
+
+class VCRenderStage;
 
 struct GuiRectVerticie
 {
@@ -24,7 +24,7 @@ struct GuiRectVerticie
 	GLubyte4 Color;
 };
 
-class VCGeometryBuilder : public VCIRenderable
+class VCGeometryBuilder
 {
 public:
 	VCGeometryBuilder(void);
@@ -37,12 +37,11 @@ public:
 	void Reset();
 	void Initialize();
 
-	virtual VCRenderState* GetState();
-	virtual void Render();
-
+private:
+	void Render();
 
 private:
-	VCRenderState* RenderState;
+	VCRenderStage* m_renderStage;
 
 	GLuint m_VAO;
 	GLuint m_VBO;

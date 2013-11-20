@@ -13,6 +13,9 @@
 #include "VCGLRenderer.h"
 #include "VCTime.h"
 #include "VCCamera.h"
+#include "VCRenderStage.h"
+#include "VCShader.h"
+#include "VCTerrianShader.h"
 
 struct BlockVerticie
 {
@@ -49,7 +52,6 @@ VCChunk::VCChunk():
 	m_VAO(0),
 	m_rebuildVerticies(NULL),
 	m_isEmpty(true),
-	m_isRegistered(false),
 	NeedsRebuild(true)
 {
 
@@ -68,18 +70,13 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 	m_VAO(0),
 	m_rebuildVerticies(NULL),
 	m_isEmpty(true),
-	m_isRegistered(false),
 	NeedsRebuild(true)
 {
 }
 
 VCChunk::~VCChunk(void)
 {
-	if(m_isRegistered)
-	{
-		m_isRegistered = false;
-		VCGLRenderer::Instance->UnRegisterIRenderable(this);
-	}
+	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	if (m_VAO != 0)
 	{
@@ -91,6 +88,12 @@ VCChunk::~VCChunk(void)
 
 void VCChunk::Initialize()
 {
+	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
+	m_renderStage->Camera = m_world->Camera;
+	m_renderStage->Shader = VCGLRenderer::Instance->TerrainShader;
+	m_renderStage->ExectionType = VCRenderStage::Never;
+	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
@@ -204,11 +207,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	m_isEmpty = m_vertexCount == 0;
 	if (m_isEmpty)
 	{
-		if(m_isRegistered)
-		{
-			m_isRegistered = false;
-			VCGLRenderer::Instance->UnRegisterIRenderable(this);
-		}
+		m_renderStage->ExectionType = VCRenderStage::Never;
 
 		// release heap malloc
 		free(m_rebuildVerticies);
@@ -222,13 +221,8 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Register VCIRenderable
-	if (!m_isRegistered)
-	{
-		m_isRegistered = true;
-		VCGLRenderer::Instance->RegisterIRenderable(this);
-		std::cout << "Registering Chunk IRenderable." << std::endl;
-	}
+	// Render mode always
+	m_renderStage->ExectionType = VCRenderStage::Always;
 
 	// release heap malloc
 	free(m_rebuildVerticies);
@@ -238,12 +232,6 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 
 	glErrorCheck();
 }
-
-VCRenderState* VCChunk::GetState()
-{
-	return m_world->RenderState;
-}
-
 
 void VCChunk::Render()
 {

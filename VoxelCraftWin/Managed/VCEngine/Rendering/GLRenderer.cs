@@ -8,12 +8,18 @@ namespace VCEngine
 {
     public class GLRenderer
     {
-        public const int VC_BATCH_SCENE = 20;
-        public const int VC_BATCH_GUI_BASE = 25;
-        public const int VC_BATCH_GUI = 30;
+//#define VC_BATH_DEFAULT 2
+//#define VC_BATCH_SCENE 2
+//#define VC_BATCH_GUI_BASE 3
+//#define VC_BATCH_GUI 5
+//#define VC_BATCH_MIN 1
+//#define VC_BATCH_MAX 16
+        public const int VC_BATCH_SCENE = 2;
+        public const int VC_BATCH_GUI_BASE = 3;
+        public const int VC_BATCH_GUI = 5;
 
         public const int VC_BATCH_MIN = 1;
-        public const int VC_BATCH_MAX = 1000000;
+        public const int VC_BATCH_MAX = 16;
 
         #region Bindings
 

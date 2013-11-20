@@ -10,6 +10,7 @@
 
 #define GLEW_STATIC
 #define _CRT_SECURE_NO_DEPRECATE
+#define SRUTIL_DELEGATE_PREFERRED_SYNTAX
 
 // Libraries
 #pragma comment(lib, "opengl32.lib")
@@ -42,6 +43,7 @@
 #include <set>
 #include <vector>
 #include <iomanip>
+#include <functional>
 
 // External
 #include "glew.h"
@@ -49,14 +51,17 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include "SOIL.h"
+#include <boost/container/flat_set.hpp>
 
 #include "VCGLXByteX.h"
 #include "VCGLXShortX.h"
 #include "VCGLFloatX.h"
 #include "VCGeometryTypes.h"
 #include "VCXIntX.h"
-#include "VCTypeDefs.h"
 #include "VCUtilities.h"
 #include "VCConstants.h"
 #include "VCMacros.h"
-#include "VCEvent.h"
+#include "delegate.hpp"
+
+// Typedefs
+#include "VCTypeDefs.h"

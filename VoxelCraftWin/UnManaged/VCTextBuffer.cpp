@@ -11,13 +11,17 @@
 #include "VCRenderState.h"
 #include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
+#include "VCRenderStage.h"
+#include "VCShader.h"
+#include "VCLexShader.h"
 
 
 VCTextBuffer::VCTextBuffer( VCFont* font ):
 	Font(font),
 	m_VAO(0),
 	m_VBO(0),
-	m_vCount(0)
+	m_vCount(0),
+	m_renderStage(NULL)
 {
 
 }
@@ -29,6 +33,14 @@ VCTextBuffer::~VCTextBuffer( void )
 
 void VCTextBuffer::Initialize()
 {
+	// Create Render Stage
+	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCTextBuffer, &VCTextBuffer::Render>(this));
+	m_renderStage->BatchOrder = VC_BATCH_GUI;
+	m_renderStage->Shader = VCGLRenderer::Instance->LexShader;
+	m_renderStage->Texture = Font->m_ddsTexture;
+	m_renderStage->DepthTest = false;
+	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
@@ -51,8 +63,6 @@ void VCTextBuffer::Initialize()
 
 	// Release
 	glBindVertexArray(0);
-
-	VCGLRenderer::Instance->RegisterIRenderable(this);
 }
 
 void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color )
@@ -69,11 +79,6 @@ void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color )
 		color,						// Color
 		m_verts,					// Buffer
 		m_vCount );					// Write Offset
-}
-
-VCRenderState* VCTextBuffer::GetState()
-{
-	return Font->RenderState;
 }
 
 void VCTextBuffer::Render()

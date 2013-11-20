@@ -9,15 +9,14 @@
 #pragma once
 
 class VCWorld;
-class VCRenderState;
+class VCRenderStage;
 struct BlockVerticie;
 struct VCWorldRebuildParams;
 
 #include "VCGameObject.h"
-#include "VCIRenderable.h"
 #include "VCBlock.h"
 
-class VCChunk : public VCGameObject, public VCIRenderable
+class VCChunk : public VCGameObject
 {
 public:
 	VCChunk();
@@ -34,21 +33,20 @@ public:
 	void Save (std::ofstream& stream);
 	void Load (std::ifstream& stream);
 
-	// ===== Render State Fulfillment ===========================================
-	virtual VCRenderState* GetState();
-	void virtual Render();
-
 public:
 	VCBlock Blocks[CHUNK_TOTAL_COUNT];
 	bool NeedsRebuild;
 
 private:
+	void Render();
+
+private:
+	VCRenderStage* m_renderStage;
 	VCWorld* m_world;
 
 	int m_x, m_y, m_z;
 	int m_blockX, m_blockY, m_blockZ;
 	bool m_isEmpty;
-	bool m_isRegistered;
 
 	// Rendering
     GLuint m_VAO;

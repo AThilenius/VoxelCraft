@@ -14,12 +14,12 @@ class VCLexShader;
 class VCGuiShader;
 class VCColorPassThroughShader;
 class VCTerrianShader;
-class VCRenderState;
-class VCIRenderable;
+class VCRenderStage;
 
-#include <map>
-#include <set>
-#include "VCRenderState.h"
+struct _VCRenderStageCompare 
+{
+	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const;
+};
 
 class VCGLRenderer
 {
@@ -32,16 +32,12 @@ public:
 
 	void SetModelMatrix(glm::mat4 matrix);
 
-	void RegisterState(VCRenderState* state);
-	void UnRegisterState(VCRenderState* state);
-
-	void RegisterIRenderable(VCIRenderable* renderable);
-	void UnRegisterIRenderable(VCIRenderable* renderable);
+	void RegisterStage(VCRenderStage* state);
+	void UnRegisterStage(VCRenderStage* state);
 
 public:
 	// Static
 	static VCGLRenderer* Instance;
-	static VCRenderState* PassThroughState;
 
 	// Member
 	VCShadowShader* ShadowShader;
@@ -59,14 +55,8 @@ public:
 private:
 	void CreateDepthFrameBuffer();
 
-	typedef std::set<VCIRenderable*> RenderSet;
-	typedef std::map<VCRenderState*, RenderSet, _VCRenderStateCompare> RenderMap;
-
-	RenderMap m_renderMap;
-
-
-	// Debug
-	GLuint m_quad_VertexArrayID;
+	typedef boost::container::flat_set<VCRenderStage*, _VCRenderStageCompare> RenderSet;
+	RenderSet m_renderSet;
 
 	// ================================      Interop      ============
 public:

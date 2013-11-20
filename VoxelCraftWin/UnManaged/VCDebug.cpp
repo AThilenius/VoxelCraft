@@ -38,8 +38,6 @@ VCDebug::~VCDebug(void)
 
 void VCDebug::Initialize()
 {
-	VCGLRenderer::Instance->RegisterIRenderable(this);
-
 	// Create VAO
 	glGenVertexArrays(1, &VCDebug::m_VAO);
 	glBindVertexArray(VCDebug::m_VAO);
@@ -106,11 +104,6 @@ void VCDebug::DrawCube( glm::vec3 corner, glm::vec3 scale, GLubyte4 color )
 	DrawLine(V4, V8, color);
 }
 
-VCRenderState* VCDebug::GetState()
-{
-	return VCGLRenderer::Instance->PassThroughState;
-}
-
 void VCDebug::Render()
 {
 	if (VCDebug::m_lineVertCount == 0)
@@ -143,10 +136,10 @@ void VCInteropDebugReset()
 
 void VCInteropDebugDrawLine (glm::vec3 from, glm::vec3 to, vcint4 color)
 {
-	VCDebug::DrawLine(from, to, GLubyte4(color.X, color.Y, color.Z, color.W));
+	//VCDebug::DrawLine(from, to, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
 void VCInteropDebugDrawCube (glm::vec3 corner, glm::vec3 scale, vcint4 color)
 {
-	VCDebug::DrawCube(corner, scale, GLubyte4(color.X, color.Y, color.Z, color.W));
+	//VCDebug::DrawCube(corner, scale, GLubyte4(color.X, color.Y, color.Z, color.W));
 }

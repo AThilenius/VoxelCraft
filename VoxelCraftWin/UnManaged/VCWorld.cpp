@@ -46,8 +46,7 @@ VCWorld::VCWorld():
 	ChunkZeroY(0),
 	ChunkZeroZ(0),
 	ChunkGenerator(NULL),
-	m_chunks(NULL),
-	RenderState(NULL)
+	m_chunks(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -63,39 +62,14 @@ VCWorld::~VCWorld(void)
 
 		free(m_chunks);
 	}
-
-	if (RenderState)
-	{
-		VCGLRenderer::Instance->UnRegisterState(RenderState);
-		RenderState = NULL;
-	}
 }
 
 void VCWorld::InitializeEmpty()
 {
-	// RenderState / Camera
-	if (!RenderState)
-	{
-		// Camera
-		Camera = new VCCamera();
-		Camera->FullScreen = false;
-
-		RenderState = new VCRenderState(2);
-		RenderState->Camera = Camera;
-
-		// Stage 1 - Shadow
-		RenderState->Stages[0].FrameBuffer = VCGLRenderer::Instance->DepthFrameBuffer;
-		RenderState->Stages[0].Shader = VCGLRenderer::Instance->ShadowShader;
-
-		// Stage 2 - Draw
-		RenderState->Stages[1].FrameBuffer = VCGLRenderer::Instance->DefaultFrameBuffer;
-		RenderState->Stages[1].Shader = VCGLRenderer::Instance->TerrainShader;
-		RenderState->Stages[1].Textures.push_back(VCGLRenderer::Instance->DepthTexture);
-
-		VCGLRenderer::Instance->RegisterState(RenderState);
-	}
+	// Camera
+	Camera = new VCCamera();
+	Camera->FullScreen = false;
 	
-
 	// Chunks
 	m_chunks = (VCChunk**) malloc ( sizeof(VCChunk*) * m_viewDistTwo * m_viewDistTwo * m_viewDistTwo );
 

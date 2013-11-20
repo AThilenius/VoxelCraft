@@ -44,6 +44,7 @@ protected:
 	char *m_vertexShader, *m_fragShader, *m_geometryShader;
 	GLuint m_programId;
 
+	friend class VCRenderStage;
 	friend bool operator==(const VCShader& lhs, const VCShader& rhs);
 	friend bool operator< (const VCShader& lhs, const VCShader& rhs);
 };

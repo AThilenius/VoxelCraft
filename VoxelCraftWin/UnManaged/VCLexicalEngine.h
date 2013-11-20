@@ -37,7 +37,6 @@ public:
 
 	VCTextMetrics GetMetrics ( int font, std::string text ); 
 	int MakeTextToQuadBuffer ( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset);
-	VCRenderState* GetRStateForFont ( int font );
 	VCFont* GetFontById ( int fontID );
 
 	static VCLexicalEngine* Instance;

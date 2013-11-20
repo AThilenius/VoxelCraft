@@ -109,12 +109,6 @@ int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint l
 	return text.length() * 6;
 }
 
-VCRenderState* VCLexicalEngine::GetRStateForFont( int font )
-{
-	VCFont* vcfont = m_fonts[font];
-	return vcfont->RenderState;
-}
-
 VCFont* VCLexicalEngine::GetFontById( int fontID )
 {
 	if (fontID >= m_fontsCount)

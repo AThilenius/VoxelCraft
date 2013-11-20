@@ -217,12 +217,6 @@
     <ClCompile Include="VCPoolableResource.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VCEventArgs.cpp">
-      <Filter>Utils\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="VCEvent.cpp">
-      <Filter>Utils\Events</Filter>
-    </ClCompile>
     <ClCompile Include="VCLineDrawer.cpp">
       <Filter>Rendering\Drawers</Filter>
     </ClCompile>
@@ -325,9 +319,6 @@
     <ClInclude Include="VCRenderStage.h">
       <Filter>Rendering\State</Filter>
     </ClInclude>
-    <ClInclude Include="VCIRenderable.h">
-      <Filter>Rendering\State</Filter>
-    </ClInclude>
     <ClInclude Include="VCGui.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -409,18 +400,6 @@
     <ClInclude Include="VCPoolableResource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VCEventArgs.h">
-      <Filter>Utils\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="VCEvent.h">
-      <Filter>Utils\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="FastDelegate.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="FastDelegateBind.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="delegate.hpp">
       <Filter>Utils\Events</Filter>
     </ClInclude>
@@ -428,9 +407,6 @@
       <Filter>Utils\Events</Filter>
     </ClInclude>
     <ClInclude Include="delegate_template.hpp">
-      <Filter>Utils\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="event.hpp">
       <Filter>Utils\Events</Filter>
     </ClInclude>
     <ClInclude Include="VCLineDrawer.h">

@@ -101,14 +101,6 @@ void VCFont::Initialize()
 		ss << "-Bold";
 
 	Name = ss.str();
-
-	// Create a render state for text rendering
-	RenderState = new VCRenderState(1);
-	RenderState->BatchingOrder = VC_BATCH_GUI;
-	RenderState->Stages[0].Shader = VCGLRenderer::Instance->LexShader;
-	RenderState->Stages[0].Textures.push_back(m_ddsTexture);
-	RenderState->Stages[0].DepthTest = false;
-	VCGLRenderer::Instance->RegisterState(RenderState);
 }
 
 
