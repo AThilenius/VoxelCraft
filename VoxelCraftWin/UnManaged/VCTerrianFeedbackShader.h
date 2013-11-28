@@ -1,8 +1,8 @@
 //
-//  VCTerrianShader.h
+//  VCTerrainFeedback.h
 //  VoxelCraftOSX
 //
-//  Created by Alec Thilenius on 11/14/13.
+//  Created by Alec Thilenius on 11/19/13.
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
@@ -10,11 +10,11 @@
 
 #include "VCShader.h"
 
-class VCTerrianShader : public VCShader
+class VCTerrianFeedbackShader : public VCShader
 {
 public:
-	VCTerrianShader();
-	~VCTerrianShader(void);
+	VCTerrianFeedbackShader();
+	~VCTerrianFeedbackShader(void);
 
 	virtual void SetModelMatrix(glm::mat4 modelMatrix);
 

@@ -32,12 +32,12 @@
     <ClCompile Include="VCLineDrawer.cpp" />
     <ClCompile Include="VCPoolableResource.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
-    <ClCompile Include="VCRenderState.cpp" />
     <ClCompile Include="VCSparseVoxelOctree.cpp" />
     <ClCompile Include="VCSvoLeafBlock.cpp" />
     <ClCompile Include="VCSvoNode.cpp" />
     <ClCompile Include="VCSvoNodeBlock.cpp" />
-    <ClCompile Include="VCTerrianShader.cpp" />
+    <ClCompile Include="VCTerrainConstructionShader.cpp" />
+    <ClCompile Include="VCTerrianFeedbackShader.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
     <ClCompile Include="VCTexture.cpp" />
@@ -100,7 +100,8 @@
     <ClInclude Include="VCSvoLeafBlock.h" />
     <ClInclude Include="VCSvoNode.h" />
     <ClInclude Include="VCSvoNodeBlock.h" />
-    <ClInclude Include="VCTerrianShader.h" />
+    <ClInclude Include="VCTerrainConstructionShader.h" />
+    <ClInclude Include="VCTerrianFeedbackShader.h" />
     <ClInclude Include="VCTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />
@@ -130,7 +131,6 @@
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />
     <ClInclude Include="VCRenderStage.h" />
-    <ClInclude Include="VCRenderState.h" />
     <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTextBuffer.h" />
@@ -155,9 +155,10 @@
     <None Include="Lex.vert" />
     <None Include="ShadowZBuffer.frag" />
     <None Include="ShadowZBuffer.vert" />
-    <None Include="Terrain.frag" />
-    <None Include="Terrain.geom" />
-    <None Include="Terrain.vert" />
+    <None Include="TerrainConstruction.geom" />
+    <None Include="TerrainConstruction.vert" />
+    <None Include="TerrainFeedback.frag" />
+    <None Include="TerrainFeedback.vert" />
     <None Include="TexturePassThrough.frag" />
     <None Include="TexturePassThrough.vert" />
   </ItemGroup>

@@ -13,7 +13,8 @@ class VCTextureShader;
 class VCLexShader;
 class VCGuiShader;
 class VCColorPassThroughShader;
-class VCTerrianShader;
+class VCTerrainConstructionShader;
+class VCTerrianFeedbackShader;
 class VCRenderStage;
 
 struct _VCRenderStageCompare 
@@ -45,7 +46,8 @@ public:
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
 	VCColorPassThroughShader* ColorPassThroughShader;
-	VCTerrianShader* TerrainShader;
+	VCTerrainConstructionShader* TerrainConstructionShader;
+	VCTerrianFeedbackShader* TerrainFeedbackShader;
 	bool ShadowFallback;
 
 	GLuint DefaultFrameBuffer;

@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
+#define SHOW_GL_WARNINGS
+
 #include "stdafx.h"
 #include "VCWindow.h"
 
@@ -42,17 +44,86 @@ VCWindow::~VCWindow()
     
 }
 
-static void error_callback(int error, const char* description)
+static void glewErrorCallback(int error, const char* description)
 {
     //fputs(description, stderr);
 	std::cout << "GLFW Error Callback: " << description << std::endl;
+}
+
+void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
+{
+#if SHOW_GL_WARNINGS
+	char debSource[16], debType[20], debSev[5];
+	if(source == GL_DEBUG_SOURCE_API_ARB)
+		strcpy(debSource, "OpenGL");
+	else if(source == GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB)
+		strcpy(debSource, "Windows");
+	else if(source == GL_DEBUG_SOURCE_SHADER_COMPILER_ARB)
+		strcpy(debSource, "Shader Compiler");
+	else if(source == GL_DEBUG_SOURCE_THIRD_PARTY_ARB)
+		strcpy(debSource, "Third Party");
+	else if(source == GL_DEBUG_SOURCE_APPLICATION_ARB)
+		strcpy(debSource, "Application");
+	else if(source == GL_DEBUG_SOURCE_OTHER_ARB)
+		strcpy(debSource, "Other");
+
+	if(type == GL_DEBUG_TYPE_ERROR_ARB)
+		strcpy(debType, "Error");
+	else if(type == GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB)
+		strcpy(debType, "Deprecated behavior");
+	else if(type == GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB)
+		strcpy(debType, "Undefined behavior");
+	else if(type == GL_DEBUG_TYPE_PORTABILITY_ARB)
+		strcpy(debType, "Portability");
+	else if(type == GL_DEBUG_TYPE_PERFORMANCE_ARB)
+		strcpy(debType, "Performance");
+	else if(type == GL_DEBUG_TYPE_OTHER_ARB)
+		strcpy(debType, "Other");
+
+	if(severity == GL_DEBUG_SEVERITY_HIGH_ARB)
+	{
+		strcpy(debSev, "High");
+		SetConsoleColor(Red);
+		printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+			debSource,debType,id,debSev,message);
+		std::cin.ignore();
+	}
+
+	else if(severity == GL_DEBUG_SEVERITY_MEDIUM_ARB)
+	{
+		strcpy(debSev, "Medium");
+		SetConsoleColor(Red);
+		printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+			debSource,debType,id,debSev,message);
+		std::cin.ignore();
+	}
+
+	else if(severity == GL_DEBUG_SEVERITY_LOW_ARB)
+	{
+		static std::set<std::string> postedWarnings;
+		
+		strcpy(debSev, "Low");
+		std::string post = std::string("Source:") + debSource + "\nType:" + debType + "\nID:" + std::to_string(id) + "\nSeverity:" + debSev + "\nMessage:" + message + "\n";
+
+		if(postedWarnings.find(post) == postedWarnings.end())
+		{
+			SetConsoleColor(Yellow);
+			printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+				debSource,debType,id,debSev,message);
+
+			SetConsoleColor(White);
+			postedWarnings.insert(post);
+		}
+	}
+
+#endif
 }
 
 void VCWindow::Initalize()
 {
     std::cout << "Creating a VCWindow..." << std::endl;
     
-	glfwSetErrorCallback(error_callback);
+	glfwSetErrorCallback(glewErrorCallback);
 
 	if (!glfwInit())
 	{
@@ -60,12 +131,15 @@ void VCWindow::Initalize()
 		std::cin.ignore();
 	}
 	
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	//glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#if DEBUG
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif
 
-	GLFWWindowHandle = glfwCreateWindow(1280, 600, "VoxelEngine 0.2.1 - Thilenius", NULL, NULL);
+	GLFWWindowHandle = glfwCreateWindow(1280, 600, "Thilenius - A 0.0.1", NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
@@ -83,6 +157,11 @@ void VCWindow::Initalize()
 		std::cin.ignore();
 	}
 
+#if DEBUG
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+	glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+	glDebugMessageCallbackARB(&glDebugCallback, NULL);
+#endif
 	// ====
 
 

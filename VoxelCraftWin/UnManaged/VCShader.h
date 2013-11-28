@@ -33,6 +33,9 @@ protected:
 	// Use GLint = glGetUniformLocation(GLuint program, "uniform name");
 	virtual void GetUniformIDs() = 0;
 
+	// Used mainly for Transform Feedback Varying Specification
+	virtual void PreLink() {};
+
 	// Use this to bind any uniform defaults
 	virtual void PostInitialize() {};
 

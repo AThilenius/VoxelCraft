@@ -18,10 +18,6 @@
 #include "VCPhysics.h"
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
-#include "VCShader.h"
-#include "VCShadowShader.h"
-#include "VCTerrianShader.h"
-#include "VCVoxelShader.h"
 #include "VCCamera.h"
 
 float IntBound ( float s, float ds )

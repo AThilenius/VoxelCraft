@@ -10,7 +10,7 @@
 
 class VCWorld;
 class VCRenderStage;
-struct BlockVerticie;
+struct BlockPoint;
 struct VCWorldRebuildParams;
 
 #include "VCGameObject.h"
@@ -38,22 +38,30 @@ public:
 	bool NeedsRebuild;
 
 private:
-	void Render();
+	void RenderStage1();
+	void RenderStage2();
 
 private:
-	VCRenderStage* m_renderStage;
+	VCRenderStage* m_renderStage1;
+	VCRenderStage* m_renderStage2;
+
 	VCWorld* m_world;
 
 	int m_x, m_y, m_z;
 	int m_blockX, m_blockY, m_blockZ;
 	bool m_isEmpty;
 
-	// Rendering
-    GLuint m_VAO;
-	GLuint m_VBO;
-	GLint m_vertexCount;
+	GLuint m_inputVAO;
+	GLuint m_inputBuffer;
+	GLuint m_feedbackBuffer;
+	GLuint m_transformFeedbackObject;
+	GLint m_inputVCount;
+	GLuint m_feedbackVAO;
 
-	BlockVerticie* m_rebuildVerticies;
+	// Debug
+	GLuint m_quary;
+
+	BlockPoint* m_rebuildVerticies;
 
 	friend class VCChunkGenerator;
 };

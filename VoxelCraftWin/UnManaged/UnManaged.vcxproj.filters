@@ -175,9 +175,6 @@
     <ClCompile Include="VCUtilities.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="VCRenderState.cpp">
-      <Filter>Rendering\State</Filter>
-    </ClCompile>
     <ClCompile Include="VCRenderStage.cpp">
       <Filter>Rendering\State</Filter>
     </ClCompile>
@@ -232,13 +229,16 @@
     <ClCompile Include="VCSvoLeafBlock.cpp">
       <Filter>Voxel\SVO</Filter>
     </ClCompile>
-    <ClCompile Include="VCTerrianShader.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="VCVoxelShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="VCShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTerrianFeedbackShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTerrainConstructionShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
@@ -312,9 +312,6 @@
     </ClInclude>
     <ClInclude Include="VCLexShader.h">
       <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="VCRenderState.h">
-      <Filter>Rendering\State</Filter>
     </ClInclude>
     <ClInclude Include="VCRenderStage.h">
       <Filter>Rendering\State</Filter>
@@ -424,13 +421,16 @@
     <ClInclude Include="VCSvoLeafBlock.h">
       <Filter>Voxel\SVO</Filter>
     </ClInclude>
-    <ClInclude Include="VCTerrianShader.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="VCVoxelShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VCShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTerrianFeedbackShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTerrainConstructionShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
@@ -464,19 +464,22 @@
     <None Include="ShadowZBuffer.frag">
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
-    <None Include="Terrain.vert">
-      <Filter>Rendering\Shaders\GLSL</Filter>
-    </None>
-    <None Include="Terrain.frag">
-      <Filter>Rendering\Shaders\GLSL</Filter>
-    </None>
     <None Include="TexturePassThrough.vert">
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
     <None Include="TexturePassThrough.frag">
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
-    <None Include="Terrain.geom">
+    <None Include="TerrainFeedback.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="TerrainFeedback.frag">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="TerrainConstruction.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="TerrainConstruction.geom">
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
   </ItemGroup>

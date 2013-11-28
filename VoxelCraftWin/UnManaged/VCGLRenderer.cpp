@@ -14,7 +14,8 @@
 #include "VCLexShader.h"
 #include "VCGuiShader.h"
 #include "VCColorPassThroughShader.h"
-#include "VCTerrianShader.h"
+#include "VCTerrainConstructionShader.h"
+#include "VCTerrianFeedbackShader.h"
 
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
@@ -72,8 +73,11 @@ void VCGLRenderer::Initialize()
 	ColorPassThroughShader = new VCColorPassThroughShader();
 	ColorPassThroughShader->Initialize();
 
-	TerrainShader = new VCTerrianShader();
-	TerrainShader->Initialize();
+	TerrainConstructionShader = new VCTerrainConstructionShader();
+	TerrainConstructionShader->Initialize();
+
+	TerrainFeedbackShader = new VCTerrianFeedbackShader();
+	TerrainFeedbackShader->Initialize();
 
     glErrorCheck();
     std::cout << "VCGLRenderer Initialized" << std::endl;
@@ -118,8 +122,6 @@ void VCGLRenderer::RegisterStage( VCRenderStage* stage )
 	{
 		VC_ERROR("Cannot add duplicate render stage!");
 	}
-
-	std::cout << "VCGLRenderer::RegisterStage - " << m_renderSet.size() + 1 << std::endl;
 #endif
 
 	m_renderSet.insert(stage);

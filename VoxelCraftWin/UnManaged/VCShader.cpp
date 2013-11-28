@@ -72,6 +72,7 @@ void VCShader::Initialize()
 	}
 	
     BindAttribLocations();
+	PreLink();
 	LinkProgram();
 	GetUniformIDs();
     

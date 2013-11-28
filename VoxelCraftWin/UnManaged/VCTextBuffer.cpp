@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VCTextBuffer.h"
-#include "VCRenderState.h"
 #include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
 #include "VCRenderStage.h"
