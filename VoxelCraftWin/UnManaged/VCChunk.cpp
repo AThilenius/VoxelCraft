@@ -15,23 +15,16 @@
 #include "VCCamera.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
-#include "VCTerrainConstructionShader.h"
-#include "VCTerrianFeedbackShader.h"
-#include "VCColorPassThroughShader.h"
+#include "VCVoxelFallbackShader.h"
 
-struct BlockPoint
+struct BlockVerticie
 {
-	BlockPoint() {}
-	BlockPoint(GLubyte3 position, GLubyte3 color, GLushort flags ) : 
-		Position(position), 
-		Color(color),
-		Flags(flags)
-	{
-	}
+	BlockVerticie() {}
+	BlockVerticie(GLbyte3 position, GLbyte normal, GLubyte4 color ) : position(position), normal(normal), color(color){}
 
-	GLubyte3 Position;
-	GLubyte3 Color;
-	GLushort Flags;
+	GLbyte3  position;
+	GLbyte	 normal;
+	GLubyte4 color;
 };
 
 struct VCRunLengtth
@@ -49,16 +42,13 @@ VCChunk::VCChunk():
 	m_blockY(0),
 	m_blockZ(0),
 	m_world(NULL),
-	m_inputVAO(0),
-	m_inputBuffer(0),
-	m_feedbackBuffer(0),
-	m_transformFeedbackObject(0),
-	m_feedbackVAO(0),
-	m_inputVCount(0),
-	m_rebuildVerticies(NULL),
+	m_VBO(0),
+	m_vertexCount(0),
+	m_VAO(0),
 	m_isEmpty(true),
 	NeedsRebuild(true)
 {
+
 }
 
 VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
@@ -69,13 +59,9 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 	m_blockY(y * CHUNK_WIDTH),
 	m_blockZ(z * CHUNK_WIDTH),
 	m_world(world),
-	m_inputVAO(0),
-	m_inputBuffer(0),
-	m_feedbackBuffer(0),
-	m_transformFeedbackObject(0),
-	m_feedbackVAO(0),
-	m_inputVCount(0),
-	m_rebuildVerticies(NULL),
+	m_VBO(0),
+	m_vertexCount(0),
+	m_VAO(0),
 	m_isEmpty(true),
 	NeedsRebuild(true)
 {
@@ -83,99 +69,45 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 
 VCChunk::~VCChunk(void)
 {
-	VCGLRenderer::Instance->RegisterStage(m_renderStage1);
+	VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
 
-	//if (m_stage1VAO != 0)
-	//{
-	//	glDeleteVertexArrays(1, &m_stage1VAO);
-	//	glDeleteBuffers(1, &m_stage1VBO);
-	//	m_stage1VAO = 0;
-	//}
+	if (m_VAO != 0)
+	{
+		glDeleteVertexArrays(1, &m_VAO);
+		glDeleteBuffers(1, &m_VBO);
+		m_VAO = 0;
+	}
 }
 
 void VCChunk::Initialize()
 {
 	// =====   Render Stages   ======================================================
-	VCCamera* testCam = new VCCamera();
+	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
+	m_renderStage->Camera = m_world->Camera;
+	m_renderStage->Shader = VCGLRenderer::Instance->VoxelFallbackShader;
+	m_renderStage->ExectionType = VCRenderStage::Never;
+	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
-	m_renderStage1 = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::RenderStage1>(this));
-	//m_renderStage1->Camera = m_world->Camera;
-	m_renderStage1->Camera = testCam;
-	m_renderStage1->Shader = VCGLRenderer::Instance->TerrainConstructionShader;
-	m_renderStage1->ExectionType = VCRenderStage::Never;
-	VCGLRenderer::Instance->RegisterStage(m_renderStage1);
-
-	m_renderStage2 = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::RenderStage2>(this));
-	m_renderStage2->StageOrder = 1;
-	//m_renderStage2->Camera = m_world->Camera;
-	m_renderStage2->Camera = testCam;
-	m_renderStage2->Shader = VCGLRenderer::Instance->ColorPassThroughShader;
-	m_renderStage2->ExectionType = VCRenderStage::Never;
-	VCGLRenderer::Instance->RegisterStage(m_renderStage2);
-
-	// DEBUG
-	glGenQueries(1, &m_quary);
-
-	// =====   Input Buffer   ======================================================
-
-	// Input VAO
-	glGenVertexArrays(1, &m_inputVAO);
-	glBindVertexArray(m_inputVAO);
-
-	// Input VBO
-	glGenBuffers(1, &m_inputBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_inputBuffer);
-
-	// Input Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_FLAGS);
-
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockPoint),	(void*) offsetof(BlockPoint, Position) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		3,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockPoint),	(void*) offsetof(BlockPoint, Color) );
-	glVertexAttribIPointer(VC_ATTRIBUTE_FLAGS,		1,	GL_SHORT,						sizeof(BlockPoint),	(void*) offsetof(BlockPoint, Flags) );
-
-	glBindVertexArray(0);
-
-
-	// =====   Feedback Buffer   ======================================================
-
-	// Feedback VAO
-	glGenVertexArrays(1, &m_feedbackVAO);
-	glBindVertexArray(m_feedbackVAO);
-
-	// Feedback VBO
-	glGenBuffers(1, &m_feedbackBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_feedbackBuffer);
-
-	// Feedback Attributes ( Remember: The Attributes interleaved in the buffer are defined by the TerrainCreationShader Pre-Link )
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	//glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
-	//glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	4,	GL_FLOAT,	GL_FALSE,	sizeof(GLfloat) * 4,	(void*) 0 );
-	//glVertexAttribPointer(VC_ATTRIBUTE_NORMAL,		3,	GL_FLOAT,	GL_FALSE,	sizeof(GLfloat) * 10,	(void*) (sizeof(GLfloat) * 4) );
-	//glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		3,	GL_FLOAT,	GL_TRUE,	sizeof(GLfloat) * 10,	(void*) (sizeof(GLfloat) * 7) );
-
-	// Pre-Allocate memory on the GPU for this ( Might move this to ::Rebuild() later to compact it )
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 1000000, NULL, GL_STATIC_DRAW);
-
-	glBindVertexArray(0);
-
-
-	// =====   Feedback Object   ======================================================
-
-	// Feedback Object
-	glGenTransformFeedbacks(1, &m_transformFeedbackObject);
-	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, m_transformFeedbackObject);
-
-	// Link output VBO ( m_feedbackBuffer ) with the TF Object
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, m_feedbackBuffer); 
-
-	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-
-
+	// Create VAO
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
 	glErrorCheck();
+
+	// Create VBO
+	glGenBuffers(1, &m_VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	ZERO_CHECK(m_VBO);
+
+	// Bind Attributes
+	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
+	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+
+	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
+	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
+	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
+
+	glBindVertexArray(0);
 }
 
 VCBlock VCChunk::GetBlock ( int x, int y, int z )
@@ -197,7 +129,7 @@ void VCChunk::SetBlock( int x, int y, int z, VCBlock block )
 
 // Helper:
 #define OccusionValue 20
-#define Occlude(val) val += 0.3f
+#define Occlude(val) val += 0.2f
 
 void VCChunk::Rebuild(VCWorldRebuildParams params)
 {
@@ -205,15 +137,30 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 		return;
 
 	NeedsRebuild = false;
-	m_inputVCount = 0;
+	m_vertexCount = 0;
 	float startTime = VCTime::CurrentTime;
 
-	m_rebuildVerticies = (BlockPoint*) malloc(sizeof(BlockPoint) * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
+	BlockVerticie* m_rebuildVerticies = (BlockVerticie*) malloc(sizeof(BlockVerticie) * 18 * CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH);
 
 	// Metrics
 	int airBlocks = 0;
 	int runCount = 0;
-	
+
+	// =====   Per-Iteration Variables   ======================================================
+
+	GLbyte normal;
+
+	// Color Corrections
+	float V1C;
+	float V2C;
+	float V3C;
+	float V4C;
+
+	float V5C;
+	float V6C;
+	float V7C;
+	float V8C;
+
 	// =====   Iterator   ======================================================
 	for(int z = 0; z < CHUNK_WIDTH; z++ )
 	{
@@ -221,6 +168,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 		{
 			for(int y = 0; y < CHUNK_WIDTH; y++ )
 			{
+
 				// =========  Make a single block  ========
 				runCount++;
 
@@ -232,153 +180,247 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 					continue;
 				}
 
-				// =====   Flags   ======================================================
-				GLushort flags = 0;
+				GLbyte xO = x;
+				GLbyte yO = y;
+				GLbyte zO = z;
 
-				// Upper
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y + 1, m_blockZ + z).IsSolid() ) flags = flags | 1;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z - 1).IsSolid() ) flags = flags | 2;
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y + 1, m_blockZ + z).IsSolid() ) flags = flags | 4;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z + 1).IsSolid() ) flags = flags | 8;
+				// Verts
+				GLbyte3 V1 ( xO,		yO,		zO + 1	);
+				GLbyte3 V2 ( xO + 1,	yO,		zO + 1	);
+				GLbyte3 V3 ( xO + 1,	yO + 1, zO + 1	);
+				GLbyte3 V4 ( xO,		yO + 1, zO + 1	);
 
-				// Middle
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z + 1).IsSolid() ) flags = flags | 16;
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z - 1).IsSolid() ) flags = flags | 32;
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z - 1).IsSolid() ) flags = flags | 64;
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z + 1).IsSolid() ) flags = flags | 128;
+				GLbyte3 V5 ( xO,		yO,		zO		);
+				GLbyte3 V6 ( xO + 1,	yO,		zO		);
+				GLbyte3 V7 ( xO + 1,	yO + 1, zO		);
+				GLbyte3 V8 ( xO,		yO + 1, zO		);
 
-				// Lower
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y - 1, m_blockZ + z).IsSolid() ) flags = flags | 256;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z - 1).IsSolid() ) flags = flags | 512;
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY - y + 1, m_blockZ + z).IsSolid() ) flags = flags | 1024;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z + 1).IsSolid() ) flags = flags | 2048;
+				GLubyte4 black ( 0, 0, 0, thisType.Color.w );
 
-				// Occluding blocks
-				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsSolid() ) flags = flags | 4096;
-				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsSolid() ) flags = flags | 8192;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsSolid() ) flags = flags | 16384;
-				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsSolid() ) flags = flags | 32768;
+				// =====   Verticie Computations   ======================================================
 
-				m_rebuildVerticies[m_inputVCount++] = BlockPoint(GLubyte3(x, y, z), GLubyte3(thisType.Color.x, thisType.Color.y, thisType.Color.z), flags );
+				// Front face
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z + 1).IsTranslucent() )
+				{
+					normal = 5;
+
+					V1C = V2C = V3C = V4C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
+				}
+
+				//Back face
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y, m_blockZ + z - 1).IsTranslucent() )
+				{
+					normal = 4;
+
+					V5C = V6C = V7C = V8C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
+				}
+
+				//Right face
+				if ( m_world->GetBlock(m_blockX + x + 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
+				{
+					normal = 1;
+
+					V2C = V3C = V6C = V7C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V6C); Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V2C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V3C); Occlude(V7C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V2C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
+				}
+
+				//Left face
+				if ( m_world->GetBlock(m_blockX + x - 1, m_blockY + y, m_blockZ + z).IsTranslucent() )
+				{
+					normal = 0;
+
+					V1C = V4C = V5C = V8C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V1C); Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V8C); }
+
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y,		m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
+				}
+
+				//Top face
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y + 1, m_blockZ + z).IsTranslucent() )
+				{
+					normal = 3;
+
+					V3C = V4C = V7C = V8C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V8C); Occlude(V4C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V4C); }
+
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); Occlude(V8C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); Occlude(V4C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V7C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z	).IsSolid()) { Occlude(V7C); Occlude(V3C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y + 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V3C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V3, normal, GLubyte4::Lerp(thisType.Color, black, V3C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V4, normal, GLubyte4::Lerp(thisType.Color, black, V4C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V7, normal, GLubyte4::Lerp(thisType.Color, black, V7C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V8, normal, GLubyte4::Lerp(thisType.Color, black, V8C) ));
+				}
+
+				//Bottom face
+				if ( m_world->GetBlock(m_blockX + x, m_blockY + y - 1, m_blockZ + z).IsTranslucent() )
+				{
+					normal = 2;
+
+					V1C = V2C = V5C = V6C = 0.0f;
+
+					if (params.ShowShadows)
+					{
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V4C); Occlude(V1C); }
+						if (m_world->GetBlock(m_blockX + x - 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); }
+
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V5C); Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x,		m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V1C); Occlude(V2C); }
+
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z - 1).IsSolid()) { Occlude(V6C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z	).IsSolid()) { Occlude(V6C); Occlude(V2C); }
+						if (m_world->GetBlock(m_blockX + x + 1,	m_blockY + y - 1,	m_blockZ + z + 1).IsSolid()) { Occlude(V2C); }
+					}
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V2, normal, GLubyte4::Lerp(thisType.Color, black, V2C) ));
+
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V1, normal, GLubyte4::Lerp(thisType.Color, black, V1C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V5, normal, GLubyte4::Lerp(thisType.Color, black, V5C) ));
+					m_rebuildVerticies[m_vertexCount++] = ( BlockVerticie( V6, normal, GLubyte4::Lerp(thisType.Color, black, V6C) ));
+				}
 				// =========  END of make block  ========
 			}
 		}
 	}
 
 	// Empty?
-	m_isEmpty = m_inputVCount == 0;
+	m_isEmpty = m_vertexCount == 0;
 	if (m_isEmpty)
+		m_renderStage->ExectionType = VCRenderStage::Never;
+
+	else
 	{
-		m_renderStage1->ExectionType = VCRenderStage::Never;
-		m_renderStage2->ExectionType = VCRenderStage::Never;
+		// Update VBO
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		// release heap malloc
-		free(m_rebuildVerticies);
-		m_rebuildVerticies = NULL;
-
-		return;
+		m_renderStage->ExectionType = VCRenderStage::Always;
 	}
-
-	// Update Input VBO
-	glBindBuffer(GL_ARRAY_BUFFER, m_inputBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(BlockPoint) * m_inputVCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	m_renderStage1->ExectionType = VCRenderStage::Once;
-	m_renderStage2->ExectionType = VCRenderStage::Always;
 
 	// release heap malloc
 	free(m_rebuildVerticies);
 	m_rebuildVerticies = NULL;
 
-	//std::std::cout << "Chunk rebuilt finished with " << m_vertexCount << " vertices and took " << (VCTime::CurrentTime - startTime) << " seconds." << std::endl;
-
 	glErrorCheck();
 }
 
-void VCChunk::RenderStage1()
+void VCChunk::Render()
 {
 	// Shouldn't get here though
 	if ( m_isEmpty )
 		return;
-	
-	glEnable(GL_RASTERIZER_DISCARD);
 
-	// Bind Input VAO
-	glBindVertexArray(m_inputVAO);
-
-	// Bind Feedback Object ( Remember: It's already linked with the output buffer m_feedbackBuffer )
-	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, m_transformFeedbackObject);
-
-	// Draw Feedback
-	glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, m_quary); 
-	glBeginTransformFeedback(GL_TRIANGLES);
-		glDrawArrays(GL_POINTS, 0, m_inputVCount);
-	glEndTransformFeedback();
-	glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN); 
-
-	//glBeginTransformFeedback(GL_TRIANGLES);
-	//	glDrawArrays(GL_POINTS, 0, m_inputVCount);
-	//glEndTransformFeedback();
-
-	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-	glBindVertexArray(0);
-	glDisable(GL_RASTERIZER_DISCARD);
-
-	glErrorCheck();
-}
-
-void VCChunk::RenderStage2()
-{
-	GLuint PrimitivesWritten = 0;
-	glGetQueryObjectuiv(m_quary, GL_QUERY_RESULT, &PrimitivesWritten);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_feedbackBuffer);
-	float* arra = (float*) glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY);
-	float* copy = (float*) malloc(sizeof(GLfloat) * 4 * 3 * PrimitivesWritten);
-	memcpy(copy, arra, sizeof(GLfloat) * 4 * 3 * PrimitivesWritten);
-	glUnmapBuffer(GL_ARRAY_BUFFER);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(m_feedbackVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_feedbackBuffer);
-
-	const GLfloat testTriangle[12] = {
-		0, 0, -1, 1,
-		1, 0, -1, 1,
-		0, 1, -1, 1
-	};
-
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	4,	GL_FLOAT,	GL_FALSE,	sizeof(GLfloat) * 4,	(void*) 0 );
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, testTriangle, GL_STATIC_DRAW);
-
-	// MVP
-	/*VCGLRenderer::Instance->SetModelMatrix(glm::translate(
+	glBindVertexArray(m_VAO);
+	VCGLRenderer::Instance->SetModelMatrix(glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
-		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));*/
+		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 
-	glDrawArrays(GL_TRIANGLES, 0, 1);
+	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+
 	glBindVertexArray(0);
 	glErrorCheck();
-
-	free(copy);
-	//// Bind the Feedback VAO ( Remember: the Feedback's buffer was filled by the last stage )
-	//glBindVertexArray(m_feedbackVAO);
-	//glErrorCheck();
-
-	//// MVP
-	//VCGLRenderer::Instance->SetModelMatrix(glm::translate(
-	//	(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
-	//	(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
-	//	(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
-
-	//// Draw ( From the Feedback Buffer, bound to the TF Object )
-	//glDrawTransformFeedbackStream(GL_TRIANGLES, m_transformFeedbackObject, 0);
-
-	//glBindVertexArray(0);
 }
 
 // ===== Serialization ======================================================

@@ -72,6 +72,7 @@
     <ClCompile Include="VCTextureShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
+    <ClCompile Include="VCVoxelFallbackShader.cpp" />
     <ClCompile Include="VCVoxelShader.cpp" />
     <ClCompile Include="VCWindow.cpp" />
     <ClCompile Include="VCWorld.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="VCTextureShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCUpdateManager.h" />
+    <ClInclude Include="VCVoxelFallbackShader.h" />
     <ClInclude Include="VCVoxelShader.h" />
     <ClInclude Include="VCWindow.h" />
     <ClInclude Include="VCWorld.h" />
@@ -161,6 +163,8 @@
     <None Include="TerrainFeedback.vert" />
     <None Include="TexturePassThrough.frag" />
     <None Include="TexturePassThrough.vert" />
+    <None Include="VoxelFallback.frag" />
+    <None Include="VoxelFallback.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85B49496-34A9-40F6-B52F-3663124FEC94}</ProjectGuid>

@@ -38,12 +38,10 @@ public:
 	bool NeedsRebuild;
 
 private:
-	void RenderStage1();
-	void RenderStage2();
+	void Render();
 
 private:
-	VCRenderStage* m_renderStage1;
-	VCRenderStage* m_renderStage2;
+	VCRenderStage* m_renderStage;
 
 	VCWorld* m_world;
 
@@ -51,17 +49,10 @@ private:
 	int m_blockX, m_blockY, m_blockZ;
 	bool m_isEmpty;
 
-	GLuint m_inputVAO;
-	GLuint m_inputBuffer;
-	GLuint m_feedbackBuffer;
-	GLuint m_transformFeedbackObject;
-	GLint m_inputVCount;
-	GLuint m_feedbackVAO;
-
-	// Debug
-	GLuint m_quary;
-
-	BlockPoint* m_rebuildVerticies;
+	// Rendering
+	GLuint m_VAO;
+	GLuint m_VBO;
+	GLint m_vertexCount;
 
 	friend class VCChunkGenerator;
 };

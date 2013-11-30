@@ -241,6 +241,9 @@
     <ClCompile Include="VCTerrainConstructionShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="VCVoxelFallbackShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -433,6 +436,9 @@
     <ClInclude Include="VCTerrainConstructionShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="VCVoxelFallbackShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">
@@ -480,6 +486,12 @@
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
     <None Include="TerrainConstruction.geom">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="VoxelFallback.vert">
+      <Filter>Rendering\Shaders\GLSL</Filter>
+    </None>
+    <None Include="VoxelFallback.frag">
       <Filter>Rendering\Shaders\GLSL</Filter>
     </None>
   </ItemGroup>

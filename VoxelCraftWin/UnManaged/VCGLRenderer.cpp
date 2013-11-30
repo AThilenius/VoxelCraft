@@ -16,6 +16,7 @@
 #include "VCColorPassThroughShader.h"
 #include "VCTerrainConstructionShader.h"
 #include "VCTerrianFeedbackShader.h"
+#include "VCVoxelFallbackShader.h"
 
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
@@ -78,6 +79,9 @@ void VCGLRenderer::Initialize()
 
 	TerrainFeedbackShader = new VCTerrianFeedbackShader();
 	TerrainFeedbackShader->Initialize();
+
+	VoxelFallbackShader = new VCVoxelFallbackShader();
+	VoxelFallbackShader->Initialize();
 
     glErrorCheck();
     std::cout << "VCGLRenderer Initialized" << std::endl;
