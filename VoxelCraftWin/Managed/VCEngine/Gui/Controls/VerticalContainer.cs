@@ -70,6 +70,11 @@ namespace VCEngine
             }
         }
 
+        public void AddPadding(int size = 10)
+        {
+            m_yOffset += size;
+        }
+
         public override void RemoveControl(Control control)
         {
             throw new NotImplementedException();

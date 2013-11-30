@@ -164,12 +164,18 @@ namespace VCEngine
         {
             VCInteropWorldRebuild(UnManagedHandle, RebuildParams);
             RebuildParams.ForceRebuildAll = false;
-        } 
+        }
 
         public Block GetBlock(int x, int y, int z)
         {
             return VCInteropWorldGetBlock(UnManagedHandle, x, y, z);
         }
+
+        public Block GetBlock(Location loc)
+        {
+            return VCInteropWorldGetBlock(UnManagedHandle, loc.X, loc.Y, loc.Z);
+        }
+
         public Block GetBlock(float x, float y, float z)
         {
             return VCInteropWorldGetBlock(UnManagedHandle, (int)Math.Floor(x), (int)Math.Floor(y), (int)Math.Floor(z));

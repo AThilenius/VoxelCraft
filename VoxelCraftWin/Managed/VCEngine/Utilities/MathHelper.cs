@@ -310,6 +310,14 @@ namespace VCEngine
             return value;
         }
 
+        public static int RoundedDevision(int top, int bottom)
+        {
+            double topF = (float)top;
+            double bottomF = (float)bottom;
+
+            return (int)Math.Round(topF / bottomF);
+        }
+
 		#endregion
 	}
 }

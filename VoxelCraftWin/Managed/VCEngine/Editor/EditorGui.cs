@@ -38,13 +38,34 @@ namespace VCEngine
             ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
             ColorPage.AddControl(ColorPicker);
 
-            Button eyeDropButton = new Button("Eye Dropper");
-            eyeDropButton.Click += (sender, args) => EditorWorld.MasterGameWindow.RequestEyeDrop();
-            ColorPage.AddControl(eyeDropButton);
+            VerticalContainer controlsContainer = new VerticalContainer();
+            controlsContainer.AddControl(new Label("Controls:"));
 
-            Button circleButton = new Button("Circle Tool");
-            circleButton.Click += (s, a) => EditorWorld.MasterGameWindow.RequestCircle();
-            ColorPage.AddControl(circleButton);
+            // Controls:
+            {
+                SelectionButton selectionButton = new SelectionButton("Selection");
+                selectionButton.OnSelection += (sender, args) => EditorWorld.MasterGameWindow.ActiveTool = new BlockClickDragTool(EditorWorld.MasterGameWindow);
+                controlsContainer.AddControl(selectionButton);
+
+                SelectionButton circleButton = new SelectionButton("Circle Tool");
+                circleButton.OnSelection += (s, a) => EditorWorld.MasterGameWindow.ActiveTool = new CircleTool(EditorWorld.MasterGameWindow);
+                controlsContainer.AddControl(circleButton);
+
+                SelectionButton eyeDropButton = new SelectionButton("Eye Dropper");
+                eyeDropButton.OnSelection += (sender, args) =>
+                    {
+                        EyeDropperTool edt = new EyeDropperTool(EditorWorld.MasterGameWindow);
+                        edt.OnPicked += (s, a) => ColorPicker.ColorRGB = edt.ColorRGB;
+                        EditorWorld.MasterGameWindow.ActiveTool = edt;
+                    };
+                controlsContainer.AddControl(eyeDropButton);
+
+                SelectionButton.CreateGroup(selectionButton, circleButton, eyeDropButton);
+                selectionButton.Activate();
+                controlsContainer.Frame = new Rectangle(0, 0, 0, 120);
+            }
+
+            ColorPage.AddControl(controlsContainer);
 
             Button shadowButton = new Button("Hide Shadows");
             shadowButton.Click += (s, a) =>
@@ -76,7 +97,7 @@ namespace VCEngine
             Window.Resize += (s, a) => InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
 
             ColorPage = new VerticalContainer();
-            InspectorWindow.AddTab("Colors", ColorPage);
+            InspectorWindow.AddTab("Tools", ColorPage);
 
             Solution = new SolutionExplorer();
             InspectorWindow.AddTab("Solution Explorer", Solution);

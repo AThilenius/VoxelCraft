@@ -50,9 +50,14 @@
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
     <Compile Include="Gui\Args\ResizeEventArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
-    <Compile Include="Gui\Controls\GameWindow.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\BlockClickDragTool.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\CircleTool.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\EyeDropperTool.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\GameWindow.cs" />
     <Compile Include="Gui\Controls\HslColorPicker.cs" />
     <Compile Include="Gui\Controls\Label.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\ModelTool.cs" />
+    <Compile Include="Gui\Controls\SelectionButton.cs" />
     <Compile Include="Gui\Controls\Slider.cs" />
     <Compile Include="Gui\Controls\SolutionExplorer.cs" />
     <Compile Include="Gui\Controls\Tab.cs" />
