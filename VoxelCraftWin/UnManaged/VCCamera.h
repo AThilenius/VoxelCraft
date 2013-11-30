@@ -18,6 +18,8 @@ public:
     
 	virtual void PreRender();
 	glm::vec3 ScreenPointToDirection( VCRectangle viewPort, VCPoint screenPoint );
+
+public:
 	float FovDeg;
 	float Aspect;
 	float NearClip;
@@ -31,11 +33,8 @@ public:
 	glm::mat4 ProjectionMatrix;
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
-
 	glm::mat4 InverseViewMatrix;
-    
-    
-    
+        
     // ================================      Interop      ============
 public:
     static void RegisterMonoHandlers();

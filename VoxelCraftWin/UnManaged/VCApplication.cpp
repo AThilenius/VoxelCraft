@@ -50,9 +50,6 @@ void VCApplication::Initialize()
     
     SceneGraph = new VCSceneGraph();
     SceneGraph->Initalize();
-
-	Debug = new VCDebug();
-	Debug->Initialize();
 }
 
 void VCApplication::EditorMain()

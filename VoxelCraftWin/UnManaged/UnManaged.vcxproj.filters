@@ -151,9 +151,6 @@
     <ClCompile Include="VCColorPassThroughShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="VCDebug.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="VCFlatGenerator.cpp">
       <Filter>Voxel\Generators</Filter>
     </ClCompile>
@@ -244,6 +241,9 @@
     <ClCompile Include="VCVoxelFallbackShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="VC3DLineDrawer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -333,9 +333,6 @@
     </ClInclude>
     <ClInclude Include="VCColorPassThroughShader.h">
       <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="VCDebug.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCIChunkGenerator.h">
       <Filter>Voxel\Generators</Filter>
@@ -438,6 +435,9 @@
     </ClInclude>
     <ClInclude Include="VCVoxelFallbackShader.h">
       <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VC3DLineDrawer.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

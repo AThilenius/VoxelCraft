@@ -12,7 +12,6 @@
 #include "VCChunk.h"
 #include "VCBlock.h"
 #include "VCSceneGraph.h"
-#include "VCDebug.h"
 #include "VCStreamHelpers.h"
 #include "VCIChunkGenerator.h"
 #include "VCPhysics.h"

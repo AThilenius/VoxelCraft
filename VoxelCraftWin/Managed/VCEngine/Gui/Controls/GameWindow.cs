@@ -59,7 +59,7 @@ namespace VCEngine
                 Location normalBlockLoc = new Location(normalBlock);
 
                 if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
-                    Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
 
                 // Set start / Eye Dropper out
                 if (GlfwInputState.MouseStates[0].State == TriState.Pressed)
@@ -85,13 +85,13 @@ namespace VCEngine
                     {
                         int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
                         foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
-                            Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                            World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
                     }
 
                     else
                     {
                         foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
-                            Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                            World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
                     }
                 }
 
@@ -145,7 +145,7 @@ namespace VCEngine
                 {
                     foreach (Location loc in World.GetBlocksInRegion(blockLoc, m_startLocation))
                         if (loc.Y > 0)
-                            Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlRed);
+                            World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlRed);
                 }
 
                 // Set all blocks between start and end
@@ -160,7 +160,7 @@ namespace VCEngine
 
             }
 
-            Debug.DrawCube(Vector3.Zero, Vector3.One * 32 * World.ViewDistance, Color.ControlGreen);
+            World.Camera.Debug.DrawCube(Vector3.Zero, Vector3.One * 32 * World.ViewDistance, Color.ControlGreen);
 
             // Camera
             if (GlfwInputState.MouseStates[2].State == TriState.Pressed || 
@@ -194,18 +194,29 @@ namespace VCEngine
             m_rot.X = MathHelper.Clamp(m_rot.X, MathHelper.DegreesToRadians(-89.0f), MathHelper.DegreesToRadians(89.0f));
             World.Camera.Transform.Rotation = Quaternion.FromEuler(m_rot);
 
-            //if (Input.GetKey(Input.Keys.LeftControl) != TriState.None)
-            //    m_speed = 5.0f;
-            //else
-            //    m_speed = 20.0f;
+            if (GlfwInputState.KeyStates[Input.Keys.LeftControl].State != TriState.None)
+                m_speed = 5.0f;
+            else
+                m_speed = 20.0f;
+
+            Vector2 strafeVec = new Vector2(0.0f, 0.0f);
+
+            if (GlfwInputState.KeyStates['W'].State != TriState.None) strafeVec.X += 1.0f;
+            if (GlfwInputState.KeyStates['S'].State != TriState.None) strafeVec.X += -1.0f;
+
+            if (GlfwInputState.KeyStates['A'].State != TriState.None) strafeVec.Y += 1.0f;
+            if (GlfwInputState.KeyStates['D'].State != TriState.None) strafeVec.Y += -1.0f;
+
+            if (strafeVec.X > 0.1f || strafeVec.X < -0.1f || strafeVec.Y > 0.1f || strafeVec.Y < -0.1f)
+                strafeVec.Normalize();
 
             Vector3 forward = World.Camera.Transform.Rotation.Forward;
             forward.Y = 0;
             forward.Normalize();
-            forward *= Input.Strafe.X * Time.DeltaTime * m_speed;
+            forward *= strafeVec.X * Time.DeltaTime * m_speed;
 
             World.Camera.Transform.Position -= forward;
-            World.Camera.Transform.Position -= World.Camera.Transform.Rotation.Right * Input.Strafe.Y * Time.DeltaTime * m_speed;
+            World.Camera.Transform.Position -= World.Camera.Transform.Rotation.Right * strafeVec.Y * Time.DeltaTime * m_speed;
 
             if (GlfwInputState.KeyStates[Input.Keys.LeftShift].State != TriState.None)
                 World.Camera.Transform.Position -= Vector3.UnitY * Time.DeltaTime * m_speed;

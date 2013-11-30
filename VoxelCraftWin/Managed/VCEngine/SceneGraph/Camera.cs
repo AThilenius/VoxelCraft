@@ -27,6 +27,8 @@ namespace VCEngine
 
         #endregion
 
+        public VC3DLineDrawer Debug;
+
         public float FieldOfViewDegrees
         {
             get
@@ -119,12 +121,12 @@ namespace VCEngine
         private Rectangle m_viewport;
         private bool m_fullscreen;
 
-        [Obsolete("Deprecated.", true)]
 		public Camera ()
 		{
             Transform.InvertPosition = true;
             GetData();
             AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
+            Debug = new VC3DLineDrawer(this);
 		}
 
         public Camera(int existingHandle) : base(existingHandle)
@@ -132,6 +134,7 @@ namespace VCEngine
             Transform.InvertPosition = true;
             GetData();
             AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
+            Debug = new VC3DLineDrawer(this);
         }
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)

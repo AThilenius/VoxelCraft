@@ -17,7 +17,6 @@
 #include "VCGui.h"
 #include "VCTime.h"
 #include "VCSceneGraph.h"
-#include "VCDebug.h"
 
 class VCApplication
 {
@@ -39,7 +38,6 @@ public:
     VCMonoRuntime* MonoRuntime;
 	VCLexicalEngine* LexEngine;
 	VCGui* Gui;
-	VCDebug* Debug;
     
     static VCApplication* Instance;
 };

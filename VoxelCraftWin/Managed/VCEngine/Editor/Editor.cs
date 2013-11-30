@@ -41,7 +41,7 @@ namespace VCEngine
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Managed Exception: " + ex.Message);
                 Console.ReadLine();
             }
         }

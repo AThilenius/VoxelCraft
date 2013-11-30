@@ -60,7 +60,7 @@
     <Compile Include="Gui\Controls\TextField.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
     <Compile Include="TestFixture.cs" />
-    <Compile Include="Utilities\Debug.cs" />
+    <Compile Include="Utilities\VC3DLineDrawer.cs" />
     <Compile Include="Utilities\TrinaryStateTracker.cs" />
     <Compile Include="Voxel\FlatChunkGenerator.cs" />
     <Compile Include="Gui\Controls\Button.cs" />

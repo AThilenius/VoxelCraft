@@ -63,7 +63,6 @@ namespace VCEngine
             {
                 Time.Update();
                 Gui.PreUpdate();
-                Debug.Reset();
 
                 if (!EditorMode)
                 {

@@ -17,12 +17,18 @@ namespace VCEngine
 
         public MarshaledObject()
         {
+            if (UnManagedCTor == null)
+                return;
+
             UnManagedHandle = UnManagedCTor();
             ObjectStore.RegisterObject(this, UnManagedHandle);
         }
 
         public MarshaledObject(int existingHandle)
         {
+            if (UnManagedDTor == null)
+                return;
+
             UnManagedHandle = existingHandle;
             ObjectStore.RegisterObject(this, UnManagedHandle);
         }
