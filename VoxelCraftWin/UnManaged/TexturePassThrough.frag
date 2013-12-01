@@ -8,11 +8,13 @@
 
 #version 150
 
-in vec2 UV;
-out vec4 color;
+in vec2 VaryingUV;
+
 uniform sampler2D texture;
+
+out vec4 fragColor;
 
 void main()
 {
-	color = texture2D(texture, UV);
+	fragColor = texture2D(texture, VaryingUV);
 }

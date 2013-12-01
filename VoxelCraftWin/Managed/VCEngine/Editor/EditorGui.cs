@@ -107,6 +107,22 @@ namespace VCEngine
             InspectorWindow.AddTab("Diagnostics", Diagnostics);
 
             FillColorControls();
+
+
+            // DEBUG
+            TreeView tv = new TreeView();
+            InspectorWindow.AddTab("Test Tree", tv);
+
+            TreeViewItem tvi1 = new TreeViewItem(tv, null); tv.AddItem(tvi1); tvi1.Text = "Head";
+
+            TreeViewItem tvi2 = new TreeViewItem(tv, tvi1); tvi1.AddChildItem(tvi2); tvi2.Text = "Child Level 1 - 1";
+            TreeViewItem tvi3 = new TreeViewItem(tv, tvi1); tvi1.AddChildItem(tvi3); tvi3.Text = "Child Level 1 - 2";
+            TreeViewItem tvi4 = new TreeViewItem(tv, tvi1); tvi1.AddChildItem(tvi4); tvi4.Text = "Child Level 1 - 3";
+
+            TreeViewItem tvi5 = new TreeViewItem(tv, tvi3); tvi3.AddChildItem(tvi5); tvi5.Text = "Child Level 2 - 1";
+            TreeViewItem tvi6 = new TreeViewItem(tv, tvi3); tvi3.AddChildItem(tvi6); tvi6.Text = "Child Level 2 - 2";
+
+            tv.NotfyUpdate();
         }
 
         private static void CreateMenuBar()

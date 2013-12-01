@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VC3DLineDrawer.cpp" />
+    <ClCompile Include="VCImageBuilder.cpp" />
+    <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -69,7 +71,7 @@
     <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCShadowShader.cpp" />
     <ClCompile Include="VCStreamHelpers.cpp" />
-    <ClCompile Include="VCTextureShader.cpp" />
+    <ClCompile Include="VCTexturePassThroughShader.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
     <ClCompile Include="VCVoxelFallbackShader.cpp" />
@@ -89,6 +91,8 @@
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
+    <ClInclude Include="VCImageBuilder.h" />
+    <ClInclude Include="VCImageInstance.h" />
     <ClInclude Include="VCLineDrawer.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
@@ -136,7 +140,7 @@
     <ClInclude Include="VCShadowShader.h" />
     <ClInclude Include="VCTextBuffer.h" />
     <ClInclude Include="VCTextBuilder.h" />
-    <ClInclude Include="VCTextureShader.h" />
+    <ClInclude Include="VCTexturePassThroughShader.h" />
     <ClInclude Include="VCTime.h" />
     <ClInclude Include="VCUpdateManager.h" />
     <ClInclude Include="VCVoxelFallbackShader.h" />

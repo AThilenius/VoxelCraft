@@ -8,11 +8,15 @@
 
 #version 150
 	
-in vec3 position;
-out vec2 UV;
+in vec4 Position;
+in vec2 UV;
+
+uniform mat4 projMatrix;
+
+out vec2 VaryingUV;
 
 void main()
 {
-	gl_Position =  vec4(position, 1);
-	UV = (position.xy + vec2(1, 1)) / 2.0;
+	gl_Position =  projMatrix * Position;
+	VaryingUV =  UV;
 }

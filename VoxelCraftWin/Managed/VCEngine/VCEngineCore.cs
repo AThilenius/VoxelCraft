@@ -43,6 +43,8 @@ namespace VCEngine
                 }
 
                 SceneGraph.RootNode.PropagateStart();
+
+                TestFixture.OnStart();
             }
             catch (Exception ex)
             {

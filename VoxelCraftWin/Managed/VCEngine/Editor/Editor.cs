@@ -29,6 +29,7 @@ namespace VCEngine
                     VCEngineCore.PropagateUpdates();
 
                     Control.MainControl.Render();
+                    TestFixture.LatePerUpdate();
 
                     // Rendering
                     GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);

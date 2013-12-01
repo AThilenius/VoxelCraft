@@ -9,7 +9,7 @@
 #pragma once
 
 class VCShadowShader;
-class VCTextureShader;
+class VCTexturePassThroughShader;
 class VCLexShader;
 class VCGuiShader;
 class VCColorPassThroughShader;
@@ -43,7 +43,7 @@ public:
 
 	// Member
 	VCShadowShader* ShadowShader;
-	VCTextureShader* TextureShader;
+	VCTexturePassThroughShader* TexturePassthroughShader;
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
 	VCColorPassThroughShader* ColorPassThroughShader;

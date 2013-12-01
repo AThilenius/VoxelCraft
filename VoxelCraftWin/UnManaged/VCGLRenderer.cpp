@@ -10,7 +10,7 @@
 #include "VCGLRenderer.h"
 
 #include "VCShadowShader.h"
-#include "VCTextureShader.h"
+#include "VCTexturePassThroughShader.h"
 #include "VCLexShader.h"
 #include "VCGuiShader.h"
 #include "VCColorPassThroughShader.h"
@@ -65,8 +65,8 @@ void VCGLRenderer::Initialize()
 	LexShader = new VCLexShader();
 	LexShader->Initialize();
 
-	TextureShader = new VCTextureShader();
-	TextureShader->Initialize();
+	TexturePassthroughShader = new VCTexturePassThroughShader();
+	TexturePassthroughShader->Initialize();
 
 	GuiShader = new VCGuiShader();
 	GuiShader->Initialize();

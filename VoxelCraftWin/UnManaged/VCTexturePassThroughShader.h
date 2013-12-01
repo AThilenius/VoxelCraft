@@ -10,13 +10,13 @@
 
 #include "VCShader.h"
 
-class VCTextureShader : public VCShader
+class VCTexturePassThroughShader : public VCShader
 {
 public:
-	VCTextureShader(void);
-	~VCTextureShader(void);
+	VCTexturePassThroughShader(void);
+	~VCTexturePassThroughShader(void);
 
-	void SetTextureUnit(GLint tex);
+	virtual void SetModelMatrix(glm::mat4 modelMatrix);
 
 protected:
 	virtual void BindAttribLocations();
@@ -24,6 +24,7 @@ protected:
 	virtual void PostInitialize();
 
 private:
+	GLint m_unifMVP;
 	GLint m_unifTexture;
 };
 

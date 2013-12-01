@@ -13,6 +13,7 @@ struct VCTextMetrics;
 
 #include "VCGeometryBuilder.h"
 #include "VCTextBuilder.h"
+#include "VCImageBuilder.h"
 #include "VCMonoString.h"
 
 class VCGui
@@ -26,6 +27,7 @@ public:
 
 	VCGeometryBuilder Geometry;
 	VCTextBuilder Text;
+	VCImageBuilder ImageBuilder;
 	VCCamera* GuiCamera;
 
 public:
@@ -39,8 +41,15 @@ public:
 
 // Interop
 void VCInteropGuiClear();
+
+// Geometry
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
 void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color);
+
+// Text
 void VCInteropGuiDrawText(int font, VCMonoStringPtr text, VCPoint point, vcint4 color);
 void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics);
+
+// Images
+void VCInteropGuiDrawImage(VCMonoStringPtr path, VCRectangle frame);

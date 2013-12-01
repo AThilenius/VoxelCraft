@@ -124,9 +124,6 @@
     <ClCompile Include="VCShadowShader.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="VCTextureShader.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="VCPhysics.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -244,6 +241,15 @@
     <ClCompile Include="VC3DLineDrawer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="VCImageBuilder.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VCTexturePassThroughShader.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VCImageInstance.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -298,9 +304,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="VCTextureShader.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="VCShadowShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
@@ -438,6 +441,15 @@
     </ClInclude>
     <ClInclude Include="VC3DLineDrawer.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCImageBuilder.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VCTexturePassThroughShader.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VCImageInstance.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,3 +21,4 @@ class VCTexture;
 typedef std::shared_ptr<VCTexture> VCTexturePtr;
 
 typedef srutil::delegate<void (void)> VCVoidDelegate;
+#define VC_VOID_DELEGATE_METHOD(t,m) VCVoidDelegate::from_method<t, &t::m>(this)

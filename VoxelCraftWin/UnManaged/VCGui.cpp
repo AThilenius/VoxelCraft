@@ -47,6 +47,7 @@ void VCGui::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiGetTextMetrics",		(void*)VCInteropGuiGetTextMetrics);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawImage",			(void*)VCInteropGuiDrawImage);
 }
 
 void VCInteropGuiClear()
@@ -77,4 +78,9 @@ void VCInteropGuiDrawText(int font,VCMonoStringPtr text, VCPoint point, vcint4 c
 void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics)
 {
 	*metrics = VCLexicalEngine::Instance->GetMetrics(font, VCMonoString(text));
+}
+
+void VCInteropGuiDrawImage( VCMonoStringPtr path, VCRectangle frame )
+{
+	VCGui::Instance->ImageBuilder.DrawImage(VCMonoString(path), frame);
 }

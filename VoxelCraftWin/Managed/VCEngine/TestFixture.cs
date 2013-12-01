@@ -8,13 +8,20 @@ namespace VCEngine
     public class TestFixture
     {
 
+        internal static void OnStart()
+        {
+        }
+
         public static void PerUpdate()
         {
-            //for (int i = 0; i < 500; i++)
-            //{
-            //    Gui.DrawString("Test text string", new Point(20, i), Color.Black);
-            //}
+
         }
+
+        public static void LatePerUpdate()
+        {
+
+        }
+
 
     }
 }

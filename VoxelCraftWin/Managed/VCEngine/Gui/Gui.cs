@@ -44,6 +44,10 @@ namespace VCEngine
 
     public class Gui
     {
+        public static string ResourcesFolder { get { return Path.Combine(Environment.CurrentDirectory, @"Resources"); } }
+        public static string ImagesFolder { get { return Path.Combine(ResourcesFolder, @"Images"); } }
+
+
         #region Bindings
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -66,6 +70,9 @@ namespace VCEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
 
         #endregion
 
@@ -155,9 +162,37 @@ namespace VCEngine
             DrawRectangle(new Rectangle(x, y, width, height), color);
         }
 
+        public static void DrawImage(string path, Rectangle frame, bool absolutePath = false)
+        {
+            if (!absolutePath)
+            {
+                string absp = Path.Combine(ImagesFolder, path);
+                TestFileExistance(absp);
+                VCInteropGuiDrawImage(absp, frame);
+            }
+
+            else
+            {
+                TestFileExistance(path);
+                VCInteropGuiDrawImage(path, frame);
+            }
+        }
+
         public static void PreUpdate()
         {
             Gui.Clear();
+        }
+
+        private static bool TestFileExistance(string fullPath)
+        {
+            if (!File.Exists(fullPath))
+            {
+                Console.WriteLine("Cannot find file: " + fullPath);
+                Console.ReadLine();
+                return false;
+            }
+
+            return true;
         }
 
     }
