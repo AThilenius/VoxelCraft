@@ -74,11 +74,11 @@ void VCGLRenderer::Initialize()
 	ColorPassThroughShader = new VCColorPassThroughShader();
 	ColorPassThroughShader->Initialize();
 
-	TerrainConstructionShader = new VCTerrainConstructionShader();
-	TerrainConstructionShader->Initialize();
+	//TerrainConstructionShader = new VCTerrainConstructionShader();
+	//TerrainConstructionShader->Initialize();
 
-	TerrainFeedbackShader = new VCTerrianFeedbackShader();
-	TerrainFeedbackShader->Initialize();
+	//TerrainFeedbackShader = new VCTerrianFeedbackShader();
+	//TerrainFeedbackShader->Initialize();
 
 	VoxelFallbackShader = new VCVoxelFallbackShader();
 	VoxelFallbackShader->Initialize();

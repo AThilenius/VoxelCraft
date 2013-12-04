@@ -27,13 +27,6 @@ struct BlockVerticie
 	GLubyte4 color;
 };
 
-struct VCRunLengtth
-{
-	VCRunLengtth(): Color(0, 0, 0, 0), Length(0){}
-	GLubyte4 Color;
-	unsigned int Length;
-};
-
 VCChunk::VCChunk():
 	m_x(0),
 	m_y(0),

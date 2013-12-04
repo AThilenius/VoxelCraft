@@ -47,8 +47,8 @@ public:
 	VCLexShader* LexShader;
 	VCGuiShader* GuiShader;
 	VCColorPassThroughShader* ColorPassThroughShader;
-	VCTerrainConstructionShader* TerrainConstructionShader;
-	VCTerrianFeedbackShader* TerrainFeedbackShader;
+	//VCTerrainConstructionShader* TerrainConstructionShader;
+	//VCTerrianFeedbackShader* TerrainFeedbackShader;
 	VCVoxelFallbackShader* VoxelFallbackShader;
 	bool ShadowFallback;
 

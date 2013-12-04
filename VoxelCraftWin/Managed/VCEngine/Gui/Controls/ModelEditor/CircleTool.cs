@@ -11,6 +11,7 @@ namespace VCEngine
         private bool m_isDraggingLeft;
         private bool m_isDraggingRight;
         private Random m_random = new Random();
+        private UndoStack<BlockChangeUndoToken> m_undoStack = new UndoStack<BlockChangeUndoToken>();
 
         public CircleTool(GameWindow parent)
             : base(parent)
@@ -62,6 +63,7 @@ namespace VCEngine
             // Set all blocks between start and end
             else if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
             {
+                BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
                 float Value = EditorGui.RandomColorFactor.Value;
 
                 int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
@@ -74,9 +76,13 @@ namespace VCEngine
                     Color c = Color.HslToRgba(hsl);
 
                     if (loc.Y > 0)
+                    {
+                        undoToken.AddBlock(loc, World.GetBlock(loc).Color, c);
                         World.SetBlock(loc, new Block(c));
+                    }
                 }
 
+                Parent.UndoStack.AddToken(undoToken);
                 World.ReBuild();
                 m_isDraggingLeft = false;
             }
@@ -102,11 +108,16 @@ namespace VCEngine
             // Set all blocks between start and end
             else if (GlfwInputState.MouseStates[1].State == TriState.Up && m_isDraggingRight)
             {
+                BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
                 int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
                 foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
                     if (loc.Y > 0)
+                    {
+                        undoToken.AddBlock(loc, World.GetBlock(loc).Color, Block.Empty.Color);
                         World.SetBlock(loc, Block.Empty);
+                    }
 
+                Parent.UndoStack.AddToken(undoToken);
                 World.ReBuild();
                 m_isDraggingRight = false;
             }

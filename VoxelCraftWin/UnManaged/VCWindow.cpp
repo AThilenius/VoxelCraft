@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Thilenius. All rights reserved.
 //
 
-#define SHOW_GL_WARNINGS
+#define SHOW_GL_WARNINGS 0
 
 #include "stdafx.h"
 #include "VCWindow.h"

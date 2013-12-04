@@ -44,12 +44,17 @@
     <Compile Include="Components\RidgedBody.cs" />
     <Compile Include="Editor\EditorGui.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
+    <Compile Include="Entity\Entity.cs" />
+    <Compile Include="Entity\EntityDescription.cs" />
+    <Compile Include="Entity\Mesh.cs" />
+    <Compile Include="Entity\Resource.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />
     <Compile Include="Gui\Args\GPMouseEventArgs.cs" />
     <Compile Include="Gui\Args\MouseEventArgs.cs" />
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
     <Compile Include="Gui\Args\ResizeEventArgs.cs" />
     <Compile Include="Gui\Controls\DiagnosticsPane.cs" />
+    <Compile Include="Gui\Controls\ModelEditor\BlockChangeUndoToken.cs" />
     <Compile Include="Gui\Controls\TreeView\ExpandButton.cs" />
     <Compile Include="Gui\Controls\ModelEditor\BlockClickDragTool.cs" />
     <Compile Include="Gui\Controls\ModelEditor\CircleTool.cs" />
@@ -67,6 +72,8 @@
     <Compile Include="Gui\Controls\TreeView\TreeView.cs" />
     <Compile Include="Gui\Controls\TreeView\TreeViewItem.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
+    <Compile Include="Gui\Undo\IUndoToken.cs" />
+    <Compile Include="Gui\Undo\UndoStack.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\VC3DLineDrawer.cs" />
     <Compile Include="Utilities\TrinaryStateTracker.cs" />

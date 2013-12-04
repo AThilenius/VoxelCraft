@@ -11,6 +11,7 @@ namespace VCEngine
 
         // Active Tool
         public ModelTool ActiveTool;
+        public UndoStack<BlockChangeUndoToken> UndoStack = new UndoStack<BlockChangeUndoToken>();
         
         // Camera
         private float m_speed = 20.0f;
@@ -60,8 +61,29 @@ namespace VCEngine
             else
                 ActiveTool.Update(null);
 
-            // Outline World
-            World.Camera.Debug.DrawCube(Vector3.Zero, Vector3.One * 32 * World.ViewDistance, Color.ControlGreen);
+            // Outline each chunk World
+            for (int x = 0; x < World.ViewDistance; x++)
+            {
+                for (int y = 0; y < World.ViewDistance; y++)
+                {
+                    for (int z = 0; z < World.ViewDistance; z++)
+                    {
+                        World.Camera.Debug.DrawCube(new Vector3(x * 32, y * 32, z * 32), Vector3.One * 32, Color.ControlGreen);
+                    }
+                }
+            }
+
+            // Undo / ReDo
+            if (GlfwInputState.KeyStates[Input.Keys.LeftControl].State != TriState.None &&
+                GlfwInputState.KeyStates[Input.Keys.LeftAlt].State == TriState.None &&
+                GlfwInputState.KeyStates['Z'].State == TriState.Pressed)
+                UndoStack.UndoLast();
+
+            if (GlfwInputState.KeyStates[Input.Keys.LeftControl].State != TriState.None &&
+                GlfwInputState.KeyStates[Input.Keys.LeftAlt].State != TriState.None &&
+                GlfwInputState.KeyStates['Z'].State == TriState.Pressed)
+                UndoStack.ReDoLast();
+            
 
             // Camera
             if (GlfwInputState.MouseStates[2].State == TriState.Pressed || 

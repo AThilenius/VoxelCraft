@@ -39,6 +39,7 @@ namespace VCEngine
             if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
                 World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
 
+
             // ======   Left Mouse   ============================================================
 
             // Set start
@@ -55,9 +56,10 @@ namespace VCEngine
                     World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
             }
 
-            // Set all blocks between start and end
+            // Create an Undo Token, Set all blocks between start and end
             else if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
             {
+                BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
                 float Value = EditorGui.RandomColorFactor.Value;
 
                 foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
@@ -69,12 +71,17 @@ namespace VCEngine
                     Color c = Color.HslToRgba(hsl);
 
                     if (loc.Y > 0)
+                    {
+                        undoToken.AddBlock(loc, World.GetBlock(loc).Color, c);
                         World.SetBlock(loc, new Block(c));
+                    }
                 }
 
+                Parent.UndoStack.AddToken(undoToken);
                 World.ReBuild();
                 m_isDraggingLeft = false;
             }
+
 
             // ======   Right Mouse   ============================================================
 
@@ -93,16 +100,23 @@ namespace VCEngine
                         World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlRed);
             }
 
-            // Set all blocks between start and end
+            // Create an undo token, Set all blocks between start and end
             else if (GlfwInputState.MouseStates[1].State == TriState.Up && m_isDraggingRight)
             {
+                BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
+
                 foreach (Location loc in World.GetBlocksInRegion(blockLoc, m_startLocation))
                     if (loc.Y > 0)
+                    {
+                        undoToken.AddBlock(loc, World.GetBlock(loc).Color, Block.Empty.Color);
                         World.SetBlock(loc, Block.Empty);
+                    }
 
+                Parent.UndoStack.AddToken(undoToken);
                 World.ReBuild();
                 m_isDraggingRight = false;
             }
+
         }
 
     }

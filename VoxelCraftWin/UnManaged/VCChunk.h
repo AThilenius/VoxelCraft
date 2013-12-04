@@ -16,6 +16,13 @@ struct VCWorldRebuildParams;
 #include "VCGameObject.h"
 #include "VCBlock.h"
 
+struct VCRunLengtth
+{
+	VCRunLengtth(): Color(0, 0, 0, 0), Length(0){}
+	GLubyte4 Color;
+	unsigned int Length;
+};
+
 class VCChunk : public VCGameObject
 {
 public:
