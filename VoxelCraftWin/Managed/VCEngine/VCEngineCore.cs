@@ -20,7 +20,7 @@ namespace VCEngine
             {
                 SceneGraph.RootNode = new GameObject();
                 Window.Initialize();
-                Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Fonts");
+                Gui.LoadFontsFromForlder(Environment.CurrentDirectory + @"\Resources\Fonts");
 
                 if (!EditorMode)
                     AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");

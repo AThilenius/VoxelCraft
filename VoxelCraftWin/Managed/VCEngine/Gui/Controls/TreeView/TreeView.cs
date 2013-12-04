@@ -9,17 +9,27 @@ namespace VCEngine
     {
         public int VerticalPadding = 0;
 
-        private int m_yOffset = 0;
-        private List<TreeViewItem> m_children = new List<TreeViewItem>();
-        private Boolean m_needsRebuild;
+        protected int m_yOffset = 0;
+        protected List<TreeViewItem> m_childrenTVI = new List<TreeViewItem>();
+        protected Boolean m_needsRebuild;
+
+        public TreeView()
+        {
+            Resize += TreeView_Resize;
+        }
+
+        void TreeView_Resize(object sender, ResizeEventArgs e)
+        {
+            NotifyUpdate();
+        }
 
         public void AddItem(TreeViewItem control)
         {
             AddControl(control);
-            m_children.Add(control);
+            m_childrenTVI.Add(control);
         }
 
-        public void NotfyUpdate()
+        public void NotifyUpdate()
         {
             m_needsRebuild = true;
         }
@@ -30,7 +40,7 @@ namespace VCEngine
             {
                 m_yOffset = 0;
 
-                foreach (TreeViewItem child in m_children)
+                foreach (TreeViewItem child in m_childrenTVI)
                     Rebuild(child);
 
                 m_needsRebuild = false;
@@ -53,14 +63,14 @@ namespace VCEngine
             {
                 indentCount++;
 
-                foreach (TreeViewItem child in item.Children)
+                foreach (TreeViewItem child in item.TreeViewChildren)
                     Rebuild(child, indentCount);
             }
         }
 
         private void SetAllChildrenVisibuilty(TreeViewItem item, bool visible)
         {
-            foreach (TreeViewItem child in item.Children)
+            foreach (TreeViewItem child in item.TreeViewChildren)
             {
                 child.Visible = visible;
                 SetAllChildrenVisibuilty(child, visible);

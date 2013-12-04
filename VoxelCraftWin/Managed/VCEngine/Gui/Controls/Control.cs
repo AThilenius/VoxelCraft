@@ -26,6 +26,7 @@ namespace VCEngine
             }
         }
         public int          BorderWidth;
+        public bool         ClipView;
 
         public Color        BackgroundColor = Color.ControlMediumBackground;
         public Color        BorderColor = Color.ControlVeryDark;
@@ -114,6 +115,7 @@ namespace VCEngine
         private Rectangle m_frame = new Rectangle();
         private Control m_activeChild;
         private bool m_wasPointInThis;
+        private double m_lastClickTime;
 
         public Control()
         {
@@ -136,7 +138,7 @@ namespace VCEngine
             Update();
 
             foreach (Control ctrl in Children)
-                ctrl.Update();
+                ctrl.PropagateUpdate();
         }
 
         public virtual void AddControl(Control control)
@@ -206,6 +208,12 @@ namespace VCEngine
             {
                 case MouseEventType.Click:
                     Click(sender, args);
+
+                    // 250ms double click
+                    if (Time.CurrentTime < m_lastClickTime + 0.250f)
+                        DoubleClick(sender, args);
+
+                    m_lastClickTime = Time.CurrentTime;
                     return;
 
                 case MouseEventType.RightClick:

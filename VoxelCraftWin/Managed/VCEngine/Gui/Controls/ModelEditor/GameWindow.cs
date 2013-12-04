@@ -18,13 +18,14 @@ namespace VCEngine
         private Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
         private Point m_startPosition;
 
+        // Diagnostics
+        private float m_lastDeltaTime = 0.001f;
+        private int m_yOffset = 0;
+
         public GameWindow(int viewDistance)
         {
             BackgroundColor = Color.Trasparent;
             DrawHover = false;
-
-            BorderColor = Color.ControlBlue;
-            BorderWidth = 1;
 
             World = new World();
             World.Generator = new FlatChunkGenerator();
@@ -146,6 +147,24 @@ namespace VCEngine
 
             if (GlfwInputState.KeyStates[' '].State != TriState.None)
                 World.Camera.Transform.Position += Vector3.UnitY * Time.DeltaTime * m_speed;
+        }
+
+        protected override void Draw()
+        {
+            base.Draw();
+            Rectangle sf = ScreenFrame;
+
+            m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * Time.DeltaTime;
+            m_yOffset = 20;
+
+            DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
+            DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
+        }
+
+        private void DrawText(string text, Rectangle sf)
+        {
+            Gui.DrawString(text, new Point(sf.X + 5, sf.Y + sf.Height - m_yOffset), Color.White);
+            m_yOffset += 20;
         }
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)

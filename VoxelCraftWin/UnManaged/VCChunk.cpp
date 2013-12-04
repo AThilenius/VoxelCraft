@@ -410,7 +410,13 @@ void VCChunk::Render()
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	//glDisable(GL_CULL_FACE);
+
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	//glEnable(GL_CULL_FACE);
 
 	glBindVertexArray(0);
 	glErrorCheck();

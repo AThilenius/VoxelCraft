@@ -34,7 +34,6 @@ public:
 	void DrawEllipse ( VCPoint centroid, int width, int height, GLubyte4 color );
 	void AddQuad( GuiRectVerticie vert );
 
-	void Reset();
 	void Initialize();
 
 private:

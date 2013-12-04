@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "VCShader.h"
 
+#define SHADER_PATH_PREFIX "Resources\\Shaders\\"
+
 #define VERT_FILE_EXTENSION ".vert"
 #define GEOM_FILE_EXTENSION ".geom"
 #define FRAG_FILE_EXTENSION ".frag"
@@ -49,7 +51,7 @@ void VCShader::Initialize()
 	// =====   Create and compile shaders   ======================================================
 	if (m_vertexShader != NULL)
 	{
-		std::string literal = LoadTextFile(std::string(m_vertexShader) + VERT_FILE_EXTENSION);
+		std::string literal = LoadTextFile(SHADER_PATH_PREFIX + std::string(m_vertexShader) + VERT_FILE_EXTENSION);
 		CompileShader(GL_VERTEX_SHADER, &vertShader, literal);
 
 		glAttachShader(m_programId, vertShader);
@@ -57,7 +59,7 @@ void VCShader::Initialize()
 
 	if (m_geometryShader != NULL)
 	{
-		std::string literal = LoadTextFile(std::string(m_geometryShader) + GEOM_FILE_EXTENSION);
+		std::string literal = LoadTextFile(SHADER_PATH_PREFIX + std::string(m_geometryShader) + GEOM_FILE_EXTENSION);
 		CompileShader(GL_GEOMETRY_SHADER, &geometryShader, literal);
 
 		glAttachShader(m_programId, geometryShader);
@@ -65,7 +67,7 @@ void VCShader::Initialize()
 
 	if (m_fragShader != NULL)
 	{
-		std::string literal = LoadTextFile(std::string(m_fragShader) + FRAG_FILE_EXTENSION);
+		std::string literal = LoadTextFile(SHADER_PATH_PREFIX + std::string(m_fragShader) + FRAG_FILE_EXTENSION);
 		CompileShader(GL_FRAGMENT_SHADER, &fragShader, literal);
 
 		glAttachShader(m_programId, fragShader);

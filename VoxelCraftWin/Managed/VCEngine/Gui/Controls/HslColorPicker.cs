@@ -25,6 +25,7 @@ namespace VCEngine
                 m_colorHSL = Color.RgbaToHsl(value);
             }
         }
+        public float RandomMultiplier = 0.1f;
 
         private Vector4 m_colorHSL;
         private Color m_colorRGB;
@@ -32,7 +33,7 @@ namespace VCEngine
         private Rectangle m_spectrumFrame;
         private Rectangle m_saturationFrame;
         private Rectangle m_LuminosityFrame;
-        private Rectangle m_trasparentFrame;
+        private Rectangle m_randomFrame;
 
         public HslColorPicker()
         {
@@ -72,17 +73,16 @@ namespace VCEngine
                 m_colorRGB = Color.HslToRgba(m_colorHSL);
             }
 
-            else if (m_trasparentFrame.IsPointWithin(e.ScreenLocation))
+            else if (m_randomFrame.IsPointWithin(e.ScreenLocation))
             {
-                float value = (e.ScreenLocation.X - m_trasparentFrame.X) / (float)m_trasparentFrame.Width;
-                if (value > 0.95f)
-                    value = 1.0f;
+                float value = (e.ScreenLocation.X - m_randomFrame.X) / (float)m_randomFrame.Width;
+                //if (value > 0.95f)
+                //    value = 1.0f;
 
-                if (value < 0.05)
-                    value = 0.0f;
+                //if (value < 0.05)
+                //    value = 0.0f;
 
-                m_colorHSL = new Vector4(m_colorHSL.X, m_colorHSL.Y, m_colorHSL.Z, value);
-                m_colorRGB = Color.HslToRgba(m_colorHSL);
+                RandomMultiplier = value;
             }
         }
 
@@ -90,6 +90,7 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
             int delta = (int)(sf.Height / 9.0f);
+
 
             // Draw checkered background
             bool dark = true;
@@ -108,24 +109,26 @@ namespace VCEngine
                 }
             }
 
-            Gui.DrawBorderedRect(sf, Color.Trasparent, m_colorRGB, 10);
-
+            // Border
+            Gui.DrawBorderedRect(sf, Color.Trasparent, Color.Black, 2);
+            Gui.DrawBorderedRect(new Rectangle(sf.X + 2, sf.Y + 2, sf.Width - 4, sf.Height - 4), Color.Trasparent, m_colorRGB, 8);
 
             m_spectrumFrame =   new Rectangle(sf.X + 20, sf.Y + delta * 7, sf.Width - 40, delta);
             m_saturationFrame = new Rectangle(sf.X + 20, sf.Y + delta * 5, sf.Width - 40, delta);
             m_LuminosityFrame = new Rectangle(sf.X + 20, sf.Y + delta * 3, sf.Width - 40, delta);
-            m_trasparentFrame = new Rectangle(sf.X + 20, sf.Y + delta * 1, sf.Width - 40, delta);
+            m_randomFrame = new Rectangle(sf.X + 20, sf.Y + delta * 1, sf.Width - 40, delta);
 
             DrawColorSpectrum(m_spectrumFrame, m_colorHSL.Y, m_colorHSL.Z, m_colorRGB.A);
             DrawSauration(m_saturationFrame, m_colorRGB, m_colorHSL.Z);
             DrawLuminosity(m_LuminosityFrame, m_colorRGB, m_colorHSL.Y);
-            DrawTrasparency(m_trasparentFrame, m_colorRGB);
+            DrawRandomSpectrum(m_randomFrame, m_colorHSL, RandomMultiplier);
+            //DrawTrasparency(m_trasparentFrame, m_colorRGB);
 
             // Draw selection rectangles
             Rectangle spectrumSelect = new Rectangle(m_spectrumFrame.X + (int)(m_spectrumFrame.Width * m_colorHSL.X) - 5, m_spectrumFrame.Y - 5, 10, m_spectrumFrame.Height + 10);
             Rectangle saturationSelect = new Rectangle(m_saturationFrame.X + (int)(m_saturationFrame.Width * m_colorHSL.Y) - 5, m_saturationFrame.Y - 5, 10, m_saturationFrame.Height + 10);
             Rectangle luminocitySelect = new Rectangle(m_LuminosityFrame.X + (int)(m_LuminosityFrame.Width * m_colorHSL.Z) - 5, m_LuminosityFrame.Y - 5, 10, m_LuminosityFrame.Height + 10);
-            Rectangle transparencySelector = new Rectangle(m_trasparentFrame.X + (int)(m_trasparentFrame.Width * m_colorHSL.W) - 5, m_trasparentFrame.Y - 5, 10, m_trasparentFrame.Height + 10);
+            Rectangle transparencySelector = new Rectangle(m_randomFrame.X + (int)(m_randomFrame.Width * RandomMultiplier) - 5, m_randomFrame.Y - 5, 10, m_randomFrame.Height + 10);
 
             Gui.DrawBorderedRect(spectrumSelect, m_colorRGB, Color.Black, 2);
             Gui.DrawBorderedRect(saturationSelect, m_colorRGB, Color.Black, 2);
@@ -148,6 +151,30 @@ namespace VCEngine
             Gui.AddVerticie(ul);
             Gui.AddVerticie(lr);
             Gui.AddVerticie(ur);
+        }
+
+        private static void DrawRandomSpectrum(Rectangle frame, Vector4 hsl, float spectrum)
+        {
+            // Draw possible spectrum
+            float lower = 0.0f * spectrum - (spectrum * 0.5f);
+            float upper = 1.0f * spectrum - (spectrum * 0.5f);
+
+            Vector4 lowerHsl = hsl;
+            Vector4 upperHsl = hsl;
+
+            lowerHsl.Z += lower;
+            upperHsl.Z += upper;
+
+            lowerHsl.Z = MathHelper.Clamp(lowerHsl.Z, 0.0f, 1.0f);
+            upperHsl.Z = MathHelper.Clamp(upperHsl.Z, 0.0f, 1.0f);
+
+            Color middle = Color.HslToRgba(hsl);
+            Color lowerRgb = Color.HslToRgba(lowerHsl);
+            Color upperRgb = Color.HslToRgba(upperHsl);
+
+            DrawDualToneQuad(new Rectangle(frame.X, frame.Y, frame.Width / 2, frame.Height), lowerRgb, middle);
+            DrawDualToneQuad(new Rectangle(frame.X + (frame.Width / 2), frame.Y, frame.Width / 2, frame.Height), middle, upperRgb);
+            Gui.DrawBorderedRect(new Rectangle(frame.X + (frame.Width / 2) - 5, frame.Y, 10, frame.Height), middle, Color.Black, 2);
         }
 
         private static void DrawTrasparency(Rectangle frame, Color color)

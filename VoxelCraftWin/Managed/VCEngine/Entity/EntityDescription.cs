@@ -9,7 +9,7 @@ namespace VCEngine
     {
         // Description:
         public Int32 ID;
-        public Mesh Mesh;
+        //public Mesh Mesh;
         public Transform Transform;
         public List<Type> Components;
         public List<EntityDescription> Children;

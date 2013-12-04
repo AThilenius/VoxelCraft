@@ -7,9 +7,10 @@ namespace VCEngine
 {
     public class TreeViewItem : Control
     {
-        public List<TreeViewItem> Children = new List<TreeViewItem>();
+        public List<TreeViewItem> TreeViewChildren = new List<TreeViewItem>();
         public Boolean IsExpanded { get { return m_expButton.IsExpanded; } }
-        public int IndentationSize = 30;
+        public String Image = "";
+        public int IndentationSize = 15;
         public int IndentationCount
         {
             get { return m_indentCount; }
@@ -35,37 +36,79 @@ namespace VCEngine
             m_treeView = treeView;
             m_parentItem = parentItem;
 
-            Frame = new Rectangle(0, 0, 100, 15);
+            Frame = new Rectangle(0, 0, 100, 20);
             CanFocus = true;
+            Visible = false;
 
             m_expButton = new ExpandButton();
             m_expButton.IsExpanded = false;
-            m_expButton.Frame = new Rectangle(IndentationSize * IndentationCount, 4, 8, 8);
+            m_expButton.Frame = new Rectangle(IndentationSize * IndentationCount + 5, 6, 8, 8);
+            m_expButton.BackgroundColor = new Color(112, 126, 140, 255);
 
-            m_expButton.OnExpand += (s, a) => m_treeView.NotfyUpdate();
-            m_expButton.OnCollapse += (s, a) => m_treeView.NotfyUpdate();
+            m_expButton.OnExpand += (s, a) => m_treeView.NotifyUpdate();
+            m_expButton.OnCollapse += (s, a) => m_treeView.NotifyUpdate();
 
             AddControl(m_expButton);
+        }
+
+        public void ExpandCollapse()
+        {
+            m_expButton.IsExpanded = !IsExpanded;
+            m_treeView.NotifyUpdate();
+        }
+
+        public void Collapse()
+        {
+
         }
 
         public void AddChildItem(TreeViewItem item)
         {
             m_treeView.AddControl(item);
-            Children.Add(item);
-            m_treeView.NotfyUpdate();
+            TreeViewChildren.Add(item);
+            m_treeView.NotifyUpdate();
         }
 
         protected override void Draw()
         {
-            base.Draw();
-
-            Rectangle sf = ScreenFrame;
-            Gui.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 15, sf.Y), Color.Black);
-
-            // ToDo draw selection.
-            if (Children.Count == 0)
+            // Early out
+            if (Frame.Y < 0)
+            {
                 m_expButton.Visible = false;
+                return;
+            }
+
+            else
+            {
+                m_expButton.Visible = true;
+                Rectangle sf = ScreenFrame;
+
+                if (IsFocused)
+                {
+                    Gui.DrawRectangle(sf, Color.ControlBlue);
+                    Gui.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
+                    m_expButton.BackgroundColor = Color.White;
+                    m_expButton.HoverBackgroundColor = Color.White;
+                }
+
+                else
+                {
+                    Gui.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.Black);
+                    m_expButton.BackgroundColor = new Color(112, 126, 140, 255);
+                    m_expButton.HoverBackgroundColor = Color.ControlBlue;
+                }
+
+
+                // Has Icon?
+                if (Image != "")
+                    Gui.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
+
+
+                if (TreeViewChildren.Count == 0)
+                    m_expButton.Visible = false;
+            }
+
         }
-        
+
     }
 }

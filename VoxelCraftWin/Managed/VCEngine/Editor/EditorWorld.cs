@@ -11,11 +11,10 @@ namespace VCEngine
 
         internal static void Initialize()
         {
-            MasterGameWindow = new GameWindow(2);
-            Control.MainControl.AddControl(MasterGameWindow);
-            MasterGameWindow.Frame = Window.FullViewport;
-
-            Window.Resize += (s, a) => MasterGameWindow.Frame = a.To;
+            //MasterGameWindow = new GameWindow(2);
+            //Control.MainControl.AddControl(MasterGameWindow);
+            //MasterGameWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
+            //Window.Resize += (s, a) => MasterGameWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
         }
     }
 }

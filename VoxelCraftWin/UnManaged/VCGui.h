@@ -22,7 +22,6 @@ public:
 	VCGui(void);
 	~VCGui(void);
 
-	void Reset();
 	void Initialize();
 
 	VCGeometryBuilder Geometry;
@@ -40,7 +39,6 @@ public:
 };
 
 // Interop
-void VCInteropGuiClear();
 
 // Geometry
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);

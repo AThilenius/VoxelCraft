@@ -26,12 +26,6 @@ VCGui::~VCGui( void )
 
 }
 
-void VCGui::Reset()
-{
-	Geometry.Reset();
-	Text.Reset();
-}
-
 void VCGui::Initialize()
 {
 	GuiCamera = new VCCamera();
@@ -41,18 +35,12 @@ void VCGui::Initialize()
 
 void VCGui::RegisterMonoHandlers()
 {
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiClear",				(void*)VCInteropGuiClear);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawRectangle",		(void*)VCInteropGuiDrawRectangle);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiGetTextMetrics",		(void*)VCInteropGuiGetTextMetrics);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawImage",			(void*)VCInteropGuiDrawImage);
-}
-
-void VCInteropGuiClear()
-{
-	VCGui::Instance->Reset();
 }
 
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)

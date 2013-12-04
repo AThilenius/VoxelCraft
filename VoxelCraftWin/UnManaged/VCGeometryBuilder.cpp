@@ -128,11 +128,6 @@ void VCGeometryBuilder::AddQuad( GuiRectVerticie vert )
 	m_verts[m_vCount++] = vert;
 }
 
-void VCGeometryBuilder::Reset()
-{
-
-}
-
 void VCGeometryBuilder::Initialize()
 {
 	// Create a render stage for text rendering

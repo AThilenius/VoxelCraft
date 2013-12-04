@@ -51,9 +51,6 @@ namespace VCEngine
         #region Bindings
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropGuiClear();
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -77,11 +74,6 @@ namespace VCEngine
         #endregion
 
         private static Dictionary<String, int> m_fontIDs = new Dictionary<String, int>();
-
-        public static void Clear()
-        {
-            VCInteropGuiClear();
-        }
 
         public static void DrawRectangle(Rectangle rect, Color color)
         {
@@ -180,7 +172,7 @@ namespace VCEngine
 
         public static void PreUpdate()
         {
-            Gui.Clear();
+
         }
 
         private static bool TestFileExistance(string fullPath)

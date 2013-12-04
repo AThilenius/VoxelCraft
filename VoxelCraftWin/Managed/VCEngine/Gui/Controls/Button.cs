@@ -9,6 +9,7 @@ namespace VCEngine
     {
 
         public String Text;
+        public Color TextColor = Color.Black;
         
         public Button(String title)
         {
@@ -23,7 +24,7 @@ namespace VCEngine
             base.Draw();
 
             if ( Enabled )
-                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3 ), Color.Black, Font);
+                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), TextColor, Font);
 
             else
                 Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText, Font);

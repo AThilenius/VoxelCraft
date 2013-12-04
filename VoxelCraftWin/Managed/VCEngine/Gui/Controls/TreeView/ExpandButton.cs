@@ -35,19 +35,19 @@ namespace VCEngine
             if (IsExpanded)
             {
                 if (IsHovered)
-                    DrawCollapsedTriangle(ScreenFrame, Color.ControlBlue);
+                    DrawCollapsedTriangle(ScreenFrame, HoverBackgroundColor);
 
                 else
-                    DrawCollapsedTriangle(ScreenFrame, new Color(112, 126, 140, 255));
+                    DrawCollapsedTriangle(ScreenFrame, BackgroundColor);
             }
 
             else
             {
                 if (IsHovered)
-                    DrawExpandedTriangle(ScreenFrame, Color.ControlBlue);
+                    DrawExpandedTriangle(ScreenFrame, HoverBackgroundColor);
 
                 else
-                    DrawExpandedTriangle(ScreenFrame, new Color(112, 126, 140, 255));
+                    DrawExpandedTriangle(ScreenFrame, BackgroundColor);
             }
 
         }

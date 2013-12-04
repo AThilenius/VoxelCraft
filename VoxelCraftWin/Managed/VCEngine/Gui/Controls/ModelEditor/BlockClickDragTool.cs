@@ -60,7 +60,7 @@ namespace VCEngine
             else if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
             {
                 BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
-                float Value = EditorGui.RandomColorFactor.Value;
+                float Value = EditorGui.ColorPicker.RandomMultiplier;
 
                 foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
                 {
