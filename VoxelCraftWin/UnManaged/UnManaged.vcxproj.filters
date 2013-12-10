@@ -250,6 +250,7 @@
     <ClCompile Include="VCImageInstance.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="VCCursor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -451,6 +452,7 @@
     <ClInclude Include="VCImageInstance.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="VCCursor.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

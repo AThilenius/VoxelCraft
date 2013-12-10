@@ -400,6 +400,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 
 void VCChunk::Render()
 {
+	glErrorCheck();
 	// Shouldn't get here though
 	if ( m_isEmpty )
 		return;
@@ -410,11 +411,13 @@ void VCChunk::Render()
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 
+	glErrorCheck();
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	//glDisable(GL_CULL_FACE);
 
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
 
+	glErrorCheck();
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	//glEnable(GL_CULL_FACE);
 

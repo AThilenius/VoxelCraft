@@ -8,12 +8,8 @@ namespace VCEngine
 {
     public class SolutionExplorer : VerticalContainer
     {
-        
-//#if DEBUG
-//        private static string header = @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\Assets\Meshes";
-//#else
+
         private static string header = Environment.CurrentDirectory + @"\Assets\Meshes";
-//#endif
 
         private Label m_activeLabel;
         private TextField m_activeField;

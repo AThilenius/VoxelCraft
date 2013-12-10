@@ -7,6 +7,16 @@ namespace VCEngine
 {
     public class Control
     {
+        public enum DockingFlags
+        {
+            None,
+            Left,
+            Right,
+            Top,
+            Bottom,
+            Fill
+        }
+
         // static (Used by main control only)
         public static Control MainControl = null;
         private static HashSet<Control> s_currentFocus = new HashSet<Control>();
@@ -22,11 +32,84 @@ namespace VCEngine
             {
                 ResizeEventArgs args = new ResizeEventArgs { From = m_frame, To = value };
                 m_frame = value;
+                
+                // Update THIS Dock (Recursive downward) if this isn't master control.
+                // Take the docked area from the Parent's remaining area to allow docking priorities
+                if (Parent != null)
+                {
+                    // ===  Horizontal  ==========================================================
+
+                    if (Docks == DockingFlags.Left)
+                    {
+                        m_frame.X = Parent.m_remainingDockFrame.X;
+                        m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
+                        m_frame.Y = Parent.m_remainingDockFrame.Y;
+                        m_frame.Height = Parent.m_remainingDockFrame.Height;
+
+                        Parent.m_remainingDockFrame.X += m_frame.Width;
+                        Parent.m_remainingDockFrame.Width -= m_frame.Width;
+                    }
+
+                    else if (Docks == DockingFlags.Right)
+                    {
+                        m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
+                        m_frame.X = MathHelper.Clamp(
+                            Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width - m_frame.Width,
+                            Parent.m_remainingDockFrame.X,
+                            Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width);
+                        m_frame.Y = Parent.m_remainingDockFrame.Y;
+                        m_frame.Height = Parent.m_remainingDockFrame.Height;
+
+                        Parent.m_remainingDockFrame.Width -= m_frame.Width;
+                    }
+
+                    else if (Docks == DockingFlags.Bottom)
+                    {
+                        m_frame.Y = Parent.m_remainingDockFrame.Y;
+                        m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
+                        m_frame.X = Parent.m_remainingDockFrame.X;
+                        m_frame.Width = Parent.m_remainingDockFrame.Width;
+
+                        Parent.m_remainingDockFrame.Y += m_frame.Height;
+                        Parent.m_remainingDockFrame.Height -= m_frame.Height;
+                    }
+
+                    else if (Docks == DockingFlags.Top)
+                    {
+                        m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
+                        m_frame.Y = MathHelper.Clamp(
+                            Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height - m_frame.Height,
+                            Parent.m_remainingDockFrame.Y,
+                            Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height);
+                        m_frame.X = Parent.m_remainingDockFrame.X;
+                        m_frame.Width = Parent.m_remainingDockFrame.Width;
+
+                        Parent.m_remainingDockFrame.Height -= m_frame.Height;
+                    }
+
+                    else if (Docks == DockingFlags.Fill)
+                    {
+                        m_frame = Parent.m_remainingDockFrame;
+                        Parent.m_remainingDockFrame.Width = 0;
+                        Parent.m_remainingDockFrame.Height = 0;
+                    }
+
+                }
+                
+                // Recursively update children docks in ascending order
+                m_remainingDockFrame = m_frame;
+
+                foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
+                    if (child.Docks != DockingFlags.None)
+                        child.Frame = child.Frame;
+
                 Resize(this, args);
             }
         }
         public int          BorderWidth;
         public bool         ClipView;
+        public DockingFlags Docks = DockingFlags.None;
+        public int          DockOrder;
 
         public Color        BackgroundColor = Color.ControlMediumBackground;
         public Color        BorderColor = Color.ControlVeryDark;
@@ -113,6 +196,7 @@ namespace VCEngine
         public event EventHandler<ParentChangeEventArgs>    ParentChanged = delegate { };
 
         private Rectangle m_frame = new Rectangle();
+        private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
         private bool m_wasPointInThis;
         private double m_lastClickTime;
@@ -197,7 +281,11 @@ namespace VCEngine
         {
         }
 
+        private void UpdateFrame(Rectangle newFrame)
+        {
 
+        }
+        
         internal void ProcessMouseEvent(Object sender, MouseEventArgs args)
         {
             if (!Enabled)

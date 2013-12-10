@@ -33,6 +33,8 @@ namespace VCEngine
         {
             MainMenuBar = new MenuBar();
             Control.MainControl.AddControl(MainMenuBar);
+            MainMenuBar.Docks = Control.DockingFlags.Top;
+            MainMenuBar.Frame = new Rectangle(0, 0, 0, 30);
 
             Menu testMenu1 = new Menu();
             testMenu1.AddItemReverse("Save").Click += (s, a) =>
@@ -53,10 +55,11 @@ namespace VCEngine
         private static void CreateInspector()
         {
             InspectorWindow = new TabbedContainer();
-            InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
-            InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
             Control.MainControl.AddControl(InspectorWindow);
-            Window.Resize += (s, a) => InspectorWindow.ScreenFrame = new Rectangle(Window.Size.X - 300, 0, 300, Window.Size.Y - 20);
+            InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
+            InspectorWindow.Docks = Control.DockingFlags.Right;
+            InspectorWindow.DockOrder = 1;
+            InspectorWindow.Frame = new Rectangle(0, 0, 300, 0);
 
             ColorPage = new VerticalContainer();
             InspectorWindow.AddTab("Tools", ColorPage);
@@ -78,7 +81,9 @@ namespace VCEngine
             EditorWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
             EditorWindow.AlignTop = true;
             Control.MainControl.AddControl(EditorWindow);
-            Window.Resize += (s, a) => EditorWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
+            EditorWindow.DockOrder = 2;
+            EditorWindow.Docks = Control.DockingFlags.Fill;
+            //Window.Resize += (s, a) => EditorWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
 
             // HACK
             EditorWorld.MasterGameWindow = new GameWindow(2);

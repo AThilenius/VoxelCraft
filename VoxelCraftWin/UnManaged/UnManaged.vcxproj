@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VC3DLineDrawer.cpp" />
+    <ClCompile Include="VCCursor.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCShader.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="VC3DLineDrawer.h" />
     <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
+    <ClInclude Include="VCCursor.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />

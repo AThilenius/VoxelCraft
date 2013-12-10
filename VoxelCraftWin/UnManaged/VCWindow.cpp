@@ -23,10 +23,6 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	VCWindow::Instance->Height = height;
 	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
 
-	// UnManaged event
-	//VCWindowResizeArgs evArgs (VCRectangle(), VCRectangle());
-	//VCWindow::Instance->Resize.operator()((void*) VCWindow::Instance, (void*) &evArgs);
-
 	// Managed event
 	void* args[2] = { &width, &height };
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
@@ -123,6 +119,7 @@ void VCWindow::Initalize()
 {
     std::cout << "Creating a VCWindow..." << std::endl;
     
+	// =====   GLFW   ======================================================
 	glfwSetErrorCallback(glewErrorCallback);
 
 	if (!glfwInit())
@@ -149,6 +146,7 @@ void VCWindow::Initalize()
 
 	glfwMakeContextCurrent(GLFWWindowHandle);
 
+	// =====   GLEW   ======================================================
 	glewExperimental = true;
 	GLenum glewError = glewInit();
 	if( glewError != GLEW_OK )
@@ -157,12 +155,12 @@ void VCWindow::Initalize()
 		std::cin.ignore();
 	}
 
+	// =====   Debug   ======================================================
 #if DEBUG
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 	glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 	glDebugMessageCallbackARB(&glDebugCallback, NULL);
 #endif
-	// ====
 
 
 	GLint major, minor;
@@ -176,6 +174,7 @@ void VCWindow::Initalize()
 
 	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
 	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
+
 
 	SetVSync(false);
 	std::cout << "VCWindow Initialized." << std::endl;

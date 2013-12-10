@@ -11,6 +11,7 @@
 class VCMonoMethod;
 struct GLFWwindow;
 
+
 // Creates and manages a window and OpenGL context
 class VCWindow
 {
