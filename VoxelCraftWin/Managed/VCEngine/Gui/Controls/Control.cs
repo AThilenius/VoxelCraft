@@ -202,7 +202,7 @@ namespace VCEngine
         public Color            HoverBackgroundColor = Color.White;
         public Color            HoverBorderColor = Color.ControlBorder;
 
-        public String           Font = "Calibri-16";
+        public Font             Font = Font.DefaultFont;
 
         // =====   Control   =====================================================
         public Control          Parent;

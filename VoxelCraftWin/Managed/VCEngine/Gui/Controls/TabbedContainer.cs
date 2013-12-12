@@ -28,7 +28,7 @@ namespace VCEngine
         {
             Rectangle sc = ScreenFrame;
 
-            int textWidth = Gui.GetMetrics(name).TotalWidth;
+            int textWidth = Font.GetMetrics(name).TotalWidth;
 
             // Button
             Button nb = new Button(name);

@@ -10,8 +10,10 @@ namespace VCEngine
     {
         // Resources
         public static String ResourcesPath { get { return Path.Combine(Environment.CurrentDirectory, @"Resources"); } }
-        public static String FontsPath { get { return Path.Combine(ResourcesPath, @"Fonts"); } }
+        public static String FontsPath { get { return Path.Combine(ResourcesPath, @"FontsCache"); } }
         public static String ImagesPath { get { return Path.Combine(ResourcesPath, @"Images"); } }
+        public static String LoadersPath { get { return Path.Combine(ResourcesPath, @"Loaders"); } }
+        public static String BMFontPath { get { return Path.Combine(LoadersPath, @"BMFont"); } }
 
         // Assets
         public static String AssetsPath { get { return Path.Combine(Environment.CurrentDirectory, @"Assets"); } }

@@ -31,9 +31,9 @@ void VCTextBuilder::Reset()
 
 void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color )
 {
-	while (m_bufferByFont.size() <= font)
+	for (int i = m_bufferByFont.size(); m_bufferByFont.size() <= font; i++)
 	{
-		VCTextBuffer* vcTextBuffer = new VCTextBuffer(VCLexicalEngine::Instance->GetFontById(font));
+		VCTextBuffer* vcTextBuffer = new VCTextBuffer(VCLexicalEngine::Instance->GetFontById(i));
 		vcTextBuffer->Initialize();
 		m_bufferByFont.push_back( vcTextBuffer );
 	}

@@ -229,13 +229,15 @@ bool VCInteropWindowShouldClose()
 
 void VCInteropWindowGetSize(int* width, int* height)
 {
-	*width = 1280;
-	*height = 600;
+	glfwGetWindowSize(VCWindow::Instance->GLFWWindowHandle, width, height);
 }
 
 void VCInteropWindowSetSize( int width, int height )
 {
 	glfwSetWindowSize(VCWindow::Instance->GLFWWindowHandle, width, height);
+	VCWindow::Instance->Height = height;
+	VCWindow::Instance->Width = width;
+	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
 }
 
 void VCInteropWindowGetPos( int* x, int* y )

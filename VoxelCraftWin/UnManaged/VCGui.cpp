@@ -37,10 +37,11 @@ void VCGui::RegisterMonoHandlers()
 {
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawRectangle",		(void*)VCInteropGuiDrawRectangle);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiGetTextMetrics",		(void*)VCInteropGuiGetTextMetrics);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawImage",			(void*)VCInteropGuiDrawImage);
+
+	VCMonoRuntime::SetMethod("Font::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
+	VCMonoRuntime::SetMethod("Font::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
 }
 
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)

@@ -18,7 +18,7 @@ out vec4 fragColor;
 void main()
 {
 	vec4 tcolor = texture2D(glyphs, VaryingUV);
-	float alpha = 1.0 - (tcolor.x );
-	fragColor.xyz = VaryingColor.xyz;
-	fragColor.w = alpha;
+	//float alpha = 1.0 - (tcolor.a );
+	fragColor.rgb = VaryingColor.rgb;
+	fragColor.a = tcolor.r;
 }

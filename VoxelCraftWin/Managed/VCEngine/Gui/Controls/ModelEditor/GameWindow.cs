@@ -145,6 +145,7 @@ namespace VCEngine
 
             DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
+            DrawText("Resolution: " + Window.Size, sf);
 
 
             // Outline each chunk World (Should be fine to invoke from a draw call...)
@@ -162,7 +163,7 @@ namespace VCEngine
 
         private void DrawText(string text, Rectangle sf)
         {
-            Gui.DrawString(text, new Point(sf.X + 5, sf.Y + sf.Height - m_yOffset), Color.White);
+            Font.DrawString(text, new Point(sf.X + 5, sf.Y + sf.Height - m_yOffset), Color.White);
             m_yOffset += 20;
         }
 

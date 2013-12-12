@@ -19,7 +19,7 @@ namespace VCEngine
         public SelectionButton(String title)
         {
             Text = title;
-            Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 25);
+            Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth, 25);
             DrawHover = true;
             BorderWidth = 1;
             m_originalBackground = BackgroundColor;
@@ -68,10 +68,10 @@ namespace VCEngine
             base.Draw();
 
             if (Enabled)
-                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.Black, Font);
+                Font.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.Black);
 
             else
-                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText, Font);
+                Font.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText);
         }
 
         public static void CreateGroup (params SelectionButton[] buttons)

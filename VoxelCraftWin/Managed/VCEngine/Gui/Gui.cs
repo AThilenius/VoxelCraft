@@ -29,19 +29,6 @@ namespace VCEngine
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct TextMetrics
-    {
-        public int TotalWidth;
-        public int TotalHeight;
-
-        public TextMetrics(int width, int height)
-        {
-            TotalWidth = width;
-            TotalHeight = height;
-        }
-    }
-
     public class Gui
     {
         public static string ResourcesFolder { get { return Path.Combine(Environment.CurrentDirectory, @"Resources"); } }
@@ -57,23 +44,12 @@ namespace VCEngine
         extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color top, Color bottom );
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropGuiDrawText(int font, string text, Point point, Color color);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropGuiGetTextMetrics(int font, string text, out TextMetrics metrics);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static string VCInteropLoadFont(string fntPath, string ddsPath, out int fontId);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
 
         #endregion
-
-        private static Dictionary<String, int> m_fontIDs = new Dictionary<String, int>();
 
         public static void DrawRectangle(Rectangle rect, Color color)
         {
@@ -167,42 +143,6 @@ namespace VCEngine
         public static void AddVerticie(GuiRectVerticie vert)
         {
             VCInteropGuiAddVerticie(vert);
-        }
-
-        public static void DrawString(string text, Point llPoint, Color color, string font = "Calibri-16")
-        {
-            VCInteropGuiDrawText(m_fontIDs[font], text, new Point(llPoint.X, llPoint.Y + 16), color);
-        }
-
-        public static TextMetrics GetMetrics(string text, string font = "Calibri-16")
-        {
-            TextMetrics tm;
-            VCInteropGuiGetTextMetrics(m_fontIDs[font], text, out tm);
-            return tm;
-        }
-
-        public static void LoadFontsFromForlder(string folder)
-        {
-            string[] fntFiles = Directory.GetFiles(folder, "*.fnt", SearchOption.AllDirectories);
-
-            foreach (String str in fntFiles)
-            {
-                string dir = Path.GetDirectoryName(str);
-                string file = Path.GetFileNameWithoutExtension(str);
-                string ddsFile = Path.Combine(dir, file + "_0.DDS");
-
-                if (!File.Exists(ddsFile))
-                {
-                    Console.WriteLine("Cannot find .DDS file for fnt : + file");
-                    continue;
-                }
-
-                int fontId;
-                String fontName = VCInteropLoadFont(str, ddsFile, out fontId);
-                m_fontIDs.Add(fontName, fontId);
-
-                Console.WriteLine("Loaded font: " + fontName);
-            }
         }
 
         public static void DrawNormalizedRectangle(RectangleF rect, Color color)

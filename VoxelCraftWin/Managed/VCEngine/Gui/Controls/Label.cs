@@ -27,7 +27,7 @@ namespace VCEngine
             set
             {
                 m_text = value;
-                Metrics = Gui.GetMetrics(m_text, Font);
+                Metrics = Font.GetMetrics(m_text);
             }
         }
         public TextAlignments TextAlignment = TextAlignments.Center;
@@ -61,7 +61,7 @@ namespace VCEngine
             if (TextAlignment == TextAlignments.LowerRight || TextAlignment == TextAlignments.CenterRight || TextAlignment == TextAlignments.UpperRight)
                 ll.X = sf.X + sf.Width - Metrics.TotalHeight;
 
-            Gui.DrawString(Text, ll, FontColor, Font);
+            Font.DrawString(Text, ll, FontColor);
         }
 
     }

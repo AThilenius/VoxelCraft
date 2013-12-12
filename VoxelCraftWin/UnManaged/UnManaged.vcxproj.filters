@@ -187,9 +187,6 @@
     <ClCompile Include="VCXIntX.cpp">
       <Filter>Utils\VCTypes</Filter>
     </ClCompile>
-    <ClCompile Include="VCTextBuilder.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="VCGeometryBuilder.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -251,6 +248,9 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="VCCursor.cpp" />
+    <ClCompile Include="VCTextBuilder.cpp">
+      <Filter>GUI\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -348,9 +348,6 @@
       <Filter>Voxel\Generators</Filter>
     </ClInclude>
     <ClInclude Include="VCGeometryBuilder.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTextBuilder.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="VCMonoString.h">
@@ -453,6 +450,9 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="VCCursor.h" />
+    <ClInclude Include="VCTextBuilder.h">
+      <Filter>GUI\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

@@ -122,7 +122,7 @@ VCFont* VCLexicalEngine::GetFontById( int fontID )
 // ================================      Interop      ============
 void VCLexicalEngine::RegisterMonoHandlers()
 {
-	VCMonoRuntime::SetMethod("Gui::VCInteropLoadFont",	(void*)VCInteropLoadFont);
+	VCMonoRuntime::SetMethod("Font::VCInteropLoadFont",	(void*)VCInteropLoadFont);
 }
 
 VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath, int* fontOut)

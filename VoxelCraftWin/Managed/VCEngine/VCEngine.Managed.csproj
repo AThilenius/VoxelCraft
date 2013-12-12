@@ -74,6 +74,7 @@
     <Compile Include="Gui\Controls\TreeView\TreeView.cs" />
     <Compile Include="Gui\Controls\TreeView\TreeViewItem.cs" />
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
+    <Compile Include="Gui\Font.cs" />
     <Compile Include="Gui\Undo\IUndoToken.cs" />
     <Compile Include="Gui\Undo\UndoStack.cs" />
     <Compile Include="TestFixture.cs" />

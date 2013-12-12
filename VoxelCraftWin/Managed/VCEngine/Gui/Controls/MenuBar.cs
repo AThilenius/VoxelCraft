@@ -19,7 +19,7 @@ namespace VCEngine
         {
             AddControl(menu);
 
-            int textWidth = Gui.GetMetrics(title).TotalWidth;
+            int textWidth = Font.GetMetrics(title).TotalWidth;
 
             Button nButton = new Button(title);
             AddControl(nButton);
