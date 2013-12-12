@@ -74,6 +74,9 @@ VCChunk::~VCChunk(void)
 
 void VCChunk::Initialize()
 {
+	// =====   Clear Buffer   ======================================================
+	memset(Blocks, 0, sizeof(VCBlock) * CHUNK_TOTAL_COUNT);
+
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
 	m_renderStage->Camera = m_world->Camera;

@@ -43,7 +43,7 @@ public:
 // Geometry
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
-void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color);
+void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom);
 
 // Text
 void VCInteropGuiDrawText(int font, VCMonoStringPtr text, VCPoint point, vcint4 color);

@@ -49,7 +49,7 @@ namespace VCEngine
             base.Draw();
         }
 
-        private void Rebuild(TreeViewItem item, int indentCount = 0)
+        private void Rebuild(TreeViewItem item, int indentCount = 1)
         {
             item.IndentationCount = indentCount;
             item.Visible = true;

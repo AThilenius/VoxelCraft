@@ -7,12 +7,11 @@ namespace VCEngine
 {
     public class EditorGui
     {
-        public static MenuBar MainMenuBar;
+        public static Header HeaderBar;
         public static TabbedContainer InspectorWindow;
         public static VerticalContainer ColorPage;
         public static HslColorPicker ColorPicker;
-        public static SolutionExplorer Solution;
-        public static TabbedContainer EditorWindow;
+        public static GameWindow EditorWindow;
 
         public static void Initialize()
         {
@@ -26,30 +25,27 @@ namespace VCEngine
 
             CreateMenuBar();
             CreateInspector();
+            CreateSolutionExplorer();
             CreateEditorWindow();
         }
 
         private static void CreateMenuBar()
         {
-            MainMenuBar = new MenuBar();
-            Control.MainControl.AddControl(MainMenuBar);
-            MainMenuBar.Docks = Control.DockingFlags.Top;
-            MainMenuBar.Frame = new Rectangle(0, 0, 0, 30);
+            HeaderBar = new Header();
+            Control.MainControl.AddControl(HeaderBar);
+            HeaderBar.Dock = Control.Dockings.Top;
+            HeaderBar.DockOrder = 0;
+            HeaderBar.Frame = new Rectangle(0, 0, 0, 100);
+        }
 
-            Menu testMenu1 = new Menu();
-            testMenu1.AddItemReverse("Save").Click += (s, a) =>
-                {
-
-                };
-
-            Menu testMenu2 = new Menu();
-            testMenu2.AddItemReverse("Options");
-            testMenu2.AddItemReverse("Find");
-            testMenu2.AddItemReverse("Redo");
-            testMenu2.AddItemReverse("Undo");
-
-            MainMenuBar.AddMenu("File", testMenu1);
-            MainMenuBar.AddMenu("Options", testMenu2);
+        private static void CreateSolutionExplorer()
+        {
+            SolutionExplorer se = new SolutionExplorer();
+            Control.MainControl.AddControl(se);
+            se.DockOrder = 2;
+            se.Dock = Control.Dockings.Left;
+            se.AddProject("Love Monkey Game", PathUtilities.AssetsPath);
+            se.Frame = new Rectangle(0, 0, 300, 0);
         }
 
         private static void CreateInspector()
@@ -57,40 +53,26 @@ namespace VCEngine
             InspectorWindow = new TabbedContainer();
             Control.MainControl.AddControl(InspectorWindow);
             InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
-            InspectorWindow.Docks = Control.DockingFlags.Right;
+            InspectorWindow.Dock = Control.Dockings.Right;
             InspectorWindow.DockOrder = 1;
             InspectorWindow.Frame = new Rectangle(0, 0, 300, 0);
 
             ColorPage = new VerticalContainer();
+            ColorPage.BorderColor = Color.ControlRed;
+            ColorPage.BorderWidth = 5;
             InspectorWindow.AddTab("Tools", ColorPage);
-
-            DirectoryExporer de = new DirectoryExporer(PathUtilities.AssetsPath);
-            InspectorWindow.AddTab("Solution Explorer", de);
-
-            Solution = new SolutionExplorer();
-            InspectorWindow.AddTab("Legacy", Solution);
 
             FillColorControls();
         }
 
         private static void CreateEditorWindow()
         {
-            EditorWindow = new TabbedContainer();
-            EditorWindow.BackgroundColor = Color.Trasparent;
-            EditorWindow.HoverBackgroundColor = Color.Trasparent;
-            EditorWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
-            EditorWindow.AlignTop = true;
-            Control.MainControl.AddControl(EditorWindow);
-            EditorWindow.DockOrder = 2;
-            EditorWindow.Docks = Control.DockingFlags.Fill;
-            //Window.Resize += (s, a) => EditorWindow.Frame = new Rectangle(0, 0, Window.FullViewport.Width - 300, Window.FullViewport.Height - 20);
-
             // HACK
-            EditorWorld.MasterGameWindow = new GameWindow(2);
-            Tab tab = EditorWindow.AddTab("Test World", EditorWorld.MasterGameWindow);
-            tab.HorizontalPadding = 0;
-
-            // Force a re-fill
+            EditorWindow = new GameWindow(2);
+            Control.MainControl.AddControl(EditorWindow);
+            EditorWorld.MasterGameWindow = EditorWindow;
+            EditorWindow.DockOrder = 3;
+            EditorWindow.Dock = Control.Dockings.Fill;
             EditorWindow.Frame = EditorWindow.Frame;
         }
 
@@ -100,35 +82,29 @@ namespace VCEngine
             ColorPicker.Frame = new Rectangle(0, 0, 0, 150);
             ColorPage.AddControl(ColorPicker);
             ColorPage.AddPadding();
+            ColorPage.AddControl(new Label(""));
+            ColorPage.AddControl(new Label("Tools:"));
 
-            VerticalContainer controlsContainer = new VerticalContainer();
-            controlsContainer.AddControl(new Label("Tools:"));
+            SelectionButton selectionButton = new SelectionButton("Cube Tool");
+            selectionButton.OnSelection += (sender, args) => EditorWorld.MasterGameWindow.ActiveTool = new BlockClickDragTool(EditorWorld.MasterGameWindow);
+            ColorPage.AddControl(selectionButton);
 
-            // Controls:
-            {
-                SelectionButton selectionButton = new SelectionButton("Cube Tool");
-                selectionButton.OnSelection += (sender, args) => EditorWorld.MasterGameWindow.ActiveTool = new BlockClickDragTool(EditorWorld.MasterGameWindow);
-                controlsContainer.AddControl(selectionButton);
+            SelectionButton circleButton = new SelectionButton("Sphere Tool");
+            circleButton.OnSelection += (s, a) => EditorWorld.MasterGameWindow.ActiveTool = new CircleTool(EditorWorld.MasterGameWindow);
+            ColorPage.AddControl(circleButton);
 
-                SelectionButton circleButton = new SelectionButton("Sphere Tool");
-                circleButton.OnSelection += (s, a) => EditorWorld.MasterGameWindow.ActiveTool = new CircleTool(EditorWorld.MasterGameWindow);
-                controlsContainer.AddControl(circleButton);
+            SelectionButton eyeDropButton = new SelectionButton("Eye Dropper Tool");
+            eyeDropButton.OnSelection += (sender, args) =>
+                {
+                    EyeDropperTool edt = new EyeDropperTool(EditorWorld.MasterGameWindow);
+                    edt.OnPicked += (s, a) => ColorPicker.ColorRGB = edt.ColorRGB;
+                    EditorWorld.MasterGameWindow.ActiveTool = edt;
+                };
+            ColorPage.AddControl(eyeDropButton);
 
-                SelectionButton eyeDropButton = new SelectionButton("Eye Dropper Tool");
-                eyeDropButton.OnSelection += (sender, args) =>
-                    {
-                        EyeDropperTool edt = new EyeDropperTool(EditorWorld.MasterGameWindow);
-                        edt.OnPicked += (s, a) => ColorPicker.ColorRGB = edt.ColorRGB;
-                        EditorWorld.MasterGameWindow.ActiveTool = edt;
-                    };
-                controlsContainer.AddControl(eyeDropButton);
-
-                SelectionButton.CreateGroup(selectionButton, circleButton, eyeDropButton);
-                selectionButton.Activate();
-                controlsContainer.Frame = new Rectangle(0, 0, 0, 120);
-            }
-
-            ColorPage.AddControl(controlsContainer);
+            SelectionButton.CreateGroup(selectionButton, circleButton, eyeDropButton);
+            selectionButton.Activate();
+            //ColorPage.Frame = new Rectangle(0, 0, 0, 120);
 
             Button shadowButton = new Button("Hide Shadows");
             shadowButton.Click += (s, a) =>
@@ -137,10 +113,10 @@ namespace VCEngine
                     EditorWorld.MasterGameWindow.World.RebuildParams.ForceRebuildAll = true;
 
                     if (EditorWorld.MasterGameWindow.World.RebuildParams.ShowShadows)
-                        shadowButton.Text = "Hide Shadows";
+                        shadowButton.Text.Text = "Hide Shadows";
 
                     else
-                        shadowButton.Text = "Show Shadows";
+                        shadowButton.Text.Text = "Show Shadows";
 
                     EditorWorld.MasterGameWindow.World.ReBuild();
                 };

@@ -33,6 +33,10 @@ void VCGuiShader::Bind(VCCamera* camera)
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
+void VCGuiShader::SetNoise( float level )
+{
+	glUniform1f(m_unifNoiseScaler, level);
+}
 
 void VCGuiShader::BindAttribLocations()
 {
@@ -45,7 +49,8 @@ void VCGuiShader::BindAttribLocations()
 void VCGuiShader::GetUniformIDs()
 {
 	m_unifProjMatrix = glGetUniformLocation(m_programId, "projMatrix");
-
+	m_unifNoiseScaler = glGetUniformLocation(m_programId, "NoiseScaler");
+	
 	glErrorCheck();
 }
 
@@ -54,4 +59,6 @@ void VCGuiShader::PostInitialize()
 	// Set Projection Matrix
 	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
+	//glUniform1f(m_unifNoiseScaler, 0.025f);
+	glUniform1f(m_unifNoiseScaler, 0.0f);
 }

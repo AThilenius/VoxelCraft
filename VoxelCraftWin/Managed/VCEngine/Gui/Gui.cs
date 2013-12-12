@@ -54,7 +54,7 @@ namespace VCEngine
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color color );
+        extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color top, Color bottom );
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawText(int font, string text, Point point, Color color);
@@ -83,7 +83,8 @@ namespace VCEngine
         public static void DrawBorderedRect(Rectangle rect, Color back, Color border, int borderWidth)
         {
             // Background
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
+            if (back != Color.Trasparent)
+                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
 
             // Left
             Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, borderWidth, rect.Height), border);
@@ -98,9 +99,69 @@ namespace VCEngine
             Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
         }
 
+        public static void DrawButton(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        {
+            DrawDualToneVertical(rect, new Color(233, 233, 233, 255), new Color(183, 183, 183, 255));
+            DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
+        }
+
+        public static void DrawButtonAccentuated(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        {
+            DrawDualToneVertical(rect, new Color(236, 238, 249, 255), new Color(183, 193, 211, 255));
+            DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
+        }
+
+        public static void DrawButtonHighlighted(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        {
+            DrawDualToneVertical(rect, new Color(145, 163, 180, 255), new Color(82, 109, 132, 255));
+            // Blue Border
+            DrawBorder(rect, upperBar, lowerBar, new Color(82, 109, 132, 255));
+        }
+
+        public static void DrawBackgroundEmpty(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        {
+            DrawDualToneVertical(rect, new Color(217, 222, 229, 255), new Color(210, 216, 224, 255));
+            DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
+        }
+
+        public static void DrawBackground(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        {
+            DrawDualToneVertical(rect, new Color(231, 234, 239, 255), new Color(224, 229, 234, 255));
+            DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
+        }
+
+        private static void DrawDualToneVertical(Rectangle rect, Color upper, Color lower)
+        {
+            GuiRectVerticie ll = new GuiRectVerticie(new Point(rect.X, rect.Y), lower);
+            GuiRectVerticie ul = new GuiRectVerticie(new Point(rect.X, rect.Y + rect.Height), upper);
+
+            GuiRectVerticie lr = new GuiRectVerticie(new Point(rect.X + rect.Width, rect.Y), lower);
+            GuiRectVerticie ur = new GuiRectVerticie(new Point(rect.X + rect.Width, rect.Y + rect.Height), upper);
+
+            Gui.AddVerticie(ul);
+            Gui.AddVerticie(ll);
+            Gui.AddVerticie(lr);
+
+            Gui.AddVerticie(ul);
+            Gui.AddVerticie(lr);
+            Gui.AddVerticie(ur);
+        }
+
+        private static void DrawBorder(Rectangle rect, Boolean upperBar, Boolean lowerBar, Color color)
+        {
+            if (upperBar)
+                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - 1, rect.Width, 1), color);
+
+            if (lowerBar)
+                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 1), color);
+
+            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, 1, rect.Height), color);
+            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - 1, rect.Y, 1, rect.Height), color);
+        }
+
         public static void DrawEllipse(Point centroid, int width, int height, Color color)
         {
-            VCInteropGuiDrawEllipse(centroid, width, height, color);
+            VCInteropGuiDrawEllipse(centroid, width, height, color, color);
         }
 
         public static void AddVerticie(GuiRectVerticie vert)

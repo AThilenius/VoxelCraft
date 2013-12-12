@@ -16,6 +16,8 @@ public:
 	VCGuiShader(void);
 	~VCGuiShader(void);
 
+	void SetNoise(float level);
+
 protected:
 	virtual void Bind(VCCamera* camera);
 	virtual void BindAttribLocations();
@@ -24,6 +26,7 @@ protected:
 
 private:
 	GLint m_unifProjMatrix;
+	GLint m_unifNoiseScaler;
 };
 
 

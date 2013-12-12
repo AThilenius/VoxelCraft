@@ -8,12 +8,15 @@ namespace VCEngine
     public class Button : Control
     {
 
-        public String Text;
-        public Color TextColor = Color.Black;
+        public Label Text;
         
         public Button(String title)
         {
-            Text = title;
+            Text = new Label(title);
+            AddControl(Text);
+            Text.TextAlignment = Label.TextAlignments.Center;
+            Text.Dock = Dockings.Fill;
+
             Frame = new Rectangle(0, 0, Gui.GetMetrics(title, Font).TotalWidth, 25);
             DrawHover = true;
             BorderWidth = 1;
@@ -23,11 +26,17 @@ namespace VCEngine
         {
             base.Draw();
 
-            if ( Enabled )
-                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), TextColor, Font);
+            if (Enabled)
+            {
+                Gui.DrawBackground(ScreenFrame);
+                //Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), TextColor, Font);
+            }
 
             else
-                Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText, Font);
+            {
+                Gui.DrawBackgroundEmpty(ScreenFrame);
+                //Gui.DrawString(Text, new Point(ScreenFrame.X + 10, ScreenFrame.Y + 3), Color.ControlDisabledText, Font);
+            }
         }
 
     }

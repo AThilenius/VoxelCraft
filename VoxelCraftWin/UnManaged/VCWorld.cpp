@@ -40,7 +40,6 @@ VCWorld::VCWorld():
 	ChunkZeroX(0),
 	ChunkZeroY(0),
 	ChunkZeroZ(0),
-	ChunkGenerator(NULL),
 	m_chunks(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
@@ -72,18 +71,6 @@ void VCWorld::InitializeEmpty()
 		m_chunks[FLATTEN_WORLD(x ,y, z)] = new VCChunk(cX, cY, cZ, this);
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->SetParent(VCSceneGraph::Instance->RootNode);
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->Initialize();
-	}}}
-}
-
-void VCWorld::GenerateRegenerate()
-{
-	if (ChunkGenerator == NULL)
-	{
-		VC_ERROR("NULL chunk generator.");
-	}
-
-	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
-		m_chunks[FLATTEN_WORLD(x ,y, z)]->NeedsRebuild = !ChunkGenerator->GenerateToBuffer( (VCBlock*) m_chunks[FLATTEN_WORLD(x ,y, z)]->Blocks, cX, cY, cZ );
 	}}}
 }
 
@@ -339,14 +326,12 @@ void VCWorld::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("World::VCInteropWorldGetCamera",				(void*)VCInteropWorldGetCamera);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldGetBlock",				(void*)VCInteropWorldGetBlock);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetBlock",				(void*)VCInteropWorldSetBlock);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSetGenerator",			(void*)VCInteropWorldSetGenerator);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
 	
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
 	
-	VCMonoRuntime::SetMethod("World::VCInteropWorldGenerateRegenerate",		(void*)VCInteropWorldGenerateRegenerate);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
 }
@@ -369,15 +354,6 @@ int VCInteropWorldGetCamera( int handle )
 	return obj->Camera->Handle;
 }
 
-
-void VCInteropWorldSetGenerator( int wHandle, int cHandle )
-{
-	VCWorld* wObj = (VCWorld*) VCObjectStore::Instance->GetObject(wHandle);
-	VCIChunkGenerator* cObj = (VCIChunkGenerator*) VCObjectStore::Instance->GetObject(cHandle);
-
-	wObj->ChunkGenerator = cObj;
-}
-
 void VCInteropWorldSetViewDist( int handle, int distance )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
@@ -390,18 +366,11 @@ void VCInteropWorldInitializeEmpty( int handle )
 	obj->InitializeEmpty();
 }
 
-void VCInteropWorldGenerateRegenerate( int handle )
-{
-	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
-	obj->GenerateRegenerate();
-}
-
 void VCInteropWorldRebuild( int handle, VCWorldRebuildParams params )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	obj->Rebuild(params);
 }
-
 
 void VCInteropWorldSaveToFile( int handle, VCMonoStringPtr path )
 {
@@ -424,7 +393,6 @@ void VCInteropWorldLoadFromFile( int handle, VCMonoStringPtr path )
 	}
 
 }
-
 
 VCInteropBlock VCInteropWorldGetBlock( int handle, int x, int y, int z )
 {

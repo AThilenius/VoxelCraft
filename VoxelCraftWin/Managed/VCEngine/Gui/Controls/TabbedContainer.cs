@@ -116,7 +116,7 @@ namespace VCEngine
 
                 button.BackgroundColor = Color.ControlMediumBackground;
                 button.HoverBackgroundColor = Color.White;
-                button.TextColor = Color.Black;
+                button.Text.FontColor = Color.Black;
             }
 
             // Set active button
@@ -124,14 +124,14 @@ namespace VCEngine
             {
                 m_activeButton.BackgroundColor = Color.ControlBlue;
                 m_activeButton.HoverBackgroundColor = Color.ControlBlue;
-                m_activeButton.TextColor = Color.White;
+                m_activeButton.Text.FontColor = Color.White;
             }
 
             else
             {
                 m_activeButton.BackgroundColor = Color.White;
                 m_activeButton.HoverBackgroundColor = Color.White;
-                m_activeButton.TextColor = Color.Black;
+                m_activeButton.Text.FontColor = Color.Black;
             }
 
             // Top aligned specific

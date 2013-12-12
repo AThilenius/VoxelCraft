@@ -46,3 +46,7 @@ public:
 void VCInteropWindowSwapBuffers();
 bool VCInteropWindowShouldClose();
 void VCInteropWindowGetSize(int* width, int* height);
+void VCInteropWindowSetSize(int width, int height);
+void VCInteropWindowGetPos(int* x, int* y);
+void VCInteropWindowSetPos(int x, int y);
+void VCInteropGetMonitorSize( int* width, int* height );

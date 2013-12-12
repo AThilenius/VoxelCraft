@@ -7,7 +7,8 @@ namespace VCEngine
 {
     public class Control
     {
-        public enum DockingFlags
+        // =====   Enums / Flags / Structs   =====================================
+        public enum Dockings
         {
             None,
             Left,
@@ -17,15 +18,48 @@ namespace VCEngine
             Fill
         }
 
-        // static (Used by main control only)
+        [Flags]
+        public enum Ancors
+        {
+            None = 0,
+            Left = 1,
+            Right = 2,
+            Top = 4,
+            Bottom = 8
+        }
+
+        public enum AutoSizeTypes
+        {
+            None,
+            GrowOnly,
+            GrowAndShrink
+        }
+
+        public struct MarginSize
+        {
+            public int Left;
+            public int Right;
+            public int Top;
+            public int Bottom;
+
+            public MarginSize(int left, int right, int top, int bottom)
+            {
+                Left = left;
+                Right = right;
+                Top = top;
+                Bottom = bottom;
+            }
+        }
+
+        // =====   Statics (Used by main control only)   =========================
         public static Control MainControl = null;
         private static HashSet<Control> s_currentFocus = new HashSet<Control>();
         private static HashSet<Control> s_lastFocus = new HashSet<Control>();
-        private static Control m_focusedChild;
+        private static Control s_focusedChild;
 
-        // Appearance
-        public String       Name;
-        public Rectangle    Frame
+        // =====   Appearance   ==================================================
+        public String           Name;
+        public Rectangle        Frame
         {
             get { return m_frame; }
             set
@@ -39,18 +73,18 @@ namespace VCEngine
                 {
                     // ===  Horizontal  ==========================================================
 
-                    if (Docks == DockingFlags.Left)
+                    if (Dock == Dockings.Left)
                     {
                         m_frame.X = Parent.m_remainingDockFrame.X;
                         m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
                         m_frame.Y = Parent.m_remainingDockFrame.Y;
                         m_frame.Height = Parent.m_remainingDockFrame.Height;
 
-                        Parent.m_remainingDockFrame.X += m_frame.Width;
-                        Parent.m_remainingDockFrame.Width -= m_frame.Width;
+                        Parent.m_remainingDockFrame.X += m_frame.Width + Margin.Right;
+                        Parent.m_remainingDockFrame.Width -= m_frame.Width + Margin.Right;
                     }
 
-                    else if (Docks == DockingFlags.Right)
+                    else if (Dock == Dockings.Right)
                     {
                         m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
                         m_frame.X = MathHelper.Clamp(
@@ -60,21 +94,21 @@ namespace VCEngine
                         m_frame.Y = Parent.m_remainingDockFrame.Y;
                         m_frame.Height = Parent.m_remainingDockFrame.Height;
 
-                        Parent.m_remainingDockFrame.Width -= m_frame.Width;
+                        Parent.m_remainingDockFrame.Width -= m_frame.Width + Margin.Right;
                     }
 
-                    else if (Docks == DockingFlags.Bottom)
+                    else if (Dock == Dockings.Bottom)
                     {
                         m_frame.Y = Parent.m_remainingDockFrame.Y;
                         m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
                         m_frame.X = Parent.m_remainingDockFrame.X;
                         m_frame.Width = Parent.m_remainingDockFrame.Width;
 
-                        Parent.m_remainingDockFrame.Y += m_frame.Height;
-                        Parent.m_remainingDockFrame.Height -= m_frame.Height;
+                        Parent.m_remainingDockFrame.Y += m_frame.Height + Margin.Bottom;
+                        Parent.m_remainingDockFrame.Height -= m_frame.Height + Margin.Bottom;
                     }
 
-                    else if (Docks == DockingFlags.Top)
+                    else if (Dock == Dockings.Top)
                     {
                         m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
                         m_frame.Y = MathHelper.Clamp(
@@ -84,10 +118,10 @@ namespace VCEngine
                         m_frame.X = Parent.m_remainingDockFrame.X;
                         m_frame.Width = Parent.m_remainingDockFrame.Width;
 
-                        Parent.m_remainingDockFrame.Height -= m_frame.Height;
+                        Parent.m_remainingDockFrame.Height -= m_frame.Height + Margin.Bottom;
                     }
 
-                    else if (Docks == DockingFlags.Fill)
+                    else if (Dock == Dockings.Fill)
                     {
                         m_frame = Parent.m_remainingDockFrame;
                         Parent.m_remainingDockFrame.Width = 0;
@@ -97,41 +131,17 @@ namespace VCEngine
                 }
                 
                 // Recursively update children docks in ascending order
-                m_remainingDockFrame = m_frame;
+                //m_remainingDockFrame = new Rectangle(Margin.Left, Margin.Bottom, m_frame.Width - (Margin.Left + Margin.Right), m_frame.Height - (Margin.Bottom + Margin.Top));
+                m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
 
                 foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
-                    if (child.Docks != DockingFlags.None)
+                    if (child.Dock != Dockings.None)
                         child.Frame = child.Frame;
 
                 Resize(this, args);
             }
         }
-        public int          BorderWidth;
-        public bool         ClipView;
-        public DockingFlags Docks = DockingFlags.None;
-        public int          DockOrder;
-
-        public Color        BackgroundColor = Color.ControlMediumBackground;
-        public Color        BorderColor = Color.ControlVeryDark;
-
-        public bool         DrawHover;
-        public Color        HoverBackgroundColor = Color.White;
-        public Color        HoverBorderColor = Color.ControlBorder;
-
-        public String       Font = "Calibri-16";
-
-        // Control
-        public Control Parent;
-        public bool Enabled = true;
-        public bool Visible = true;
-        public bool CanFocus;
-        public HashSet<Control> Children = new HashSet<Control>();
-        public bool IsFocused;
-        public bool IsHovered { get; protected set; }
-        public bool IsClickDown { get; protected set; }
-        public bool IsRightClickDown { get; protected set; }
-
-        public Point ScreenPoint
+        public Point            ScreenPoint
         {
             get
             {
@@ -158,7 +168,7 @@ namespace VCEngine
                 }
             }
         }
-        public Rectangle ScreenFrame
+        public Rectangle        ScreenFrame
         {
             get
             {
@@ -177,7 +187,37 @@ namespace VCEngine
                 }
             }
         }
+        public int              BorderWidth;
+        public bool             ClipView;
+        public int              DockOrder;
+        public Dockings         Dock = Dockings.None;
+        //public Anchors        AncorFlags = Ancors.None;
+        public AutoSizeTypes    AutoSize = AutoSizeTypes.None;
+        public MarginSize       Margin = new MarginSize();
 
+        public Color            BackgroundColor = Color.ControlMediumBackground;
+        public Color            BorderColor = Color.ControlVeryDark;
+
+        public bool             DrawHover;
+        public Color            HoverBackgroundColor = Color.White;
+        public Color            HoverBorderColor = Color.ControlBorder;
+
+        public String           Font = "Calibri-16";
+
+        // =====   Control   =====================================================
+        public Control          Parent;
+        public bool             Enabled = true;
+        public bool             Visible = true;
+        public bool             CanFocus;
+        public HashSet<Control> Children = new HashSet<Control>();
+        public bool             IsFocused;
+        public bool             IsHovered { get; protected set; }
+        public bool             IsClickDown { get; protected set; }
+        public bool             IsRightClickDown { get; protected set; }
+        public bool             IsDraging { get; private set; }
+
+
+        // =====   Events   ======================================================
         public event EventHandler<MouseEventArgs>           Click = delegate { };
         public event EventHandler<MouseEventArgs>           RightClick = delegate { };
         public event EventHandler<MouseEventArgs>           DoubleClick = delegate { };
@@ -194,6 +234,8 @@ namespace VCEngine
         public event EventHandler<ControlFocusArgs>         Focused = delegate { };
         public event EventHandler<ResizeEventArgs>          Resize = delegate { };
         public event EventHandler<ParentChangeEventArgs>    ParentChanged = delegate { };
+
+
 
         private Rectangle m_frame = new Rectangle();
         private Rectangle m_remainingDockFrame = new Rectangle();
@@ -232,6 +274,9 @@ namespace VCEngine
             if (control.Parent != null)
                 control.Parent.RemoveControl(control);
 
+            // Force an update
+            Frame = Frame;
+            
             ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = this };
             control.Parent = this;
             control.ParentChanged(this, args);
@@ -240,41 +285,76 @@ namespace VCEngine
         public virtual void RemoveControl(Control control)
         {
             Children.Remove(control);
+
+            //control.Resize -= ChildControlResizeHandler;
+            //ChildControlResizeHandler(this, null);
+
             ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = null };
             control.Parent = null;
             control.ParentChanged(this, args);
         }
 
+        protected virtual void ChildControlResizeHandler(object sender, ResizeEventArgs e)
+        {
+            // Expand this control to contain all children
+            if (AutoSize != AutoSizeTypes.None)
+            {
+                Rectangle size = new Rectangle();
+
+                foreach (Control ctrl in Children)
+                {
+                    // Grow Up
+                    if (ctrl.Frame.Y + ctrl.Frame.Height > size.Height)
+                        size.Height = ctrl.Frame.Y + ctrl.Frame.Height + Margin.Top;
+
+                    // Grow Right
+                    if (ctrl.Frame.X + ctrl.Frame.Width > size.Width)
+                        size.Width = ctrl.Frame.X + ctrl.Frame.Width;
+                }
+
+                if (AutoSize == AutoSizeTypes.GrowOnly)
+                    Frame = new Rectangle(Frame.X, Frame.Y,
+                        Math.Max(Frame.Width, size.Width),
+                        Math.Max(Frame.Height, size.Height));
+
+                if (AutoSize == AutoSizeTypes.GrowAndShrink)
+                    Frame = new Rectangle(Frame.X, Frame.Y,
+                        size.Width,
+                        size.Height);
+
+            }
+        }
+
         protected virtual void Draw()
         {
-            if (IsFocused)
-            {
-                if (HoverBackgroundColor != Color.Trasparent)
-                    Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
+            //if (IsFocused)
+            //{
+            //    if (HoverBackgroundColor != Color.Trasparent)
+            //        Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
 
-                if (BorderWidth > 0)
-                    Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, Color.ControlBlue, BorderWidth);
-            }
-            else
-            {
-                if (IsHovered && DrawHover && Enabled)
-                {
-                    if (HoverBackgroundColor != Color.Trasparent)
-                        Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
+            //    if (BorderWidth > 0)
+            //        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, Color.ControlBlue, BorderWidth);
+            //}
+            //else
+            //{
+            //    if (IsHovered && DrawHover && Enabled)
+            //    {
+            //        if (HoverBackgroundColor != Color.Trasparent)
+            //            Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
 
-                    if (BorderWidth > 0)
-                        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HoverBorderColor, BorderWidth);
-                }
+            //        if (BorderWidth > 0)
+            //            Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HoverBorderColor, BorderWidth);
+            //    }
 
-                else
-                {
-                    if (BackgroundColor != Color.Trasparent)
-                        Gui.DrawRectangle(ScreenFrame, BackgroundColor);
+            //    else
+            //    {
+            //        if (BackgroundColor != Color.Trasparent)
+            //            Gui.DrawRectangle(ScreenFrame, BackgroundColor);
 
-                    if (BorderWidth > 0)
-                        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
-                }
-            }
+            //        if (BorderWidth > 0)
+            //            Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
+            //    }
+            //}
         }
 
         protected virtual void Update()
@@ -343,14 +423,14 @@ namespace VCEngine
 
             GlfwInputState.OnKey += (sender, args) =>
                 {
-                    if (m_focusedChild != null)
-                        m_focusedChild.RawKeyChange(this, args);
+                    if (s_focusedChild != null)
+                        s_focusedChild.RawKeyChange(this, args);
                 };
 
             GlfwInputState.OnCharClicked += (sender, args) =>
                 {
-                    if (m_focusedChild != null)
-                        m_focusedChild.CharPress(sender, args);
+                    if (s_focusedChild != null)
+                        s_focusedChild.CharPress(sender, args);
                 };
 
             GlfwInputState.OnMouseClick += (sender, args) =>
@@ -365,7 +445,7 @@ namespace VCEngine
                     // =====   If Left/Right - Pressed, focus the control   ======================================================
                     if (GlfwInputState.MouseStates[0].State == TriState.Pressed || GlfwInputState.MouseStates[1].State == TriState.Pressed)
                     {
-                        m_focusedChild = null;
+                        s_focusedChild = null;
 
                         // Walk up the chain, set focus flags
                         Control cursor = active;
@@ -373,8 +453,8 @@ namespace VCEngine
                         {
                             if (cursor.CanFocus)
                             {
-                                if (m_focusedChild == null)
-                                    m_focusedChild = cursor;
+                                if (s_focusedChild == null)
+                                    s_focusedChild = cursor;
 
                                 s_currentFocus.Add(cursor);
 
@@ -421,6 +501,19 @@ namespace VCEngine
                             }
                         );
 
+                        if (IsDraging)
+                        {
+                            active.ProcessMouseEvent(
+                                this,
+                                new MouseEventArgs
+                                {
+                                    EventType = MouseEventType.DragEnd,
+                                    ScreenLocation = GlfwInputState.MouseLocation
+                                });
+
+                            IsDraging = false;
+                        }
+
                         active.IsClickDown = false;
                     }
 
@@ -461,14 +554,29 @@ namespace VCEngine
                     // Process specialized events
                     if (active.IsClickDown)
                     {
-                        active.ProcessMouseEvent(
-                            this,
-                            new MouseEventArgs
-                            {
-                                EventType = MouseEventType.Draging,
-                                ScreenLocation = GlfwInputState.MouseLocation
-                            }
-                        );
+                        if (!IsDraging)
+                        {
+                            IsDraging = true;
+                            active.ProcessMouseEvent(
+                                this,
+                                new MouseEventArgs
+                                {
+                                    EventType = MouseEventType.DragBegin,
+                                    ScreenLocation = GlfwInputState.MouseLocation
+                                });
+                        }
+
+                        else
+                        {
+                            active.ProcessMouseEvent(
+                                this,
+                                new MouseEventArgs
+                                {
+                                    EventType = MouseEventType.Draging,
+                                    ScreenLocation = GlfwInputState.MouseLocation
+                                }
+                            );
+                        }
                     }
 
                     else

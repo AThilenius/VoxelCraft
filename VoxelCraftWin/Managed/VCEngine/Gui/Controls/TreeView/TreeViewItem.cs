@@ -85,7 +85,7 @@ namespace VCEngine
 
                 if (IsFocused)
                 {
-                    Gui.DrawRectangle(sf, Color.ControlBlue);
+                    Gui.DrawButtonHighlighted(sf);
                     Gui.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
                     m_expButton.BackgroundColor = Color.White;
                     m_expButton.HoverBackgroundColor = Color.White;

@@ -40,6 +40,17 @@ namespace VCEngine
                 VCInteropInputSetMouse(value.X, Window.Size.Y - value.Y);
             }
         }
+        public static Point InvertedMouseLocation
+        {
+            get { return new Point(m_currentMousePosition.X, Window.Size.Y - m_currentMousePosition.Y); }
+            set
+            {
+                // Overwrite previous to avoid stale spinning
+                PreviouseMouseLocation = value;
+                m_currentMousePosition = value;
+                VCInteropInputSetMouse(value.X, value.Y);
+            }
+        }
         public static PointF DeltaScroll = new PointF();
         public static Boolean MouseVisible
         {

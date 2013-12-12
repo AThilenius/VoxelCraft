@@ -28,13 +28,11 @@ namespace VCEngine
             DrawHover = false;
 
             World = new World();
-            World.Generator = new FlatChunkGenerator();
             World.ViewDistance = viewDistance;
             World.Initialize();
             World.Camera.Fullscreen = false;
             World.Camera.Transform.Position = new Vector3(50, 20, 50);
             World.Camera.Transform.Rotation = Quaternion.FromEuler(m_rot);
-            World.GenerateRegenerate();
             World.ReBuild();
 
             Resize += GameWindow_Resize;
@@ -61,18 +59,6 @@ namespace VCEngine
 
             else
                 ActiveTool.Update(null);
-
-            // Outline each chunk World
-            for (int x = 0; x < World.ViewDistance; x++)
-            {
-                for (int y = 0; y < World.ViewDistance; y++)
-                {
-                    for (int z = 0; z < World.ViewDistance; z++)
-                    {
-                        World.Camera.Debug.DrawCube(new Vector3(x * 32, y * 32, z * 32), Vector3.One * 32, Color.ControlGreen);
-                    }
-                }
-            }
 
             // Undo / ReDo
             if (GlfwInputState.KeyStates[Input.Keys.LeftControl].State != TriState.None &&
@@ -159,6 +145,19 @@ namespace VCEngine
 
             DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
+
+
+            // Outline each chunk World (Should be fine to invoke from a draw call...)
+            for (int x = 0; x < World.ViewDistance; x++)
+                for (int y = 0; y < World.ViewDistance; y++)
+                    for (int z = 0; z < World.ViewDistance; z++)
+                        World.Camera.Debug.DrawCube(new Vector3(x * 32, y * 32, z * 32), Vector3.One * 32, Color.ControlGreen);
+
+            for (int x = 1; x < World.ViewDistance * 32; x++)
+                World.Camera.Debug.DrawLine(new Vector3(x, 1, 0), new Vector3(x, 1, World.ViewDistance * 32), Color.ControlGreen);
+
+            for (int z = 1; z < World.ViewDistance * 32; z++)
+                World.Camera.Debug.DrawLine(new Vector3(0, 1, z), new Vector3(World.ViewDistance * 32, 1, z), Color.ControlGreen);
         }
 
         private void DrawText(string text, Rectangle sf)

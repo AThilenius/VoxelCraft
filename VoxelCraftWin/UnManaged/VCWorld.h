@@ -44,7 +44,6 @@ public:
 	~VCWorld(void);
 
 	void InitializeEmpty();
-	void GenerateRegenerate();
 	void Rebuild(VCWorldRebuildParams params);
 
 	void SetViewDistance(int viewDistTwo);
@@ -63,7 +62,6 @@ public:
 public:
 	VCCamera* Camera;
 	int ChunkZeroX, ChunkZeroY, ChunkZeroZ;
-	VCIChunkGenerator* ChunkGenerator;
 
 private:
 	int m_viewDistTwo;
@@ -82,10 +80,8 @@ int VCInteropNewWorld();
 void VCInteropReleaseWorld(int handle);
 
 int VCInteropWorldGetCamera(int handle);
-void VCInteropWorldSetGenerator(int wHandle, int cHandle);
 void VCInteropWorldSetViewDist(int handle, int distance);
 void VCInteropWorldInitializeEmpty(int handle);
-void VCInteropWorldGenerateRegenerate(int handle);
 void VCInteropWorldRebuild(int handle, VCWorldRebuildParams params);
 
 void VCInteropWorldSaveToFile (int handle, VCMonoStringPtr path);

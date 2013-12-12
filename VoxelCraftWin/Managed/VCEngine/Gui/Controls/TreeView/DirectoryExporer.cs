@@ -26,12 +26,6 @@ namespace VCEngine
         public DirectoryExporer(String headPath)
         {
             m_path = headPath;
-            //GlfwInputState.OnFocusChange += (s, a) =>
-            //    {
-            //        RefreshView();
-            //        m_needsRebuild = true;
-            //    };
-
             RefreshView();
             NotifyUpdate();
         }
@@ -46,6 +40,14 @@ namespace VCEngine
                 LoadDirRecurse(new DirectoryInfo(m_path), null);
 
             NotifyUpdate();
+        }
+
+        protected override void Draw()
+        {
+            Rectangle sf = ScreenFrame;
+            Gui.DrawBackground(new Rectangle(sf.X, sf.Y + sf.Height - m_yOffset, sf.Width, m_yOffset), false);
+
+            base.Draw();
         }
 
         private void LoadDirRecurse(DirectoryInfo directory, TreeViewItem parent)

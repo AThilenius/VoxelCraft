@@ -74,7 +74,7 @@ void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color )
 	m_verts[m_vCount++] = ur;
 }
 
-void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 color )
+void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
@@ -82,6 +82,14 @@ void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GL
 	}
 
 	glm::vec2 firstRad = m_unitCircle[0];
+
+	// Color
+	GLubyte4 c1;
+	GLubyte4::Lerp(c1, bottom, top, (firstRad.y + 1) * 0.5f);
+
+	// Centroid Color
+	GLubyte4 centroidC;
+	GLubyte4::Lerp(centroidC, bottom, top, 0.5f);
 
 	// Scale
 	firstRad.x *= width;
@@ -98,6 +106,10 @@ void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GL
 	{
 		glm::vec2 rad2 = m_unitCircle[i];
 
+		// Colors
+		GLubyte4 c2;
+		GLubyte4::Lerp(c2, bottom, top, (rad2.y + 1) * 0.5f);
+
 		// Scale
 		rad2.x *= width;
 		rad2.y *= height;
@@ -110,11 +122,12 @@ void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GL
 		VCPoint p2 (rad2.x, rad2.y);
 
 		// Add verts ( This way is actually faster... I <3 the profiler )
-		m_verts[m_vCount].Position.x = (GLushort)centroid.X;	m_verts[m_vCount].Position.y = (GLushort)centroid.Y;	m_verts[m_vCount++].Color = color;
-		m_verts[m_vCount].Position.x = (GLushort)p1.X;			m_verts[m_vCount].Position.y = (GLushort)p1.Y;			m_verts[m_vCount++].Color = color;
-		m_verts[m_vCount].Position.x = (GLushort)p2.X;			m_verts[m_vCount].Position.y = (GLushort)p2.Y;			m_verts[m_vCount++].Color = color;
+		m_verts[m_vCount].Position.x = (GLushort)centroid.X;	m_verts[m_vCount].Position.y = (GLushort)centroid.Y;	m_verts[m_vCount++].Color = centroidC;
+		m_verts[m_vCount].Position.x = (GLushort)p1.X;			m_verts[m_vCount].Position.y = (GLushort)p1.Y;			m_verts[m_vCount++].Color = c1;
+		m_verts[m_vCount].Position.x = (GLushort)p2.X;			m_verts[m_vCount].Position.y = (GLushort)p2.Y;			m_verts[m_vCount++].Color = c2;
 
 		p1 = p2;
+		c1 = c2;
 	}
 }
 

@@ -96,6 +96,12 @@ namespace VCEngine
             set
             {
                 m_viewport = value;
+
+                if (m_viewport.X < 0) m_viewport.X = 0;
+                if (m_viewport.Y < 0) m_viewport.Y = 0;
+                if (m_viewport.Width < 0) m_viewport.Width = 0;
+                if (m_viewport.Height < 0) m_viewport.Height = 0;
+
                 SetData();
             }
         }

@@ -28,56 +28,26 @@ namespace VCEngine
 
         public VerticalContainer()
         {
-            Resize += OnFrameChange;
-        }
-
-        private void OnFrameChange(object sender, ResizeEventArgs e)
-        {
-            m_yOffset = 0;
-
-            foreach (Control ctrl in Children)
-            {
-                switch (Order)
-                {
-                    case StackingOrder.Down:
-                        m_yOffset += ctrl.Frame.Height + VerticalPadding;
-                        ctrl.Frame = new Rectangle(0, Frame.Height - m_yOffset, Frame.Width, ctrl.Frame.Height);
-                        break;
-
-                    case StackingOrder.Up:
-                        m_yOffset += ctrl.Frame.Height + VerticalPadding;
-                        ctrl.Frame = new Rectangle(0, m_yOffset, Frame.Width, ctrl.Frame.Height);
-                        break;
-                }
-            }
+            Resize += VerticalContainer_Resize;
         }
 
         public override void AddControl(Control control)
         {
             base.AddControl(control);
+            control.DockOrder = m_yOffset++;
+            control.Dock = (m_order == StackingOrder.Up) ? Dockings.Bottom : Dockings.Top;
+            Frame = Frame;
+        }
 
-            switch (Order)
-            {
-                case StackingOrder.Down:
-                    m_yOffset += control.Frame.Height + VerticalPadding;
-                    control.Frame = new Rectangle(0, Frame.Height - m_yOffset, Frame.Width, control.Frame.Height);
-                    break;
-
-                case StackingOrder.Up:
-                    m_yOffset += control.Frame.Height + VerticalPadding;
-                    control.Frame = new Rectangle(0, m_yOffset, Frame.Width, control.Frame.Height);
-                    break;
-            }
+        void VerticalContainer_Resize(object sender, ResizeEventArgs e)
+        {
+            //Resize container to content's summation
+            
         }
 
         public void AddPadding(int size = 10)
         {
-            m_yOffset += size;
-        }
-
-        public override void RemoveControl(Control control)
-        {
-            throw new NotImplementedException();
+            //m_yOffset += size;
         }
 
     }

@@ -71,16 +71,10 @@ namespace VCEngine
         extern static int VCInteropWorldGetCamera(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropWorldSetGenerator(int wHandle, int cHandle);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldSetViewDist(int handle, int distance);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldInitializeEmpty(int handle);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static void VCInteropWorldGenerateRegenerate(int handle);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWorldRebuild(int handle, VCWorldRebuildParams param);
@@ -109,19 +103,6 @@ namespace VCEngine
 
         public Camera Camera;
         public VCWorldRebuildParams RebuildParams = new VCWorldRebuildParams(true, false);
-        public IChunkGenerator Generator
-        {
-            get
-            {
-                return m_generator;
-            }
-
-            set
-            {
-                m_generator = value;
-                VCInteropWorldSetGenerator(UnManagedHandle, ((MarshaledObject) value).UnManagedHandle);
-            }
-        }
         public int ViewDistance
         {
             get
@@ -135,19 +116,18 @@ namespace VCEngine
                 VCInteropWorldSetViewDist(UnManagedHandle, value);
             }
         }
-
-        private IChunkGenerator m_generator;
         private int m_viewDistance = 0;
 
         public void Initialize()
         {
             VCInteropWorldInitializeEmpty(UnManagedHandle);
             Camera = new Camera(VCInteropWorldGetCamera(UnManagedHandle));
-        }
 
-        public void GenerateRegenerate()
-        {
-            VCInteropWorldGenerateRegenerate(UnManagedHandle);
+            // Total hack
+            for (int x = 0; x < m_viewDistance * 32; x++)
+                for (int z = 0; z < m_viewDistance * 32; z++)
+                    SetBlock(x, 0, z, new Block(new Color(125, 125, 125, 1)));
+
         }
 
         public void SaveToFile(string path)

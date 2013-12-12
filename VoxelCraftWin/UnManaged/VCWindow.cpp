@@ -127,7 +127,8 @@ void VCWindow::Initalize()
 		std::cout << "Failed to initialize GLFW." << std::endl;
 		std::cin.ignore();
 	}
-	
+	 
+	//glfwWindowHint(GLFW_DECORATED, false);
 	//glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -179,6 +180,8 @@ void VCWindow::Initalize()
 	SetVSync(false);
 	std::cout << "VCWindow Initialized." << std::endl;
     glErrorCheck();
+
+	VCInteropWindowSetPos(200, 200);
 }
 
 void VCWindow::SwapBuffers()
@@ -208,6 +211,10 @@ void VCWindow::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowSetSize",		(void*)VCInteropWindowSetSize);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetPos",		(void*)VCInteropWindowGetPos);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowSetPos",		(void*)VCInteropWindowSetPos);
+	VCMonoRuntime::SetMethod("Window::VCInteropGetMonitorSize",		(void*)VCInteropGetMonitorSize);
 }
 
 void VCInteropWindowSwapBuffers()
@@ -222,7 +229,29 @@ bool VCInteropWindowShouldClose()
 
 void VCInteropWindowGetSize(int* width, int* height)
 {
-	//return Point(VCWindow::Instance->Width, VCWindow::Instance->Height);
 	*width = 1280;
 	*height = 600;
+}
+
+void VCInteropWindowSetSize( int width, int height )
+{
+	glfwSetWindowSize(VCWindow::Instance->GLFWWindowHandle, width, height);
+}
+
+void VCInteropWindowGetPos( int* x, int* y )
+{
+	glfwGetWindowPos(VCWindow::Instance->GLFWWindowHandle, x, y);
+}
+
+void VCInteropWindowSetPos( int x, int y )
+{
+	glfwSetWindowPos(VCWindow::Instance->GLFWWindowHandle, x, y);
+}
+
+void VCInteropGetMonitorSize( int* width, int* height )
+{
+	GLFWmonitor* primary = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(primary);
+	*width = mode->width;
+	*height = mode->height;
 }

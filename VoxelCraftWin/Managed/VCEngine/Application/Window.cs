@@ -18,10 +18,58 @@ namespace VCEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropWindowGetSize(out int width, out int height);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWindowSetSize(int width, int height);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWindowGetPos(out int x, out int y);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWindowSetPos(int x, int y);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGetMonitorSize(out int width, out int height);
         
 		#endregion
 
-        public static Point Size { get; private set; }
+        public static Point Position
+        {
+            get
+            {
+                int x, y;
+                VCInteropWindowGetPos(out x, out y);
+                return new Point(x, y);
+            }
+
+            set
+            {
+                VCInteropWindowSetPos(value.X, value.Y);
+            }
+        }
+        public static Point Size 
+        {
+            get
+            {
+                int x, y;
+                VCInteropWindowGetSize(out x, out y);
+                return new Point(x, y);
+            }
+
+            set
+            {
+                VCInteropWindowSetSize(value.X, value.Y);
+            }
+        }
+        public static Point MonitorSize
+        {
+            get
+            {
+                int w, h;
+                VCInteropGetMonitorSize(out w, out h);
+                return new Point(w, h);
+            }
+        }
         public static Rectangle FullViewport { get { return new Rectangle(0, 0, Size); } }
 
         public static event EventHandler<ResizeEventArgs> Resize = delegate { };

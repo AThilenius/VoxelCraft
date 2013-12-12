@@ -13,10 +13,10 @@ namespace VCEngine
 
         public ExpandButton()
         {
-            Click += ExpandButton_Click;
+            Click += (s, a) => ToggleExpandContract();
         }
 
-        void ExpandButton_Click(object sender, MouseEventArgs e)
+        public void ToggleExpandContract()
         {
             IsExpanded = !IsExpanded;
 
@@ -30,18 +30,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            // Suppress base drawing
-
             if (IsExpanded)
-            {
-                if (IsHovered)
-                    DrawCollapsedTriangle(ScreenFrame, HoverBackgroundColor);
-
-                else
-                    DrawCollapsedTriangle(ScreenFrame, BackgroundColor);
-            }
-
-            else
             {
                 if (IsHovered)
                     DrawExpandedTriangle(ScreenFrame, HoverBackgroundColor);
@@ -50,9 +39,18 @@ namespace VCEngine
                     DrawExpandedTriangle(ScreenFrame, BackgroundColor);
             }
 
+            else
+            {
+                if (IsHovered)
+                    DrawCollapsedTriangle(ScreenFrame, HoverBackgroundColor);
+
+                else
+                    DrawCollapsedTriangle(ScreenFrame, BackgroundColor);
+            }
+
         }
 
-        public static void DrawCollapsedTriangle(Rectangle frame, Color color)
+        protected static void DrawCollapsedTriangle(Rectangle frame, Color color)
         {
             // Lower Left
             Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y), color));
@@ -64,7 +62,7 @@ namespace VCEngine
             Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
         }
 
-        public static void DrawExpandedTriangle(Rectangle frame, Color color)
+        protected static void DrawExpandedTriangle(Rectangle frame, Color color)
         {
             // Upper left
             Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));

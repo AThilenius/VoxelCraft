@@ -48,9 +48,9 @@ void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)
 	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
 }
 
-void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 color)
+void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom)
 {
-	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(color.X, color.Y, color.Z, color.W));
+	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W));
 }
 
 void VCInteropGuiAddVerticie( GuiRectVerticie vert )
