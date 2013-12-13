@@ -20,7 +20,7 @@ public:
 
 	void Initialize();
 	void Reset();
-	void DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color = GLubyte4(255, 255, 255, 255) );
+	void DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color, float depthStep );
 
 private:
 	std::vector<VCTextBuffer*> m_bufferByFont;

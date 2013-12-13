@@ -7,6 +7,8 @@ namespace VCEngine
 {
     public class Header : Control
     {
+        public LayoutControls LayoutControls;
+
         private Point m_delta = new Point(-1, -1);
 
         public Header()
@@ -14,11 +16,10 @@ namespace VCEngine
             Margin = new MarginSize();
             DragBegin += (s, a) => m_delta = GlfwInputState.InvertedMouseLocation;
             Draging += Header_Draging;
-            //DoubleClick += (s, a) =>
-            //    {
-            //        Window.Size = Window.MonitorSize;
-            //        Window.Position = new Point();
-            //    };
+
+            //LayoutControls = new LayoutControls();
+            //AddControl(LayoutControls);
+            //LayoutControls.Dock = Dockings.Right;
         }
 
         void Header_Draging(object sender, MouseEventArgs e)

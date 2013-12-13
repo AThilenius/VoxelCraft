@@ -17,11 +17,12 @@ class VCRenderStage;
 struct GuiRectVerticie
 {
 	GuiRectVerticie();
-	GuiRectVerticie(GLushort2 position, GLubyte4 color);
+	GuiRectVerticie(GLshort3 position, GLubyte4 color);
 	~GuiRectVerticie();
 
-	GLushort2 Position;
+	GLshort3 Position;
 	GLubyte4 Color;
+	GLshort _Padding;
 };
 
 class VCGeometryBuilder
@@ -30,9 +31,9 @@ public:
 	VCGeometryBuilder(void);
 	~VCGeometryBuilder(void);
 
-	void DrawRectangle ( VCRectangle frame, GLubyte4 color );
-	void DrawEllipse ( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom );
-	void AddQuad( GuiRectVerticie vert );
+	void DrawRectangle ( VCRectangle frame, GLubyte4 color, float depthStep );
+	void DrawEllipse ( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom, float depthStep );
+	void AddQuad( GuiRectVerticie vert, float depthStep );
 
 	void Initialize();
 

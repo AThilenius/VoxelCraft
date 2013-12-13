@@ -29,7 +29,7 @@ void VCTextBuilder::Reset()
 {
 }
 
-void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color )
+void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
 {
 	for (int i = m_bufferByFont.size(); m_bufferByFont.size() <= font; i++)
 	{
@@ -38,5 +38,5 @@ void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLuby
 		m_bufferByFont.push_back( vcTextBuffer );
 	}
 
-	m_bufferByFont[font]->DrawText(text, llPoint, color);
+	m_bufferByFont[font]->DrawText(text, llPoint, color, depthStep);
 }

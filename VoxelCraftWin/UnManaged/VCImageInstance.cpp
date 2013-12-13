@@ -14,6 +14,7 @@
 #include "VCTexturePassThroughShader.h"
 #include "VCLexShader.h"
 #include "VCWindow.h"
+#include "VCGui.h"
 
 
 VCTextureVerticie::VCTextureVerticie()
@@ -57,8 +58,6 @@ void VCImageInstance::Initialize()
 	m_rStage = new VCRenderStage(VC_VOID_DELEGATE_METHOD(VCImageInstance, Render));
 	m_rStage->ExectionType = VCRenderStage::Never;
 	m_rStage->BatchOrder = VC_BATCH_GUI;
-	m_rStage->DepthTest = false;
-	//m_rStage->Blend = true;
 	m_rStage->Shader = VCGLRenderer::Instance->TexturePassthroughShader;
 	m_rStage->Texture = m_texturePtr;
 	VCGLRenderer::Instance->RegisterStage(m_rStage);
@@ -83,7 +82,7 @@ void VCImageInstance::Initialize()
 	glBindVertexArray(0);
 }
 
-void VCImageInstance::DrawImage( VCRectangle frame )
+void VCImageInstance::DrawImage( VCRectangle frame, float depthStep )
 {
 	// X10 size if needed, never shrink
 	if ( m_vertexCount + 6 >= m_vertBufferSize )
@@ -96,10 +95,10 @@ void VCImageInstance::DrawImage( VCRectangle frame )
 	}
 
 	// Remember: DX UV Coordinates (Y inverted)
-	VCTextureVerticie ll (GLfloat3(frame.X,					frame.Y,				 0), GLfloat2(0, 1));
-	VCTextureVerticie ul (GLfloat3(frame.X,					frame.Y	+ frame.Height,	 0), GLfloat2(0, 0));
-	VCTextureVerticie lr (GLfloat3(frame.X + frame.Width,	frame.Y,				 0), GLfloat2(1, 1));
-	VCTextureVerticie ur (GLfloat3(frame.X + frame.Width,	frame.Y	+ frame.Height,	 0), GLfloat2(1, 0));
+	VCTextureVerticie ll (GLfloat3(frame.X,					frame.Y,				 depthStep), GLfloat2(0, 1));
+	VCTextureVerticie ul (GLfloat3(frame.X,					frame.Y	+ frame.Height,	 depthStep), GLfloat2(0, 0));
+	VCTextureVerticie lr (GLfloat3(frame.X + frame.Width,	frame.Y,				 depthStep), GLfloat2(1, 1));
+	VCTextureVerticie ur (GLfloat3(frame.X + frame.Width,	frame.Y	+ frame.Height,	 depthStep), GLfloat2(1, 0));
 
 	m_vertBuffer[m_vertexCount++] = ul;
 	m_vertBuffer[m_vertexCount++] = ll;
@@ -118,7 +117,7 @@ void VCImageInstance::Render()
 	if (m_vertexCount == 0)
 		return;
 
-	VCGLRenderer::Instance->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1));
+	VCGLRenderer::Instance->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer , GL_STREAM_DRAW);

@@ -102,9 +102,9 @@ private:
 	std::string m_fntPath, m_ddsPath;
 
 	// Info:
-	InfoHeader m_info;
-	CommonHeader m_common;
-	std::string m_fontName;
+	InfoHeader Info;
+	CommonHeader Common;
+	std::string FontName;
 
 	friend class VCLexicalEngine;
 	friend class VCTextBuffer;

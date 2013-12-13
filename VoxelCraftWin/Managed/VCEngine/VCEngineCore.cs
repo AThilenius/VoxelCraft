@@ -63,7 +63,7 @@ namespace VCEngine
             try
             {
                 Time.Update();
-                Gui.PreUpdate();
+                Gui.Reset();
 
                 if (!EditorMode)
                 {

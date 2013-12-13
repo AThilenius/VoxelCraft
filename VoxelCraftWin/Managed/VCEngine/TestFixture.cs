@@ -11,20 +11,28 @@ namespace VCEngine
         internal static void OnStart()
         {
             Font.GetFont("Calibri", 8);
+
+            //Label testBase = new Label("This is a test string to show depth");
+            //testBase.Font = Font.GetFont("Cambria", 24);
+            //Control.MainControl.AddControl(testBase);
+            //testBase.Frame = new Rectangle(50, 100, testBase.Frame.Width, testBase.Frame.Height);
+
+            //Menu testMenu = new Menu();
+            //testBase.AddControl(testMenu);
+            //testMenu.AddItem("Item One");
+            //testMenu.AddItem("Item Two");
+            //testMenu.AddItem("Very Long Item 3");
+            //testMenu.DisplayAt(new Point(150, 0));
         }
 
         public static void PerUpdate()
         {
-
         }
 
         public static void LatePerUpdate()
         {
-            //Font.GetFont("Berlin Sans FB", 64).DrawString("The quick brown fox jumps over the lazy dog", new Point(10, 110), Color.Black);
-            //Font.GetFont("Berlin Sans FB", 32).DrawString("The quick brown fox jumps over the lazy dog", new Point(10, 140), Color.Black);
-            //Font.GetFont("Bradley Hand ITC", 32).DrawString("The quick brown fox jumps over the lazy dog", new Point(10, 170), Color.Black);
-            //Font.GetFont("Calibri", 16).DrawString("The quick brown fox jumps over the lazy dog", new Point(10, 200), Color.Black);
-            //Font.GetFont("Calibri", 24).DrawString("The quick brown fox jumps over the lazy dog", new Point(10, 230), Color.Black);
+            Font.GetFont("Cambria", 24).DrawString("This is a test string to show depth", new Point(50, 100), Color.Black);
+            Gui.DrawRectangle(new Rectangle(100, 50, 200, 200), Color.ControlRed);
         }
 
 

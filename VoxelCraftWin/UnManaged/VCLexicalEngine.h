@@ -36,7 +36,7 @@ public:
 	std::string LoadFont ( std::string fntPath, std::string ddsPath, int* fontOut );
 
 	VCTextMetrics GetMetrics ( int font, std::string text ); 
-	int MakeTextToQuadBuffer ( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset);
+	int MakeTextToQuadBuffer ( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset, float depthStep);
 	VCFont* GetFontById ( int fontID );
 
 	static VCLexicalEngine* Instance;

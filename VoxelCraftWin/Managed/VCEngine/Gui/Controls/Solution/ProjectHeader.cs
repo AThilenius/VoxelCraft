@@ -20,8 +20,8 @@ namespace VCEngine
 
             Text = new Label(projectName);
             AddControl(Text);
-            //Text.Font = "Calibri-24";
             Text.Dock = Dockings.Fill;
+            Text.TextAlignment = Label.TextAlignments.Center;
             Frame = new Rectangle(0, 0, 0, 40);
             Text.DoubleClick += (s, a) => ExpandButton.ToggleExpandContract();
         }

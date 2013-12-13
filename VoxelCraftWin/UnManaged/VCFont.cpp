@@ -92,12 +92,12 @@ void VCFont::Initialize()
 
 	// Name
 	std::ostringstream ss;
-	ss << m_fontName << "-" << m_info.fontSize;
+	ss << FontName << "-" << Info.fontSize;
 
-	if ( m_info.bitField & 32)
+	if ( Info.bitField & 32)
 		ss << "-Italic";
 
-	if ( m_info.bitField & 16)
+	if ( Info.bitField & 16)
 		ss << "-Bold";
 
 	Name = ss.str();
@@ -109,7 +109,7 @@ bool VCFont::ParseInfo(std::ifstream& f)
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
 
-	f.read((char*) &m_info, sizeof(InfoHeader));
+	f.read((char*) &Info, sizeof(InfoHeader));
 
 	while(true)
 	{
@@ -118,10 +118,10 @@ bool VCFont::ParseInfo(std::ifstream& f)
 		if ( inC == 0 )
 			break;
 
-		m_fontName.push_back(inC);
+		FontName.push_back(inC);
 	}
 
-	Size = m_info.fontSize;
+	Size = Info.fontSize;
 
 	return true;
 }
@@ -131,7 +131,7 @@ bool VCFont::ParseCommon(std::ifstream& f)
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
 
-	f.read((char*) &m_common, 15);
+	f.read((char*) &Common, 15);
 	
 	return true;
 }
@@ -141,7 +141,7 @@ bool VCFont::ParsePages(std::ifstream& f)
 	char blockType = ReadInt8(f);
 	int blockSize = ReadInt32(f);
 
-	if ( m_common.pages != 1 )
+	if ( Common.pages != 1 )
 	{
 		VC_ERROR("Only 1 font page per font is supported.");
 	}
@@ -212,8 +212,8 @@ bool VCFont::ParseKerning(std::ifstream& f)
 
 void VCFont::PreCompileQuads()
 {
-	float width = m_common.scaleW;
-	float height = m_common.scaleH;
+	float width = Common.scaleW;
+	float height = Common.scaleH;
 
 	GLubyte4 color ( 255, 255, 255, 255 );
 

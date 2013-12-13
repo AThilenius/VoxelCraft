@@ -10,6 +10,7 @@
 #include "VCLexicalEngine.h"
 #include "VCFont.h"
 #include "VCMonoRuntime.h"
+#include "VCGui.h"
 
 VCLexicalEngine* VCLexicalEngine::Instance;
 
@@ -75,13 +76,14 @@ VCTextMetrics VCLexicalEngine::GetMetrics( int font, std::string text )
 		xOffset += cDesc.XAdvance + kerning;
 	}
 
-	return VCTextMetrics(xOffset, vcfont->Size);
+	return VCTextMetrics(xOffset, vcfont->Common.lineHeight);
 }
 
-int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset )
+int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset, float depthStep )
 {
 	VCFont* vcfont = m_fonts[font];
 	int xOffset = 0;
+	llPoint.Y += vcfont->Common.lineHeight;
 
 	for ( int i = 0; i < text.length(); i++ )
 	{
@@ -94,6 +96,7 @@ int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint l
 		{
 			cDesc.Quad[v].Position.x += xOffset + kerning + llPoint.X;
 			cDesc.Quad[v].Position.y += llPoint.Y;
+			cDesc.Quad[v].Position.z = VCGui::Instance->DepthStep++; //depthStep;
 			cDesc.Quad[v].Color = color;
 
 			// Optimized to a memcpy ( 30% frame time -> 8% frame time )

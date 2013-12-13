@@ -49,8 +49,8 @@ namespace VCEngine
                 return;
             }
 
-            // Ray cast
-            Ray ray = World.Camera.ScreenPointToRay(GlfwInputState.MouseLocation, 1000);
+            // Ray cast (Raw mouse access, must be scaled manually)
+            Ray ray = World.Camera.ScreenPointToRay(GlfwInputState.MouseLocation * Gui.Scale, 1000);
             RaycastHit hit;
 
             // Pass tool update
@@ -145,7 +145,8 @@ namespace VCEngine
 
             DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
             DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
-            DrawText("Resolution: " + Window.Size, sf);
+            DrawText("Resolution: " + Window.TrueSize, sf);
+            DrawText("Gui Scaled Resolution: " + Window.ScaledSize, sf);
 
 
             // Outline each chunk World (Should be fine to invoke from a draw call...)
@@ -169,7 +170,8 @@ namespace VCEngine
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)
         {
-            World.Camera.Viewport = ScreenFrame;
+            // Raw access, must be scaled manually.
+            World.Camera.Viewport = ScreenFrame * Gui.Scale;
             World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 

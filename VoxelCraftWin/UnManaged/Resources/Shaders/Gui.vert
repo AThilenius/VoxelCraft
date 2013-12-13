@@ -8,7 +8,7 @@
 
 #version 150
 
-in vec2 Position;
+in vec3 Position;
 in vec4 Color;
 
 uniform mat4 projMatrix;
@@ -17,6 +17,6 @@ out vec4 VaryingColor;
 
 void main()
 {
-	gl_Position =  projMatrix * vec4(Position.x, Position.y, 0, 1);
+	gl_Position =  projMatrix * vec4(Position, 1);
 	VaryingColor =  Color;
 }

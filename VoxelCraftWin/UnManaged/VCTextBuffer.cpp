@@ -37,7 +37,6 @@ void VCTextBuffer::Initialize()
 	m_renderStage->BatchOrder = VC_BATCH_GUI;
 	m_renderStage->Shader = VCGLRenderer::Instance->LexShader;
 	m_renderStage->Texture = Font->m_ddsTexture;
-	m_renderStage->DepthTest = false;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO
@@ -64,7 +63,7 @@ void VCTextBuffer::Initialize()
 	glBindVertexArray(0);
 }
 
-void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color )
+void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
 {
 	if (m_vCount + text.size() >= VC_TEXT_BUFFER_MAX_VERT_SIZE)
 	{
@@ -77,7 +76,8 @@ void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color )
 		llPoint,					// Location
 		color,						// Color
 		m_verts,					// Buffer
-		m_vCount );					// Write Offset
+		m_vCount,					// Write Offset
+		depthStep);					// Depth
 }
 
 void VCTextBuffer::Render()

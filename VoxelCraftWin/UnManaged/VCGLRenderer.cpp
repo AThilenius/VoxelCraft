@@ -104,6 +104,10 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 	{
 		VCRenderStage* stage = *setIter;
 
+		// Clear Depth Buffer for GUI
+		if (stage->BatchOrder == VC_BATCH_GUI_BASE && lastBoundStage->BatchOrder != stage->BatchOrder)
+			glClear(GL_DEPTH_BUFFER_BIT);
+
 		if (stage->ExectionType == VCRenderStage::ExecutionTypes::Never || stage->BatchOrder < fromBatch || stage->BatchOrder > toBatch)
 			continue;
 

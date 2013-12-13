@@ -22,7 +22,7 @@ VCImageBuilder::~VCImageBuilder(void)
 	// Too lazy to clean up, should be application level anyway.
 }
 
-void VCImageBuilder::DrawImage( std::string imagePath, VCRectangle frame )
+void VCImageBuilder::DrawImage( std::string imagePath, VCRectangle frame, float depthStep )
 {
 	auto iter = m_imageInstances.find(imagePath);
 	
@@ -31,11 +31,11 @@ void VCImageBuilder::DrawImage( std::string imagePath, VCRectangle frame )
 		VCImageInstance* newInst = new VCImageInstance(imagePath);
 		newInst->Initialize();
 		m_imageInstances.insert(ImageInstMap::value_type(imagePath, newInst));
-		newInst->DrawImage(frame);
+		newInst->DrawImage(frame, depthStep);
 	}
 
 	else
 	{
-		iter->second->DrawImage(frame);
+		iter->second->DrawImage(frame, depthStep);
 	}
 }

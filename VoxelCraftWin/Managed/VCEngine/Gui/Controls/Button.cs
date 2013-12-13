@@ -17,7 +17,7 @@ namespace VCEngine
             Text.TextAlignment = Label.TextAlignments.Center;
             Text.Dock = Dockings.Fill;
 
-            Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth, 25);
+            Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth, Font.GetMetrics(title).TotalHeight);
             DrawHover = true;
             BorderWidth = 1;
         }

@@ -16,7 +16,7 @@ public:
 	VCImageBuilder(void);
 	~VCImageBuilder(void);
 
-	void DrawImage(std::string imagePath, VCRectangle frame);
+	void DrawImage(std::string imagePath, VCRectangle frame, float depthStep);
 
 private:
 	typedef std::unordered_map<std::string, VCImageInstance*> ImageInstMap;

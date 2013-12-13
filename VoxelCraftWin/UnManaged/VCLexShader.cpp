@@ -31,7 +31,7 @@ void VCLexShader::Bind(VCCamera* camera)
 	VCShader::Bind(camera);
 
 	// Set Projection Matrix and Tex unit
-	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
+	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1);
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
@@ -56,7 +56,7 @@ void VCLexShader::GetUniformIDs()
 void VCLexShader::PostInitialize()
 {
 	// Set Projection Matrix and Tex unit
-	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
+	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1);
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	glUniform1i(m_unifGlyphsTex, 0);

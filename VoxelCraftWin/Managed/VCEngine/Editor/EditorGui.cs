@@ -17,7 +17,7 @@ namespace VCEngine
         {
             // Main Control
             Control.MainControl = new Control();
-            Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.Size);
+            Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.ScaledSize);
             Control.MainControl.BorderColor = Color.Black;
             Control.MainControl.BackgroundColor = Color.Trasparent;
             Control.MainControl.HoverBackgroundColor = Color.Trasparent;
@@ -35,7 +35,7 @@ namespace VCEngine
             Control.MainControl.AddControl(HeaderBar);
             HeaderBar.Dock = Control.Dockings.Top;
             HeaderBar.DockOrder = 0;
-            HeaderBar.Frame = new Rectangle(0, 0, 0, 100);
+            HeaderBar.Frame = new Rectangle(0, 0, 0, 75);
         }
 
         private static void CreateSolutionExplorer()
@@ -45,7 +45,7 @@ namespace VCEngine
             se.DockOrder = 2;
             se.Dock = Control.Dockings.Left;
             se.AddProject("Love Monkey Game", PathUtilities.AssetsPath);
-            se.Frame = new Rectangle(0, 0, 300, 0);
+            se.Frame = new Rectangle(0, 0, 250, 0);
         }
 
         private static void CreateInspector()
@@ -55,7 +55,7 @@ namespace VCEngine
             InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
             InspectorWindow.Dock = Control.Dockings.Right;
             InspectorWindow.DockOrder = 1;
-            InspectorWindow.Frame = new Rectangle(0, 0, 300, 0);
+            InspectorWindow.Frame = new Rectangle(0, 0, 250, 0);
 
             ColorPage = new VerticalContainer();
             ColorPage.BorderColor = Color.ControlRed;

@@ -8,6 +8,8 @@
 
 #pragma once
 
+#define VC_GUI_DEPTH_STEP_SIZE 1.0f
+
 class VCCamera;
 struct VCTextMetrics;
 
@@ -30,7 +32,11 @@ public:
 	VCCamera* GuiCamera;
 
 public:
+	float DepthStep;
+
 	static VCGui* Instance;
+	static float Scale;
+	static float InverseScale;
 
 	// ================================      Interop      ============
 public:
@@ -39,6 +45,8 @@ public:
 };
 
 // Interop
+void VCInteropGuiSetScale(float scale);
+void VCInteropGuiResetDepth();
 
 // Geometry
 void VCInteropGuiAddVerticie(GuiRectVerticie vert);

@@ -20,7 +20,7 @@ GuiRectVerticie::GuiRectVerticie()
 
 }
 
-GuiRectVerticie::GuiRectVerticie( GLushort2 position, GLubyte4 color ) :
+GuiRectVerticie::GuiRectVerticie( GLshort3 position, GLubyte4 color ) :
 	Position(position),
 	Color(color)
 {
@@ -53,17 +53,17 @@ VCGeometryBuilder::~VCGeometryBuilder( void )
 
 }
 
-void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color )
+void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
 		VC_ERROR("You have 125000+ Gui rectangles... too much man.");
 	}
 
-	GuiRectVerticie ll (GLushort2(frame.X,					frame.Y					), color);
-	GuiRectVerticie ul (GLushort2(frame.X,					frame.Y	+ frame.Height	), color);
-	GuiRectVerticie lr (GLushort2(frame.X + frame.Width,	frame.Y					), color);
-	GuiRectVerticie ur (GLushort2(frame.X + frame.Width,	frame.Y	+ frame.Height	), color);
+	GuiRectVerticie ll (GLshort3(frame.X,					frame.Y,				depthStep), color);
+	GuiRectVerticie ul (GLshort3(frame.X,					frame.Y	+ frame.Height,	depthStep), color);
+	GuiRectVerticie lr (GLshort3(frame.X + frame.Width,		frame.Y,				depthStep), color);
+	GuiRectVerticie ur (GLshort3(frame.X + frame.Width,		frame.Y	+ frame.Height,	depthStep), color);
 
 	m_verts[m_vCount++] = ul;
 	m_verts[m_vCount++] = ll;
@@ -74,7 +74,7 @@ void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color )
 	m_verts[m_vCount++] = ur;
 }
 
-void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom )
+void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
@@ -122,23 +122,25 @@ void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GL
 		VCPoint p2 (rad2.x, rad2.y);
 
 		// Add verts ( This way is actually faster... I <3 the profiler )
-		m_verts[m_vCount].Position.x = (GLushort)centroid.X;	m_verts[m_vCount].Position.y = (GLushort)centroid.Y;	m_verts[m_vCount++].Color = centroidC;
-		m_verts[m_vCount].Position.x = (GLushort)p1.X;			m_verts[m_vCount].Position.y = (GLushort)p1.Y;			m_verts[m_vCount++].Color = c1;
-		m_verts[m_vCount].Position.x = (GLushort)p2.X;			m_verts[m_vCount].Position.y = (GLushort)p2.Y;			m_verts[m_vCount++].Color = c2;
+		m_verts[m_vCount].Position.x = (GLshort)centroid.X;		m_verts[m_vCount].Position.y = (GLshort)centroid.Y;		m_verts[m_vCount].Position.z = depthStep;	m_verts[m_vCount++].Color = centroidC;
+		m_verts[m_vCount].Position.x = (GLshort)p1.X;			m_verts[m_vCount].Position.y = (GLshort)p1.Y;			m_verts[m_vCount].Position.z = depthStep;	m_verts[m_vCount++].Color = c1;
+		m_verts[m_vCount].Position.x = (GLshort)p2.X;			m_verts[m_vCount].Position.y = (GLshort)p2.Y;			m_verts[m_vCount].Position.z = depthStep;	m_verts[m_vCount++].Color = c2;
 
 		p1 = p2;
 		c1 = c2;
 	}
 }
 
-void VCGeometryBuilder::AddQuad( GuiRectVerticie vert )
+void VCGeometryBuilder::AddQuad( GuiRectVerticie vert, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
 		VC_ERROR("You have 125000+ Gui rectangles... too much man.");
 	}
 
-	m_verts[m_vCount++] = vert;
+	m_verts[m_vCount] = vert;
+	m_verts[m_vCount].Position.z = depthStep;
+	m_vCount++;
 }
 
 void VCGeometryBuilder::Initialize()
@@ -147,7 +149,6 @@ void VCGeometryBuilder::Initialize()
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
 	m_renderStage->Shader = VCGLRenderer::Instance->GuiShader;
-	m_renderStage->DepthTest = false;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO
@@ -164,7 +165,7 @@ void VCGeometryBuilder::Initialize()
 	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
 	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	2,	GL_UNSIGNED_SHORT,	GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
+	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_SHORT,			GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
 	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
 
 	glBindVertexArray(0);

@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "VCGuiShader.h"
 #include "VCWindow.h"
+#include "VCGui.h"
 
 
 VCGuiShader::VCGuiShader(void):
@@ -29,7 +30,7 @@ void VCGuiShader::Bind(VCCamera* camera)
 	VCShader::Bind(camera);
 
 	// Set Projection Matrix
-	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
+	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1);
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
@@ -57,7 +58,7 @@ void VCGuiShader::GetUniformIDs()
 void VCGuiShader::PostInitialize()
 {
 	// Set Projection Matrix
-	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -1, 1);
+	glm::mat4 projectionMatrix = glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1);
 	glUniformMatrix4fv(m_unifProjMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
 	//glUniform1f(m_unifNoiseScaler, 0.025f);
 	glUniform1f(m_unifNoiseScaler, 0.0f);

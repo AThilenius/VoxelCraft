@@ -16,8 +16,8 @@
 
 #define VC_BATH_DEFAULT 2
 #define VC_BATCH_SCENE 2
-#define VC_BATCH_GUI_BASE 3
-#define VC_BATCH_GUI 5
+#define VC_BATCH_GUI_BASE 5
+#define VC_BATCH_GUI 6
 #define VC_BATCH_MIN 1
 #define VC_BATCH_MAX 16
 

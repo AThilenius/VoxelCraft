@@ -112,6 +112,8 @@ chars=32-126,160-255
 
         public static Font GetFont (String fontName, int size, Boolean bold = false, Boolean italic = false)
         {
+            size = (int)Math.Round(size * Gui.Scale);
+
             String description = fontName + size + (bold ? "B" : "") + (italic ? "I" : "");
             String fntPath = Path.Combine(PathUtilities.FontsPath, description + ".fnt");
             String ddsPath = Path.Combine(PathUtilities.FontsPath, description + "_0.dds");
@@ -197,7 +199,8 @@ chars=32-126,160-255
 
         public void DrawString(string text, Point llPoint, Color color)
         {
-            VCInteropGuiDrawText(m_fontId, text, new Point(llPoint.X, llPoint.Y + Size), color);
+            llPoint = llPoint * Gui.Scale;
+            VCInteropGuiDrawText(m_fontId, text, new Point(llPoint.X, llPoint.Y), color);
         }
 
         public TextMetrics GetMetrics(string text)

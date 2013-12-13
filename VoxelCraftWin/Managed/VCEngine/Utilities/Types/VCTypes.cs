@@ -32,6 +32,20 @@ namespace VCEngine
         {
             return new Point(p1.X - p2.X, p1.Y - p2.Y);
         }
+
+        public static Point operator *(Point rect, float scale)
+        {
+            return new Point(
+                (int)(rect.X * scale),
+                (int)(rect.Y * scale));
+        }
+
+        public static Point operator /(Point rect, float scale)
+        {
+            return new Point(
+                (int)(rect.X / scale),
+                (int)(rect.Y / scale));
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -229,6 +243,24 @@ namespace VCEngine
                 point.Y <= Y + Height;
         }
 
+        public static Rectangle operator *(Rectangle rect, float scale)
+        {
+            return new Rectangle(
+                (int)(rect.X * scale),
+                (int)(rect.Y * scale),
+                (int)(rect.Width * scale),
+                (int)(rect.Height * scale));
+        }
+
+        public static Rectangle operator /(Rectangle rect, float scale)
+        {
+            return new Rectangle(
+                (int)(rect.X / scale),
+                (int)(rect.Y / scale),
+                (int)(rect.Width / scale),
+                (int)(rect.Height / scale));
+        }
+
         public override string ToString()
         {
             return "[ " + X + ", " + Y + " | " + Width + ", " + Height + " ]";
@@ -249,6 +281,24 @@ namespace VCEngine
             Y = y;
             Width = width;
             Height = height;
+        }
+
+        public static RectangleF operator *(RectangleF rect, float scale)
+        {
+            return new RectangleF(
+                rect.X * scale,
+                rect.Y * scale,
+                rect.Width * scale,
+                rect.Height * scale);
+        }
+
+        public static RectangleF operator /(RectangleF rect, float scale)
+        {
+            return new RectangleF(
+                rect.X / scale,
+                rect.Y / scale,
+                rect.Width / scale,
+                rect.Height / scale);
         }
     }
 

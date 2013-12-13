@@ -131,7 +131,7 @@ namespace VCEngine
 		{
             Transform.InvertPosition = true;
             GetData();
-            AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
+            AspectRatio = (float)Window.ScaledSize.X / (float)Window.ScaledSize.Y;
             Debug = new VC3DLineDrawer(this);
 		}
 
@@ -139,7 +139,7 @@ namespace VCEngine
         {
             Transform.InvertPosition = true;
             GetData();
-            AspectRatio = (float)Window.Size.X / (float)Window.Size.Y;
+            AspectRatio = (float)Window.ScaledSize.X / (float)Window.ScaledSize.Y;
             Debug = new VC3DLineDrawer(this);
         }
 

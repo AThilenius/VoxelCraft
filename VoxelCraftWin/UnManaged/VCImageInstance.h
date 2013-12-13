@@ -30,7 +30,7 @@ public:
 	~VCImageInstance(void);
 
 	void Initialize();
-	void DrawImage (VCRectangle frame);
+	void DrawImage (VCRectangle frame, float depthStep);
 
 private:
 	void Render();

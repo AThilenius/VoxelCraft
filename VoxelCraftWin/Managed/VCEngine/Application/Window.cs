@@ -47,7 +47,11 @@ namespace VCEngine
                 VCInteropWindowSetPos(value.X, value.Y);
             }
         }
-        public static Point Size 
+        public static Point ScaledSize 
+        {
+            get { return TrueSize / Gui.Scale; }
+        }
+        public static Point TrueSize
         {
             get
             {
@@ -70,21 +74,21 @@ namespace VCEngine
                 return new Point(w, h);
             }
         }
-        public static Rectangle FullViewport { get { return new Rectangle(0, 0, Size); } }
+        public static Rectangle FullViewport { get { return new Rectangle(0, 0, ScaledSize); } }
 
         public static event EventHandler<ResizeEventArgs> Resize = delegate { };
 
         internal static void Initialize()
         {
-            int w, h;
-            VCInteropWindowGetSize(out w, out h);
-            Size = new Point(w, h);
+            //int w, h;
+            //VCInteropWindowGetSize(out w, out h);
+            //TrueSize = new Point(w, h);
         }
 
         private static void GlfwSizeChangeHandler(int width, int height)
         {
-            ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(0, 0, Size), To = new Rectangle(0, 0, width, height) };
-            Size = new Point(width, height);
+            ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(0, 0, ScaledSize), To = (new Rectangle(0, 0, width, height) / Gui.Scale) };
+            //TrueSize = new Point(width, height);
             Resize(null, args);
         }
 

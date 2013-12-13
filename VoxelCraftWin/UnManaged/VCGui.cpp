@@ -15,8 +15,11 @@
 #include "VCCamera.h"
 
 VCGui* VCGui::Instance = NULL;
+float VCGui::Scale = 1.0f;
+float VCGui::InverseScale = 1.0f;
 
-VCGui::VCGui( void )
+VCGui::VCGui( void ):
+	DepthStep(2)
 {
 	VCGui::Instance = this;
 }
@@ -35,6 +38,9 @@ void VCGui::Initialize()
 
 void VCGui::RegisterMonoHandlers()
 {
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiSetScale",			(void*)VCInteropGuiSetScale);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiResetDepth",			(void*)VCInteropGuiResetDepth);
+
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawRectangle",		(void*)VCInteropGuiDrawRectangle);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
@@ -44,24 +50,35 @@ void VCGui::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("Font::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
 }
 
+void VCInteropGuiSetScale( float scale )
+{
+	VCGui::Scale = scale;
+	VCGui::InverseScale = 1.0f / scale;
+}
+
+void VCInteropGuiResetDepth()
+{
+	VCGui::Instance->DepthStep = 2;
+}
+
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)
 {
-	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W));
+	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom)
 {
-	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W));
+	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiAddVerticie( GuiRectVerticie vert )
 {
-	VCGui::Instance->Geometry.AddQuad(vert);
+	VCGui::Instance->Geometry.AddQuad(vert, VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiDrawText(int font,VCMonoStringPtr text, VCPoint point, vcint4 color)
 {
-	VCGui::Instance->Text.DrawText(font, VCMonoString(text), point, GLubyte4(color.X, color.Y, color.Z, color.W));
+	VCGui::Instance->Text.DrawText(font, VCMonoString(text), point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics)
@@ -71,5 +88,5 @@ void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* m
 
 void VCInteropGuiDrawImage( VCMonoStringPtr path, VCRectangle frame )
 {
-	VCGui::Instance->ImageBuilder.DrawImage(VCMonoString(path), frame);
+	VCGui::Instance->ImageBuilder.DrawImage(VCMonoString(path), frame, VCGui::Instance->DepthStep++);
 }

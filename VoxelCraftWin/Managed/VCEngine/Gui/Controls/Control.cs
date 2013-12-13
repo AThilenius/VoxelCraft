@@ -418,7 +418,7 @@ namespace VCEngine
         {
             Window.Resize += (sender, args) =>
                 {
-                    MainControl.Frame = args.To;
+                    MainControl.Frame = new Rectangle(0, 0, Window.ScaledSize);
                 };
 
             GlfwInputState.OnKey += (sender, args) =>

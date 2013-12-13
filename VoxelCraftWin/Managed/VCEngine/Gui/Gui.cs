@@ -13,10 +13,12 @@ namespace VCEngine
     {
         public ushort PositionX;
         public ushort PositionY;
+        public ushort PositionZ;
         public byte R;
         public byte G;
         public byte B;
         public byte A;
+        private ushort _Padding;
 
         public GuiRectVerticie(Point pt, Color color)
         {
@@ -26,16 +28,21 @@ namespace VCEngine
             G = (byte)color.G;
             B = (byte)color.B;
             A = (byte)color.A;
+
+            PositionZ = 0;
+            _Padding = 0;
         }
     }
 
-    public class Gui
+    public static class Gui
     {
-        public static string ResourcesFolder { get { return Path.Combine(Environment.CurrentDirectory, @"Resources"); } }
-        public static string ImagesFolder { get { return Path.Combine(ResourcesFolder, @"Images"); } }
-
-
         #region Bindings
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiSetScale(float scale);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiResetDepth();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
@@ -50,6 +57,25 @@ namespace VCEngine
         extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
 
         #endregion
+
+        public static float Scale
+        {
+            get { return m_scale; }
+            set
+            {
+                m_scale = value;
+                m_inverseScale = 1.0f / value;
+                VCInteropGuiSetScale(value);
+            }
+        }
+        private static float m_scale = 1.0f;
+        private static float m_inverseScale = 1.0f / m_scale;
+
+        static Gui()
+        {
+            Scale = 1.5f;
+            Window.TrueSize = Window.TrueSize * Scale;
+        }
 
         public static void DrawRectangle(Rectangle rect, Color color)
         {
@@ -147,10 +173,10 @@ namespace VCEngine
 
         public static void DrawNormalizedRectangle(RectangleF rect, Color color)
         {
-            int x = (int) Math.Round(Window.Size.X * rect.X);
-            int y = (int) Math.Round(Window.Size.Y * rect.Y);
-            int width = (int) Math.Round(Window.Size.X * rect.Width);
-            int height = (int) Math.Round(Window.Size.Y * rect.Height);
+            int x = (int) Math.Round(Window.ScaledSize.X * rect.X);
+            int y = (int) Math.Round(Window.ScaledSize.Y * rect.Y);
+            int width = (int) Math.Round(Window.ScaledSize.X * rect.Width);
+            int height = (int) Math.Round(Window.ScaledSize.Y * rect.Height);
 
             DrawRectangle(new Rectangle(x, y, width, height), color);
         }
@@ -159,7 +185,7 @@ namespace VCEngine
         {
             if (!absolutePath)
             {
-                string absp = Path.Combine(ImagesFolder, path);
+                string absp = Path.Combine(PathUtilities.ImagesPath, path);
                 TestFileExistance(absp);
                 VCInteropGuiDrawImage(absp, frame);
             }
@@ -169,11 +195,6 @@ namespace VCEngine
                 TestFileExistance(path);
                 VCInteropGuiDrawImage(path, frame);
             }
-        }
-
-        public static void PreUpdate()
-        {
-
         }
 
         private static bool TestFileExistance(string fullPath)
@@ -188,5 +209,10 @@ namespace VCEngine
             return true;
         }
 
+
+        internal static void Reset()
+        {
+            VCInteropGuiResetDepth();
+        }
     }
 }
