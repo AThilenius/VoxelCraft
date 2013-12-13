@@ -19,8 +19,6 @@ namespace VCEngine
 
         public static void LatePerUpdate()
         {
-            Rectangle testFrame = new Rectangle(200, Window.ScaledSize.Y - 60, 150, 60);
-            Gui.Draw9Slice(@"Icons\Button.DDS", testFrame);
         }
 
 

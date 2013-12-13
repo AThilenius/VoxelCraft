@@ -32,7 +32,7 @@ namespace VCEngine
             AddControl(Field);
 
             OkButton = new Button(acceptText);
-            OkButton.Frame = new Rectangle(250, 40, 50, OkButton.Height);
+            OkButton.Frame = new Rectangle(225, 40, 75, OkButton.Height);
             OkButton.GuiStyle = Button.Style.HighlightedButton;
             OkButton.Click += (s, a) =>
             {
@@ -42,7 +42,7 @@ namespace VCEngine
             AddControl(OkButton);
 
             CancenButton = new Button(denyText);
-            CancenButton.Frame = new Rectangle(201, 40, 50, CancenButton.Height);
+            CancenButton.Frame = new Rectangle(150, 40, 70, CancenButton.Height);
             CancenButton.Click += (s, a) =>
             {
                 Hide();

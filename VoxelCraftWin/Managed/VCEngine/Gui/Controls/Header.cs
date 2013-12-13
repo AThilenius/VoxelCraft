@@ -28,7 +28,11 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
             Gui.DrawButton(sf);
-            Gui.DrawImage(@"Icons\PlayButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
+            Gui.DrawImage(@"Icons\RoundButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
+            Gui.DrawImage(@"Icons\Play.DDS", new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
+
+            Gui.Draw9Slice(@"Icons\Hud.DDS", new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65), 10, 0.17f);
+            //Font.DrawString
         }
 
     }

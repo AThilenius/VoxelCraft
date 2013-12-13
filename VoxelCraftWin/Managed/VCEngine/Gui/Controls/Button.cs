@@ -35,13 +35,11 @@ namespace VCEngine
                 case Style.PushButton:
                     if (Enabled)
                     {
-                        if (IsHovered)
-                            Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
-                            //Gui.DrawButtonAccentuated(ScreenFrame);
+                        if (IsClickDown)
+                            Gui.Draw9Slice(@"Icons\ButtonDown.DDS", ScreenFrame);
 
                         else
                             Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
-                            //Gui.DrawBackground(ScreenFrame);
                     }
 
                     else
@@ -54,11 +52,11 @@ namespace VCEngine
                     {
                         Text.FontColor = Color.White;
 
-                        if (IsHovered)
-                            Gui.DrawButtonAccentuated(ScreenFrame);
+                        if (IsClickDown)
+                            Gui.Draw9Slice(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
 
                         else
-                            Gui.DrawButtonHighlighted(ScreenFrame);
+                            Gui.Draw9Slice(@"Icons\ButtonHighlight.DDS", ScreenFrame);
                     }
 
                     else
