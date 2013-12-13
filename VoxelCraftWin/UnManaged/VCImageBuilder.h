@@ -17,6 +17,7 @@ public:
 	~VCImageBuilder(void);
 
 	void DrawImage(std::string imagePath, VCRectangle frame, float depthStep);
+	void Draw9SliceImage(std::string imagePath, VCRectangle frame, int pizelOffset, float padding, float depthStep);
 
 private:
 	typedef std::unordered_map<std::string, VCImageInstance*> ImageInstMap;

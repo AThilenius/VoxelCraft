@@ -203,6 +203,17 @@ chars=32-126,160-255
             VCInteropGuiDrawText(m_fontId, text, new Point(llPoint.X, llPoint.Y), color);
         }
 
+        public void DrawStringBeveled(String text, Point llPoint, Color color)
+        {
+            if (color.R < 100 && color.G < 100 && color.B < 100)
+                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), Color.White);
+
+            else
+                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), Color.Black);
+
+            DrawString(text, llPoint, color);
+        }
+
         public TextMetrics GetMetrics(string text)
         {
             TextMetrics tm;

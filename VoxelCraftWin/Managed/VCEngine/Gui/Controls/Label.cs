@@ -61,7 +61,7 @@ namespace VCEngine
             if (TextAlignment == TextAlignments.LowerRight || TextAlignment == TextAlignments.CenterRight || TextAlignment == TextAlignments.UpperRight)
                 ll.X = sf.X + sf.Width - Metrics.TotalHeight;
 
-            Font.DrawString(Text, ll, FontColor);
+            Font.DrawStringBeveled(Text, ll, FontColor);
         }
 
     }

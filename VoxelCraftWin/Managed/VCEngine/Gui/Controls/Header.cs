@@ -28,6 +28,7 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
             Gui.DrawButton(sf);
+            Gui.DrawImage(@"Icons\PlayButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
         }
 
     }

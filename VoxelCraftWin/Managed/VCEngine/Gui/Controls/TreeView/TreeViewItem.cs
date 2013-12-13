@@ -99,14 +99,14 @@ namespace VCEngine
                 if (IsFocused)
                 {
                     Gui.DrawButtonHighlighted(sf);
-                    Font.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
+                    Font.DrawStringBeveled(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
                     m_expButton.BackgroundColor = Color.White;
                     m_expButton.HoverBackgroundColor = Color.White;
                 }
 
                 else
                 {
-                    Font.DrawString(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.Black);
+                    Font.DrawStringBeveled(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.Black);
                     m_expButton.BackgroundColor = new Color(112, 126, 140, 255);
                     m_expButton.HoverBackgroundColor = Color.ControlBlue;
                 }

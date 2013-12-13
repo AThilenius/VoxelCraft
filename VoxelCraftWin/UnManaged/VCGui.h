@@ -59,3 +59,4 @@ void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* m
 
 // Images
 void VCInteropGuiDrawImage(VCMonoStringPtr path, VCRectangle frame);
+void VCInteropGuiDraw9SliceImage(VCMonoStringPtr path, VCRectangle frame, int pizelOffset, float padding);

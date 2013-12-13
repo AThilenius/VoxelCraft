@@ -28,7 +28,9 @@ namespace VCEngine
 
         protected override void Draw()
         {
+            Rectangle sf = ScreenFrame;
             Gui.DrawBackgroundEmpty(ScreenFrame, false);
+            Gui.DrawImage(@"Icons\Folder.DDS", new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
         }
 
     }

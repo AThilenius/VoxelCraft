@@ -25,7 +25,7 @@ namespace VCEngine
             Text.TextAlignment = Label.TextAlignments.Center;
             Text.Dock = Dockings.Fill;
 
-            Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth + 20, Font.GetMetrics(title).TotalHeight + 5);
+            Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth + 20, Font.GetMetrics(title).TotalHeight + 10);
         }
 
         protected override void Draw()
@@ -36,10 +36,12 @@ namespace VCEngine
                     if (Enabled)
                     {
                         if (IsHovered)
-                            Gui.DrawButtonAccentuated(ScreenFrame);
+                            Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
+                            //Gui.DrawButtonAccentuated(ScreenFrame);
 
                         else
-                            Gui.DrawBackground(ScreenFrame);
+                            Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
+                            //Gui.DrawBackground(ScreenFrame);
                     }
 
                     else

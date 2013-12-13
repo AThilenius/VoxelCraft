@@ -31,6 +31,7 @@ public:
 
 	void Initialize();
 	void DrawImage (VCRectangle frame, float depthStep);
+	void Draw9Slice(VCRectangle frame, int pizelOffset, float padding, float depthStep);
 
 private:
 	void Render();

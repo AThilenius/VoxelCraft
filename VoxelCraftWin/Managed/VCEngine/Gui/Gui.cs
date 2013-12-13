@@ -62,6 +62,9 @@ namespace VCEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropGuiDraw9SliceImage(string path, Rectangle frame, int pizelOffset, float padding);
+
         #endregion
 
         public struct Animation
@@ -208,6 +211,22 @@ namespace VCEngine
             {
                 TestFileExistance(path);
                 VCInteropGuiDrawImage(path, frame);
+            }
+        }
+
+        public static void Draw9Slice(string path, Rectangle frame, int pizelOffset = 5, float padding = 0.25f, bool absolutePath = false)
+        {
+            if (!absolutePath)
+            {
+                string absp = Path.Combine(PathUtilities.ImagesPath, path);
+                TestFileExistance(absp);
+                VCInteropGuiDraw9SliceImage(absp, frame, pizelOffset, padding);
+            }
+
+            else
+            {
+                TestFileExistance(path);
+                VCInteropGuiDraw9SliceImage(path, frame, pizelOffset, padding);
             }
         }
 

@@ -45,6 +45,7 @@ void VCGui::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
 	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawImage",			(void*)VCInteropGuiDrawImage);
+	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDraw9SliceImage",	(void*)VCInteropGuiDraw9SliceImage);
 
 	VCMonoRuntime::SetMethod("Font::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
 	VCMonoRuntime::SetMethod("Font::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
@@ -89,4 +90,9 @@ void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* m
 void VCInteropGuiDrawImage( VCMonoStringPtr path, VCRectangle frame )
 {
 	VCGui::Instance->ImageBuilder.DrawImage(VCMonoString(path), frame, VCGui::Instance->DepthStep++);
+}
+
+void VCInteropGuiDraw9SliceImage( VCMonoStringPtr path, VCRectangle frame, int pizelOffset, float padding )
+{
+	VCGui::Instance->ImageBuilder.Draw9SliceImage(VCMonoString(path), frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }
