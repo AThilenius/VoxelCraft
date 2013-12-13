@@ -14,7 +14,6 @@ namespace VCEngine
             Click += OnClick;
             Draging += OnClick;
             Frame = new Rectangle(0, 0, 100, 25);
-            BorderWidth = 1;
         }
 
         void OnClick(object sender, MouseEventArgs e)
@@ -37,11 +36,11 @@ namespace VCEngine
             Rectangle sf = ScreenFrame;
 
             // Draw Frame
-            Gui.DrawBorderedRect(new Rectangle(sf.X, sf.Y + (int)(sf.Height * 0.5f) - 5, sf.Width, 10), BackgroundColor, BorderColor, BorderWidth);
+            //Gui.DrawBorderedRect(new Rectangle(sf.X, sf.Y + (int)(sf.Height * 0.5f) - 5, sf.Width, 10), BackgroundColor, BorderColor, BorderWidth);
 
             // Draw selection rectangle
             Rectangle select = new Rectangle(sf.X + (int)(sf.Width * Value) - 5, sf.Y - 5, 10, sf.Height + 10);
-            Gui.DrawBorderedRect(select, HoverBackgroundColor, Color.Black, 2);
+            //Gui.DrawBorderedRect(select, HoverBackgroundColor, Color.Black, 2);
 
             //Gui.DrawString(Label + ": " + Value.ToString("n2"), new Point(sf.X + 10, sf.Y + 3), Color.Black);
         }

@@ -16,10 +16,6 @@ namespace VCEngine
             Margin = new MarginSize();
             DragBegin += (s, a) => m_delta = GlfwInputState.InvertedMouseLocation;
             Draging += Header_Draging;
-
-            //LayoutControls = new LayoutControls();
-            //AddControl(LayoutControls);
-            //LayoutControls.Dock = Dockings.Right;
         }
 
         void Header_Draging(object sender, MouseEventArgs e)

@@ -34,6 +34,12 @@ namespace VCEngine
         }
     }
 
+    public enum AnimationScale
+    {
+        Linear,
+        Trigonometric
+    }
+
     public static class Gui
     {
         #region Bindings
@@ -58,6 +64,12 @@ namespace VCEngine
 
         #endregion
 
+        public struct Animation
+        {
+            //ref IAnimatable Value;
+
+        }
+
         public static float Scale
         {
             get { return m_scale; }
@@ -76,6 +88,8 @@ namespace VCEngine
             Scale = 1.5f;
             Window.TrueSize = Window.TrueSize * Scale;
         }
+
+        #region Drawing
 
         public static void DrawRectangle(Rectangle rect, Color color)
         {
@@ -197,6 +211,10 @@ namespace VCEngine
             }
         }
 
+        #endregion
+        
+        #region Misc
+
         private static bool TestFileExistance(string fullPath)
         {
             if (!File.Exists(fullPath))
@@ -209,10 +227,11 @@ namespace VCEngine
             return true;
         }
 
-
         internal static void Reset()
         {
             VCInteropGuiResetDepth();
         }
+
+        #endregion
     }
 }

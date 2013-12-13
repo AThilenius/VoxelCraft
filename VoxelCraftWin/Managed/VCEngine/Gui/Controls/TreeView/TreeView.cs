@@ -8,6 +8,19 @@ namespace VCEngine
     public class TreeView : Control
     {
         public int VerticalPadding = 0;
+        public IEnumerable<TreeViewItem> AllItems
+        {
+            get
+            {
+                foreach (TreeViewItem child in m_childrenTVI)
+                {
+                    yield return child;
+
+                    foreach (TreeViewItem grandchild in child.AllChildren)
+                        yield return grandchild;
+                }
+            }
+        }
 
         protected int m_yOffset = 0;
         protected List<TreeViewItem> m_childrenTVI = new List<TreeViewItem>();

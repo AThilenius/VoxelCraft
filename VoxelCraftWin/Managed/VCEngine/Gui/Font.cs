@@ -207,7 +207,9 @@ chars=32-126,160-255
         {
             TextMetrics tm;
             VCInteropGuiGetTextMetrics(m_fontId, text, out tm);
-            return tm;
+
+            // Manually scale
+            return new TextMetrics((int)(tm.TotalWidth / Gui.Scale), (int)(tm.TotalHeight / Gui.Scale));
         }
 
         #endregion

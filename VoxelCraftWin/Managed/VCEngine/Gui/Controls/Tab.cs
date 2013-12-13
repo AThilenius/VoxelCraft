@@ -19,9 +19,6 @@ namespace VCEngine
             ParentContainer = container;
             CanFocus = true;
 
-            BackgroundColor = Color.Trasparent;
-            HoverBackgroundColor = BackgroundColor;
-
             Resize += (s, a) =>
             {
                 if (Content != null)
@@ -44,7 +41,6 @@ namespace VCEngine
             else
                 Content.Frame = new Rectangle(HorizontalPadding, 0, Frame.Width - 2 * HorizontalPadding, Frame.Height - HeaderSize - 10);
 
-            Content.BackgroundColor = BackgroundColor;
             DeActivate();
         }
 

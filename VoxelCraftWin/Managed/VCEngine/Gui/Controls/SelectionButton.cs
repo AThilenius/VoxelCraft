@@ -20,10 +20,6 @@ namespace VCEngine
         {
             Text = title;
             Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth, 25);
-            DrawHover = true;
-            BorderWidth = 1;
-            m_originalBackground = BackgroundColor;
-            m_originalBorder = BorderColor;
             Click += SelectionButton_Click;
         }
 
@@ -36,8 +32,6 @@ namespace VCEngine
                     if (button == this)
                         continue;
 
-                    button.BackgroundColor = m_originalBackground;
-                    button.BorderColor = m_originalBorder;
 
                     if (button.m_isActive && invokeCallback)
                         button.OnDeSelection(this, EventArgs.Empty);
@@ -45,13 +39,7 @@ namespace VCEngine
                     button.m_isActive = false;
                 }
             }
-
-            m_originalBackground = BackgroundColor;
-            m_originalBorder = BorderColor;
-
-            BackgroundColor = HoverBackgroundColor;
-            BorderColor = Color.ControlBlue;
-
+            
             if (!m_isActive && invokeCallback)
                 OnSelection(this, EventArgs.Empty);
 

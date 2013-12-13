@@ -24,9 +24,6 @@ namespace VCEngine
 
         public GameWindow(int viewDistance)
         {
-            BackgroundColor = Color.Trasparent;
-            DrawHover = false;
-
             World = new World();
             World.ViewDistance = viewDistance;
             World.Initialize();
@@ -35,6 +32,7 @@ namespace VCEngine
             World.Camera.Transform.Rotation = Quaternion.FromEuler(m_rot);
             World.ReBuild();
 
+            Font = Font.GetFont("Consolas", 12);
             Resize += GameWindow_Resize;
 
             // Default Tool
@@ -143,10 +141,11 @@ namespace VCEngine
             m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * Time.DeltaTime;
             m_yOffset = 20;
 
-            DrawText("Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
-            DrawText("Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
-            DrawText("Resolution: " + Window.TrueSize, sf);
+            DrawText("           Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
+            DrawText("        Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
+            DrawText("           Resolution: " + Window.TrueSize, sf);
             DrawText("Gui Scaled Resolution: " + Window.ScaledSize, sf);
+            DrawText("                Mouse: " + GlfwInputState.MouseLocation, sf);
 
 
             // Outline each chunk World (Should be fine to invoke from a draw call...)
@@ -165,7 +164,7 @@ namespace VCEngine
         private void DrawText(string text, Rectangle sf)
         {
             Font.DrawString(text, new Point(sf.X + 5, sf.Y + sf.Height - m_yOffset), Color.White);
-            m_yOffset += 20;
+            m_yOffset += 10;
         }
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)

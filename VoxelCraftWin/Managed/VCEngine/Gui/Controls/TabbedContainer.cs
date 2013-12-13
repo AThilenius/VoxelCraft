@@ -20,7 +20,6 @@ namespace VCEngine
         public TabbedContainer()
         {
             CanFocus = true;
-            HoverBackgroundColor = BackgroundColor;
             Resize += TabbedContainer_Resize;
         }
 
@@ -33,7 +32,6 @@ namespace VCEngine
             // Button
             Button nb = new Button(name);
             AddControl(nb);
-            nb.BorderWidth = 0;
 
             if (AlignTop)
                 nb.Frame = new Rectangle(m_xOffset, sc.Height - ButtonHeight, textWidth + 20, ButtonHeight);
@@ -113,24 +111,17 @@ namespace VCEngine
             foreach (Tab tab in Tabs.Values)
             {
                 Button button = tab.TabHeaderButton;
-
-                button.BackgroundColor = Color.ControlMediumBackground;
-                button.HoverBackgroundColor = Color.White;
                 button.Text.FontColor = Color.Black;
             }
 
             // Set active button
             if (IsFocused)
             {
-                m_activeButton.BackgroundColor = Color.ControlBlue;
-                m_activeButton.HoverBackgroundColor = Color.ControlBlue;
                 m_activeButton.Text.FontColor = Color.White;
             }
 
             else
             {
-                m_activeButton.BackgroundColor = Color.White;
-                m_activeButton.HoverBackgroundColor = Color.White;
                 m_activeButton.Text.FontColor = Color.Black;
             }
 

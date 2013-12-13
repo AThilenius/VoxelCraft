@@ -18,9 +18,20 @@ namespace VCEngine
             Y = y;
         }
 
+        public Point(Vector2 vec2)
+        {
+            X = (int)vec2.X;
+            Y = (int)vec2.Y;
+        }
+
         public override string ToString()
         {
             return "[ " + X + ", " + Y + " ]";
+        }
+
+        public static Point Lerp(Point b, Point a, float ammount)
+        {
+            return new Point((int)(ammount * (b.X - a.X) + a.X), (int)(ammount * (b.Y - a.Y) + a.Y));
         }
 
         public static Point operator +(Point p1, Point p2)

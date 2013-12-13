@@ -141,6 +141,26 @@ namespace VCEngine
                 Resize(this, args);
             }
         }
+        public Point            Location
+        {
+            get { return new Point(Frame.X, Frame.Y); }
+            set { Frame = new Rectangle(value, Frame.Width, Frame.Height); }
+        }
+        public Point            Size
+        {
+            get { return new Point(Frame.Width, Frame.Height); }
+            set { Frame = new Rectangle(Frame.X, Frame.Y, value); }
+        }
+        public int              Width
+        {
+            get { return Frame.Width; }
+            set { Frame = new Rectangle(Frame.X, Frame.Y, value, Frame.Height); }
+        }
+        public int              Height
+        {
+            get { return Frame.Height; }
+            set { Frame = new Rectangle(Frame.X, Frame.Y, Frame.Width, value); }
+        }
         public Point            ScreenPoint
         {
             get
@@ -187,30 +207,32 @@ namespace VCEngine
                 }
             }
         }
-        public int              BorderWidth;
         public bool             ClipView;
         public int              DockOrder;
         public Dockings         Dock = Dockings.None;
-        //public Anchors        AncorFlags = Ancors.None;
         public AutoSizeTypes    AutoSize = AutoSizeTypes.None;
         public MarginSize       Margin = new MarginSize();
-
-        public Color            BackgroundColor = Color.ControlMediumBackground;
-        public Color            BorderColor = Color.ControlVeryDark;
-
-        public bool             DrawHover;
-        public Color            HoverBackgroundColor = Color.White;
-        public Color            HoverBorderColor = Color.ControlBorder;
-
         public Font             Font = Font.DefaultFont;
 
         // =====   Control   =====================================================
         public Control          Parent;
+        public int              Layer
+        {
+            get { return m_layer; }
+            set
+            {
+                m_layer = value;
+
+                if (Parent != null)
+                    Parent.Children.Sort(delegate(Control l, Control r) { return l.Layer - r.Layer; });
+            }
+        }
         public bool             Enabled = true;
         public bool             Visible = true;
         public bool             CanFocus;
-        public HashSet<Control> Children = new HashSet<Control>();
+        public List<Control>    Children = new List<Control>();
         public bool             IsFocused;
+        public bool             IsEventPassthrough { get; set; }
         public bool             IsHovered { get; protected set; }
         public bool             IsClickDown { get; protected set; }
         public bool             IsRightClickDown { get; protected set; }
@@ -240,6 +262,7 @@ namespace VCEngine
         private Rectangle m_frame = new Rectangle();
         private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
+        private int m_layer;
         private bool m_wasPointInThis;
         private double m_lastClickTime;
 
@@ -270,6 +293,7 @@ namespace VCEngine
         public virtual void AddControl(Control control)
         {
             Children.Add(control);
+            Children.Sort(delegate(Control l, Control r) { return l.Layer - r.Layer; });
 
             if (control.Parent != null)
                 control.Parent.RemoveControl(control);
@@ -285,13 +309,50 @@ namespace VCEngine
         public virtual void RemoveControl(Control control)
         {
             Children.Remove(control);
-
-            //control.Resize -= ChildControlResizeHandler;
-            //ChildControlResizeHandler(this, null);
+            Children.Sort(delegate(Control l, Control r) { return l.Layer - r.Layer; });
 
             ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = null };
             control.Parent = null;
             control.ParentChanged(this, args);
+        }
+
+        public void Focus()
+        {
+            s_focusedChild = null;
+
+            // Walk up the chain, set focus flags
+            Control cursor = this;
+            while (cursor.Parent != null)
+            {
+                if (cursor.CanFocus)
+                {
+                    if (s_focusedChild == null)
+                        s_focusedChild = cursor;
+
+                    s_currentFocus.Add(cursor);
+
+                    if (!cursor.IsFocused)
+                    {
+                        cursor.IsFocused = true;
+                        cursor.Focused(this, new ControlFocusArgs { IsFocused = true });
+                    }
+                }
+
+                cursor = cursor.Parent;
+            }
+
+            // UnFocus any control not touched while walking
+            foreach (Control ctrl in s_lastFocus)
+            {
+                if (!s_currentFocus.Contains(ctrl))
+                {
+                    ctrl.IsFocused = false;
+                    ctrl.Focused(this, new ControlFocusArgs { IsFocused = false });
+                }
+            }
+
+            s_lastFocus = s_currentFocus;
+            s_currentFocus = new HashSet<Control>();
         }
 
         protected virtual void ChildControlResizeHandler(object sender, ResizeEventArgs e)
@@ -327,34 +388,6 @@ namespace VCEngine
 
         protected virtual void Draw()
         {
-            //if (IsFocused)
-            //{
-            //    if (HoverBackgroundColor != Color.Trasparent)
-            //        Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
-
-            //    if (BorderWidth > 0)
-            //        Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, Color.ControlBlue, BorderWidth);
-            //}
-            //else
-            //{
-            //    if (IsHovered && DrawHover && Enabled)
-            //    {
-            //        if (HoverBackgroundColor != Color.Trasparent)
-            //            Gui.DrawRectangle(ScreenFrame, HoverBackgroundColor);
-
-            //        if (BorderWidth > 0)
-            //            Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, HoverBorderColor, BorderWidth);
-            //    }
-
-            //    else
-            //    {
-            //        if (BackgroundColor != Color.Trasparent)
-            //            Gui.DrawRectangle(ScreenFrame, BackgroundColor);
-
-            //        if (BorderWidth > 0)
-            //            Gui.DrawBorderedRect(ScreenFrame, Color.Trasparent, BorderColor, BorderWidth);
-            //    }
-            //}
         }
 
         protected virtual void Update()
@@ -363,7 +396,6 @@ namespace VCEngine
 
         private void UpdateFrame(Rectangle newFrame)
         {
-
         }
         
         internal void ProcessMouseEvent(Object sender, MouseEventArgs args)
@@ -445,41 +477,7 @@ namespace VCEngine
                     // =====   If Left/Right - Pressed, focus the control   ======================================================
                     if (GlfwInputState.MouseStates[0].State == TriState.Pressed || GlfwInputState.MouseStates[1].State == TriState.Pressed)
                     {
-                        s_focusedChild = null;
-
-                        // Walk up the chain, set focus flags
-                        Control cursor = active;
-                        while (cursor.Parent != null)
-                        {
-                            if (cursor.CanFocus)
-                            {
-                                if (s_focusedChild == null)
-                                    s_focusedChild = cursor;
-
-                                s_currentFocus.Add(cursor);
-
-                                if (!cursor.IsFocused)
-                                {
-                                    cursor.IsFocused = true;
-                                    cursor.Focused(this, new ControlFocusArgs { IsFocused = true });
-                                }
-                            }
-
-                            cursor = cursor.Parent;
-                        }
-
-                        // UnFocus any control not touched while walking
-                        foreach (Control ctrl in s_lastFocus)
-                        {
-                            if (!s_currentFocus.Contains(ctrl))
-                            {
-                                ctrl.IsFocused = false;
-                                ctrl.Focused(this, new ControlFocusArgs { IsFocused = false });
-                            }
-                        }
-
-                        s_lastFocus = s_currentFocus;
-                        s_currentFocus = new HashSet<Control>();
+                        active.Focus();
                     }
 
                     // =====   Process Left - Pressed   ======================================================
@@ -604,14 +602,15 @@ namespace VCEngine
                 m_wasPointInThis = true;
             }
 
-            // If its in a child's frame...
-            foreach (Control child in Children)
+            // If its in a child's frame... (Iterate in reverse order)
+            for(int i = Children.Count - 1; i >= 0; i--)
             {
-                if (child.Visible && child.ScreenFrame.IsPointWithin(point))
+                Control child = Children[i];
+
+                if (child.Visible && !child.IsEventPassthrough && child.ScreenFrame.IsPointWithin(point))
                 {
                     if (m_activeChild != null && m_activeChild != child)
                     {
-                        //m_activeChild.RebuildCommandChain(point);
                         Control ctrl = m_activeChild;
                         while (ctrl != null)
                         {

@@ -8,6 +8,19 @@ namespace VCEngine
     public class TreeViewItem : Control
     {
         public List<TreeViewItem> TreeViewChildren = new List<TreeViewItem>();
+        public IEnumerable<TreeViewItem> AllChildren
+        {
+            get
+            {
+                foreach (TreeViewItem child in TreeViewChildren)
+                {
+                    yield return child;
+
+                    foreach (TreeViewItem grandchild in child.AllChildren)
+                        yield return grandchild;
+                }
+            }
+        }
         public Boolean IsExpanded { get { return m_expButton.IsExpanded; } }
         public String Image = "";
         public int IndentationSize = 15;

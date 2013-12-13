@@ -18,9 +18,6 @@ namespace VCEngine
             // Main Control
             Control.MainControl = new Control();
             Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.ScaledSize);
-            Control.MainControl.BorderColor = Color.Black;
-            Control.MainControl.BackgroundColor = Color.Trasparent;
-            Control.MainControl.HoverBackgroundColor = Color.Trasparent;
             Control.MainControl.SetFirstResponder();
 
             CreateMenuBar();
@@ -32,6 +29,7 @@ namespace VCEngine
         private static void CreateMenuBar()
         {
             HeaderBar = new Header();
+            HeaderBar.Layer = 10;
             Control.MainControl.AddControl(HeaderBar);
             HeaderBar.Dock = Control.Dockings.Top;
             HeaderBar.DockOrder = 0;
@@ -52,14 +50,11 @@ namespace VCEngine
         {
             InspectorWindow = new TabbedContainer();
             Control.MainControl.AddControl(InspectorWindow);
-            InspectorWindow.HoverBackgroundColor = InspectorWindow.BackgroundColor;
             InspectorWindow.Dock = Control.Dockings.Right;
             InspectorWindow.DockOrder = 1;
             InspectorWindow.Frame = new Rectangle(0, 0, 250, 0);
 
             ColorPage = new VerticalContainer();
-            ColorPage.BorderColor = Color.ControlRed;
-            ColorPage.BorderWidth = 5;
             InspectorWindow.AddTab("Tools", ColorPage);
 
             FillColorControls();

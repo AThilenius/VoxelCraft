@@ -12,39 +12,38 @@ namespace VCEngine
         public Menu()
         {
             Visible = false;
-            Frame = new Rectangle(0, 0, 100, 200);
+            CanFocus = true;
+            Layer = 1;
+            Focused += (s, a) => Visible = a.IsFocused;
         }
 
         public Button AddItem (String title)
         {
             Button nButton = new Button(title);
+            nButton.GuiStyle = Button.Style.MenuButton;
+            //nButton.Click += (s, a) => Control.MainControl.Focus();
 
-            if (nButton.Frame.Width > Frame.Width)
-                Frame = new Rectangle(Frame.X, Frame.Y, nButton.Frame.Width, Frame.Height);
+            if (nButton.Width > Width)
+                Width = nButton.Width;
+
+            Height += nButton.Height;
 
             AddControl(nButton);
             nButton.DockOrder = m_offset++;
             nButton.Dock = Dockings.Top;
 
-            Frame = new Rectangle(Frame.X, Frame.Y + nButton.Frame.Height, nButton.Frame.Width, Frame.Height);
-
             return nButton;
         }
 
-        public void DisplayAt(Point location)
+        public void Display()
         {
-            Frame = new Rectangle(location, Frame.Width, Frame.Height);
-            Visible = true;
-        }
-
-        public void Hide()
-        {
-            Visible = false;
+            Location = GlfwInputState.MouseLocation - new Point(0, Height);
+            Focus();
         }
 
         protected override void Draw()
         {
-            Gui.DrawRectangle(ScreenFrame, Color.ControlRed);
+            Gui.DrawBackground(ScreenFrame);
         }
 
     }

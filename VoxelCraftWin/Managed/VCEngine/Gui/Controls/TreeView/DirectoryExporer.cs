@@ -20,6 +20,7 @@ namespace VCEngine
                 RefreshView();
             }
         }
+        public event EventHandler OnTreeChange = delegate { };
 
         private string m_path;
 
@@ -40,6 +41,7 @@ namespace VCEngine
                 LoadDirRecurse(new DirectoryInfo(m_path), null);
 
             NotifyUpdate();
+            OnTreeChange(this, EventArgs.Empty);
         }
 
         protected override void Draw()
@@ -57,6 +59,7 @@ namespace VCEngine
             {
 
                 TreeViewItem dirTVI = new TreeViewItem(this, parent);
+                dirTVI.BoundObject = dInfo;
                 dirTVI.Text = dInfo.Name;
                 dirTVI.Image = @"Icons\Folder 128.DDS";
                 dirTVI.DoubleClick += (s, a) => dirTVI.ExpandCollapse();
@@ -71,22 +74,12 @@ namespace VCEngine
                 LoadDirRecurse(dInfo, dirTVI);
             }
 
-            // Add files in this directory
+            // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {
                 TreeViewItem fileTVI = new TreeViewItem(this, parent);
+                fileTVI.BoundObject = fInfo;
                 fileTVI.Text = fInfo.Name;
-
-                if (fInfo.Extension == ".vcm")
-                {
-                    fileTVI.DoubleClick += (s, a) =>
-                    {
-                        EditorWorld.MasterGameWindow.World.LoadFromFile(fInfo.FullName);
-                        EditorWorld.MasterGameWindow.World.ReBuild();
-                    };
-
-                    fileTVI.Image = @"Icons\Cube 256.DDS";
-                }
 
                 if (parent == null)
                     AddItem(fileTVI);
@@ -95,6 +88,8 @@ namespace VCEngine
                     parent.AddChildItem(fileTVI);
             }
         }
+
+
 
     }
 }

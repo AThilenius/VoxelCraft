@@ -7,12 +7,22 @@ namespace VCEngine
 {
     public class TextField : Control
     {
-        public String Text = "";
+        public String Text
+        {
+            get { return m_text; }
+            set
+            {
+                m_text = value;
+                CursorOffset = m_text.Length;
+            }
+        }
         public int CursorOffset;
         public Color FontColor = Color.Black;
 
         public event EventHandler<CharEventArgs> TextEntry = delegate { };
+        public event EventHandler EnterPressed = delegate { };
 
+        private String m_text = "";
         private float m_nextSwapTime;
         private bool m_isCursurVisible;
 
@@ -20,10 +30,8 @@ namespace VCEngine
         {
             CharPress += OnCharPress;
             RawKeyChange += OnKeyPress;
-            BackgroundColor = Color.White;
-            BorderWidth = 1;
             CanFocus = true;
-            Frame = new Rectangle(0, 0, 200, 25);
+            Frame = new Rectangle(0, 0, 200, Font.GetMetrics("A").TotalHeight + 5);
         }
 
         void OnKeyPress(object sender, KeyEventArgs e)
@@ -33,11 +41,11 @@ namespace VCEngine
                 if (CursorOffset == 0)
                     return;
 
-                if (Text.Length == CursorOffset)
-                    Text = Text.Substring(0, CursorOffset - 1);
+                if (m_text.Length == CursorOffset)
+                    m_text = m_text.Substring(0, CursorOffset - 1);
 
                 else
-                    Text = Text.Remove(CursorOffset - 1, 1);
+                    m_text = m_text.Remove(CursorOffset - 1, 1);
 
                 CursorOffset--;
                 TextEntry(this, new CharEventArgs { Char = e.Key });
@@ -55,22 +63,25 @@ namespace VCEngine
 
             if (e.Key == Input.Keys.Right && e.State != TriState.Up)
             {
-                if (CursorOffset < Text.Length)
+                if (CursorOffset < m_text.Length)
                     CursorOffset++;
 
                 m_nextSwapTime = Time.TotalTime += 0.5f;
                 m_isCursurVisible = true;
             }
 
+            if (e.Key == Input.Keys.Enter && e.State != TriState.Up)
+                EnterPressed(this, EventArgs.Empty);
+
         }
 
         void OnCharPress(object sender, CharEventArgs e)
         {
-            if (Text.Length == CursorOffset)
-                Text = Text + char.ConvertFromUtf32(e.Char);
+            if (m_text.Length == CursorOffset)
+                m_text = m_text + char.ConvertFromUtf32(e.Char);
 
             else
-                Text = Text.Insert(CursorOffset, char.ConvertFromUtf32(e.Char));
+                m_text = m_text.Insert(CursorOffset, char.ConvertFromUtf32(e.Char));
 
             CursorOffset++;
             TextEntry(this, e);
@@ -78,11 +89,15 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            base.Draw();
             Rectangle sf = ScreenFrame;
 
+            if (IsFocused)
+                Gui.DrawBackground(ScreenFrame);
+            else
+                Gui.DrawBackgroundEmpty(ScreenFrame);
+
             // Draw Text
-            Font.DrawString(Text, new Point(sf.X + 5, sf.Y + 2), FontColor);
+            Font.DrawString(m_text, new Point(sf.X + 5, sf.Y + 2), FontColor);
 
             // Draw Cursor
             if (Time.TotalTime > m_nextSwapTime)
@@ -93,7 +108,7 @@ namespace VCEngine
 
             if (m_isCursurVisible && IsFocused)
             {
-                TextMetrics cursorMetrics = Font.GetMetrics(Text.Substring(0, CursorOffset));
+                TextMetrics cursorMetrics = Font.GetMetrics(m_text.Substring(0, CursorOffset));
                 Gui.DrawRectangle(new Rectangle(sf.X + 5 + cursorMetrics.TotalWidth, sf.Y + 5, 1, sf.Height - 10), Color.Black);
             }
         }
