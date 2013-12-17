@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,9 +10,13 @@ namespace VCEngine
     {
         public Label Text;
         public ExpandButton ExpandButton;
+        public Button ExplorerButton;
+        public ProjectExplorer Project;
 
-        public ProjectHeader(String projectName)
+        public ProjectHeader(String projectName, ProjectExplorer project)
         {
+            Project = project;
+
             ExpandButton = new ExpandButton();
             AddControl(ExpandButton);
             ExpandButton.IsExpanded = true;
@@ -20,10 +25,18 @@ namespace VCEngine
 
             Text = new Label(projectName);
             AddControl(Text);
+            Text.IsEventPassthrough = true;
             Text.Dock = Dockings.Fill;
             Text.TextAlignment = Label.TextAlignments.Center;
             Frame = new Rectangle(0, 0, 0, 40);
-            Text.DoubleClick += (s, a) => ExpandButton.ToggleExpandContract();
+            DoubleClick += (s, a) => ExpandButton.ToggleExpandContract();
+
+            //ExplorerButton = new Button("");
+            //AddControl(ExplorerButton);
+            ////ExplorerButton.GuiStyle = Button.Style.ImageButton;
+            //ExplorerButton.ImagePath = @"Icons\Play.DDS";
+            //ExplorerButton.Frame = new Rectangle(Width - 30, 10, 20, 20);
+            //ExplorerButton.Click += (s, a) => Process.Start("explorer.exe", project.ProjectPath);
         }
 
         protected override void Draw()

@@ -88,35 +88,27 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Rectangle sf = ScreenFrame;
-            int delta = (int)(sf.Height / 9.0f);
+            Rectangle sf = new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 30);
+            int delta = (int)(sf.Height / 4.0f);
 
+            //Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
+            Gui.DrawBackground(ScreenFrame);
+            Gui.DrawButtonAccentuated(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 20, Width, 20));
+            Font.DefaultFont.DrawStringBeveled("HSL Color", new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.Black);
+            Gui.Draw9Slice(@"Icons\Button.DDS", new Rectangle(sf.X, sf.Y, 40, sf.Height));
+            Gui.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 5, 30, sf.Height - 10), ColorRGB);
 
-            // Draw checkered background
-            bool dark = true;
-            int i = 0;
-            for (int x = 0; x + 10 < sf.Width; x += 10)
-            {
-                dark = i % 2 == 0;
-                i++;
-
-                for (int y = 0; y + 10 < sf.Height; y += 10)
-                {
-                    dark = !dark;
-
-                    if (dark)
-                        Gui.DrawRectangle(new Rectangle(sf.X + x, sf.Y + y, 10, 10), new Color(0, 0, 0, 63));
-                }
-            }
+            Gui.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 4, 30, 1), new Color(255, 255, 255, 128));
+            Gui.DrawRectangle(new Rectangle(sf.X + 36, sf.Y + 5, 1, sf.Height - 10), new Color(255, 255, 255, 128));
 
             // Border
-            Gui.DrawBorderedRect(sf, Color.Trasparent, Color.Black, 2);
-            Gui.DrawBorderedRect(new Rectangle(sf.X + 2, sf.Y + 2, sf.Width - 4, sf.Height - 4), Color.Trasparent, m_colorRGB, 8);
+            //Gui.DrawBorderedRect(sf, Color.Trasparent, Color.Black, 2);
+            //Gui.DrawBorderedRect(new Rectangle(sf.X + 2, sf.Y + 2, sf.Width - 4, sf.Height - 4), Color.Trasparent, m_colorRGB, 8);
 
-            m_spectrumFrame =   new Rectangle(sf.X + 20, sf.Y + delta * 7, sf.Width - 40, delta);
-            m_saturationFrame = new Rectangle(sf.X + 20, sf.Y + delta * 5, sf.Width - 40, delta);
-            m_LuminosityFrame = new Rectangle(sf.X + 20, sf.Y + delta * 3, sf.Width - 40, delta);
-            m_randomFrame = new Rectangle(sf.X + 20, sf.Y + delta * 1, sf.Width - 40, delta);
+            m_spectrumFrame = new Rectangle(sf.X + 40, sf.Y + delta * 3, sf.Width - 40, delta);
+            m_saturationFrame = new Rectangle(sf.X + 40, sf.Y + delta * 2, sf.Width - 40, delta);
+            m_LuminosityFrame = new Rectangle(sf.X + 40, sf.Y + delta * 1, sf.Width - 40, delta);
+            m_randomFrame = new Rectangle(sf.X + 40, sf.Y + delta * 0, sf.Width - 40, delta);
 
             DrawColorSpectrum(m_spectrumFrame, m_colorHSL.Y, m_colorHSL.Z, m_colorRGB.A);
             DrawSauration(m_saturationFrame, m_colorRGB, m_colorHSL.Z);
@@ -125,15 +117,26 @@ namespace VCEngine
             //DrawTrasparency(m_trasparentFrame, m_colorRGB);
 
             // Draw selection rectangles
-            Rectangle spectrumSelect = new Rectangle(m_spectrumFrame.X + (int)(m_spectrumFrame.Width * m_colorHSL.X) - 5, m_spectrumFrame.Y - 5, 10, m_spectrumFrame.Height + 10);
-            Rectangle saturationSelect = new Rectangle(m_saturationFrame.X + (int)(m_saturationFrame.Width * m_colorHSL.Y) - 5, m_saturationFrame.Y - 5, 10, m_saturationFrame.Height + 10);
-            Rectangle luminocitySelect = new Rectangle(m_LuminosityFrame.X + (int)(m_LuminosityFrame.Width * m_colorHSL.Z) - 5, m_LuminosityFrame.Y - 5, 10, m_LuminosityFrame.Height + 10);
-            Rectangle transparencySelector = new Rectangle(m_randomFrame.X + (int)(m_randomFrame.Width * RandomMultiplier) - 5, m_randomFrame.Y - 5, 10, m_randomFrame.Height + 10);
+            Rectangle spectrumSelect = new Rectangle(
+                m_spectrumFrame.X + (int)(m_spectrumFrame.Width * m_colorHSL.X) - MathHelper.RoundedDevision(m_spectrumFrame.Height, 2) + 2,
+                m_spectrumFrame.Y + 3, m_spectrumFrame.Height - 4, m_spectrumFrame.Height - 4);
 
-            Gui.DrawBorderedRect(spectrumSelect, m_colorRGB, Color.Black, 2);
-            Gui.DrawBorderedRect(saturationSelect, m_colorRGB, Color.Black, 2);
-            Gui.DrawBorderedRect(luminocitySelect, m_colorRGB, Color.Black, 2);
-            Gui.DrawBorderedRect(transparencySelector, m_colorRGB, Color.Black, 2);
+            Rectangle saturationSelect = new Rectangle(
+                m_saturationFrame.X + (int)(m_saturationFrame.Width * m_colorHSL.Y) - MathHelper.RoundedDevision(m_saturationFrame.Height, 2) + 2,
+                m_saturationFrame.Y + 3, m_saturationFrame.Height - 4, m_saturationFrame.Height - 4);
+
+            Rectangle luminocitySelect = new Rectangle(
+                m_LuminosityFrame.X + (int)(m_LuminosityFrame.Width * m_colorHSL.Z) - MathHelper.RoundedDevision(m_LuminosityFrame.Height, 2) + 2,
+                m_LuminosityFrame.Y + 3, m_LuminosityFrame.Height - 4, m_LuminosityFrame.Height - 4);
+
+            Rectangle transparencySelector = new Rectangle(
+                m_randomFrame.X + (int)(m_randomFrame.Width * RandomMultiplier) - MathHelper.RoundedDevision(m_randomFrame.Height, 2) + 2,
+                m_randomFrame.Y + 3, m_randomFrame.Height - 4, m_randomFrame.Height - 4);
+
+            Gui.DrawImage(@"Icons\RoundButton.DDS", spectrumSelect);
+            Gui.DrawImage(@"Icons\RoundButton.DDS", saturationSelect);
+            Gui.DrawImage(@"Icons\RoundButton.DDS", luminocitySelect);
+            Gui.DrawImage(@"Icons\RoundButton.DDS", transparencySelector);
         }
 
         private static void DrawDualToneQuad(Rectangle frame, Color left, Color right)
@@ -155,6 +158,9 @@ namespace VCEngine
 
         private static void DrawRandomSpectrum(Rectangle frame, Vector4 hsl, float spectrum)
         {
+            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
+
             // Draw possible spectrum
             float lower = 0.0f * spectrum - (spectrum * 0.5f);
             float upper = 1.0f * spectrum - (spectrum * 0.5f);
@@ -175,6 +181,7 @@ namespace VCEngine
             DrawDualToneQuad(new Rectangle(frame.X, frame.Y, frame.Width / 2, frame.Height), lowerRgb, middle);
             DrawDualToneQuad(new Rectangle(frame.X + (frame.Width / 2), frame.Y, frame.Width / 2, frame.Height), middle, upperRgb);
             Gui.DrawBorderedRect(new Rectangle(frame.X + (frame.Width / 2) - 5, frame.Y, 10, frame.Height), middle, Color.Black, 2);
+            Gui.DrawRectangle(new Rectangle(frame.X, frame.Y, frame.Width, 1), Color.White);
         }
 
         private static void DrawTrasparency(Rectangle frame, Color color)
@@ -184,6 +191,9 @@ namespace VCEngine
 
         private static void DrawColorSpectrum(Rectangle frame, float s, float l, int t)
         {
+            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
+
             int qWidth = (int)(frame.Width / 6.0f);
             Color grey = new Color(127, 127, 127, t);
             Color black = new Color(0, 0, 0, t);
@@ -225,10 +235,14 @@ namespace VCEngine
             DrawDualToneQuad(new Rectangle(frame.X + qWidth * 3, frame.Y, qWidth, frame.Height), teal, blue);
             DrawDualToneQuad(new Rectangle(frame.X + qWidth * 4, frame.Y, qWidth, frame.Height), blue, purple);
             DrawDualToneQuad(new Rectangle(frame.X + qWidth * 5, frame.Y, qWidth, frame.Height), purple, red);
+            Gui.DrawRectangle(new Rectangle(frame.X, frame.Y, frame.Width, 1), Color.White);
         }
 
         private static void DrawSauration(Rectangle frame, Color color, float l)
         {
+            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
+
             Color colored = color;
             Color grey = new Color(127, 127, 127, color.A);
             Color black = new Color(0, 0, 0, color.A);
@@ -251,14 +265,19 @@ namespace VCEngine
             }
 
             DrawDualToneQuad(frame, grey, colored);
+            Gui.DrawRectangle(new Rectangle(frame.X, frame.Y, frame.Width, 1), Color.White);
         }
 
         private static void DrawLuminosity(Rectangle frame, Color color, float s)
         {
+            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
+
             Color midColor = Color.Lerp(new Color(127, 127, 127, color.A), color, s);
 
             DrawDualToneQuad(new Rectangle(frame.X, frame.Y, (int)(frame.Width / 2.0f), frame.Height), new Color(0, 0, 0, color.A), midColor);
             DrawDualToneQuad(new Rectangle(frame.X + (int)(frame.Width / 2.0f), frame.Y, (int)(frame.Width / 2.0f), frame.Height), midColor, new Color(255, 255, 255, color.A));
+            Gui.DrawRectangle(new Rectangle(frame.X, frame.Y, frame.Width, 1), Color.White);
         }
 
     }

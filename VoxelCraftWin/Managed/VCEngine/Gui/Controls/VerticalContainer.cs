@@ -7,7 +7,6 @@ namespace VCEngine
 {
     public class VerticalContainer : Control
     {
-        public int VerticalPadding = 5;
         public enum StackingOrder
         {
             Up,
@@ -24,30 +23,46 @@ namespace VCEngine
             }
         }
 
-        private int m_yOffset = 0;
-
-        public VerticalContainer()
-        {
-            Resize += VerticalContainer_Resize;
-        }
+        private List<Control> m_orderedChildren = new List<Control>();
 
         public override void AddControl(Control control)
         {
             base.AddControl(control);
-            control.DockOrder = m_yOffset++;
-            control.Dock = (m_order == StackingOrder.Up) ? Dockings.Bottom : Dockings.Top;
-            Frame = Frame;
+            m_orderedChildren.Add(control);
+            Rebuild();
         }
 
-        void VerticalContainer_Resize(object sender, ResizeEventArgs e)
+        public void AddControlAtIndex(int index, Control control)
         {
-            //Resize container to content's summation
-            
+            base.AddControl(control);
+            m_orderedChildren.Insert(index, control);
+            Rebuild();
         }
 
-        public void AddPadding(int size = 10)
+        public void Rebuild()
         {
-            //m_yOffset += size;
+            int yOffset = 0;
+
+            for (int i = 0; i < m_orderedChildren.Count; i++)
+            {
+                Control ctrl = m_orderedChildren[i];
+
+                if (!ctrl.Visible)
+                    continue;
+
+                if (m_order == StackingOrder.Down)
+                    ctrl.Frame = new Rectangle(0, Frame.Height - yOffset - ctrl.Height, Width, ctrl.Height);
+
+                else
+                    ctrl.Frame = new Rectangle(0, yOffset, Width, ctrl.Height);
+
+                yOffset += ctrl.Height;
+            }
+        }
+
+        protected override void Draw()
+        {
+            Gui.DrawRectangle(ScreenFrame, Color.ControlRed);
         }
 
     }

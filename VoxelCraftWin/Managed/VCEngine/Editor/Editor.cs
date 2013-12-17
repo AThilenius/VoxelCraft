@@ -11,6 +11,8 @@ namespace VCEngine
     public class Editor
     {
 
+        private static int m_framesRemaining = 10;
+
         public static void EditorMain()
         {
             try
@@ -25,6 +27,18 @@ namespace VCEngine
 
                 while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
                 {
+                    Window.PollEvents();
+
+                    if (m_framesRemaining == 0 && GlfwInputState.KeysDown == 0)
+                    {
+                        Time.Pause();
+                        Thread.Sleep(17);
+                        continue;
+                    }
+
+                    Time.Resume();
+                    m_framesRemaining--;
+
                     Control.MainControl.PropagateUpdate();
                     VCEngineCore.PropagateUpdates();
 
@@ -45,6 +59,11 @@ namespace VCEngine
                 Console.WriteLine("Managed Exception: " + ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        public static void ShouldRedraw()
+        {
+            m_framesRemaining = 3;
         }
 
     }

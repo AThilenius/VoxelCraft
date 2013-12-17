@@ -49,19 +49,16 @@ VCMonoRuntime::~VCMonoRuntime()
 
 void VCMonoRuntime::Initalize()
 {
-	//std::cout << "MonoRuntime setting directories to:" << std::endl;
-	//std::cout << "Library: " << PathUtil::GetLibDirectory() << std::endl;
-	//std::cout << "Config: " << PathUtil::GetConfigDirectory() << std::endl;
-	//std::cout << "Game Library: " << PathUtil::GetBinDirectory().append("VCEngine.dll") << std::endl;
-
 	mono_set_dirs(PathUtil::GetLibDirectory().c_str(), PathUtil::GetConfigDirectory().c_str());
 	
+	//const char* options[] = {"--debugger-agent=transport=dt_socket,address=127.0.0.1:10000"};
+	//mono_jit_parse_options(1, (char**)options);
+
 	// Required for mdb's to load for detailed stack traces etc.
 	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
 
-    VCMonoRuntime::m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
-    
-    // Setup Bindings
+	m_pRootDomain = mono_jit_init_version("MonoApplication", "v4.0.30319");
+	
     Bind();
     
     // Assembly
@@ -136,5 +133,3 @@ void VCMonoRuntime::SetMethod( std::string classMethodName, const void* method )
 {
 	mono_add_internal_call(("VCEngine." + classMethodName).c_str(), method);
 }
-
-

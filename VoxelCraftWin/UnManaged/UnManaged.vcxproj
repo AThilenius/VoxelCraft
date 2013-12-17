@@ -24,6 +24,7 @@
     <ClCompile Include="VCCursor.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
+    <ClCompile Include="VCInteropInvoke.cpp" />
     <ClCompile Include="VCShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCImageBuilder.h" />
     <ClInclude Include="VCImageInstance.h" />
+    <ClInclude Include="VCInteropInvoke.h" />
     <ClInclude Include="VCLineDrawer.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
@@ -172,6 +174,11 @@
     <None Include="VoxelFallback.frag" />
     <None Include="VoxelFallback.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VCEngine.InteropCLI\VCEngine.InteropCLI.vcxproj">
+      <Project>{7b570cec-6315-44e6-b3c4-f4f101e097de}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85B49496-34A9-40F6-B52F-3663124FEC94}</ProjectGuid>
     <RootNamespace>VoxelCraft</RootNamespace>
@@ -221,7 +228,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\Libs\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Libs\Include;C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\VCEngine.InteropCLI;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\Libs\Lib32;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Build</OutDir>
   </PropertyGroup>

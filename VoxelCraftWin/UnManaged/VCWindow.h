@@ -23,6 +23,7 @@ public:
     void Initalize();
 
 	void SwapBuffers();
+	void PollEvents();
 	void SetTitle(std::string title);
 	void SetVSync(bool enabled);
 
@@ -44,6 +45,7 @@ public:
 
 // Interop
 void VCInteropWindowSwapBuffers();
+void VCInteropWindowPollEvents();
 bool VCInteropWindowShouldClose();
 void VCInteropWindowGetSize(int* width, int* height);
 void VCInteropWindowSetSize(int width, int height);

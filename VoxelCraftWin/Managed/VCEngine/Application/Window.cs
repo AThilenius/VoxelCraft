@@ -14,6 +14,9 @@ namespace VCEngine
 		extern static void VCInteropWindowSwapBuffers();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern static void VCInteropWindowPollEvents();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         extern static bool VCInteropWindowShouldClose();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -87,6 +90,7 @@ namespace VCEngine
 
         private static void GlfwSizeChangeHandler(int width, int height)
         {
+            Editor.ShouldRedraw();
             ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(0, 0, ScaledSize), To = (new Rectangle(0, 0, width, height) / Gui.Scale) };
             //TrueSize = new Point(width, height);
             Resize(null, args);
@@ -95,6 +99,11 @@ namespace VCEngine
         public static void SwapBuffers()
         {
             VCInteropWindowSwapBuffers();
+        }
+
+        public static void PollEvents()
+        {
+            VCInteropWindowPollEvents();
         }
 
         public static bool ShouldClose()

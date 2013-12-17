@@ -11,10 +11,12 @@ namespace VCEngine
         {
             PushButton,
             HighlightedButton,
-            MenuButton
+            MenuButton,
+            ImageButton
         }
 
         public Label Text;
+        public String ImagePath;
         public Style GuiStyle = Style.PushButton;
         
         public Button(String title)
@@ -35,6 +37,8 @@ namespace VCEngine
                 case Style.PushButton:
                     if (Enabled)
                     {
+                        Text.FontColor = Color.Black;
+
                         if (IsClickDown)
                             Gui.Draw9Slice(@"Icons\ButtonDown.DDS", ScreenFrame);
 
@@ -76,6 +80,23 @@ namespace VCEngine
                     else
                         Text.FontColor = Color.Black;
 
+                    break;
+
+                case Style.ImageButton:
+                    if (Enabled)
+                    {
+                        Rectangle sf = ScreenFrame;
+
+                        if (IsClickDown)
+                            Gui.Draw9Slice(@"Icons\ButtonDown.DDS", sf);
+                        else
+                            Gui.Draw9Slice(@"Icons\Button.DDS", sf);
+
+                        Gui.DrawImage(ImagePath, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
+                    }
+
+                    else
+                        Gui.DrawBackgroundEmpty(ScreenFrame);
                     break;
             }
             

@@ -254,6 +254,19 @@ namespace VCEngine
                 point.Y <= Y + Height;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Rectangle p = (Rectangle)obj;
+            return
+                X == p.X &&
+                Y == p.Y &&
+                Width == p.Width &&
+                Height == p.Height;
+        }
+
         public static Rectangle operator *(Rectangle rect, float scale)
         {
             return new Rectangle(
@@ -271,6 +284,9 @@ namespace VCEngine
                 (int)(rect.Width / scale),
                 (int)(rect.Height / scale));
         }
+
+        public static bool operator ==(Rectangle a, Rectangle b) { return a.Equals(b); }
+        public static bool operator !=(Rectangle a, Rectangle b) { return !(a == b); }
 
         public override string ToString()
         {

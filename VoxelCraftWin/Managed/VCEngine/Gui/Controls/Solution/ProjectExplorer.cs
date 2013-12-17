@@ -8,13 +8,15 @@ namespace VCEngine
 {
     public class ProjectExplorer : Control
     {
-
+        public String ProjectPath { get; private set; }
         private ProjectHeader m_projHeader;
         private DirectoryExporer m_dirExp;
         private DirectoryContextMenu m_dirContext;
 
         public ProjectExplorer(String projName, String path)
         {
+            ProjectPath = path;
+
             m_dirExp = new DirectoryExporer(path);
             AddControl(m_dirExp);
             m_dirExp.DockOrder = 1;
@@ -25,7 +27,7 @@ namespace VCEngine
             m_dirContext = new DirectoryContextMenu(m_dirExp);
             Control.MainControl.AddControl(m_dirContext);
 
-            m_projHeader = new ProjectHeader(projName);
+            m_projHeader = new ProjectHeader(projName, this);
             AddControl(m_projHeader);
             m_projHeader.Dock = Dockings.Top;
             m_projHeader.ExpandButton.OnExpand += (s, a) => m_dirExp.Visible = true;

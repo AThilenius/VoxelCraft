@@ -64,6 +64,7 @@ namespace VCEngine
         public static Boolean Focused { get; private set; }
         public static TrinaryStateTracker[] MouseStates = new TrinaryStateTracker[10];
         public static TrinaryStateTracker[] KeyStates = new TrinaryStateTracker[350];
+        public static int KeysDown;
 
         private static Point m_currentMousePosition = new Point();
         private static Boolean m_mouseVisible = true;
@@ -82,17 +83,27 @@ namespace VCEngine
         // Callbacks
         private static void GlfwKeyCallback(int key, int scancode, int action, int mods)
         {
+            if (action == 0)
+                KeysDown--;
+
+            if (action == 1)
+                KeysDown++;
+
+            Editor.ShouldRedraw();
             KeyStates[key].Update(action > 0);
             OnKey(null, new KeyEventArgs { Key = key });
         }
 
         private static void GlfwCharCallback(int charCode)
         {
+            Editor.ShouldRedraw();
             OnCharClicked(null, new CharEventArgs { Char = charCode });
         }
 
         private static void GlfwMouseMoveCallback(double x, double y)
         {
+            Editor.ShouldRedraw();
+
             // Scale
             x /= Gui.Scale;
             y /= Gui.Scale;
@@ -105,18 +116,21 @@ namespace VCEngine
 
         private static void GlfwMouseClickCallback(int button, int action, int mods)
         {
+            Editor.ShouldRedraw();
             MouseStates[button].Update(action > 0);
             OnMouseClick(null, new MouseClickEventArgs { Button = button });
         }
 
         private static void GlfwMouseEnterCallback(int entered)
         {
+            Editor.ShouldRedraw();
             Focused = entered > 0;
             OnFocusChange(null, EventArgs.Empty);
         }
 
         private static void GlfwMouseScrollCallback(double xOffset, double yOffset)
         {
+            Editor.ShouldRedraw();
             DeltaScroll = new PointF((float)xOffset, (float)yOffset);
             OnScrollChange(null, EventArgs.Empty);
         }

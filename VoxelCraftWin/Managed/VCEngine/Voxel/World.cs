@@ -124,9 +124,19 @@ namespace VCEngine
             Camera = new Camera(VCInteropWorldGetCamera(UnManagedHandle));
 
             // Total hack
+            Random rand = new Random();
+
             for (int x = 0; x < m_viewDistance * 32; x++)
                 for (int z = 0; z < m_viewDistance * 32; z++)
-                    SetBlock(x, 0, z, new Block(new Color(125, 125, 125, 1)));
+                {
+                    float RandOffset = (float)rand.NextDouble() * 0.05f - (0.05f * 0.5f);
+                    Vector4 hsl = Color.RgbaToHsl(new Color(140, 140, 140, 255));
+                    hsl.Z += RandOffset;
+                    hsl.Z = MathHelper.Clamp(hsl.Z, 0.0f, 1.0f);
+                    Color c = Color.HslToRgba(hsl);
+
+                    SetBlock(x, 0, z, new Block(c));
+                }
 
         }
 

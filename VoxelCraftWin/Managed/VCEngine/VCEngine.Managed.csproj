@@ -31,8 +31,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>
-    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -52,6 +50,9 @@
     <Compile Include="Gui\Args\MouseEventArgs.cs" />
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
     <Compile Include="Gui\Args\ResizeEventArgs.cs" />
+    <Compile Include="Gui\Controls\ContextMenu\ContextComponent.cs" />
+    <Compile Include="Gui\Controls\ContextMenu\ContextComponentHeader.cs" />
+    <Compile Include="Gui\Controls\ContextMenu\ContextMenu.cs" />
     <Compile Include="Gui\Controls\DirectoryContextMenu.cs" />
     <Compile Include="Gui\Controls\Header.cs" />
     <Compile Include="Gui\Controls\LayoutControls.cs" />

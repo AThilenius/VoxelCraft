@@ -22,7 +22,7 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	VCWindow::Instance->Width = width;
 	VCWindow::Instance->Height = height;
 	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
-
+	
 	// Managed event
 	void* args[2] = { &width, &height };
 	VCWindow::Instance->SizeChangeFunction->Invoke(args);
@@ -189,7 +189,11 @@ void VCWindow::SwapBuffers()
 	VCTime::Instance->Update();
 
 	glfwSwapBuffers(GLFWWindowHandle);
-    glfwPollEvents();
+}
+
+void VCWindow::PollEvents()
+{
+	glfwPollEvents();
 }
 
 void VCWindow::SetTitle(std::string title)
@@ -209,6 +213,7 @@ void VCWindow::SetVSync(bool enabled)
 void VCWindow::RegisterMonoHandlers()
 {
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
+	VCMonoRuntime::SetMethod("Window::VCInteropWindowPollEvents",	(void*)VCInteropWindowPollEvents);
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
 	VCMonoRuntime::SetMethod("Window::VCInteropWindowSetSize",		(void*)VCInteropWindowSetSize);
@@ -220,6 +225,11 @@ void VCWindow::RegisterMonoHandlers()
 void VCInteropWindowSwapBuffers()
 {
 	VCWindow::Instance->SwapBuffers();
+}
+
+void VCInteropWindowPollEvents()
+{
+	VCWindow::Instance->PollEvents();
 }
 
 bool VCInteropWindowShouldClose()

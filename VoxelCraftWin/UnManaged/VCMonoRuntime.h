@@ -1,6 +1,6 @@
 //
 //  VCMonoRuntime.h
-//  VoxelCraftOSX
+//  VoxelCraft
 //
 //  Created by Alec Thilenius on 9/1/13.
 //  Copyright (c) 2013 Thilenius. All rights reserved.
@@ -17,14 +17,6 @@ typedef struct _MonoDomain MonoDomain;
 typedef struct _MonoImage MonoImage;
 typedef struct _MonoMethod MonoMethod;
 class VCMonoMethod;
-
-//#include "VCGui.h"
-//#include "VCLexicalEngine.h"
-//#include "VCWindow.h"
-//#include "VCGLRenderer.h"
-//#include "VCWorld.h"
-//#include <string>
-//#include "VCMonoMethod.h"
 
 class VCMonoRuntime
 {

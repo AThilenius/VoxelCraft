@@ -251,6 +251,9 @@
     <ClCompile Include="VCTextBuilder.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
+    <ClCompile Include="VCInteropInvoke.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -452,6 +455,9 @@
     <ClInclude Include="VCCursor.h" />
     <ClInclude Include="VCTextBuilder.h">
       <Filter>GUI\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="VCInteropInvoke.h">
+      <Filter>Interop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
