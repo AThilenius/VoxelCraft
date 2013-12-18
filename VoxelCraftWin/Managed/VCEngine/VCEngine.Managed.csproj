@@ -83,6 +83,8 @@
     <Compile Include="Gui\Font.cs" />
     <Compile Include="Gui\Undo\IUndoToken.cs" />
     <Compile Include="Gui\Undo\UndoStack.cs" />
+    <Compile Include="InteropIn.cs" />
+    <Compile Include="InteropOut.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
     <Compile Include="Utilities\VC3DLineDrawer.cs" />

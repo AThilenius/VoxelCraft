@@ -9,12 +9,6 @@
 #include "stdafx.h"
 #include "VCInteropInvoke.h"
 
+#define VC_INVOKE_API(RETURNTYPE,FNAME,ARGS,NAMESONLY) RETURNTYPE VCInteropInvoke::##FNAME ARGS { return NATIVE_INVOKE_##FNAME NAMESONLY;  }
 
-VCInteropInvoke::VCInteropInvoke(void)
-{
-}
-
-
-VCInteropInvoke::~VCInteropInvoke(void)
-{
-}
+VC_COLLAPSED_INVOKE_API

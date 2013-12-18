@@ -23,6 +23,8 @@
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "SOIL.lib")
 
+#pragma comment(lib, "VCEngine.InteropCLI.lib")
+
 // STD
 #include <exception>
 #include <iostream>

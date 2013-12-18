@@ -7,9 +7,13 @@
 //
 
 #pragma once
+#include "InvokeAPIList.h"
 
-namespace UnManagedInvokes
-{
-	void EditorEntry();
+#ifdef DLL_EXPORT
+#define DLLAPI  __declspec(dllexport)
+#else
+#define DLLAPI  __declspec(dllimport)
+#endif
 
-}
+#define VC_INVOKE_API(RETURNTYPE,FNAME,ARGS,NAMESONLY) DLLAPI RETURNTYPE NATIVE_INVOKE_##FNAME ARGS
+VC_COLLAPSED_INVOKE_API

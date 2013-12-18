@@ -173,8 +173,8 @@ void VCWindow::Initalize()
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = VCRectangle(0, 0, Width, Height);
 
-	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
-	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
+	//SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
+	//glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
 
 	SetVSync(false);

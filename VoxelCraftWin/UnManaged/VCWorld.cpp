@@ -18,6 +18,7 @@
 #include "VCObjectStore.h"
 #include "VCMonoRuntime.h"
 #include "VCCamera.h"
+#include "VCInteropExpose.h"
 
 float IntBound ( float s, float ds )
 {
@@ -328,10 +329,10 @@ void VCWorld::RegisterMonoHandlers()
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetBlock",				(void*)VCInteropWorldSetBlock);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
-	
+
 	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
-	
+
 	VCMonoRuntime::SetMethod("World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
 	VCMonoRuntime::SetMethod("World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
 }

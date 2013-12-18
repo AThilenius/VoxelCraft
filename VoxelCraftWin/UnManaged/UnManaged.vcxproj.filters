@@ -68,6 +68,9 @@
     <Filter Include="Rendering\Shaders\GLSL">
       <UniqueIdentifier>{8378b5da-9736-4dfc-97ba-2b03458ee5ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interop\API Collapse">
+      <UniqueIdentifier>{7ca986cc-dafa-4956-80ae-09dd2794ded7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -458,6 +461,15 @@
     </ClInclude>
     <ClInclude Include="VCInteropInvoke.h">
       <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="VCInteropExpose.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="InvokeAPIList.h">
+      <Filter>Interop\API Collapse</Filter>
+    </ClInclude>
+    <ClInclude Include="CallbackAPIList.h">
+      <Filter>Interop\API Collapse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

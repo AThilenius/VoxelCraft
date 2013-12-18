@@ -29,7 +29,7 @@ namespace VCEngine
                 {
                     Window.PollEvents();
 
-                    if (m_framesRemaining == 0 && GlfwInputState.KeysDown == 0)
+                    if (m_framesRemaining <= 0 && GlfwInputState.KeysDown == 0)
                     {
                         Time.Pause();
                         Thread.Sleep(17);
