@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
@@ -10,29 +10,35 @@ namespace VCEngine
     {
         #region Bindings
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropWindowSwapBuffers();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowPollEvents();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static bool VCInteropWindowShouldClose();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowGetSize(out int width, out int height);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowSetSize(int width, int height);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowGetPos(out int x, out int y);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowSetPos(int x, int y);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGetMonitorSize(out int width, out int height);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwFramebuferResizeDelegate(int x, int y);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropRegisterResizeCallback(GlfwFramebuferResizeDelegate callback);
         
 		#endregion
 
@@ -83,9 +89,7 @@ namespace VCEngine
 
         internal static void Initialize()
         {
-            //int w, h;
-            //VCInteropWindowGetSize(out w, out h);
-            //TrueSize = new Point(w, h);
+            VCInteropRegisterResizeCallback((width, height) => GlfwSizeChangeHandler(width, height));
         }
 
         private static void GlfwSizeChangeHandler(int width, int height)

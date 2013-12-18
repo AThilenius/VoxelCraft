@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
@@ -7,19 +7,19 @@ namespace VCEngine
 	{
 		#region Bindings
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static int VCInteropNewCamera();
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropReleaseCamera(int handle);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static Vector3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle viewport, int fullscreen);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out Rectangle viewport, out int fullscreen);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }

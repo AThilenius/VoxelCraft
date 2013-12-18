@@ -11,11 +11,10 @@
 #include "stdafx.h"
 #include "VCWindow.h"
 
-#include "VCMonoMethod.h"
-#include "VCMonoRuntime.h"
 #include "VCTime.h"
 
 VCWindow* VCWindow::Instance;
+glfwFramebuferSize resizeHandler = 0;
 
 void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -24,8 +23,7 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	VCWindow::Instance->FullViewport = VCRectangle(0, 0, width, height);
 	
 	// Managed event
-	void* args[2] = { &width, &height };
-	VCWindow::Instance->SizeChangeFunction->Invoke(args);
+	resizeHandler(width, height);
 	glViewport(0, 0, width, height);
 }
 
@@ -172,11 +170,7 @@ void VCWindow::Initalize()
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = VCRectangle(0, 0, Width, Height);
-
-	SizeChangeFunction = VCMonoRuntime::GetMonoMethod("Window", "GlfwSizeChangeHandler(int,int)");
-	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
-
-
+	
 	SetVSync(false);
 	std::cout << "VCWindow Initialized." << std::endl;
     glErrorCheck();
@@ -208,18 +202,6 @@ void VCWindow::SetVSync(bool enabled)
 	
 	else
 		glfwSwapInterval(0);
-}
-
-void VCWindow::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowSwapBuffers",	(void*)VCInteropWindowSwapBuffers);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowPollEvents",	(void*)VCInteropWindowPollEvents);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowShouldClose",	(void*)VCInteropWindowShouldClose);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetSize",		(void*)VCInteropWindowGetSize);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowSetSize",		(void*)VCInteropWindowSetSize);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowGetPos",		(void*)VCInteropWindowGetPos);
-	VCMonoRuntime::SetMethod("Window::VCInteropWindowSetPos",		(void*)VCInteropWindowSetPos);
-	VCMonoRuntime::SetMethod("Window::VCInteropGetMonitorSize",		(void*)VCInteropGetMonitorSize);
 }
 
 void VCInteropWindowSwapBuffers()
@@ -266,4 +248,10 @@ void VCInteropGetMonitorSize( int* width, int* height )
 	const GLFWvidmode* mode = glfwGetVideoMode(primary);
 	*width = mode->width;
 	*height = mode->height;
+}
+
+void VCInteropRegisterResizeCallback( glfwFramebuferSize callback )
+{
+	resizeHandler = callback;
+	glfwSetFramebufferSizeCallback(VCWindow::Instance->GLFWWindowHandle, _glfwFramebuferSizeCallback);
 }

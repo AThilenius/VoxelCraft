@@ -21,17 +21,13 @@ public:
     
 public:
     static VCUpdateManager* Instance;
-    
-private:
-    //noArgCallback m_updateHandler;
-    
+        
     // ================================      Interop      ============
 public:
     int Handle;
-    static void RegisterMonoHandlers();
     
 private:
     friend void VCInteropRegisterUpdateHandler(noArgCallback* callback);
 };
 
-void VCInteropRegisterUpdateHandler(noArgCallback* callback);
+//DLL_EXPORT_API void VCInteropRegisterUpdateHandler(noArgCallback* callback);

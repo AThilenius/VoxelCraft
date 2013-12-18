@@ -12,7 +12,6 @@
 #include "VCGameObject.h"
 #include "VCCamera.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 VCSceneGraph* VCSceneGraph::Instance;
 int VCSceneGraph::s_handle;
@@ -48,15 +47,3 @@ void VCSceneGraph::PrepareSceneGraph()
 
 	RootNode->PreRender();
 }
-
-// ================================      Interop      ============
-void VCSceneGraph::RegisterMonoHandlers()
-{
-    VCMonoRuntime::SetMethod("SceneGraph::VCInteropGetStaticHandle", (void*) VCInteropGetStaticHandle);
-}
-
-int VCInteropGetStaticHandle()
-{
-    return VCSceneGraph::s_handle;
-}
-

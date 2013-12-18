@@ -34,20 +34,11 @@ public:
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
 	glm::mat4 InverseViewMatrix;
-        
-    // ================================      Interop      ============
-public:
-    static void RegisterMonoHandlers();
-    
-private:
-    friend int VCInteropNewCamera();
-    friend void VCInteropReleaseCamera(int handle);
-    // ===============================================================
 };
 
 // Interop
-int VCInteropNewCamera();
-void VCInteropReleaseCamera(int handle);
-glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort, VCPoint screenPoint);
-void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle viewport, int fullscreen);
-void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* viewport, int* fullscreen);
+DLL_EXPORT_API int VCInteropNewCamera();
+DLL_EXPORT_API void VCInteropReleaseCamera(int handle);
+DLL_EXPORT_API glm::vec3 VCInteropCameraScreenPointToDirection(int handle, VCRectangle viewPort, VCPoint screenPoint);
+DLL_EXPORT_API void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, VCRectangle viewport, int fullscreen);
+DLL_EXPORT_API void VCInteropCameraGetFields(int handle, float* fovDeg, float* aspect, float* nearClip, float* farClip, VCRectangle* viewport, int* fullscreen);

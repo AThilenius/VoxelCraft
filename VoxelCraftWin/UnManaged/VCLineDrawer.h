@@ -47,5 +47,5 @@ private:
 };
 
 // Move to VCCamera
-void VCInteropDebugDrawLine (glm::vec3 from, glm::vec3 to, vcint4 color);
-void VCInteropDebugDrawCube (glm::vec3 corner, glm::vec3 scale, vcint4 color);
+DLL_EXPORT_API void VCInteropDebugDrawLine (glm::vec3 from, glm::vec3 to, vcint4 color);
+DLL_EXPORT_API void VCInteropDebugDrawCube (glm::vec3 corner, glm::vec3 scale, vcint4 color);

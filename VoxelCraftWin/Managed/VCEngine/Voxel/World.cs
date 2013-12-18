@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -60,40 +59,40 @@ namespace VCEngine
         #region Bindings
 
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static int VCInteropNewWorld();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropReleaseWorld(int handle);
 
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static int VCInteropWorldGetCamera(int handle);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldSetViewDist(int handle, int distance);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldInitializeEmpty(int handle);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldRebuild(int handle, VCWorldRebuildParams param);
 
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldSaveToFile(int handle, string path);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldLoadFromFile(int handle, string path);
 
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static Block VCInteropWorldGetBlock(int handle, int x, int y, int z);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWorldSetBlock(int handle, int x, int y, int z, Block block);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static int VCInteropWorldRaycast(int handle, Ray ray, out RaycastHit hitOut);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewWorld; } }

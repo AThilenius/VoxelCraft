@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
@@ -10,11 +10,38 @@ namespace VCEngine
     {
         #region Bindings
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInputSetMouse(float x, float y);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInputSetCursorVisible(bool val);
+
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwKeyUnmanagedDelegate(int key, int scancode, int action, int mods);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwCharUnmanagedDelegate(uint charCode);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwMouseMoveUnmanagedDelegate(double x, double y);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwMouseClickUnmanagedDelegate(int button, int action, int mods);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwMouseEnterUnmanagedDelegate(int entered);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void GlfwMouseScrollUnmanagedDelegate(double xOffset, double yOffset);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInputSetCallbacks( GlfwKeyUnmanagedDelegate keyCallback,
+                                                       GlfwCharUnmanagedDelegate charCallback,
+                                                       GlfwMouseMoveUnmanagedDelegate mouseMoveCallback,
+                                                       GlfwMouseClickUnmanagedDelegate mouseClickCallback,
+                                                       GlfwMouseEnterUnmanagedDelegate mouseEnterCallback,
+                                                       GlfwMouseScrollUnmanagedDelegate mouseScrollCallback);
 
         #endregion
 
@@ -69,6 +96,17 @@ namespace VCEngine
         private static Point m_currentMousePosition = new Point();
         private static Boolean m_mouseVisible = true;
 
+        public static void Initialize()
+        {
+            VCInteropInputSetCallbacks(
+                (key, scancode, action, mods) => GlfwKeyCallback(key, scancode, action, mods),
+                (charCode) => GlfwCharCallback(charCode),
+                (x, y) => GlfwMouseMoveCallback(x, y),
+                (button, action, mods) => GlfwMouseClickCallback(button, action, mods),
+                (entered) => GlfwMouseEnterCallback(entered),
+                (xOffset, yOffset) => GlfwMouseScrollCallback(xOffset, yOffset));
+        }
+
         internal static void StepStates()
         {
             DeltaMouseLocation = new Point(0, 0);
@@ -94,10 +132,10 @@ namespace VCEngine
             OnKey(null, new KeyEventArgs { Key = key });
         }
 
-        private static void GlfwCharCallback(int charCode)
+        private static void GlfwCharCallback(uint charCode)
         {
             Editor.ShouldRedraw();
-            OnCharClicked(null, new CharEventArgs { Char = charCode });
+            OnCharClicked(null, new CharEventArgs { Char = (int)charCode });
         }
 
         private static void GlfwMouseMoveCallback(double x, double y)

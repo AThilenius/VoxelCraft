@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VC3DLineDrawer.h"
-#include "VCMonoRuntime.h"
 #include "VCGLRenderer.h"
 #include "VCObjectStore.h"
 #include "VCRenderStage.h"
@@ -107,14 +106,6 @@ void VC3DLineDrawer::Render()
 
 	m_lineVertCount = 0;
 	m_warningIssued = false;
-}
-
-// =====   Interop   ======================================================
-void VC3DLineDrawer::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("VC3DLineDrawer::VCInteropNew3DLineDrawer",			(void*) VCInteropNew3DLineDrawer);
-	VCMonoRuntime::SetMethod("VC3DLineDrawer::VCInteropRelease3DLineDrawer",		(void*) VCInteropRelease3DLineDrawer);
-	VCMonoRuntime::SetMethod("VC3DLineDrawer::VCInterop3DLineDrawerDrawLine",		(void*) VCInterop3DLineDrawerDrawLine);
 }
 
 // CTor / DTor

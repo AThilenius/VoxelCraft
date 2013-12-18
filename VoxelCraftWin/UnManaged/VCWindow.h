@@ -37,18 +37,17 @@ public:
 private:
 	VCMonoMethod* SizeChangeFunction;
     friend void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height);
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-	// ===============================================================
 };
 
 // Interop
-void VCInteropWindowSwapBuffers();
-void VCInteropWindowPollEvents();
-bool VCInteropWindowShouldClose();
-void VCInteropWindowGetSize(int* width, int* height);
-void VCInteropWindowSetSize(int width, int height);
-void VCInteropWindowGetPos(int* x, int* y);
-void VCInteropWindowSetPos(int x, int y);
-void VCInteropGetMonitorSize( int* width, int* height );
+DLL_EXPORT_API void VCInteropWindowSwapBuffers();
+DLL_EXPORT_API void VCInteropWindowPollEvents();
+DLL_EXPORT_API bool VCInteropWindowShouldClose();
+DLL_EXPORT_API void VCInteropWindowGetSize(int* width, int* height);
+DLL_EXPORT_API void VCInteropWindowSetSize(int width, int height);
+DLL_EXPORT_API void VCInteropWindowGetPos(int* x, int* y);
+DLL_EXPORT_API void VCInteropWindowSetPos(int x, int y);
+DLL_EXPORT_API void VCInteropGetMonitorSize( int* width, int* height );
+
+typedef void (*glfwFramebuferSize)(int, int);
+DLL_EXPORT_API void VCInteropRegisterResizeCallback(glfwFramebuferSize callback);

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
@@ -8,13 +8,13 @@ namespace VCEngine
 	{
 		#region Bindings
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static int VCInteropNewGameObject();
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropReleaseGameObject(int handle);
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewGameObject; } }

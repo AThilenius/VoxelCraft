@@ -21,14 +21,20 @@ public:
     // ================================      Interop      ============
 public:
     int Handle;
-    static void RegisterMonoHandlers();
-
-	static VCMonoMethod* KeyCallback;
-	static VCMonoMethod* CharCallback;
-	static VCMonoMethod* MouseMoveCallback;
-	static VCMonoMethod* MouseClickCallback;
-	static VCMonoMethod* MouseEnterCallback;
-	static VCMonoMethod* MouseScrollCallback;
 };
-void VCInteropInputSetMouse(float x, float y);
-void VCInteropInputSetCursorVisible(bool val);
+DLL_EXPORT_API void VCInteropInputSetMouse(float x, float y);
+DLL_EXPORT_API void VCInteropInputSetCursorVisible(bool val);
+
+typedef void (*GlfwKeyCallback)(int, int, int, int);
+typedef void (*GlfwCharCallback)(unsigned int);
+typedef void (*GlfwMouseMoveCallback)(double, double);
+typedef void (*GlfwMouseClickCallback)(int, int, int);
+typedef void (*GlfwMouseEnterCallback)(int);
+typedef void (*GlfwMouseScrollCallback)(double, double);
+
+DLL_EXPORT_API void VCInteropInputSetCallbacks(GlfwKeyCallback keyCallback, 
+											   GlfwCharCallback charCallback, 
+											   GlfwMouseMoveCallback mouseMoveCallback, 
+											   GlfwMouseClickCallback mouseClickCallback,
+											   GlfwMouseEnterCallback mouseEnterCallback,
+											   GlfwMouseScrollCallback mouseScrollCallback);

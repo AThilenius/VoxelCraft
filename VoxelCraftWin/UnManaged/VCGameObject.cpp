@@ -11,7 +11,6 @@
 
 #include "VCSceneGraph.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 
 VCGameObject::VCGameObject(void):
@@ -96,26 +95,6 @@ void VCGameObject::SetParent( VCGameObject* parent )
 }
 
 // ================================      Interop      ============
-void VCGameObject::RegisterMonoHandlers()
-{
-    // CTor / DTor
-    VCMonoRuntime::SetMethod("GameObject::VCInteropNewGameObject",           (void*)VCInteropNewGameObject);
-	VCMonoRuntime::SetMethod("GameObject::VCInteropNewGameObject", (void*)VCInteropNewGameObject);
-    VCMonoRuntime::SetMethod("GameObject::VCInteropReleaseGameObject",       (void*)VCInteropReleaseGameObject);
-    
-    // Parent / Children
-    VCMonoRuntime::SetMethod("GameObject::VCInteropGameObjectSetParent",     (void*)VCInteropGameObjectSetParent);
-    
-    // Transform
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetPosition",         (void*)VCInteropTransformGetPosition);
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetRotation",         (void*)VCInteropTransformGetRotation);
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformGetScale",         (void*)VCInteropTransformGetScale);
-
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetPosition",         (void*)VCInteropTransformSetPosition);
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetRotation",         (void*)VCInteropTransformSetRotation);
-	VCMonoRuntime::SetMethod("Transform::VCInteropTransformSetScale",         (void*)VCInteropTransformSetScale);
-}
-
 // CTor / DTor
 int VCInteropNewGameObject()
 {

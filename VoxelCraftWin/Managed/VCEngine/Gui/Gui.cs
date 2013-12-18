@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -44,25 +44,25 @@ namespace VCEngine
     {
         #region Bindings
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiSetScale(float scale);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiResetDepth();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color top, Color bottom );
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDraw9SliceImage(string path, Rectangle frame, int pizelOffset, float padding);
 
         #endregion

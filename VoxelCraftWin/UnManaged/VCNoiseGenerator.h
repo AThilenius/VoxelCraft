@@ -24,14 +24,9 @@ public:
 private:
 	void BuildHeightMapToBuffer ( int* buffer, float octaves, float persistence, float scale, float loBound, float hiBound, short offset, int x, int z );
 
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-
-	// ===============================================================
 };
 
 // Interop
-int VCInteropNewNoiseGenerator();
-void VCInteropReleaseNoiseGenerator(int handle);
+DLL_EXPORT_API int VCInteropNewNoiseGenerator();
+DLL_EXPORT_API void VCInteropReleaseNoiseGenerator(int handle);
 

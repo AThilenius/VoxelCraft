@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "VCMonoRuntime.h"
 #include "VCWindow.h"
 #include "VCObjectStore.h"
 #include "VCInput.h"
@@ -24,8 +23,6 @@ public:
 	VCApplication(void);
 	~VCApplication(void);
 	virtual void Initialize();
-	virtual void EditorMain();
-	virtual void GameMain();
     virtual void ShutDown();
 
 public:
@@ -35,9 +32,10 @@ public:
     VCInput* Input;
     VCTime* Time;
     VCObjectStore* ObjectStore;
-    VCMonoRuntime* MonoRuntime;
 	VCLexicalEngine* LexEngine;
 	VCGui* Gui;
     
     static VCApplication* Instance;
 };
+
+DLL_EXPORT_API void VCInteropInitalizeApplication();

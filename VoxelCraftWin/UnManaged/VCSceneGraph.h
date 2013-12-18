@@ -29,15 +29,8 @@ public:
     VCGameObject* RootNode;
     
     // ================================      Interop      ============
-public:
-    static void RegisterMonoHandlers();
-
 private:
     static int s_handle;
-    friend int VCInteropGetStaticHandle();
 
     // ===============================================================
 };
-
-// Interop
-int VCInteropGetStaticHandle();

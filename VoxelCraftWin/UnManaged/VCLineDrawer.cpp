@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VCLineDrawer.h"
-#include "VCMonoRuntime.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
 #include "VCColorPassThroughShader.h"

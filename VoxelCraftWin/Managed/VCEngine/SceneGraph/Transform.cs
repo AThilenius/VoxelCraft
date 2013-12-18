@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
@@ -7,23 +7,23 @@ namespace VCEngine
 	{
 		#region Bindings
 
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static Vector3 VCInteropTransformGetPosition(int handle);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static Quaternion VCInteropTransformGetRotation(int handle);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static Vector3 VCInteropTransformGetScale(int handle);
 
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropTransformSetPosition(int handle, Vector3 pos);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropTransformSetRotation(int handle, Quaternion rot);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropTransformSetScale(int handle, Vector3 scale);
 
 		#endregion

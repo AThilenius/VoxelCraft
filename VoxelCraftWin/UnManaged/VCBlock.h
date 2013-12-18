@@ -8,19 +8,11 @@
 
 #pragma once
 
-struct VCInteropBlock
-{
-	VCInteropBlock();
-	VCInteropBlock(GLubyte4 color);
-
-	vcint4 Color;
-};
-
 class VCBlock
 {
 public:
 	VCBlock(void);
-	VCBlock(VCInteropBlock interopBlock);
+	VCBlock(vcint4 interopBlock);
 	VCBlock(GLubyte r, GLubyte g, GLubyte b);
 	VCBlock(GLubyte r, GLubyte g, GLubyte b, GLubyte a);
 	~VCBlock(void);
@@ -28,7 +20,7 @@ public:
 	bool IsTrasparent();
 	bool IsTranslucent();
 	bool IsSolid();
-	VCInteropBlock AsInterop();
+	vcint4 AsInterop();
 
 	// Statics:
 	static VCBlock ErrorBlock;

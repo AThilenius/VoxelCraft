@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCUpdateManager.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 VCUpdateManager* VCUpdateManager::Instance;
 static noArgCallback* staticCallback;
@@ -34,17 +33,10 @@ void VCUpdateManager::Update()
     (*staticCallback)();
 }
 
-
-// ================================      Interop      ===========
-void VCUpdateManager::RegisterMonoHandlers()
-{
-    VCMonoRuntime::SetMethod("VCEngineCore::VCInteropRegisterUpdateHandler", (void*)VCInteropRegisterUpdateHandler);
-}
-
-void VCInteropRegisterUpdateHandler(noArgCallback* callback)
-{
-    staticCallback = callback;
-    
-    std::cout << "Test calling Callback" << std::endl;
-    (*staticCallback)();
-}
+//void VCInteropRegisterUpdateHandler(noArgCallback* callback)
+//{
+//    staticCallback = callback;
+//    
+//    std::cout << "Test calling Callback" << std::endl;
+//    (*staticCallback)();
+//}

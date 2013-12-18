@@ -9,16 +9,6 @@
 #include "stdafx.h"
 #include "VCBlock.h"
 
-VCInteropBlock::VCInteropBlock() : Color(vcint4())
-{
-
-}
-
-VCInteropBlock::VCInteropBlock( GLubyte4 color ) : Color(vcint4(color.x, color.y, color.z, color.w))
-{
-
-}
-
 VCBlock VCBlock::ErrorBlock = VCBlock(255, 0, 0, 255);
 VCBlock VCBlock::Air = VCBlock(0, 0, 0, 0);
 
@@ -27,7 +17,7 @@ VCBlock::VCBlock( void )
 
 }
 
-VCBlock::VCBlock( VCInteropBlock interopBlock ) : Color((GLubyte) interopBlock.Color.X, (GLubyte) interopBlock.Color.Y, (GLubyte) interopBlock.Color.Z, (GLubyte) interopBlock.Color.W)
+VCBlock::VCBlock( vcint4 interopBlock ) : Color((GLubyte) interopBlock.X, (GLubyte) interopBlock.Y, (GLubyte) interopBlock.Z, (GLubyte) interopBlock.W)
 {
 
 }
@@ -62,7 +52,7 @@ bool VCBlock::IsSolid()
 	return Color.w == 255;
 }
 
-VCInteropBlock VCBlock::AsInterop()
+vcint4 VCBlock::AsInterop()
 {
-	return VCInteropBlock(Color);
+	return vcint4(Color.x, Color.y, Color.z, Color.w);
 }

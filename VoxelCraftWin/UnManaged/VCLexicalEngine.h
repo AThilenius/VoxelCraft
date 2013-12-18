@@ -14,7 +14,6 @@ class VCFont;
 struct GlyphVerticie;
 
 #include <unordered_map>
-#include "VCMonoString.h"
 
 struct VCTextMetrics
 {
@@ -44,13 +43,8 @@ public:
 private:
 	VCFont* m_fonts[50];
 	int m_fontsCount;
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-	// ===============================================================
 };
 
 // Interop
-VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath, int* fontOut);
+DLL_EXPORT_API void VCInteropLoadFont (char* fntPath, char* ddsPath, int* fontOut);
 

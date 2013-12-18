@@ -7,16 +7,3 @@
 //
 
 #include "stdafx.h"
-#include "VCApplication.h"
-
-#include "delegate.hpp"
-
-int main(int argc, char** argv)
-{
-	VCApplication app;
-    app.Initialize();
-	app.EditorMain();
-    app.ShutDown();
-
-	return 0;
-}

@@ -61,12 +61,7 @@ private:
 
 	typedef boost::container::flat_set<VCRenderStage*, _VCRenderStageCompare> RenderSet;
 	RenderSet m_renderSet;
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-	// ===============================================================
 };
 
 // Interop
-void VCInteropRendererRender(int from, int to);
+DLL_EXPORT_API void VCInteropRendererRender(int from, int to);

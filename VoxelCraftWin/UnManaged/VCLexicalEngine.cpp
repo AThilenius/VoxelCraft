@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCLexicalEngine.h"
 #include "VCFont.h"
-#include "VCMonoRuntime.h"
 #include "VCGui.h"
 
 VCLexicalEngine* VCLexicalEngine::Instance;
@@ -122,14 +121,7 @@ VCFont* VCLexicalEngine::GetFontById( int fontID )
 	return m_fonts[fontID];
 }
 
-// ================================      Interop      ============
-void VCLexicalEngine::RegisterMonoHandlers()
+void VCInteropLoadFont (char* fntPath, char* ddsPath, int* fontOut)
 {
-	VCMonoRuntime::SetMethod("Font::VCInteropLoadFont",	(void*)VCInteropLoadFont);
-}
-
-VCMonoStringPtr VCInteropLoadFont (VCMonoStringPtr fntPath, VCMonoStringPtr ddsPath, int* fontOut)
-{
-	std::string name = VCLexicalEngine::Instance->LoadFont(VCMonoString(fntPath), VCMonoString(ddsPath), fontOut);
-	return VCMonoString::MakeString(name.c_str());
+	std::string name = VCLexicalEngine::Instance->LoadFont(fntPath, ddsPath, fontOut);
 }

@@ -22,7 +22,6 @@ struct RaycastHit;
 struct VCInteropBlock;
 
 #include "VCMarshalableObject.h"
-#include "VCMonoString.h"
 
 struct VCEditorFileHeader001
 {
@@ -67,26 +66,20 @@ private:
 	int m_viewDistTwo;
 	int m_logViewDistTwo;
 	VCChunk** m_chunks;
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-
-	// ===============================================================
 };
 
 // Interop
-int VCInteropNewWorld();
-void VCInteropReleaseWorld(int handle);
+DLL_EXPORT_API int VCInteropNewWorld();
+DLL_EXPORT_API void VCInteropReleaseWorld(int handle);
 
-int VCInteropWorldGetCamera(int handle);
-void VCInteropWorldSetViewDist(int handle, int distance);
-void VCInteropWorldInitializeEmpty(int handle);
-void VCInteropWorldRebuild(int handle, VCWorldRebuildParams params);
+DLL_EXPORT_API int VCInteropWorldGetCamera(int handle);
+DLL_EXPORT_API void VCInteropWorldSetViewDist(int handle, int distance);
+DLL_EXPORT_API void VCInteropWorldInitializeEmpty(int handle);
+DLL_EXPORT_API void VCInteropWorldRebuild(int handle, VCWorldRebuildParams params);
 
-void VCInteropWorldSaveToFile (int handle, VCMonoStringPtr path);
-void VCInteropWorldLoadFromFile (int handle, VCMonoStringPtr path);
+DLL_EXPORT_API void VCInteropWorldSaveToFile (int handle, char* path);
+DLL_EXPORT_API void VCInteropWorldLoadFromFile (int handle, char* path);
 
-VCInteropBlock VCInteropWorldGetBlock (int handle, int x, int y, int z );
-void VCInteropWorldSetBlock (int handle, int x, int y, int z, VCInteropBlock block);
-int VCInteropWorldRaycast(int handle, Ray ray, RaycastHit* hitOut);
+DLL_EXPORT_API vcint4 VCInteropWorldGetBlock (int handle, int x, int y, int z );
+DLL_EXPORT_API void VCInteropWorldSetBlock (int handle, int x, int y, int z, vcint4 block);
+DLL_EXPORT_API int VCInteropWorldRaycast(int handle, Ray ray, RaycastHit* hitOut);

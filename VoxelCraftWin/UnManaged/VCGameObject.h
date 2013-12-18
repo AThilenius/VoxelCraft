@@ -41,31 +41,20 @@ public:
 private:
     VCGameObject* m_parent;
 	bool m_rebuildNeeded;
-    
-    // ================================      Interop      ============
-public:
-    static void RegisterMonoHandlers();
-    
-private:
-    friend int VCInteropNewGameObject();
-    friend void VCInteropReleaseGameObject(int handle);
-    
-    friend void VCInteropGameObjectSetParent(int handle, int parentHandle);
-    // ===============================================================
 };
 
 
 // Interop
-int VCInteropNewGameObject();
-void VCInteropReleaseGameObject(int handle);
+DLL_EXPORT_API int VCInteropNewGameObject();
+DLL_EXPORT_API void VCInteropReleaseGameObject(int handle);
 
-void VCInteropGameObjectSetParent(int handle, int parentHandle);
+DLL_EXPORT_API void VCInteropGameObjectSetParent(int handle, int parentHandle);
 
 // Transform
-glm::vec3 VCInteropTransformGetPosition(int handle);
-glm::quat VCInteropTransformGetRotation(int handle);
-glm::vec3 VCInteropTransformGetScale(int handle);
+DLL_EXPORT_API glm::vec3 VCInteropTransformGetPosition(int handle);
+DLL_EXPORT_API glm::quat VCInteropTransformGetRotation(int handle);
+DLL_EXPORT_API glm::vec3 VCInteropTransformGetScale(int handle);
 
-void VCInteropTransformSetPosition(int handle, glm::vec3 pos );
-void VCInteropTransformSetRotation(int handle, glm::quat rot );
-void VCInteropTransformSetScale(int handle, glm::vec3 scale );
+DLL_EXPORT_API void VCInteropTransformSetPosition(int handle, glm::vec3 pos );
+DLL_EXPORT_API void VCInteropTransformSetRotation(int handle, glm::quat rot );
+DLL_EXPORT_API void VCInteropTransformSetScale(int handle, glm::vec3 scale );

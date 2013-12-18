@@ -18,15 +18,9 @@ public:
 	~VCFlatGenerator(void);
 
 	virtual bool GenerateToBuffer( VCBlock* buffer, int chunkX, int chunkY, int chunkZ );
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-
-	// ===============================================================
 };
 
 // Interop
-int VCInteropNewFlatGenerator();
-void VCInteropReleaseFlatGenerator(int handle);
+DLL_EXPORT_API int VCInteropNewFlatGenerator();
+DLL_EXPORT_API void VCInteropReleaseFlatGenerator(int handle);
 

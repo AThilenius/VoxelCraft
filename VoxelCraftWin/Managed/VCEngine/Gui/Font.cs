@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -26,14 +26,14 @@ namespace VCEngine
     {
         #region Bindings
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDrawText(int font, string text, Point point, Color color);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiGetTextMetrics(int font, string text, out TextMetrics metrics);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        extern static string VCInteropLoadFont(string fntPath, string ddsPath, out int fontId);
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropLoadFont(string fntPath, string ddsPath, out int fontId);
 
         #endregion
 

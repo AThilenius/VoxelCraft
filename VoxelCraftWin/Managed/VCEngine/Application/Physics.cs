@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -45,7 +45,7 @@ namespace VCEngine
     //{
     //    #region Bindings
 
-    //    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    //    [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
     //    extern static bool VCInteropPhysicsRaycastWorld(Ray ray, ref RaycastHit hitOut);
 
     //    #endregion

@@ -97,9 +97,6 @@
     <ClCompile Include="VCMarshalableObject.cpp">
       <Filter>Interop</Filter>
     </ClCompile>
-    <ClCompile Include="VCMonoRuntime.cpp">
-      <Filter>Interop</Filter>
-    </ClCompile>
     <ClCompile Include="VCObjectStore.cpp">
       <Filter>Interop</Filter>
     </ClCompile>
@@ -153,12 +150,6 @@
     </ClCompile>
     <ClCompile Include="VCNoiseGenerator.cpp">
       <Filter>Voxel\Generators</Filter>
-    </ClCompile>
-    <ClCompile Include="VCMonoMethod.cpp">
-      <Filter>Interop</Filter>
-    </ClCompile>
-    <ClCompile Include="VCMonoString.cpp">
-      <Filter>Interop</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Utils</Filter>
@@ -280,9 +271,6 @@
     <ClInclude Include="VCMarshalableObject.h">
       <Filter>Interop</Filter>
     </ClInclude>
-    <ClInclude Include="VCMonoRuntime.h">
-      <Filter>Interop</Filter>
-    </ClInclude>
     <ClInclude Include="VCObjectStore.h">
       <Filter>Interop</Filter>
     </ClInclude>
@@ -329,9 +317,6 @@
     <ClInclude Include="VCGuiShader.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="VCMonoMethod.h">
-      <Filter>Interop</Filter>
-    </ClInclude>
     <ClInclude Include="VCNoise2D.h">
       <Filter>Voxel\Noise</Filter>
     </ClInclude>
@@ -349,9 +334,6 @@
     </ClInclude>
     <ClInclude Include="VCGeometryBuilder.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VCMonoString.h">
-      <Filter>Interop</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Utils</Filter>

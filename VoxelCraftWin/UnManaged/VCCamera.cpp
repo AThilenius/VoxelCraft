@@ -12,7 +12,6 @@
 #include "VCSceneGraph.h"
 #include "VCWindow.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 
 VCCamera::VCCamera(void):
@@ -80,15 +79,6 @@ glm::vec3 VCCamera::ScreenPointToDirection( VCRectangle viewPort, VCPoint screen
 
 
 // ================================      Interop      ============
-void VCCamera::RegisterMonoHandlers()
-{
-    VCMonoRuntime::SetMethod("Camera::VCInteropNewCamera",							(void*)VCInteropNewCamera);
-    VCMonoRuntime::SetMethod("Camera::VCInteropReleaseCamera",						(void*)VCInteropReleaseCamera);
-	VCMonoRuntime::SetMethod("Camera::VCInteropCameraScreenPointToDirection",		(void*)VCInteropCameraScreenPointToDirection);
-	VCMonoRuntime::SetMethod("Camera::VCInteropCameraSetFields",					(void*)VCInteropCameraSetFields);
-	VCMonoRuntime::SetMethod("Camera::VCInteropCameraGetFields",					(void*)VCInteropCameraGetFields);
-}
-
 int VCInteropNewCamera()
 {
 	VC_ERROR("VCInteropNewCamera() Deprecated.")

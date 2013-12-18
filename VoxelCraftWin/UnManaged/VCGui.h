@@ -16,7 +16,6 @@ struct VCTextMetrics;
 #include "VCGeometryBuilder.h"
 #include "VCTextBuilder.h"
 #include "VCImageBuilder.h"
-#include "VCMonoString.h"
 
 class VCGui
 {
@@ -37,26 +36,21 @@ public:
 	static VCGui* Instance;
 	static float Scale;
 	static float InverseScale;
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-	// ===============================================================
 };
 
 // Interop
-void VCInteropGuiSetScale(float scale);
-void VCInteropGuiResetDepth();
+DLL_EXPORT_API void VCInteropGuiSetScale(float scale);
+DLL_EXPORT_API void VCInteropGuiResetDepth();
 
 // Geometry
-void VCInteropGuiAddVerticie(GuiRectVerticie vert);
-void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
-void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom);
+DLL_EXPORT_API void VCInteropGuiAddVerticie(GuiRectVerticie vert);
+DLL_EXPORT_API void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
+DLL_EXPORT_API void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom);
 
 // Text
-void VCInteropGuiDrawText(int font, VCMonoStringPtr text, VCPoint point, vcint4 color);
-void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics);
+DLL_EXPORT_API void VCInteropGuiDrawText(int font, char* text, VCPoint point, vcint4 color);
+DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics);
 
 // Images
-void VCInteropGuiDrawImage(VCMonoStringPtr path, VCRectangle frame);
-void VCInteropGuiDraw9SliceImage(VCMonoStringPtr path, VCRectangle frame, int pizelOffset, float padding);
+DLL_EXPORT_API void VCInteropGuiDrawImage(char* path, VCRectangle frame);
+DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(char* path, VCRectangle frame, int pizelOffset, float padding);

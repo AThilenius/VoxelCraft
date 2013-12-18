@@ -8,6 +8,9 @@
 
 #pragma once
 
+// =====   Export   ======================================================
+#define DLL_EXPORT_API extern "C" __declspec(dllexport)
+
 // =====   General   ======================================================
 #define POSITIVE_CHECK(value) if(value < 0) { SetConsoleColor(Red); std::cout << "Positive Check Failed!" << std::endl; SetConsoleColor(White); std::cin.clear(); std::cin.ignore(); }
 #define ZERO_CHECK(value) if(value == 0) { SetConsoleColor(Red); std::cout << "Zero Check Failed!" << std::endl; SetConsoleColor(White); std::cin.clear(); std::cin.ignore(); }

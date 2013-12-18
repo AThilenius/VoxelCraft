@@ -12,7 +12,6 @@
 #include "VCBlock.h"
 #include "SimplexNoise.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 
 VCNoiseGenerator::VCNoiseGenerator()
@@ -97,12 +96,6 @@ bool VCNoiseGenerator::GenerateToBuffer ( VCBlock* buffer, int chunkX, int chunk
     }
 
 	return empty;
-}
-
-void VCNoiseGenerator::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("NoiseChunkGenerator::VCInteropNewNoiseGenerator",		(void*)VCInteropNewNoiseGenerator);
-	VCMonoRuntime::SetMethod("NoiseChunkGenerator::VCInteropReleaseNoiseGenerator",	(void*)VCInteropReleaseNoiseGenerator);
 }
 
 int VCInteropNewNoiseGenerator()

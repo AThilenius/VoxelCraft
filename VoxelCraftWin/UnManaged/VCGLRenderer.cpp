@@ -21,7 +21,6 @@
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
 #include "VCSceneGraph.h"
-#include "VCMonoRuntime.h"
 #include "VCTexture.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
@@ -179,11 +178,6 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	}
 
 	DepthTexture = VCTexture::ManageExistingBuffer(depthTex);
-}
-
-void VCGLRenderer::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("GLRenderer::VCInteropRendererRender", (void*)VCInteropRendererRender);
 }
 
 void VCInteropRendererRender( int from, int to )

@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCFlatGenerator.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 
 VCFlatGenerator::VCFlatGenerator(void)
 {
@@ -49,12 +48,6 @@ bool VCFlatGenerator::GenerateToBuffer( VCBlock* buffer, int chunkX, int chunkY,
 	}
 
 	return empty;
-}
-
-void VCFlatGenerator::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("FlatChunkGenerator::VCInteropNewFlatGenerator",		(void*)VCInteropNewFlatGenerator);
-	VCMonoRuntime::SetMethod("FlatChunkGenerator::VCInteropReleaseFlatGenerator",	(void*)VCInteropReleaseFlatGenerator);
 }
 
 int VCInteropNewFlatGenerator()

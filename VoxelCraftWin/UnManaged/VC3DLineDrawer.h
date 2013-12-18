@@ -43,14 +43,9 @@ private:
 	GLuint m_VAO;
 	GLuint m_VBO;
 	LineVerticie m_lineVerts[MAX_LINE_COUNT];
-
-	// ================================      Interop      ============
-public:
-	static void RegisterMonoHandlers();
-	// ===============================================================
 };
 
 // Interop
-int VCInteropNew3DLineDrawer(int cameraHandle);
-void VCInteropRelease3DLineDrawer(int handle);
-void VCInterop3DLineDrawerDrawLine (int handle, glm::vec3 from, glm::vec3 to, vcint4 color);
+DLL_EXPORT_API int VCInteropNew3DLineDrawer(int cameraHandle);
+DLL_EXPORT_API void VCInteropRelease3DLineDrawer(int handle);
+DLL_EXPORT_API void VCInterop3DLineDrawerDrawLine (int handle, glm::vec3 from, glm::vec3 to, vcint4 color);

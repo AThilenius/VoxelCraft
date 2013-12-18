@@ -10,8 +10,6 @@
 #include "VCGui.h"
 
 #include "VCLexicalEngine.h"
-#include "VCMonoRuntime.h"
-#include "VCMonoString.h"
 #include "VCCamera.h"
 
 VCGui* VCGui::Instance = NULL;
@@ -34,21 +32,6 @@ void VCGui::Initialize()
 	GuiCamera = new VCCamera();
 	Geometry.Initialize();
 	Text.Initialize();
-}
-
-void VCGui::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiSetScale",			(void*)VCInteropGuiSetScale);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiResetDepth",			(void*)VCInteropGuiResetDepth);
-
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawRectangle",		(void*)VCInteropGuiDrawRectangle);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawEllipse",		(void*)VCInteropGuiDrawEllipse);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiAddVerticie",		(void*)VCInteropGuiAddVerticie);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDrawImage",			(void*)VCInteropGuiDrawImage);
-	VCMonoRuntime::SetMethod("Gui::VCInteropGuiDraw9SliceImage",	(void*)VCInteropGuiDraw9SliceImage);
-
-	VCMonoRuntime::SetMethod("Font::VCInteropGuiDrawText",			(void*)VCInteropGuiDrawText);
-	VCMonoRuntime::SetMethod("Font::VCInteropGuiGetTextMetrics",	(void*)VCInteropGuiGetTextMetrics);
 }
 
 void VCInteropGuiSetScale( float scale )
@@ -77,22 +60,22 @@ void VCInteropGuiAddVerticie( GuiRectVerticie vert )
 	VCGui::Instance->Geometry.AddQuad(vert, VCGui::Instance->DepthStep++);
 }
 
-void VCInteropGuiDrawText(int font,VCMonoStringPtr text, VCPoint point, vcint4 color)
+void VCInteropGuiDrawText(int font,char* text, VCPoint point, vcint4 color)
 {
-	VCGui::Instance->Text.DrawText(font, VCMonoString(text), point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
+	VCGui::Instance->Text.DrawText(font, text, point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
 }
 
-void VCInteropGuiGetTextMetrics(int font, VCMonoStringPtr text, VCTextMetrics* metrics)
+void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics)
 {
-	*metrics = VCLexicalEngine::Instance->GetMetrics(font, VCMonoString(text));
+	*metrics = VCLexicalEngine::Instance->GetMetrics(font, text);
 }
 
-void VCInteropGuiDrawImage( VCMonoStringPtr path, VCRectangle frame )
+void VCInteropGuiDrawImage( char* path, VCRectangle frame )
 {
-	VCGui::Instance->ImageBuilder.DrawImage(VCMonoString(path), frame, VCGui::Instance->DepthStep++);
+	VCGui::Instance->ImageBuilder.DrawImage(path, frame, VCGui::Instance->DepthStep++);
 }
 
-void VCInteropGuiDraw9SliceImage( VCMonoStringPtr path, VCRectangle frame, int pizelOffset, float padding )
+void VCInteropGuiDraw9SliceImage( char* path, VCRectangle frame, int pizelOffset, float padding )
 {
-	VCGui::Instance->ImageBuilder.Draw9SliceImage(VCMonoString(path), frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+	VCGui::Instance->ImageBuilder.Draw9SliceImage(path, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }

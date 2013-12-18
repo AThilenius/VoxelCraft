@@ -16,7 +16,6 @@
 #include "VCIChunkGenerator.h"
 #include "VCPhysics.h"
 #include "VCObjectStore.h"
-#include "VCMonoRuntime.h"
 #include "VCCamera.h"
 
 float IntBound ( float s, float ds )
@@ -317,25 +316,6 @@ void VCWorld::Load( std::ifstream& stream )
 	}}}
 }
 
-// =====   Interop   ======================================================
-void VCWorld::RegisterMonoHandlers()
-{
-	VCMonoRuntime::SetMethod("World::VCInteropNewWorld",					(void*)VCInteropNewWorld);
-	VCMonoRuntime::SetMethod("World::VCInteropReleaseWorld",				(void*)VCInteropReleaseWorld);
-
-	VCMonoRuntime::SetMethod("World::VCInteropWorldGetCamera",				(void*)VCInteropWorldGetCamera);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldGetBlock",				(void*)VCInteropWorldGetBlock);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSetBlock",				(void*)VCInteropWorldSetBlock);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSetViewDist",			(void*)VCInteropWorldSetViewDist);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldInitializeEmpty",		(void*)VCInteropWorldInitializeEmpty);
-	
-	VCMonoRuntime::SetMethod("World::VCInteropWorldSaveToFile",				(void*)VCInteropWorldSaveToFile);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldLoadFromFile",			(void*)VCInteropWorldLoadFromFile);
-	
-	VCMonoRuntime::SetMethod("World::VCInteropWorldRebuild",				(void*)VCInteropWorldRebuild);
-	VCMonoRuntime::SetMethod("World::VCInteropWorldRaycast",				(void*)VCInteropWorldRaycast);
-}
-
 int VCInteropNewWorld()
 {
 	VCWorld* world = new VCWorld();
@@ -372,35 +352,35 @@ void VCInteropWorldRebuild( int handle, VCWorldRebuildParams params )
 	obj->Rebuild(params);
 }
 
-void VCInteropWorldSaveToFile( int handle, VCMonoStringPtr path )
+void VCInteropWorldSaveToFile( int handle, char* path )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 
 	{
-		std::ofstream ofs((char*)VCMonoString(path), std::ios::in | std::ios::binary);
+		std::ofstream ofs(path, std::ios::in | std::ios::binary);
 		obj->Save(ofs);
 	}
 
 }
 
-void VCInteropWorldLoadFromFile( int handle, VCMonoStringPtr path )
+void VCInteropWorldLoadFromFile( int handle, char* path )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 
 	{
-		std::ifstream ifs((char*)VCMonoString(path), std::ios::out | std::ios::binary);
+		std::ifstream ifs(path, std::ios::out | std::ios::binary);
 		obj->Load(ifs);
 	}
 
 }
 
-VCInteropBlock VCInteropWorldGetBlock( int handle, int x, int y, int z )
+vcint4 VCInteropWorldGetBlock( int handle, int x, int y, int z )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	return obj->GetBlock(x, y, z).AsInterop();
 }
 
-void VCInteropWorldSetBlock( int handle, int x, int y, int z, VCInteropBlock block )
+void VCInteropWorldSetBlock( int handle, int x, int y, int z, vcint4 block )
 {
 	VCWorld* obj = (VCWorld*) VCObjectStore::Instance->GetObject(handle);
 	obj->SetBlock(x, y, z, VCBlock(block));

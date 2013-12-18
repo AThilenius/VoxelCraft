@@ -64,12 +64,12 @@ VCChunk::~VCChunk(void)
 {
 	VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
 
-	if (m_VAO != 0)
-	{
-		glDeleteVertexArrays(1, &m_VAO);
-		glDeleteBuffers(1, &m_VBO);
-		m_VAO = 0;
-	}
+	//if (m_VAO != 0)
+	//{
+	//	glDeleteVertexArrays(1, &m_VAO);
+	//	glDeleteBuffers(1, &m_VBO);
+	//	m_VAO = 0;
+	//}
 }
 
 void VCChunk::Initialize()
