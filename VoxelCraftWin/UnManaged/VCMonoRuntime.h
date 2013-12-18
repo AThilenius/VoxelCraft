@@ -26,10 +26,10 @@ public:
     
     void Initalize();
     
-	//void EditorMain();
-	//void GameMain();
+	void EditorMain();
+	void GameMain();
 
-	//static VCMonoMethod* GetMonoMethod (std::string className, std::string method);
+	static VCMonoMethod* GetMonoMethod (std::string className, std::string method);
 	static void SetMethod (std::string classMethodName, const void* method);
 
 	static VCMonoRuntime* Instance;

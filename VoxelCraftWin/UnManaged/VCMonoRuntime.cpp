@@ -94,40 +94,42 @@ void VCMonoRuntime::Bind()
 	VCGLRenderer::RegisterMonoHandlers();
 	VCWindow::RegisterMonoHandlers();
 	VCWorld::RegisterMonoHandlers();
+	VCFlatGenerator::RegisterMonoHandlers();
+	VCNoiseGenerator::RegisterMonoHandlers();
 	VC3DLineDrawer::RegisterMonoHandlers();
 }
 
-//void VCMonoRuntime::EditorMain()
-//{
-//	mono_runtime_invoke(m_editorEntry, NULL, NULL, NULL);
-//}
+void VCMonoRuntime::EditorMain()
+{
+	mono_runtime_invoke(m_editorEntry, NULL, NULL, NULL);
+}
 
-//void VCMonoRuntime::GameMain()
-//{
-//	mono_runtime_invoke(m_gameEntry, NULL, NULL, NULL);
-//}
+void VCMonoRuntime::GameMain()
+{
+	mono_runtime_invoke(m_gameEntry, NULL, NULL, NULL);
+}
 
-//VCMonoMethod* VCMonoRuntime::GetMonoMethod( std::string className, std::string method )
-//{
-//	std::ostringstream oss;
-//	oss << "VCEngine.";
-//	oss << className;
-//	oss << ":";
-//	oss << method;
-//
-//	MonoClass* mClass = mono_class_from_name(m_assemblyImage, "VCEngine", className.c_str());
-//	MonoMethodDesc* mMethidDesc = mono_method_desc_new (oss.str().c_str(), true);
-//	MonoMethod* mMethod = mono_method_desc_search_in_class (mMethidDesc, mClass);
-//
-//	if(mMethod == NULL)
-//	{
-//		VC_ERROR("Failed to load managed method: " << method << " in class: " << className);
-//	}
-//
-//	return new VCMonoMethod(mMethod);
-//}
+VCMonoMethod* VCMonoRuntime::GetMonoMethod( std::string className, std::string method )
+{
+	std::ostringstream oss;
+	oss << "VCEngine.";
+	oss << className;
+	oss << ":";
+	oss << method;
+
+	MonoClass* mClass = mono_class_from_name(m_assemblyImage, "VCEngine", className.c_str());
+	MonoMethodDesc* mMethidDesc = mono_method_desc_new (oss.str().c_str(), true);
+	MonoMethod* mMethod = mono_method_desc_search_in_class (mMethidDesc, mClass);
+
+	if(mMethod == NULL)
+	{
+		VC_ERROR("Failed to load managed method: " << method << " in class: " << className);
+	}
+
+	return new VCMonoMethod(mMethod);
+}
 
 void VCMonoRuntime::SetMethod( std::string classMethodName, const void* method )
 {
-//	mono_add_internal_call(("VCEngine." + classMethodName).c_str(), method);
+	mono_add_internal_call(("VCEngine." + classMethodName).c_str(), method);
 }

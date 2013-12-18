@@ -22,17 +22,14 @@
     <ClInclude Include="UnManagedInvokes.h">
       <Filter>UnManagedToManaged</Filter>
     </ClInclude>
+    <ClInclude Include="CallbackImpl.h">
+      <Filter>ManagedToUnManaged</Filter>
+    </ClInclude>
     <ClInclude Include="Stdafx.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="CLInvokes.h">
       <Filter>UnManagedToManaged</Filter>
-    </ClInclude>
-    <ClInclude Include="CallbackHost.h">
-      <Filter>ManagedToUnManaged</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagedInvoke.h">
-      <Filter>ManagedToUnManaged</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,14 +39,14 @@
     <ClCompile Include="UnManagedInvokes.cpp">
       <Filter>UnManagedToManaged</Filter>
     </ClCompile>
+    <ClCompile Include="CallbackImpl.cpp">
+      <Filter>ManagedToUnManaged</Filter>
+    </ClCompile>
     <ClCompile Include="Stdafx.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="CallbackHost.cpp">
-      <Filter>ManagedToUnManaged</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagedInvoke.cpp">
-      <Filter>ManagedToUnManaged</Filter>
+    <ClCompile Include="CLInvokes.cpp">
+      <Filter>UnManagedToManaged</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

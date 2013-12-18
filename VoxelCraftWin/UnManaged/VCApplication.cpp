@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VCApplication.h"
-#include "VCInteropInvoke.h"
 
 VCApplication* VCApplication::Instance;
 
@@ -55,13 +54,12 @@ void VCApplication::Initialize()
 
 void VCApplication::EditorMain()
 {
-	//MonoRuntime->EditorMain();
-	VCInteropInvoke::EditorEntry();
+	MonoRuntime->EditorMain();
 }
 
 void VCApplication::GameMain()
 {
-	//MonoRuntime->GameMain();
+	MonoRuntime->GameMain();
 }
 
 void VCApplication::ShutDown()

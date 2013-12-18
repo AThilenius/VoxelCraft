@@ -1,5 +1,5 @@
 //
-//  ManagedInvokes.h
+//  CallbackImpl.h
 //  VoxelCraft
 //
 //  Created by Alec Thilenius on 12/17/13.
@@ -7,9 +7,9 @@
 //
 
 #pragma once
-
-namespace UnManagedInvokes
+ref class CallbackImpl
 {
-	void EditorEntry();
+public:
+	CallbackImpl(void);
+};
 
-}

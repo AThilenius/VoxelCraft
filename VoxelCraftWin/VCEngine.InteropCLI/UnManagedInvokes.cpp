@@ -11,8 +11,7 @@
 #include "UnManagedInvokes.h"
 #include "CLInvokes.h"
 
-#include "InvokeAPIList.h"
-
-
-#define VC_INVOKE_API(RETURNTYPE,FNAME,ARGS,NAMESONLY) RETURNTYPE NATIVE_INVOKE_##FNAME ARGS { return CLInvokes::##FNAME NAMESONLY;  }
-VC_COLLAPSED_INVOKE_API
+void EditorEntry()
+{
+	CLInvokes::EditorEntry();
+}

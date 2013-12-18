@@ -14,14 +14,6 @@
 
 #include "delegate.hpp"
 
-extern "C" __declspec(dllexport) void TestPInvoke();
-
-void TestPInvoke()
-{
-	//std::cout << "UnManaged Code! PInvoked" << std::endl;
-	printf("UnManaged Code! PInvoked");
-}
-
 int main(int argc, char** argv)
 {
 	VCApplication app;
@@ -29,6 +21,5 @@ int main(int argc, char** argv)
 	app.EditorMain();
     app.ShutDown();
 
-	std::cin.ignore();
 	return 0;
 }
