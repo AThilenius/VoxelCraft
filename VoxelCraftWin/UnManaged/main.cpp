@@ -9,9 +9,6 @@
 #include "stdafx.h"
 #include "VCApplication.h"
 
-// Debug:
-#include "VCInteropInvoke.h"
-
 #include "delegate.hpp"
 
 int main(int argc, char** argv)
