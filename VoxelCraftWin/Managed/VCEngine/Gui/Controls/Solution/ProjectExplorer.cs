@@ -17,21 +17,21 @@ namespace VCEngine
         {
             ProjectPath = path;
 
+            m_projHeader = new ProjectHeader(projName, this);
+            AddControl(m_projHeader);
+            m_projHeader.DockOrder = 0;
+            m_projHeader.Dock = Dockings.Top;
+            m_projHeader.ExpandButton.OnExpand += (s, a) => m_dirExp.Visible = true;
+            m_projHeader.ExpandButton.OnCollapse += (s, a) => m_dirExp.Visible = false;
+
             m_dirExp = new DirectoryExporer(path);
             AddControl(m_dirExp);
-            m_dirExp.DockOrder = 1;
             m_dirExp.Dock = Dockings.Fill;
             m_dirExp.OnTreeChange += m_dirExp_OnTreeChange;
             m_dirExp_OnTreeChange(m_dirExp, EventArgs.Empty);
 
             m_dirContext = new DirectoryContextMenu(m_dirExp);
             Control.MainControl.AddControl(m_dirContext);
-
-            m_projHeader = new ProjectHeader(projName, this);
-            AddControl(m_projHeader);
-            m_projHeader.Dock = Dockings.Top;
-            m_projHeader.ExpandButton.OnExpand += (s, a) => m_dirExp.Visible = true;
-            m_projHeader.ExpandButton.OnCollapse += (s, a) => m_dirExp.Visible = false;
         }
 
         private void m_dirExp_OnTreeChange(object sender, EventArgs e)

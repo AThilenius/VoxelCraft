@@ -57,6 +57,8 @@ namespace VCEngine
                     Rebuild(child);
 
                 m_needsRebuild = false;
+                Height = m_yOffset;
+                RefreshDocks();
             }
 
             base.Draw();

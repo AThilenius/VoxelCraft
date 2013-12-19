@@ -28,14 +28,11 @@ namespace VCEngine
             Text.IsEventPassthrough = true;
 
             DoubleClick += (s, a) => ExpansionButton.ToggleExpandContract();
-
-            Height = 20;
         }
 
         protected override void Draw()
         {
-            //Gui.DrawButtonAccentuated(ScreenFrame);
-            Gui.DrawRectangle(ScreenFrame, Color.ControlRed);
+            Gui.DrawButtonAccentuated(ScreenFrame);
         }
 
     }

@@ -23,46 +23,13 @@ namespace VCEngine
             }
         }
 
-        private List<Control> m_orderedChildren = new List<Control>();
+        private int m_yOffset;
 
         public override void AddControl(Control control)
         {
             base.AddControl(control);
-            m_orderedChildren.Add(control);
-            Rebuild();
-        }
-
-        public void AddControlAtIndex(int index, Control control)
-        {
-            base.AddControl(control);
-            m_orderedChildren.Insert(index, control);
-            Rebuild();
-        }
-
-        public void Rebuild()
-        {
-            int yOffset = 0;
-
-            for (int i = 0; i < m_orderedChildren.Count; i++)
-            {
-                Control ctrl = m_orderedChildren[i];
-
-                if (!ctrl.Visible)
-                    continue;
-
-                if (m_order == StackingOrder.Down)
-                    ctrl.Frame = new Rectangle(0, Frame.Height - yOffset - ctrl.Height, Width, ctrl.Height);
-
-                else
-                    ctrl.Frame = new Rectangle(0, yOffset, Width, ctrl.Height);
-
-                yOffset += ctrl.Height;
-            }
-        }
-
-        protected override void Draw()
-        {
-            Gui.DrawRectangle(ScreenFrame, Color.ControlRed);
+            control.DockOrder = m_yOffset++;
+            control.Dock = Dockings.Top;
         }
 
     }

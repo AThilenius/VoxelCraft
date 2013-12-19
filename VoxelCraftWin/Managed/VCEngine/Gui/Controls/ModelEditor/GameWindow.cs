@@ -17,12 +17,7 @@ namespace VCEngine
         private float m_speed = 20.0f;
         private Vector3 m_rot = new Vector3(0.5f, -0.2f, 0);
         private Point m_startPosition;
-        private int m_frameCount;
-
-        // Diagnostics
-        private float m_lastDeltaTime = 0.001f;
-        private int m_yOffset = 0;
-
+        
         public GameWindow(int viewDistance)
         {
             World = new World();
@@ -139,35 +134,12 @@ namespace VCEngine
             base.Draw();
             Rectangle sf = ScreenFrame;
 
-            m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * Time.DeltaTime;
-            m_yOffset = 20;
-
-            DrawText("                 Time: " + Time.TotalTimespan.Minutes + ":" + Time.TotalTimespan.Seconds.ToString("00") + (Time.TotalTimespan.TotalSeconds - (float)(int)(Time.TotalTimespan.TotalSeconds)).ToString(".0000000"), sf);
-            DrawText("   Active Frame Count: " + m_frameCount++, sf);
-            DrawText("           Frame Time: " + (int)Math.Round(m_lastDeltaTime * 1000.0f) + " ms.", sf);
-            DrawText("        Estimated FPS: " + (int)Math.Round(1.0f / m_lastDeltaTime), sf);
-            DrawText("           Resolution: " + Window.TrueSize, sf);
-            DrawText("Gui Scaled Resolution: " + Window.ScaledSize, sf);
-            DrawText("                Mouse: " + GlfwInputState.MouseLocation, sf);
-
 
             // Outline each chunk World (Should be fine to invoke from a draw call...)
             for (int x = 0; x < World.ViewDistance; x++)
                 for (int y = 0; y < World.ViewDistance; y++)
                     for (int z = 0; z < World.ViewDistance; z++)
                         World.Camera.Debug.DrawCube(new Vector3(x * 32, y * 32, z * 32), Vector3.One * 32, Color.ControlGreen);
-
-            //for (int x = 1; x < World.ViewDistance * 32; x++)
-            //    World.Camera.Debug.DrawLine(new Vector3(x, 1, 0), new Vector3(x, 1, World.ViewDistance * 32), Color.ControlGreen);
-
-            //for (int z = 1; z < World.ViewDistance * 32; z++)
-            //    World.Camera.Debug.DrawLine(new Vector3(0, 1, z), new Vector3(World.ViewDistance * 32, 1, z), Color.ControlGreen);
-        }
-
-        private void DrawText(string text, Rectangle sf)
-        {
-            Font.DrawString(text, new Point(sf.X + 5, sf.Y + sf.Height - m_yOffset), Color.White);
-            m_yOffset += 10;
         }
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)

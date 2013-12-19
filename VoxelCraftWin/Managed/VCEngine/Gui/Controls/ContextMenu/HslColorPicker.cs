@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class HslColorPicker : Control
+    public class HslColorPicker : ContextComponent
     {
         public Vector4 ColorHSL
         {
@@ -35,7 +35,7 @@ namespace VCEngine
         private Rectangle m_LuminosityFrame;
         private Rectangle m_randomFrame;
 
-        public HslColorPicker()
+        public HslColorPicker() : base ("HSL Color Picker")
         {
             m_colorRGB = new Color(255, 0, 0, 255);
             m_colorHSL = Color.RgbaToHsl(m_colorRGB);
@@ -88,12 +88,11 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Rectangle sf = new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 30);
+            Rectangle sf = new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 10);
             int delta = (int)(sf.Height / 4.0f);
 
             //Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
             Gui.DrawBackground(ScreenFrame);
-            Gui.DrawButtonAccentuated(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 20, Width, 20));
             Font.DefaultFont.DrawStringBeveled("HSL Color", new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.Black);
             Gui.Draw9Slice(@"Icons\Button.DDS", new Rectangle(sf.X, sf.Y, 40, sf.Height));
             Gui.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 5, 30, sf.Height - 10), ColorRGB);

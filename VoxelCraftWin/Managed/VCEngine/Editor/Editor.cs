@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,56 +14,57 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInitalizeApplication();
 
+        public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
+        private static Stopwatch m_cpuTimeTimer = new Stopwatch();
 
         public static void EditorMain()
         {
-            try
+            VCInteropInitalizeApplication();
+
+            VCEngineCore.EditorMode = true;
+
+            GlfwInputState.Initialize();
+            VCEngineCore.Initialize();
+            EditorGui.Initialize();
+            EditorWorld.Initialize();
+
+            VCEngineCore.Start();
+            m_cpuTimeTimer.Start();
+
+            while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
             {
-                VCInteropInitalizeApplication();
+                Window.PollEvents();
 
-                VCEngineCore.EditorMode = true;
-
-                GlfwInputState.Initialize();
-                VCEngineCore.Initialize();
-                EditorGui.Initialize();
-                EditorWorld.Initialize();
-
-                VCEngineCore.Start();
-
-                while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
+                if (m_framesRemaining == 0 && GlfwInputState.KeysDown == 0)
                 {
-                    Window.PollEvents();
-
-                    if (m_framesRemaining == 0 && GlfwInputState.KeysDown == 0)
-                    {
-                        Time.Pause();
-                        Thread.Sleep(17);
-                        continue;
-                    }
-
-                    Time.Resume();
-                    m_framesRemaining--;
-
-                    Control.MainControl.PropagateUpdate();
-                    VCEngineCore.PropagateUpdates();
-
-                    Control.MainControl.Render();
-                    TestFixture.LatePerUpdate();
-
-                    // Rendering
-                    GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
-
-                    // Step Input states & swap buffers
-                    GlfwInputState.StepStates();
-                    Window.SwapBuffers();
+                    Time.Pause();
+                    m_cpuTimeTimer.Stop();
+                    Thread.Sleep(17);
+                    continue;
                 }
-            }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine("Managed Exception: " + ex.Message);
-                Console.ReadLine();
+                Time.Resume();
+                m_cpuTimeTimer.Start();
+                m_framesRemaining--;
+
+                Control.MainControl.PropagateUpdate();
+                VCEngineCore.PropagateUpdates();
+
+                Control.MainControl.Render();
+                TestFixture.LatePerUpdate();
+
+                // Rendering
+                GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
+
+                // Step Input states & swap buffers
+                GlfwInputState.StepStates();
+                LastCPUTime = m_cpuTimeTimer.Elapsed;
+                m_cpuTimeTimer.Reset();
+
+                Window.SwapBuffers();
+
+                m_cpuTimeTimer.Start();
             }
         }
 

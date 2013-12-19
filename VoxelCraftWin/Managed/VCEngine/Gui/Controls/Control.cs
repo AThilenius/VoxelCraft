@@ -131,16 +131,15 @@ namespace VCEngine
                 }
                 
                 // Recursively update children docks in ascending order
-                //m_remainingDockFrame = new Rectangle(Margin.Left, Margin.Bottom, m_frame.Width - (Margin.Left + Margin.Right), m_frame.Height - (Margin.Bottom + Margin.Top));
                 m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
 
                 foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
-                    if (child.Dock != Dockings.None)
+                    if (child.Dock != Dockings.None && child.Visible)
                         child.Frame = child.Frame;
 
                 // Suppress possible infinite recursion
-                if (args.From != args.To)
-                    Resize(this, args);
+                //if (args.From != args.To)
+                Resize(this, args);
             }
         }
         public Point            Location
@@ -301,7 +300,7 @@ namespace VCEngine
                 control.Parent.RemoveControl(control);
 
             // Force an update
-            Frame = Frame;
+            //Frame = Frame;
             
             ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = this };
             control.Parent = this;
@@ -316,6 +315,23 @@ namespace VCEngine
             ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = control.Parent, NewParent = null };
             control.Parent = null;
             control.ParentChanged(this, args);
+        }
+
+        public virtual void RemoveAllControls()
+        {
+            foreach (Control ctrl in Children)
+            {
+                ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = ctrl.Parent, NewParent = null };
+                ctrl.Parent = null;
+                ctrl.ParentChanged(this, args);
+            }
+
+            Children.Clear();
+        }
+
+        public static void RefreshDocks()
+        {
+            Control.MainControl.Frame = Control.MainControl.Frame;
         }
 
         public void Focus()

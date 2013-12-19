@@ -12,7 +12,10 @@ namespace VCEngine
             PushButton,
             HighlightedButton,
             MenuButton,
-            ImageButton
+            ImageButton,
+            TriButtonLeft,
+            TriButtonRight,
+            TriButtonCenter
         }
 
         public Label Text;

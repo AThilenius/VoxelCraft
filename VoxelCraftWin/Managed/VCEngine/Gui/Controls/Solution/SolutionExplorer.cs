@@ -15,7 +15,6 @@ namespace VCEngine
             m_project = new ProjectExplorer(name, path);
             AddControl(m_project);
             m_project.Dock = Dockings.Fill;
-            m_project.Frame = m_project.Frame;
         }
 
         protected override void Draw()

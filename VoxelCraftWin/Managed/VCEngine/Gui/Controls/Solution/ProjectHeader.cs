@@ -28,15 +28,9 @@ namespace VCEngine
             Text.IsEventPassthrough = true;
             Text.Dock = Dockings.Fill;
             Text.TextAlignment = Label.TextAlignments.Center;
-            Frame = new Rectangle(0, 0, 0, 40);
             DoubleClick += (s, a) => ExpandButton.ToggleExpandContract();
 
-            //ExplorerButton = new Button("");
-            //AddControl(ExplorerButton);
-            ////ExplorerButton.GuiStyle = Button.Style.ImageButton;
-            //ExplorerButton.ImagePath = @"Icons\Play.DDS";
-            //ExplorerButton.Frame = new Rectangle(Width - 30, 10, 20, 20);
-            //ExplorerButton.Click += (s, a) => Process.Start("explorer.exe", project.ProjectPath);
+            Height = 40;
         }
 
         protected override void Draw()
