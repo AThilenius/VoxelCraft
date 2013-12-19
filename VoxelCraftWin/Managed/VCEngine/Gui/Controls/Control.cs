@@ -71,8 +71,6 @@ namespace VCEngine
                 // Take the docked area from the Parent's remaining area to allow docking priorities
                 if (Parent != null)
                 {
-                    // ===  Horizontal  ==========================================================
-
                     if (Dock == Dockings.Left)
                     {
                         m_frame.X = Parent.m_remainingDockFrame.X;
@@ -134,7 +132,7 @@ namespace VCEngine
                 m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
 
                 foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
-                    if (child.Dock != Dockings.None && child.Visible)
+                    if (child.Visible)
                         child.Frame = child.Frame;
 
                 // Suppress possible infinite recursion

@@ -20,8 +20,6 @@ namespace VCEngine
             HudLabel = new Label("VoxelCraft Beta 0.0.1 Thilenius | Cragg");
             AddControl(HudLabel);
             HudLabel.Font = VCEngine.Font.GetFont(HudLabel.Font.Name, 16, true);
-            HudLabel.Height += 5;
-            HudLabel.Dock = Dockings.Top;
 
             m_fontConsolas = Font.GetFont("Consolas", 12);
         }
@@ -31,6 +29,8 @@ namespace VCEngine
             Rectangle sf = ScreenFrame;
 
             Gui.Draw9Slice(@"Icons\Hud.DDS", sf, 10, 0.17f);
+
+            HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 
             m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * (float)Editor.LastCPUTime.TotalSeconds;
             m_yOffset = 35;

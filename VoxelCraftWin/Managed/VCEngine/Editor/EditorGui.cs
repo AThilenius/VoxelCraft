@@ -44,8 +44,8 @@ namespace VCEngine
             Control.MainControl.AddControl(RightContextMenu);
 
             RightContextMenu.DockOrder = 1;
-            RightContextMenu.Dock = Control.Dockings.Right;
-            RightContextMenu.Width = 250;
+            //RightContextMenu.Dock = Control.Dockings.Right;
+            RightContextMenu.Frame = new Rectangle(Window.ScaledSize.X - 250, 0, 250, Window.ScaledSize.Y - 75);
 
             // Tools
             ToolMenu = new Tools();
@@ -62,9 +62,9 @@ namespace VCEngine
             SolutionEx = new SolutionExplorer();
             Control.MainControl.AddControl(SolutionEx);
             SolutionEx.DockOrder = 2;
-            SolutionEx.Dock = Control.Dockings.Left;
+            //SolutionEx.Dock = Control.Dockings.Left;
             SolutionEx.AddProject("Love Monkey Game", PathUtilities.AssetsPath);
-            SolutionEx.Frame = new Rectangle(0, 0, 250, 0);
+            SolutionEx.Frame = new Rectangle(0, 0, 250, Window.ScaledSize.Y - 75);
         }
 
         private static void CreateEditorWindow()
@@ -74,7 +74,7 @@ namespace VCEngine
             Control.MainControl.AddControl(EditorWindow);
             EditorWorld.MasterGameWindow = EditorWindow;
             EditorWindow.DockOrder = 3;
-            EditorWindow.Dock = Control.Dockings.Fill;
+            //EditorWindow.Dock = Control.Dockings.Fill;
             EditorWindow.Frame = EditorWindow.Frame;
         }
 

@@ -22,6 +22,7 @@
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "SOIL.lib")
+#pragma comment(lib, "assimp.lib")
 
 // STD
 #include <exception>

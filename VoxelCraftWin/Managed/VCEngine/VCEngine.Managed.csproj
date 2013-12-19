@@ -128,6 +128,14 @@
     <Compile Include="MainEntry.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
+    <Compile Include="Utilities\Types\Color.cs" />
+    <Compile Include="Utilities\Types\IAnimatable.cs" />
+    <Compile Include="Utilities\Types\Location.cs" />
+    <Compile Include="Utilities\Types\Point.cs" />
+    <Compile Include="Utilities\Types\PointF.cs" />
+    <Compile Include="Utilities\Types\Rectangle.cs" />
+    <Compile Include="Utilities\Types\RectangleF.cs" />
+    <Compile Include="Utilities\ValueAnimator.cs" />
     <Compile Include="Utilities\VC3DLineDrawer.cs" />
     <Compile Include="Utilities\TrinaryStateTracker.cs" />
     <Compile Include="Voxel\FlatChunkGenerator.cs" />
@@ -157,7 +165,6 @@
     <Compile Include="Utilities\Collections\ObservableHashSet.cs" />
     <Compile Include="Utilities\Collections\ObservableList.cs" />
     <Compile Include="Utilities\Time.cs" />
-    <Compile Include="Utilities\Types\VCTypes.cs" />
     <Compile Include="VCEngineCore.cs" />
     <Compile Include="Utilities\Types\Vector3.cs" />
     <Compile Include="Utilities\MathHelper.cs" />

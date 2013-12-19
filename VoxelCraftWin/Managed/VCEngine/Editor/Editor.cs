@@ -16,6 +16,7 @@ namespace VCEngine
 
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
+        private static float m_drawTillTime;
         private static Stopwatch m_cpuTimeTimer = new Stopwatch();
 
         public static void EditorMain()
@@ -36,7 +37,7 @@ namespace VCEngine
             {
                 Window.PollEvents();
 
-                if (m_framesRemaining == 0 && GlfwInputState.KeysDown == 0)
+                if (m_framesRemaining <= 0 && GlfwInputState.KeysDown == 0 && Time.TotalTime > m_drawTillTime)
                 {
                     Time.Pause();
                     m_cpuTimeTimer.Stop();
@@ -71,6 +72,13 @@ namespace VCEngine
         public static void ShouldRedraw()
         {
             m_framesRemaining = 3;
+        }
+
+        public static void ShouldRedraw(float time)
+        {
+            // 0.5 Second buffer
+            if ( (Time.TotalTime + time + 0.5f) > m_drawTillTime)
+                m_drawTillTime = Time.TotalTime + time + 0.5f;
         }
 
     }
