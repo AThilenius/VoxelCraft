@@ -8,16 +8,7 @@
 
 #include "stdafx.h"
 #include "VCGLRenderer.h"
-
-#include "VCShadowShader.h"
-#include "VCTexturePassThroughShader.h"
-#include "VCLexShader.h"
-#include "VCGuiShader.h"
-#include "VCColorPassThroughShader.h"
-#include "VCTerrainConstructionShader.h"
-#include "VCTerrianFeedbackShader.h"
-#include "VCVoxelFallbackShader.h"
-
+#include "VCShader.h"
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
 #include "VCSceneGraph.h"
@@ -57,30 +48,6 @@ void VCGLRenderer::Initialize()
 	glEnable(GL_CULL_FACE);
 
 	CreateDepthFrameBuffer();
-
-	ShadowShader = new VCShadowShader();
-	ShadowShader->Initialize();
-
-	LexShader = new VCLexShader();
-	LexShader->Initialize();
-
-	TexturePassthroughShader = new VCTexturePassThroughShader();
-	TexturePassthroughShader->Initialize();
-
-	GuiShader = new VCGuiShader();
-	GuiShader->Initialize();
-
-	ColorPassThroughShader = new VCColorPassThroughShader();
-	ColorPassThroughShader->Initialize();
-
-	//TerrainConstructionShader = new VCTerrainConstructionShader();
-	//TerrainConstructionShader->Initialize();
-
-	//TerrainFeedbackShader = new VCTerrianFeedbackShader();
-	//TerrainFeedbackShader->Initialize();
-
-	VoxelFallbackShader = new VCVoxelFallbackShader();
-	VoxelFallbackShader->Initialize();
 
     glErrorCheck();
     std::cout << "VCGLRenderer Initialized" << std::endl;

@@ -8,14 +8,6 @@
 
 #pragma once
 
-class VCShadowShader;
-class VCTexturePassThroughShader;
-class VCLexShader;
-class VCGuiShader;
-class VCColorPassThroughShader;
-class VCTerrainConstructionShader;
-class VCTerrianFeedbackShader;
-class VCVoxelFallbackShader;
 class VCRenderStage;
 
 struct _VCRenderStageCompare 
@@ -42,14 +34,6 @@ public:
 	static VCGLRenderer* Instance;
 
 	// Member
-	VCShadowShader* ShadowShader;
-	VCTexturePassThroughShader* TexturePassthroughShader;
-	VCLexShader* LexShader;
-	VCGuiShader* GuiShader;
-	VCColorPassThroughShader* ColorPassThroughShader;
-	//VCTerrainConstructionShader* TerrainConstructionShader;
-	//VCTerrianFeedbackShader* TerrainFeedbackShader;
-	VCVoxelFallbackShader* VoxelFallbackShader;
 	bool ShadowFallback;
 
 	GLuint DefaultFrameBuffer;

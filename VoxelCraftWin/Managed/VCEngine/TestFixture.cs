@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,24 +13,34 @@ namespace VCEngine
 
         internal static void OnStart()
         {
-            //ContextMenu menu = new ContextMenu();
-            //Control.MainControl.AddControl(menu);
-            //menu.Frame = new Rectangle(400, 400, 300, 0);
+            String vert = 
+@"
+This is some
+multi line
+{
+    test code with
+    variable indentation
+}
+";
+            //Shader testShader = new Shader { Name = "ShaderName", VertexShader = vert, FragmentShader = vert };
 
-            //Label lab2 = new Label("Test Item 2");
+            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Position0, Name = "PositionIn" });
+            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Color0, Name = "ColorIn" });
+            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Normal0, Name = "NormalIn" });
 
-            //menu.AddControl(new Label("Test Item 1"));
-            //menu.AddControl(lab2);
-            //menu.AddControl(new Label("Test Item 3"));
-            //menu.AddControl(new Label("Test Item 4"));
+            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Matrix4, Name = "InverseLightMatrix" });
+            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Sampler2D, Name = "DiffuseTexture" });
+            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Sampler2D, Name = "NormalTexture" });
 
-            //lab2.Height = 50;
+            //using (TextWriter writer = new StreamWriter(@"JsonOutput.txt"))
+            //{
+            //    writer.Write(JsonConvert.SerializeObject(testShader, Formatting.Indented));
+            //}
 
-            //ContextComponent cc = new ContextComponent("Test Context");
-            //Label test = new Label("...Test...");
-            //cc.Content.AddControl(test);
-
-            //menu.AddControl(cc);
+            //using (TextReader reader = new StreamReader(@"JsonOutput.txt"))
+            //{
+            //    Shader shader = JsonConvert.DeserializeObject<Shader>(reader.ReadToEnd());
+            //}
         }
 
         public static void PerUpdate()

@@ -115,42 +115,69 @@ namespace VCEngine
                 case ToggleStyle.TriLeft:
                     if (IsDepressed)
                     {
-                        Text.FontColor = Color.White;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
+                        if (m_group.Count == 0)
+                        {
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
+                        }
+
+                        else
+                        {
+                            Text.FontColor = Color.White;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftHightlight.DDS", ScreenFrame);
+                        }
                     }
 
                     else
                     {
-                        Text.FontColor = Color.Black;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
                 case ToggleStyle.TriCenter:
                     if (IsDepressed)
                     {
-                        Text.FontColor = Color.White;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
+                        if (m_group.Count == 0)
+                        {
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
+                        }
+
+                        else
+                        {
+                            Text.FontColor = Color.White;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterHightlight.DDS", ScreenFrame);
+                        }
                     }
 
                     else
                     {
-                        Text.FontColor = Color.Black;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
                 case ToggleStyle.TriRight:
                     if (IsDepressed)
                     {
-                        Text.FontColor = Color.White;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
+                        if (m_group.Count == 0)
+                        {
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
+                        }
+
+                        else
+                        {
+                            Text.FontColor = Color.White;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonRightHightlight.DDS", ScreenFrame);
+                        }
                     }
 
                     else
                     {
-                        Text.FontColor = Color.Black;
-                        Gui.Draw9Slice(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
+                            Text.FontColor = Color.Black;
+                            Gui.Draw9Slice(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
                     }
 
                     break;

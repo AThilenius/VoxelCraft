@@ -70,6 +70,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AssimpNet">
+      <HintPath>..\..\Libs\NetLibs\AssimpNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Libs\NetLibs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +132,9 @@
     <Compile Include="Gui\Undo\IUndoToken.cs" />
     <Compile Include="Gui\Undo\UndoStack.cs" />
     <Compile Include="MainEntry.cs" />
+    <Compile Include="Rendering\Shader\Shader.cs" />
+    <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
+    <Compile Include="Rendering\Shader\ShaderUniform.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
     <Compile Include="Utilities\Types\Color.cs" />

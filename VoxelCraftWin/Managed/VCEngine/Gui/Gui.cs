@@ -88,7 +88,7 @@ namespace VCEngine
 
         static Gui()
         {
-            Scale = 1.5f;
+            Scale = Window.MonitorSize.X > 1920 ? 1.5f : 1.0f;
             Window.TrueSize = Window.TrueSize * Scale;
         }
 

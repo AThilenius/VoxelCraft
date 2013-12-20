@@ -18,14 +18,18 @@ namespace VCEngine
             m_leftAnimator = new ValueAnimator<Point>(new Point(0, 0));
             m_rightAnimator = new ValueAnimator<Point>(new Point(Window.ScaledSize.X - 250, 0));
 
-            m_left = new ToggleButton("Left");
+            m_left = new ToggleButton(" ");
+            m_left.ImagePath = @"Icons\LeftPane.DDS";
+            m_left.Width = 30;
             m_left.Style = ToggleButton.ToggleStyle.TriLeft;
             m_left.IsDepressed = true;
             m_left.OnRelease += (s, a) => m_leftAnimator = new ValueAnimator<Point>(new Point(0, 0), new Point(-250, 0), 0.25f);
             m_left.OnDepressed += (s, a) => m_leftAnimator = new ValueAnimator<Point>(new Point(-250, 0), new Point(0, 0), 0.25f);
             AddControl(m_left);
 
-            m_right = new ToggleButton("Right");
+            m_right = new ToggleButton(" ");
+            m_right.Width = 30;
+            m_right.ImagePath = @"Icons\RightPane.DDS";
             m_right.Style = ToggleButton.ToggleStyle.TriRight;
             m_right.IsDepressed = true;
             m_right.OnRelease += (s, a) => m_rightAnimator = new ValueAnimator<Point>(new Point(Window.ScaledSize.X - 250, 0), new Point(Window.ScaledSize.X, 0), 0.25f);
