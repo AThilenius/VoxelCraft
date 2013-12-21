@@ -12,7 +12,25 @@ namespace VCEngine
     public class Editor
     {
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeApplication();
+        extern static void VCInteropInitalizeWindow();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeObjectStore();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeInput();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeRenderer();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeLexEngine();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeGui();
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropInitalizeSceneGraph();
 
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
@@ -21,7 +39,14 @@ namespace VCEngine
 
         public static void EditorMain()
         {
-            VCInteropInitalizeApplication();
+            VCInteropInitalizeWindow();
+            VCInteropInitalizeObjectStore();
+            VCInteropInitalizeInput();
+            VCInteropInitalizeRenderer();
+            Shader.LoadAllShaders();
+            VCInteropInitalizeLexEngine();
+            VCInteropInitalizeGui();
+            VCInteropInitalizeSceneGraph();
 
             VCEngineCore.EditorMode = true;
 

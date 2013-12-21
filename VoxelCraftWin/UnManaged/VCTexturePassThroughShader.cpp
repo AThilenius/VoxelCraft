@@ -41,8 +41,8 @@
 //
 //void VCTexturePassThroughShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "Position");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_TEX_COORD_0, "UV");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "Position");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::TexCoord0, "UV");
 //
 //	glErrorCheck();
 //}

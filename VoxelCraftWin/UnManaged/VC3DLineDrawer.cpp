@@ -13,6 +13,8 @@
 #include "VCRenderStage.h"
 #include "VCCamera.h"
 #include "VCColorPassThroughShader.h"
+#include "VCGui.h"
+#include "VCWindow.h"
 
 LineVerticie::LineVerticie():
 	Position(glm::vec3()),
@@ -50,7 +52,7 @@ void VC3DLineDrawer::Initialize()
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VC3DLineDrawer, &VC3DLineDrawer::Render>(this));
 	m_renderStage->Camera = m_camera;
-	m_renderStage->Shader = VCGLRenderer::Instance->ColorPassThroughShader;
+	m_renderStage->Shader = VCShader::GetShader("ColorPassThrough");
 	m_renderStage->ExectionType = VCRenderStage::Always;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
@@ -65,11 +67,11 @@ void VC3DLineDrawer::Initialize()
 	ZERO_CHECK(m_VBO);
 
 	// Bind Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+	glEnableVertexAttribArray(VCShaderAttribute::Position0);
+	glEnableVertexAttribArray(VCShaderAttribute::Color0);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
+	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
+	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
 
 	glBindVertexArray(0);
 }
@@ -95,7 +97,7 @@ void VC3DLineDrawer::Render()
 	if (m_lineVertCount == 0)
 		return;
 
-	VCGLRenderer::Instance->SetModelMatrix(glm::mat4());
+	VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * m_lineVertCount, m_lineVerts , GL_STREAM_DRAW);

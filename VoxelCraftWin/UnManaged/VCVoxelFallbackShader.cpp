@@ -45,9 +45,9 @@
 //
 //void VCVoxelFallbackShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "position");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_NORMAL, "normal");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_COLOR, "color");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "position");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Normal0, "normal");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Color0, "color");
 //
 //	glErrorCheck();
 //}

@@ -51,7 +51,7 @@
 //
 //void VCShadowShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "vertexPosition_modelspace");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "vertexPosition_modelspace");
 //
 //	glErrorCheck();
 //}

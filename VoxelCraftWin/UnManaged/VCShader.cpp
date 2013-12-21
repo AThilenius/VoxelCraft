@@ -11,7 +11,6 @@
 #include "VCObjectStore.h"
 
 VCShader* VCShader::BoundShader = NULL;
-VCCamera* VCShader::BoundCamera = NULL;
 std::unordered_map<std::string, VCShader*> VCShader::LoadedShaders;
 
 VCShaderAttribute::VCShaderAttribute(int id, std::string name):
@@ -46,8 +45,8 @@ VCShader::~VCShader()
 {
 	if ( m_programId != 0 )
 	{
-		glDeleteProgram(m_programId);
-		m_programId = 0;
+		/*glDeleteProgram(m_programId);
+		m_programId = 0;*/
 
 		LoadedShaders.erase(Name);
 	}
@@ -312,7 +311,7 @@ bool operator>=( const VCShader& lhs, const VCShader& rhs )
 	return !operator< (lhs,rhs);
 }
 
-int VCInteropShaderNew( char* name, char* vertShader, char* geometryShader, char* fragmentShader )
+int VCInteropShaderNew()
 {
 	VCShader* shader = new VCShader();
 
@@ -355,43 +354,43 @@ void VCInteropShaderCompile( int handle )
 	shader->Compile();
 }
 
-void VCInteropShaderSetUniform(int handle, int index, int value)
+void VCInteropShaderSetUniformInt(int handle, int index, int value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, float value)
+void VCInteropShaderSetUniformFloat(int handle, int index, float value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, glm::vec2 value)
+void VCInteropShaderSetUniformVec2(int handle, int index, glm::vec2 value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, glm::vec3 value)
+void VCInteropShaderSetUniformVec3(int handle, int index, glm::vec3 value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, glm::vec4 value)
+void VCInteropShaderSetUniformVec4(int handle, int index, glm::vec4 value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, glm::mat3 value)
+void VCInteropShaderSetUniformMat3(int handle, int index, glm::mat3 value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);
 }
 
-void VCInteropShaderSetUniform(int handle, int index, glm::mat4 value)
+void VCInteropShaderSetUniformMat4(int handle, int index, glm::mat4 value)
 {
 	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
 	shader->SetUniform(index, value);

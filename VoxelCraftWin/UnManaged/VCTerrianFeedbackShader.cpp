@@ -41,9 +41,9 @@
 //
 //void VCTerrianFeedbackShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "positionIn");
-//	//glBindAttribLocation(m_programId, VC_ATTRIBUTE_NORMAL, "normalIn");
-//	//glBindAttribLocation(m_programId, VC_ATTRIBUTE_COLOR, "colorIn");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "positionIn");
+//	//glBindAttribLocation(m_programId, VCShaderAttribute::Normal0, "normalIn");
+//	//glBindAttribLocation(m_programId, VCShaderAttribute::Color0, "colorIn");
 //	
 //	glErrorCheck();
 //}

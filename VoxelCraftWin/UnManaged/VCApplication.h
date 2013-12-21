@@ -22,15 +22,13 @@ class VCApplication
 public:
 	VCApplication(void);
 	~VCApplication(void);
-	virtual void Initialize();
     virtual void ShutDown();
 
 public:
     VCWindow* Window;
-	VCGLRenderer* Renderer;
     VCSceneGraph* SceneGraph;
     VCInput* Input;
-    VCTime* Time;
+	VCGLRenderer* Renderer;
     VCObjectStore* ObjectStore;
 	VCLexicalEngine* LexEngine;
 	VCGui* Gui;
@@ -38,4 +36,10 @@ public:
     static VCApplication* Instance;
 };
 
-DLL_EXPORT_API void VCInteropInitalizeApplication();
+DLL_EXPORT_API void VCInteropInitalizeWindow();
+DLL_EXPORT_API void VCInteropInitalizeObjectStore();
+DLL_EXPORT_API void VCInteropInitalizeInput();
+DLL_EXPORT_API void VCInteropInitalizeRenderer();
+DLL_EXPORT_API void VCInteropInitalizeLexEngine();
+DLL_EXPORT_API void VCInteropInitalizeGui();
+DLL_EXPORT_API void VCInteropInitalizeSceneGraph();

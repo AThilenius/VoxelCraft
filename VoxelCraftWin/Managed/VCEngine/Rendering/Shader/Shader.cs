@@ -30,27 +30,28 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropShaderCompile(int handle);
 
-        
+
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, int value);
-        
+        extern static void VCInteropShaderSetUniformInt(int handle, int index, int value);
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, float value);
-        
+        extern static void VCInteropShaderSetUniformFloat(int handle, int index, float value);
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, Vector2 value);
-        
+        extern static void VCInteropShaderSetUniformVec2(int handle, int index, Vector2 value);
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, Vector3 value);
-        
+        extern static void VCInteropShaderSetUniformVec3(int handle, int index, Vector3 value);
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, Vector4 value);
-        
+        extern static void VCInteropShaderSetUniformVec4(int handle, int index, Vector4 value);
+
         //[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        //extern static void VCInteropShaderSetUniform(int handle, int index, Matrix3 value);
-        
+        //extern static void VCInteropShaderSetUniformMat3(int handle, int index, Matrix3 value);
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropShaderSetUniform(int handle, int index, Matrix4 value);
+        extern static void VCInteropShaderSetUniformMat4(int handle, int index, Matrix4 value);
 
         protected override MarshaledObject.UnManagedCTorDelegate UnManagedCTor { get { return VCInteropShaderNew; } }
         protected override MarshaledObject.UnManagedDTorDelegate UnManagedDTor { get { return VCInteropShaderRelease; } }
@@ -69,7 +70,7 @@ namespace VCEngine
         public static Shader LoadFromFile (String name)
         {
             Shader shader = new Shader();
-            using (TextReader reader = new StreamReader(@"JsonOutput.txt"))
+            using (TextReader reader = new StreamReader(name))
                 JsonConvert.PopulateObject(reader.ReadToEnd(), shader);
 
             VCInteropShaderSetStrings(shader.UnManagedHandle, shader.Name, shader.VertexShader, shader.GeometryShader, shader.FragmentShader);
@@ -91,9 +92,39 @@ namespace VCEngine
 
             foreach (FileInfo info in (new DirectoryInfo(PathUtilities.ShadersPath)).GetFiles())
                 if (info.Extension == ".vcshader")
-                    shaders.Add(LoadFromFile(info.Name));
+                    shaders.Add(LoadFromFile(info.FullName));
 
             return shaders.ToArray();
+        }
+
+        public void SetUniform(int index, int value)
+        {
+            VCInteropShaderSetUniformInt(UnManagedHandle, index, value);
+        }
+
+        public void SetUniform(int index, float value)
+        {
+            VCInteropShaderSetUniformFloat(UnManagedHandle, index, value);
+        }
+
+        public void SetUniform(int index, Vector2 value)
+        {
+            VCInteropShaderSetUniformVec2(UnManagedHandle, index, value);
+        }
+
+        public void SetUniform(int index, Vector3 value)
+        {
+            VCInteropShaderSetUniformVec3(UnManagedHandle, index, value);
+        }
+
+        public void SetUniform(int index, Vector4 value)
+        {
+            VCInteropShaderSetUniformVec4(UnManagedHandle, index, value);
+        }
+
+        public void SetUniform(int index, Matrix4 value)
+        {
+            VCInteropShaderSetUniformMat4(UnManagedHandle, index, value);
         }
 
     }

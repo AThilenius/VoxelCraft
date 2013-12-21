@@ -68,7 +68,6 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 	{
 		// Framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
-		glErrorCheck();
 
 		// Viewport
 		if (toState->Camera == NULL)
@@ -77,30 +76,28 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		else
 			glViewport(toState->Camera->Viewport.X, toState->Camera->Viewport.Y, toState->Camera->Viewport.Width, toState->Camera->Viewport.Height);
 
-		glErrorCheck();
+		// Camera
+		VCCamera::BoundCamera = toState->Camera;
 
 		// Shader
-		toState->Shader->Bind(toState->Camera);
-		glErrorCheck();
+		toState->Shader->Bind();
 
 		// Texture
 		if (toState->Texture != VCTexturePtr(NULL))
 			toState->Texture->Bind(0);
-		glErrorCheck();
 
 		// DepthTest
 		if (toState->DepthTest)
 			glEnable(GL_DEPTH_TEST);
 		else
 			glDisable(GL_DEPTH_TEST);
-		glErrorCheck();
 
 		// Blend
 		if (toState->Blend)
 			glEnable(GL_BLEND);
 		else
 			glDisable(GL_BLEND);
-		glErrorCheck();
+
 	}
 
 	// Transition fromState -> toState
@@ -109,7 +106,6 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		// Framebuffer
 		if (fromState->FrameBuffer != toState->FrameBuffer)
 			glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
-		glErrorCheck();
 
 		// Viewport
 		static VCRectangle lastViewport;
@@ -124,16 +120,16 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			lastViewport = toState->Camera->Viewport;
 			glViewport(toState->Camera->Viewport.X, toState->Camera->Viewport.Y, toState->Camera->Viewport.Width, toState->Camera->Viewport.Height);
 		}
-		glErrorCheck();
+
+		// Camera
+		VCCamera::BoundCamera = toState->Camera;
 
 		// Shader
-		toState->Shader->Bind(toState->Camera);
-		glErrorCheck();
+		toState->Shader->Bind();
 
 		// Texture
 		if (toState->Texture != VCTexturePtr(NULL))
 			toState->Texture->Bind(0);
-		glErrorCheck();
 
 		// DepthTest
 		if (fromState->DepthTest != toState->DepthTest)
@@ -141,7 +137,6 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			if(toState->DepthTest)	glEnable(GL_DEPTH_TEST);
 			else					glDisable(GL_DEPTH_TEST);
 		}
-		glErrorCheck();
 
 		// Blend
 		if (fromState->Blend != toState->Blend)
@@ -149,7 +144,6 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			if (toState->Blend)	glEnable(GL_BLEND);
 			else				glDisable(GL_BLEND);
 		}
-		glErrorCheck();
 	}
 
 	// Execute

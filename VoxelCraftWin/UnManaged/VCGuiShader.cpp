@@ -41,8 +41,8 @@
 //
 //void VCGuiShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "Position");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_COLOR, "Color");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "Position");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Color0, "Color");
 //
 //	glErrorCheck();
 //}

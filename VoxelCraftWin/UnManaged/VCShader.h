@@ -114,7 +114,6 @@ protected:
 
 public:
 	static VCShader* BoundShader;
-	static VCCamera* BoundCamera;
 	static std::unordered_map<std::string, VCShader*> LoadedShaders;
 
 	std::string Name;
@@ -143,10 +142,10 @@ DLL_EXPORT_API void VCInteropShaderAddAttribute(int handle, int id, char* name);
 DLL_EXPORT_API void VCInteropShaderAddUniform(int handle, int typeId, char* name);
 DLL_EXPORT_API void VCInteropShaderCompile(int handle);
 
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, int value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, float value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, glm::vec2 value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, glm::vec3 value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, glm::vec4 value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, glm::mat3 value);
-DLL_EXPORT_API void VCInteropShaderSetUniform(int handle, int index, glm::mat4 value);
+DLL_EXPORT_API void VCInteropShaderSetUniformInt(int handle, int index, int value);
+DLL_EXPORT_API void VCInteropShaderSetUniformFloat(int handle, int index, float value);
+DLL_EXPORT_API void VCInteropShaderSetUniformVec2(int handle, int index, glm::vec2 value);
+DLL_EXPORT_API void VCInteropShaderSetUniformVec3(int handle, int index, glm::vec3 value);
+DLL_EXPORT_API void VCInteropShaderSetUniformVec4(int handle, int index, glm::vec4 value);
+DLL_EXPORT_API void VCInteropShaderSetUniformMat3(int handle, int index, glm::mat3 value);
+DLL_EXPORT_API void VCInteropShaderSetUniformMat4(int handle, int index, glm::mat4 value);

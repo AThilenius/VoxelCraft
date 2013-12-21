@@ -13,6 +13,8 @@
 #include "VCShader.h"
 #include "VCGuiShader.h"
 #include "VCRenderStage.h"
+#include "VCWindow.h"
+#include "VCGui.h"
 
 
 GuiRectVerticie::GuiRectVerticie()
@@ -148,7 +150,7 @@ void VCGeometryBuilder::Initialize()
 	// Create a render stage for text rendering
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
-	m_renderStage->Shader = VCGLRenderer::Instance->GuiShader;
+	m_renderStage->Shader = VCShader::GetShader("Gui");
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO
@@ -162,11 +164,11 @@ void VCGeometryBuilder::Initialize()
 	ZERO_CHECK(m_VBO);
 
 	// Bind Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+	glEnableVertexAttribArray(VCShaderAttribute::Position0);
+	glEnableVertexAttribArray(VCShaderAttribute::Color0);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_SHORT,			GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
+	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_SHORT,			GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
+	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
 
 	glBindVertexArray(0);
 }
@@ -175,6 +177,8 @@ void VCGeometryBuilder::Render()
 {
 	if (m_vCount == 0)
 		return;
+
+	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GuiRectVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);

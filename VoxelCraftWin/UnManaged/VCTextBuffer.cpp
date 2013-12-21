@@ -13,6 +13,8 @@
 #include "VCRenderStage.h"
 #include "VCShader.h"
 #include "VCLexShader.h"
+#include "VCWindow.h"
+#include "VCGui.h"
 
 
 VCTextBuffer::VCTextBuffer( VCFont* font ):
@@ -35,7 +37,7 @@ void VCTextBuffer::Initialize()
 	// Create Render Stage
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCTextBuffer, &VCTextBuffer::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI + 2;
-	m_renderStage->Shader = VCGLRenderer::Instance->LexShader;
+	m_renderStage->Shader = VCShader::GetShader("Lex");
 	m_renderStage->Texture = Font->m_ddsTexture;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
@@ -50,14 +52,14 @@ void VCTextBuffer::Initialize()
 	ZERO_CHECK(m_VBO);
 
 	// Bind Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glVertexAttribPointer( VC_ATTRIBUTE_POSITION,		3,	GL_SHORT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Position));
+	glEnableVertexAttribArray(VCShaderAttribute::Position0);
+	glVertexAttribPointer( VCShaderAttribute::Position0,		3,	GL_SHORT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Position));
 
-	glEnableVertexAttribArray(VC_ATTRIBUTE_TEX_COORD_0);
-	glVertexAttribPointer( VC_ATTRIBUTE_TEX_COORD_0,	2,	GL_FLOAT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, UV));
+	glEnableVertexAttribArray(VCShaderAttribute::TexCoord0);
+	glVertexAttribPointer( VCShaderAttribute::TexCoord0,	2,	GL_FLOAT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, UV));
 
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
-	glVertexAttribPointer( VC_ATTRIBUTE_COLOR,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
+	glEnableVertexAttribArray(VCShaderAttribute::Color0);
+	glVertexAttribPointer( VCShaderAttribute::Color0,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
 
 	// Release
 	glBindVertexArray(0);
@@ -84,6 +86,9 @@ void VCTextBuffer::Render()
 {
 	if (m_vCount == 0)
 		return;
+
+	// Scaling is handed in managed code for text
+	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GlyphVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);

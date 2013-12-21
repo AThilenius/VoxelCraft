@@ -58,7 +58,7 @@ void VCImageInstance::Initialize()
 	m_rStage = new VCRenderStage(VC_VOID_DELEGATE_METHOD(VCImageInstance, Render));
 	m_rStage->ExectionType = VCRenderStage::Never;
 	m_rStage->BatchOrder = VC_BATCH_GUI + 1;
-	m_rStage->Shader = VCGLRenderer::Instance->TexturePassthroughShader;
+	m_rStage->Shader = VCShader::GetShader("TexturePassThrough");
 	m_rStage->Texture = m_texturePtr;
 	VCGLRenderer::Instance->RegisterStage(m_rStage);
 
@@ -73,11 +73,11 @@ void VCImageInstance::Initialize()
 	ZERO_CHECK(m_VBO);
 
 	// Bind Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_TEX_COORD_0);
+	glEnableVertexAttribArray(VCShaderAttribute::Position0);
+	glEnableVertexAttribArray(VCShaderAttribute::TexCoord0);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,		3,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, Position) );
-	glVertexAttribPointer(VC_ATTRIBUTE_TEX_COORD_0,		2,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, UV) );
+	glVertexAttribPointer(VCShaderAttribute::Position0,		3,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, Position) );
+	glVertexAttribPointer(VCShaderAttribute::TexCoord0,		2,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, UV) );
 
 	glBindVertexArray(0);
 }
@@ -248,7 +248,7 @@ void VCImageInstance::Render()
 	if (m_vertexCount == 0)
 		return;
 
-	VCGLRenderer::Instance->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer , GL_STREAM_DRAW);
@@ -258,17 +258,4 @@ void VCImageInstance::Render()
 	glBindVertexArray(0);
 
 	m_vertexCount = 0;
-
-	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	VCGLRenderer::Instance->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer , GL_STREAM_DRAW);
-
-	glBindVertexArray(m_VAO);
-	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
-	glBindVertexArray(0);
-
-	m_vertexCount = 0;
-	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }

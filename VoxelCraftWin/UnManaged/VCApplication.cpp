@@ -20,35 +20,6 @@ VCApplication::~VCApplication(void)
 {
 }
 
-void VCApplication::Initialize()
-{
-    std::cout << "====================   VoxelCraft Engine Begin   ====================" << std::endl;
-
-    Window = new VCWindow();
-    Window->Initalize();
-    
-    ObjectStore = new VCObjectStore();
-    ObjectStore->Initalize();
-    
-    Input = new VCInput();
-    Input->Initalize();
-    
-	Renderer = new VCGLRenderer();
-	Renderer->Initialize();
-
-	LexEngine = new VCLexicalEngine();
-	LexEngine->Initialize();
-
-	Gui = new VCGui();
-	Gui->Initialize();
-    
-    Time = new VCTime();
-    Time->Initalize();
-    
-    SceneGraph = new VCSceneGraph();
-    SceneGraph->Initalize();
-}
-
 void VCApplication::ShutDown()
 {
     glfwTerminate();
@@ -56,8 +27,45 @@ void VCApplication::ShutDown()
 
 VCApplication* g_headApp = 0;
 
-DLL_EXPORT_API void VCInteropInitalizeApplication()
+void VCInteropInitalizeWindow()
 {
-	g_headApp = new VCApplication();
-	g_headApp->Initialize();
+	VCApplication::Instance = new VCApplication();
+	VCApplication::Instance->Window = new VCWindow();
+	VCApplication::Instance->Window->Initalize();
+}
+
+void VCInteropInitalizeObjectStore()
+{
+	VCApplication::Instance->ObjectStore = new VCObjectStore();
+	VCApplication::Instance->ObjectStore->Initalize();
+}
+
+void VCInteropInitalizeInput()
+{
+	VCApplication::Instance->Input = new VCInput();
+	VCApplication::Instance->Input->Initalize();
+}
+
+void VCInteropInitalizeRenderer()
+{
+	VCApplication::Instance->Renderer = new VCGLRenderer();
+	VCApplication::Instance->Renderer->Initialize();
+}
+
+void VCInteropInitalizeLexEngine()
+{
+	VCApplication::Instance->LexEngine = new VCLexicalEngine();
+	VCApplication::Instance->LexEngine->Initialize();
+}
+
+void VCInteropInitalizeGui()
+{
+	VCApplication::Instance->Gui = new VCGui();
+	VCApplication::Instance->Gui->Initialize();
+}
+
+void VCInteropInitalizeSceneGraph()
+{
+	VCApplication::Instance->SceneGraph = new VCSceneGraph();
+	VCApplication::Instance->SceneGraph->Initalize();
 }

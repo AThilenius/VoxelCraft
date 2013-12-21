@@ -82,11 +82,6 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 	}
 }
 
-void VCGLRenderer::SetModelMatrix(glm::mat4 matrix)
-{
-	VCShader::BoundShader->SetModelMatrix(matrix);
-}
-
 void VCGLRenderer::RegisterStage( VCRenderStage* stage )
 {
 	stage->BuildKey();

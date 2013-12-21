@@ -26,9 +26,9 @@
 //
 //void VCTerrainConstructionShader::BindAttribLocations()
 //{
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_POSITION, "positionIn");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_COLOR, "colorIn");
-//	glBindAttribLocation(m_programId, VC_ATTRIBUTE_FLAGS, "flagsIn");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Position0, "positionIn");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Color0, "colorIn");
+//	glBindAttribLocation(m_programId, VCShaderAttribute::Flags0, "flagsIn");
 //	
 //	glErrorCheck();
 //}

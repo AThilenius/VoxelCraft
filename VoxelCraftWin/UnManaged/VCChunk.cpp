@@ -80,7 +80,7 @@ void VCChunk::Initialize()
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
 	m_renderStage->Camera = m_world->Camera;
-	m_renderStage->Shader = VCGLRenderer::Instance->VoxelFallbackShader;
+	m_renderStage->Shader = VCShader::GetShader("VoxelFallback");
 	m_renderStage->ExectionType = VCRenderStage::Never;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
@@ -95,13 +95,13 @@ void VCChunk::Initialize()
 	ZERO_CHECK(m_VBO);
 
 	// Bind Attributes
-	glEnableVertexAttribArray(VC_ATTRIBUTE_POSITION);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_NORMAL);
-	glEnableVertexAttribArray(VC_ATTRIBUTE_COLOR);
+	glEnableVertexAttribArray(VCShaderAttribute::Position0);
+	glEnableVertexAttribArray(VCShaderAttribute::Normal0);
+	glEnableVertexAttribArray(VCShaderAttribute::Color0);
 
-	glVertexAttribPointer(VC_ATTRIBUTE_POSITION,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
-	glVertexAttribIPointer(VC_ATTRIBUTE_NORMAL,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
-	glVertexAttribPointer(VC_ATTRIBUTE_COLOR,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
+	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
+	glVertexAttribIPointer(VCShaderAttribute::Normal0,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
+	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
 
 	glBindVertexArray(0);
 }
@@ -403,29 +403,18 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 
 void VCChunk::Render()
 {
-	glErrorCheck();
-	// Shouldn't get here though
 	if ( m_isEmpty )
 		return;
 
 	glBindVertexArray(m_VAO);
-	VCGLRenderer::Instance->SetModelMatrix(glm::translate(
+	VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix * glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
 
-	glErrorCheck();
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	//glDisable(GL_CULL_FACE);
-
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
 
-	glErrorCheck();
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	//glEnable(GL_CULL_FACE);
-
 	glBindVertexArray(0);
-	glErrorCheck();
 }
 
 // ===== Serialization ======================================================

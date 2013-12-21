@@ -20,6 +20,7 @@ public:
 	glm::vec3 ScreenPointToDirection( VCRectangle viewPort, VCPoint screenPoint );
 
 public:
+	static VCCamera* BoundCamera;
 	float FovDeg;
 	float Aspect;
 	float NearClip;

@@ -14,6 +14,8 @@
 #include "VCObjectStore.h"
 
 
+VCCamera* VCCamera::BoundCamera;
+
 VCCamera::VCCamera(void):
 	FovDeg(65.0f),
 	Aspect(4.0f / 3.0f),
@@ -76,7 +78,6 @@ glm::vec3 VCCamera::ScreenPointToDirection( VCRectangle viewPort, VCPoint screen
 
 	return ray_wor;
 }
-
 
 // ================================      Interop      ============
 int VCInteropNewCamera()
