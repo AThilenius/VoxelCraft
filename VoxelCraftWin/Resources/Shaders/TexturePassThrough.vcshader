@@ -1,0 +1,55 @@
+{
+  "Name": "TexturePassThrough",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UV"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Sampler2D",
+      "Name": "texture"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+#version 150
+in vec4 Position;
+in vec2 UV;
+
+uniform mat4 MVP;
+
+out vec2 VaryingUV;
+
+void main()
+{
+	gl_Position =  MVP * Position;
+	VaryingUV =  UV;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+#version 150
+in vec2 VaryingUV;
+
+uniform sampler2D texture;
+
+out vec4 fragColor;
+
+void main()
+{
+	fragColor = texture2D(texture, VaryingUV);
+}
+
+
+"
+}

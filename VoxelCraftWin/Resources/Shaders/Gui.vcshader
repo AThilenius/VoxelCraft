@@ -1,0 +1,61 @@
+{
+  "Name": "Gui",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "Color0",
+      "Name": "Color"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Float",
+      "Name": "NoiseScaler"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+#version 150
+in vec3 Position;
+in vec4 Color;
+
+uniform mat4 MVP;
+
+out vec4 VaryingColor;
+
+void main()
+{
+	gl_Position =  MVP * vec4(Position, 1);
+	VaryingColor =  Color;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+#version 150
+in vec4 VaryingColor;
+
+uniform float NoiseScaler;
+
+out vec4 fragColor;
+
+float rand(vec2 co)
+{
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+void main()
+{
+	fragColor = VaryingColor;
+	fragColor.xyz = fragColor.xyz - (vec3(1, 1, 1) * rand(gl_FragCoord.xy) * NoiseScaler);
+}
+
+
+"
+}

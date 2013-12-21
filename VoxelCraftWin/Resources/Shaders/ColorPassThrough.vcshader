@@ -1,0 +1,47 @@
+{
+  "Name": "ColorPassThrough",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "Color0",
+      "Name": "Color"
+    }
+  ],
+  "Uniforms": [],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+#version 150
+in vec4 Position;
+in vec4 Color;
+
+uniform mat4 MVP;
+
+out vec4 ColorVarying;
+
+void main()
+{
+	gl_Position =  MVP * Position;
+	ColorVarying = Color;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+#version 150
+in vec4 ColorVarying;
+out vec4 FragColor;
+
+void main()
+{
+	FragColor = ColorVarying;
+}
+
+
+"
+}

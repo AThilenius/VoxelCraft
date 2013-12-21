@@ -1,0 +1,66 @@
+{
+  "Name": "Lex",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UV"
+    },
+    {
+      "AttributeType": "Color0",
+      "Name": "Color"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Sampler2D",
+      "Name": "glyphs"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+#version 150
+in vec4 Position;
+in vec2 UV;
+in vec4 Color;
+
+uniform mat4 MVP;
+
+out vec2 VaryingUV;
+out vec4 VaryingColor;
+
+void main()
+{
+	gl_Position =  MVP * Position;
+	VaryingUV =  UV;
+	VaryingColor =  Color;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+#version 150
+in vec2 VaryingUV;
+in vec4 VaryingColor;
+
+uniform sampler2D glyphs;
+
+out vec4 fragColor;
+
+void main()
+{
+	vec4 tcolor = texture2D(glyphs, VaryingUV);
+	fragColor.rgb = VaryingColor.rgb;
+
+	fragColor.a = tcolor.r;
+}
+
+
+"
+}
