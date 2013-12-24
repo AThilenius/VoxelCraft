@@ -23,13 +23,15 @@
 
 #define glErrorCheck() _glErrorCheck(_FNAME_, __LINE__);
 void _glErrorCheck(std::string file, int line);
+
+// =====   Files   ======================================================
 std::string LoadTextFile (std::string path);
 
-// Math
+// =====   Math   ======================================================
 unsigned long FastRandom();
 #define FAST_FLOOR(f) f >= 0 ? (int) f : (int) f - 1;
 
-// Console
+// =====   Console   ======================================================
 enum ConsoleColor { White, Red, Yellow, Green, Blue };
 void SetConsoleColor ( ConsoleColor color );
 

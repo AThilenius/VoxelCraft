@@ -9,9 +9,52 @@
 #include "stdafx.h"
 #include "VCShader.h"
 #include "VCObjectStore.h"
+#include "json/json.h"
+#include "VCPathUtilities.h"
 
 VCShader* VCShader::BoundShader = NULL;
 std::unordered_map<std::string, VCShader*> VCShader::LoadedShaders;
+
+char* VCShaderAttribute::RuntimeLookup[25] = {
+	"Position0",
+	"Position1",
+	"Position2",
+	"Position3",
+	"Position4",
+	"Normal0",
+	"Normal1",
+	"Normal2",
+	"Normal3",
+	"Normal4",
+	"Color0",
+	"Color1",
+	"Color2",
+	"Color3",
+	"Color4",
+	"TexCoord0",
+	"TexCoord1",
+	"TexCoord2",
+	"TexCoord3",
+	"TexCoord4",
+	"Flags0",
+	"Flags1",
+	"Flags2",
+	"Flags3",
+	"Flags4"
+};
+
+char* VCShaderUniform::RuntimeLookup[10] = {
+	"Float",
+	"Int",
+	"Vector2",
+	"Vector3",
+	"Vector4",
+	"Matrix3",
+	"Matrix4",
+	"ColorRGBA",
+	"Sampler2D",
+	"Sampler3D"
+};
 
 VCShaderAttribute::VCShaderAttribute(int id, std::string name):
 	ID(id),
@@ -22,6 +65,15 @@ VCShaderAttribute::VCShaderAttribute(int id, std::string name):
 
 VCShaderAttribute::~VCShaderAttribute(void)
 {
+}
+
+int VCShaderAttribute::GetID( std::string& name )
+{
+	for(int i = 0; i < 25; i++)
+		if (RuntimeLookup[i] == name)
+			return i;
+
+	return -1;
 }
 
 VCShaderUniform::VCShaderUniform(int typeId, std::string name):
@@ -35,10 +87,24 @@ VCShaderUniform::~VCShaderUniform(void)
 {
 }
 
+int VCShaderUniform::GetID( std::string& name )
+{
+	for(int i = 0; i < 10; i++)
+	{
+		if (RuntimeLookup[i] == name)
+			return i;
+	}
+
+	return -1;
+}
+
 VCShader::VCShader():
 	m_programId(0)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
+
+	// Auto add MVP
+	Uniforms.push_back(VCShaderUniform(VCShaderUniform::Matrix4, std::string("MVP")));
 }
 
 VCShader::~VCShader()
@@ -54,7 +120,60 @@ VCShader::~VCShader()
 
 VCShader* VCShader::GetShader( std::string name )
 {
-	return LoadedShaders[name];
+	auto iter = LoadedShaders.find(name);
+
+	if (iter != LoadedShaders.end())
+		return iter->second;
+
+	// Load a new shader
+	std::string path = VCPathUtilities::Combine(VCPathUtilities::VCShadersPath, name + ".vcshader");
+	std::string shaderJson = LoadTextFile(path);
+
+	Json::Value root;
+	Json::Reader reader;
+	bool parsingSuccessful = reader.parse( shaderJson, root );
+
+	if ( !parsingSuccessful )
+	{
+		VC_ERROR("Failed to parse shader JSON file: " << path);
+	}
+
+	VCShader* shader = new VCShader();
+
+	// Name
+	shader->Name = root.get("Name", "").asString();
+
+	// Attributes
+	{
+		const Json::Value attribs = root["Attributes"];
+
+		for ( int i = 0; i < attribs.size(); i++ )
+		{
+			std::string attributeType = attribs[i].get("AttributeType", "").asString();
+			std::string attribName = attribs[i].get("Name", "").asString();
+			shader->Attributes.push_back(VCShaderAttribute(VCShaderAttribute::GetID(attributeType), attribName));
+		}
+	}
+
+	// Uniforms
+	{
+		const Json::Value uniforms = root["Uniforms"];
+
+		for ( int i = 0; i < uniforms.size(); i++ )
+		{
+			std::string valueType = uniforms[i].get("ValueType", "").asString();
+			std::string valueName = uniforms[i].get("Name", "").asString();
+			shader->Uniforms.push_back(VCShaderUniform(VCShaderUniform::GetID(valueType), valueName));
+		}
+	}
+
+	shader->VertexShader = root.get("VertexShader", "").asString();
+	shader->GeometryShader = root.get("GeometryShader", "").asString();
+	shader->FragmentShader = root.get("FragmentShader", "").asString();
+
+	shader->Compile();
+
+	return shader;
 }
 
 void VCShader::Compile()
@@ -118,7 +237,7 @@ void VCShader::Compile()
 	glUseProgram(m_programId);
 	LoadedShaders.insert(std::unordered_map<std::string, VCShader*>::value_type(Name, this));
 
-	std::cout << "VCShader Initialized." << std::endl;
+	std::cout << "VCShader [ " << Name << " ] Initialized." << std::endl;
 	glErrorCheck(); 
 }
 
@@ -311,47 +430,9 @@ bool operator>=( const VCShader& lhs, const VCShader& rhs )
 	return !operator< (lhs,rhs);
 }
 
-int VCInteropShaderNew()
+int VCInteropGetShaderFromFile( char* name )
 {
-	VCShader* shader = new VCShader();
-
-	// Auto add MVP
-	shader->Uniforms.push_back(VCShaderUniform(VCShaderUniform::Matrix4, std::string("MVP")));
-
-	return shader->Handle;
-}
-
-DLL_EXPORT_API void VCInteropShaderSetStrings( int handle, char* name, char* vertShader, char* geometryShader, char* fragmentShader )
-{
-	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
-	shader->Name = std::string(name);
-	shader->VertexShader = std::string(vertShader);
-	shader->GeometryShader = std::string(geometryShader);
-	shader->FragmentShader = std::string(fragmentShader);
-}
-
-void VCInteropShaderRelease( int handle )
-{
-	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
-	delete shader;
-}
-
-void VCInteropShaderAddAttribute( int handle, int id, char* name )
-{
-	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
-	shader->Attributes.push_back(VCShaderAttribute(id, std::string(name)));
-}
-
-void VCInteropShaderAddUniform( int handle, int typeId, char* name )
-{
-	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
-	shader->Uniforms.push_back(VCShaderUniform(typeId, std::string(name)));
-}
-
-void VCInteropShaderCompile( int handle )
-{
-	VCShader* shader = (VCShader*) VCObjectStore::Instance->GetObject(handle);
-	shader->Compile();
+	return VCShader::GetShader(std::string(name))->Handle;
 }
 
 void VCInteropShaderSetUniformInt(int handle, int index, int value)

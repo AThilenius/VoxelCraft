@@ -63,6 +63,7 @@ void _glErrorCheck(std::string file, int line)
 #endif
 }
 
+// =====   Math   ======================================================
 unsigned long FastRandom() 
 {
 	static unsigned long x=123456789, y=362436069, z=521288629;
@@ -83,23 +84,22 @@ unsigned long FastRandom()
 std::string LoadTextFile (std::string path)
 {
 	std::ifstream file(path);
+	std::string str;
+
 	if (!file.is_open())
 	{
 		VC_ERROR("Failed to open file: " << path);
 	}
 
-	std::string ss;
 
-	while (file.good())
-	{
-		char c = file.get();
-		if (file.good())
-			ss += c;
-	}
+	file.seekg(0, std::ios::end);   
+	str.reserve(file.tellg());
+	file.seekg(0, std::ios::beg);
 
-	file.close();
+	str.assign((std::istreambuf_iterator<char>(file)),
+		std::istreambuf_iterator<char>());
 
-	return ss;
+	return str;
 }
 
 

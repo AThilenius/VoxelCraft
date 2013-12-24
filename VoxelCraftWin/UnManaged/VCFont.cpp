@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCShader.h"
 
-#include "VCLexShader.h"
 #include "VCFont.h"
 #include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"

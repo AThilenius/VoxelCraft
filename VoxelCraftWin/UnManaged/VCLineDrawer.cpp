@@ -10,7 +10,6 @@
 #include "VCLineDrawer.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
-#include "VCColorPassThroughShader.h"
 
 
 VCLineDrawer::VCLineDrawer(void):

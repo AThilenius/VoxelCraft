@@ -15,7 +15,6 @@
 #include "VCCamera.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
-#include "VCVoxelFallbackShader.h"
 
 struct BlockVerticie
 {

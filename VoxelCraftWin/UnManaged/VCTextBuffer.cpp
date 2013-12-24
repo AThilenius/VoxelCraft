@@ -12,7 +12,6 @@
 #include "VCLexicalEngine.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
-#include "VCLexShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
 

@@ -62,11 +62,8 @@
     <Filter Include="Voxel\SVO">
       <UniqueIdentifier>{e19d7cb4-7193-4664-909d-772bf9f40364}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Shader">
-      <UniqueIdentifier>{ac229e08-9747-44bb-870d-61f676a21aeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Shader\GLSL">
-      <UniqueIdentifier>{8378b5da-9736-4dfc-97ba-2b03458ee5ff}</UniqueIdentifier>
+    <Filter Include="Utils\JSON">
+      <UniqueIdentifier>{4219ef5b-a742-40a4-80d1-a1490ecc5c2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,9 +115,6 @@
     <ClCompile Include="VCInput.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="VCShadowShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VCPhysics.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -130,20 +124,11 @@
     <ClCompile Include="VCLexicalEngine.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
-    <ClCompile Include="VCLexShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VCGui.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="VCGuiShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VCNoise2D.cpp">
       <Filter>Voxel\Noise</Filter>
-    </ClCompile>
-    <ClCompile Include="VCColorPassThroughShader.cpp">
-      <Filter>Rendering\Shader</Filter>
     </ClCompile>
     <ClCompile Include="VCFlatGenerator.cpp">
       <Filter>Voxel\Generators</Filter>
@@ -211,29 +196,11 @@
     <ClCompile Include="VCSvoLeafBlock.cpp">
       <Filter>Voxel\SVO</Filter>
     </ClCompile>
-    <ClCompile Include="VCVoxelShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="VCShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="VCTerrianFeedbackShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="VCTerrainConstructionShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="VCVoxelFallbackShader.cpp">
-      <Filter>Rendering\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="VC3DLineDrawer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="VCImageBuilder.cpp">
       <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="VCTexturePassThroughShader.cpp">
-      <Filter>Rendering\Shader</Filter>
     </ClCompile>
     <ClCompile Include="VCImageInstance.cpp">
       <Filter>GUI</Filter>
@@ -242,6 +209,26 @@
     <ClCompile Include="VCTextBuilder.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
+    <ClCompile Include="VCMesh.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCMeshSection.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCResourceManager.cpp" />
+    <ClCompile Include="VCShader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="json_reader.cpp">
+      <Filter>Utils\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="json_value.cpp">
+      <Filter>Utils\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="json_writer.cpp">
+      <Filter>Utils\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPathUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -293,9 +280,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="VCShadowShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -305,23 +289,14 @@
     <ClInclude Include="VCLexicalEngine.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
-    <ClInclude Include="VCLexShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VCRenderStage.h">
       <Filter>Rendering\State</Filter>
     </ClInclude>
     <ClInclude Include="VCGui.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="VCGuiShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VCNoise2D.h">
       <Filter>Voxel\Noise</Filter>
-    </ClInclude>
-    <ClInclude Include="VCColorPassThroughShader.h">
-      <Filter>Rendering\Shader</Filter>
     </ClInclude>
     <ClInclude Include="VCIChunkGenerator.h">
       <Filter>Voxel\Generators</Filter>
@@ -404,29 +379,11 @@
     <ClInclude Include="VCSvoLeafBlock.h">
       <Filter>Voxel\SVO</Filter>
     </ClInclude>
-    <ClInclude Include="VCVoxelShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="VCShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTerrianFeedbackShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTerrainConstructionShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="VCVoxelFallbackShader.h">
-      <Filter>Rendering\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="VC3DLineDrawer.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCImageBuilder.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="VCTexturePassThroughShader.h">
-      <Filter>Rendering\Shader</Filter>
     </ClInclude>
     <ClInclude Include="VCImageInstance.h">
       <Filter>GUI</Filter>
@@ -435,60 +392,21 @@
     <ClInclude Include="VCTextBuilder.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
+    <ClInclude Include="VCMesh.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMeshSection.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCResourceManager.h" />
+    <ClInclude Include="VCShader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPathUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ColorPassThrough.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="ColorPassThrough.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="Gui.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="Gui.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="Lex.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="Lex.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="ShadowZBuffer.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="ShadowZBuffer.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TexturePassThrough.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TexturePassThrough.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TerrainFeedback.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TerrainFeedback.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TerrainConstruction.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="TerrainConstruction.geom">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="VoxelFallback.vert">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
-    <None Include="VoxelFallback.frag">
-      <Filter>Rendering\Shader\GLSL</Filter>
-    </None>
   </ItemGroup>
 </Project>

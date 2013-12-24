@@ -11,8 +11,6 @@
 #include "VCRenderStage.h"
 #include "VCGLRenderer.h"
 #include "VCShader.h"
-#include "VCTexturePassThroughShader.h"
-#include "VCLexShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
 

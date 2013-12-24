@@ -11,7 +11,6 @@
 
 #include "VCGLRenderer.h"
 #include "VCShader.h"
-#include "VCGuiShader.h"
 #include "VCRenderStage.h"
 #include "VCWindow.h"
 #include "VCGui.h"

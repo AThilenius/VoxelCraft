@@ -39,11 +39,14 @@ namespace VCEngine
 
         public static void EditorMain()
         {
+            PathUtilities.UpdatePathUtilities();
             VCInteropInitalizeWindow();
             VCInteropInitalizeObjectStore();
             VCInteropInitalizeInput();
             VCInteropInitalizeRenderer();
-            Shader.LoadAllShaders();
+
+            //Shader.LoadAllShaders();
+
             VCInteropInitalizeLexEngine();
             VCInteropInitalizeGui();
             VCInteropInitalizeSceneGraph();

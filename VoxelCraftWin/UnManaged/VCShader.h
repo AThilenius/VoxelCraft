@@ -45,6 +45,10 @@ struct VCShaderAttribute
 	~VCShaderAttribute(void);
 	int ID;
 	std::string Name;
+
+	// Runtime Lookup
+	static char* RuntimeLookup[25];
+	static int GetID (std::string& name);
 };
 
 struct VCShaderUniform
@@ -69,6 +73,10 @@ struct VCShaderUniform
 	GLint OpenGlID;
 	int TypeID;
 	std::string Name;
+
+	// Runtime Lookup
+	static char* RuntimeLookup[10];
+	static int GetID (std::string& name);
 };
 
 #include "VCMarshalableObject.h"
@@ -135,12 +143,7 @@ bool operator> (const VCShader& lhs, const VCShader& rhs);
 bool operator<=(const VCShader& lhs, const VCShader& rhs);
 bool operator>=(const VCShader& lhs, const VCShader& rhs);
 
-DLL_EXPORT_API int VCInteropShaderNew();
-DLL_EXPORT_API void VCInteropShaderRelease(int handle);
-DLL_EXPORT_API void VCInteropShaderSetStrings(int handle, char* name, char* vertShader, char* geometryShader, char* fragmentShader);
-DLL_EXPORT_API void VCInteropShaderAddAttribute(int handle, int id, char* name);
-DLL_EXPORT_API void VCInteropShaderAddUniform(int handle, int typeId, char* name);
-DLL_EXPORT_API void VCInteropShaderCompile(int handle);
+DLL_EXPORT_API int VCInteropGetShaderFromFile(char* name);
 
 DLL_EXPORT_API void VCInteropShaderSetUniformInt(int handle, int index, int value);
 DLL_EXPORT_API void VCInteropShaderSetUniformFloat(int handle, int index, float value);

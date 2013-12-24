@@ -12,7 +12,6 @@
 #include "VCObjectStore.h"
 #include "VCRenderStage.h"
 #include "VCCamera.h"
-#include "VCColorPassThroughShader.h"
 #include "VCGui.h"
 #include "VCWindow.h"
 

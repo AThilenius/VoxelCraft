@@ -12,8 +12,8 @@ namespace VCEngine
         protected delegate int UnManagedCTorDelegate();
         protected delegate void UnManagedDTorDelegate(int handle);
 
-        protected abstract UnManagedCTorDelegate UnManagedCTor { get; }
-        protected abstract UnManagedDTorDelegate UnManagedDTor { get; }
+        protected virtual UnManagedCTorDelegate UnManagedCTor { get { return null; } }
+        protected virtual UnManagedDTorDelegate UnManagedDTor { get { return null; } }
 
         public MarshaledObject()
         {
@@ -29,8 +29,11 @@ namespace VCEngine
             if (UnManagedDTor == null)
                 return;
 
-            UnManagedHandle = existingHandle;
-            ObjectStore.RegisterObject(this, UnManagedHandle);
+            if (UnManagedCTor != null)
+            {
+                UnManagedHandle = existingHandle;
+                ObjectStore.RegisterObject(this, UnManagedHandle);
+            }
         }
 
         ~MarshaledObject()
@@ -38,9 +41,12 @@ namespace VCEngine
             if (UnManagedHandle == -1)
                 return;
 
-            UnManagedDTor(UnManagedHandle);
-            ObjectStore.ReleaseHandle(UnManagedHandle);
-            UnManagedHandle = -1;
+            if (UnManagedDTor != null)
+            {
+                UnManagedDTor(UnManagedHandle);
+                ObjectStore.ReleaseHandle(UnManagedHandle);
+                UnManagedHandle = -1;
+            }
         }
 
         public void Dispose()
