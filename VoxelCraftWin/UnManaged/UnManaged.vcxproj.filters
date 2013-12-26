@@ -178,9 +178,6 @@
     <ClCompile Include="VCCollection.cpp">
       <Filter>Utils\Templates</Filter>
     </ClCompile>
-    <ClCompile Include="VCPoolableResource.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="VCLineDrawer.cpp">
       <Filter>Rendering\Drawers</Filter>
     </ClCompile>
@@ -215,10 +212,6 @@
     <ClCompile Include="VCMeshSection.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VCResourceManager.cpp" />
-    <ClCompile Include="VCShader.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="json_reader.cpp">
       <Filter>Utils\JSON</Filter>
     </ClCompile>
@@ -228,7 +221,21 @@
     <ClCompile Include="json_writer.cpp">
       <Filter>Utils\JSON</Filter>
     </ClCompile>
-    <ClCompile Include="VCPathUtilities.cpp" />
+    <ClCompile Include="VCResourceManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPathUtilities.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCShader.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCMaterial.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCShadeTypes.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -352,9 +359,6 @@
     <ClInclude Include="VCCollection.h">
       <Filter>Utils\Templates</Filter>
     </ClInclude>
-    <ClInclude Include="VCPoolableResource.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="delegate.hpp">
       <Filter>Utils\Events</Filter>
     </ClInclude>
@@ -398,11 +402,21 @@
     <ClInclude Include="VCMeshSection.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VCResourceManager.h" />
-    <ClInclude Include="VCShader.h">
-      <Filter>Rendering</Filter>
+    <ClInclude Include="VCResourceManager.h">
+      <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VCPathUtilities.h" />
+    <ClInclude Include="VCPathUtilities.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCShader.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCMaterial.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCShadeTypes.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

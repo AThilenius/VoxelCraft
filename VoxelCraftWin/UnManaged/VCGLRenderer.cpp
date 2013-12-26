@@ -15,6 +15,7 @@
 #include "VCTexture.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
+#include "VCResourceManager.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 
@@ -139,7 +140,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 		ShadowFallback = true;
 	}
 
-	DepthTexture = VCTexture::ManageExistingBuffer(depthTex);
+	DepthTexture = VCResourceManager::GetTexure(depthTex);
 }
 
 void VCInteropRendererRender( int from, int to )

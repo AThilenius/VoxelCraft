@@ -38,9 +38,9 @@ void VCInteropPathSetPath( int id, char* path )
 
 std::string VCPathUtilities::Combine( std::string path, std::string path2 )
 {
-	if (path != "" && path[path.length() - 1] == '/')
+	if (path != "" && path[path.length() - 1] == '\\')
 		return path + path2;
 
 	else
-		return path + "/" + path2;
+		return path + "\\" + path2;
 }

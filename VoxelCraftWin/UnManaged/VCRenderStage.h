@@ -22,6 +22,7 @@
 #define VC_BATCH_MAX 16
 
 class VCRenderStage;
+class VCTexture;
 
 #include "VCShader.h"
 
@@ -43,7 +44,7 @@ public:
 	int StageOrder;
 	GLuint FrameBuffer;
 	VCShader* Shader;
-	VCTexturePtr Texture;
+	VCTexture* Texture;
 	bool Blend;
 	bool DepthTest;
 	VCVoidDelegate ExecutionFunction;

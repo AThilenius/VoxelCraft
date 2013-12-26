@@ -63,6 +63,26 @@ void _glErrorCheck(std::string file, int line)
 #endif
 }
 
+// =====   String   ======================================================
+std::vector<std::string> SplitString(std::string str, char splitChar)
+{
+	std::vector<std::string> subStrs;
+	subStrs.push_back(std::string());
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == splitChar)
+		{
+			subStrs.push_back(std::string());
+			continue;
+		}
+
+		subStrs[subStrs.size() - 1].push_back(str[i]);
+	}
+
+	return subStrs;
+}
+
 // =====   Math   ======================================================
 unsigned long FastRandom() 
 {

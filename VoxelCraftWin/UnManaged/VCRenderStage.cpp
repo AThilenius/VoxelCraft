@@ -19,7 +19,7 @@ VCRenderStage::VCRenderStage(VCVoidDelegate function):
 	StageOrder(0),
 	FrameBuffer(0),
 	Shader(NULL),
-	Texture(VCTexturePtr(NULL)),
+	Texture(NULL),
 	Blend(true),
 	DepthTest(true),
 	ExecutionFunction(function),
@@ -40,7 +40,7 @@ void VCRenderStage::BuildKey()
 		StageOrder > ( 1 << 3 ) ||
 		FrameBuffer > ( 1 << 3 ) ||
 		Shader->m_programId > ( 1 << 7 ) ||
-		(Texture != VCTexturePtr(NULL) && Texture->m_glTextID > ( 1 << 15 )) )
+		(Texture != NULL && Texture->GLTextID > ( 1 << 15 )) )
 	{
 		VC_ERROR("Max value exceeded. Can not bit pack field.");
 	}
@@ -52,8 +52,8 @@ void VCRenderStage::BuildKey()
 	Key |= ( (UInt64)StageOrder				<< (64 - 8) );
 	Key |= ( (UInt64)FrameBuffer			<< (64 - 12) );
 	Key |= ( (UInt64)Shader->m_programId	<< (64 - 20) );
-	if (Texture != VCTexturePtr(NULL))
-		Key |= ( (UInt64)Texture->m_glTextID	<< (64 - 36) );
+	if (Texture != NULL)
+		Key |= ( (UInt64)Texture->GLTextID	<< (64 - 36) );
 	Key |= ( (UInt64)DepthTest				<< (64 - 37) );
 	Key |= ( (UInt64)Blend					<< (64 - 38) );
 }
@@ -83,7 +83,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		toState->Shader->Bind();
 
 		// Texture
-		if (toState->Texture != VCTexturePtr(NULL))
+		if (toState->Texture != NULL)
 			toState->Texture->Bind(0);
 
 		// DepthTest
@@ -128,7 +128,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		toState->Shader->Bind();
 
 		// Texture
-		if (toState->Texture != VCTexturePtr(NULL))
+		if (toState->Texture != NULL)
 			toState->Texture->Bind(0);
 
 		// DepthTest

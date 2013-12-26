@@ -39,7 +39,7 @@ private:
 private:
 	std::string m_path;
 	VCRenderStage* m_rStage;
-	VCTexturePtr m_texturePtr;
+	VCTexture* m_texturePtr;
 	
 	GLuint m_VAO;
 	GLuint m_VBO;

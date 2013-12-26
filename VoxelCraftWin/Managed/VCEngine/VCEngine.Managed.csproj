@@ -127,6 +127,7 @@
     <Compile Include="Gui\Undo\UndoStack.cs" />
     <Compile Include="MainEntry.cs" />
     <Compile Include="Rendering\IVerticie.cs" />
+    <Compile Include="Rendering\Material.cs" />
     <Compile Include="Rendering\Mesh.cs" />
     <Compile Include="Rendering\Shader\Shader.cs" />
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />

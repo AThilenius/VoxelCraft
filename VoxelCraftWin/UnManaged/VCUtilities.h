@@ -24,6 +24,9 @@
 #define glErrorCheck() _glErrorCheck(_FNAME_, __LINE__);
 void _glErrorCheck(std::string file, int line);
 
+// =====   String   ======================================================
+std::vector<std::string> SplitString(std::string str, char splitChar = ':');
+
 // =====   Files   ======================================================
 std::string LoadTextFile (std::string path);
 

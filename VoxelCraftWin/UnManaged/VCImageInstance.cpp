@@ -13,6 +13,7 @@
 #include "VCShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
+#include "VCResourceManager.h"
 
 
 VCTextureVerticie::VCTextureVerticie()
@@ -28,7 +29,7 @@ VCTextureVerticie::VCTextureVerticie( GLfloat3 position, GLfloat2 uv ):
 VCImageInstance::VCImageInstance(std::string path):
 	m_path(path),
 	m_rStage(NULL),
-	m_texturePtr(VCTexturePtr(NULL)),
+	m_texturePtr(NULL),
 	m_vertBuffer(NULL),
 	m_vertBufferSize(0),
 	m_vertexCount(0),
@@ -50,13 +51,13 @@ VCImageInstance::~VCImageInstance(void)
 void VCImageInstance::Initialize()
 {
 	// TriLinear filtered texture
-	m_texturePtr = VCTexture::Get(m_path);
+	m_texturePtr = VCResourceManager::GetTexure(m_path);
 	
 	// Render Stage
 	m_rStage = new VCRenderStage(VC_VOID_DELEGATE_METHOD(VCImageInstance, Render));
 	m_rStage->ExectionType = VCRenderStage::Never;
 	m_rStage->BatchOrder = VC_BATCH_GUI + 1;
-	m_rStage->Shader = VCShader::GetShader("TexturePassThrough");
+	m_rStage->Shader = VCResourceManager::GetShader("TexturePassThrough");
 	m_rStage->Texture = m_texturePtr;
 	VCGLRenderer::Instance->RegisterStage(m_rStage);
 

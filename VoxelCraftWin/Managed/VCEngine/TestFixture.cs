@@ -13,29 +13,17 @@ namespace VCEngine
 
         internal static void OnStart()
         {
-            String vert = 
-@"
-This is some
-multi line
-{
-    test code with
-    variable indentation
-}
-";
-            //Shader testShader = new Shader { Name = "ShaderName", VertexShader = vert, FragmentShader = vert };
+            Material testMat = new Material();
+            testMat.Name = "Gun Textured";
+            testMat.Shader = "DiffuseNormal";
+            testMat.UniformValues.Add(new Material.MaterialUniformValue("Diffuse", ShaderUniform.ValueTypes.Sampler2D, @"C:\Users\BlahBlah\Gun.DDS"));
+            testMat.UniformValues.Add(new Material.MaterialUniformValue("Normal", ShaderUniform.ValueTypes.Sampler2D, @"C:\Users\BlahBlah\GunNORM.DDS"));
+            testMat.UniformValues.Add(new Material.MaterialUniformValue("NoiseScaler", ShaderUniform.ValueTypes.Float, @"1.0"));
 
-            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Position0, Name = "PositionIn" });
-            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Color0, Name = "ColorIn" });
-            //testShader.Attributes.Add(new ShaderAttribute { AttributeType = ShaderAttribute.AttributeTypes.Normal0, Name = "NormalIn" });
-
-            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Matrix4, Name = "InverseLightMatrix" });
-            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Sampler2D, Name = "DiffuseTexture" });
-            //testShader.Uniforms.Add(new ShaderUniform { ValueType = ShaderUniform.ValueTypes.Sampler2D, Name = "NormalTexture" });
-
-            //using (TextWriter writer = new StreamWriter(@"JsonOutput.txt"))
-            //{
-            //    writer.Write(JsonConvert.SerializeObject(testShader, Formatting.Indented));
-            //}
+            using (TextWriter writer = new StreamWriter(@"JsonOutput.txt"))
+            {
+                writer.Write(JsonConvert.SerializeObject(testMat, Formatting.Indented));
+            }
 
             //using (TextReader reader = new StreamReader(@"JsonOutput.txt"))
             //{

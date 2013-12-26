@@ -1,0 +1,51 @@
+{
+  "Name": "ColorDiffuse",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "Normal0",
+      "Name": "Normal"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "ColorRGBA",
+      "Name": "Color"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+#version 150
+in vec4 Position;
+in vec3 Normal;
+
+uniform mat4 MVP;
+
+void main()
+{
+	gl_Position =  MVP * Position;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+#version 150
+
+uniform vec4 Color;
+
+out vec4 fragColor;
+
+void main()
+{
+	fragColor = Color;
+}
+
+
+"
+}

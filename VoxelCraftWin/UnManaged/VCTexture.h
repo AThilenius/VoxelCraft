@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "VCPoolableResource.h"
-
 struct VCTextureFiltering
 {
 	enum Value
@@ -37,24 +35,28 @@ struct VCTextureParams
 	bool ClampV;
 };
 
-class VCTexture : public VCPoolableResource<VCTexture, VCTextureParams>
+class VCTexture
 {
 public:
 	~VCTexture(void);
 
-	static VCTexturePtr ManageExistingBuffer (GLuint bufferId);
-
 	void Bind(int texUnit);
 	void SetUVWrapMode ( GLenum uMode, GLenum vMode );
 	void SetFilterMode ( GLenum minFilter, GLenum magFilter );
-	static VCTexture* Create ( std::string path, VCTextureParams params );
+
+public:
+	GLuint GLTextID;
+	std::string FullPath;
 
 private:
 	VCTexture(void);
+	static VCTexture* CreateFromFile ( std::string path, VCTextureParams params );
+	static VCTexture* ManageExistingBuffer (GLuint bufferId);
 
 private:
-	static VCTexturePtr m_boundTexture;
-	GLuint m_glTextID;
+	static VCTexture* m_boundTexture;
+	static std::unordered_map<std::string, VCTexture*> m_loadedTextures;
 
 	friend class VCRenderStage;
+	friend class VCResourceManager;
 };

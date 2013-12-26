@@ -10,76 +10,9 @@
 
 class VCCamera;
 
-struct VCShaderAttribute
-{
-	enum AttributeTypes
-	{
-		Position0   = 0,
-		Position1   = 1,
-		Position2   = 2,
-		Position3   = 3,
-		Position4   = 4,
-		Normal0     = 5,
-		Normal1     = 6,
-		Normal2     = 7,
-		Normal3     = 8,
-		Normal4     = 9,
-		Color0      = 10,
-		Color1      = 11,
-		Color2      = 12,
-		Color3      = 13,
-		Color4      = 14,
-		TexCoord0   = 15,
-		TexCoord1   = 16,
-		TexCoord2   = 17,
-		TexCoord3   = 18,
-		TexCoord4   = 19,
-		Flags0      = 20,
-		Flags1      = 21,
-		Flags2      = 22,
-		Flags3      = 23,
-		Flags4      = 24
-	};
-
-	VCShaderAttribute(int id, std::string name);
-	~VCShaderAttribute(void);
-	int ID;
-	std::string Name;
-
-	// Runtime Lookup
-	static char* RuntimeLookup[25];
-	static int GetID (std::string& name);
-};
-
-struct VCShaderUniform
-{
-	enum DataTypes
-	{
-		Float       = 0,
-		Int         = 1,
-		Vector2     = 2,
-		Vector3     = 3,
-		Vector4     = 4,
-		Matrix3     = 5,
-		Matrix4     = 6,
-		ColorRGBA   = 7,
-		Sampler2D   = 8,
-		Sampler3D   = 9
-	};
-
-	VCShaderUniform(int typeId, std::string name);
-	~VCShaderUniform(void);
-
-	GLint OpenGlID;
-	int TypeID;
-	std::string Name;
-
-	// Runtime Lookup
-	static char* RuntimeLookup[10];
-	static int GetID (std::string& name);
-};
 
 #include "VCMarshalableObject.h"
+#include "VCShadeTypes.h"
 
 // Matrix Multiple Order: Projection * View * Model
 class VCShader : public VCMarshalableObject
@@ -87,8 +20,6 @@ class VCShader : public VCMarshalableObject
 public:
 	VCShader();
 	~VCShader();
-
-	static VCShader* GetShader(std::string name);
 
 	void Bind();
 	void Compile();
@@ -102,9 +33,12 @@ public:
 	void SetUniform(int index, glm::mat3 value);
 	void SetUniform(int index, glm::mat4 value);
 
-	GLint GetUniformIndex(std::string name);
+	int GetUniformIndex(std::string name);
+	GLuint GetUniformID(std::string name);
 
 private:
+
+	static VCShader* GetShader(std::string name);
 
 	void BindAttribLocations();
 	void GetUniformIDs();
@@ -134,6 +68,7 @@ public:
 
 private:
 	DISALLOW_COPY_AND_ASSIGN(VCShader);
+	friend class VCResourceManager;
 };
 
 bool operator==(const VCShader& lhs, const VCShader& rhs);

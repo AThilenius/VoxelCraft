@@ -14,6 +14,7 @@
 #include "VCRenderStage.h"
 #include "VCWindow.h"
 #include "VCGui.h"
+#include "VCResourceManager.h"
 
 
 GuiRectVerticie::GuiRectVerticie()
@@ -149,7 +150,7 @@ void VCGeometryBuilder::Initialize()
 	// Create a render stage for text rendering
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
-	m_renderStage->Shader = VCShader::GetShader("Gui");
+	m_renderStage->Shader = VCResourceManager::GetShader("Gui");
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	// Create VAO

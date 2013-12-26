@@ -9,6 +9,9 @@
 #pragma once
 
 class VCShader;
+class VCTexture;
+class VCMaterial;
+struct VCTextureParams;
 
 class VCResourceManager
 {
@@ -16,6 +19,13 @@ public:
 	VCResourceManager();
 	~VCResourceManager();
 
-	static VCShader* GetShader (std::string& path);
+	static VCShader* GetShader (std::string name);
+	static VCTexture* GetTexure (std::string fullPath);
+	static VCTexture* GetTexure (std::string fullPath, VCTextureParams params);
+	static VCTexture* GetTexure (GLuint existingBuffer);
+	static VCTexture* VCResourceManager::GetTexureInAssets( std::string partPath );
+	static VCTexture* VCResourceManager::GetTexureInAssets( std::string partPath, VCTextureParams params);
+	static VCMaterial* GetMaterial (std::string fullPath);
+	static VCMaterial* GetMaterialInAssets (std::string partPath);
 	
 };

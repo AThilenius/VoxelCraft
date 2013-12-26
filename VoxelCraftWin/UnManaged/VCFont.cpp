@@ -13,6 +13,7 @@
 #include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"
 #include "VCTexture.h"
+#include "VCResourceManager.h"
 
 
 GlyphVerticie::GlyphVerticie()
@@ -87,7 +88,7 @@ void VCFont::Initialize()
 	//m_ddsTexture = VCTexture::CreateUnfilteredTexture(m_ddsPath.c_str());
 	VCTextureParams tparam;
 	tparam.Filtering = VCTextureFiltering::None;
-	m_ddsTexture = VCTexture::Get(m_ddsPath, tparam);
+	m_ddsTexture = VCResourceManager::GetTexure(m_ddsPath, tparam);
 
 	// Name
 	std::ostringstream ss;

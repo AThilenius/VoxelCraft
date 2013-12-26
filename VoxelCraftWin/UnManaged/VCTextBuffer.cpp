@@ -14,6 +14,7 @@
 #include "VCShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
+#include "VCResourceManager.h"
 
 
 VCTextBuffer::VCTextBuffer( VCFont* font ):
@@ -36,7 +37,7 @@ void VCTextBuffer::Initialize()
 	// Create Render Stage
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCTextBuffer, &VCTextBuffer::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI + 2;
-	m_renderStage->Shader = VCShader::GetShader("Lex");
+	m_renderStage->Shader = VCResourceManager::GetShader("Lex");
 	m_renderStage->Texture = Font->m_ddsTexture;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 

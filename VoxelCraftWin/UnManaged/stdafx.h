@@ -45,6 +45,7 @@
 #include <vector>
 #include <iomanip>
 #include <functional>
+#include <algorithm>
 
 // External
 #include "glew.h"

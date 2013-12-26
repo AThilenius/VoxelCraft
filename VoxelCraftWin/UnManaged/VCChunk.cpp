@@ -15,6 +15,7 @@
 #include "VCCamera.h"
 #include "VCRenderStage.h"
 #include "VCShader.h"
+#include "VCResourceManager.h"
 
 struct BlockVerticie
 {
@@ -79,7 +80,7 @@ void VCChunk::Initialize()
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
 	m_renderStage->Camera = m_world->Camera;
-	m_renderStage->Shader = VCShader::GetShader("VoxelFallback");
+	m_renderStage->Shader = VCResourceManager::GetShader("VoxelFallback");
 	m_renderStage->ExectionType = VCRenderStage::Never;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 

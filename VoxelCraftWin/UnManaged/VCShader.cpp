@@ -11,92 +11,11 @@
 #include "VCObjectStore.h"
 #include "json/json.h"
 #include "VCPathUtilities.h"
+#include "VCResourceManager.h"
 
 VCShader* VCShader::BoundShader = NULL;
 std::unordered_map<std::string, VCShader*> VCShader::LoadedShaders;
 
-char* VCShaderAttribute::RuntimeLookup[25] = {
-	"Position0",
-	"Position1",
-	"Position2",
-	"Position3",
-	"Position4",
-	"Normal0",
-	"Normal1",
-	"Normal2",
-	"Normal3",
-	"Normal4",
-	"Color0",
-	"Color1",
-	"Color2",
-	"Color3",
-	"Color4",
-	"TexCoord0",
-	"TexCoord1",
-	"TexCoord2",
-	"TexCoord3",
-	"TexCoord4",
-	"Flags0",
-	"Flags1",
-	"Flags2",
-	"Flags3",
-	"Flags4"
-};
-
-char* VCShaderUniform::RuntimeLookup[10] = {
-	"Float",
-	"Int",
-	"Vector2",
-	"Vector3",
-	"Vector4",
-	"Matrix3",
-	"Matrix4",
-	"ColorRGBA",
-	"Sampler2D",
-	"Sampler3D"
-};
-
-VCShaderAttribute::VCShaderAttribute(int id, std::string name):
-	ID(id),
-	Name(name)
-{
-}
-
-
-VCShaderAttribute::~VCShaderAttribute(void)
-{
-}
-
-int VCShaderAttribute::GetID( std::string& name )
-{
-	for(int i = 0; i < 25; i++)
-		if (RuntimeLookup[i] == name)
-			return i;
-
-	return -1;
-}
-
-VCShaderUniform::VCShaderUniform(int typeId, std::string name):
-	TypeID(typeId),
-	Name(name)
-{
-}
-
-
-VCShaderUniform::~VCShaderUniform(void)
-{
-}
-
-int VCShaderUniform::GetID( std::string& name )
-{
-	for(int i = 0; i < 10; i++)
-	{
-		if (RuntimeLookup[i] == name)
-			return i;
-	}
-
-	return -1;
-}
 
 VCShader::VCShader():
 	m_programId(0)
@@ -290,13 +209,22 @@ void VCShader::SetUniform(int index, glm::mat4 value)
 	glUniformMatrix4fv(Uniforms[index].OpenGlID, 1, GL_FALSE, &value[0][0]);
 }
 
-GLint VCShader::GetUniformIndex( std::string name )
+int VCShader::GetUniformIndex( std::string name )
 {
 	for (int i = 0; i < Uniforms.size(); i++)
 		if (Uniforms[i].Name == name)
 			return i;
 
 	return -1;
+}
+
+GLuint VCShader::GetUniformID( std::string name )
+{
+	for (int i = 0; i < Uniforms.size(); i++)
+		if (Uniforms[i].Name == name)
+			return Uniforms[i].OpenGlID;
+
+	return 0;
 }
 
 void VCShader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
@@ -432,7 +360,7 @@ bool operator>=( const VCShader& lhs, const VCShader& rhs )
 
 int VCInteropGetShaderFromFile( char* name )
 {
-	return VCShader::GetShader(std::string(name))->Handle;
+	return VCResourceManager::GetShader(std::string(name))->Handle;
 }
 
 void VCInteropShaderSetUniformInt(int handle, int index, int value)
