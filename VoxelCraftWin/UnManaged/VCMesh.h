@@ -1,39 +1,45 @@
-////
-////  VCMesh.h
-////  VoxelCraft
-////
-////  Created by Alec Thilenius on 12/22/2013.
-////  Copyright (c) 2013 Thilenius. All rights reserved.
-////
 //
-//#pragma once
+//  VCMesh.h
+//  VoxelCraft
 //
-//#include "VCPoolableResource.h"
-//#include "assimp/mesh.h"
+//  Created by Alec Thilenius on 12/22/2013.
+//  Copyright (c) 2013 Thilenius. All rights reserved.
 //
-//struct Vertex
-//{
-//	
-//};
-//
-//
-//class Mesh
-//{
-//public:
-//	Mesh();
-//
-//	~Mesh();
-//
-//	bool LoadMesh(std::string& Filename);
-//
-//	void Render();
-//
-//private:
-//	bool InitFromScene(aiScene* pScene, std::string& Filename);
-//	void InitMesh(unsigned int Index, aiMesh* paiMesh);
-//
-//#define INVALID_MATERIAL 0xFFFFFFFF
-//
-//
-//	std::vector<MeshEntry> m_Entries;
-//};
+
+#pragma once
+
+struct VCPuvnVerticie
+{
+	glm::vec3 Position;
+	glm::vec2 UV;
+	glm::vec3 Normal;
+
+	VCPuvnVerticie() {}
+
+	VCPuvnVerticie(glm::vec3& pos, glm::vec2& tex, glm::vec3& normal) :
+		Position(pos),
+		UV(tex),
+		Normal(normal)
+	{
+	}
+};
+
+
+class VCMesh
+{
+public:
+	VCMesh();
+	~VCMesh();
+
+	void Initialize(VCPuvnVerticie* verts, UInt32* indicies, int vCount, int iCount);
+	void Render();
+
+public:
+	int VertexCount;
+	int IndexCount;
+
+private:
+	GLuint m_VAO;
+	GLuint m_vertextVBO;
+	GLuint m_indexVBO;
+};

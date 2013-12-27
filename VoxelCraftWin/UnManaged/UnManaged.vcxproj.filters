@@ -202,14 +202,10 @@
     <ClCompile Include="VCImageInstance.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="VCCursor.cpp" />
     <ClCompile Include="VCTextBuilder.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
     <ClCompile Include="VCMesh.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="VCMeshSection.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="json_reader.cpp">
@@ -236,6 +232,10 @@
     <ClCompile Include="VCShadeTypes.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="VCModel.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VCStaticMeshRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -392,14 +392,10 @@
     <ClInclude Include="VCImageInstance.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="VCCursor.h" />
     <ClInclude Include="VCTextBuilder.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
     <ClInclude Include="VCMesh.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="VCMeshSection.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="VCResourceManager.h">
@@ -417,6 +413,10 @@
     <ClInclude Include="VCShadeTypes.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="VCModel.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VCStaticMeshRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

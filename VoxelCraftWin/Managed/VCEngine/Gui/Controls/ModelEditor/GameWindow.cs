@@ -140,6 +140,9 @@ namespace VCEngine
                 for (int y = 0; y < World.ViewDistance; y++)
                     for (int z = 0; z < World.ViewDistance; z++)
                         World.Camera.Debug.DrawCube(new Vector3(x * 32, y * 32, z * 32), Vector3.One * 32, Color.ControlGreen);
+
+            Font.DrawString("Camera: " + World.Camera.Transform.Position.ToString("0.0000"), new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.White);
+            Font.DrawString("        " + World.Camera.Transform.Rotation.Forward.ToString("0.0000"), new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 35), Color.White);
         }
 
         void GameWindow_Resize(object sender, ResizeEventArgs e)

@@ -13,6 +13,7 @@
 #include "VCTexture.h"
 #include "VCPathUtilities.h"
 #include "VCMaterial.h"
+#include "VCModel.h"
 
 
 VCResourceManager::VCResourceManager(void)
@@ -62,4 +63,14 @@ VCMaterial* VCResourceManager::GetMaterial( std::string fullPath )
 VCMaterial* VCResourceManager::GetMaterialInAssets( std::string partPath )
 {
 	return VCMaterial::GetMaterial(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath));
+}
+
+VCModel* VCResourceManager::GetModel( std::string fullPath )
+{
+	return VCModel::GetModel(fullPath);
+}
+
+VCModel* VCResourceManager::GetModelInAssets( std::string partPath )
+{
+	return VCModel::GetModel(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath));
 }

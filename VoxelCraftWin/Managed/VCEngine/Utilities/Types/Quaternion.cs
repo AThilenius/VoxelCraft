@@ -527,6 +527,11 @@ namespace VCEngine
 			return String.Format("V: {0}, W: {1}", Xyz, W);
 		}
 
+        public string ToString(string format)
+        {
+            return "(" + X.ToString(format) + ", " + Y.ToString(format) + ", " + Z.ToString(format) + ", " + W.ToString(format) + ")"; //String.Format("({0}, {1}, {2})", X, Y, Z);
+        }
+
 		#endregion
 
 		#region public override bool Equals (object o)
