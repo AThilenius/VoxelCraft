@@ -24,12 +24,14 @@
     <ClCompile Include="json_writer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VC3DLineDrawer.cpp" />
+    <ClCompile Include="VCEntity.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCMaterial.cpp" />
     <ClCompile Include="VCMesh.cpp" />
     <ClCompile Include="VCModel.cpp" />
     <ClCompile Include="VCPathUtilities.cpp" />
+    <ClCompile Include="VCRenderWindow.cpp" />
     <ClCompile Include="VCResourceManager.cpp" />
     <ClCompile Include="VCShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
@@ -84,12 +86,14 @@
     <ClInclude Include="VC3DLineDrawer.h" />
     <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
+    <ClInclude Include="VCEntity.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCImageBuilder.h" />
     <ClInclude Include="VCImageInstance.h" />
+    <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLineDrawer.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
@@ -98,6 +102,7 @@
     <ClInclude Include="VCMesh.h" />
     <ClInclude Include="VCModel.h" />
     <ClInclude Include="VCPathUtilities.h" />
+    <ClInclude Include="VCRenderWindow.h" />
     <ClInclude Include="VCResourceManager.h" />
     <ClInclude Include="VCShader.h" />
     <ClInclude Include="SimplexNoise.h" />

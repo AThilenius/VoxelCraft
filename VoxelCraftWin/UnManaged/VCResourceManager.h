@@ -8,6 +8,9 @@
 
 #pragma once
 
+#define VC_DEFAULT_MODEL_PATH "Defaults\\DefaultModel.obj"
+#define VC_DEFAULT_MATERIAL_PATH "Defaults\\DefaultMaterial.vcmaterial"
+
 class VCShader;
 class VCTexture;
 class VCMaterial;
@@ -31,10 +34,12 @@ public:
 	static VCTexture* GetTexureInAssets( std::string partPath, VCTextureParams params);
 
 	// Material
+	static VCMaterial* GetMaterialDefault();
 	static VCMaterial* GetMaterial (std::string fullPath);
 	static VCMaterial* GetMaterialInAssets (std::string partPath);
 
 	// Model
+	static VCModel* GetModelDefault();
 	static VCModel* GetModel (std::string fullPath);
 	static VCModel* GetModelInAssets (std::string partPath);
 	

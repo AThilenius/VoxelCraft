@@ -419,8 +419,6 @@ void VCChunk::Render()
 	glBindVertexArray(0);
 
 	// DEBUG
-
-	// DEBUG
 	VCModel* model = VCResourceManager::GetModelInAssets("Models\\Sphere.obj");
 	VCMaterial* mat = VCResourceManager::GetMaterialInAssets("Materials\\DemoMaterial.vcmaterial");
 	VCStaticMeshRenderer renderer;

@@ -1,0 +1,10 @@
+{
+  "Name": "Default Material",
+  "Shader": "ColorDiffuse",
+  "UniformValues": [
+    {
+      "Type": "ColorRGBA",
+      "Name": "Color",
+      "Value": "200:200:200:255"
+    }]
+}

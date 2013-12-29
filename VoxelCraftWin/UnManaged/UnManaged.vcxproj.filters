@@ -65,6 +65,9 @@
     <Filter Include="Utils\JSON">
       <UniqueIdentifier>{4219ef5b-a742-40a4-80d1-a1490ecc5c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UMSceneGraph">
+      <UniqueIdentifier>{b7001819-4572-4873-8055-17b06c9cfa8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -235,7 +238,15 @@
     <ClCompile Include="VCModel.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VCStaticMeshRenderer.cpp" />
+    <ClCompile Include="VCStaticMeshRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="VCRenderWindow.cpp">
+      <Filter>UMSceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VCEntity.cpp">
+      <Filter>UMSceneGraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -286,7 +297,6 @@
     <ClInclude Include="VCInput.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="VCPhysics.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -416,7 +426,21 @@
     <ClInclude Include="VCModel.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VCStaticMeshRenderer.h" />
+    <ClInclude Include="VCStaticMeshRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VCIRenderable.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VCRenderWindow.h">
+      <Filter>UMSceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VCEntity.h">
+      <Filter>UMSceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

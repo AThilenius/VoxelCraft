@@ -7,41 +7,43 @@ namespace VCEngine
 {
     public class ObservableHashSet<T> : HashSet<T>
     {
-        public event EventHandler OnPreCollectionChanged = delegate { };
-        public event EventHandler OnPostCollectionChanged = delegate { };
+        public class AddRemoveEventArgs : EventArgs
+        {
+            public Boolean WasRemoved;
+            public T Item;
+        }
+
+        public event EventHandler<AddRemoveEventArgs> OnPreCollectionChanged = delegate { };
+        public event EventHandler<AddRemoveEventArgs> OnPostCollectionChanged = delegate { };
+        public event EventHandler OnClear = delegate {};
 
         public new bool Add(T item)
         {
-            OnPreCollectionChanged(item, EventArgs.Empty);
+            OnPreCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
             bool results = base.Add(item);
-            OnPostCollectionChanged(item, EventArgs.Empty);
+            OnPostCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
 
             return results;
         }
 
         public new void Clear()
         {
-            OnPreCollectionChanged(null, EventArgs.Empty);
             base.Clear();
-            OnPostCollectionChanged(null, EventArgs.Empty);
+            OnClear(this, EventArgs.Empty);
         }
 
         public new bool Remove(T item)
         {
-            OnPreCollectionChanged(item, EventArgs.Empty);
+            OnPreCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
             bool results = base.Remove(item);
-            OnPostCollectionChanged(item, EventArgs.Empty);
+            OnPostCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
 
             return results;
         }
 
         public new int RemoveWhere(Predicate<T> match)
         {
-            OnPreCollectionChanged(null, EventArgs.Empty);
-            int results = base.RemoveWhere(match);
-            OnPostCollectionChanged(null, EventArgs.Empty);
-
-            return results;
+            throw new NotSupportedException("Cannot use mass changing with an observable collection");
         }
 
     }

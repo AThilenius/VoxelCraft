@@ -55,6 +55,12 @@ VCTexture* VCResourceManager::GetTexure( GLuint existingBuffer )
 	return VCTexture::ManageExistingBuffer(existingBuffer);
 }
 
+VCMaterial* VCResourceManager::GetMaterialDefault()
+{
+	return GetMaterial(VCPathUtilities::Combine(VCPathUtilities::VCResourcePath, VC_DEFAULT_MATERIAL_PATH));
+}
+
+
 VCMaterial* VCResourceManager::GetMaterial( std::string fullPath )
 {
 	return VCMaterial::GetMaterial(fullPath);
@@ -63,6 +69,11 @@ VCMaterial* VCResourceManager::GetMaterial( std::string fullPath )
 VCMaterial* VCResourceManager::GetMaterialInAssets( std::string partPath )
 {
 	return VCMaterial::GetMaterial(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath));
+}
+
+VCModel* VCResourceManager::GetModelDefault()
+{
+	return GetModel(VCPathUtilities::Combine(VCPathUtilities::VCResourcePath, VC_DEFAULT_MODEL_PATH));
 }
 
 VCModel* VCResourceManager::GetModel( std::string fullPath )

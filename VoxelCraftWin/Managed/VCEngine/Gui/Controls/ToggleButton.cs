@@ -74,8 +74,6 @@ namespace VCEngine
                 }
             }
 
-            IsDepressed = true;
-
             if (!IsDepressed && invokeCallback)
             {
                 IsDepressed = true;
