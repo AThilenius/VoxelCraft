@@ -25,6 +25,7 @@ public:
 	glm::mat4 ModelMatrix;
 	VCModel* Model;
 	std::vector<VCMaterial*> Materials;
+
 };
 
 // CTor / DTor

@@ -71,7 +71,6 @@
     <ClCompile Include="VCNoise2D.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
     <ClCompile Include="VCPhysics.cpp" />
-    <ClCompile Include="VCSceneGraph.cpp" />
     <ClCompile Include="VCStreamHelpers.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="VCObjectStore.h" />
     <ClInclude Include="VCPhysics.h" />
     <ClInclude Include="VCRenderStage.h" />
-    <ClInclude Include="VCSceneGraph.h" />
     <ClInclude Include="VCTextBuffer.h" />
     <ClInclude Include="VCTextBuilder.h" />
     <ClInclude Include="VCTime.h" />

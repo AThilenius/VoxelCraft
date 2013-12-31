@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class RenderedEntity : GameObject
+    public class RenderedEntity : MarshaledGameObject
     {
 
         #region Bindings
@@ -31,7 +31,25 @@ namespace VCEngine
 
         #endregion
 
-        
+        public RenderedEntity()
+        {
+
+        }
+
+        public RenderedEntity (String modelPath, params String[] materialsPaths)
+        {
+            VCInteropEntitySetModel(UnManagedHandle, modelPath);
+            
+            for (int i = 0; i < materialsPaths.Length; i++)
+                VCInteropEntitySetMaterial(UnManagedHandle, i, materialsPaths[i]);
+        }
+
+        public override void PreRender()
+        {
+            base.PreRender();
+            VCInteropEntitySetModel(UnManagedHandle, "Models\\Sphere.obj");
+            VCInteropEntitySetModelMatrix(UnManagedHandle, Transform.TransformMatrix);
+        }
 
     }
 }

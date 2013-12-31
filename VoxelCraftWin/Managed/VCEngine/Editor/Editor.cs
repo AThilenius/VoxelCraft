@@ -29,9 +29,6 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInitalizeGui();
 
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeSceneGraph();
-
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
         private static float m_drawTillTime;
@@ -49,7 +46,6 @@ namespace VCEngine
 
             VCInteropInitalizeLexEngine();
             VCInteropInitalizeGui();
-            VCInteropInitalizeSceneGraph();
 
             VCEngineCore.EditorMode = true;
 

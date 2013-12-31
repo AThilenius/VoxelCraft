@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
-	public class Camera : GameObject
+    public class Camera : MarshaledGameObject
 	{
 		#region Bindings
 
@@ -11,16 +11,13 @@ namespace VCEngine
 		extern static int VCInteropNewCamera();
 
 		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-		extern static void VCInteropReleaseCamera(int handle);
+        extern static void VCInteropReleaseCamera(int handle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static Vector3 VCInteropCameraScreenPointToDirection(int handle, Rectangle viewPort, Point screenPoint);
+        extern static void VCInteropCameraSetProjectionViewMatrix(int handle, Matrix4 projMatrix, Matrix4 viewMatrix);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropCameraSetFields(int handle, float fovDeg, float aspect, float nearClip, float farClip, Rectangle viewport, int fullscreen);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropCameraGetFields(int handle, out float fovDeg, out float aspect, out float nearClip, out float farClip, out Rectangle viewport, out int fullscreen);
+        extern static void VCInteropCameraSetViewport(int handle, Rectangle viewport);
 
         protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewCamera; } }
         protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseCamera; } }
@@ -28,71 +25,57 @@ namespace VCEngine
         #endregion
 
         public VC3DLineDrawer Debug;
-
         public float FieldOfViewDegrees
         {
-            get
-            {
-                GetData();
-                return m_fov;
-            }
-
+            get { return MathHelper.RadiansToDegrees(m_fieldOfViewRadians); }
             set
             {
-                m_fov = value;
-                SetData();
-            }
-        }
-        public float AspectRatio
-        {
-            get
-            {
-                GetData();
-                return m_aspect;
-            }
-
-            set
-            {
-                m_aspect = value;
-                SetData();
+                m_fieldOfViewRadians = MathHelper.DegreesToRadians(value);
+                m_needsRebuild = true;
             }
         }
         public float NearClip
         {
-            get
-            {
-                GetData();
-                return m_near;
-            }
-
+            get { return m_nearClip; }
             set
             {
-                m_near = value;
-                SetData();
+                m_nearClip = value;
+                m_needsRebuild = true;
             }
         }
         public float FarClip
         {
-            get
-            {
-                GetData();
-                return m_far;
-            }
-
+            get { return m_farClip; }
             set
             {
-                m_far = value;
-                SetData();
+                m_farClip = value;
+                m_needsRebuild = true;
+            }
+        }
+        public float AspectRatio
+        {
+            get { return m_aspectRatio; }
+            set
+            {
+                if (value < 0.0f || float.IsNaN(value))
+                    return;
+
+                m_aspectRatio = value;
+                m_needsRebuild = true;
+            }
+        }
+        public bool Fullscreen
+        {
+            get { return m_fullscreen; }
+            set
+            {
+                m_fullscreen = value;
+                m_needsRebuild = true;
             }
         }
         public Rectangle Viewport
         {
-            get
-            {
-                GetData();
-                return m_viewport;
-            }
-
+            get { return Fullscreen ? Window.FullViewport : m_viewport; }
             set
             {
                 m_viewport = value;
@@ -102,87 +85,83 @@ namespace VCEngine
                 if (m_viewport.Width < 0) m_viewport.Width = 0;
                 if (m_viewport.Height < 0) m_viewport.Height = 0;
 
-                SetData();
+                VCInteropCameraSetViewport(UnManagedHandle, m_viewport);
             }
         }
-        public bool Fullscreen
+        public Matrix4 ProjectionMatrix
         {
             get
             {
-                GetData();
-                return m_fullscreen;
-            }
+                if (m_needsRebuild)
+                {
+                    m_projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(m_fieldOfViewRadians, m_aspectRatio, m_nearClip, m_farClip);
+                    m_inverseProjMatrix = Matrix4.Invert(m_projectionMatrix);
+                }
 
-            set
-            {
-                m_fullscreen = value;
-                SetData();
+                return m_projectionMatrix;
             }
         }
 
-        private float m_fov;
-        private float m_aspect;
-        private float m_near;
-        private float m_far;
-        private Rectangle m_viewport;
+        private Rectangle m_viewport = new Rectangle(0, 0, 100, 100);
+        private float m_fieldOfViewRadians = MathHelper.DegreesToRadians(65.0f);
+        private float m_nearClip = 0.1f;
+        private float m_farClip = 500.0f;
+        private float m_aspectRatio = 1.0f;
         private bool m_fullscreen;
+        private Matrix4 m_projectionMatrix;
+        private Matrix4 m_inverseProjMatrix;
+        private Boolean m_needsRebuild = true;
 
 		public Camera ()
 		{
             Transform.InvertPosition = true;
-            GetData();
-            AspectRatio = (float)Window.ScaledSize.X / (float)Window.ScaledSize.Y;
             Debug = new VC3DLineDrawer(this);
 		}
 
         public Camera(int existingHandle) : base(existingHandle)
         {
             Transform.InvertPosition = true;
-            GetData();
-            AspectRatio = (float)Window.ScaledSize.X / (float)Window.ScaledSize.Y;
             Debug = new VC3DLineDrawer(this);
         }
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)
         {
-            Vector3 direction = VCInteropCameraScreenPointToDirection(
-                    UnManagedHandle,
-                    Fullscreen ? Window.FullViewport : m_viewport, 
-                    point);
+	        Rectangle screenBounds = Window.FullViewport;
+            Rectangle viewPort = Fullscreen ? Window.FullViewport : Viewport;
+
+	        Vector2 ll = new Vector2 (viewPort.X, viewPort.Y);
+	        Vector2 ur = new Vector2 (viewPort.X + viewPort.Width, viewPort.Y + viewPort.Height);
+	        Vector2 sp = new Vector2 (point.X, point.Y);
+
+	        Vector2 delta = ur - ll;
+	        Vector2 spInViewport = new Vector2 (2.0f * ((sp.X - ll.X) / delta.X) - 1.0f, 2.0f * ((sp.Y - ll.Y) / delta.Y) - 1.0f);
+
+	        Vector4 ray_clip = new Vector4 (spInViewport.X, spInViewport.Y, -1.0f, 1.0f);
+
+	        Vector4 ray_eye = Vector4.Transform(ray_clip, m_inverseProjMatrix);
+	        ray_eye = new Vector4 (ray_eye.X, ray_eye.Y, -1.0f, 0.0f);
+
+	        Vector4 rayWorld4 = Vector4.Transform(ray_eye, Matrix4.Invert(Transform.TransformMatrix));
+	        Vector3 ray_wor = new Vector3(rayWorld4);
+            ray_wor.Normalize();
 
             return new Ray
             {
-                Direction = direction,
+                Direction = ray_wor,
                 Origin = Transform.Position,
                 MaxDistance = float.PositiveInfinity
             };
         }
 
-        public Ray ScreenPointToRay(Point point, float maxViewDistance, Rectangle viewport)
+        public override void PreRender()
         {
-            Vector3 direction = VCInteropCameraScreenPointToDirection(
-                    UnManagedHandle,
-                    viewport,
-                    point);
+            // Ensure View matrix is up to date
+            Transform.PreRender();
 
-            return new Ray
-            {
-                Direction = direction,
-                Origin = Transform.Position,
-                MaxDistance = float.PositiveInfinity
-            };
-        }
+            VCInteropCameraSetProjectionViewMatrix(UnManagedHandle, ProjectionMatrix, Transform.TransformMatrix);
+            VCInteropCameraSetViewport(UnManagedHandle, Viewport);
 
-        private void SetData()
-        {
-            VCInteropCameraSetFields(UnManagedHandle, m_far, m_aspect, m_near, m_far, m_viewport, m_fullscreen ? 1 : 0);
-        }
-
-        private void GetData()
-        {
-            int fullScreen;
-            VCInteropCameraGetFields(UnManagedHandle, out m_fov, out m_aspect, out m_near, out m_far, out m_viewport, out fullScreen);
-            m_fullscreen = fullScreen > 0;
+            base.PreRender();
         }
 
 	}

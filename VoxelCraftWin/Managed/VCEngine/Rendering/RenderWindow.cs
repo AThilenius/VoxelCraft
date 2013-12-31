@@ -46,7 +46,7 @@ namespace VCEngine
         public RenderWindow()
         {
             MainCamera = new Camera();
-            Entities.OnPostCollectionChanged += (s, a) =>
+            Entities.OnCollectionChanged += (s, a) =>
                 {
                     if (a.WasRemoved)
                         VCInteropRenderWindowRemoveEntity(UnManagedHandle, a.Item.UnManagedHandle);

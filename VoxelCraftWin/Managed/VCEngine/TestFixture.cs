@@ -10,25 +10,18 @@ namespace VCEngine
 {
     public class TestFixture
     {
+        static RenderWindow m_renderWindow;
+        static RenderedEntity m_entity;
 
         internal static void OnStart()
         {
-            Material testMat = new Material();
-            testMat.Name = "Gun Textured";
-            testMat.Shader = "DiffuseNormal";
-            testMat.UniformValues.Add(new Material.MaterialUniformValue("Diffuse", ShaderUniform.ValueTypes.Sampler2D, @"C:\Users\BlahBlah\Gun.DDS"));
-            testMat.UniformValues.Add(new Material.MaterialUniformValue("Normal", ShaderUniform.ValueTypes.Sampler2D, @"C:\Users\BlahBlah\GunNORM.DDS"));
-            testMat.UniformValues.Add(new Material.MaterialUniformValue("NoiseScaler", ShaderUniform.ValueTypes.Float, @"1.0"));
+            //m_renderWindow = new RenderWindow();
+            //m_renderWindow.MainCamera.Fullscreen = true;
 
-            using (TextWriter writer = new StreamWriter(@"JsonOutput.txt"))
-            {
-                writer.Write(JsonConvert.SerializeObject(testMat, Formatting.Indented));
-            }
+            //m_entity = new RenderedEntity();
+            //m_entity.Transform.Position = new Vector3(0, 0, -10);
 
-            //using (TextReader reader = new StreamReader(@"JsonOutput.txt"))
-            //{
-            //    Shader shader = JsonConvert.DeserializeObject<Shader>(reader.ReadToEnd());
-            //}
+            //m_renderWindow.Entities.Add(m_entity);
         }
 
         public static void PerUpdate()

@@ -9,6 +9,7 @@
 #pragma once
 
 class VCRenderStage;
+class VCIRenderable;
 
 struct _VCRenderStageCompare 
 {
@@ -27,6 +28,8 @@ public:
 	void RegisterStage(VCRenderStage* state);
 	void UnRegisterStage(VCRenderStage* state);
 
+	void AddRenderable (VCIRenderable* renderable);
+
 public:
 	// Static
 	static VCGLRenderer* Instance;
@@ -42,7 +45,9 @@ private:
 	void CreateDepthFrameBuffer();
 
 	typedef boost::container::flat_set<VCRenderStage*, _VCRenderStageCompare> RenderSet;
+	typedef boost::container::flat_set<VCIRenderable*> RenderableSet;
 	RenderSet m_renderSet;
+	RenderableSet m_renderables;
 };
 
 // Interop

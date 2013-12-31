@@ -4,7 +4,7 @@ namespace VCEngine
 {
 	public abstract class Component
 	{
-		public GameObject GameObject;
+        public GameObject GameObject;
 		public Transform Transform;
 
 		virtual internal int Handle { get; set; }

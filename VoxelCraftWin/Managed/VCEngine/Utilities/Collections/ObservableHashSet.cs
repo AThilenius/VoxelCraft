@@ -13,15 +13,13 @@ namespace VCEngine
             public T Item;
         }
 
-        public event EventHandler<AddRemoveEventArgs> OnPreCollectionChanged = delegate { };
-        public event EventHandler<AddRemoveEventArgs> OnPostCollectionChanged = delegate { };
+        public event EventHandler<AddRemoveEventArgs> OnCollectionChanged = delegate { };
         public event EventHandler OnClear = delegate {};
 
         public new bool Add(T item)
         {
-            OnPreCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
             bool results = base.Add(item);
-            OnPostCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
 
             return results;
         }
@@ -34,9 +32,8 @@ namespace VCEngine
 
         public new bool Remove(T item)
         {
-            OnPreCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
             bool results = base.Remove(item);
-            OnPostCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
 
             return results;
         }

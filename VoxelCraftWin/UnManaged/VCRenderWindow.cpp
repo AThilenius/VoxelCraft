@@ -11,6 +11,7 @@
 
 #include "VCObjectStore.h"
 #include "VCCamera.h"
+#include "VCGLRenderer.h"
 
 
 VCRenderWindow::VCRenderWindow(void)
@@ -25,6 +26,8 @@ VCRenderWindow::~VCRenderWindow(void)
 
 void VCRenderWindow::Render()
 {
+	VCCamera::BoundCamera = Camera;
+
 	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
 	{
 		VCEntity* entity = *iter;
@@ -35,6 +38,7 @@ void VCRenderWindow::Render()
 int VCInteropRenderWindowNew()
 {
 	VCRenderWindow* rWindow = new VCRenderWindow();
+	VCGLRenderer::Instance->AddRenderable(rWindow);
 	return rWindow->Handle;
 }
 

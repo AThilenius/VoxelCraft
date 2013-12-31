@@ -109,7 +109,7 @@ namespace VCEngine
 		}
 
 		#endregion
-
+        
 		#region Public Members
 
 		#region Properties
@@ -670,40 +670,6 @@ namespace VCEngine
 
 		#endregion
 
-		#region Obsolete Functions
-
-		#region Translation Functions
-
-		/// <summary>
-		/// Builds a translation matrix.
-		/// </summary>
-		/// <param name="trans">The translation vector.</param>
-		/// <returns>A new Matrix4 instance.</returns>
-		[Obsolete("Use CreateTranslation instead.")]
-		public static Matrix4 Translation(Vector3 trans)
-		{
-			return Translation(trans.X, trans.Y, trans.Z);
-		}
-
-		/// <summary>
-		/// Build a translation matrix with the given translation
-		/// </summary>
-		/// <param name="x">X translation</param>
-		/// <param name="y">Y translation</param>
-		/// <param name="z">Z translation</param>
-		/// <returns>A Translation matrix</returns>
-		[Obsolete("Use CreateTranslation instead.")]
-		public static Matrix4 Translation(float x, float y, float z)
-		{
-			Matrix4 result = Identity;
-			result.Row3 = new Vector4(x, y, z, 1.0f);
-			return result;
-		}
-
-		#endregion
-
-		#endregion
-
 		#region Scale Functions
 
 		/// <summary>
@@ -746,86 +712,6 @@ namespace VCEngine
 		#endregion
 
 		#region Rotation Functions
-
-		/// <summary>
-		/// Build a rotation matrix that rotates about the x-axis
-		/// </summary>
-		/// <param name="angle">angle in radians to rotate counter-clockwise around the x-axis</param>
-		/// <returns>A rotation matrix</returns>
-		[Obsolete("Use CreateRotationX instead.")]
-		public static Matrix4 RotateX(float angle)
-		{
-			float cos = (float)System.Math.Cos(angle);
-			float sin = (float)System.Math.Sin(angle);
-
-			Matrix4 result;
-			result.Row0 = Vector4.UnitX;
-			result.Row1 = new Vector4(0.0f, cos, sin, 0.0f);
-			result.Row2 = new Vector4(0.0f, -sin, cos, 0.0f);
-			result.Row3 = Vector4.UnitW;
-			return result;
-		}
-
-		/// <summary>
-		/// Build a rotation matrix that rotates about the y-axis
-		/// </summary>
-		/// <param name="angle">angle in radians to rotate counter-clockwise around the y-axis</param>
-		/// <returns>A rotation matrix</returns>
-		[Obsolete("Use CreateRotationY instead.")]
-		public static Matrix4 RotateY(float angle)
-		{
-			float cos = (float)System.Math.Cos(angle);
-			float sin = (float)System.Math.Sin(angle);
-
-			Matrix4 result;
-			result.Row0 = new Vector4(cos, 0.0f, -sin, 0.0f);
-			result.Row1 = Vector4.UnitY;
-			result.Row2 = new Vector4(sin, 0.0f, cos, 0.0f);
-			result.Row3 = Vector4.UnitW;
-			return result;
-		}
-
-		/// <summary>
-		/// Build a rotation matrix that rotates about the z-axis
-		/// </summary>
-		/// <param name="angle">angle in radians to rotate counter-clockwise around the z-axis</param>
-		/// <returns>A rotation matrix</returns>
-		[Obsolete("Use CreateRotationZ instead.")]
-		public static Matrix4 RotateZ(float angle)
-		{
-			float cos = (float)System.Math.Cos(angle);
-			float sin = (float)System.Math.Sin(angle);
-
-			Matrix4 result;
-			result.Row0 = new Vector4(cos, sin, 0.0f, 0.0f);
-			result.Row1 = new Vector4(-sin, cos, 0.0f, 0.0f);
-			result.Row2 = Vector4.UnitZ;
-			result.Row3 = Vector4.UnitW;
-			return result;
-		}
-
-		/// <summary>
-		/// Build a rotation matrix to rotate about the given axis
-		/// </summary>
-		/// <param name="axis">the axis to rotate about</param>
-		/// <param name="angle">angle in radians to rotate counter-clockwise (looking in the direction of the given axis)</param>
-		/// <returns>A rotation matrix</returns>
-		[Obsolete("Use CreateFromAxisAngle instead.")]
-		public static Matrix4 Rotate(Vector3 axis, float angle)
-		{
-			float cos = (float)System.Math.Cos(-angle);
-			float sin = (float)System.Math.Sin(-angle);
-			float t = 1.0f - cos;
-
-			axis.Normalize();
-
-			Matrix4 result;
-			result.Row0 = new Vector4(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0f);
-			result.Row1 = new Vector4(t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0f);
-			result.Row2 = new Vector4(t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0f);
-			result.Row3 = Vector4.UnitW;
-			return result;
-		}
 
 		/// <summary>
 		/// Build a rotation matrix from a quaternion
@@ -883,47 +769,6 @@ namespace VCEngine
 		public static Matrix4 LookAt(float eyeX, float eyeY, float eyeZ, float targetX, float targetY, float targetZ, float upX, float upY, float upZ)
 		{
 			return LookAt(new Vector3(eyeX, eyeY, eyeZ), new Vector3(targetX, targetY, targetZ), new Vector3(upX, upY, upZ));
-		}
-
-		/// <summary>
-		/// Build a projection matrix
-		/// </summary>
-		/// <param name="left">Left edge of the view frustum</param>
-		/// <param name="right">Right edge of the view frustum</param>
-		/// <param name="bottom">Bottom edge of the view frustum</param>
-		/// <param name="top">Top edge of the view frustum</param>
-		/// <param name="near">Distance to the near clip plane</param>
-		/// <param name="far">Distance to the far clip plane</param>
-		/// <returns>A projection matrix that transforms camera space to raster space</returns>
-		[Obsolete("Use CreatePerspectiveOffCenter instead.")]
-		public static Matrix4 Frustum(float left, float right, float bottom, float top, float near, float far)
-		{
-			float invRL = 1.0f / (right - left);
-			float invTB = 1.0f / (top - bottom);
-			float invFN = 1.0f / (far - near);
-			return new Matrix4(new Vector4(2.0f * near * invRL, 0.0f, 0.0f, 0.0f),
-			                   new Vector4(0.0f, 2.0f * near * invTB, 0.0f, 0.0f),
-			                   new Vector4((right + left) * invRL, (top + bottom) * invTB, -(far + near) * invFN, -1.0f),
-			                   new Vector4(0.0f, 0.0f, -2.0f * far * near * invFN, 0.0f));
-		}
-
-		/// <summary>
-		/// Build a projection matrix
-		/// </summary>
-		/// <param name="fovy">Angle of the field of view in the y direction (in radians)</param>
-		/// <param name="aspect">Aspect ratio of the view (width / height)</param>
-		/// <param name="near">Distance to the near clip plane</param>
-		/// <param name="far">Distance to the far clip plane</param>
-		/// <returns>A projection matrix that transforms camera space to raster space</returns>
-		[Obsolete("Use CreatePerspectiveFieldOfView instead.")]
-		public static Matrix4 Perspective(float fovy, float aspect, float near, float far)
-		{
-			float yMax = near * (float)System.Math.Tan(0.5f * fovy);
-			float yMin = -yMax;
-			float xMin = yMin * aspect;
-			float xMax = yMax * aspect;
-
-			return Frustum(xMin, xMax, yMin, yMax, near, far);
 		}
 
 		#endregion

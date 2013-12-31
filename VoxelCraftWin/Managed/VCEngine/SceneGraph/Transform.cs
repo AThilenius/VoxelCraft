@@ -3,68 +3,66 @@ using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
-	public class Transform
+	public class Transform : Component
 	{
-		#region Bindings
-
-		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static Vector3 VCInteropTransformGetPosition(int handle);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static Quaternion VCInteropTransformGetRotation(int handle);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static Vector3 VCInteropTransformGetScale(int handle);
-
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropTransformSetPosition(int handle, Vector3 pos);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropTransformSetRotation(int handle, Quaternion rot);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropTransformSetScale(int handle, Vector3 scale);
-
-		#endregion
-
-        public Vector3 Position
+        public virtual Vector3 Position
         {
             get 
             { 
                 if (InvertPosition)
-                    return -VCInteropTransformGetPosition(GameObject.UnManagedHandle); 
+                    return -m_position; 
                 else
-                    return VCInteropTransformGetPosition(GameObject.UnManagedHandle);
+                    return m_position;
             }
             set 
             {
                 if (InvertPosition)
-                    VCInteropTransformSetPosition(GameObject.UnManagedHandle, -value); 
+                    m_position = -value; 
                 else
-                    VCInteropTransformSetPosition(GameObject.UnManagedHandle, value); 
+                    m_position = value; 
             }
         }
-        public Quaternion Rotation
+        public virtual Quaternion Rotation
         {
-            get { return VCInteropTransformGetRotation(GameObject.UnManagedHandle); }
-            set { VCInteropTransformSetRotation(GameObject.UnManagedHandle, value); }
+            get { return m_rotation; }
+            set { m_rotation = value; }
         }
-        public Vector3 Scale
+        public virtual Vector3 Scale
         {
-            get { return VCInteropTransformGetScale(GameObject.UnManagedHandle); }
-            set { VCInteropTransformSetScale(GameObject.UnManagedHandle, value); }
+            get { return m_scale; }
+            set { m_scale = value; }
         }
-        
-        public GameObject GameObject;
 
-        internal bool InvertPosition;
+        public virtual Matrix4 TransformMatrix
+        {
+            get
+            {
+                if (m_rebuildNeeded)
+                {
+                    // M = S * R * T
+                    m_transformMatrix = Matrix4.Scale(m_scale) * Matrix4.Rotate(m_rotation) * Matrix4.CreateTranslation(m_position);
+                    
+                    // Will crawl up the tree and rebuild needed parents, and return
+                    // when it finds the first built node.
+                    if (GameObject.Parent != null)
+                        m_transformMatrix = m_transformMatrix * GameObject.Parent.Transform.TransformMatrix;
 
-		internal Transform (GameObject parent)
-		{
-            GameObject = parent;
-		}
+                    m_rebuildNeeded = false;
+                }
 
+                return m_transformMatrix;
+            }
+        }
+
+        internal Boolean InvertPosition;
+
+        private Vector3 m_position = Vector3.Zero;
+        private Quaternion m_rotation = Quaternion.Identity;
+        private Vector3 m_scale = Vector3.One;
+
+        private Boolean m_rebuildNeeded = true;
+        private Matrix4 m_transformMatrix;
+                
 	}
 }
 

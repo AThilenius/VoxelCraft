@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
 {
-    public delegate int UnManagedCTorDelegate();
-    public delegate void UnManagedDTorDelegate(int handle);
-
-    public abstract class MarshaledObject : IDisposable
+    public abstract class MarshaledGameObject : GameObject, IDisposable
     {
         internal int UnManagedHandle = -1;
 
         protected virtual UnManagedCTorDelegate UnManagedCTor { get { return null; } }
         protected virtual UnManagedDTorDelegate UnManagedDTor { get { return null; } }
 
-        public MarshaledObject()
+        public MarshaledGameObject()
         {
             if (UnManagedCTor == null)
                 return;
 
             UnManagedHandle = UnManagedCTor();
             ObjectStore.RegisterObject(this, UnManagedHandle);
+
+            // Overwrite Transform with a marshaled one
+            Components.Remove(m_transform);
+            m_transform = new MarshaledTransform(UnManagedHandle);
+            Components.Add(m_transform);
         }
 
-        public MarshaledObject(int existingHandle)
+        public MarshaledGameObject(int existingHandle)
         {
             if (UnManagedDTor == null)
                 return;
@@ -34,9 +37,14 @@ namespace VCEngine
                 UnManagedHandle = existingHandle;
                 ObjectStore.RegisterObject(this, UnManagedHandle);
             }
+
+            // Overwrite Transform with a marshaled one
+            Components.Remove(m_transform);
+            m_transform = new MarshaledTransform(UnManagedHandle);
+            Components.Add(m_transform);
         }
 
-        ~MarshaledObject()
+        ~MarshaledGameObject()
         {
             if (UnManagedHandle == -1)
                 return;

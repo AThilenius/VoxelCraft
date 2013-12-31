@@ -12,8 +12,9 @@ class VCCamera;
 
 #include "VCMarshalableObject.h"
 #include "VCEntity.h"
+#include "VCIRenderable.h"
 
-class VCRenderWindow : public VCMarshalableObject
+class VCRenderWindow : public VCMarshalableObject, public VCIRenderable
 {
 public:
 	VCRenderWindow();

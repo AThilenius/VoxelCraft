@@ -63,9 +63,3 @@ void VCInteropInitalizeGui()
 	VCApplication::Instance->Gui = new VCGui();
 	VCApplication::Instance->Gui->Initialize();
 }
-
-void VCInteropInitalizeSceneGraph()
-{
-	VCApplication::Instance->SceneGraph = new VCSceneGraph();
-	VCApplication::Instance->SceneGraph->Initalize();
-}

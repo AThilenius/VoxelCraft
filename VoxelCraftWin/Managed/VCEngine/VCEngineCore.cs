@@ -9,47 +9,31 @@ using System.Diagnostics;
 namespace VCEngine
 {
     public class VCEngineCore
-	{
+    {
         public static bool EditorMode;
 
-		public static void Initialize()
-		{
+        public static void Initialize()
+        {
             AppDomain.CurrentDomain.UnhandledException += (obj, e) => Console.WriteLine(e.ExceptionObject.ToString());
 
-            try
-            {
-                SceneGraph.RootNode = new GameObject();
-                Window.Initialize();
+            SceneGraph.RootNode = new GameObject();
+            Window.Initialize();
 
-                if (!EditorMode)
-                    AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-		}
+            if (!EditorMode)
+                AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
+        }
 
         public static void Start()
         {
-            try
+            if (!EditorMode)
             {
-                if (!EditorMode)
-                {
-                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                        inst.Start();
-                }
-
-                SceneGraph.RootNode.PropagateStart();
-
-                TestFixture.OnStart();
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.Start();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
+
+            SceneGraph.RootNode.Start();
+
+            TestFixture.OnStart();
         }
 
         internal static void PropagateUpdates()
@@ -58,67 +42,43 @@ namespace VCEngine
             VCEngineCore.LateUpdate();
             VCEngineCore.PreRender();
         }
-        public static void Update() 
-		{
-            try
+        public static void Update()
+        {
+            Time.Update();
+            Gui.Reset();
+
+            if (!EditorMode)
             {
-                Time.Update();
-                Gui.Reset();
-
-                if (!EditorMode)
-                {
-                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                        inst.Update();
-                }
-
-                SceneGraph.RootNode.PropagateUpdate();
-
-                // Debug
-                TestFixture.PerUpdate();
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.Update();
             }
-            catch (Exception ex)
+
+            SceneGraph.RootNode.Update();
+
+            // Debug
+            TestFixture.PerUpdate();
+        }
+
+        public static void LateUpdate()
+        {
+            if (!EditorMode)
             {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.LateUpdate();
             }
-		}
 
-        public static void LateUpdate() 
-		{
-            try
-            {
-                if (!EditorMode)
-                {
-                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                        inst.LateUpdate();
-                }
-
-                SceneGraph.RootNode.PropagateLateUpdate();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-		}
+            SceneGraph.RootNode.LateUpdate();
+        }
 
         public static void PreRender()
         {
-            try
+            if (!EditorMode)
             {
-                if (!EditorMode)
-                {
-                    foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
-                        inst.PreRender();
-                }
+                foreach (StaticInstance inst in AssemblyLoader.StaticInstances)
+                    inst.PreRender();
+            }
 
-                SceneGraph.RootNode.PropagatePreRender();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
+            SceneGraph.RootNode.PreRender();
         }
 
     }

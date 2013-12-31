@@ -8,85 +8,75 @@ namespace VCEngine
     public class ObservableList<T> : List<T>
     {
 
-        public event EventHandler OnPreCollectionChanged = delegate { };
-        public event EventHandler OnPostCollectionChanged = delegate { };
+        public class AddRemoveEventArgs : EventArgs
+        {
+            public Boolean WasRemoved;
+            public T Item;
+        }
 
-        public T this[int index]
+        public event EventHandler<AddRemoveEventArgs> OnCollectionChanged = delegate { };
+        public event EventHandler OnClear = delegate { };
+
+        new public T this[int index]
         {
             get { return base[index]; }
             set
             {
-                OnPreCollectionChanged(this, EventArgs.Empty);
                 base[index] = value;
-                OnPostCollectionChanged(this, EventArgs.Empty);
+                OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = value });
             }
         }
 
-        public void Add(T item)
+        new public void Add(T item)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
             base.Add(item);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
         }
 
-        public void AddRange(IEnumerable<T> collection)
+        new public void AddRange(IEnumerable<T> collection)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
-            base.AddRange(collection);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            throw new NotSupportedException();
         }
 
-        public void Clear()
+        new public void Clear()
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
-            base.Clear();
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            throw new NotSupportedException();
         }
 
-        public void Insert(int index, T item)
+        new public void Insert(int index, T item)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
             base.Insert(index, item);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = false, Item = item });
         }
 
-        public void InsertRange(int index, IEnumerable<T> collection)
+        new public void InsertRange(int index, IEnumerable<T> collection)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
-            base.InsertRange(index, collection);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            throw new NotSupportedException();
         }
 
-        public bool Remove(T item)
+        new public bool Remove(T item)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
             bool result = base.Remove(item);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
 
             return result;
         }
 
-        public int RemoveAll(Predicate<T> match)
+        new public int RemoveAll(Predicate<T> match)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
-            int result = base.RemoveAll(match);
-            OnPostCollectionChanged(this, EventArgs.Empty);
-
-            return result;
+            throw new NotSupportedException();
         }
 
-        public void RemoveAt(int index)
+        new public void RemoveAt(int index)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
+            T item = base[index];
             base.RemoveAt(index);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            OnCollectionChanged(this, new AddRemoveEventArgs { WasRemoved = true, Item = item });
         }
 
-        public void RemoveRange(int index, int count)
+        new public void RemoveRange(int index, int count)
         {
-            OnPreCollectionChanged(this, EventArgs.Empty);
-            base.RemoveRange(index, count);
-            OnPostCollectionChanged(this, EventArgs.Empty);
+            throw new NotSupportedException();
         }
 
 

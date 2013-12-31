@@ -70,12 +70,12 @@ namespace VCEngine
         private static void CreateEditorWindow()
         {
             // HACK
-            EditorWindow = new GameWindow(2);
-            Control.MainControl.AddControl(EditorWindow);
-            EditorWorld.MasterGameWindow = EditorWindow;
-            EditorWindow.DockOrder = 3;
-            //EditorWindow.Dock = Control.Dockings.Fill;
-            EditorWindow.Frame = EditorWindow.Frame;
+            //EditorWindow = new GameWindow(2);
+            //Control.MainControl.AddControl(EditorWindow);
+            //EditorWorld.MasterGameWindow = EditorWindow;
+            //EditorWindow.DockOrder = 3;
+            ////EditorWindow.Dock = Control.Dockings.Fill;
+            //EditorWindow.Frame = EditorWindow.Frame;
         }
 
     }

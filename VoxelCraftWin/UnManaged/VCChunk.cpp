@@ -417,17 +417,6 @@ void VCChunk::Render()
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
 
 	glBindVertexArray(0);
-
-	// DEBUG
-	VCModel* model = VCResourceManager::GetModelInAssets("Models\\Sphere.obj");
-	VCMaterial* mat = VCResourceManager::GetMaterialInAssets("Materials\\DemoMaterial.vcmaterial");
-	VCStaticMeshRenderer renderer;
-	renderer.Model = model;
-	for (int i = 0; i < model->Meshes.size(); i++)
-		renderer.Materials.push_back(mat);
-
-	renderer.Position = glm::vec3(0, 10, 0);
-	renderer.Render();
 }
 
 // ===== Serialization ======================================================

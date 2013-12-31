@@ -15,7 +15,6 @@
 #include "VCLexicalEngine.h"
 #include "VCGui.h"
 #include "VCTime.h"
-#include "VCSceneGraph.h"
 
 class VCApplication
 {
@@ -26,7 +25,6 @@ public:
 
 public:
     VCWindow* Window;
-    VCSceneGraph* SceneGraph;
     VCInput* Input;
 	VCGLRenderer* Renderer;
     VCObjectStore* ObjectStore;
@@ -42,4 +40,3 @@ DLL_EXPORT_API void VCInteropInitalizeInput();
 DLL_EXPORT_API void VCInteropInitalizeRenderer();
 DLL_EXPORT_API void VCInteropInitalizeLexEngine();
 DLL_EXPORT_API void VCInteropInitalizeGui();
-DLL_EXPORT_API void VCInteropInitalizeSceneGraph();

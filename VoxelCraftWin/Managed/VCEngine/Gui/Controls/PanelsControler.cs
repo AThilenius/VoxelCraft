@@ -72,7 +72,7 @@ namespace VCEngine
             Point right = m_rightAnimator.GetValue();
 
             EditorGui.SolutionEx.Location = left;
-            EditorGui.EditorWindow.Frame = new Rectangle(250 + left.X, 0, right.X - (left.X + 250), Window.ScaledSize.Y - 75);
+            //EditorGui.EditorWindow.Frame = new Rectangle(250 + left.X, 0, right.X - (left.X + 250), Window.ScaledSize.Y - 75);
             EditorGui.RightContextMenu.Location = right;
         }
 

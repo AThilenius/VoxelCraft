@@ -88,9 +88,6 @@
     <ClCompile Include="VCGameObject.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="VCSceneGraph.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
     <ClCompile Include="VCGLRenderer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -265,9 +262,6 @@
       <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCGameObject.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="VCSceneGraph.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCGLRenderer.h">

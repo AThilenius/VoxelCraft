@@ -11,7 +11,6 @@
 
 #include "VCChunk.h"
 #include "VCBlock.h"
-#include "VCSceneGraph.h"
 #include "VCStreamHelpers.h"
 #include "VCIChunkGenerator.h"
 #include "VCPhysics.h"
@@ -49,7 +48,6 @@ VCWorld::~VCWorld(void)
 	if (m_chunks != NULL)
 	{
 		WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
-			m_chunks[FLATTEN_WORLD(x ,y, z)]->SetParent(NULL);
 			delete m_chunks[FLATTEN_WORLD(x ,y, z)];
 		}}}
 
@@ -61,14 +59,12 @@ void VCWorld::InitializeEmpty()
 {
 	// Camera
 	Camera = new VCCamera();
-	Camera->FullScreen = false;
 	
 	// Chunks
 	m_chunks = (VCChunk**) malloc ( sizeof(VCChunk*) * m_viewDistTwo * m_viewDistTwo * m_viewDistTwo );
 
 	WORLD_ORDERED_ITTORATOR(cX, cY, cZ)
 		m_chunks[FLATTEN_WORLD(x ,y, z)] = new VCChunk(cX, cY, cZ, this);
-		m_chunks[FLATTEN_WORLD(x ,y, z)]->SetParent(VCSceneGraph::Instance->RootNode);
 		m_chunks[FLATTEN_WORLD(x ,y, z)]->Initialize();
 	}}}
 }

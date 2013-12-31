@@ -4,146 +4,100 @@ using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
-	public class GameObject : MarshaledObject
+	public class GameObject
 	{
-		#region Bindings
+        public GameObject Parent
+        {
+            get { return m_parent; }
+            set 
+            {
+                if (m_parent == value)
+                    return;
 
-		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-		extern static int VCInteropNewGameObject();
-
-		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-		extern static void VCInteropReleaseGameObject(int handle);
-
-		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-		extern static void VCInteropGameObjectSetParent(int handle, int parentHandle);
-
-        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropNewGameObject; } }
-        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropReleaseGameObject; } }
-        
-		#endregion
-
-		
-		public GameObject Parent
-		{
-			get
-			{
-				return m_parent;
-			}
-			set
-			{
-                if (m_parent != null)
+                if (m_parent != null && m_parent.Children.Contains(this))
                     m_parent.Children.Remove(this);
 
-				m_parent = value;
+                m_parent = value;
 
-                if (value != null)
-                {
-                    VCInteropGameObjectSetParent(UnManagedHandle, value.UnManagedHandle);
-                    value.Children.Add(this);
-                }
-			}
-		}
-        public List<GameObject> Children = new List<GameObject>();
-        public List<Component> Components = new List<Component>();
-        public Transform Transform { get; private set; }
+                if (value != null && !m_parent.Children.Contains(this))
+                    m_parent.Children.Add(this);
+            }
+        }
+        public ObservableList<GameObject> Children { get { return m_children; } }
+        public Transform Transform { get { return m_transform; } }
 
-        private GameObject m_parent;
+        public ObservableList<Component> Components = new ObservableList<Component>();
+
+        protected GameObject m_parent;
+        protected Transform m_transform;
+        protected ObservableList<GameObject> m_children = new ObservableList<GameObject>();
 
 		public GameObject ()
 		{
-            this.Transform = new VCEngine.Transform(this);
             Parent = SceneGraph.RootNode;
+            m_transform = new Transform();
+            Components.OnCollectionChanged += (s, a) =>
+                {
+                    if (a.WasRemoved)
+                    {
+                        a.Item.GameObject = null;
+                        a.Item.Transform = null;
+                    }
+
+                    else
+                    {
+                        a.Item.GameObject = this;
+                        a.Item.Transform = Transform;
+                    }
+                };
+            Children.OnCollectionChanged += (s, a) =>
+                {
+                    if (a.WasRemoved)
+                        a.Item.Parent = null;
+
+                    else
+                        a.Item.Parent = this;
+                };
+
+            Components.Add(m_transform);
 		}
 
-        public GameObject(int existingHandle) : base (existingHandle)
-        {
-            this.Transform = new VCEngine.Transform(this);
-            Parent = SceneGraph.RootNode;
-        }
-
-        ~GameObject()
-        {
-            Parent = null;
-        }
-
         public virtual void Start() 
-        { 
-        
-        }
-
-        public virtual void Update() 
-        { 
-        
-        }
-
-        public virtual void LateUpdate() 
-        { 
-        
-        }
-
-        public virtual void PreRender() 
-        { 
-        
-        }
-
-        internal void PropagateStart()
         {
-            Start();
-
             for (int i = 0; i < Components.Count; i++)
                 Components[i].Start();
 
             for (int i = 0; i < Children.Count; i++)
-                Children[i].PropagateStart();
+                Children[i].Start();
         }
 
-        internal void PropagateUpdate()
+        public virtual void Update() 
         {
-            Update();
-
             for (int i = 0; i < Components.Count; i++)
                 Components[i].Update();
 
             for (int i = 0; i < Children.Count; i++)
-                Children[i].PropagateUpdate();
+                Children[i].Update();
         }
 
-        internal void PropagateLateUpdate()
+        public virtual void LateUpdate()
         {
-            LateUpdate();
-
             for (int i = 0; i < Components.Count; i++)
                 Components[i].LateUpdate();
 
             for (int i = 0; i < Children.Count; i++)
-                Children[i].PropagateLateUpdate();
+                Children[i].Update();
         }
 
-        internal void PropagatePreRender()
+        public virtual void PreRender()
         {
-            PreRender();
-
             for (int i = 0; i < Components.Count; i++)
                 Components[i].PreRender();
 
             for (int i = 0; i < Children.Count; i++)
-                Children[i].PropagatePreRender();
+                Children[i].PreRender();
         }
 
-        // Need to finish later
-        public void AttachComponent(Component component)
-        {
-            component.GameObject = this;
-            component.Transform = Transform;
-            Components.Add(component);
-        }
-
-        public void RemoveComponent(Component component)
-        {
-            Components.Remove(component);
-            component.GameObject = null;
-            component.Transform = null;
-        }
-	}
+    }
 }
 

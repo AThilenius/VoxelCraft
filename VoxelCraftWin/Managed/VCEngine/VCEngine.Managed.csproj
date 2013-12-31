@@ -135,8 +135,8 @@
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
     <Compile Include="Rendering\Shader\ShaderUniform.cs" />
     <Compile Include="Rendering\VertPNT.cs" />
-    <Compile Include="SceneGraph\Entity.cs" />
-    <Compile Include="SceneGraph\Scene.cs" />
+    <Compile Include="SceneGraph\MarshaledGameObject.cs" />
+    <Compile Include="SceneGraph\MarshaledTransform.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
     <Compile Include="Utilities\Types\Color.cs" />

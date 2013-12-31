@@ -11,11 +11,11 @@
 #include "VCShader.h"
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
-#include "VCSceneGraph.h"
 #include "VCTexture.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
 #include "VCResourceManager.h"
+#include "VCIRenderable.h"
 
 VCGLRenderer* VCGLRenderer::Instance;
 
@@ -62,9 +62,6 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Prep SceneGraph
-	VCSceneGraph::Instance->PrepareSceneGraph();
-
 	// For each RenderState
 	static VCRenderStage* lastBoundStage = NULL;
 	for ( auto setIter = m_renderSet.begin(); setIter != m_renderSet.end(); setIter++ )
@@ -72,7 +69,7 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 		VCRenderStage* stage = *setIter;
 
 		// Clear Depth Buffer for GUI
-		if (stage->BatchOrder == VC_BATCH_GUI_BASE && lastBoundStage->BatchOrder != stage->BatchOrder)
+		if (stage->BatchOrder == VC_BATCH_GUI_BASE && lastBoundStage != NULL && lastBoundStage->BatchOrder != stage->BatchOrder)
 			glClear(GL_DEPTH_BUFFER_BIT);
 
 		if (stage->ExectionType == VCRenderStage::ExecutionTypes::Never || stage->BatchOrder < fromBatch || stage->BatchOrder > toBatch)
@@ -81,6 +78,11 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 		VCRenderStage::TransitionAndExecute(lastBoundStage, stage);
 		lastBoundStage = stage;
 	}
+
+	// For each IRenderable
+	for ( auto iter = m_renderables.begin(); iter != m_renderables.end(); iter++ )
+		(*iter)->Render();
+
 }
 
 void VCGLRenderer::RegisterStage( VCRenderStage* stage )
@@ -141,6 +143,11 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	}
 
 	DepthTexture = VCResourceManager::GetTexure(depthTex);
+}
+
+void VCGLRenderer::AddRenderable( VCIRenderable* renderable )
+{
+	m_renderables.insert(renderable);
 }
 
 void VCInteropRendererRender( int from, int to )
