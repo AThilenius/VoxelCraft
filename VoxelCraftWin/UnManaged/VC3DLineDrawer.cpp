@@ -97,7 +97,7 @@ void VC3DLineDrawer::Render()
 	if (m_lineVertCount == 0)
 		return;
 
-	VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix);
+	VCShader::BoundShader->SetModelMatrix(VCCamera::BoundCamera->ProjectionViewMatrix);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * m_lineVertCount, m_lineVerts , GL_STREAM_DRAW);

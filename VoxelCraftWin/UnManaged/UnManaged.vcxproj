@@ -62,7 +62,7 @@
     <ClCompile Include="VCNoiseGenerator.cpp" />
     <ClCompile Include="VCFlatGenerator.cpp" />
     <ClCompile Include="VCFont.cpp" />
-    <ClCompile Include="VCGameObject.cpp" />
+    <ClCompile Include="VCMarshaledGameObject.cpp" />
     <ClCompile Include="VCGLRenderer.cpp" />
     <ClCompile Include="VCGui.cpp" />
     <ClCompile Include="VCInput.cpp" />
@@ -124,7 +124,7 @@
     <ClInclude Include="VCNoiseGenerator.h" />
     <ClInclude Include="VCFlatGenerator.h" />
     <ClInclude Include="VCFont.h" />
-    <ClInclude Include="VCGameObject.h" />
+    <ClInclude Include="VCMarshaledGameObject.h" />
     <ClInclude Include="VCGLRenderer.h" />
     <ClInclude Include="VCGui.h" />
     <ClInclude Include="VCIChunkGenerator.h" />

@@ -12,18 +12,20 @@
 #include "json/json.h"
 #include "VCPathUtilities.h"
 #include "VCResourceManager.h"
+#include "VCCamera.h"
 
 VCShader* VCShader::BoundShader = NULL;
 std::unordered_map<std::string, VCShader*> VCShader::LoadedShaders;
 
 
 VCShader::VCShader():
-	m_programId(0)
+	m_programId(0),
+	m_boundCamera(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 
 	// Auto add MVP
-	Uniforms.push_back(VCShaderUniform(VCShaderUniform::Matrix4, std::string("MVP")));
+	//Uniforms.push_back(VCShaderUniform(VCShaderUniform::Matrix4, std::string("MVP")));
 }
 
 VCShader::~VCShader()
@@ -89,6 +91,19 @@ VCShader* VCShader::GetShader( std::string name )
 	shader->VertexShader = root.get("VertexShader", "").asString();
 	shader->GeometryShader = root.get("GeometryShader", "").asString();
 	shader->FragmentShader = root.get("FragmentShader", "").asString();
+
+	// Perpend Vertex Uniforms
+	shader->VertexShader = PerpendLine("uniform mat4 VC_MvpMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform mat4 VC_ModelMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform mat4 VC_ViewMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform mat4 VC_ProjectionMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform vec3 VC_LightInverseDirection;", shader->VertexShader);
+
+	// Perpend GLSL version to each
+	if (shader->GeometryShader != "")
+		shader->GeometryShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->GeometryShader);
+	shader->VertexShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->VertexShader);
+	shader->FragmentShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->FragmentShader);
 
 	shader->Compile();
 
@@ -157,21 +172,46 @@ void VCShader::Compile()
 	LoadedShaders.insert(std::unordered_map<std::string, VCShader*>::value_type(Name, this));
 
 	std::cout << "VCShader [ " << Name << " ] Initialized." << std::endl;
-	glErrorCheck(); 
+	glErrorCheck();
 }
 
-void VCShader::Bind()
+void VCShader::Bind( VCCamera* camera )
 {
-	if (VCShader::BoundShader == this)
-		return;
+	// Bind The Shader
+	if (VCShader::BoundShader != this)
+	{
+		VCShader::BoundShader = this;
+		glUseProgram(m_programId);
+	}
 
-	VCShader::BoundShader = this;
-	glUseProgram(m_programId);
+	// Bind Camera Attributes if needed
+	if (camera != m_boundCamera)
+	{
+		m_boundCamera = camera;
+
+		if (m_unifViewMatrix != VC_UNIFORM_DNE)
+			glUniformMatrix4fv(m_unifViewMatrix, 1, GL_FALSE, &camera->ViewMatrix[0][0]);
+
+		if (m_unifProjectionMatrix != VC_UNIFORM_DNE)
+			glUniformMatrix4fv(m_unifProjectionMatrix, 1, GL_FALSE, &camera->ProjectionMatrix[0][0]);
+
+		if (m_unifLightInverseDirection != VC_UNIFORM_DNE)
+			glUniform3fv(m_unifLightInverseDirection, 1, &camera->LightInverseDirection[0]);
+	}
+
 }
 
-void VCShader::SetMVP( glm::mat4 mvp )
+void VCShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
-	SetUniform(0, mvp);
+	if (m_unifModelMatrix != VC_UNIFORM_DNE)
+		glUniformMatrix4fv(m_unifModelMatrix, 1, GL_FALSE, &modelMatrix[0][0]);
+
+	if (m_unifMvpMatrix != VC_UNIFORM_DNE)
+	{
+		glm::mat4 mvp = m_projectionMatrix * m_viewMatrix * modelMatrix;
+		glUniformMatrix4fv(m_unifMvpMatrix, 1, GL_FALSE, &mvp[0][0]);
+	}
+
 }
 
 void VCShader::SetUniform(int index, int value)
@@ -316,6 +356,14 @@ void VCShader::BindAttribLocations()
 
 void VCShader::GetUniformIDs()
 {
+	// Get VC_* Uniforms
+	m_unifMvpMatrix = glGetUniformLocation(m_programId, "VC_MvpMatrix");
+	m_unifModelMatrix = glGetUniformLocation(m_programId, "VC_ModelMatrix");
+	m_unifViewMatrix = glGetUniformLocation(m_programId, "VC_ViewMatrix");
+	m_unifProjectionMatrix = glGetUniformLocation(m_programId, "VC_ProjectionMatrix");
+	m_unifLightInverseDirection = glGetUniformLocation(m_programId, "VC_LightInverseDirection");
+	
+	// Add JSON Uniforms
 	for (int i = 0; i < Uniforms.size(); i++)
 	{
 		VCShaderUniform uniform = Uniforms[i];

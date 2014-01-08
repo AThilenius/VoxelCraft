@@ -7,12 +7,12 @@
 //
 
 #include "stdafx.h"
-#include "VCGameObject.h"
+#include "VCMarshaledGameObject.h"
 
 #include "VCObjectStore.h"
 
 DLL_EXPORT_API void VCInteropGameObjectSetModelMatrix( int handle, glm::mat4 matrix )
 {
-	VCGameObject* obj = (VCGameObject*) VCObjectStore::Instance->GetObject(handle);
+	VCMarshaledGameObject* obj = (VCMarshaledGameObject*) VCObjectStore::Instance->GetObject(handle);
 	obj->ModelMatrix = matrix;
 }

@@ -19,17 +19,14 @@
   "VertexShader": "
 
 // =====   Vertex Shader Code     ======================================================
-#version 150
 in vec3 Position;
 in vec4 Color;
-
-uniform mat4 MVP;
 
 out vec4 VaryingColor;
 
 void main()
 {
-	gl_Position =  MVP * vec4(Position, 1);
+	gl_Position =  VC_MvpMatrix * vec4(Position, 1);
 	VaryingColor =  Color;
 }
 
@@ -38,7 +35,6 @@ void main()
   "FragmentShader": "
 
 // =====   Fragment Shader Code   ======================================================
-#version 150
 in vec4 VaryingColor;
 
 uniform float NoiseScaler;

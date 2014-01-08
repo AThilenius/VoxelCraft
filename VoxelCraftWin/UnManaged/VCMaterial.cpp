@@ -26,10 +26,10 @@ VCMaterial::~VCMaterial(void)
 		delete Values[i];
 }
 
-void VCMaterial::Bind()
+void VCMaterial::Bind(VCCamera* camera)
 {
 	// Will auto-rebind test.
-	Shader->Bind();
+	Shader->Bind(camera);
 
 	// Set each Uniform's value (Can cull duplicates later)
 	for (int i = 0; i < Values.size(); i++)

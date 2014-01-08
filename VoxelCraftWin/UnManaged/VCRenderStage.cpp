@@ -80,7 +80,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		VCCamera::BoundCamera = toState->Camera;
 
 		// Shader
-		toState->Shader->Bind();
+		toState->Shader->Bind(toState->Camera);
 
 		// Texture
 		if (toState->Texture != NULL)
@@ -125,7 +125,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 		VCCamera::BoundCamera = toState->Camera;
 
 		// Shader
-		toState->Shader->Bind();
+		toState->Shader->Bind(toState->Camera);
 
 		// Texture
 		if (toState->Texture != NULL)

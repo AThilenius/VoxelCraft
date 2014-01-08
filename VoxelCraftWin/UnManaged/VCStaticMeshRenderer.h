@@ -7,21 +7,21 @@
 //
 
 #pragma once
-#include "VCGameObject.h"
-
-class VCModel;
-class VCMaterial;
-
-class VCStaticMeshRenderer : public VCGameObject
-{
-public:
-	VCStaticMeshRenderer();
-	~VCStaticMeshRenderer();
-
-	void Render();
-
-public:
-	VCModel* Model;
-	std::vector<VCMaterial*> Materials;
-	
-};
+#include "VCMarshaledGameObject.h"
+//
+//class VCModel;
+//class VCMaterial;
+//
+//class VCStaticMeshRenderer : public VCMarshaledGameObject
+//{
+//public:
+//	VCStaticMeshRenderer();
+//	~VCStaticMeshRenderer();
+//
+//	void Render();
+//
+//public:
+//	VCModel* Model;
+//	std::vector<VCMaterial*> Materials;
+//	
+//};

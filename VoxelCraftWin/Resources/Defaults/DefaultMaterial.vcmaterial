@@ -5,6 +5,6 @@
     {
       "Type": "ColorRGBA",
       "Name": "Color",
-      "Value": "200:200:200:255"
+      "Value": "200:0:0:255"
     }]
 }

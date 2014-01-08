@@ -10,10 +10,10 @@
 
 #include "VCMarshalableObject.h"
 
-class VCGameObject : public VCMarshalableObject
+class VCMarshaledGameObject : public VCMarshalableObject
 {
 public:
-	virtual ~VCGameObject(void) {}
+	virtual ~VCMarshaledGameObject(void) {}
     	
 public:
     glm::mat4 ModelMatrix;

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Interop">
       <UniqueIdentifier>{9b453e35-3f82-4f08-b1a7-f09fdd60c4bc}</UniqueIdentifier>
     </Filter>
@@ -68,6 +64,10 @@
     <Filter Include="UMSceneGraph">
       <UniqueIdentifier>{b7001819-4572-4873-8055-17b06c9cfa8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -83,9 +83,6 @@
       <Filter>Voxel</Filter>
     </ClCompile>
     <ClCompile Include="VCCamera.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="VCGameObject.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
     <ClCompile Include="VCGLRenderer.cpp">
@@ -244,6 +241,9 @@
     <ClCompile Include="VCEntity.cpp">
       <Filter>UMSceneGraph</Filter>
     </ClCompile>
+    <ClCompile Include="VCMarshaledGameObject.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -259,9 +259,6 @@
       <Filter>Voxel</Filter>
     </ClInclude>
     <ClInclude Include="VCCamera.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="VCGameObject.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCGLRenderer.h">
@@ -427,7 +424,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Project Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="VCRenderWindow.h">
       <Filter>UMSceneGraph</Filter>
@@ -435,10 +432,13 @@
     <ClInclude Include="VCEntity.h">
       <Filter>UMSceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="VCMarshaledGameObject.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">
-      <Filter>Resource Files</Filter>
+      <Filter>Project Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

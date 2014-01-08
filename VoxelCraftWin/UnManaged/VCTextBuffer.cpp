@@ -87,8 +87,8 @@ void VCTextBuffer::Render()
 	if (m_vCount == 0)
 		return;
 
-	// Scaling is handed in managed code for text
-	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
+	// Scaling is handed in managed code for text, skip ViewProj and just use MVP
+	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GlyphVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);

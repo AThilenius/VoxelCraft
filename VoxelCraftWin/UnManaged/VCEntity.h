@@ -10,19 +10,19 @@
 
 class VCModel;
 class VCMaterial;
+class VCCamera;
 
-#include "VCMarshalableObject.h"
+#include "VCMarshaledGameObject.h"
 
-class VCEntity : public VCMarshalableObject
+class VCEntity : public VCMarshaledGameObject
 {
 public:
 	VCEntity();
 	~VCEntity();
 
-	void Render(glm::mat4& viewProjMatrix);
-	
+	void Render(VCCamera* camera);
+
 public:
-	glm::mat4 ModelMatrix;
 	VCModel* Model;
 	std::vector<VCMaterial*> Materials;
 

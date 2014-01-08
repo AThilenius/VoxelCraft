@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "VCGameObject.h"
+#include "VCMarshaledGameObject.h"
 
-class VCCamera : public VCGameObject
+class VCCamera : public VCMarshaledGameObject
 {
 public:
 	VCCamera(void);
@@ -24,6 +24,7 @@ public:
 	glm::mat4 ViewMatrix;
 	glm::mat4 ProjectionViewMatrix;
 	glm::mat4 InverseViewMatrix;
+	glm::vec3 LightInverseDirection;
 };
 
 // Interop

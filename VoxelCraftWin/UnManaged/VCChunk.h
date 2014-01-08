@@ -13,7 +13,7 @@ class VCRenderStage;
 struct BlockPoint;
 struct VCWorldRebuildParams;
 
-#include "VCGameObject.h"
+#include "VCMarshaledGameObject.h"
 #include "VCBlock.h"
 
 struct VCRunLengtth
@@ -23,7 +23,7 @@ struct VCRunLengtth
 	unsigned int Length;
 };
 
-class VCChunk : public VCGameObject
+class VCChunk : public VCMarshaledGameObject
 {
 public:
 	VCChunk();

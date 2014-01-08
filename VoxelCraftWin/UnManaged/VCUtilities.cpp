@@ -83,6 +83,11 @@ std::vector<std::string> SplitString(std::string str, char splitChar)
 	return subStrs;
 }
 
+std::string PerpendLine( std::string newLine, std::string existingLine )
+{
+	return newLine + std::string("\n\r") + existingLine;
+}
+
 // =====   Math   ======================================================
 unsigned long FastRandom() 
 {

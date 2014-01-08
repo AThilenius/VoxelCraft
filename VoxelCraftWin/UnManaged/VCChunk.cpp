@@ -409,7 +409,7 @@ void VCChunk::Render()
 		return;
 
 	glBindVertexArray(m_VAO);
-	VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix * glm::translate(
+	VCShader::BoundShader->SetModelMatrix(glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));

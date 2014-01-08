@@ -8,8 +8,9 @@
 
 #pragma once
 
-class VCCamera;
+#define VC_GLSL_VERSION 150
 
+class VCCamera;
 
 #include "VCMarshalableObject.h"
 #include "VCShadeTypes.h"
@@ -21,9 +22,9 @@ public:
 	VCShader();
 	~VCShader();
 
-	void Bind();
+	void Bind(VCCamera* camera);
+	void SetModelMatrix(glm::mat4 modelMatrix);
 	void Compile();
-	void SetMVP(glm::mat4 mvp);
 
 	void SetUniform(int index, int value);
 	void SetUniform(int index, float value);
@@ -50,6 +51,23 @@ private:
 protected:
 	GLuint m_programId;
 
+	// VC Uniform IDs:
+	GLuint m_unifMvpMatrix;
+	GLuint m_unifModelMatrix;
+	GLuint m_unifViewMatrix;
+	GLuint m_unifProjectionMatrix;
+	GLuint m_unifLightInverseDirection;
+
+	// VC Uniform Values
+	glm::mat4 m_mvpMatrix;
+	glm::mat4 m_modelMatrix;
+	glm::mat4 m_viewMatrix;
+	glm::mat4 m_projectionMatrix;
+	glm::mat4 m_lightInverseDirection;
+
+	// Camera tracking
+	VCCamera* m_boundCamera;
+
 	friend class VCRenderStage;
 	friend bool operator==(const VCShader& lhs, const VCShader& rhs);
 	friend bool operator< (const VCShader& lhs, const VCShader& rhs);
@@ -65,6 +83,7 @@ public:
 	std::string VertexShader;
 	std::string GeometryShader;
 	std::string FragmentShader;
+
 
 private:
 	DISALLOW_COPY_AND_ASSIGN(VCShader);

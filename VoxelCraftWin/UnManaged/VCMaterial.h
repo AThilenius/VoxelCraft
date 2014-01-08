@@ -10,12 +10,13 @@
 
 class VCShader;
 class VCShaderValue;
+class VCCamera;
 
 class VCMaterial
 {
 public:
 	~VCMaterial();
-	void Bind();
+	void Bind(VCCamera* camera);
 
 public:
 	std::string Name;

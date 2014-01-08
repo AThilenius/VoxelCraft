@@ -18,9 +18,6 @@ namespace VCEngine
         extern static void VCInteropEntityRelease(int handle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropEntitySetModelMatrix(int handle, Matrix4 modelMatrix);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static int VCInteropEntitySetModel(int handle, String modelPath);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -42,13 +39,6 @@ namespace VCEngine
             
             for (int i = 0; i < materialsPaths.Length; i++)
                 VCInteropEntitySetMaterial(UnManagedHandle, i, materialsPaths[i]);
-        }
-
-        public override void PreRender()
-        {
-            base.PreRender();
-            VCInteropEntitySetModel(UnManagedHandle, "Models\\Sphere.obj");
-            VCInteropEntitySetModelMatrix(UnManagedHandle, Transform.TransformMatrix);
         }
 
     }

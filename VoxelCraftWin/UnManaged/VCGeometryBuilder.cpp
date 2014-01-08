@@ -178,7 +178,7 @@ void VCGeometryBuilder::Render()
 	if (m_vCount == 0)
 		return;
 
-	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GuiRectVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);

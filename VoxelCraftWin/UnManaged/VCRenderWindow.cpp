@@ -14,7 +14,8 @@
 #include "VCGLRenderer.h"
 
 
-VCRenderWindow::VCRenderWindow(void)
+VCRenderWindow::VCRenderWindow(void):
+	Camera(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -31,7 +32,7 @@ void VCRenderWindow::Render()
 	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
 	{
 		VCEntity* entity = *iter;
-		entity->Render(Camera->ProjectionViewMatrix);
+		entity->Render(Camera);
 	}
 }
 
@@ -52,6 +53,7 @@ void VCInteropRenderWindowSetCamera( int handle, int cameraHandle )
 {
 	VCRenderWindow* obj = (VCRenderWindow*) VCObjectStore::Instance->GetObject(handle);
 	VCCamera* camera = (VCCamera*) VCObjectStore::Instance->GetObject(cameraHandle);
+	obj->Camera = camera;
 }
 
 void VCInteropRenderWindowAddEntity( int handle, int entityHandle )

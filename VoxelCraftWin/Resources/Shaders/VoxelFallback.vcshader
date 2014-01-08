@@ -31,7 +31,6 @@
   "VertexShader": "
 
 // =====   Vertex Shader Code     ======================================================
-#version 150
 in vec4 position;
 in int normal;
 in vec4 color;
@@ -70,7 +69,6 @@ void main()
   "FragmentShader": "
 
 // =====   Fragment Shader Code   ======================================================
-#version 150
 in vec3 Position_worldspace;
 in vec3 Normal_cameraspace;
 in vec3 LightDirection_cameraspace;

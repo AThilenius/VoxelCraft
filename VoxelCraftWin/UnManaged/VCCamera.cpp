@@ -18,6 +18,7 @@ VCCamera* VCCamera::BoundCamera;
 VCCamera::VCCamera(void)
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
+	LightInverseDirection = glm::normalize(glm::vec3(2, 1, 0.5));
 }
 
 

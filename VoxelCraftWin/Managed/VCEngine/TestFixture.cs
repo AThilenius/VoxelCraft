@@ -15,13 +15,13 @@ namespace VCEngine
 
         internal static void OnStart()
         {
-            //m_renderWindow = new RenderWindow();
-            //m_renderWindow.MainCamera.Fullscreen = true;
+            m_renderWindow = new RenderWindow();
+            m_renderWindow.MainCamera.Fullscreen = true;
 
-            //m_entity = new RenderedEntity();
-            //m_entity.Transform.Position = new Vector3(0, 0, -10);
+            m_entity = new RenderedEntity();
+            m_entity.Transform.Position = new Vector3(0, -5, -20);
 
-            //m_renderWindow.Entities.Add(m_entity);
+            m_renderWindow.Entities.Add(m_entity);
         }
 
         public static void PerUpdate()

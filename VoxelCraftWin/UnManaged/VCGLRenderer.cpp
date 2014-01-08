@@ -81,7 +81,10 @@ void VCGLRenderer::Render(int fromBatch, int toBatch)
 
 	// For each IRenderable
 	for ( auto iter = m_renderables.begin(); iter != m_renderables.end(); iter++ )
-		(*iter)->Render();
+	{
+		VCIRenderable* renderable = *iter;
+		renderable->Render();
+	}
 
 }
 

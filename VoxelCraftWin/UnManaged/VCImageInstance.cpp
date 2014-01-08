@@ -247,7 +247,7 @@ void VCImageInstance::Render()
 	if (m_vertexCount == 0)
 		return;
 
-	VCShader::BoundShader->SetMVP(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer , GL_STREAM_DRAW);

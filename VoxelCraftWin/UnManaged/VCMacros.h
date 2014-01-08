@@ -17,6 +17,7 @@
 #define FOREACH(iterName, variable) for (auto iterName = variable.begin(); iterName != variable.end(); iterName++)
 #define VC_ERROR(message) SetConsoleColor(Red); std::cout << message << std::endl; SetConsoleColor(White); std::cin.clear(); std::cin.ignore();
 #define VC_WARN(message) SetConsoleColor(Yellow); std::cout << message << std::endl; SetConsoleColor(White);
+#define VC_UNIFORM_DNE 0xffffffff
 
 // Z -> X -> Y memory access pattern
 #define FLATTEN_CHUNK(X,Y,Z) ((((Z << LOG_CHUNK_WIDTH) + X) << LOG_CHUNK_WIDTH ) + Y)

@@ -15,22 +15,22 @@
 #include "VCCamera.h"
 
 
-VCStaticMeshRenderer::VCStaticMeshRenderer(void)
-{
-}
-
-
-VCStaticMeshRenderer::~VCStaticMeshRenderer(void)
-{
-}
-
-void VCStaticMeshRenderer::Render()
-{
-
-	 for (int i = 0; i < Model->Meshes.size(); i++)
-	 {
-		 Materials[i]->Bind();
-		 VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix * ModelMatrix);
-		 Model->Meshes[i].Render();
-	 }
-}
+//VCStaticMeshRenderer::VCStaticMeshRenderer(void)
+//{
+//}
+//
+//
+//VCStaticMeshRenderer::~VCStaticMeshRenderer(void)
+//{
+//}
+//
+//void VCStaticMeshRenderer::Render()
+//{
+//
+//	 for (int i = 0; i < Model->Meshes.size(); i++)
+//	 {
+//		 Materials[i]->Bind();
+//		 VCShader::BoundShader->SetMVP(VCCamera::BoundCamera->ProjectionViewMatrix * ModelMatrix);
+//		 Model->Meshes[i].Render();
+//	 }
+//}

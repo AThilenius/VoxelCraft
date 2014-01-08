@@ -26,6 +26,7 @@ void _glErrorCheck(std::string file, int line);
 
 // =====   String   ======================================================
 std::vector<std::string> SplitString(std::string str, char splitChar = ':');
+std::string PerpendLine(std::string newLine, std::string existingLine);
 
 // =====   Files   ======================================================
 std::string LoadTextFile (std::string path);

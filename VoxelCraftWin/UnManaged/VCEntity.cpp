@@ -17,26 +17,34 @@
 #include "VCResourceManager.h"
 
 
-VCEntity::VCEntity(void)
+VCEntity::VCEntity(void):
+	Model(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
+
+	Model = VCResourceManager::GetModelDefault();
+
+	for (int i = 0; i < Model->Meshes.size(); i++)
+		Materials.push_back(VCResourceManager::GetMaterialDefault());
 }
 
 
 VCEntity::~VCEntity(void)
 {
+	Model = NULL;
 }
 
-void VCEntity::Render( glm::mat4& viewProjMatrix )
+void VCEntity::Render( VCCamera* camera )
 {
-
 	// Completely unoptimized brute force drawing.
 	for (int i = 0; i < Model->Meshes.size(); i++)
 	{
 		VCMaterial* material = Materials[i];
 
-		material->Bind();
-		VCShader::BoundShader->SetMVP(viewProjMatrix * ModelMatrix);
+		material->Bind(camera);
+		VCShader::BoundShader->SetModelMatrix(ModelMatrix);
+		
+		
 		Model->Meshes[i].Render();
 	}
 
@@ -45,11 +53,6 @@ void VCEntity::Render( glm::mat4& viewProjMatrix )
 int VCInteropEntityNew()
 {
 	VCEntity* entity = new VCEntity();
-	entity->Model = VCResourceManager::GetModelDefault();
-
-	for (int i = 0; i < entity->Model->Meshes.size(); i++)
-		entity->Materials.push_back(VCResourceManager::GetMaterialDefault());
-
 	return entity->Handle;
 }
 
@@ -59,16 +62,10 @@ void VCInteropEntityRelease( int handle )
 	delete obj;
 }
 
-void VCInteropEntitySetModelMatrix( int handle, glm::mat4 modelMatrix )
-{
-	VCEntity* obj = (VCEntity*) VCObjectStore::Instance->GetObject(handle);
-	obj->ModelMatrix = modelMatrix;
-}
-
 int VCInteropEntitySetModel( int handle, char* modelPath )
 {
 	VCEntity* obj = (VCEntity*) VCObjectStore::Instance->GetObject(handle);
-	obj->Model = VCResourceManager::GetModel(modelPath);
+	obj->Model = VCResourceManager::GetModelInAssets(modelPath);
 	obj->Materials.clear();
 
 	for (int i = 0; i < obj->Model->Meshes.size(); i++)
