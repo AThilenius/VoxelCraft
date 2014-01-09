@@ -27,8 +27,6 @@ VCRenderWindow::~VCRenderWindow(void)
 
 void VCRenderWindow::Render()
 {
-	VCCamera::BoundCamera = Camera;
-
 	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
 	{
 		VCEntity* entity = *iter;

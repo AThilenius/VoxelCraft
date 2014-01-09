@@ -12,7 +12,6 @@ in vec4 position;
 in int normal;
 in vec4 color;
 
-out vec3 Position_worldspace;
 out vec3 Normal_cameraspace;
 out vec3 LightDirection_cameraspace;
 out vec4 colorVarying;
@@ -36,7 +35,6 @@ void main()
 	
 	gl_Position =  MVP * position;
 	colorVarying = color;
-	Position_worldspace = ( ModelMatrix * position ).xyz;
 	LightDirection_cameraspace = ( ViewMatrix * vec4( LightInvDirection_worldspace, 0 ) ).xyz;
 	Normal_cameraspace = ( ViewMatrix * ModelMatrix * vec4( vertexNormal_modelspace, 0 ) ).xyz;
 }

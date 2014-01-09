@@ -188,6 +188,9 @@ void VCShader::Bind( VCCamera* camera )
 	if (camera != m_boundCamera)
 	{
 		m_boundCamera = camera;
+		m_viewMatrix = camera->ViewMatrix;
+		m_projectionMatrix = camera->ProjectionMatrix;
+		m_lightInverseDirection = camera->LightInverseDirection;
 
 		if (m_unifViewMatrix != VC_UNIFORM_DNE)
 			glUniformMatrix4fv(m_unifViewMatrix, 1, GL_FALSE, &camera->ViewMatrix[0][0]);
@@ -204,7 +207,10 @@ void VCShader::Bind( VCCamera* camera )
 void VCShader::SetModelMatrix( glm::mat4 modelMatrix )
 {
 	if (m_unifModelMatrix != VC_UNIFORM_DNE)
+	{
 		glUniformMatrix4fv(m_unifModelMatrix, 1, GL_FALSE, &modelMatrix[0][0]);
+		m_modelMatrix = modelMatrix;
+	}
 
 	if (m_unifMvpMatrix != VC_UNIFORM_DNE)
 	{

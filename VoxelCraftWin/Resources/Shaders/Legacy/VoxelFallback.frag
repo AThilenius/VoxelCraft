@@ -8,7 +8,6 @@
 
 #version 150
 
-in vec3 Position_worldspace;
 in vec3 Normal_cameraspace;
 in vec3 LightDirection_cameraspace;
 in vec4 colorVarying;

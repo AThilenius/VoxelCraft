@@ -44,7 +44,6 @@ void VCEntity::Render( VCCamera* camera )
 		material->Bind(camera);
 		VCShader::BoundShader->SetModelMatrix(ModelMatrix);
 		
-		
 		Model->Meshes[i].Render();
 	}
 

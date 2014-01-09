@@ -22,9 +22,14 @@
 in vec4 Position;
 in vec3 Normal;
 
+out vec3 NormalCameraSpace;
+out vec3 LightDirectionCmeraSpace;
+
 void main()
 {
 	gl_Position =  VC_MvpMatrix * Position;
+	NormalCameraSpace = ( VC_ViewMatrix * VC_ModelMatrix * vec4( Normal, 0 ) ).xyz;
+	LightDirectionCmeraSpace = ( VC_ViewMatrix * vec4( VC_LightInverseDirection, 0 ) ).xyz;
 }
 
 
@@ -32,13 +37,27 @@ void main()
   "FragmentShader": "
 
 // =====   Fragment Shader Code   ======================================================
-uniform vec4 Color;
+
+in vec3 NormalCameraSpace;
+in vec3 LightDirectionCmeraSpace;
 
 out vec4 fragColor;
 
+uniform vec4 Color;
+
 void main()
 {
-	fragColor = Color;
+	//fragColor = Color;
+	
+	vec3 n = normalize( NormalCameraSpace );
+	vec3 l = normalize( LightDirectionCmeraSpace );
+	float cosTheta = clamp( dot( n,l ), 0, 1 );
+
+	fragColor = 
+		Color * 0.6 +
+		Color * cosTheta * 0.3;
+
+	fragColor.w = Color.w;
 }
 
 
