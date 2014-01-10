@@ -148,8 +148,8 @@ namespace VCEngine
         void GameWindow_Resize(object sender, ResizeEventArgs e)
         {
             // Raw access, must be scaled manually.
-            World.Camera.Viewport = ScreenFrame * Gui.Scale;
-            World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
+            //World.Camera.Viewport = ScreenFrame * Gui.Scale;
+            //World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 
         internal void RequestEyeDrop()

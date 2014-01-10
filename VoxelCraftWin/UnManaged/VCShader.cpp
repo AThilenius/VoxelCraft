@@ -175,7 +175,7 @@ void VCShader::Compile()
 	glErrorCheck();
 }
 
-void VCShader::Bind( VCCamera* camera )
+void VCShader::Bind()
 {
 	// Bind The Shader
 	if (VCShader::BoundShader != this)
@@ -183,9 +183,11 @@ void VCShader::Bind( VCCamera* camera )
 		VCShader::BoundShader = this;
 		glUseProgram(m_programId);
 	}
+}
 
-	// Bind Camera Attributes if needed
-	if (camera != m_boundCamera)
+void VCShader::SetCamera( VCCamera* camera )
+{
+	if (camera != m_boundCamera || camera->WasUpdated)
 	{
 		m_boundCamera = camera;
 		m_viewMatrix = camera->ViewMatrix;
@@ -200,8 +202,9 @@ void VCShader::Bind( VCCamera* camera )
 
 		if (m_unifLightInverseDirection != VC_UNIFORM_DNE)
 			glUniform3fv(m_unifLightInverseDirection, 1, &camera->LightInverseDirection[0]);
-	}
 
+		std::cout << "Setting Camera" << std::endl;
+	}
 }
 
 void VCShader::SetModelMatrix( glm::mat4 modelMatrix )

@@ -54,4 +54,10 @@ void VCInteropCameraSetViewport( int handle, VCRectangle viewport )
 	obj->Viewport = viewport;
 }
 
+DLL_EXPORT_API void VCInteropCameraSetUpdateState( int handle, bool value )
+{
+	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
+	obj->WasUpdated = value;
+}
+
 // ===============================================================

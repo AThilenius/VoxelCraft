@@ -16,7 +16,7 @@ class VCMaterial
 {
 public:
 	~VCMaterial();
-	void Bind(VCCamera* camera);
+	void Bind();
 
 public:
 	std::string Name;

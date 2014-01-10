@@ -41,7 +41,10 @@ void VCEntity::Render( VCCamera* camera )
 	{
 		VCMaterial* material = Materials[i];
 
-		material->Bind(camera);
+		material->Bind();
+
+		// This is bad... it will result in duplicates
+		VCShader::BoundShader->SetCamera(camera);
 		VCShader::BoundShader->SetModelMatrix(ModelMatrix);
 		
 		Model->Meshes[i].Render();

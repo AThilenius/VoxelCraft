@@ -22,7 +22,8 @@ public:
 	VCShader();
 	~VCShader();
 
-	void Bind(VCCamera* camera);
+	void Bind();
+	void SetCamera(VCCamera* camera);
 	void SetModelMatrix(glm::mat4 modelMatrix);
 	void Compile();
 

@@ -17,6 +17,7 @@ namespace VCEngine
         {
             m_renderWindow = new RenderWindow();
             m_renderWindow.MainCamera.Fullscreen = true;
+            //m_renderWindow.MainCamera.Viewport = new Rectangle(0, 0, 1280, 600);
 
             m_entity = new RenderedEntity();
             m_entity.Transform.Position = new Vector3(0, -5, -20);

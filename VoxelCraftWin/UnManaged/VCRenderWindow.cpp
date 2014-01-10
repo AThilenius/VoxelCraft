@@ -27,6 +27,8 @@ VCRenderWindow::~VCRenderWindow(void)
 
 void VCRenderWindow::Render()
 {
+	glViewport(Camera->Viewport.X, Camera->Viewport.Y, Camera->Viewport.Width, Camera->Viewport.Height);
+
 	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
 	{
 		VCEntity* entity = *iter;
