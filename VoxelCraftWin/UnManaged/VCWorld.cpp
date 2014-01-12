@@ -13,7 +13,6 @@
 #include "VCBlock.h"
 #include "VCStreamHelpers.h"
 #include "VCIChunkGenerator.h"
-#include "VCPhysics.h"
 #include "VCObjectStore.h"
 #include "VCCamera.h"
 

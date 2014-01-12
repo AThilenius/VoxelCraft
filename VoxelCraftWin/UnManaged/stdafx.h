@@ -10,6 +10,7 @@
 
 #define GLEW_STATIC
 #define _CRT_SECURE_NO_DEPRECATE
+#define _SCL_SECURE_NO_WARNINGS
 #define SRUTIL_DELEGATE_PREFERRED_SYNTAX
 
 // Libraries
@@ -23,6 +24,16 @@
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "SOIL.lib")
 #pragma comment(lib, "assimp.lib")
+
+#pragma comment(lib, "PhysX3CHECKED_x86.lib")
+#pragma comment(lib, "PhysX3CommonCHECKED_x86.lib")
+#pragma comment(lib, "PhysX3CharacterKinematicCHECKED_x86.lib")
+#pragma comment(lib, "PhysX3CookingCHECKED_x86.lib")
+#pragma comment(lib, "PhysX3ExtensionsCHECKED.lib")
+#pragma comment(lib, "PhysX3VehicleCHECKED.lib")
+#pragma comment(lib, "PhysXProfileSDKCHECKED.lib")
+#pragma comment(lib, "PhysXVisualDebuggerSDKCHECKED.lib")
+#pragma comment(lib, "PxTaskCHECKED.lib")
 
 // STD
 #include <exception>
@@ -60,6 +71,7 @@
 #include "VCGLFloatX.h"
 #include "VCGeometryTypes.h"
 #include "VCXIntX.h"
+#include "VCFloatX.h"
 #include "VCUtilities.h"
 #include "VCConstants.h"
 #include "VCMacros.h"

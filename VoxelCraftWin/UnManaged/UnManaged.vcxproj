@@ -25,12 +25,20 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VC3DLineDrawer.cpp" />
     <ClCompile Include="VCEntity.cpp" />
+    <ClCompile Include="VCFloatX.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCMaterial.cpp" />
     <ClCompile Include="VCMesh.cpp" />
     <ClCompile Include="VCModel.cpp" />
     <ClCompile Include="VCPathUtilities.cpp" />
+    <ClCompile Include="VCPxMaterial.cpp" />
+    <ClCompile Include="VCPxPhysics.cpp" />
+    <ClCompile Include="VCPxRigidActor.cpp" />
+    <ClCompile Include="VCPxRigidDynamic.cpp" />
+    <ClCompile Include="VCPxRigidStatic.cpp" />
+    <ClCompile Include="VCPxScene.cpp" />
+    <ClCompile Include="VCPxShape.cpp" />
     <ClCompile Include="VCRenderWindow.cpp" />
     <ClCompile Include="VCResourceManager.cpp" />
     <ClCompile Include="VCShader.cpp" />
@@ -70,7 +78,6 @@
     <ClCompile Include="VCMarshalableObject.cpp" />
     <ClCompile Include="VCNoise2D.cpp" />
     <ClCompile Include="VCObjectStore.cpp" />
-    <ClCompile Include="VCPhysics.cpp" />
     <ClCompile Include="VCStreamHelpers.cpp" />
     <ClCompile Include="VCTime.cpp" />
     <ClCompile Include="VCUpdateManager.cpp" />
@@ -86,6 +93,7 @@
     <ClInclude Include="VCCollection.h" />
     <ClInclude Include="VCConstants.h" />
     <ClInclude Include="VCEntity.h" />
+    <ClInclude Include="VCFloatX.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLXByteX.h" />
@@ -101,6 +109,13 @@
     <ClInclude Include="VCMesh.h" />
     <ClInclude Include="VCModel.h" />
     <ClInclude Include="VCPathUtilities.h" />
+    <ClInclude Include="VCPxMaterial.h" />
+    <ClInclude Include="VCPxPhysics.h" />
+    <ClInclude Include="VCPxRigidActor.h" />
+    <ClInclude Include="VCPxRigidDynamic.h" />
+    <ClInclude Include="VCPxRigidStatic.h" />
+    <ClInclude Include="VCPxScene.h" />
+    <ClInclude Include="VCPxShape.h" />
     <ClInclude Include="VCRenderWindow.h" />
     <ClInclude Include="VCResourceManager.h" />
     <ClInclude Include="VCShader.h" />
@@ -133,7 +148,6 @@
     <ClInclude Include="VCMarshalableObject.h" />
     <ClInclude Include="VCNoise2D.h" />
     <ClInclude Include="VCObjectStore.h" />
-    <ClInclude Include="VCPhysics.h" />
     <ClInclude Include="VCRenderStage.h" />
     <ClInclude Include="VCTextBuffer.h" />
     <ClInclude Include="VCTextBuilder.h" />
@@ -195,8 +209,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\Libs\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Libs\Lib32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Libs\Include;$(SolutionDir)..\..\PhysX\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libs\Lib32;$(SolutionDir)..\..\PhysX\Lib\win32;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Build</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

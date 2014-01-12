@@ -23,6 +23,11 @@ namespace VCEngine
             m_entity.Transform.Position = new Vector3(0, -5, -20);
 
             m_renderWindow.Entities.Add(m_entity);
+
+            PxScene scene = new PxScene();
+            PxMaterial material = new PxMaterial(0.5f, 0.5f, 0.5f);
+
+            Console.WriteLine("yoloswaghashtagleahiisahottie");
         }
 
         public static void PerUpdate()

@@ -68,6 +68,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Physics\PhysX">
+      <UniqueIdentifier>{e4e90b70-1e14-442d-8c10-f432fe2813ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -111,9 +114,6 @@
     </ClCompile>
     <ClCompile Include="VCInput.cpp">
       <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="VCPhysics.cpp">
-      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="VCFont.cpp">
       <Filter>GUI\Text</Filter>
@@ -244,6 +244,26 @@
     <ClCompile Include="VCMarshaledGameObject.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
+    <ClCompile Include="VCPxPhysics.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPxScene.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPxMaterial.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPxRigidActor.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPxRigidStatic.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCFloatX.cpp" />
+    <ClCompile Include="VCPxRigidDynamic.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCPxShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -287,9 +307,6 @@
     </ClInclude>
     <ClInclude Include="VCInput.h">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="VCPhysics.h">
-      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="VCFont.h">
       <Filter>GUI\Text</Filter>
@@ -435,6 +452,26 @@
     <ClInclude Include="VCMarshaledGameObject.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="VCPxPhysics.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPxScene.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPxMaterial.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPxRigidActor.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPxRigidStatic.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCFloatX.h" />
+    <ClInclude Include="VCPxRigidDynamic.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCPxShape.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

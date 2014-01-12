@@ -42,6 +42,8 @@ namespace VCEngine
             VCInteropInitalizeInput();
             VCInteropInitalizeRenderer();
 
+            PxPhysics.Initialize();
+
             //Shader.LoadAllShaders();
 
             VCInteropInitalizeLexEngine();

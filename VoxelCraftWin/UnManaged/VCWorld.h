@@ -11,7 +11,6 @@
 #define FLATTEN_WORLD(X,Y,Z) ((((Z << m_logViewDistTwo) + X) << m_logViewDistTwo ) + Y)
 #define WORLD_ORDERED_ITTORATOR(xName,yName,zName) for ( int z = 0; z < m_viewDistTwo; z++ ) { int zName = ChunkZeroZ + z; for ( int x = 0; x < m_viewDistTwo; x++ ) { int xName = ChunkZeroX + x; for ( int y = 0; y < m_viewDistTwo; y++ ) { int yName = ChunkZeroY + y;
 
-class VCBlock;
 class VCWorld;
 class VCChunk;
 class VCIChunkGenerator;
@@ -22,6 +21,7 @@ struct RaycastHit;
 struct VCInteropBlock;
 
 #include "VCMarshalableObject.h"
+#include "VCBlock.h"
 
 struct VCEditorFileHeader001
 {
@@ -35,6 +35,24 @@ struct VCWorldRebuildParams
 	bool ShowShadows;
 	bool ForceRebuildAll;
 };
+
+struct Ray
+{
+	Ray();
+	Ray(glm::vec3 origin, glm::vec3 direction, float maxDist);
+	glm::vec3 Origin;
+	glm::vec3 Direction;
+	float MaxDistance;
+};
+
+struct RaycastHit
+{
+	float Distance;
+	VCBlock Type;
+	glm::vec3 Normal;
+	int X, Y, Z;
+};
+
 
 class VCWorld : public VCMarshalableObject
 {

@@ -27,3 +27,5 @@ BuildOutput/
 *.psess
 *.vsp
 *.vcew
+*.opensdf
+*.ipch
