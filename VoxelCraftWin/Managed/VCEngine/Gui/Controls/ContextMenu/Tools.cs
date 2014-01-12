@@ -28,7 +28,7 @@ namespace VCEngine
             m_eyeDropButton.OnDepressed += (sender, args) =>
                 {
                     EyeDropperTool edt = new EyeDropperTool(EditorWorld.MasterGameWindow);
-                    edt.OnPicked += (s, a) => EditorGui.ColorPicker.ColorRGB = edt.ColorRGB;
+                    edt.OnPicked += (s, a) => EditorGui.VoxelEditor.ColorPicker.ColorRGB = edt.ColorRGB;
                     EditorWorld.MasterGameWindow.ActiveTool = edt;
                 };
             AddControl(m_eyeDropButton);

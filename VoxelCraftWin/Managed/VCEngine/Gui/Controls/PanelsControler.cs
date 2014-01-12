@@ -16,7 +16,7 @@ namespace VCEngine
         public PanelsControler()
         {
             m_leftAnimator = new ValueAnimator<Point>(new Point(0, 0));
-            m_rightAnimator = new ValueAnimator<Point>(new Point(Window.ScaledSize.X - 250, 0));
+            m_rightAnimator = new ValueAnimator<Point>(new Point(EditorGui.VoxelEditor.Width - 250, 0));
 
             m_left = new ToggleButton(" ");
             m_left.ImagePath = @"Icons\LeftPane.DDS";
@@ -32,15 +32,15 @@ namespace VCEngine
             m_right.ImagePath = @"Icons\RightPane.DDS";
             m_right.Style = ToggleButton.ToggleStyle.TriRight;
             m_right.IsDepressed = true;
-            m_right.OnRelease += (s, a) => m_rightAnimator = new ValueAnimator<Point>(new Point(Window.ScaledSize.X - 250, 0), new Point(Window.ScaledSize.X, 0), 0.25f);
-            m_right.OnDepressed += (s, a) => m_rightAnimator = new ValueAnimator<Point>(new Point(Window.ScaledSize.X, 0), new Point(Window.ScaledSize.X - 250, 0), 0.25f);
+            m_right.OnRelease += (s, a) => m_rightAnimator = new ValueAnimator<Point>(new Point(EditorGui.VoxelEditor.Width - 250, 0), new Point(EditorGui.VoxelEditor.Width, 0), 0.25f);
+            m_right.OnDepressed += (s, a) => m_rightAnimator = new ValueAnimator<Point>(new Point(EditorGui.VoxelEditor.Width, 0), new Point(EditorGui.VoxelEditor.Width - 250, 0), 0.25f);
             AddControl(m_right);
 
             // Manual Resize Handlers
             Window.Resize += (s, a) =>
                 {
-                    EditorGui.SolutionEx.Frame = new Rectangle(0, 0, 250, Window.ScaledSize.Y - 75);
-                    EditorGui.RightContextMenu.Frame = new Rectangle(Window.ScaledSize.X - 250, 0, 250, Window.ScaledSize.Y - 75);
+                    EditorGui.VoxelEditor.SolutionEx.Frame = new Rectangle(0, 0, 250, EditorGui.VoxelEditor.SolutionEx.Height);
+                    EditorGui.VoxelEditor.RightContextMenu.Frame = new Rectangle(EditorGui.VoxelEditor.Width - 250, 0, 250, EditorGui.VoxelEditor.SolutionEx.Height);
 
                     if (m_left.IsDepressed)
                         m_leftAnimator = new ValueAnimator<Point>(new Point(0, 0));
@@ -71,9 +71,8 @@ namespace VCEngine
             Point left = m_leftAnimator.GetValue();
             Point right = m_rightAnimator.GetValue();
 
-            EditorGui.SolutionEx.Location = left;
-            //EditorGui.EditorWindow.Frame = new Rectangle(250 + left.X, 0, right.X - (left.X + 250), Window.ScaledSize.Y - 75);
-            EditorGui.RightContextMenu.Location = right;
+            EditorGui.VoxelEditor.SolutionEx.Location = left;
+            EditorGui.VoxelEditor.RightContextMenu.Location = right;
         }
 
     }

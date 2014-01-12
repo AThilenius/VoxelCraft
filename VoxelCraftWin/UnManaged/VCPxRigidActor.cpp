@@ -33,3 +33,17 @@ void VCInteropPhysicsRigidActorAttachShape( int handle, int shapeHandle )
 
 	obj->PxRigidActor->attachShape(*shape->PxShape);
 }
+
+DLL_EXPORT_API glm::vec3 VCInteropPhysicsRigidActorGetPosition( int handle )
+{
+	VCPxRigidActor* obj = (VCPxRigidActor*) VCObjectStore::Instance->GetObject(handle);
+	physx::PxTransform trans = obj->PxRigidActor->getGlobalPose();
+	return glm::vec3(trans.p.x, trans.p.y, trans.p.z);
+}
+
+DLL_EXPORT_API glm::vec4 VCInteropPhysicsRigidActorGetRotation( int handle )
+{
+	VCPxRigidActor* obj = (VCPxRigidActor*) VCObjectStore::Instance->GetObject(handle);
+	physx::PxTransform trans = obj->PxRigidActor->getGlobalPose();
+	return glm::vec4(trans.q.x, trans.q.y, trans.q.z, trans.q.w);
+}

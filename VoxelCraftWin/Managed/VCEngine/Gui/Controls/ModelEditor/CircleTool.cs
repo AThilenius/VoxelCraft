@@ -64,13 +64,13 @@ namespace VCEngine
             else if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
             {
                 BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
-                float Value = EditorGui.ColorPicker.RandomMultiplier;
+                float Value = EditorGui.VoxelEditor.ColorPicker.RandomMultiplier;
 
                 int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
                 foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
                 {
                     float RandOffset = (float)m_random.NextDouble() * Value - (Value * 0.5f);
-                    Vector4 hsl = EditorGui.ColorPicker.ColorHSL;
+                    Vector4 hsl = EditorGui.VoxelEditor.ColorPicker.ColorHSL;
                     hsl.Z += RandOffset;
                     hsl.Z = MathHelper.Clamp(hsl.Z, 0.0f, 1.0f);
                     Color c = Color.HslToRgba(hsl);

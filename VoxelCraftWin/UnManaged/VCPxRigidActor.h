@@ -22,3 +22,5 @@ public:
 };
 
 DLL_EXPORT_API void VCInteropPhysicsRigidActorAttachShape(int handle, int shapeHandle);
+DLL_EXPORT_API glm::vec3 VCInteropPhysicsRigidActorGetPosition(int handle);
+DLL_EXPORT_API glm::vec4 VCInteropPhysicsRigidActorGetRotation(int handle);

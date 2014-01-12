@@ -95,6 +95,8 @@
     <Compile Include="Gui\Controls\Header.cs" />
     <Compile Include="Gui\Controls\Hud.cs" />
     <Compile Include="Gui\Controls\LayoutControls.cs" />
+    <Compile Include="Gui\Controls\MainPages\MaterialEditor.cs" />
+    <Compile Include="Gui\Controls\MainPages\VoxelEditor.cs" />
     <Compile Include="Gui\Controls\ModelEditor\BlockChangeUndoToken.cs" />
     <Compile Include="Gui\Controls\MutliToggleButton.cs" />
     <Compile Include="Gui\Controls\PanelsControler.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Gui\Controls\VerticalContainer.cs" />
     <Compile Include="Gui\Controls\Dialogs\Dialog.cs" />
     <Compile Include="Gui\Controls\Dialogs\AcceptDenyDialog.cs" />
+    <Compile Include="Gui\Controls\VerticalControlSpinner.cs" />
     <Compile Include="Gui\Font.cs" />
     <Compile Include="Gui\Undo\IUndoToken.cs" />
     <Compile Include="Gui\Undo\UndoStack.cs" />
@@ -144,6 +147,7 @@
     <Compile Include="Rendering\VertPNT.cs" />
     <Compile Include="SceneGraph\MarshaledGameObject.cs" />
     <Compile Include="SceneGraph\MarshaledTransform.cs" />
+    <Compile Include="SceneGraph\RigidBody.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
     <Compile Include="Utilities\Types\Color.cs" />

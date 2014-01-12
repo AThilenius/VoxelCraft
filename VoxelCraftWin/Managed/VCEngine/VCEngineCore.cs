@@ -11,6 +11,7 @@ namespace VCEngine
     public class VCEngineCore
     {
         public static bool EditorMode;
+        public static PxScene PhysicsScene;
 
         public static void Initialize()
         {
@@ -21,6 +22,8 @@ namespace VCEngine
 
             if (!EditorMode)
                 AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");
+
+            PhysicsScene = new PxScene();
         }
 
         public static void Start()
@@ -38,6 +41,8 @@ namespace VCEngine
 
         internal static void PropagateUpdates()
         {
+            PhysicsScene.Simulate();
+
             VCEngineCore.Update();
             VCEngineCore.LateUpdate();
             VCEngineCore.PreRender();
