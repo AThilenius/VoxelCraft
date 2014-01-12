@@ -13,6 +13,7 @@
 #include "extensions/PxDefaultErrorCallback.h"
 #include "extensions/pxdefaultallocator.h"
 #include "common/PxTolerancesScale.h"
+#include <extensions/PxVisualDebuggerExt.h>
 
 physx::PxFoundation* VCPxPhysics::PxFoundation = NULL;
 physx::PxProfileZoneManager* VCPxPhysics::PxProfileZoneManager = NULL;
@@ -72,6 +73,21 @@ void VCPxPhysics::Initialize()
 	if (!PxInitExtensions(*PxPhysics))
 	{
 		VC_ERROR("PxInitExtensions failed!");
+	}
+
+	// =====   Visual Debugger Hooks   ======================================================
+	// check if PvdConnection manager is available on this platform
+	if (PxPhysics->getPvdConnectionManager() != NULL)
+	{
+		// setup connection parameters
+		const char*     pvd_host_ip = "127.0.0.1";  // IP of the PC which is running PVD
+		int             port        = 5425;         // TCP port to connect to, where PVD is listening
+		unsigned int    timeout     = 100;          // timeout in milliseconds to wait for PVD to respond,
+
+		physx::PxVisualDebuggerConnectionFlags connectionFlags = physx::PxVisualDebuggerConnectionFlag::eDEBUG | physx::PxVisualDebuggerConnectionFlag::ePROFILE | physx::PxVisualDebuggerConnectionFlag::eMEMORY;
+
+		// Attempt Connection
+		physx::PxVisualDebuggerExt::createConnection(PxPhysics->getPvdConnectionManager(), pvd_host_ip, port, timeout, connectionFlags);
 	}
 
 	std::cout << "VCPxPhysics Initialized." << std::endl;

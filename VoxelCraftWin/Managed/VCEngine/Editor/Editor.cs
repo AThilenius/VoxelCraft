@@ -11,6 +11,8 @@ namespace VCEngine
 {
     public class Editor
     {
+        #region Bindings
+
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInitalizeWindow();
 
@@ -29,6 +31,9 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInitalizeGui();
 
+        #endregion
+
+        public static Boolean ThrotteledUpdate = false;
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
         private static float m_drawTillTime;
@@ -63,17 +68,26 @@ namespace VCEngine
             {
                 Window.PollEvents();
 
-                if (m_framesRemaining <= 0 && GlfwInputState.KeysDown == 0 && Time.TotalTime > m_drawTillTime)
+                if (ThrotteledUpdate)
                 {
-                    Time.Pause();
-                    m_cpuTimeTimer.Stop();
-                    Thread.Sleep(17);
-                    continue;
+                    if (m_framesRemaining <= 0 && GlfwInputState.KeysDown == 0 && Time.TotalTime > m_drawTillTime)
+                    {
+                        Time.Pause();
+                        m_cpuTimeTimer.Stop();
+                        Thread.Sleep(17);
+                        continue;
+                    }
+
+                    Time.Resume();
+                    m_cpuTimeTimer.Start();
+                    m_framesRemaining--;
                 }
 
-                Time.Resume();
-                m_cpuTimeTimer.Start();
-                m_framesRemaining--;
+                else
+                {
+                    // Clamp 80 FPS
+                    Thread.Sleep(MathHelper.Clamp((int)((0.0125 - Time.DeltaTime) * 1000f), 0, 12));
+                }
 
                 Control.MainControl.PropagateUpdate();
                 VCEngineCore.PropagateUpdates();
@@ -91,7 +105,8 @@ namespace VCEngine
 
                 Window.SwapBuffers();
 
-                m_cpuTimeTimer.Start();
+                if (ThrotteledUpdate)
+                    m_cpuTimeTimer.Start();
             }
         }
 

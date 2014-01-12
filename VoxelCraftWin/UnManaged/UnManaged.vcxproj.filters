@@ -263,7 +263,9 @@
     <ClCompile Include="VCPxRigidDynamic.cpp">
       <Filter>Physics\PhysX</Filter>
     </ClCompile>
-    <ClCompile Include="VCPxShape.cpp" />
+    <ClCompile Include="VCPxShape.cpp">
+      <Filter>Physics\PhysX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -471,7 +473,9 @@
     <ClInclude Include="VCPxRigidDynamic.h">
       <Filter>Physics\PhysX</Filter>
     </ClInclude>
-    <ClInclude Include="VCPxShape.h" />
+    <ClInclude Include="VCPxShape.h">
+      <Filter>Physics\PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

@@ -11,12 +11,14 @@
 #include "VCPxPhysics.h"
 #include "extensions\PxDefaultSimulationFilterShader.h"
 #include "VCObjectStore.h"
+#include "VCPxRigidActor.h"
 
 physx::PxDefaultCpuDispatcher* VCPxScene::m_defaultCpuDispatcher;
 physx::PxSimulationFilterShader VCPxScene::m_defaultFilterShader = physx::PxDefaultSimulationFilterShader;
 
 VCPxScene::VCPxScene(void):
-	m_scene(NULL)
+	PxScene(NULL),
+	FixedDeltaTime(0.01)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -24,10 +26,10 @@ VCPxScene::VCPxScene(void):
 
 VCPxScene::~VCPxScene(void)
 {
-	if (m_scene != NULL)
+	if (PxScene != NULL)
 	{
-		m_scene->release();
-		m_scene = NULL;
+		PxScene->release();
+		PxScene = NULL;
 	}
 }
 
@@ -56,6 +58,16 @@ void VCPxScene::Initialize()
 		sceneDesc.gpuDispatcher = VCPxPhysics::CudaContextManager->getGpuDispatcher();
 #endif
 
+	PxScene = VCPxPhysics::PxPhysics->createScene(sceneDesc);
+
+	if (!PxScene)
+	{
+		VC_ERROR("Failed to create Px Scene.");
+	}
+
+	PxScene->setVisualizationParameter(physx::PxVisualizationParameter::eSCALE,     1.0);
+	PxScene->setVisualizationParameter(physx::PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
+
 	std::cout << "PxScene Created." << std::endl;
 }
 
@@ -70,4 +82,24 @@ void VCInteropPhysicsPxSceneRelease( int handle )
 {
 	VCPxScene* obj = (VCPxScene*)VCObjectStore::Instance->GetObject(handle);
 	delete obj;
+}
+
+void VCInteropPhysicsPxSceneAddActor( int handle, int actorHandle )
+{
+	VCPxScene* obj = (VCPxScene*)VCObjectStore::Instance->GetObject(handle);
+	VCPxRigidActor* actor = (VCPxRigidActor*)VCObjectStore::Instance->GetObject(actorHandle);
+
+	obj->PxScene->addActor(*actor->PxRigidActor);
+}
+
+void VCInteropPhysicsPxSceneSimulate(int handle, double deltaTime)
+{
+	VCPxScene* obj = (VCPxScene*)VCObjectStore::Instance->GetObject(handle);
+
+	while ( deltaTime >= obj->FixedDeltaTime )
+	{
+		obj->PxScene->simulate(obj->FixedDeltaTime);
+		obj->PxScene->fetchResults(true);
+		deltaTime -= obj->FixedDeltaTime;
+	}
 }

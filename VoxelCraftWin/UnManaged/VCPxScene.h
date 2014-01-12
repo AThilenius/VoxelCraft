@@ -20,12 +20,17 @@ public:
 
 	void Initialize();
 
+public:
+	double FixedDeltaTime;
+	physx::PxScene* PxScene;
+
 private:
 	static physx::PxDefaultCpuDispatcher* m_defaultCpuDispatcher;
 	static physx::PxSimulationFilterShader m_defaultFilterShader;
-	physx::PxScene* m_scene;
 	
 };
 
 DLL_EXPORT_API int VCInteropPhysicsPxSceneNew();
 DLL_EXPORT_API void VCInteropPhysicsPxSceneRelease(int handle);
+DLL_EXPORT_API void VCInteropPhysicsPxSceneAddActor(int handle, int actorHandle);
+DLL_EXPORT_API void VCInteropPhysicsPxSceneSimulate(int handle, double deltaTime);

@@ -128,7 +128,11 @@
     <Compile Include="MainEntry.cs" />
     <Compile Include="Physics\PxMaterial.cs" />
     <Compile Include="Physics\PxPhysics.cs" />
+    <Compile Include="Physics\PxRigidActor.cs" />
+    <Compile Include="Physics\PxRigidDynamic.cs" />
+    <Compile Include="Physics\PxRigidStatic.cs" />
     <Compile Include="Physics\PxScene.cs" />
+    <Compile Include="Physics\PxShape.cs" />
     <Compile Include="Rendering\RenderedEntity.cs" />
     <Compile Include="Rendering\IVerticie.cs" />
     <Compile Include="Rendering\Material.cs" />

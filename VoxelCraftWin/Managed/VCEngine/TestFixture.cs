@@ -13,6 +13,13 @@ namespace VCEngine
         static RenderWindow m_renderWindow;
         static RenderedEntity m_entity;
 
+        public static PxScene scene;
+        public static PxMaterial material;
+        public static PxShape boxShape;
+        public static PxShape planeShape;
+        public static PxRigidStatic floor;
+        public static PxRigidDynamic box;
+
         internal static void OnStart()
         {
             m_renderWindow = new RenderWindow();
@@ -24,10 +31,20 @@ namespace VCEngine
 
             m_renderWindow.Entities.Add(m_entity);
 
-            PxScene scene = new PxScene();
-            PxMaterial material = new PxMaterial(0.5f, 0.5f, 0.5f);
+            scene = new PxScene();
+            material = new PxMaterial(0.5f, 0.5f, 0.5f);
 
-            Console.WriteLine("yoloswaghashtagleahiisahottie");
+            boxShape = PxShape.CreateBoxShape(material, new Vector3(0.5f, 0.5f, 0.5f));
+            planeShape = PxShape.CreatePlaneShape(material);
+
+            floor = new PxRigidStatic(Vector3.Zero, Quaternion.FromAxisAngle(Vector3.UnitZ, (float)Math.PI / 2.0f));
+            floor.AttachShape(planeShape);
+
+            box = new PxRigidDynamic(new Vector3(0, 10, 0), Quaternion.Identity);
+            box.AttachShape(boxShape);
+
+            scene.AddActor(floor);
+            scene.AddActor(box);
         }
 
         public static void PerUpdate()
@@ -36,6 +53,7 @@ namespace VCEngine
 
         public static void LatePerUpdate()
         {
+            scene.Simulate();
         }
 
 

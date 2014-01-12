@@ -15,9 +15,12 @@ class VCGameObject;
 class VCPxRigidDynamic : public VCPxRigidActor
 {
 public:
-	VCPxRigidDynamic(VCFloat3 pos, VCFloat4 rot);
+	VCPxRigidDynamic(void);
 	~VCPxRigidDynamic();
 
 public:
 	physx::PxRigidDynamic* PxRigidDynamic;
 };
+
+DLL_EXPORT_API int VCInteropPhysicsRigidDynamicCreate(glm::vec3 pos, glm::vec4 quat);
+DLL_EXPORT_API void VCINteropPhysicsRigidDynamicRelease(int handle);

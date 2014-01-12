@@ -13,7 +13,8 @@
 #include "VCPxPhysics.h"
 
 
-VCPxRigidDynamic::VCPxRigidDynamic(VCFloat3 pos, VCFloat4 rot)
+VCPxRigidDynamic::VCPxRigidDynamic(void):
+	PxRigidDynamic(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -21,4 +22,23 @@ VCPxRigidDynamic::VCPxRigidDynamic(VCFloat3 pos, VCFloat4 rot)
 
 VCPxRigidDynamic::~VCPxRigidDynamic(void)
 {
+	if(PxRigidDynamic != NULL)
+		PxRigidDynamic->release();
+}
+
+int VCInteropPhysicsRigidDynamicCreate(glm::vec3 pos, glm::vec4 quat)
+{
+	VCPxRigidDynamic* rStatic = new VCPxRigidDynamic();
+
+	physx::PxTransform transform(physx::PxVec3(pos.x, pos.y, pos.z), physx::PxQuat(quat.x, quat.y, quat.z, quat.w));
+	rStatic->PxRigidDynamic = VCPxPhysics::PxPhysics->createRigidDynamic(transform);
+	rStatic->PxRigidActor = rStatic->PxRigidDynamic;
+
+	return rStatic->Handle;
+}
+
+void VCINteropPhysicsRigidDynamicRelease(int handle)
+{
+	VCPxRigidDynamic* obj = (VCPxRigidDynamic*) VCObjectStore::Instance->GetObject(handle);
+	delete obj;
 }

@@ -15,5 +15,11 @@ class VCPxRigidStatic : public VCPxRigidActor
 public:
 	VCPxRigidStatic();
 	~VCPxRigidStatic();
+
+public:
+	physx::PxRigidStatic* PxRigidStatic;
 	
 };
+
+DLL_EXPORT_API int VCInteropPhysicsRigidStaticCreate(glm::vec3 pos, glm::vec4 quat);
+DLL_EXPORT_API void VCINteropPhysicsRigidStaticRelease(int handle);

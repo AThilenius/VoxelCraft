@@ -66,3 +66,9 @@ int VCInteropPhysicsSphereShapeNew( int materialHandle, float radius )
 
 	return vcshape->Handle;
 }
+
+void VCInteropPhysicsShapeRelease( int handle )
+{
+	VCPxShape* obj = (VCPxShape*)VCObjectStore::Instance->GetObject(handle);
+	delete obj;
+}
