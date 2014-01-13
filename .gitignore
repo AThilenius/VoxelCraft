@@ -29,3 +29,4 @@ BuildOutput/
 *.vcew
 *.opensdf
 *.ipch
+*.sdf
