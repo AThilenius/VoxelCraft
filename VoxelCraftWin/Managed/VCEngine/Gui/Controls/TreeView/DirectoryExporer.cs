@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class DirectoryExporer : TreeView
+    public class DirectoryExporer : TreeViewOld
     {
         public String HeadPath
         {

@@ -39,6 +39,17 @@ namespace VCEngine
             //box.Children.Add(m_entity);
 
             //m_renderWindow.Entities.Add(m_entity);
+
+            LabeledTreeItem head = new LabeledTreeItem("Hello World");
+            LabeledTreeItem child1 = new LabeledTreeItem("Hello Child 1"); head.AddControl(child1);
+            LabeledTreeItem child2 = new LabeledTreeItem("Hello Child 2"); head.AddControl(child2);
+            LabeledTreeItem grandChild1 = new LabeledTreeItem("Hello Grand Child"); child1.AddControl(grandChild1);
+
+            TreeView<LabeledTreeItem> view = new TreeView<LabeledTreeItem>();
+            Control.MainControl.AddControl(view);
+            view.Frame = new Rectangle(300, 50, 250, 600);
+            view.HeadNode = head;
+            view.ReBuildList();
         }
 
         public static void PerUpdate()

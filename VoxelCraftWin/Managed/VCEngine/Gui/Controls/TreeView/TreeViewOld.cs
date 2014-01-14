@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class TreeView : Control
+    public class TreeViewOld : Control
     {
         public int VerticalPadding = 0;
         public IEnumerable<TreeViewItem> AllItems
@@ -26,7 +26,7 @@ namespace VCEngine
         protected List<TreeViewItem> m_childrenTVI = new List<TreeViewItem>();
         protected Boolean m_needsRebuild;
 
-        public TreeView()
+        public TreeViewOld()
         {
             Resize += TreeView_Resize;
         }

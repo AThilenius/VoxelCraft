@@ -8,8 +8,8 @@ namespace VCEngine
     public class ExpandButton : Control
     {
         public Boolean IsExpanded;
-        public Color BackgroundColor;
-        public Color HoverBackgroundColor;
+        public Color BackgroundColor = new Color(112, 126, 140, 255);
+        public Color HoverBackgroundColor = Color.ControlBlue;
         public event EventHandler OnExpand = delegate { };
         public event EventHandler OnCollapse = delegate { };
 

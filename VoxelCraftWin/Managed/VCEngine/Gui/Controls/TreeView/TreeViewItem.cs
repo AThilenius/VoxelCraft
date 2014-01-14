@@ -39,12 +39,12 @@ namespace VCEngine
         public string Text;
         public Object BoundObject;
 
-        private TreeView m_treeView;
+        private TreeViewOld m_treeView;
         private TreeViewItem m_parentItem;
         private ExpandButton m_expButton;
         private int m_indentCount;
 
-        public TreeViewItem(TreeView treeView, TreeViewItem parentItem)
+        public TreeViewItem(TreeViewOld treeView, TreeViewItem parentItem)
         {
             m_treeView = treeView;
             m_parentItem = parentItem;
