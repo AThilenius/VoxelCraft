@@ -12,22 +12,25 @@ namespace VCEngine
     /// Also, remove the constraint on nodes that they must be the same size,
     /// then I can add in large header nodes.
     /// </summary>
-    public class LabeledTreeItem : ObservableTreeNode
+    public class TreeNode : Control
     {
-        public override event EventHandler OnChange = delegate { };
         public ExpandButton ExpandButton;
         public ImageView Icon;
         public Label Label;
+        public int ClientYOffset;
+        public Rectangle ClientScreenFrame
+        {
+            get { return new Rectangle(ScreenFrame.X, ScreenFrame.Y + ClientYOffset, Width, Height - ClientYOffset); }
+        }
         public int Depth
         {
             get { return m_depth; }
             set 
             { 
                 m_depth = value;
-                Label.Text = Label.Text + m_depth.ToString();
 
                 for (int i = 0; i < m_childrenLTI.Count; i++)
-                    ((LabeledTreeItem)m_childrenLTI[i]).Depth = m_depth + 1;
+                    ((TreeNode)m_childrenLTI[i]).Depth = m_depth + 1;
 
                 ReBuildLayout();
             }
@@ -44,10 +47,10 @@ namespace VCEngine
 
         private int m_depth;
         private int m_indentSize = 10;
-        private List<LabeledTreeItem> m_childrenLTI = new List<LabeledTreeItem>();
+        private List<TreeNode> m_childrenLTI = new List<TreeNode>();
         private Point m_lastSize = new Point();
 
-        public LabeledTreeItem(String label)
+        public TreeNode(String label)
         {
             // Expand Button
             ExpandButton = new VCEngine.ExpandButton();
@@ -56,14 +59,14 @@ namespace VCEngine
                     for (int i = 0; i < m_childrenLTI.Count; i++)
                         m_childrenLTI[i].Visible = true;
 
-                    OnChange(this, EventArgs.Empty);
+                    ReBuildLayout();
                 };
             ExpandButton.OnCollapse += (s, a) =>
                 {
                     for (int i = 0; i < m_childrenLTI.Count; i++)
                         m_childrenLTI[i].Visible = false;
 
-                    OnChange(this, EventArgs.Empty);
+                    ReBuildLayout();
                 };
             ExpandButton.IsExpanded = true;
             base.AddControl(ExpandButton);
@@ -84,35 +87,51 @@ namespace VCEngine
 
         public override void AddControl(Control control)
         {
-            if (!(control is LabeledTreeItem))
+            if (!(control is TreeNode))
                 throw new NotSupportedException("You can only add LabeledTreeItem controls as children of a LabeledTreeItem");
 
             base.AddControl(control);
-            m_childrenLTI.Add((LabeledTreeItem)control);
-            ((LabeledTreeItem)control).Depth = Depth + 1;
+            m_childrenLTI.Add((TreeNode)control);
+            ((TreeNode)control).Depth = Depth + 1;
         }
 
         public override void RemoveControl(Control control)
         {
             base.RemoveControl(control);
-            ((LabeledTreeItem)control).Depth = 0;
-            m_childrenLTI.Remove((LabeledTreeItem)control);
+            ((TreeNode)control).Depth = 0;
+            m_childrenLTI.Remove((TreeNode)control);
         }
 
-        private void ReBuildLayout()
+        protected virtual void ReBuildLayout()
         {
-            if (Size.X == m_lastSize.X && Size.Y == m_lastSize.Y)
-                return;
+            // For each child, let it first compute its layout,
+            // align in this frame, set size to sum
+            int runningYOffset = 0;
 
-            m_lastSize = Size;
-            int baseIndent = (m_indentSize * m_depth) + 5;
-            ExpandButton.Frame =    new Rectangle(baseIndent,      (Height / 2) - 4,   8,                             8);
-            Icon.Frame =            new Rectangle(baseIndent + 12, (Height / 2) - 10,                  20,                        20);
-            Label.Frame =           new Rectangle(baseIndent + 35, 0,                  Width - (baseIndent + 40),    Height);
+            for (int i = m_childrenLTI.Count - 1; i >= 0; i--)
+            {
+                TreeNode node = m_childrenLTI[i];
 
-            if (m_childrenLTI.Count == 0)
-                ExpandButton.Visible = false;
+                // Depth First
+                node.ReBuildLayout();
+                node.Frame = new Rectangle(0, runningYOffset, Width, node.Height);
+                runningYOffset += node.Height;
+            }
+
+            Height = runningYOffset;
         }
+
+        //if (Size.X == m_lastSize.X && Size.Y == m_lastSize.Y)
+        //        return;
+
+        //    m_lastSize = Size;
+        //    int baseIndent = (m_indentSize * m_depth) + 5;
+        //    ExpandButton.Frame =    new Rectangle(baseIndent,      (Height / 2) - 4,   8,                             8);
+        //    Icon.Frame =            new Rectangle(baseIndent + 12, (Height / 2) - 10,                  20,                        20);
+        //    Label.Frame =           new Rectangle(baseIndent + 35, 0,                  Width - (baseIndent + 40),    Height);
+
+        //    if (m_childrenLTI.Count == 0)
+        //        ExpandButton.Visible = false;
 
         protected override void Draw()
         {

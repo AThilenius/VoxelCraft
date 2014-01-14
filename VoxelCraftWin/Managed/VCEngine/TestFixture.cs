@@ -40,12 +40,12 @@ namespace VCEngine
 
             //m_renderWindow.Entities.Add(m_entity);
 
-            LabeledTreeItem head = new LabeledTreeItem("Hello World");
-            LabeledTreeItem child1 = new LabeledTreeItem("Hello Child 1"); head.AddControl(child1);
-            LabeledTreeItem child2 = new LabeledTreeItem("Hello Child 2"); head.AddControl(child2);
-            LabeledTreeItem grandChild1 = new LabeledTreeItem("Hello Grand Child"); child1.AddControl(grandChild1);
+            TreeNode head = new TreeNode("Hello World");
+            TreeNode child1 = new TreeNode("Hello Child 1"); head.AddControl(child1);
+            TreeNode child2 = new TreeNode("Hello Child 2"); head.AddControl(child2);
+            TreeNode grandChild1 = new TreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
 
-            TreeView<LabeledTreeItem> view = new TreeView<LabeledTreeItem>();
+            TreeView<TreeNode> view = new TreeView<TreeNode>();
             Control.MainControl.AddControl(view);
             view.Frame = new Rectangle(300, 50, 250, 600);
             view.HeadNode = head;

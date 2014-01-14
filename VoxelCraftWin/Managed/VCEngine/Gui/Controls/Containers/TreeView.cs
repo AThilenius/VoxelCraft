@@ -6,11 +6,9 @@ using System.Text;
 namespace VCEngine
 {
     /// <summary>
-    /// Allows for data binding and viewing of an arbitrarily complex tree of TRANSPARENT Controls.
-    /// All controls will have a uniform size enforced.
-    /// This view does not inherently support scrolling, or clipping of too many items.
+    /// Simply hosts a cumulative background and container for the head TreeNode
     /// </summary>
-    public class TreeView<T> : Control where T : ObservableTreeNode
+    public class TreeView<T> : Control where T : TreeNode
     {
         public T HeadNode
         {
