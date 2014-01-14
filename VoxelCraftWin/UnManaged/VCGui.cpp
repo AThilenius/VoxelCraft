@@ -11,13 +11,16 @@
 
 #include "VCLexicalEngine.h"
 #include "VCCamera.h"
+#include "VCShader.h"
+#include "VCResourceManager.h"
 
 VCGui* VCGui::Instance = NULL;
 float VCGui::Scale = 1.0f;
 float VCGui::InverseScale = 1.0f;
 
 VCGui::VCGui( void ):
-	DepthStep(2)
+	DepthStep(2),
+	GuiColorUniformIndex(-1)
 {
 	VCGui::Instance = this;
 }
@@ -32,6 +35,8 @@ void VCGui::Initialize()
 	GuiCamera = new VCCamera();
 	Geometry.Initialize();
 	Text.Initialize();
+	GuiImages.Shader = VCResourceManager::GetShader("GuiPackedChannels");
+	GuiColorUniformIndex = GuiImages.Shader->GetUniformIndex("Color");
 }
 
 void VCInteropGuiSetScale( float scale )
@@ -78,4 +83,12 @@ void VCInteropGuiDrawImage( char* path, VCRectangle frame )
 void VCInteropGuiDraw9SliceImage( char* path, VCRectangle frame, int pizelOffset, float padding )
 {
 	VCGui::Instance->ImageBuilder.Draw9SliceImage(path, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+}
+
+void VCInteropGuiDraw9SliceGui( char* path, vcint4 color, VCRectangle frame, int pizelOffset, float padding )
+{
+	VCGui::Instance->GuiImages.Shader->Bind();
+	VCGui::Instance->GuiImages.Shader->SetUniform(VCGui::Instance->GuiColorUniformIndex, glm::vec4(color.X / 255.0f, color.Y / 255.0f, color.Z / 255.0f, color.W / 255.0f));
+
+	VCGui::Instance->GuiImages.Draw9SliceImage(path, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }

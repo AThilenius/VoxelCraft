@@ -11,6 +11,7 @@
 #define VC_TEXTURE_BUILDER_START_VERT_SIZE 60
 
 class VCRenderStage;
+class VCShader;
 
 #include "VCTexture.h"
 
@@ -29,7 +30,7 @@ public:
 	VCImageInstance(std::string path);
 	~VCImageInstance(void);
 
-	void Initialize();
+	void Initialize(VCShader* shader, VCTextureParams params);
 	void DrawImage (VCRectangle frame, float depthStep);
 	void Draw9Slice(VCRectangle frame, int pizelOffset, float padding, float depthStep);
 

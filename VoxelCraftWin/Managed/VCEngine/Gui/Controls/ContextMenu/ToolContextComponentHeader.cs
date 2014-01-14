@@ -5,14 +5,14 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class ContextComponentHeader : Control
+    public class ToolContextComponentHeader : Control
     {
         public ExpandButton ExpansionButton;
         public Label Text;
 
-        protected ContextComponent m_context;
+        protected ToolContextComponent m_context;
 
-        public ContextComponentHeader(ContextComponent context, String name)
+        public ToolContextComponentHeader(ToolContextComponent context, String name)
         {
             m_context = context;
 

@@ -10,6 +10,7 @@ namespace VCEngine
         public LayoutControls LayoutControls;
         public Hud HudOverlay;
         public PanelsControler Panels;
+        public MainPagesPicker PagesPicker;
 
         private Point m_delta = new Point(-1, -1);
 
@@ -23,6 +24,9 @@ namespace VCEngine
 
             Panels = new PanelsControler();
             AddControl(Panels);
+
+            PagesPicker = new MainPagesPicker();
+            AddControl(PagesPicker);
         }
 
         void Header_Draging(object sender, MouseEventArgs e)
@@ -40,6 +44,7 @@ namespace VCEngine
 
             HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
             Panels.Location = new Point(Frame.Width - 120, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(Panels.Height, 2));
+            PagesPicker.Location = new Point(Frame.Width - 400, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(Panels.Height, 2));
             
         }
 

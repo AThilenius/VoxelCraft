@@ -99,13 +99,13 @@ namespace VCEngine
                     if (IsDepressed)
                     {
                         Text.FontColor = Color.White;
-                        Gui.Draw9Slice(@"Icons\ButtonDown.DDS", ScreenFrame);
+                        Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
                     }
 
                     else
                     {
                         Text.FontColor = Color.Black;
-                        Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
+                        Gui.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
                     }
 
                     break;
@@ -116,20 +116,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftHightlight.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
@@ -139,20 +139,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterHightlight.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
@@ -162,20 +162,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonRightHightlight.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9Slice(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
                     }
 
                     break;

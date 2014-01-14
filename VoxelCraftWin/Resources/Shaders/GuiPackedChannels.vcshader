@@ -1,0 +1,70 @@
+{
+  "Name": "GuiPackedChannels",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UVIn"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "ColorRGBA",
+      "Name": "Color"
+    },
+    {
+      "ValueType": "Sampler2D",
+      "Name": "Texture"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+in vec3 Position;
+in vec2 UVIn;
+
+out vec2 UV;
+
+void main()
+{
+	gl_Position =  VC_MvpMatrix * vec4(Position, 1);
+	UV = UVIn;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+in vec2 UV;
+
+out vec4 fragColor;
+
+uniform vec4 Color;
+uniform sampler2D Texture;
+
+void main()
+{
+	// Red = Darkness, Green = Highlights, Blue = Color Visibuility
+	vec4 texColor = texture2D(Texture, UV);
+	
+	//vec4 darkness = vec4(-1, -1, -1, 1) * texColor.x;
+	//vec4 highlight = vec4(1, 1, 1, 1) * texColor.y;
+	//vec4 visibeColor = Color * texColor.z;
+	
+	//fragColor = darkness + highlight + visibeColor;
+	
+	// Set to ONE
+	// Multiply by highlight - darkness
+	fragColor.rgb = vec3(1.0, 1.0, 1.0) * texColor.g;
+	fragColor.rgb -= vec3(1, 1, 1) * texColor.r;
+	fragColor.rgb += Color.rgb * texColor.b;
+	fragColor.a = texColor.r + texColor.g + texColor.b;
+}
+
+
+"
+}

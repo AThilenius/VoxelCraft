@@ -18,6 +18,8 @@ namespace VCEngine
             FillColorControls();
             CreateSolutionExplorer();
             CreateEditorWindow();
+
+            Window.Resize += (s, a) => Size = new Point(a.To.Width, a.To.Height);
         }
 
         private void FillColorControls()
@@ -29,12 +31,12 @@ namespace VCEngine
 
             // Tools
             ToolMenu = new Tools();
-            RightContextMenu.AddControl(ToolMenu);
+            RightContextMenu.AddIContextComponent(ToolMenu);
 
             // HLS
             ColorPicker = new HslColorPicker();
             ColorPicker.Height = 100;
-            RightContextMenu.AddControl(ColorPicker);
+            RightContextMenu.AddIContextComponent(ColorPicker);
         }
 
         private void CreateSolutionExplorer()

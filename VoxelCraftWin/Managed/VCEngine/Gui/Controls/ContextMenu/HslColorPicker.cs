@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class HslColorPicker : ContextComponent
+    public class HslColorPicker : ToolContextComponent
     {
         public Vector4 ColorHSL
         {
@@ -94,7 +94,7 @@ namespace VCEngine
             //Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
             Gui.DrawBackground(ScreenFrame);
             Font.DefaultFont.DrawStringBeveled("HSL Color", new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.Black);
-            Gui.Draw9Slice(@"Icons\Button.DDS", new Rectangle(sf.X, sf.Y, 40, sf.Height));
+            Gui.Draw9SliceImage(@"Icons\Button.DDS", new Rectangle(sf.X, sf.Y, 40, sf.Height));
             Gui.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 5, 30, sf.Height - 10), ColorRGB);
 
             Gui.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 4, 30, 1), new Color(255, 255, 255, 128));
@@ -157,7 +157,7 @@ namespace VCEngine
 
         private static void DrawRandomSpectrum(Rectangle frame, Vector4 hsl, float spectrum)
         {
-            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            Gui.Draw9SliceImage(@"Icons\Button.DDS", frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             // Draw possible spectrum
@@ -190,7 +190,7 @@ namespace VCEngine
 
         private static void DrawColorSpectrum(Rectangle frame, float s, float l, int t)
         {
-            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            Gui.Draw9SliceImage(@"Icons\Button.DDS", frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             int qWidth = (int)(frame.Width / 6.0f);
@@ -239,7 +239,7 @@ namespace VCEngine
 
         private static void DrawSauration(Rectangle frame, Color color, float l)
         {
-            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            Gui.Draw9SliceImage(@"Icons\Button.DDS", frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             Color colored = color;
@@ -269,7 +269,7 @@ namespace VCEngine
 
         private static void DrawLuminosity(Rectangle frame, Color color, float s)
         {
-            Gui.Draw9Slice(@"Icons\Button.DDS", frame);
+            Gui.Draw9SliceImage(@"Icons\Button.DDS", frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             Color midColor = Color.Lerp(new Color(127, 127, 127, color.A), color, s);

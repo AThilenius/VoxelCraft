@@ -7,21 +7,22 @@ namespace VCEngine
 {
     public class ContextMenu : Control
     {
-        private List<ContextComponent> m_orderedControlList = new List<ContextComponent>();
+        private List<IContextComponent> m_orderedControlList = new List<IContextComponent>();
+
+        public void AddIContextComponent(IContextComponent iContextCompoennt)
+        {
+            iContextCompoennt.Body.Dock = Dockings.Top;
+            m_orderedControlList.Add(iContextCompoennt);
+
+            iContextCompoennt.OnExpand += (s, a) => ReBuild();
+            iContextCompoennt.OnCollapse += (s, a) => ReBuild();
+
+            ReBuild();
+        }
 
         public override void AddControl(Control control)
         {
-            ContextComponent cc = (ContextComponent)control;
-
-            if (cc == null)
-                throw  new Exception("Only ContextComponents or derived classes can be added to a ContextMenu");
-
-            cc.Dock = Dockings.Top;
-            m_orderedControlList.Add(cc);
-            cc.Header.ExpansionButton.OnExpand += (s, a) => ReBuild();
-            cc.Header.ExpansionButton.OnCollapse += (s, a) => ReBuild();
-
-            ReBuild();
+            throw new NotSupportedException ("Must use AddIContextComponent instead");
         }
 
         public void ReBuild()
@@ -29,15 +30,18 @@ namespace VCEngine
             base.RemoveAllControls();
             int yOffset = 0;
 
-            foreach (ContextComponent cc in m_orderedControlList)
+            foreach (IContextComponent cc in m_orderedControlList)
             {
-                cc.Header.DockOrder = yOffset++;
-                base.AddControl(cc.Header);
-
-                if (cc.Header.ExpansionButton.IsExpanded)
+                if (cc.HasHeader)
                 {
-                    cc.DockOrder = yOffset++;
-                    base.AddControl(cc);
+                    cc.Header.DockOrder = yOffset++;
+                    base.AddControl(cc.Header);
+                }
+
+                if (cc.IsExpanded)
+                {
+                    cc.Body.DockOrder = yOffset++;
+                    base.AddControl(cc.Body);
                 }
             }
 

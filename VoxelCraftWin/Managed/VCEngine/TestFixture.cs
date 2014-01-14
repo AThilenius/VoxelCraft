@@ -48,6 +48,12 @@ namespace VCEngine
 
         public static void LatePerUpdate()
         {
+            //Gui.DrawRectangle(new Rectangle(300, 300, 100, 25), Color.ControlRed);
+            //Gui.DrawButton(new Rectangle(200, 200, 300, 250));
+            //Gui.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", new Rectangle(400, 300, 100, 25));
+            //Gui.Draw9SliceGui(@"Icons\GuiButton.DDS", new Color(145, 163, 180, 255),    new Rectangle(220, 400, 100, 25));
+            //Gui.Draw9SliceGui(@"Icons\GuiButton.DDS", new Color(255, 0, 0, 255),        new Rectangle(320, 400, 100, 25));
+            //Gui.Draw9SliceGui(@"Icons\GuiButton.DDS", new Color(150, 220, 150, 255),        new Rectangle(220, 350, 100, 25));
         }
 
 

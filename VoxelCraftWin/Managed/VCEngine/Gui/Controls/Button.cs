@@ -43,10 +43,10 @@ namespace VCEngine
                         Text.FontColor = Color.Black;
 
                         if (IsClickDown)
-                            Gui.Draw9Slice(@"Icons\ButtonDown.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
 
                         else
-                            Gui.Draw9Slice(@"Icons\Button.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
                     }
 
                     else
@@ -60,10 +60,10 @@ namespace VCEngine
                         Text.FontColor = Color.White;
 
                         if (IsClickDown)
-                            Gui.Draw9Slice(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
 
                         else
-                            Gui.Draw9Slice(@"Icons\ButtonHighlight.DDS", ScreenFrame);
+                            Gui.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", ScreenFrame);
                     }
 
                     else
@@ -91,9 +91,9 @@ namespace VCEngine
                         Rectangle sf = ScreenFrame;
 
                         if (IsClickDown)
-                            Gui.Draw9Slice(@"Icons\ButtonDown.DDS", sf);
+                            Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", sf);
                         else
-                            Gui.Draw9Slice(@"Icons\Button.DDS", sf);
+                            Gui.Draw9SliceImage(@"Icons\Button.DDS", sf);
 
                         Gui.DrawImage(ImagePath, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
                     }

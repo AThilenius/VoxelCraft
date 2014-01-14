@@ -28,7 +28,9 @@ public:
 	VCGeometryBuilder Geometry;
 	VCTextBuilder Text;
 	VCImageBuilder ImageBuilder;
+	VCImageBuilder GuiImages;
 	VCCamera* GuiCamera;
+	int GuiColorUniformIndex;
 
 public:
 	float DepthStep;
@@ -54,3 +56,6 @@ DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetri
 // Images
 DLL_EXPORT_API void VCInteropGuiDrawImage(char* path, VCRectangle frame);
 DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(char* path, VCRectangle frame, int pizelOffset, float padding);
+
+// GUI Images
+DLL_EXPORT_API void VCInteropGuiDraw9SliceGui(char* path, vcint4 color, VCRectangle frame, int pizelOffset, float padding);

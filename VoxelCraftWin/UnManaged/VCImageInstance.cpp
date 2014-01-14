@@ -48,16 +48,15 @@ VCImageInstance::~VCImageInstance(void)
 	delete m_rStage;
 }
 
-void VCImageInstance::Initialize()
+void VCImageInstance::Initialize(VCShader* shader, VCTextureParams params)
 {
-	// TriLinear filtered texture
-	m_texturePtr = VCResourceManager::GetTexure(m_path);
+	m_texturePtr = VCResourceManager::GetTexure(m_path, params);
 	
 	// Render Stage
 	m_rStage = new VCRenderStage(VC_VOID_DELEGATE_METHOD(VCImageInstance, Render));
 	m_rStage->ExectionType = VCRenderStage::Never;
 	m_rStage->BatchOrder = VC_BATCH_GUI + 1;
-	m_rStage->Shader = VCResourceManager::GetShader("TexturePassThrough");
+	m_rStage->Shader = shader;
 	m_rStage->Texture = m_texturePtr;
 	VCGLRenderer::Instance->RegisterStage(m_rStage);
 

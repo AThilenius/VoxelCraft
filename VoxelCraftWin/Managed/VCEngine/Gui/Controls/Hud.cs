@@ -28,7 +28,7 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
 
-            Gui.Draw9Slice(@"Icons\Hud.DDS", sf, 10, 0.17f);
+            Gui.Draw9SliceImage(@"Icons\Hud.DDS", sf, 10, 0.17f);
 
             HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 

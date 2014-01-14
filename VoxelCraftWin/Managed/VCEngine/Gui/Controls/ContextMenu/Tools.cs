@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class Tools : ContextComponent
+    public class Tools : ToolContextComponent
     {
         private ToggleButton m_cubeButton;
         private ToggleButton m_sphereButton;
