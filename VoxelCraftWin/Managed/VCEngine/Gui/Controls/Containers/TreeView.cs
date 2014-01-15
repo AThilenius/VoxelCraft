@@ -6,73 +6,66 @@ using System.Text;
 namespace VCEngine
 {
     /// <summary>
-    /// Simply hosts a cumulative background and container for the head TreeNode
+    /// Hosts a cumulative background and container for the head TreeNode
     /// </summary>
     public class TreeView<T> : Control where T : TreeNode
     {
-        public T HeadNode
+        public T Head
         {
             get { return m_head; }
-            set 
-            {
-                if (m_head != null)
-                    RemoveControl(m_head);
-
-                m_head = value;
-                AddControl(value);
-                ReBuildList();
-            }
-        }
-        public int ItemHeight
-        {
-            get { return m_itemHeight; }
             set
             {
-                m_itemHeight = value;
-                ReBuildList();
+                m_head = value;
+                AddControl(value);
+                m_head.ReBuildHead();
+                m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
+                m_head.OnItemClicked += (s, a) =>
+                    {
+                        if (m_lastClicked != null)
+                            m_lastClicked.FocusLevel = NodeFocusLevel.None;
+
+                        m_lastClicked = (TreeNode)s;
+                    };
+                SetHeadLocation();
             }
         }
-        public Boolean HotTracking = true;
 
         private T m_head;
-        private int m_itemHeight = 25;
+        private TreeNode m_lastClicked;
 
-        // Used during a rebuild
-        private List<Control> m_visibleControls = new List<Control>();
-
-        public void ReBuildList()
+        public TreeView()
         {
-            int yOffset = m_itemHeight;
-            m_visibleControls.Clear();
-            BuildVisibuilityListDepthFirst(m_head);
-
-            Rectangle sf = ScreenFrame;
-            int newHeight = m_itemHeight * m_visibleControls.Count;
-            Size = new Point(Width, newHeight);
-
-            for (int i = 0; i < m_visibleControls.Count; i++)
-            {
-                m_visibleControls[i].ScreenFrame = new Rectangle(sf.X, sf.Y + newHeight - yOffset, Width, m_itemHeight);
-                yOffset += m_itemHeight;
-            }
-
+            Resize += (s, a) => SetHeadLocation();
+            CanFocus = true;
         }
 
-        private void BuildVisibuilityListDepthFirst(Control ctrl)
+        private void SetHeadLocation()
         {
-            if (!ctrl.Visible || !(ctrl is T))
-                return;
-
-            m_visibleControls.Add(ctrl);
-
-            for (int i = 0; i < ctrl.Children.Count; i++)
-                BuildVisibuilityListDepthFirst(ctrl.Children[i]);
+            if (m_head != null)
+                m_head.Frame = new Rectangle(0, Height - m_head.Height, Width, m_head.Height);
         }
 
         protected override void Draw()
         {
-            //Gui.DrawBackground(ScreenFrame);
-        }
+            Gui.DrawBackgroundEmpty(ScreenFrame);
+            Gui.DrawBackground(m_head.ScreenFrame);
 
+            if (m_lastClicked != null)
+            {
+                if (IsFocused)
+                {
+                    Gui.DrawButtonHighlighted(m_lastClicked.ClientScreenFrame);
+                    m_lastClicked.FocusLevel = NodeFocusLevel.ActiveClicked;
+                }
+
+                else
+                {
+                    Gui.DrawButtonAccentuated(m_lastClicked.ClientScreenFrame);
+                    m_lastClicked.FocusLevel = NodeFocusLevel.InActiveClicked;
+                }
+            }
+
+
+        }
     }
 }

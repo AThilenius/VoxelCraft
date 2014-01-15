@@ -257,13 +257,13 @@ namespace VCEngine
         public event EventHandler<ParentChangeEventArgs>    ParentChanged = delegate { };
 
 
-
-        private Rectangle m_frame = new Rectangle();
+        protected Rectangle m_frame = new Rectangle();
         private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
         private int m_layer;
         private bool m_wasPointInThis;
         private double m_lastClickTime;
+        private ValueAnimator<Rectangle> m_animator;
 
         public Control()
         {
@@ -286,7 +286,21 @@ namespace VCEngine
             Update();
 
             foreach (Control ctrl in Children)
+            {
+                // Update animations (If animating)
+                if (m_animator != null)
+                {
+                    if (m_animator.IsDoneAnimating)
+                    {
+                        m_animator = null;
+                        return;
+                    }
+
+                    Frame = m_animator.GetValue();
+                }
+
                 ctrl.PropagateUpdate();
+            }
         }
 
         public virtual void AddControl(Control control)
@@ -369,6 +383,21 @@ namespace VCEngine
 
             s_lastFocus = s_currentFocus;
             s_currentFocus = new HashSet<Control>();
+        }
+
+        public void AnimateFrame(Rectangle to, float animationTime = 0.25f)
+        {
+            m_animator = new ValueAnimator<Rectangle>(m_frame, to, animationTime);
+        }
+
+        public void AnimateLocation(Point to, float animationTime = 0.25f)
+        {
+            m_animator = new ValueAnimator<Rectangle>(m_frame, new Rectangle(to, Size), animationTime);
+        }
+
+        public void AnimateSize(Point to, float animationTime = 0.25f)
+        {
+            m_animator = new ValueAnimator<Rectangle>(m_frame, new Rectangle(Location, to), animationTime);
         }
 
         protected virtual void ChildControlResizeHandler(object sender, ResizeEventArgs e)

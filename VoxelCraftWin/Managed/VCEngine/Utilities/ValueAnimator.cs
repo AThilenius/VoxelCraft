@@ -15,15 +15,16 @@ namespace VCEngine
 
         public float AnimationTime;
         public InterpolationType Interpolation = InterpolationType.Triginometric;
+        public Boolean IsDoneAnimating;
 
         public event EventHandler OnCompleation = delegate { };
 
         private float m_startTime;
         private float m_finishTime;
-        private bool m_isAnimatin;
         private bool m_completionTriggered;
         private T m_from;
         private T m_to;
+        private bool m_isAnimating;
 
         public ValueAnimator(T from)
         {
@@ -38,13 +39,13 @@ namespace VCEngine
 
             m_startTime = Time.TotalTime;
             m_finishTime = Time.TotalTime + AnimationTime;
-            m_isAnimatin = true;
+            m_isAnimating = true;
             Editor.ShouldRedraw(AnimationTime);
         }
 
         public T GetValue()
         {
-            if (!m_isAnimatin)
+            if (!m_isAnimating)
                 return m_from;
 
             float linear = (Time.TotalTime - m_startTime) / (m_finishTime - m_startTime);
@@ -60,6 +61,7 @@ namespace VCEngine
                     m_completionTriggered = true;
                 }
 
+                IsDoneAnimating = true;
                 return m_to;
             }
 

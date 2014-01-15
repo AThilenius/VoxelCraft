@@ -40,16 +40,22 @@ namespace VCEngine
 
             //m_renderWindow.Entities.Add(m_entity);
 
-            TreeNode head = new TreeNode("Hello World");
-            TreeNode child1 = new TreeNode("Hello Child 1"); head.AddControl(child1);
-            TreeNode child2 = new TreeNode("Hello Child 2"); head.AddControl(child2);
-            TreeNode grandChild1 = new TreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
+            IconLabelTreeNode head = new IconLabelTreeNode("Hello World");
+            head.DoubleClick += (s, a) => Console.WriteLine("head");
+            head.ClientHeight = 40;
 
-            TreeView<TreeNode> view = new TreeView<TreeNode>();
+            IconLabelTreeNode child1 = new IconLabelTreeNode("Hello Child 1"); head.AddControl(child1);
+            child1.DoubleClick += (s, a) => Console.WriteLine("child1");
+            IconLabelTreeNode child2 = new IconLabelTreeNode("Hello Child 2"); head.AddControl(child2);
+            child2.DoubleClick += (s, a) => Console.WriteLine("child2");
+            IconLabelTreeNode grandChild1 = new IconLabelTreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
+            grandChild1.DoubleClick += (s, a) => Console.WriteLine("grandChild1");
+
+            TreeView<IconLabelTreeNode> view = new TreeView<IconLabelTreeNode>();
+            view.Frame = new Rectangle(300, 50, 250, 300);
+            view.Head = head;
+
             Control.MainControl.AddControl(view);
-            view.Frame = new Rectangle(300, 50, 250, 600);
-            view.HeadNode = head;
-            view.ReBuildList();
         }
 
         public static void PerUpdate()
