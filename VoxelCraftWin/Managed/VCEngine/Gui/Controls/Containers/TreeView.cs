@@ -8,16 +8,15 @@ namespace VCEngine
     /// <summary>
     /// Hosts a cumulative background and container for the head TreeNode
     /// </summary>
-    public class TreeView<T> : Control where T : TreeNode
+    public class TreeView : Control
     {
-        public T Head
+        public TreeNode Head
         {
             get { return m_head; }
             set
             {
                 m_head = value;
                 AddControl(value);
-                m_head.ReBuildHead();
                 m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
                 m_head.OnItemClicked += (s, a) =>
                     {
@@ -27,10 +26,11 @@ namespace VCEngine
                         m_lastClicked = (TreeNode)s;
                     };
                 SetHeadLocation();
+                m_head.ReBuildHead();
             }
         }
 
-        private T m_head;
+        private TreeNode m_head;
         private TreeNode m_lastClicked;
 
         public TreeView()
@@ -53,16 +53,10 @@ namespace VCEngine
             if (m_lastClicked != null)
             {
                 if (IsFocused)
-                {
-                    Gui.DrawButtonHighlighted(m_lastClicked.ClientScreenFrame);
                     m_lastClicked.FocusLevel = NodeFocusLevel.ActiveClicked;
-                }
 
                 else
-                {
-                    Gui.DrawButtonAccentuated(m_lastClicked.ClientScreenFrame);
                     m_lastClicked.FocusLevel = NodeFocusLevel.InActiveClicked;
-                }
             }
 
 

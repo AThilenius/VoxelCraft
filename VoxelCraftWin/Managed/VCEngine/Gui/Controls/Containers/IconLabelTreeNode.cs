@@ -66,6 +66,12 @@ namespace VCEngine
 
         protected override void Draw()
         {
+            if ( FocusLevel == NodeFocusLevel.ActiveClicked )
+                Gui.DrawButtonHighlighted(ClientScreenFrame);
+
+            else if (FocusLevel == NodeFocusLevel.InActiveClicked)
+                Gui.DrawButtonAccentuated(ClientScreenFrame);
+
             Label.FontColor = (FocusLevel == NodeFocusLevel.ActiveClicked) ? Color.White : Color.Black;
         }
     }

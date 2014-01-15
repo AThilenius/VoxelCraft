@@ -40,9 +40,8 @@ namespace VCEngine
 
             //m_renderWindow.Entities.Add(m_entity);
 
-            IconLabelTreeNode head = new IconLabelTreeNode("Hello World");
+            DirectyObserverTreeNode head = new DirectyObserverTreeNode("Hello World");
             head.DoubleClick += (s, a) => Console.WriteLine("head");
-            head.ClientHeight = 40;
 
             IconLabelTreeNode child1 = new IconLabelTreeNode("Hello Child 1"); head.AddControl(child1);
             child1.DoubleClick += (s, a) => Console.WriteLine("child1");
@@ -51,7 +50,7 @@ namespace VCEngine
             IconLabelTreeNode grandChild1 = new IconLabelTreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
             grandChild1.DoubleClick += (s, a) => Console.WriteLine("grandChild1");
 
-            TreeView<IconLabelTreeNode> view = new TreeView<IconLabelTreeNode>();
+            TreeView view = new TreeView();
             view.Frame = new Rectangle(300, 50, 250, 300);
             view.Head = head;
 
