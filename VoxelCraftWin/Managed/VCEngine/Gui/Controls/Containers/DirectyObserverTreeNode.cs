@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 
 namespace VCEngine
@@ -13,7 +15,10 @@ namespace VCEngine
         public ImageView Icon;
         public Label Label;
 
-        public DirectyObserverTreeNode(String label)
+        private FileSystemWatcher m_dirWatcher = new FileSystemWatcher();
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public DirectyObserverTreeNode(String label, String path)
         {
             // Expand Button
             ExpandButton = new VCEngine.ExpandButton();
@@ -40,6 +45,9 @@ namespace VCEngine
                 };
 
             ClientHeight = 40;
+
+            // Load Directory
+            LoadDirRecurse(new DirectoryInfo(path), this);
         }
 
         protected override void ReBuildLayout()
@@ -55,7 +63,25 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawBackgroundEmpty(ClientScreenFrame);
+            Gui.DrawBackgroundEmpty(ClientScreenFrame, false);
+            Gui.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
         }
+
+        private void LoadDirRecurse(DirectoryInfo directory, TreeNode parent)
+        {
+            // Add directories in this directory
+            foreach (DirectoryInfo dInfo in directory.GetDirectories())
+            {
+                IconLabelTreeNode treeViewItem = new IconLabelTreeNode(dInfo.Name);
+                treeViewItem.UserData = dInfo;
+
+                parent.AddControl(treeViewItem);
+
+                // Depth first
+                LoadDirRecurse(dInfo, treeViewItem);
+            }
+        }
+
+
     }
 }

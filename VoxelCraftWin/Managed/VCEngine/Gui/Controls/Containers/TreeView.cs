@@ -10,39 +10,47 @@ namespace VCEngine
     /// </summary>
     public class TreeView : Control
     {
-        public TreeNode Head
+        
+        // Dummy TreeNode
+        public class Dummy : TreeNode
         {
-            get { return m_head; }
-            set
-            {
-                m_head = value;
-                AddControl(value);
-                m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
-                m_head.OnItemClicked += (s, a) =>
-                    {
-                        if (m_lastClicked != null)
-                            m_lastClicked.FocusLevel = NodeFocusLevel.None;
-
-                        m_lastClicked = (TreeNode)s;
-                    };
-                SetHeadLocation();
-                m_head.ReBuildHead();
-            }
+            public override bool IsExpanded { get { return true; } }
+            public override bool IsLeaf { get { return false; } }
         }
+
+        public TreeNode Head { get { return m_head; } }
 
         private TreeNode m_head;
         private TreeNode m_lastClicked;
 
         public TreeView()
         {
-            Resize += (s, a) => SetHeadLocation();
+            Resize += (s, a) =>
+                {
+                    SetHeadLocation();
+                    Head.ReBuildHead();
+                };
             CanFocus = true;
+
+            // Create a dummy head
+            m_head = new Dummy();
+            m_head.ClientHeight = 0;
+            AddControl(m_head);
+            m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
+            m_head.OnItemClicked += (s, a) =>
+            {
+                if (m_lastClicked != null)
+                    m_lastClicked.FocusLevel = NodeFocusLevel.None;
+
+                m_lastClicked = (TreeNode)s;
+            };
+            SetHeadLocation();
+
         }
 
         private void SetHeadLocation()
         {
-            if (m_head != null)
-                m_head.Frame = new Rectangle(0, Height - m_head.Height, Width, m_head.Height);
+            m_head.Frame = new Rectangle(0, Height - m_head.Height, Width, m_head.Height);
         }
 
         protected override void Draw()

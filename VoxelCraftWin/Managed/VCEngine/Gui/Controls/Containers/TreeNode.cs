@@ -100,7 +100,6 @@ namespace VCEngine
             TreeNode head = GetHead();
             head.ReBuildLayout();
             head.OnHeadRebuild(this, EventArgs.Empty);
-            Console.WriteLine("ReBuildHead()");
         }
 
         // Invoked from the head down, depth first

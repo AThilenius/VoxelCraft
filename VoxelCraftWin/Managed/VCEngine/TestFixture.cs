@@ -40,19 +40,17 @@ namespace VCEngine
 
             //m_renderWindow.Entities.Add(m_entity);
 
-            DirectyObserverTreeNode head = new DirectyObserverTreeNode("Hello World");
-            head.DoubleClick += (s, a) => Console.WriteLine("head");
+            DirectyObserverTreeNode dir1 = new DirectyObserverTreeNode("Assets", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Assets");
+            DirectyObserverTreeNode dir2 = new DirectyObserverTreeNode("Resources", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources");
 
-            IconLabelTreeNode child1 = new IconLabelTreeNode("Hello Child 1"); head.AddControl(child1);
-            child1.DoubleClick += (s, a) => Console.WriteLine("child1");
-            IconLabelTreeNode child2 = new IconLabelTreeNode("Hello Child 2"); head.AddControl(child2);
-            child2.DoubleClick += (s, a) => Console.WriteLine("child2");
-            IconLabelTreeNode grandChild1 = new IconLabelTreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
-            grandChild1.DoubleClick += (s, a) => Console.WriteLine("grandChild1");
+            //IconLabelTreeNode child1 = new IconLabelTreeNode("Hello Child 1"); head.AddControl(child1);
+            //IconLabelTreeNode child2 = new IconLabelTreeNode("Hello Child 2"); head.AddControl(child2);
+            //IconLabelTreeNode grandChild1 = new IconLabelTreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
 
             TreeView view = new TreeView();
+            view.Head.AddControl(dir1);
+            view.Head.AddControl(dir2);
             view.Frame = new Rectangle(300, 50, 250, 300);
-            view.Head = head;
 
             Control.MainControl.AddControl(view);
         }
