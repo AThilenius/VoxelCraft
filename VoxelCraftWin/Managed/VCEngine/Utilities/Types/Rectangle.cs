@@ -86,6 +86,24 @@ namespace VCEngine
                 (int)(rect.Height / scale));
         }
 
+        public static Rectangle operator +(Rectangle first, Rectangle second)
+        {
+            return new Rectangle(
+                first.X + second.X,
+                first.Y + second.Y,
+                first.Width + second.Width,
+                first.Height + second.Height);
+        }
+
+        public static Rectangle operator -(Rectangle first, Rectangle second)
+        {
+            return new Rectangle(
+                first.X - second.X,
+                first.Y - second.Y,
+                first.Width - second.Width,
+                first.Height - second.Height);
+        }
+
         public static bool operator ==(Rectangle a, Rectangle b) { return a.Equals(b); }
         public static bool operator !=(Rectangle a, Rectangle b) { return !(a == b); }
 

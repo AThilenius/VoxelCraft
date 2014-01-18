@@ -8,7 +8,7 @@ namespace VCEngine
     public class ImageView : Control
     {
 
-        public String ImagePath = "";
+        public String ImagePath = @"Icons\ErrorImage.DDS";
 
         protected override void Draw()
         {

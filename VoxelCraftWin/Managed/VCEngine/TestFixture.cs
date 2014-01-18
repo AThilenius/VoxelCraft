@@ -36,23 +36,28 @@ namespace VCEngine
             //m_renderWindow.MainCamera.Fullscreen = true;
 
             //m_entity = new RenderedEntity();
-            //box.Children.Add(m_entity);
+            //m_entity.Transform.Position = new Vector3(0, 0, -15);
+            ////box.Children.Add(m_entity);
 
             //m_renderWindow.Entities.Add(m_entity);
 
-            DirectyObserverTreeNode dir1 = new DirectyObserverTreeNode("Assets", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Assets");
-            DirectyObserverTreeNode dir2 = new DirectyObserverTreeNode("Resources", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources");
 
-            //IconLabelTreeNode child1 = new IconLabelTreeNode("Hello Child 1"); head.AddControl(child1);
-            //IconLabelTreeNode child2 = new IconLabelTreeNode("Hello Child 2"); head.AddControl(child2);
-            //IconLabelTreeNode grandChild1 = new IconLabelTreeNode("Hello Grand Child"); child1.AddControl(grandChild1);
+            // Directory Test
+            //DirectyObserverTreeNode dir1 = new DirectyObserverTreeNode("Assets", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Assets", true);
+            //DirectyObserverTreeNode dir2 = new DirectyObserverTreeNode("Resources", @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources", false);
 
-            TreeView view = new TreeView();
-            view.Head.AddControl(dir1);
-            view.Head.AddControl(dir2);
-            view.Frame = new Rectangle(300, 50, 250, 300);
+            //TreeView view = new TreeView();
+            //view.Head.AddControl(dir1);
+            //view.Head.AddControl(dir2);
+            //view.Frame = new Rectangle(300, 50, 250, 300);
 
-            Control.MainControl.AddControl(view);
+            //Control.MainControl.AddControl(view);
+
+
+            // Image Grid View
+            DirectoryImageGrid dig = new DirectoryImageGrid(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Images\Icons");
+            Control.MainControl.AddControl(dig);
+            dig.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 500, Window.ScaledSize.Y - 75);
         }
 
         public static void PerUpdate()

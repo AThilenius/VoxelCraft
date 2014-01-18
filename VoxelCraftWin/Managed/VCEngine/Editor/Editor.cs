@@ -33,7 +33,7 @@ namespace VCEngine
 
         #endregion
 
-        public static Boolean ThrotteledUpdate = false;
+        public static Boolean ThrotteledUpdate = true;
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
         private static float m_drawTillTime;

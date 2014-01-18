@@ -51,11 +51,9 @@ namespace VCEngine
         {
             // HACK
             //EditorWindow = new GameWindow(2);
-            //Control.MainControl.AddControl(EditorWindow);
+            //AddControl(EditorWindow);
             //EditorWorld.MasterGameWindow = EditorWindow;
-            //EditorWindow.DockOrder = 2;
-            ////EditorWindow.Dock = Control.Dockings.Fill;
-            //EditorWindow.Frame = EditorWindow.Frame;
+            //EditorWindow.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 500, Window.ScaledSize.Y - 75);
         }
 
     }

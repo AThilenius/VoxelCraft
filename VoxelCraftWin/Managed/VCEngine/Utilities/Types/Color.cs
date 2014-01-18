@@ -35,6 +35,7 @@ namespace VCEngine
         public static Color ControlGreen { get { return new Color(55, 138, 55, 255); } }
         public static Color ControlRed { get { return new Color(157, 36, 12, 255); } }
         public static Color Trasparent { get { return new Color(0, 0, 0, 0); } }
+        public static Color GuiBorder { get { return new Color(153, 153, 153, 255); } }
 
 
         public static Color Lerp(Color from, Color to, float ammount)

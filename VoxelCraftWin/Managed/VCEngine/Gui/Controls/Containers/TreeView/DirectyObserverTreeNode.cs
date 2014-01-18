@@ -7,6 +7,9 @@ using System.Text;
 
 namespace VCEngine
 {
+    /// <summary>
+    /// Used to construct and entire tree from a system directory.
+    /// </summary>
     public class DirectyObserverTreeNode : TreeNode
     {
         public override bool IsExpanded { get { return ExpandButton.IsExpanded; } }
@@ -14,11 +17,12 @@ namespace VCEngine
         public ExpandButton ExpandButton;
         public ImageView Icon;
         public Label Label;
+        public Boolean IncludeFiles;
 
         private FileSystemWatcher m_dirWatcher = new FileSystemWatcher();
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public DirectyObserverTreeNode(String label, String path)
+        public DirectyObserverTreeNode(String label, String path, Boolean includeFiles)
         {
             // Expand Button
             ExpandButton = new VCEngine.ExpandButton();
@@ -47,7 +51,7 @@ namespace VCEngine
             ClientHeight = 40;
 
             // Load Directory
-            LoadDirRecurse(new DirectoryInfo(path), this);
+            LoadDirRecurse(new DirectoryInfo(path), this, includeFiles);
         }
 
         protected override void ReBuildLayout()
@@ -67,7 +71,7 @@ namespace VCEngine
             Gui.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
         }
 
-        private void LoadDirRecurse(DirectoryInfo directory, TreeNode parent)
+        private void LoadDirRecurse(DirectoryInfo directory, TreeNode parent, bool includeFile)
         {
             // Add directories in this directory
             foreach (DirectoryInfo dInfo in directory.GetDirectories())
@@ -78,8 +82,22 @@ namespace VCEngine
                 parent.AddControl(treeViewItem);
 
                 // Depth first
-                LoadDirRecurse(dInfo, treeViewItem);
+                LoadDirRecurse(dInfo, treeViewItem, includeFile);
             }
+
+            if (includeFile)
+            {
+                // Add files in this directory, add callbacks
+                foreach (FileInfo fInfo in directory.GetFiles())
+                {
+                    IconLabelTreeNode treeViewItem = new IconLabelTreeNode(fInfo.Name);
+                    treeViewItem.UserData = fInfo;
+                    treeViewItem.Icon.ImagePath = @"Icons\Cube 256.DDS";
+
+                    parent.AddControl(treeViewItem);
+                }
+            }
+
         }
 
 

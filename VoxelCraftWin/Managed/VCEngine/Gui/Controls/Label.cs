@@ -27,19 +27,23 @@ namespace VCEngine
             set
             {
                 m_text = value;
-                Metrics = Font.GetMetrics(m_text);
+                UpdateString();
             }
         }
         public TextAlignments TextAlignment = TextAlignments.Center;
         public Color FontColor = Color.Black;
         public TextMetrics Metrics;
+        public Boolean TruncateLength = true;
 
         private string m_text;
+        private string m_renderedString;
+        private TextMetrics m_subMetric;
 
         public Label(string text)
         {
             Text = text;
             Frame = new Rectangle(0, 0, Metrics.TotalWidth, Metrics.TotalHeight);
+            Resize += (s, a) => UpdateString();
         }
 
         protected override void Draw()
@@ -49,19 +53,39 @@ namespace VCEngine
             
             //=====   Vertical   =======================================================
             if(TextAlignment == TextAlignments.UpperLeft || TextAlignment == TextAlignments.UpperCenter || TextAlignment == TextAlignments.UpperRight)
-                ll.Y = sf.Y + sf.Height - Metrics.TotalHeight;
+                ll.Y = sf.Y + sf.Height - m_subMetric.TotalHeight;
             
             if(TextAlignment == TextAlignments.CenterLeft || TextAlignment == TextAlignments.Center || TextAlignment == TextAlignments.CenterRight)
-                ll.Y = sf.Y + MathHelper.RoundedDevision(sf.Height, 2) - MathHelper.RoundedDevision(Metrics.TotalHeight, 2);
+                ll.Y = sf.Y + MathHelper.RoundedDevision(sf.Height, 2) - MathHelper.RoundedDevision(m_subMetric.TotalHeight, 2);
 
             //=====   Horizontal   =======================================================
             if (TextAlignment == TextAlignments.LowerCenter || TextAlignment == TextAlignments.Center || TextAlignment == TextAlignments.UpperCenter)
-                ll.X = sf.X + MathHelper.RoundedDevision(sf.Width, 2) - MathHelper.RoundedDevision(Metrics.TotalWidth, 2);
+                ll.X = sf.X + MathHelper.RoundedDevision(sf.Width, 2) - MathHelper.RoundedDevision(m_subMetric.TotalWidth, 2);
 
             if (TextAlignment == TextAlignments.LowerRight || TextAlignment == TextAlignments.CenterRight || TextAlignment == TextAlignments.UpperRight)
-                ll.X = sf.X + sf.Width - Metrics.TotalHeight;
+                ll.X = sf.X + sf.Width - m_subMetric.TotalHeight;
 
-            Font.DrawStringBeveled(Text, ll, FontColor);
+            Font.DrawStringBeveled(m_renderedString, ll, FontColor);
+        }
+
+        private void UpdateString()
+        {
+            Metrics = Font.GetMetrics(m_text);
+            m_subMetric = Metrics;
+            m_renderedString = m_text;
+
+            if (!TruncateLength || Metrics.TotalWidth <= Width)
+                return;
+
+            // Truncate Length
+            string subStrWithoutEllpises = m_text;
+            while (m_subMetric.TotalWidth > Width && subStrWithoutEllpises.Length > 0)
+            {
+                subStrWithoutEllpises = subStrWithoutEllpises.Substring(0, subStrWithoutEllpises.Length - 1);
+                m_subMetric = Font.GetMetrics(subStrWithoutEllpises + "...");
+            }
+
+            m_renderedString = subStrWithoutEllpises + "...";
         }
 
     }
