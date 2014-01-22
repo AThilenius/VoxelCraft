@@ -50,23 +50,21 @@ namespace VCEngine
 
             ClientHeight = 40;
 
+            // ReSize
+            Resize += (s, a) => ReBuildLayout();
+
             // Load Directory
             LoadDirRecurse(new DirectoryInfo(path), this, includeFiles);
         }
 
-        protected override void ReBuildLayout()
-        {
- 	         base.ReBuildLayout();
-
-             ExpandButton.Frame = new Rectangle(10, Height - ClientHeight + (ClientHeight / 2) - 4, 8, 8);
-             Icon.Frame = new Rectangle(30, Height - ClientHeight + (ClientHeight / 2) - 17, 34, 34);
-             Label.Frame = new Rectangle(0, Height - ClientHeight + 0, Width, ClientHeight);
-
-             ExpandButton.Visible = m_childrenLTI.Count != 0;
-        }
-
         protected override void Draw()
         {
+            ExpandButton.Frame = new Rectangle(10, Height - ClientHeight + (ClientHeight / 2) - 4, 8, 8);
+            Icon.Frame = new Rectangle(30, Height - ClientHeight + (ClientHeight / 2) - 17, 34, 34);
+            Label.Frame = new Rectangle(0, Height - ClientHeight + 0, Width, ClientHeight);
+
+            ExpandButton.Visible = m_childrenLTI.Count != 0;
+
             Gui.DrawBackgroundEmpty(ClientScreenFrame, false);
             Gui.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
         }

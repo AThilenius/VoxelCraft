@@ -27,6 +27,7 @@ namespace VCEngine
         {
             Resize += (s, a) =>
                 {
+                    Head.Width = Width;
                     SetHeadLocation();
                     Head.ReBuildHead();
                 };
@@ -35,7 +36,7 @@ namespace VCEngine
             // Create a dummy head
             m_head = new Dummy();
             m_head.ClientHeight = 0;
-            AddControl(m_head);
+            base.AddControl(m_head);
             m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
             m_head.OnItemClicked += (s, a) =>
             {
@@ -44,8 +45,9 @@ namespace VCEngine
 
                 m_lastClicked = (TreeNode)s;
             };
-            SetHeadLocation();
 
+            SetHeadLocation();
+            Head.ReBuildHead();
         }
 
         private void SetHeadLocation()

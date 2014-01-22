@@ -52,20 +52,15 @@ namespace VCEngine
 
         protected int m_indentSize = 10;
 
-        protected override void ReBuildLayout()
-        {
- 	         base.ReBuildLayout();
-
-             int baseIndent = (m_indentSize * m_depth) + 5;
-             ExpandButton.Frame = new Rectangle(baseIndent, Height - ClientHeight + (ClientHeight / 2) - 4, 8, 8);
-             Icon.Frame = new Rectangle(baseIndent + 12, Height - ClientHeight + (ClientHeight / 2) - 10, 20, 20);
-             Label.Frame = new Rectangle(baseIndent + 35, Height - ClientHeight + 0, Width - (baseIndent + 40), ClientHeight);
-
-             ExpandButton.Visible = m_childrenLTI.Count != 0;
-        }
-
         protected override void Draw()
         {
+            int baseIndent = (m_indentSize * m_depth) + 5;
+            ExpandButton.Frame = new Rectangle(baseIndent, Height - ClientHeight + (ClientHeight / 2) - 4, 8, 8);
+            Icon.Frame = new Rectangle(baseIndent + 12, Height - ClientHeight + (ClientHeight / 2) - 10, 20, 20);
+            Label.Frame = new Rectangle(baseIndent + 35, Height - ClientHeight + 0, Width - (baseIndent + 40), ClientHeight);
+
+            ExpandButton.Visible = m_childrenLTI.Count != 0;
+
             if ( FocusLevel == NodeFocusLevel.ActiveClicked )
                 Gui.DrawButtonHighlighted(ClientScreenFrame);
 

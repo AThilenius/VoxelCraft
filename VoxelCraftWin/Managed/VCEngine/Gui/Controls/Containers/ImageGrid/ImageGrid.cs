@@ -31,7 +31,7 @@ namespace VCEngine
                 return;
 
             m_nodes.Add((ImageGridNode) control);
-            //ReBuildGrid();
+            ReBuildGrid();
         }
 
         public override void RemoveControl(Control control)

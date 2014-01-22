@@ -136,5 +136,10 @@ namespace VCEngine
             return cursor;
         }
 
+        protected override void Draw()
+        {
+            Gui.DrawRectangle(ClientScreenFrame, new Color(0, 255, 0, 100));
+        }
+
     }
 }

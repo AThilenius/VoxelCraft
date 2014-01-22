@@ -36,11 +36,38 @@ namespace VCEngine
             TileViewer = new DirectoryImageGrid();
             AddControl(TileViewer);
             TileViewer.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 250, Window.ScaledSize.Y - 75);
+
+            Resize += (s, a) => ResizeHandler();
+            ResizeHandler();
+
+            // Panels Handlers
+            PanelsTrippleButton.LeftButton.OnDepressed += (s, a) =>
+                {
+                    FoldersTreeView.AnimateLocation(new Point(0, 0));
+                    //TileViewer.AnimateFrame(new Rectangle(250, 0, Width - 250, Height));
+                };
+            PanelsTrippleButton.LeftButton.OnRelease += (s, a) =>
+                {
+                    FoldersTreeView.AnimateLocation(new Point(-250, 0));
+                    //TileViewer.AnimateFrame(new Rectangle(0, 0, Width, Height));
+                };
         }
 
         protected override void Draw()
         {
             Gui.DrawBorderedRect(ScreenFrame, Color.ControlDark, Color.ControlRed, 5);
         }
+
+        private void ResizeHandler()
+        {
+            //FoldersTreeView.Size = new Point(250, Height);
+
+            //if (PanelsTrippleButton.LeftButton.IsDepressed)
+            //    TileViewer.Frame = new Rectangle(250, 0, Width - 250, Height);
+
+            //else
+            //    TileViewer.Frame = new Rectangle(0, 0, Width, Height);
+        }
+
     }
 }
