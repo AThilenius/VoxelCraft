@@ -10,7 +10,7 @@ namespace VCEngine
     /// <summary>
     /// Used to construct and entire tree from a system directory.
     /// </summary>
-    public class DirectyObserverTreeNode : TreeNode
+    public class DirectoryObserverTreeNode : TreeNode
     {
         public override bool IsExpanded { get { return ExpandButton.IsExpanded; } }
         public override bool IsLeaf { get { return !ExpandButton.Visible; } }
@@ -22,7 +22,7 @@ namespace VCEngine
         private FileSystemWatcher m_dirWatcher = new FileSystemWatcher();
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public DirectyObserverTreeNode(String label, String path, Boolean includeFiles)
+        public DirectoryObserverTreeNode(String label, String path, Boolean includeFiles)
         {
             // Expand Button
             ExpandButton = new VCEngine.ExpandButton();

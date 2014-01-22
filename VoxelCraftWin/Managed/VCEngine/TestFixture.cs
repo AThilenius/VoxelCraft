@@ -55,9 +55,15 @@ namespace VCEngine
 
 
             // Image Grid View
-            DirectoryImageGrid dig = new DirectoryImageGrid(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Images\Icons");
-            Control.MainControl.AddControl(dig);
-            dig.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 500, Window.ScaledSize.Y - 75);
+            //DirectoryImageGrid dig = new DirectoryImageGrid(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Images\Icons");
+            //Control.MainControl.AddControl(dig);
+            //dig.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 500, Window.ScaledSize.Y - 75);
+
+            // Jpeg Test
+            //ImageView imageView = new ImageView();
+            //imageView.ImagePath = @"2014-01-04 15.29.52.jpg";
+            //Control.MainControl.AddControl(imageView);
+            //imageView.Frame = new Rectangle(300, 0, 400, 300);
         }
 
         public static void PerUpdate()

@@ -15,7 +15,8 @@ namespace VCEngine
         public int TileHeight = 110;
         public int Padding = 10;
 
-        private List<ImageGridNode> m_nodes = new List<ImageGridNode>();
+        protected List<ImageGridNode> m_nodes = new List<ImageGridNode>();
+        protected int m_fulledHeight;
 
         public ImageGrid()
         {
@@ -51,8 +52,11 @@ namespace VCEngine
             int maxRowCount = (int)((float)(Height + Padding) / (float)(TileHeight + Padding));
 
             int i = 0;
+            m_fulledHeight = 0;
             for (int row = 0; row < maxRowCount; row++)
             {
+                m_fulledHeight += TileHeight + Padding;
+
                 for (int col = 0; col < maxColumnCount; col++)
                 {
                     if (i >= m_nodes.Count)
@@ -60,14 +64,21 @@ namespace VCEngine
 
                     ImageGridNode node = m_nodes[i++];
 
-                    if (node.Visible == false)
-                        continue;
-
+                    node.Visible = true;
                     node.Frame = new Rectangle(col * (TileWidth + Padding) + Padding, (Height - (TileHeight + Padding)) - (row * (TileHeight + Padding)), TileWidth, TileHeight);
                 }
             }
 
+            // Make any remaining nodes invisible
+            for (; i < m_nodes.Count; i++)
+                ((ImageGridNode)m_nodes[i]).Visible = false;
 
+        }
+
+        protected override void Draw()
+        {
+            Gui.DrawBackgroundEmpty(ScreenFrame);
+            Gui.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_fulledHeight + Padding), Width, m_fulledHeight + Padding));
         }
 
     }

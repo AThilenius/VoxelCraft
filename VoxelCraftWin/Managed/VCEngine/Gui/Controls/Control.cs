@@ -135,9 +135,10 @@ namespace VCEngine
                     if (child.Visible)
                         child.Frame = child.Frame;
 
-                // Suppress possible infinite recursion
-                //if (args.From != args.To)
-                Resize(this, args);
+                args.To = m_frame;
+
+                if (args.From != args.To)
+                    Resize(this, args);
             }
         }
         public Point            Location

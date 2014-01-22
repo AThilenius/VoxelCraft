@@ -5,28 +5,44 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class VoxelEditor : Control
+    public class VoxelEditor : MainPageBase
     {
         public HslColorPicker ColorPicker;
         public GameWindow EditorWindow;
+        public Tools ToolMenu;
+
         public ContextMenu RightContextMenu;
         public SolutionExplorer SolutionEx;
-        public Tools ToolMenu;
+
+        public VoxelEditor()
+        {
+            // Register panels button callbacks
+            PanelsTrippleButton.LeftButton.OnDepressed += (s, a) => SolutionEx.AnimateLocation(new Point(0, 0));
+            PanelsTrippleButton.LeftButton.OnRelease += (s, a) => SolutionEx.AnimateLocation(new Point(-250, 0));
+            PanelsTrippleButton.RightButton.OnDepressed += (s, a) => RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X - 250, 0));
+            PanelsTrippleButton.RightButton.OnRelease += (s, a) => RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X, 0));
+
+            // Default page
+            base.OnSelected();
+        }
 
         public void Create()
         {
             FillColorControls();
             CreateSolutionExplorer();
             CreateEditorWindow();
-
-            Window.Resize += (s, a) => Size = new Point(a.To.Width, a.To.Height);
+            ResizeHandler();
+            Resize += (s, a) =>
+                {
+                    if (a.From != a.To)
+                        ResizeHandler();
+                };
         }
 
         private void FillColorControls()
         {
             RightContextMenu = new ContextMenu();
             AddControl(RightContextMenu);
-
             RightContextMenu.Frame = new Rectangle(Width - 250, 0, 250, Height);
 
             // Tools
@@ -37,6 +53,8 @@ namespace VCEngine
             ColorPicker = new HslColorPicker();
             ColorPicker.Height = 100;
             RightContextMenu.AddIContextComponent(ColorPicker);
+
+            RightContextMenu.ReBuild();
         }
 
         private void CreateSolutionExplorer()
@@ -44,7 +62,18 @@ namespace VCEngine
             SolutionEx = new SolutionExplorer();
             AddControl(SolutionEx);
             SolutionEx.AddProject("Voxel Game", PathUtilities.AssetsPath);
-            SolutionEx.Frame = new Rectangle(0, 0, 250, Height);
+        }
+
+        private void ResizeHandler()
+        {
+            SolutionEx.Size = new Point(250, Height);
+            RightContextMenu.Size = new Point(250, Height);
+
+            if (PanelsTrippleButton.RightButton.IsDepressed)
+                RightContextMenu.Location = new Point(Width - 250, 0);
+
+            else
+                RightContextMenu.Location = new Point(Width, 0);
         }
 
         private void CreateEditorWindow()

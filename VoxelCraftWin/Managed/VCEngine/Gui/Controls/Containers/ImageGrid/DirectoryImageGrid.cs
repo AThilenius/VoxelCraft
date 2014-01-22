@@ -11,14 +11,27 @@ namespace VCEngine
     /// </summary>
     public class DirectoryImageGrid : ImageGrid
     {
-
-        public DirectoryImageGrid(String path)
+        public String Path
         {
-            LoadDirectory(new DirectoryInfo(path));
+            get { return m_path; }
+            set
+            {
+                m_path = value;
+                LoadDirectory(new DirectoryInfo(value));
+            }
+        }
+
+        private String m_path = "";
+
+        public DirectoryImageGrid()
+        {
         }
 
         private void LoadDirectory(DirectoryInfo directory)
         {
+            base.m_nodes.ForEach(node => base.Children.Remove(node));
+            base.m_nodes.Clear();
+
             // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {

@@ -19,6 +19,14 @@ namespace VCEngine
             Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.ScaledSize);
             Control.MainControl.SetFirstResponder();
 
+            // Create Header, dock it to main control top, set height 75
+            HeaderBar = new Header();
+            HeaderBar.Layer = 10;
+            Control.MainControl.AddControl(HeaderBar);
+            HeaderBar.DockOrder = 0;
+            HeaderBar.Dock = Control.Dockings.Top;
+            HeaderBar.Frame = new Rectangle(0, 0, 0, 75);
+
             // Create Spinner, pre-size it to fill
             MainSpinner = new VerticalControlSpinner();
             Control.MainControl.AddControl(MainSpinner);
@@ -32,14 +40,6 @@ namespace VCEngine
             // Create Material, child it to spinner, fill controls
             MaterialEditor = new VCEngine.MaterialEditor();
             MainSpinner.AddControl(MaterialEditor);
-
-            // Create Header, dock it to main control top, set height 75
-            HeaderBar = new Header();
-            HeaderBar.Layer = 10;
-            Control.MainControl.AddControl(HeaderBar);
-            HeaderBar.DockOrder = 0;
-            HeaderBar.Dock = Control.Dockings.Top;
-            HeaderBar.Frame = new Rectangle(0, 0, 0, 75);
             
             // Dock the spinner to remaining area
             MainSpinner.DockOrder = 1;

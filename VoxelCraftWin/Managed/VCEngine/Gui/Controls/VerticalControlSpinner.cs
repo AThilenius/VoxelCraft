@@ -12,6 +12,15 @@ namespace VCEngine
         private int m_selectedIndex;
         private Dictionary<Control, ValueAnimator<Point>> m_animators = new Dictionary<Control, ValueAnimator<Point>>();
 
+        public VerticalControlSpinner()
+        {
+            Resize += (s, a) =>
+                {
+                    ReBuildSpinner();
+                };
+        }
+
+
         public override void AddControl(Control control)
         {
             base.AddControl(control);
@@ -38,14 +47,14 @@ namespace VCEngine
 
         protected void ReBuildSpinner()
         {
-            m_selectedIndex = 0;
             m_animators.Clear();
 
             for (int i = 0; i < Children.Count; i++)
             {
                 Control ctrl = Children[i];
-                ctrl.Frame = new Rectangle(0, -(i * Height), Size);
-                m_animators.Add(ctrl, new ValueAnimator<Point>(new Point(0, -(i * Height))));
+                int offsetIndex = i - m_selectedIndex;
+                ctrl.Frame = new Rectangle(0, -(offsetIndex * Height), Size);
+                m_animators.Add(ctrl, new ValueAnimator<Point>( new Point(0, -(offsetIndex * Height)) ));
             }
         }
 
@@ -53,6 +62,8 @@ namespace VCEngine
         {
             foreach (var KVP in m_animators)
                 KVP.Key.Location = KVP.Value.GetValue();
+
+            Gui.DrawRectangle(ScreenFrame, new Color(255, 0, 0, 100));
         }
 
     }

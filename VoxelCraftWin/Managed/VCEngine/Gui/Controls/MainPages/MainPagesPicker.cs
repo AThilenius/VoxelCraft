@@ -7,20 +7,36 @@ namespace VCEngine
 {
     public class MainPagesPicker : Control
     {
-
         private ToggleButton m_voxelButton;
         private ToggleButton m_materialButton;
+        private MainPageBase m_lastSelected;
 
         public MainPagesPicker()
         {
             m_voxelButton = new ToggleButton("Voxel");
             m_voxelButton.Style = ToggleButton.ToggleStyle.TriLeft;
-            m_voxelButton.OnDepressed += (s, a) => EditorGui.MainSpinner.Select(EditorGui.VoxelEditor);
+            m_voxelButton.OnDepressed += (s, a) =>
+                {
+                    EditorGui.MainSpinner.Select(EditorGui.VoxelEditor);
+
+                    if (m_lastSelected != null)
+                        m_lastSelected.OnDeselected();
+
+                    EditorGui.VoxelEditor.OnSelected();
+                };
             AddControl(m_voxelButton);
 
             m_materialButton = new ToggleButton("Materials");
             m_materialButton.Style = ToggleButton.ToggleStyle.TriRight;
-            m_materialButton.OnDepressed += (s, a) => EditorGui.MainSpinner.Select(EditorGui.MaterialEditor);
+            m_materialButton.OnDepressed += (s, a) =>
+                {
+                    EditorGui.MainSpinner.Select(EditorGui.MaterialEditor);
+
+                    if (m_lastSelected != null)
+                        m_lastSelected.OnDeselected();
+
+                    EditorGui.MaterialEditor.OnSelected();
+                };
             AddControl(m_materialButton);
 
             ToggleButton.CreateGroup(m_voxelButton, m_materialButton);
