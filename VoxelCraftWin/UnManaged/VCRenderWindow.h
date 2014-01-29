@@ -9,18 +9,20 @@
 #pragma once
 
 class VCCamera;
+class VCGLFrameBuffer;
 
 #include "VCMarshalableObject.h"
 #include "VCEntity.h"
 #include "VCIRenderable.h"
 
-class VCRenderWindow : public VCMarshalableObject, public VCIRenderable
+class VCRenderWindow : public VCMarshalableObject
 {
 public:
 	VCRenderWindow();
 	~VCRenderWindow();
 
 	void Render();
+	void RenderToTexture(VCTexture* texture);
 
 public:
 	typedef boost::container::flat_set<VCEntity*> FlatEntitySet;
@@ -32,6 +34,10 @@ public:
 // CTor / DTor
 DLL_EXPORT_API int VCInteropRenderWindowNew();
 DLL_EXPORT_API void VCInteropRenverIndowRelease(int handle);
+
+// Rendering
+DLL_EXPORT_API void VCInteropRenderWindowRenderToScreen(int handle);
+DLL_EXPORT_API void VCInteropRenderWindowRenderToTexture(int handle, int textureHandle);
 
 // Camera
 DLL_EXPORT_API void VCInteropRenderWindowSetCamera(int handle, int cameraHandle);

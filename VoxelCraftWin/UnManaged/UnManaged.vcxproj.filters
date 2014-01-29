@@ -61,15 +61,18 @@
     <Filter Include="Utils\JSON">
       <UniqueIdentifier>{4219ef5b-a742-40a4-80d1-a1490ecc5c2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UMSceneGraph">
-      <UniqueIdentifier>{b7001819-4572-4873-8055-17b06c9cfa8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Physics\PhysX">
       <UniqueIdentifier>{e4e90b70-1e14-442d-8c10-f432fe2813ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ManagedSceneGraph">
+      <UniqueIdentifier>{b7001819-4572-4873-8055-17b06c9cfa8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\OpenGL">
+      <UniqueIdentifier>{976ada7e-a6eb-4a5f-88b2-b3713bf8a107}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -232,14 +235,11 @@
     <ClCompile Include="VCModel.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VCStaticMeshRenderer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="VCRenderWindow.cpp">
-      <Filter>UMSceneGraph</Filter>
+      <Filter>ManagedSceneGraph</Filter>
     </ClCompile>
     <ClCompile Include="VCEntity.cpp">
-      <Filter>UMSceneGraph</Filter>
+      <Filter>ManagedSceneGraph</Filter>
     </ClCompile>
     <ClCompile Include="VCMarshaledGameObject.cpp">
       <Filter>SceneGraph</Filter>
@@ -265,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="VCPxShape.cpp">
       <Filter>Physics\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLFrameBuffer.cpp">
+      <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,9 +439,6 @@
     <ClInclude Include="VCModel.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VCStaticMeshRenderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="VCIRenderable.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -446,10 +446,10 @@
       <Filter>Project Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="VCRenderWindow.h">
-      <Filter>UMSceneGraph</Filter>
+      <Filter>ManagedSceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCEntity.h">
-      <Filter>UMSceneGraph</Filter>
+      <Filter>ManagedSceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="VCMarshaledGameObject.h">
       <Filter>SceneGraph</Filter>
@@ -475,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="VCPxShape.h">
       <Filter>Physics\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLFrameBuffer.h">
+      <Filter>Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

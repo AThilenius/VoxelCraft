@@ -16,7 +16,6 @@
 #include "VCRenderStage.h"
 #include "VCShader.h"
 #include "VCResourceManager.h"
-#include "VCStaticMeshRenderer.h"
 #include "VCModel.h"
 
 struct BlockVerticie

@@ -62,8 +62,6 @@ namespace VCEngine
         {
             foreach (var KVP in m_animators)
                 KVP.Key.Location = KVP.Value.GetValue();
-
-            Gui.DrawRectangle(ScreenFrame, new Color(255, 0, 0, 100));
         }
 
     }

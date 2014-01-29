@@ -32,14 +32,14 @@ namespace VCEngine
 
 
             // Rendering
-            //m_renderWindow = new RenderWindow();
-            //m_renderWindow.MainCamera.Fullscreen = true;
+            m_renderWindow = new RenderWindow();
+            m_renderWindow.MainCamera.Fullscreen = true;
 
-            //m_entity = new RenderedEntity();
-            //m_entity.Transform.Position = new Vector3(0, 0, -15);
-            ////box.Children.Add(m_entity);
+            m_entity = new RenderedEntity();
+            m_entity.Transform.Position = new Vector3(0, 0, -15);
+            //box.Children.Add(m_entity);
 
-            //m_renderWindow.Entities.Add(m_entity);
+            m_renderWindow.Entities.Add(m_entity);
 
 
             // Directory Test
@@ -73,6 +73,7 @@ namespace VCEngine
 
         public static void LatePerUpdate()
         {
+            m_renderWindow.RenderToScreen();
             //Gui.DrawRectangle(new Rectangle(300, 300, 100, 25), Color.ControlRed);
             //Gui.DrawButton(new Rectangle(200, 200, 300, 250));
             //Gui.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", new Rectangle(400, 300, 100, 25));

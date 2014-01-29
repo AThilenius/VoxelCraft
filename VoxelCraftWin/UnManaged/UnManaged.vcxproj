@@ -26,6 +26,7 @@
     <ClCompile Include="VC3DLineDrawer.cpp" />
     <ClCompile Include="VCEntity.cpp" />
     <ClCompile Include="VCFloatX.cpp" />
+    <ClCompile Include="VCGLFrameBuffer.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCMaterial.cpp" />
@@ -54,7 +55,6 @@
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCShadeTypes.cpp" />
     <ClCompile Include="VCSparseVoxelOctree.cpp" />
-    <ClCompile Include="VCStaticMeshRenderer.cpp" />
     <ClCompile Include="VCSvoLeafBlock.cpp" />
     <ClCompile Include="VCSvoNode.cpp" />
     <ClCompile Include="VCSvoNodeBlock.cpp" />
@@ -96,6 +96,7 @@
     <ClInclude Include="VCFloatX.h" />
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
+    <ClInclude Include="VCGLFrameBuffer.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCImageBuilder.h" />
@@ -123,7 +124,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCShadeTypes.h" />
     <ClInclude Include="VCSparseVoxelOctree.h" />
-    <ClInclude Include="VCStaticMeshRenderer.h" />
     <ClInclude Include="VCStreamHelpers.h" />
     <ClInclude Include="VCSvoLeafBlock.h" />
     <ClInclude Include="VCSvoNode.h" />

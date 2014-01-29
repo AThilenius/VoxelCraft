@@ -17,6 +17,12 @@ namespace VCEngine
         extern static void VCInteropRenverIndowRelease(int handle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static  void VCInteropRenderWindowRenderToScreen(int handle);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropRenderWindowRenderToTexture(int handle, int textureHandle);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropRenderWindowSetCamera(int handle, int cameraHandle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -54,6 +60,16 @@ namespace VCEngine
                     else
                         VCInteropRenderWindowAddEntity(UnManagedHandle, a.Item.UnManagedHandle);
                 };
+        }
+
+        public void RenderToScreen()
+        {
+            VCInteropRenderWindowRenderToScreen(UnManagedHandle);
+        }
+
+        public void RenderToTexture()
+        {
+            throw new NotImplementedException();
         }
 
     }

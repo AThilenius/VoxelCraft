@@ -12,6 +12,7 @@
 #include "VCObjectStore.h"
 #include "VCCamera.h"
 #include "VCGLRenderer.h"
+#include "VCGLFrameBuffer.h"
 
 
 VCRenderWindow::VCRenderWindow(void):
@@ -27,8 +28,25 @@ VCRenderWindow::~VCRenderWindow(void)
 
 void VCRenderWindow::Render()
 {
+	VCGLFrameBuffer::GetDefault()->Bind();
 	glViewport(Camera->Viewport.X, Camera->Viewport.Y, Camera->Viewport.Width, Camera->Viewport.Height);
 
+	// Occlusion Culling code goes here
+	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
+	{
+		VCEntity* entity = *iter;
+		entity->Render(Camera);
+	}
+}
+
+void VCRenderWindow::RenderToTexture( VCTexture* texture )
+{
+	VCGLFrameBuffer::GetTextureTarget()->SetRenderTarget(texture);
+	VCGLFrameBuffer::GetTextureTarget()->Bind();
+
+	glViewport(Camera->Viewport.X, Camera->Viewport.Y, Camera->Viewport.Width, Camera->Viewport.Height);
+
+	// Occlusion Culling code goes here
 	for(auto iter = Entities.begin(); iter != Entities.end(); iter++)
 	{
 		VCEntity* entity = *iter;
@@ -39,7 +57,6 @@ void VCRenderWindow::Render()
 int VCInteropRenderWindowNew()
 {
 	VCRenderWindow* rWindow = new VCRenderWindow();
-	VCGLRenderer::Instance->AddRenderable(rWindow);
 	return rWindow->Handle;
 }
 
@@ -47,6 +64,19 @@ void VCInteropRenverIndowRelease( int handle )
 {
 	VCRenderWindow* obj = (VCRenderWindow*) VCObjectStore::Instance->GetObject(handle);
 	delete obj;
+}
+
+void VCInteropRenderWindowRenderToScreen( int handle )
+{
+	VCRenderWindow* obj = (VCRenderWindow*) VCObjectStore::Instance->GetObject(handle);
+	obj->Render();
+}
+
+void VCInteropRenderWindowRenderToTexture( int handle, int textureHandle )
+{
+	VCRenderWindow* obj = (VCRenderWindow*) VCObjectStore::Instance->GetObject(handle);
+	VCTexture* texture = (VCTexture*) VCObjectStore::Instance->GetObject(textureHandle);
+	obj->RenderToTexture(texture);
 }
 
 void VCInteropRenderWindowSetCamera( int handle, int cameraHandle )
