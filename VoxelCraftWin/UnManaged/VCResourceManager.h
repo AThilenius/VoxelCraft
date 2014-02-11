@@ -44,3 +44,5 @@ public:
 	static VCModel* GetModelInAssets (std::string partPath);
 	
 };
+
+DLL_EXPORT_API int VCInteropResourceManagerGetTexture(char* fullPath);

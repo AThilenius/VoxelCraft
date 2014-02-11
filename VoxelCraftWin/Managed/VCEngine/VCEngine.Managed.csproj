@@ -151,6 +151,7 @@
     <Compile Include="Rendering\Shader\Shader.cs" />
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
     <Compile Include="Rendering\Shader\ShaderUniform.cs" />
+    <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\VertPNT.cs" />
     <Compile Include="SceneGraph\MarshaledGameObject.cs" />
     <Compile Include="SceneGraph\MarshaledTransform.cs" />

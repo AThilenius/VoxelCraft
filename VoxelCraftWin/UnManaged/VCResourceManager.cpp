@@ -85,3 +85,9 @@ VCModel* VCResourceManager::GetModelInAssets( std::string partPath )
 {
 	return VCModel::GetModel(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath));
 }
+
+int VCInteropResourceManagerGetTexture( char* fullPath )
+{
+	VCTexture* texture = VCResourceManager::GetTexure(fullPath);
+	return texture->Handle;
+}

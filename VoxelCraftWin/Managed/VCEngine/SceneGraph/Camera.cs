@@ -70,6 +70,15 @@ namespace VCEngine
                 m_needsRebuild = true;
             }
         }
+        public bool AutoAspect
+        {
+            get { return m_autoAspect; }
+            set
+            {
+                m_autoAspect = value;
+                m_needsRebuild = true;
+            }
+        }
         public bool Fullscreen
         {
             get { return m_fullscreen; }
@@ -168,13 +177,13 @@ namespace VCEngine
             {
                 m_projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(m_fieldOfViewRadians, AspectRatio, NearClip, FarClip);
                 m_inverseProjMatrix = Matrix4.Invert(m_projectionMatrix);
-                VCInteropCameraSetUpdateState(UnManagedHandle, true);
+                //VCInteropCameraSetUpdateState(UnManagedHandle, true);
                 m_needsRebuild = false;
             }
 
             else
                 VCInteropCameraSetUpdateState(UnManagedHandle, false);
-
+            VCInteropCameraSetUpdateState(UnManagedHandle, true);
             // Set UnManaged code
             VCInteropCameraSetProjectionViewMatrix(UnManagedHandle, m_projectionMatrix, Transform.TransformMatrix);
             VCInteropCameraSetViewport(UnManagedHandle, Viewport * Gui.Scale);

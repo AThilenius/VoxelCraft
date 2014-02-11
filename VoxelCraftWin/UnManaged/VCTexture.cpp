@@ -8,12 +8,14 @@
 
 #include "stdafx.h"
 #include "VCTexture.h"
+#include "VCObjectStore.h"
 
 VCTexture* VCTexture::m_boundTexture = NULL;
 std::unordered_map<std::string, VCTexture*> VCTexture::m_loadedTextures;
 
 VCTexture::VCTexture(void)
 {
+	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
 
 VCTexture::~VCTexture(void)
@@ -56,6 +58,53 @@ void VCTexture::SetFilterMode( GLenum minFilter, GLenum magFilter )
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, minFilter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, magFilter);
+}
+
+VCTexture* VCTexture::CreateEmpty( VCTextureParams params, int width, int height )
+{
+	VCTexture* tex = new VCTexture();
+
+	glGenTextures(1, &tex->GLTextID);
+	glBindTexture(GL_TEXTURE_2D, tex->GLTextID);
+
+	if (((width - 1) & width) || ((height - 1) & height))
+	{
+		VC_ERROR("Image must be a power of two in both Width and Height.");
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
+
+	// Wrap Modes / Filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.ClampU ? GL_CLAMP : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.ClampV ? GL_CLAMP : GL_REPEAT);
+
+	switch (params.Filtering)
+	{
+	case VCTextureFiltering::None:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		break;
+
+	case VCTextureFiltering::Trilinear:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+
+	case VCTextureFiltering::Ansiotropic:
+		VC_ERROR("Anisotropic filtering not yet supported.");
+		break;
+
+	default:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	m_boundTexture = NULL;
+
+	return tex;
 }
 
 VCTexture* VCTexture::CreateFromFile( std::string path, VCTextureParams params )

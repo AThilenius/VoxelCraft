@@ -15,18 +15,6 @@
     }
   ],
   "Uniforms": [
-    {
-      "ValueType": "Matrix4",
-      "Name": "ViewMatrix"
-    },
-    {
-      "ValueType": "Matrix4",
-      "Name": "ModelMatrix"
-    },
-    {
-      "ValueType": "Vector3",
-      "Name": "LightInvDirection_worldspace"
-    }
   ],
   "VertexShader": "
 
@@ -40,10 +28,6 @@ out vec3 Normal_cameraspace;
 out vec3 LightDirection_cameraspace;
 out vec4 colorVarying;
 
-uniform mat4 MVP;
-uniform mat4 ViewMatrix;
-uniform mat4 ModelMatrix;
-uniform vec3 LightInvDirection_worldspace;
 uniform vec3 NormalLookupTable[6] = vec3[6] (
 	vec3(-1.0, 0.0, 0.0),
 	vec3(1.0, 0.0, 0.0),
@@ -57,11 +41,11 @@ void main()
 {
 	vec3 vertexNormal_modelspace = NormalLookupTable[int(normal)];
 	
-	gl_Position =  MVP * position;
+	gl_Position =  VC_MvpMatrix * position;
 	colorVarying = color;
-	Position_worldspace = ( ModelMatrix * position ).xyz;
-	LightDirection_cameraspace = ( ViewMatrix * vec4( LightInvDirection_worldspace, 0 ) ).xyz;
-	Normal_cameraspace = ( ViewMatrix * ModelMatrix * vec4( vertexNormal_modelspace, 0 ) ).xyz;
+	Position_worldspace = ( VC_ModelMatrix * position ).xyz;
+	LightDirection_cameraspace = ( VC_ViewMatrix * vec4( VC_LightInverseDirection, 0 ) ).xyz;
+	Normal_cameraspace = ( VC_ViewMatrix * VC_ModelMatrix * vec4( vertexNormal_modelspace, 0 ) ).xyz;
 }
 
 

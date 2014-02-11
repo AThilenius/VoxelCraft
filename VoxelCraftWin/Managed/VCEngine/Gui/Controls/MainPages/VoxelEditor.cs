@@ -17,10 +17,22 @@ namespace VCEngine
         public VoxelEditor()
         {
             // Register panels button callbacks
-            PanelsTrippleButton.LeftButton.OnDepressed += (s, a) => SolutionEx.AnimateLocation(new Point(0, 0));
-            PanelsTrippleButton.LeftButton.OnRelease += (s, a) => SolutionEx.AnimateLocation(new Point(-250, 0));
-            PanelsTrippleButton.RightButton.OnDepressed += (s, a) => RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X - 250, 0));
-            PanelsTrippleButton.RightButton.OnRelease += (s, a) => RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X, 0));
+            PanelsTrippleButton.LeftButton.OnDepressed += (s, a) =>
+                {
+                    SolutionEx.AnimateLocation(new Point(0, 0));
+                };
+            PanelsTrippleButton.LeftButton.OnRelease += (s, a) => 
+                {
+                    SolutionEx.AnimateLocation(new Point(-250, 0));
+                };
+            PanelsTrippleButton.RightButton.OnDepressed += (s, a) => 
+                {
+                    RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X - 250, 0));
+                };
+            PanelsTrippleButton.RightButton.OnRelease += (s, a) =>
+                {
+                    RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X, 0));
+                };
 
             // Default page
             base.OnSelected();
@@ -28,9 +40,9 @@ namespace VCEngine
 
         public void Create()
         {
+            CreateEditorWindow();
             FillColorControls();
             CreateSolutionExplorer();
-            CreateEditorWindow();
             ResizeHandler();
             Resize += (s, a) =>
                 {
@@ -74,15 +86,17 @@ namespace VCEngine
 
             else
                 RightContextMenu.Location = new Point(Width, 0);
+
+            EditorWindow.Frame = new Rectangle(0, ScreenFrame.Y, Window.ScaledSize.X, Window.ScaledSize.Y - 75);
         }
 
         private void CreateEditorWindow()
         {
             // HACK
-            //EditorWindow = new GameWindow(2);
-            //AddControl(EditorWindow);
-            //EditorWorld.MasterGameWindow = EditorWindow;
-            //EditorWindow.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 500, Window.ScaledSize.Y - 75);
+            EditorWindow = new GameWindow(2);
+            AddControl(EditorWindow);
+            EditorWorld.MasterGameWindow = EditorWindow;
+            EditorWindow.Frame = new Rectangle(0, 0, Window.ScaledSize.X, Window.ScaledSize.Y - 75);
         }
 
     }

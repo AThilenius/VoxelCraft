@@ -26,6 +26,7 @@ namespace VCEngine
             World.Camera.Fullscreen = false;
             World.Camera.Transform.Position = new Vector3(50, 20, 50);
             World.Camera.Transform.Rotation = Quaternion.FromEuler(m_rot);
+            World.Camera.AutoAspect = false;
             World.ReBuild();
 
             Font = Font.GetFont("Consolas", 12);
@@ -148,8 +149,8 @@ namespace VCEngine
         void GameWindow_Resize(object sender, ResizeEventArgs e)
         {
             // Raw access, must be scaled manually.
-            //World.Camera.Viewport = ScreenFrame * Gui.Scale;
-            //World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
+            World.Camera.Viewport = ScreenFrame * Gui.Scale;
+            World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 
         internal void RequestEyeDrop()

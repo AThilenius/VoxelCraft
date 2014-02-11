@@ -202,8 +202,6 @@ void VCShader::SetCamera( VCCamera* camera )
 
 		if (m_unifLightInverseDirection != VC_UNIFORM_DNE)
 			glUniform3fv(m_unifLightInverseDirection, 1, &camera->LightInverseDirection[0]);
-
-		std::cout << "Setting Camera" << std::endl;
 	}
 }
 

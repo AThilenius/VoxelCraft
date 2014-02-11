@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "VCMarshalableObject.h"
+
 struct VCTextureFiltering
 {
 	enum Value
@@ -35,7 +37,7 @@ struct VCTextureParams
 	bool ClampV;
 };
 
-class VCTexture
+class VCTexture : public VCMarshalableObject
 {
 public:
 	~VCTexture(void);
@@ -43,6 +45,8 @@ public:
 	void Bind(int texUnit);
 	void SetUVWrapMode ( GLenum uMode, GLenum vMode );
 	void SetFilterMode ( GLenum minFilter, GLenum magFilter );
+
+	static VCTexture* CreateEmpty(VCTextureParams params, int width, int height);
 
 public:
 	GLuint GLTextID;
