@@ -217,19 +217,19 @@ namespace VCEngine
             }
         }
 
-        public static void Draw9SliceImage(string path, Rectangle frame, int pizelOffset = 5, float padding = 0.25f, bool absolutePath = false)
+        public static void Draw9SliceImage(string path, Rectangle frame, int pizelOffset = 4, float padding = 0.25f, bool absolutePath = false)
         {
             if (!absolutePath)
             {
                 string absp = Path.Combine(PathUtilities.ImagesPath, path);
                 TestFileExistance(absp);
-                VCInteropGuiDraw9SliceImage(absp, frame, pizelOffset, padding);
+                VCInteropGuiDraw9SliceImage(absp, frame, (int)Math.Round(pizelOffset * Gui.Scale), padding);
             }
 
             else
             {
                 TestFileExistance(path);
-                VCInteropGuiDraw9SliceImage(path, frame, pizelOffset, padding);
+                VCInteropGuiDraw9SliceImage(path, frame, (int)Math.Round(pizelOffset * Gui.Scale), padding);
             }
         }
 
