@@ -43,6 +43,7 @@ private:
 DLL_EXPORT_API void VCInteropWindowSwapBuffers();
 DLL_EXPORT_API void VCInteropWindowPollEvents();
 DLL_EXPORT_API bool VCInteropWindowShouldClose();
+DLL_EXPORT_API void VCInteropWindowVSync(int enabled); 
 DLL_EXPORT_API void VCInteropWindowGetSize(int* width, int* height);
 DLL_EXPORT_API void VCInteropWindowSetSize(int width, int height);
 DLL_EXPORT_API void VCInteropWindowGetPos(int* x, int* y);

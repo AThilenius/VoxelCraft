@@ -122,5 +122,15 @@ namespace VCEngine
                 m_drawTillTime = Time.TotalTime + time + 0.5f;
         }
 
+        #region Console Commands
+
+        [ConsoleFunction("Boolean flag for redraw throttling", "Rendering")]
+        public static void ThrottleRedraw(String[] args)
+        {
+            ThrotteledUpdate = Boolean.Parse(args[1]);
+        }
+
+        #endregion
+
     }
 }

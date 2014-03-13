@@ -20,6 +20,9 @@ namespace VCEngine
         extern static bool VCInteropWindowShouldClose();
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropWindowVSync(int enabled); 
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropWindowGetSize(out int width, out int height);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -114,5 +117,15 @@ namespace VCEngine
         {
             return VCInteropWindowShouldClose();
         }
+
+        #region Console Commands
+
+        [ConsoleFunction("Boolean flag for V-Sync", "Rendering")]
+        public static void VSync(String[] args)
+        {
+            VCInteropWindowVSync(Boolean.Parse(args[1]) ? 1 : 0);
+        }
+
+        #endregion
     }
 }

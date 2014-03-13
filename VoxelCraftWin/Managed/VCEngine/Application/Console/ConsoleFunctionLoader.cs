@@ -65,9 +65,9 @@ namespace VCEngine
         {
             Console.WriteLine("All known functions:");
 
-            foreach (ConsoleFunctionInstance inst in m_consoleFunctions.Values)
+            foreach (ConsoleFunctionInstance inst in m_consoleFunctions.Values.OrderBy(inst => inst.Attribute.Catagory + inst.Attribute.Name))
                 if (inst.Attribute.Name.ToLower() != "help")
-                    Console.WriteLine("  - {0,-20} : {1,-40}", inst.Attribute.Name, inst.Attribute.Brief);
+                    Console.WriteLine("  - {0,-25} : {1,-40}", inst.Attribute.Name, inst.Attribute.Brief);
         }
 
     }

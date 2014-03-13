@@ -197,6 +197,8 @@ void VCWindow::SetTitle(std::string title)
 
 void VCWindow::SetVSync(bool enabled)
 {
+	glfwMakeContextCurrent(GLFWWindowHandle);
+
 	if (enabled)
 		glfwSwapInterval(1);
 	
@@ -217,6 +219,11 @@ void VCInteropWindowPollEvents()
 bool VCInteropWindowShouldClose()
 {
 	return glfwWindowShouldClose(VCWindow::Instance->GLFWWindowHandle);
+}
+
+void VCInteropWindowVSync( int enabled )
+{
+	VCWindow::Instance->SetVSync(enabled);
 }
 
 void VCInteropWindowGetSize(int* width, int* height)

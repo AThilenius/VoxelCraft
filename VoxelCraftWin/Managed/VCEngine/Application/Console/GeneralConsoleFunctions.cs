@@ -9,7 +9,7 @@ namespace VCEngine
     {
 
         [ConsoleFunction("Clears the Console.")]
-        public static void cls(String[] args)
+        public static void Cls(String[] args)
         {
             Console.Clear();
         }
