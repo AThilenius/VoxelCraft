@@ -11,7 +11,7 @@
 
 #include "VCLexicalEngine.h"
 #include "VCCamera.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCResourceManager.h"
 
 VCGui* VCGui::Instance = NULL;

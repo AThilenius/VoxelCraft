@@ -8,7 +8,7 @@
 
 #pragma once
 
-class VCShader;
+class VCGLShader;
 class VCShaderValue;
 class VCCamera;
 
@@ -20,7 +20,7 @@ public:
 
 public:
 	std::string Name;
-	VCShader* Shader;
+	VCGLShader* Shader;
 
 	// Must be a pointer or the object will slice :,(
 	std::vector<VCShaderValue*> Values;

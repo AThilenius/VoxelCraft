@@ -9,21 +9,22 @@
 #include "stdafx.h"
 #include "VCLineDrawer.h"
 #include "VCRenderStage.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
+#include "VCGLBuffer.h"
 
 
 VCLineDrawer::VCLineDrawer(void):
 	m_warningIssued(false),
 	m_lineVertCount(0),
-	m_VAO(0),
-	m_VBO(0),
-	m_renderStage(NULL)
+	m_renderStage(NULL),
+	m_gpuBuffer(NULL)
 {
 }
 
 
 VCLineDrawer::~VCLineDrawer(void)
 {
+	SAFE_DELETE(m_gpuBuffer);
 }
 
 void VCLineDrawer::Initialize()
@@ -35,24 +36,10 @@ void VCLineDrawer::Initialize()
 	//m_renderStage->DepthTest = false;
 	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
-	// Create VAO
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-	glErrorCheck();
-
-	// Create VBO
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	ZERO_CHECK(m_VBO);
-
-	// Bind Attributes
-	glEnableVertexAttribArray(VCShaderAttribute::Position0);
-	glEnableVertexAttribArray(VCShaderAttribute::Color0);
-
-	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_FLOAT,			GL_FALSE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Position) );
-	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(LineVerticie),	(void*) offsetof(LineVerticie, Color) );
-
-	glBindVertexArray(0);
+	m_gpuBuffer = new VCGLBuffer();
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,			false,	sizeof(LineVerticie),	offsetof(LineVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	true,	sizeof(LineVerticie),	offsetof(LineVerticie, Color));
 }
 
 void VCLineDrawer::DrawLine( glm::vec3 from, glm::vec3 to, GLubyte4 color )
@@ -108,12 +95,10 @@ void VCLineDrawer::Render()
 
 	//VCGLRenderer::Instance->SetModelMatrix(glm::mat4());
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(LineVerticie) * m_lineVertCount, m_lineVerts , GL_STREAM_DRAW);
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexData(sizeof(LineVerticie) * m_lineVertCount, m_lineVerts);
 
-	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_LINES, 0, m_lineVertCount);
-	glBindVertexArray(0);
 
 	m_lineVertCount = 0;
 	m_warningIssued = false;

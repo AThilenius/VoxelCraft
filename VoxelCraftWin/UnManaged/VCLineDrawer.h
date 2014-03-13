@@ -9,6 +9,7 @@
 #pragma once
 
 class VCRenderStage;
+class VCGLBuffer;
 
 #include "VCGLRenderer.h"
 
@@ -41,9 +42,8 @@ private:
 	VCRenderStage* m_renderStage;
 	bool m_warningIssued;
 	int m_lineVertCount;
-	GLuint m_VAO;
-	GLuint m_VBO;
 	LineVerticie m_lineVerts[MAX_LINE_COUNT];
+	VCGLBuffer* m_gpuBuffer;
 };
 
 // Move to VCCamera

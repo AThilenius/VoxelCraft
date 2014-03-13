@@ -172,9 +172,6 @@
     <ClCompile Include="VCTextBuffer.cpp">
       <Filter>GUI\Text</Filter>
     </ClCompile>
-    <ClCompile Include="VCTexture.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="VCCollection.cpp">
       <Filter>Utils\Templates</Filter>
     </ClCompile>
@@ -223,9 +220,6 @@
     <ClCompile Include="VCPathUtilities.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="VCShader.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="VCMaterial.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -267,6 +261,18 @@
       <Filter>Physics\PhysX</Filter>
     </ClCompile>
     <ClCompile Include="VCGLFrameBuffer.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLTexture.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLShader.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLBuffer.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLTypes.cpp">
       <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
@@ -376,9 +382,6 @@
     <ClInclude Include="VCTextBuffer.h">
       <Filter>GUI\Text</Filter>
     </ClInclude>
-    <ClInclude Include="VCTexture.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="VCCollection.h">
       <Filter>Utils\Templates</Filter>
     </ClInclude>
@@ -427,9 +430,6 @@
     <ClInclude Include="VCPathUtilities.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="VCShader.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="VCMaterial.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -477,6 +477,18 @@
       <Filter>Physics\PhysX</Filter>
     </ClInclude>
     <ClInclude Include="VCGLFrameBuffer.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLTexture.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLShader.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLBuffer.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLTypes.h">
       <Filter>Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>

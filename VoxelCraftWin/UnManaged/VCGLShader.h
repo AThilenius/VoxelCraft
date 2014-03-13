@@ -16,11 +16,11 @@ class VCCamera;
 #include "VCShadeTypes.h"
 
 // Matrix Multiple Order: Projection * View * Model
-class VCShader : public VCMarshalableObject
+class VCGLShader : public VCMarshalableObject
 {
 public:
-	VCShader();
-	~VCShader();
+	VCGLShader();
+	~VCGLShader();
 
 	void Bind();
 	void SetCamera(VCCamera* camera);
@@ -40,7 +40,7 @@ public:
 
 private:
 
-	static VCShader* GetShader(std::string name);
+	static VCGLShader* GetShader(std::string name);
 
 	void BindAttribLocations();
 	void GetUniformIDs();
@@ -70,12 +70,12 @@ protected:
 	VCCamera* m_boundCamera;
 
 	friend class VCRenderStage;
-	friend bool operator==(const VCShader& lhs, const VCShader& rhs);
-	friend bool operator< (const VCShader& lhs, const VCShader& rhs);
+	friend bool operator==(const VCGLShader& lhs, const VCGLShader& rhs);
+	friend bool operator< (const VCGLShader& lhs, const VCGLShader& rhs);
 
 public:
-	static VCShader* BoundShader;
-	static std::unordered_map<std::string, VCShader*> LoadedShaders;
+	static VCGLShader* BoundShader;
+	static std::unordered_map<std::string, VCGLShader*> LoadedShaders;
 
 	std::string Name;
 	std::vector<VCShaderAttribute> Attributes;
@@ -87,16 +87,16 @@ public:
 
 
 private:
-	DISALLOW_COPY_AND_ASSIGN(VCShader);
+	DISALLOW_COPY_AND_ASSIGN(VCGLShader);
 	friend class VCResourceManager;
 };
 
-bool operator==(const VCShader& lhs, const VCShader& rhs);
-bool operator< (const VCShader& lhs, const VCShader& rhs);
-bool operator!=(const VCShader& lhs, const VCShader& rhs);
-bool operator> (const VCShader& lhs, const VCShader& rhs);
-bool operator<=(const VCShader& lhs, const VCShader& rhs);
-bool operator>=(const VCShader& lhs, const VCShader& rhs);
+bool operator==(const VCGLShader& lhs, const VCGLShader& rhs);
+bool operator< (const VCGLShader& lhs, const VCGLShader& rhs);
+bool operator!=(const VCGLShader& lhs, const VCGLShader& rhs);
+bool operator> (const VCGLShader& lhs, const VCGLShader& rhs);
+bool operator<=(const VCGLShader& lhs, const VCGLShader& rhs);
+bool operator>=(const VCGLShader& lhs, const VCGLShader& rhs);
 
 DLL_EXPORT_API int VCInteropGetShaderFromFile(char* name);
 

@@ -12,6 +12,7 @@
 
 class VCRenderStage;
 class VCCamera;
+class VCGLBuffer;
 
 #include "VCMarshalableObject.h"
 
@@ -40,9 +41,8 @@ private:
 	VCCamera* m_camera;
 	bool m_warningIssued;
 	int m_lineVertCount;
-	GLuint m_VAO;
-	GLuint m_VBO;
 	LineVerticie m_lineVerts[MAX_LINE_COUNT];
+	VCGLBuffer* m_gpuBuffer;
 };
 
 // Interop

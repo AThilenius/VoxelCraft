@@ -9,7 +9,7 @@
 #pragma once
 
 class VCImageInstance;
-class VCShader;
+class VCGLShader;
 
 class VCImageBuilder
 {
@@ -21,7 +21,7 @@ public:
 	void Draw9SliceImage(std::string imagePath, VCRectangle frame, int pizelOffset, float padding, float depthStep);
 
 public:
-	VCShader* Shader;
+	VCGLShader* Shader;
 
 private:
 	typedef std::unordered_map<std::string, VCImageInstance*> ImageInstMap;

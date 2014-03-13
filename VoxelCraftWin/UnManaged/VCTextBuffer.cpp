@@ -11,25 +11,25 @@
 #include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
 #include "VCRenderStage.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
 #include "VCResourceManager.h"
+#include "VCGLBuffer.h"
 
 
 VCTextBuffer::VCTextBuffer( VCFont* font ):
 	Font(font),
-	m_VAO(0),
-	m_VBO(0),
 	m_vCount(0),
-	m_renderStage(NULL)
+	m_renderStage(NULL),
+	m_glBuffer(NULL)
 {
 
 }
 
 VCTextBuffer::~VCTextBuffer( void )
 {
-
+	SAFE_DELETE(m_renderStage);
 }
 
 void VCTextBuffer::Initialize()
@@ -41,28 +41,11 @@ void VCTextBuffer::Initialize()
 	m_renderStage->Texture = Font->m_ddsTexture;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
-	// Create VAO
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-	glErrorCheck();
-
-	// Create VBO
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	ZERO_CHECK(m_VBO);
-
-	// Bind Attributes
-	glEnableVertexAttribArray(VCShaderAttribute::Position0);
-	glVertexAttribPointer( VCShaderAttribute::Position0,		3,	GL_SHORT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Position));
-
-	glEnableVertexAttribArray(VCShaderAttribute::TexCoord0);
-	glVertexAttribPointer( VCShaderAttribute::TexCoord0,	2,	GL_FLOAT,			GL_FALSE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, UV));
-
-	glEnableVertexAttribArray(VCShaderAttribute::Color0);
-	glVertexAttribPointer( VCShaderAttribute::Color0,			4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GlyphVerticie),	(void*) offsetof(GlyphVerticie, Color));
-
-	// Release
-	glBindVertexArray(0);
+	m_glBuffer = new VCGLBuffer();
+	m_glBuffer->VertexBufferSpecification()
+		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Short,			false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,			false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, UV))
+		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Color));
 }
 
 void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
@@ -88,12 +71,11 @@ void VCTextBuffer::Render()
 		return;
 
 	// Scaling is handed in managed code for text, skip ViewProj and just use MVP
-	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
+	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GlyphVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);
+	m_glBuffer->VertexBufferSpecification()
+		.SetVertexData(sizeof(GlyphVerticie) * m_vCount, m_verts);
 
-	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_vCount);
 	glBindVertexArray(0);
 

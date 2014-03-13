@@ -41,7 +41,7 @@ namespace VCEngine
 
             // Draw Normal if nothing is down
             if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
-                World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
             // ======   Left Mouse   ============================================================
 
@@ -57,7 +57,7 @@ namespace VCEngine
             {
                 int distance = (int)Math.Abs((normalBlock - new Vector3(m_startLocation)).Length);
                 foreach (Location loc in World.GetBlocksInSphere(m_startLocation, distance))
-                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
             }
 
             // Set all blocks between start and end

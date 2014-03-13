@@ -37,30 +37,33 @@ struct VCTextureParams
 	bool ClampV;
 };
 
-class VCTexture : public VCMarshalableObject
+class VCGLTexture : public VCMarshalableObject
 {
 public:
-	~VCTexture(void);
+	~VCGLTexture(void);
 
 	void Bind(int texUnit);
 	void SetUVWrapMode ( GLenum uMode, GLenum vMode );
 	void SetFilterMode ( GLenum minFilter, GLenum magFilter );
 
-	static VCTexture* CreateEmpty(VCTextureParams params, int width, int height);
+	static VCGLTexture* CreateEmpty(VCTextureParams params, int width, int height);
+	static VCGLTexture* LoadFromFile ( std::string path, VCTextureParams params );
+	static VCGLTexture* ManageExistingBuffer (GLuint bufferId);
 
 public:
 	GLuint GLTextID;
 	std::string FullPath;
 
 private:
-	VCTexture(void);
-	static VCTexture* CreateFromFile ( std::string path, VCTextureParams params );
-	static VCTexture* ManageExistingBuffer (GLuint bufferId);
+	VCGLTexture(void);
+
 
 private:
-	static VCTexture* m_boundTexture;
-	static std::unordered_map<std::string, VCTexture*> m_loadedTextures;
+	static VCGLTexture* m_boundTexture;
+	static std::unordered_map<std::string, VCGLTexture*> m_loadedTextures;
 
+private:
+	DISALLOW_COPY_AND_ASSIGN(VCGLTexture);
 	friend class VCRenderStage;
 	friend class VCResourceManager;
 };

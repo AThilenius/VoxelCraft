@@ -10,6 +10,7 @@
 
 class VCRenderStage;
 class VCFont;
+class VCGLBuffer;
 
 #include "VCFont.h"
 
@@ -32,9 +33,8 @@ public:
 
 private:
 	VCRenderStage* m_renderStage;
-	GLuint m_VAO;
-	GLuint m_VBO;
 	GlyphVerticie m_verts[VC_TEXT_BUFFER_MAX_VERT_SIZE];
+	VCGLBuffer* m_glBuffer;
 	int m_vCount;
 
 };

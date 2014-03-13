@@ -52,7 +52,7 @@ namespace VCEngine
 
             if (GlfwInputState.MouseStates[0].State == TriState.None)
             {
-                World.Camera.Debug.DrawCube(block - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                World.Camera.Debug.DrawCube(block - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
                 Gui.DrawBorderedRect(new Rectangle(GlfwInputState.MouseLocation.X + 15, GlfwInputState.MouseLocation.Y, 40, 40), World.GetBlock(block).Color, Color.White, 1);
             }
 
@@ -60,7 +60,7 @@ namespace VCEngine
             {
                 // Draw blocks in selected range
                 foreach (Location loc in World.GetBlocksInRegion(hit.CubeLocation, m_startLoc))
-                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
                 Gui.DrawBorderedRect(new Rectangle(GlfwInputState.MouseLocation.X + 15, GlfwInputState.MouseLocation.Y, 40, 40), ColorRGB, Color.White, 1);
             }

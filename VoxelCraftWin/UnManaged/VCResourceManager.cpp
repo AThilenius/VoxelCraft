@@ -9,8 +9,8 @@
 #include "stdafx.h"
 #include "VCResourceManager.h"
 
-#include "VCShader.h"
-#include "VCTexture.h"
+#include "VCGLShader.h"
+#include "VCGLTexture.h"
 #include "VCPathUtilities.h"
 #include "VCMaterial.h"
 #include "VCModel.h"
@@ -25,34 +25,34 @@ VCResourceManager::~VCResourceManager(void)
 {
 }
 
-VCShader* VCResourceManager::GetShader( std::string name )
+VCGLShader* VCResourceManager::GetShader( std::string name )
 {
-	return VCShader::GetShader(name);
+	return VCGLShader::GetShader(name);
 }
 
-VCTexture* VCResourceManager::GetTexure( std::string fullPath )
+VCGLTexture* VCResourceManager::GetTexure( std::string fullPath )
 {
-	return VCTexture::CreateFromFile(fullPath, VCTextureParams());
+	return VCGLTexture::LoadFromFile(fullPath, VCTextureParams());
 }
 
-VCTexture* VCResourceManager::GetTexure( std::string fullPath, VCTextureParams params )
+VCGLTexture* VCResourceManager::GetTexure( std::string fullPath, VCTextureParams params )
 {
-	return VCTexture::CreateFromFile(fullPath, params);
+	return VCGLTexture::LoadFromFile(fullPath, params);
 }
 
-VCTexture* VCResourceManager::GetTexureInAssets( std::string partPath )
+VCGLTexture* VCResourceManager::GetTexureInAssets( std::string partPath )
 {
-	return VCTexture::CreateFromFile(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath), VCTextureParams());
+	return VCGLTexture::LoadFromFile(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath), VCTextureParams());
 }
 
-VCTexture* VCResourceManager::GetTexureInAssets( std::string partPath, VCTextureParams params)
+VCGLTexture* VCResourceManager::GetTexureInAssets( std::string partPath, VCTextureParams params)
 {
-	return VCTexture::CreateFromFile(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath), params);
+	return VCGLTexture::LoadFromFile(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath), params);
 }
 
-VCTexture* VCResourceManager::GetTexure( GLuint existingBuffer )
+VCGLTexture* VCResourceManager::GetTexure( GLuint existingBuffer )
 {
-	return VCTexture::ManageExistingBuffer(existingBuffer);
+	return VCGLTexture::ManageExistingBuffer(existingBuffer);
 }
 
 VCMaterial* VCResourceManager::GetMaterialDefault()
@@ -88,6 +88,6 @@ VCModel* VCResourceManager::GetModelInAssets( std::string partPath )
 
 int VCInteropResourceManagerGetTexture( char* fullPath )
 {
-	VCTexture* texture = VCResourceManager::GetTexure(fullPath);
+	VCGLTexture* texture = VCResourceManager::GetTexure(fullPath);
 	return texture->Handle;
 }

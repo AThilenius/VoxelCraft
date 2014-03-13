@@ -27,6 +27,8 @@
     <ClCompile Include="VCEntity.cpp" />
     <ClCompile Include="VCFloatX.cpp" />
     <ClCompile Include="VCGLFrameBuffer.cpp" />
+    <ClCompile Include="VCGLBuffer.cpp" />
+    <ClCompile Include="VCGLTypes.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCMaterial.cpp" />
@@ -42,7 +44,7 @@
     <ClCompile Include="VCPxShape.cpp" />
     <ClCompile Include="VCRenderWindow.cpp" />
     <ClCompile Include="VCResourceManager.cpp" />
-    <ClCompile Include="VCShader.cpp" />
+    <ClCompile Include="VCGLShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VCCollection.cpp" />
@@ -60,7 +62,7 @@
     <ClCompile Include="VCSvoNodeBlock.cpp" />
     <ClCompile Include="VCTextBuffer.cpp" />
     <ClCompile Include="VCTextBuilder.cpp" />
-    <ClCompile Include="VCTexture.cpp" />
+    <ClCompile Include="VCGLTexture.cpp" />
     <ClCompile Include="VCTypeDefs.cpp" />
     <ClCompile Include="VCUtilities.cpp" />
     <ClCompile Include="VCApplication.cpp" />
@@ -97,6 +99,8 @@
     <ClInclude Include="VCGeometryTypes.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLFrameBuffer.h" />
+    <ClInclude Include="VCGLBuffer.h" />
+    <ClInclude Include="VCGLTypes.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCImageBuilder.h" />
@@ -119,7 +123,7 @@
     <ClInclude Include="VCPxShape.h" />
     <ClInclude Include="VCRenderWindow.h" />
     <ClInclude Include="VCResourceManager.h" />
-    <ClInclude Include="VCShader.h" />
+    <ClInclude Include="VCGLShader.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCShadeTypes.h" />
@@ -128,7 +132,7 @@
     <ClInclude Include="VCSvoLeafBlock.h" />
     <ClInclude Include="VCSvoNode.h" />
     <ClInclude Include="VCSvoNodeBlock.h" />
-    <ClInclude Include="VCTexture.h" />
+    <ClInclude Include="VCGLTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />
     <ClInclude Include="VCApplication.h" />

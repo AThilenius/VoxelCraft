@@ -13,7 +13,7 @@
 #include "VCModel.h"
 #include "VCMesh.h"
 #include "VCMaterial.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCResourceManager.h"
 
 
@@ -44,8 +44,8 @@ void VCEntity::Render( VCCamera* camera )
 		material->Bind();
 
 		// This is bad... it will result in duplicates
-		VCShader::BoundShader->SetCamera(camera);
-		VCShader::BoundShader->SetModelMatrix(ModelMatrix);
+		VCGLShader::BoundShader->SetCamera(camera);
+		VCGLShader::BoundShader->SetModelMatrix(ModelMatrix);
 		
 		Model->Meshes[i].Render();
 	}

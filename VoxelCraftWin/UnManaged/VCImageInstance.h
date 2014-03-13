@@ -11,9 +11,10 @@
 #define VC_TEXTURE_BUILDER_START_VERT_SIZE 60
 
 class VCRenderStage;
-class VCShader;
+class VCGLShader;
+class VCGLBuffer;
 
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 
 struct VCTextureVerticie
 {
@@ -30,7 +31,7 @@ public:
 	VCImageInstance(std::string path);
 	~VCImageInstance(void);
 
-	void Initialize(VCShader* shader, VCTextureParams params);
+	void Initialize(VCGLShader* shader, VCTextureParams params);
 	void DrawImage (VCRectangle frame, float depthStep);
 	void Draw9Slice(VCRectangle frame, int pizelOffset, float padding, float depthStep);
 
@@ -40,12 +41,11 @@ private:
 private:
 	std::string m_path;
 	VCRenderStage* m_rStage;
-	VCTexture* m_texturePtr;
+	VCGLTexture* m_texturePtr;
 	
-	GLuint m_VAO;
-	GLuint m_VBO;
 	VCTextureVerticie* m_vertBuffer;
 	int m_vertBufferSize;
 	GLint m_vertexCount;
+	VCGLBuffer* m_gpuBuffer;
 };
 

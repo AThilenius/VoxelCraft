@@ -7,12 +7,12 @@
 //
 
 #include "stdafx.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 
 #include "VCFont.h"
 #include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 #include "VCResourceManager.h"
 
 

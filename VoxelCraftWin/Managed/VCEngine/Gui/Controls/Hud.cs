@@ -17,7 +17,7 @@ namespace VCEngine
 
         public Hud()
         {
-            HudLabel = new Label("VoxelCraft Beta 0.0.1 Thilenius | Cragg");
+            HudLabel = new Label("VoxelCraft Beta 0.0.1 Thilenius");
             AddControl(HudLabel);
             HudLabel.Font = VCEngine.Font.GetFont(HudLabel.Font.Name, 16, true);
 

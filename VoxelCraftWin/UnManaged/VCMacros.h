@@ -12,6 +12,7 @@
 #define DLL_EXPORT_API extern "C" __declspec(dllexport)
 
 // =====   General   ======================================================
+#define SAFE_DELETE(pointer) if(pointer != NULL){ delete pointer; pointer = NULL; }
 #define POSITIVE_CHECK(value) if(value < 0) { SetConsoleColor(Red); std::cout << "Positive Check Failed!" << std::endl; SetConsoleColor(White); std::cin.clear(); std::cin.ignore(); }
 #define ZERO_CHECK(value) if(value == 0) { SetConsoleColor(Red); std::cout << "Zero Check Failed!" << std::endl; SetConsoleColor(White); std::cin.clear(); std::cin.ignore(); }
 #define FOREACH(iterName, variable) for (auto iterName = variable.begin(); iterName != variable.end(); iterName++)

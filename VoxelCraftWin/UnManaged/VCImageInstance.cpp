@@ -10,10 +10,11 @@
 #include "VCImageInstance.h"
 #include "VCRenderStage.h"
 #include "VCGLRenderer.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCWindow.h"
 #include "VCGui.h"
 #include "VCResourceManager.h"
+#include "VCGLBuffer.h"
 
 
 VCTextureVerticie::VCTextureVerticie()
@@ -33,8 +34,7 @@ VCImageInstance::VCImageInstance(std::string path):
 	m_vertBuffer(NULL),
 	m_vertBufferSize(0),
 	m_vertexCount(0),
-	m_VAO(0),
-	m_VBO(0)
+	m_gpuBuffer(NULL)
 {
 	m_vertBuffer = new VCTextureVerticie[VC_TEXTURE_BUILDER_START_VERT_SIZE];
 	m_vertBufferSize = VC_TEXTURE_BUILDER_START_VERT_SIZE;
@@ -46,9 +46,10 @@ VCImageInstance::~VCImageInstance(void)
 	VCGLRenderer::Instance->UnRegisterStage(m_rStage);
 	delete[] m_vertBuffer;
 	delete m_rStage;
+	SAFE_DELETE(m_gpuBuffer);
 }
 
-void VCImageInstance::Initialize(VCShader* shader, VCTextureParams params)
+void VCImageInstance::Initialize(VCGLShader* shader, VCTextureParams params)
 {
 	m_texturePtr = VCResourceManager::GetTexure(m_path, params);
 	
@@ -60,24 +61,10 @@ void VCImageInstance::Initialize(VCShader* shader, VCTextureParams params)
 	m_rStage->Texture = m_texturePtr;
 	VCGLRenderer::Instance->RegisterStage(m_rStage);
 
-	// Create VAO
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-	glErrorCheck();
-
-	// Create VBO
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	ZERO_CHECK(m_VBO);
-
-	// Bind Attributes
-	glEnableVertexAttribArray(VCShaderAttribute::Position0);
-	glEnableVertexAttribArray(VCShaderAttribute::TexCoord0);
-
-	glVertexAttribPointer(VCShaderAttribute::Position0,		3,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, Position) );
-	glVertexAttribPointer(VCShaderAttribute::TexCoord0,		2,	GL_FLOAT,	GL_FALSE,	sizeof(VCTextureVerticie),	(void*) offsetof(VCTextureVerticie, UV) );
-
-	glBindVertexArray(0);
+	m_gpuBuffer = new VCGLBuffer();
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexAttribute(VCShaderAttribute::Position0,		3, VCGLPrimitives::Float,	false,	sizeof(VCTextureVerticie),	offsetof(VCTextureVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::TexCoord0,		2, VCGLPrimitives::Float,	false,	sizeof(VCTextureVerticie),	offsetof(VCTextureVerticie, UV));
 }
 
 void VCImageInstance::DrawImage( VCRectangle frame, float depthStep )
@@ -246,14 +233,12 @@ void VCImageInstance::Render()
 	if (m_vertexCount == 0)
 		return;
 
-	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer , GL_STREAM_DRAW);
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer);
 
-	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
-	glBindVertexArray(0);
 
 	m_vertexCount = 0;
 }

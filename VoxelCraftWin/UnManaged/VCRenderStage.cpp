@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "VCRenderStage.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 #include "VCWindow.h"
 #include "VCRenderStage.h"
 #include "VCCamera.h"

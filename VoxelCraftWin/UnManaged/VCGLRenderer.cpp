@@ -8,10 +8,10 @@
 
 #include "stdafx.h"
 #include "VCGLRenderer.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCLexicalEngine.h"
 #include "VCWindow.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
 #include "VCResourceManager.h"

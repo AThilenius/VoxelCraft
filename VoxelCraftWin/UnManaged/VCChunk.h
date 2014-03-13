@@ -10,6 +10,7 @@
 
 class VCWorld;
 class VCRenderStage;
+class VCGLBuffer;
 struct BlockPoint;
 struct VCWorldRebuildParams;
 
@@ -57,8 +58,7 @@ private:
 	bool m_isEmpty;
 
 	// Rendering
-	GLuint m_VAO;
-	GLuint m_VBO;
+	VCGLBuffer* m_glBuffer;
 	GLint m_vertexCount;
 
 	friend class VCChunkGenerator;

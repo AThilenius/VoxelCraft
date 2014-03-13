@@ -8,7 +8,7 @@
 
 #pragma once
 
-class VCTexture;
+class VCGLTexture;
 
 class VCGLFrameBuffer
 {
@@ -16,7 +16,7 @@ public:
 	~VCGLFrameBuffer();
 
 	void Bind();
-	void SetRenderTarget(VCTexture* texture);
+	void SetRenderTarget(VCGLTexture* texture);
 
 	static VCGLFrameBuffer* GetDefault();
 	static VCGLFrameBuffer* GetTextureTarget();

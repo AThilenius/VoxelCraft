@@ -11,7 +11,7 @@
 
 #include "VCImageInstance.h"
 #include "VCResourceManager.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 
 
 VCImageBuilder::VCImageBuilder(void):

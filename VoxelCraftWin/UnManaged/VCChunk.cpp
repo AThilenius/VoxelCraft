@@ -14,9 +14,10 @@
 #include "VCTime.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCResourceManager.h"
 #include "VCModel.h"
+#include "VCGLBuffer.h"
 
 struct BlockVerticie
 {
@@ -36,11 +37,10 @@ VCChunk::VCChunk():
 	m_blockY(0),
 	m_blockZ(0),
 	m_world(NULL),
-	m_VBO(0),
 	m_vertexCount(0),
-	m_VAO(0),
 	m_isEmpty(true),
-	NeedsRebuild(true)
+	NeedsRebuild(true),
+	m_glBuffer(NULL)
 {
 
 }
@@ -53,24 +53,17 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 	m_blockY(y * CHUNK_WIDTH),
 	m_blockZ(z * CHUNK_WIDTH),
 	m_world(world),
-	m_VBO(0),
 	m_vertexCount(0),
-	m_VAO(0),
 	m_isEmpty(true),
-	NeedsRebuild(true)
+	NeedsRebuild(true),
+	m_glBuffer(NULL)
 {
 }
 
 VCChunk::~VCChunk(void)
 {
 	VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
-
-	//if (m_VAO != 0)
-	//{
-	//	glDeleteVertexArrays(1, &m_VAO);
-	//	glDeleteBuffers(1, &m_VBO);
-	//	m_VAO = 0;
-	//}
+	SAFE_DELETE(m_glBuffer);
 }
 
 void VCChunk::Initialize()
@@ -85,26 +78,12 @@ void VCChunk::Initialize()
 	m_renderStage->ExectionType = VCRenderStage::Never;
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
-	// Create VAO
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-	glErrorCheck();
 
-	// Create VBO
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	ZERO_CHECK(m_VBO);
-
-	// Bind Attributes
-	glEnableVertexAttribArray(VCShaderAttribute::Position0);
-	glEnableVertexAttribArray(VCShaderAttribute::Normal0);
-	glEnableVertexAttribArray(VCShaderAttribute::Color0);
-
-	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_BYTE,			GL_FALSE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, position) );
-	glVertexAttribIPointer(VCShaderAttribute::Normal0,		1,	GL_BYTE,						sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, normal) );
-	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(BlockVerticie),	(void*) offsetof(BlockVerticie, color) );
-
-	glBindVertexArray(0);
+	m_glBuffer = new VCGLBuffer();
+	m_glBuffer->VertexBufferSpecification()
+		.SetVertexAttribute( VCShaderAttribute::Position0,	3, VCGLPrimitives::Byte,			false,	sizeof(BlockVerticie), offsetof(BlockVerticie, position))
+		.SetVertexAttributeI(VCShaderAttribute::Normal0,	1, VCGLPrimitives::Byte,					sizeof(BlockVerticie), offsetof(BlockVerticie, normal))
+		.SetVertexAttribute( VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	true,	sizeof(BlockVerticie), offsetof(BlockVerticie, color));
 }
 
 VCBlock VCChunk::GetBlock ( int x, int y, int z )
@@ -387,11 +366,8 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 
 	else
 	{
-		// Update VBO
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0] , GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+		m_glBuffer->VertexBufferSpecification()
+			.SetVertexData(sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0]);
 		m_renderStage->ExectionType = VCRenderStage::Always;
 	}
 
@@ -407,9 +383,9 @@ void VCChunk::Render()
 	if ( m_isEmpty )
 		return;
 
-	glBindVertexArray(m_VAO);
-	VCShader::BoundShader->SetCamera(m_world->Camera);
-	VCShader::BoundShader->SetModelMatrix(glm::translate(
+	m_glBuffer->Bind();
+	VCGLShader::BoundShader->SetCamera(m_world->Camera);
+	VCGLShader::BoundShader->SetModelMatrix(glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));

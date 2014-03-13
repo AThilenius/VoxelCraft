@@ -17,8 +17,8 @@ typedef uint32_t UInt32;
 typedef int64_t Int64;
 typedef uint64_t UInt64;
 
-class VCTexture;
-typedef std::shared_ptr<VCTexture> VCTexturePtr;
+class VCGLTexture;
+typedef std::shared_ptr<VCGLTexture> VCTexturePtr;
 
 typedef srutil::delegate<void (void)> VCVoidDelegate;
 #define VC_VOID_DELEGATE_METHOD(t,m) VCVoidDelegate::from_method<t, &t::m>(this)

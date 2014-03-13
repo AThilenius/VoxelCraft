@@ -7,30 +7,30 @@
 //
 
 #include "stdafx.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 #include "VCObjectStore.h"
 
-VCTexture* VCTexture::m_boundTexture = NULL;
-std::unordered_map<std::string, VCTexture*> VCTexture::m_loadedTextures;
+VCGLTexture* VCGLTexture::m_boundTexture = NULL;
+std::unordered_map<std::string, VCGLTexture*> VCGLTexture::m_loadedTextures;
 
-VCTexture::VCTexture(void)
+VCGLTexture::VCGLTexture(void)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
 
-VCTexture::~VCTexture(void)
+VCGLTexture::~VCGLTexture(void)
 {
 	glDeleteTextures(1, &GLTextID);
 }
 
-VCTexture* VCTexture::ManageExistingBuffer( GLuint bufferId )
+VCGLTexture* VCGLTexture::ManageExistingBuffer( GLuint bufferId )
 {
-	VCTexture* tex = new VCTexture();
+	VCGLTexture* tex = new VCGLTexture();
 	tex->GLTextID = bufferId;
 	return tex;
 }
 
-void VCTexture::Bind( int texUnit )
+void VCGLTexture::Bind( int texUnit )
 {
 	if (m_boundTexture == this)
 		return;
@@ -44,7 +44,7 @@ void VCTexture::Bind( int texUnit )
 }
 
 
-void VCTexture::SetUVWrapMode( GLenum uMode, GLenum vMode )
+void VCGLTexture::SetUVWrapMode( GLenum uMode, GLenum vMode )
 {
 	Bind(-1);
 
@@ -52,7 +52,7 @@ void VCTexture::SetUVWrapMode( GLenum uMode, GLenum vMode )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, vMode);
 }
 
-void VCTexture::SetFilterMode( GLenum minFilter, GLenum magFilter )
+void VCGLTexture::SetFilterMode( GLenum minFilter, GLenum magFilter )
 {
 	Bind(-1);
 
@@ -60,9 +60,9 @@ void VCTexture::SetFilterMode( GLenum minFilter, GLenum magFilter )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, magFilter);
 }
 
-VCTexture* VCTexture::CreateEmpty( VCTextureParams params, int width, int height )
+VCGLTexture* VCGLTexture::CreateEmpty( VCTextureParams params, int width, int height )
 {
-	VCTexture* tex = new VCTexture();
+	VCGLTexture* tex = new VCGLTexture();
 
 	glGenTextures(1, &tex->GLTextID);
 	glBindTexture(GL_TEXTURE_2D, tex->GLTextID);
@@ -107,14 +107,14 @@ VCTexture* VCTexture::CreateEmpty( VCTextureParams params, int width, int height
 	return tex;
 }
 
-VCTexture* VCTexture::CreateFromFile( std::string path, VCTextureParams params )
+VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params )
 {
 	auto iter = m_loadedTextures.find(path);
 
 	if (iter != m_loadedTextures.end())
 		return iter->second;
 
-	VCTexture* tex = new VCTexture();
+	VCGLTexture* tex = new VCGLTexture();
 	tex->FullPath = path;
 	tex->GLTextID = SOIL_load_OGL_texture
 		(
@@ -154,7 +154,7 @@ VCTexture* VCTexture::CreateFromFile( std::string path, VCTextureParams params )
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	m_boundTexture = NULL;
-	m_loadedTextures.insert(std::unordered_map<std::string, VCTexture*>::value_type(path, tex));
+	m_loadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(path, tex));
 
 	return tex;
 }

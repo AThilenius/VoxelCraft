@@ -13,6 +13,7 @@
 #define VC_GEOMETRY_RESOLUTION 36
 
 class VCRenderStage;
+class VCGLBuffer;
 
 struct GuiRectVerticie
 {
@@ -43,10 +44,9 @@ private:
 private:
 	VCRenderStage* m_renderStage;
 
-	GLuint m_VAO;
-	GLuint m_VBO;
 	int m_vCount;
 	GuiRectVerticie m_verts[VC_GEOMETRY_MAX_VERT_SIZE];
 	glm::vec2 m_unitCircle[VC_GEOMETRY_RESOLUTION];
+	VCGLBuffer* m_gpuBuffer;
 };
 

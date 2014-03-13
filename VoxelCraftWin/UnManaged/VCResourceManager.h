@@ -11,8 +11,8 @@
 #define VC_DEFAULT_MODEL_PATH "Defaults\\DefaultModel.obj"
 #define VC_DEFAULT_MATERIAL_PATH "Defaults\\DefaultMaterial.vcmaterial"
 
-class VCShader;
-class VCTexture;
+class VCGLShader;
+class VCGLTexture;
 class VCMaterial;
 class VCModel;
 struct VCTextureParams;
@@ -24,14 +24,14 @@ public:
 	~VCResourceManager();
 
 	// Shader
-	static VCShader* GetShader (std::string name);
+	static VCGLShader* GetShader (std::string name);
 
 	// Texture
-	static VCTexture* GetTexure (std::string fullPath);
-	static VCTexture* GetTexure (std::string fullPath, VCTextureParams params);
-	static VCTexture* GetTexure (GLuint existingBuffer);
-	static VCTexture* GetTexureInAssets( std::string partPath );
-	static VCTexture* GetTexureInAssets( std::string partPath, VCTextureParams params);
+	static VCGLTexture* GetTexure (std::string fullPath);
+	static VCGLTexture* GetTexure (std::string fullPath, VCTextureParams params);
+	static VCGLTexture* GetTexure (GLuint existingBuffer);
+	static VCGLTexture* GetTexureInAssets( std::string partPath );
+	static VCGLTexture* GetTexureInAssets( std::string partPath, VCTextureParams params);
 
 	// Material
 	static VCMaterial* GetMaterialDefault();

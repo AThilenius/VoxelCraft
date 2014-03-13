@@ -37,7 +37,7 @@ namespace VCEngine
 
             // Draw Normal if nothing is down
             if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
-                World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
 
             // ======   Left Mouse   ============================================================
@@ -53,7 +53,7 @@ namespace VCEngine
             else if (GlfwInputState.MouseStates[0].State == TriState.Replete && m_isDraggingLeft)
             {
                 foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
-                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.ControlGreen);
+                    World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
             }
 
             // Create an Undo Token, Set all blocks between start and end

@@ -39,7 +39,7 @@ void VCRenderWindow::Render()
 	}
 }
 
-void VCRenderWindow::RenderToTexture( VCTexture* texture )
+void VCRenderWindow::RenderToTexture( VCGLTexture* texture )
 {
 	VCGLFrameBuffer::GetTextureTarget()->SetRenderTarget(texture);
 	VCGLFrameBuffer::GetTextureTarget()->Bind();
@@ -75,7 +75,7 @@ void VCInteropRenderWindowRenderToScreen( int handle )
 void VCInteropRenderWindowRenderToTexture( int handle, int textureHandle )
 {
 	VCRenderWindow* obj = (VCRenderWindow*) VCObjectStore::Instance->GetObject(handle);
-	VCTexture* texture = (VCTexture*) VCObjectStore::Instance->GetObject(textureHandle);
+	VCGLTexture* texture = (VCGLTexture*) VCObjectStore::Instance->GetObject(textureHandle);
 	obj->RenderToTexture(texture);
 }
 

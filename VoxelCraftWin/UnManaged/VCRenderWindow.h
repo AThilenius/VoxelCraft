@@ -22,7 +22,7 @@ public:
 	~VCRenderWindow();
 
 	void Render();
-	void RenderToTexture(VCTexture* texture);
+	void RenderToTexture(VCGLTexture* texture);
 
 public:
 	typedef boost::container::flat_set<VCEntity*> FlatEntitySet;

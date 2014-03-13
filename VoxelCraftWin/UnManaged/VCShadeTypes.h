@@ -8,7 +8,7 @@
 
 #pragma once
 #include "VCResourceManager.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 
 
 struct VCShaderAttribute
@@ -357,7 +357,7 @@ public:
 
 public: 
 	int TexUnit;
-	VCTexture* Texture;
+	VCGLTexture* Texture;
 };
 
 // =====   Sampler3D   ======================================================
@@ -382,5 +382,5 @@ public:
 
 public: 
 	int TexUnit;
-	VCTexture* Texture;
+	VCGLTexture* Texture;
 };

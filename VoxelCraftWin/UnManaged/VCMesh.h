@@ -8,6 +8,8 @@
 
 #pragma once
 
+class VCGLBuffer;
+
 struct VCPuvnVerticie
 {
 	glm::vec3 Position;
@@ -39,7 +41,5 @@ public:
 	int IndexCount;
 
 private:
-	GLuint m_VAO;
-	GLuint m_vertextVBO;
-	GLuint m_indexVBO;
+	VCGLBuffer* m_gpuBuffer;
 };

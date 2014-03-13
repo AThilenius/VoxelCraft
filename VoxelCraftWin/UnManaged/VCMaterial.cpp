@@ -12,7 +12,7 @@
 #include "VCPathUtilities.h"
 #include <json\json.h>
 #include "VCShadeTypes.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 
 std::unordered_map<std::string, VCMaterial*> VCMaterial::m_loadedMaterial;
 

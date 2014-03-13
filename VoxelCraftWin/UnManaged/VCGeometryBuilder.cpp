@@ -10,11 +10,12 @@
 #include "VCGeometryBuilder.h"
 
 #include "VCGLRenderer.h"
-#include "VCShader.h"
+#include "VCGLShader.h"
 #include "VCRenderStage.h"
 #include "VCWindow.h"
 #include "VCGui.h"
 #include "VCResourceManager.h"
+#include "VCGLBuffer.h"
 
 
 GuiRectVerticie::GuiRectVerticie()
@@ -34,10 +35,9 @@ GuiRectVerticie::~GuiRectVerticie()
 
 }
 
-VCGeometryBuilder::VCGeometryBuilder( void ) : 
-	m_VAO(0), 
-	m_VBO(0), 
-	m_vCount(0)
+VCGeometryBuilder::VCGeometryBuilder( void ): 
+	m_vCount(0),
+	m_gpuBuffer(NULL)
 {
 	// Pre-Compute a unit circle
 	for (int i = 0; i < VC_GEOMETRY_RESOLUTION; i++)
@@ -52,7 +52,7 @@ VCGeometryBuilder::VCGeometryBuilder( void ) :
 
 VCGeometryBuilder::~VCGeometryBuilder( void )
 {
-
+	SAFE_DELETE(m_gpuBuffer);
 }
 
 void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color, float depthStep )
@@ -153,24 +153,10 @@ void VCGeometryBuilder::Initialize()
 	m_renderStage->Shader = VCResourceManager::GetShader("Gui");
 	VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
-	// Create VAO
-	glGenVertexArrays(1, &m_VAO);
-	glBindVertexArray(m_VAO);
-	glErrorCheck();
-
-	// Create VBO
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	ZERO_CHECK(m_VBO);
-
-	// Bind Attributes
-	glEnableVertexAttribArray(VCShaderAttribute::Position0);
-	glEnableVertexAttribArray(VCShaderAttribute::Color0);
-
-	glVertexAttribPointer(VCShaderAttribute::Position0,	3,	GL_SHORT,			GL_FALSE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Position) );
-	glVertexAttribPointer(VCShaderAttribute::Color0,		4,	GL_UNSIGNED_BYTE,	GL_TRUE,	sizeof(GuiRectVerticie),	(void*) offsetof(GuiRectVerticie, Color) );
-
-	glBindVertexArray(0);
+	m_gpuBuffer = new VCGLBuffer();
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Short,			false,	sizeof(GuiRectVerticie), offsetof(GuiRectVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	true,	sizeof(GuiRectVerticie), offsetof(GuiRectVerticie, Color));
 }
 
 void VCGeometryBuilder::Render()
@@ -178,14 +164,12 @@ void VCGeometryBuilder::Render()
 	if (m_vCount == 0)
 		return;
 
-	VCShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GuiRectVerticie) * m_vCount, m_verts , GL_STREAM_DRAW);
+	m_gpuBuffer->VertexBufferSpecification()
+		.SetVertexData(sizeof(GuiRectVerticie) * m_vCount, m_verts);
 
-	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_vCount);
-	glBindVertexArray(0);
 
 	m_vCount = 0;
 }

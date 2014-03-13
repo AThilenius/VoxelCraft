@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "VCGLFrameBuffer.h"
-#include "VCTexture.h"
+#include "VCGLTexture.h"
 
 VCGLFrameBuffer* VCGLFrameBuffer::m_boundFrameBuffer = NULL;
 VCGLFrameBuffer* VCGLFrameBuffer::m_defaultFrameBuffer = NULL;
@@ -36,7 +36,7 @@ void VCGLFrameBuffer::Bind()
 	glErrorCheck();
 }
 
-void VCGLFrameBuffer::SetRenderTarget( VCTexture* texture )
+void VCGLFrameBuffer::SetRenderTarget( VCGLTexture* texture )
 {
 	Bind();
 	texture->Bind(-1);
