@@ -76,6 +76,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Console\ConsoleFunction.cs" />
+    <Compile Include="Application\Console\ConsoleFunctionLoader.cs" />
+    <Compile Include="Application\Console\GeneralConsoleFunctions.cs" />
     <Compile Include="Application\GlfwEventArgs.cs" />
     <Compile Include="Application\GlfwInputState.cs" />
     <Compile Include="Application\Input.cs" />
@@ -159,7 +162,9 @@
     <Compile Include="SceneGraph\MarshaledTransform.cs" />
     <Compile Include="SceneGraph\RigidBody.cs" />
     <Compile Include="TestFixture.cs" />
+    <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
+    <Compile Include="Utilities\Reflection.cs" />
     <Compile Include="Utilities\Types\Color.cs" />
     <Compile Include="Utilities\Types\IAnimatable.cs" />
     <Compile Include="Utilities\Types\Location.cs" />
