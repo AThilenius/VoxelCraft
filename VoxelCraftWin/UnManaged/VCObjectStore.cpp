@@ -27,7 +27,7 @@ void VCObjectStore::Initalize()
 {
 	// Init size of 1K objects
 	m_objectArray = (void**) malloc(sizeof(void*) * 1000);
-    std::cout << "VCObjectStore Initialized." << std::endl;
+	VCLog::Info("VCObjectStore Initialized.", "Initialize");
 }
 
 int VCObjectStore::RegisterObject (void* obj)

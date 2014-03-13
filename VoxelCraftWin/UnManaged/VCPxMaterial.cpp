@@ -31,7 +31,7 @@ VCPxMaterial::~VCPxMaterial(void)
 void VCPxMaterial::Initialize(physx::PxReal staticFriction, physx::PxReal dynamicFriction, physx::PxReal restitution)
 {
 	PxMaterial = VCPxPhysics::PxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
-	std::cout << "Px Material created." << std::endl;
+	VCLog::Info("Px Material created.", "Physics");
 }
 
 int VCInteropPhysicsPxMaterialNew()

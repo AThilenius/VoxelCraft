@@ -171,7 +171,7 @@ void VCGLShader::Compile()
 	glUseProgram(m_programId);
 	LoadedShaders.insert(std::unordered_map<std::string, VCGLShader*>::value_type(Name, this));
 
-	std::cout << "VCGLShader [ " << Name << " ] Initialized." << std::endl;
+	VCLog::Info("VCGLShader [ " + Name + " ] Initialized.", "Resources");
 	glErrorCheck();
 }
 
@@ -347,7 +347,7 @@ void VCGLShader::LinkProgram()
     }
     
     if (status == 0)
-		std::cout << "Failed to link OpenGL program." << std::endl;
+		VCLog::Error("Failed to link OpenGL program.", "Resources");
 
 	glErrorCheck();
 }

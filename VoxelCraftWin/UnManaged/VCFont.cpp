@@ -52,7 +52,7 @@ void VCFont::Initialize()
 	std::ifstream f (m_fntPath, std::ios::in | std::ios::binary);
 	if (!f.is_open())
 	{
-		std::cout << "Failed to open file: " << m_fntPath << std::endl;
+		VCLog::Error("Failed to open file: " + m_fntPath, "Fonts");
 		return;
 	}
 
@@ -61,7 +61,7 @@ void VCFont::Initialize()
 	f >> c1 >> c2 >> c3 >> c4;
 	if (c1 != 66 || c2 != 77 || c3 != 70 || c4 != 3)
 	{
-		std::cout << "FNT must be binary, version 3!" << std::endl;
+		VCLog::Error("FNT must be binary, version 3!", "Fonts");
 		return;
 	}
 	

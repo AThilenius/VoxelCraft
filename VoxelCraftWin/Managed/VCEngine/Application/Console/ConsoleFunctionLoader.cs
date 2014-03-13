@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,14 @@ namespace VCEngine
 {
     public static class ConsoleFunctionLoader
     {
+        #region Bindings
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropLogRegisterManagedHooks(LogHandler handler);
+        
+        #endregion
+
+
         private class ConsoleFunctionInstance
         {
             public ConsoleFunction Attribute;
@@ -33,6 +42,11 @@ namespace VCEngine
                 cFun.Name = (cFun.Catagory.Length == 0 || cFun.Catagory.EndsWith(".")) ? cFun.Catagory + mInfo.Name : cFun.Catagory + "." + mInfo.Name;
                 m_consoleFunctions.Add(path, new ConsoleFunctionInstance { Attribute = cFun, Method = mInfo });
             }
+        }
+
+        public static void RegisterUnManagedHooks()
+        {
+            VCInteropLogRegisterManagedHooks(Log.LogUnManaged);
         }
 
         public static void AsyncListen()
@@ -61,13 +75,15 @@ namespace VCEngine
 
         // Help Loader
         [ConsoleFunction("This will never be displayed for help")]
-        public static void Help(String[] args)
+        public static String Help(String[] args)
         {
             Console.WriteLine("All known functions:");
 
             foreach (ConsoleFunctionInstance inst in m_consoleFunctions.Values.OrderBy(inst => inst.Attribute.Catagory + inst.Attribute.Name))
                 if (inst.Attribute.Name.ToLower() != "help")
                     Console.WriteLine("  - {0,-25} : {1,-40}", inst.Attribute.Name, inst.Attribute.Brief);
+
+            return "";
         }
 
     }

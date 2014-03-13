@@ -32,9 +32,7 @@ namespace VCEngine
 
         public virtual void SetSize(Point size)
         {
-            Console.WriteLine("Setting size: " + size);
             Frame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - MathHelper.RoundedDevision(size.X, 2), Window.ScaledSize.Y - 75, size.X, size.Y);
-            Console.WriteLine("Was set to: " + Frame);
         }
 
         protected virtual void Hide()

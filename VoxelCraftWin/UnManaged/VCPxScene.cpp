@@ -68,7 +68,7 @@ void VCPxScene::Initialize()
 	PxScene->setVisualizationParameter(physx::PxVisualizationParameter::eSCALE,     1.0);
 	PxScene->setVisualizationParameter(physx::PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 
-	std::cout << "PxScene Created." << std::endl;
+	VCLog::Info("PxScene Created.", "Physics");
 }
 
 int VCInteropPhysicsPxSceneNew()

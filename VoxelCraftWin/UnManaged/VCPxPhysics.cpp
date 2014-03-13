@@ -90,7 +90,7 @@ void VCPxPhysics::Initialize()
 		physx::PxVisualDebuggerExt::createConnection(PxPhysics->getPvdConnectionManager(), pvd_host_ip, port, timeout, connectionFlags);
 	}
 
-	std::cout << "VCPxPhysics Initialized." << std::endl;
+	VCLog::Info("VCPxPhysics Initialized.", "Physics");
 }
 
 void VCInteropPhysicsInitializePhysXPhysics()

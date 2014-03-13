@@ -66,6 +66,7 @@
 #include "SOIL.h"
 #include <boost/container/flat_set.hpp>
 
+// Internal
 #include "VCGLXByteX.h"
 #include "VCGLXShortX.h"
 #include "VCGLFloatX.h"
@@ -76,6 +77,7 @@
 #include "VCConstants.h"
 #include "VCMacros.h"
 #include "delegate.hpp"
+#include "VCLog.h"
 
 // Typedefs
 #include "VCTypeDefs.h"

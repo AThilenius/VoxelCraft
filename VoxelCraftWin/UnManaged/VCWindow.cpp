@@ -40,8 +40,7 @@ VCWindow::~VCWindow()
 
 static void glewErrorCallback(int error, const char* description)
 {
-    //fputs(description, stderr);
-	std::cout << "GLFW Error Callback: " << description << std::endl;
+	VCLog::Error("GLFW Error Callback: " + std::string(description), "Initialize");
 }
 
 void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
@@ -115,14 +114,14 @@ void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id, GLenum seve
 
 void VCWindow::Initalize()
 {
-    std::cout << "Creating a VCWindow..." << std::endl;
+	VCLog::Info("Creating a VCWindow...", "Initialize");
     
 	// =====   GLFW   ======================================================
 	glfwSetErrorCallback(glewErrorCallback);
 
 	if (!glfwInit())
 	{
-		std::cout << "Failed to initialize GLFW." << std::endl;
+		VCLog::Error("Creating a Failed to initialize GLFW.", "Initialize");
 		std::cin.ignore();
 	}
 	 
@@ -139,7 +138,7 @@ void VCWindow::Initalize()
 	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
-		std::cout << "Failed to create a window." << std::endl;
+		VCLog::Error("Failed to create a window.", "Initialize");
 		std::cin.ignore();
 	}
 
@@ -150,7 +149,7 @@ void VCWindow::Initalize()
 	GLenum glewError = glewInit();
 	if( glewError != GLEW_OK )
 	{
-		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
+		VCLog::Error("Error initializing GLEW!", "Initialize");
 		std::cin.ignore();
 	}
 
@@ -165,14 +164,15 @@ void VCWindow::Initalize()
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major); 
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
-    std::cout << "OpenGL version: " << major << "." << minor << std::endl;
-    std::cout << "Hardware: " << glGetString(GL_RENDERER) << std::endl << std::endl;
+	VCLog::Info("OpenGL version: " + std::to_string(major) + "." + std::to_string(minor), "Initialize");
+	VCLog::Info("Hardware: " + std::string((char*)glGetString(GL_RENDERER)), "Initialize");
+	
     
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = VCRectangle(0, 0, Width, Height);
 	
 	SetVSync(false);
-	std::cout << "VCWindow Initialized." << std::endl;
+	VCLog::Info("VCWindow Initialized.", "Initialize");
     glErrorCheck();
 
 	VCInteropWindowSetPos(200, 200);

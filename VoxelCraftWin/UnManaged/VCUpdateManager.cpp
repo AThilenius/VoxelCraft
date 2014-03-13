@@ -28,15 +28,7 @@ VCUpdateManager::~VCUpdateManager()
 void VCUpdateManager::Update()
 {
     if (!staticCallback)
-        std::cout << "Please invoke Engine.Initalize()" << std::endl;
+		VCLog::Info("Please invoke Engine.Initalize()", "Initialize");
     
     (*staticCallback)();
 }
-
-//void VCInteropRegisterUpdateHandler(noArgCallback* callback)
-//{
-//    staticCallback = callback;
-//    
-//    std::cout << "Test calling Callback" << std::endl;
-//    (*staticCallback)();
-//}

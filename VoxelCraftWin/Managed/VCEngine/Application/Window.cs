@@ -121,9 +121,11 @@ namespace VCEngine
         #region Console Commands
 
         [ConsoleFunction("Boolean flag for V-Sync", "Rendering")]
-        public static void VSync(String[] args)
+        public static String VSync(String[] args)
         {
             VCInteropWindowVSync(Boolean.Parse(args[1]) ? 1 : 0);
+
+            return "";
         }
 
         #endregion

@@ -31,6 +31,7 @@
     <ClCompile Include="VCGLTypes.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
+    <ClCompile Include="VCLog.cpp" />
     <ClCompile Include="VCMaterial.cpp" />
     <ClCompile Include="VCMesh.cpp" />
     <ClCompile Include="VCModel.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="VCImageInstance.h" />
     <ClInclude Include="VCIRenderable.h" />
     <ClInclude Include="VCLineDrawer.h" />
+    <ClInclude Include="VCLog.h" />
     <ClInclude Include="VCMacros.h" />
     <ClInclude Include="PathUtil.h" />
     <ClInclude Include="resource.h" />

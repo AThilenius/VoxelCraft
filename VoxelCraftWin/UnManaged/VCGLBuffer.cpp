@@ -22,7 +22,7 @@ VCGLBuffer::VCGLBuffer(void):
 	
 	m_VBOSpec = new VCGLVertexBufferAttributeSpec();
 
-	std::cout << "VAO Created" << std::endl;
+	VCLog::Info("VAO Created", "Resources");
 }
 
 
@@ -43,7 +43,7 @@ VCGLBuffer::~VCGLBuffer(void)
 	if ( m_VIB ) 
 		glDeleteBuffers(1, &m_VIB);
 
-	std::cout << "VAO Released" << std::endl;
+	VCLog::Info("VAO Released", "Resources");
 }
 
 void VCGLBuffer::Bind()

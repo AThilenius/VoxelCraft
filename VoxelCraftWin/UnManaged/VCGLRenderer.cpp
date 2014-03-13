@@ -51,7 +51,7 @@ void VCGLRenderer::Initialize()
 	CreateDepthFrameBuffer();
 
     glErrorCheck();
-    std::cout << "VCGLRenderer Initialized" << std::endl;
+	VCLog::Info("VCGLRenderer Initialized", "Initialize");
 }
 
 void VCGLRenderer::Render(int fromBatch, int toBatch)
@@ -141,7 +141,7 @@ void VCGLRenderer::CreateDepthFrameBuffer()
 	// Always check that our framebuffer is ok
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		std::cout << "Failed to initialize GL Depth frame buffer! Using fall-back." << std::endl;
+		VCLog::Info("Failed to initialize GL Depth frame buffer! Using fall-back.", "Initialize");
 		ShadowFallback = true;
 	}
 

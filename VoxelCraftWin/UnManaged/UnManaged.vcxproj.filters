@@ -253,7 +253,6 @@
     <ClCompile Include="VCPxRigidStatic.cpp">
       <Filter>Physics\PhysX</Filter>
     </ClCompile>
-    <ClCompile Include="VCFloatX.cpp" />
     <ClCompile Include="VCPxRigidDynamic.cpp">
       <Filter>Physics\PhysX</Filter>
     </ClCompile>
@@ -274,6 +273,12 @@
     </ClCompile>
     <ClCompile Include="VCGLTypes.cpp">
       <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VCLog.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VCFloatX.cpp">
+      <Filter>Utils\VCTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,7 +474,6 @@
     <ClInclude Include="VCPxRigidStatic.h">
       <Filter>Physics\PhysX</Filter>
     </ClInclude>
-    <ClInclude Include="VCFloatX.h" />
     <ClInclude Include="VCPxRigidDynamic.h">
       <Filter>Physics\PhysX</Filter>
     </ClInclude>
@@ -490,6 +494,12 @@
     </ClInclude>
     <ClInclude Include="VCGLTypes.h">
       <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCLog.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VCFloatX.h">
+      <Filter>Utils\VCTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

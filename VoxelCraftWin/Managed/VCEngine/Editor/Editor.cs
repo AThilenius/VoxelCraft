@@ -49,7 +49,6 @@ namespace VCEngine
 
             PxPhysics.Initialize();
 
-            //Shader.LoadAllShaders();
 
             VCInteropInitalizeLexEngine();
             VCInteropInitalizeGui();
@@ -125,9 +124,11 @@ namespace VCEngine
         #region Console Commands
 
         [ConsoleFunction("Boolean flag for redraw throttling", "Rendering")]
-        public static void ThrottleRedraw(String[] args)
+        public static String ThrottleRedraw(String[] args)
         {
             ThrotteledUpdate = Boolean.Parse(args[1]);
+
+            return "";
         }
 
         #endregion
