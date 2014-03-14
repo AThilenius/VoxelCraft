@@ -31,7 +31,7 @@ namespace VCEngine
         private static System.ConsoleColor m_warningColor = ConsoleColor.Yellow;
         private static System.ConsoleColor m_errorColor = ConsoleColor.Red;
 
-        private static bool m_printAllToConsole = false;
+        private static bool m_printAllToConsole = true;
         private static List<LogEntry> m_logEntries = new List<LogEntry>();
         private static Dictionary<String, List<LogEntry>> m_logEntriesByCategory = new Dictionary<String, List<LogEntry>>();
         private static HashSet<String> m_activeCatagories = new HashSet<String>();

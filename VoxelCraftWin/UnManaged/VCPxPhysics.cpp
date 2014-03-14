@@ -57,7 +57,7 @@ void VCPxPhysics::Initialize()
 	}
 
 	else
-		VC_WARN("Failed to create a Px Cuda Context, defaulting to CPU dispatching.");
+		VCLog::Warning("Failed to create a Px Cuda Context, defaulting to CPU dispatching.", "Physics");
 
 #endif
 

@@ -35,7 +35,6 @@ public:
 	int Height;
 
 private:
-	VCMonoMethod* SizeChangeFunction;
     friend void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height);
 };
 

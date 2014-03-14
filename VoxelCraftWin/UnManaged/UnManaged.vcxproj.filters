@@ -4,9 +4,6 @@
     <Filter Include="Interop">
       <UniqueIdentifier>{9b453e35-3f82-4f08-b1a7-f09fdd60c4bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering">
-      <UniqueIdentifier>{c44598e0-68ab-477d-8d7c-00542c87cbef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Voxel">
       <UniqueIdentifier>{f829b96c-767c-44a2-a526-ed87b9c6fcf5}</UniqueIdentifier>
     </Filter>
@@ -21,9 +18,6 @@
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{2906427e-bd57-46fd-81b4-d57f91b6c78b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\State">
-      <UniqueIdentifier>{61e4bee6-7293-4e56-a940-58a6fbe89a14}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{928e8ea0-798d-4273-9023-bff7442d1e67}</UniqueIdentifier>
@@ -52,9 +46,6 @@
     <Filter Include="Utils\Events">
       <UniqueIdentifier>{7556fd40-2084-4a53-9a6b-575e960494fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Drawers">
-      <UniqueIdentifier>{40fa63a4-fa4e-4b04-b1b1-9f280870f60b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Voxel\SVO">
       <UniqueIdentifier>{e19d7cb4-7193-4664-909d-772bf9f40364}</UniqueIdentifier>
     </Filter>
@@ -71,8 +62,20 @@
     <Filter Include="ManagedSceneGraph">
       <UniqueIdentifier>{b7001819-4572-4873-8055-17b06c9cfa8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{c44598e0-68ab-477d-8d7c-00542c87cbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\State">
+      <UniqueIdentifier>{61e4bee6-7293-4e56-a940-58a6fbe89a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Drawers">
+      <UniqueIdentifier>{40fa63a4-fa4e-4b04-b1b1-9f280870f60b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Rendering\OpenGL">
       <UniqueIdentifier>{976ada7e-a6eb-4a5f-88b2-b3713bf8a107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Windowing">
+      <UniqueIdentifier>{ad3abc32-8c2f-434e-8da0-d9e55e59789a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

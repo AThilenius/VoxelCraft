@@ -15,6 +15,7 @@ namespace VCEngine
             ConsoleFunctionLoader.AddAssembly(Assembly.GetExecutingAssembly());
             ConsoleFunctionLoader.AsyncListen();
             Editor.EditorMain();
+
         }
 
     }
