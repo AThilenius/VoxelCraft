@@ -14,6 +14,8 @@ namespace VCEngine
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropLogRegisterManagedHooks(LogHandler handler);
+
+        private static LogHandler m_unManagedDelegate;
         
         #endregion
 
@@ -46,7 +48,12 @@ namespace VCEngine
 
         public static void RegisterUnManagedHooks()
         {
-            VCInteropLogRegisterManagedHooks(Log.LogUnManaged);
+            m_unManagedDelegate = Log.LogUnManaged;
+
+            // Pin the handle so the GC doesn't fuck it up.
+            GC.KeepAlive(m_unManagedDelegate);
+
+            VCInteropLogRegisterManagedHooks(m_unManagedDelegate);
         }
 
         public static void AsyncListen()
@@ -54,6 +61,7 @@ namespace VCEngine
             Task.Factory.StartNew(() =>
                 {
 
+                    // Line Loop
                     while (true)
                     {
                         String commandText = Console.ReadLine();

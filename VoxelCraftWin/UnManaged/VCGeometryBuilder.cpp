@@ -167,9 +167,9 @@ void VCGeometryBuilder::Render()
 	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexData(sizeof(GuiRectVerticie) * m_vCount, m_verts);
+		.SetVertexData(sizeof(GuiRectVerticie) * m_vCount, m_verts, m_vCount);
 
-	glDrawArrays(GL_TRIANGLES, 0, m_vCount);
+	m_gpuBuffer->Draw();
 
 	m_vCount = 0;
 }

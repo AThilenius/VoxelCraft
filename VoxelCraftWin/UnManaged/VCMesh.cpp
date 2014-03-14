@@ -35,13 +35,12 @@ void VCMesh::Initialize( VCPuvnVerticie* verts, UInt32* indicies, int vCount, in
 		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Position))
 		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, UV))
 		.SetVertexAttribute(VCShaderAttribute::Normal0,		3, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Normal));
-	m_gpuBuffer->IndexBufferSpecification(sizeof(UInt32) * iCount, indicies);
+	m_gpuBuffer->IndexBufferSpecification(sizeof(UInt32) * iCount, indicies, iCount);
 }
 
 void VCMesh::Render()
 {
 	// Draw this specific mesh (as a parent of a Model)
 	// Possible optimization: Move all children meshes into a single buffer, use [from, to] to draw a part of it.
-	m_gpuBuffer->Bind();
-	glDrawElements(GL_TRIANGLES, IndexCount, GL_UNSIGNED_INT, 0);
+	m_gpuBuffer->Draw();
 }

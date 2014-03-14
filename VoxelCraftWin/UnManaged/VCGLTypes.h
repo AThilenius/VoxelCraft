@@ -34,3 +34,22 @@ struct VCGLDrawModes
 		Dynamic = GL_DYNAMIC_DRAW
 	};
 };
+
+struct VCGLDrawPrimitives
+{
+	enum Types
+	{
+		Points = GL_POINTS, 
+		LineStrip = GL_LINE_STRIP, 
+		LineLoop = GL_LINE_LOOP, 
+		LInes = GL_LINES, 
+		LineStripAdjaceny = GL_LINE_STRIP_ADJACENCY, 
+		LinesAdjacency = GL_LINES_ADJACENCY, 
+		TriangleStrip = GL_TRIANGLE_STRIP, 
+		TriangleFan = GL_TRIANGLE_FAN, 
+		Triangles = GL_TRIANGLES, 
+		TriangleStripAdjacency = GL_TRIANGLE_STRIP_ADJACENCY, 
+		TrianglesAdjacency = GL_TRIANGLES_ADJACENCY,
+		Patches = GL_PATCHES
+	};
+};

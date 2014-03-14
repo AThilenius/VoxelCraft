@@ -24,19 +24,24 @@ public:
 	~VCGLBuffer();
 
 	/// Binds the VAO only.
-	void Bind();
+	void Draw();
 
 	/// Access point for all vertex attribute buffer specification
-	VCGLVertexBufferAttributeSpec& VertexBufferSpecification();
+	VCGLVertexBufferAttributeSpec& VertexBufferSpecification(VCGLDrawPrimitives::Types drawPrimitiveType = VCGLDrawPrimitives::Triangles);
 
 	/// Direct Index buffer setup
-	void IndexBufferSpecification(int size, void* data, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
+	void IndexBufferSpecification(int size, void* data, int count, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
 
 
 private:
 	GLuint m_VAO;
 	GLuint m_VBO;
 	GLuint m_VIB;
+
+	int m_vCount;
+	int m_iCount;
+	VCGLDrawModes::Types m_indexBufferType;
+	VCGLDrawPrimitives::Types m_primitivesType;
 
 	VCGLVertexBufferAttributeSpec* m_VBOSpec;
 	
@@ -54,7 +59,7 @@ public:
 	~VCGLVertexBufferAttributeSpec();
 	
 	/// Malloc / Memcpy to GPU memory
-	VCGLVertexBufferAttributeSpec& SetVertexData(UInt32 size, void* data, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
+	VCGLVertexBufferAttributeSpec& SetVertexData(UInt32 size, void* data, int count, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
 
 	/// Specify a non-integral type attribute ( floating point based )
 	VCGLVertexBufferAttributeSpec& SetVertexAttribute(VCShaderAttribute::AttributeTypes attribType, int count, VCGLPrimitives::Types primitiveType, bool normalize, int strideSize, size_t offset );
@@ -63,7 +68,7 @@ public:
 	VCGLVertexBufferAttributeSpec& SetVertexAttributeI(VCShaderAttribute::AttributeTypes attribType, int count, VCGLPrimitives::Types primitiveType, int strideSize, size_t offset );
 
 private:
-	VCGLVertexBufferAttributeSpec();
+	VCGLVertexBufferAttributeSpec(VCGLBuffer* coupledBuffer);
 
 private:
 	VCGLBuffer* m_coupledBuffer;

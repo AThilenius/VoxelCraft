@@ -98,7 +98,7 @@ namespace VCEngine
         private static void GlfwSizeChangeHandler(int width, int height)
         {
             Editor.ShouldRedraw();
-            ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(0, 0, ScaledSize), To = (new Rectangle(0, 0, width, height) / Gui.Scale) };
+            ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(Position, ScaledSize), To = (new Rectangle(Position, width, height) / Gui.Scale) };
             //TrueSize = new Point(width, height);
             Resize(null, args);
         }

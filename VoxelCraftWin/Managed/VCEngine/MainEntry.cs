@@ -11,7 +11,6 @@ namespace VCEngine
     {
         public static void Main()
         {
-            Console.ForegroundColor = Log.DefaultColor;
             ConsoleFunctionLoader.RegisterUnManagedHooks();
             ConsoleFunctionLoader.AddAssembly(Assembly.GetExecutingAssembly());
             ConsoleFunctionLoader.AsyncListen();

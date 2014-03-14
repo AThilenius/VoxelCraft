@@ -236,9 +236,9 @@ void VCImageInstance::Render()
 	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
 
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer);
+		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer, m_vertexCount);
 
-	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+	m_gpuBuffer->Draw();
 
 	m_vertexCount = 0;
 }

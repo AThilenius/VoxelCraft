@@ -26,11 +26,10 @@ namespace VCEngine
 
     public static class Log
     {
-        public static System.ConsoleColor DefaultColor = ConsoleColor.White;
-        public static System.ConsoleColor InfoColor = ConsoleColor.White;
-        public static System.ConsoleColor WarningColor = ConsoleColor.Yellow;
-        public static System.ConsoleColor ErrorColor = ConsoleColor.Red;
-
+        private static System.ConsoleColor m_defaultColor = ConsoleColor.White;
+        private static System.ConsoleColor m_infoColor = ConsoleColor.White;
+        private static System.ConsoleColor m_warningColor = ConsoleColor.Yellow;
+        private static System.ConsoleColor m_errorColor = ConsoleColor.Red;
 
         private static bool m_printAllToConsole = false;
         private static List<LogEntry> m_logEntries = new List<LogEntry>();
@@ -78,15 +77,15 @@ namespace VCEngine
             switch (entry.Severity)
             {
                 case LogEntry.SeverityRating.Info:
-                    Console.ForegroundColor = InfoColor;
+                    Console.ForegroundColor = m_infoColor;
                     break;
 
                 case LogEntry.SeverityRating.Warning:
-                    Console.ForegroundColor = WarningColor;
+                    Console.ForegroundColor = m_warningColor;
                     break;
 
                 case LogEntry.SeverityRating.Error:
-                    Console.ForegroundColor = ErrorColor;
+                    Console.ForegroundColor = m_errorColor;
                     break;
             }
 
@@ -98,24 +97,24 @@ namespace VCEngine
         [ConsoleFunction("Prints all known log categories.", "Log")]
         public static String Categories(String[] args)
         {
-            Console.ForegroundColor = InfoColor;
+            Console.ForegroundColor = m_infoColor;
 
             foreach (String cat in m_logEntriesByCategory.Keys)
                 Console.WriteLine("  - " + cat);
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 
         [ConsoleFunction("Prints all active categories", "Log")]
         public static String Active(String[] args)
         {
-            Console.ForegroundColor = InfoColor;
+            Console.ForegroundColor = m_infoColor;
 
             foreach (String cat in m_activeCatagories)
                 Console.WriteLine("  -" + cat);
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 
@@ -125,7 +124,7 @@ namespace VCEngine
             for (int i = 0; i < m_logEntries.Count; i++)
                 PrintEntry(m_logEntries[i]);
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 
@@ -139,7 +138,7 @@ namespace VCEngine
                         PrintEntry(m_logEntries[i]);
             }
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 
@@ -150,7 +149,7 @@ namespace VCEngine
                 if (m_activeCatagories.Contains(m_logEntries[i].Catagory))
                     PrintEntry(m_logEntries[i]);
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 
@@ -163,7 +162,7 @@ namespace VCEngine
                 if (!m_activeCatagories.Contains(args[i]))
                     m_activeCatagories.Add(args[i]);
 
-            Console.ForegroundColor = DefaultColor;
+            Console.ForegroundColor = m_defaultColor;
             return "";
         }
 

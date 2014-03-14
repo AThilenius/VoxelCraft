@@ -367,7 +367,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	else
 	{
 		m_glBuffer->VertexBufferSpecification()
-			.SetVertexData(sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0]);
+			.SetVertexData(sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0], m_vertexCount);
 		m_renderStage->ExectionType = VCRenderStage::Always;
 	}
 
@@ -383,16 +383,13 @@ void VCChunk::Render()
 	if ( m_isEmpty )
 		return;
 
-	m_glBuffer->Bind();
 	VCGLShader::BoundShader->SetCamera(m_world->Camera);
 	VCGLShader::BoundShader->SetModelMatrix(glm::translate(
 		(float)m_x * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_y * BLOCK_RENDER_SIZE * CHUNK_WIDTH, 
 		(float)m_z * BLOCK_RENDER_SIZE * CHUNK_WIDTH));
-
-	glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
-
-	glBindVertexArray(0);
+	
+	m_glBuffer->Draw();
 }
 
 // ===== Serialization ======================================================

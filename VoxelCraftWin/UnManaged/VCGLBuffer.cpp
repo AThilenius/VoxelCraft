@@ -13,14 +13,16 @@ VCGLBuffer::VCGLBuffer(void):
 	m_VAO(0),
 	m_VBO(0),
 	m_VIB(0),
-	m_VBOSpec(NULL)
+	m_VBOSpec(NULL),
+	m_vCount(0),
+	m_iCount(0)
 {
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
 	ZERO_CHECK(m_VAO);
 	glErrorCheck();
 	
-	m_VBOSpec = new VCGLVertexBufferAttributeSpec();
+	m_VBOSpec = new VCGLVertexBufferAttributeSpec(this);
 
 	VCLog::Info("VAO Created", "Resources");
 }
@@ -46,14 +48,24 @@ VCGLBuffer::~VCGLBuffer(void)
 	VCLog::Info("VAO Released", "Resources");
 }
 
-void VCGLBuffer::Bind()
+void VCGLBuffer::Draw()
 {
 	glBindVertexArray(m_VAO);
+
+	if ( m_VIB )
+		// Draw Element List
+		glDrawElements(m_primitivesType, m_iCount, m_indexBufferType, 0);
+
+	else
+		// Draw Vertex List
+		glDrawArrays(m_primitivesType, 0, m_vCount);
+
 }
 
-VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification()
+VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification(VCGLDrawPrimitives::Types drawPrimitiveType /*= VCGLDrawPrimitives::Triangles*/ )
 {
 	glBindVertexArray(m_VAO);
+	m_primitivesType = drawPrimitiveType;
 
 	if( !m_VBO )
 	{
@@ -67,9 +79,11 @@ VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification()
 	return *m_VBOSpec;
 }
 
-void VCGLBuffer::IndexBufferSpecification( int size, void* data, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
+void VCGLBuffer::IndexBufferSpecification( int size, void* data, int count, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
 {
 	glBindVertexArray(m_VAO);
+	m_indexBufferType = drawMode;
+	m_iCount = count;
 
 	if( !m_VIB )
 	{
@@ -82,7 +96,8 @@ void VCGLBuffer::IndexBufferSpecification( int size, void* data, VCGLDrawModes::
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawMode);
 }
 
-VCGLVertexBufferAttributeSpec::VCGLVertexBufferAttributeSpec()
+VCGLVertexBufferAttributeSpec::VCGLVertexBufferAttributeSpec(VCGLBuffer* coupledBuffer):
+	m_coupledBuffer(coupledBuffer)
 {
 }
 
@@ -90,9 +105,10 @@ VCGLVertexBufferAttributeSpec::~VCGLVertexBufferAttributeSpec()
 {
 }
 
-VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexData( UInt32 size, void* data, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
+VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexData( UInt32 size, void* data, int count, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
 {
 	glBufferData(GL_ARRAY_BUFFER, size, data, drawMode);
+	m_coupledBuffer->m_vCount = count;
 	return *this;
 }
 
