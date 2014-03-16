@@ -91,8 +91,8 @@ namespace VCEngine
 
         static Gui()
         {
-            Scale = Window.MonitorSize.X > 1920 ? 1.5f : 1.0f;
-            Window.TrueSize = Window.TrueSize * Scale;
+            Scale = Editor.MainWindow.MonitorSize.X > 1920 ? 1.5f : 1.0f;
+            Editor.MainWindow.TrueSize = Editor.MainWindow.TrueSize * Scale;
         }
 
         #region Drawing
@@ -193,10 +193,10 @@ namespace VCEngine
 
         public static void DrawNormalizedRectangle(RectangleF rect, Color color)
         {
-            int x = (int) Math.Round(Window.ScaledSize.X * rect.X);
-            int y = (int) Math.Round(Window.ScaledSize.Y * rect.Y);
-            int width = (int) Math.Round(Window.ScaledSize.X * rect.Width);
-            int height = (int) Math.Round(Window.ScaledSize.Y * rect.Height);
+            int x = (int)Math.Round(Editor.MainWindow.ScaledSize.X * rect.X);
+            int y = (int)Math.Round(Editor.MainWindow.ScaledSize.Y * rect.Y);
+            int width = (int)Math.Round(Editor.MainWindow.ScaledSize.X * rect.Width);
+            int height = (int)Math.Round(Editor.MainWindow.ScaledSize.Y * rect.Height);
 
             DrawRectangle(new Rectangle(x, y, width, height), color);
         }

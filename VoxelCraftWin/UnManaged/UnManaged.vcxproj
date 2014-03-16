@@ -29,6 +29,7 @@
     <ClCompile Include="VCGLFrameBuffer.cpp" />
     <ClCompile Include="VCGLBuffer.cpp" />
     <ClCompile Include="VCGLTypes.cpp" />
+    <ClCompile Include="VCGLWindow.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
     <ClCompile Include="VCImageInstance.cpp" />
     <ClCompile Include="VCLog.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="VCGLFrameBuffer.h" />
     <ClInclude Include="VCGLBuffer.h" />
     <ClInclude Include="VCGLTypes.h" />
+    <ClInclude Include="VCGLWindow.h" />
     <ClInclude Include="VCGLXByteX.h" />
     <ClInclude Include="VCGLXShortX.h" />
     <ClInclude Include="VCImageBuilder.h" />

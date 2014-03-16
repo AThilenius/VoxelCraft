@@ -19,7 +19,7 @@ namespace VCEngine
             // Directory view
             FoldersTreeView = new TreeView();
             AddControl(FoldersTreeView);
-            FoldersTreeView.Frame = new Rectangle(0, 0, 250, Window.ScaledSize.Y - 75);
+            FoldersTreeView.Frame = new Rectangle(0, 0, 250, Editor.MainWindow.ScaledSize.Y - 75);
             FoldersTreeView.Head.OnItemClicked += (sender, args) =>
                 {
                     TreeNode node = (TreeNode) sender;
@@ -35,7 +35,7 @@ namespace VCEngine
 
             TileViewer = new DirectoryImageGrid();
             AddControl(TileViewer);
-            TileViewer.Frame = new Rectangle(250, 0, Window.ScaledSize.X - 250, Window.ScaledSize.Y - 75);
+            TileViewer.Frame = new Rectangle(250, 0, Editor.MainWindow.ScaledSize.X - 250, Editor.MainWindow.ScaledSize.Y - 75);
 
             Resize += (s, a) => ResizeHandler();
             ResizeHandler();

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCObjectStore.h"
 #include "VCInput.h"
 #include "VCGLRenderer.h"
@@ -24,7 +24,6 @@ public:
     virtual void ShutDown();
 
 public:
-    VCWindow* Window;
     VCInput* Input;
 	VCGLRenderer* Renderer;
     VCObjectStore* ObjectStore;

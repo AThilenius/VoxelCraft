@@ -12,7 +12,7 @@
 #include "VCLexicalEngine.h"
 #include "VCRenderStage.h"
 #include "VCGLShader.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCGui.h"
 #include "VCResourceManager.h"
 #include "VCGLBuffer.h"
@@ -71,7 +71,7 @@ void VCTextBuffer::Render()
 		return;
 
 	// Scaling is handed in managed code for text, skip ViewProj and just use MVP
-	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width, 0, VCWindow::Instance->Height, -100000, -1));
+	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCGLWindow::ActiveWindow->Width, 0, VCGLWindow::ActiveWindow->Height, -100000, -1));
 
 	m_glBuffer->VertexBufferSpecification()
 		.SetVertexData(sizeof(GlyphVerticie) * m_vCount, m_verts, m_vCount);

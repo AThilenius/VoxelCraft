@@ -16,7 +16,7 @@ namespace VCEngine
         {
             // Main Control
             Control.MainControl = new Control();
-            Control.MainControl.ScreenFrame = new Rectangle(0, 0, Window.ScaledSize);
+            Control.MainControl.ScreenFrame = new Rectangle(0, 0, Editor.MainWindow.ScaledSize);
             Control.MainControl.SetFirstResponder();
 
             // Create Header, dock it to main control top, set height 75
@@ -30,7 +30,7 @@ namespace VCEngine
             // Create Spinner, pre-size it to fill
             MainSpinner = new VerticalControlSpinner();
             Control.MainControl.AddControl(MainSpinner);
-            MainSpinner.Frame = new Rectangle(0, 0, Window.ScaledSize.X, Window.ScaledSize.Y - 75);
+            MainSpinner.Frame = new Rectangle(0, 0, Editor.MainWindow.ScaledSize.X, Editor.MainWindow.ScaledSize.Y - 75);
 
             // Create VoxelEditor, child it to spinner, fill controls
             VoxelEditor = new VCEngine.VoxelEditor();

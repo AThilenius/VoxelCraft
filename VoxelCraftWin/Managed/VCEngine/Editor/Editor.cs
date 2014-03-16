@@ -33,6 +33,8 @@ namespace VCEngine
 
         #endregion
 
+        public static Window MainWindow;
+
         public static Boolean ThrotteledUpdate = true;
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
@@ -42,10 +44,16 @@ namespace VCEngine
         public static void EditorMain()
         {
             PathUtilities.UpdatePathUtilities();
+
             VCInteropInitalizeWindow();
             VCInteropInitalizeObjectStore();
+
+            MainWindow = new Window(1280, 600, "VC Engine Core - Thilenius - Alpha");
+            MainWindow.Activate();
+
             VCInteropInitalizeInput();
             VCInteropInitalizeRenderer();
+
 
             PxPhysics.Initialize();
 
@@ -63,7 +71,7 @@ namespace VCEngine
             VCEngineCore.Start();
             m_cpuTimeTimer.Start();
 
-            while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
+            while (!MainWindow.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
             {
                 Window.PollEvents();
 
@@ -102,7 +110,7 @@ namespace VCEngine
                 LastCPUTime = m_cpuTimeTimer.Elapsed;
                 m_cpuTimeTimer.Reset();
 
-                Window.SwapBuffers();
+                MainWindow.SwapBuffers();
 
                 if (ThrotteledUpdate)
                     m_cpuTimeTimer.Start();

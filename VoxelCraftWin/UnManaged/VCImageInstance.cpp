@@ -11,7 +11,7 @@
 #include "VCRenderStage.h"
 #include "VCGLRenderer.h"
 #include "VCGLShader.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCGui.h"
 #include "VCResourceManager.h"
 #include "VCGLBuffer.h"
@@ -233,7 +233,7 @@ void VCImageInstance::Render()
 	if (m_vertexCount == 0)
 		return;
 
-	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCWindow::Instance->Width * VCGui::InverseScale, 0, VCWindow::Instance->Height * VCGui::InverseScale, -100000, -1));
+	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCGLWindow::ActiveWindow->Width * VCGui::InverseScale, 0, VCGLWindow::ActiveWindow->Height * VCGui::InverseScale, -100000, -1));
 
 	m_gpuBuffer->VertexBufferSpecification()
 		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer, m_vertexCount);

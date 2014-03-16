@@ -30,8 +30,8 @@ VCApplication* g_headApp = 0;
 void VCInteropInitalizeWindow()
 {
 	VCApplication::Instance = new VCApplication();
-	VCApplication::Instance->Window = new VCWindow();
-	VCApplication::Instance->Window->Initalize();
+	//VCApplication::Instance->Window = new VCWindow();
+	//VCApplication::Instance->Window->Initalize();
 }
 
 void VCInteropInitalizeObjectStore()

@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "VCRenderStage.h"
 #include "VCGLTexture.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCRenderStage.h"
 #include "VCCamera.h"
 
@@ -71,7 +71,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 
 		// Viewport
 		if (toState->Camera == NULL)
-			glViewport(VCWindow::Instance->FullViewport.X, VCWindow::Instance->FullViewport.Y, VCWindow::Instance->FullViewport.Width, VCWindow::Instance->FullViewport.Height);
+			glViewport(VCGLWindow::ActiveWindow->FullViewport.X, VCGLWindow::ActiveWindow->FullViewport.Y, VCGLWindow::ActiveWindow->FullViewport.Width, VCGLWindow::ActiveWindow->FullViewport.Height);
 
 		else
 			glViewport(toState->Camera->Viewport.X, toState->Camera->Viewport.Y, toState->Camera->Viewport.Width, toState->Camera->Viewport.Height);
@@ -111,10 +111,10 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 
 		// Viewport
 		static VCRectangle lastViewport;
-		if (toState->Camera == NULL && lastViewport != VCWindow::Instance->FullViewport)
+		if (toState->Camera == NULL && lastViewport != VCGLWindow::ActiveWindow->FullViewport)
 		{
-			lastViewport = VCWindow::Instance->FullViewport;
-			glViewport(VCWindow::Instance->FullViewport.X, VCWindow::Instance->FullViewport.Y, VCWindow::Instance->FullViewport.Width, VCWindow::Instance->FullViewport.Height);
+			lastViewport = VCGLWindow::ActiveWindow->FullViewport;
+			glViewport(VCGLWindow::ActiveWindow->FullViewport.X, VCGLWindow::ActiveWindow->FullViewport.Y, VCGLWindow::ActiveWindow->FullViewport.Width, VCGLWindow::ActiveWindow->FullViewport.Height);
 		}
 
 		else if (toState->Camera->Viewport != lastViewport)

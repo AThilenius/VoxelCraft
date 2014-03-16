@@ -283,6 +283,9 @@
     <ClCompile Include="VCFloatX.cpp">
       <Filter>Utils\VCTypes</Filter>
     </ClCompile>
+    <ClCompile Include="VCGLWindow.cpp">
+      <Filter>Rendering\Windowing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -503,6 +506,9 @@
     </ClInclude>
     <ClInclude Include="VCFloatX.h">
       <Filter>Utils\VCTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLWindow.h">
+      <Filter>Rendering\Windowing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

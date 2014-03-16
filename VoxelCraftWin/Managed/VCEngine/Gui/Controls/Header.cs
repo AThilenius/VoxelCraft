@@ -44,7 +44,7 @@ namespace VCEngine
 
         void Header_Draging(object sender, MouseEventArgs e)
         {
-            Window.Position = Window.Position + (GlfwInputState.InvertedMouseLocation - m_delta);
+            Editor.MainWindow.Position = Editor.MainWindow.Position + (GlfwInputState.InvertedMouseLocation - m_delta);
             GlfwInputState.InvertedMouseLocation = m_delta;
         }
 
@@ -55,7 +55,7 @@ namespace VCEngine
             Gui.DrawImage(@"Icons\RoundButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
             Gui.DrawImage(@"Icons\Play.DDS", new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
 
-            HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
+            HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(Editor.MainWindow.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
             PagesPicker.Location = new Point(Frame.Width - 400, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(PagesPicker.Height, 2));
 
             if (PanelsButtons != null)

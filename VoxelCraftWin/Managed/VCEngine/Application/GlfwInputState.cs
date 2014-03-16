@@ -64,12 +64,12 @@ namespace VCEngine
                 // Overwrite previous to avoid stale spinning
                 PreviouseMouseLocation = value;
                 m_currentMousePosition = value;
-                VCInteropInputSetMouse((int) Math.Round(value.X * Gui.Scale), (int) Math.Round((Window.ScaledSize.Y - value.Y) * Gui.Scale));
+                VCInteropInputSetMouse((int)Math.Round(value.X * Gui.Scale), (int)Math.Round((Editor.MainWindow.ScaledSize.Y - value.Y) * Gui.Scale));
             }
         }
         public static Point InvertedMouseLocation
         {
-            get { return new Point(m_currentMousePosition.X, Window.ScaledSize.Y - m_currentMousePosition.Y); }
+            get { return new Point(m_currentMousePosition.X, Editor.MainWindow.ScaledSize.Y - m_currentMousePosition.Y); }
             set
             {
                 // Overwrite previous to avoid stale spinning
@@ -147,7 +147,7 @@ namespace VCEngine
             y /= Gui.Scale;
 
             PreviouseMouseLocation = m_currentMousePosition;
-            m_currentMousePosition = new Point((int)x, Window.ScaledSize.Y - (int)y);
+            m_currentMousePosition = new Point((int)x, Editor.MainWindow.ScaledSize.Y - (int)y);
             DeltaMouseLocation = new Point(-(PreviouseMouseLocation.X - m_currentMousePosition.X), -(PreviouseMouseLocation.Y - m_currentMousePosition.Y));
             OnMouseMove(null, EventArgs.Empty  );
         }

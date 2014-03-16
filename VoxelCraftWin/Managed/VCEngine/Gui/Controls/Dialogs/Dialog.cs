@@ -17,7 +17,7 @@ namespace VCEngine
         {
             Visible = false;
             Layer = 1;
-            Frame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - 200, Window.ScaledSize.Y - 80, 400, 300);
+            Frame = new Rectangle(MathHelper.RoundedDevision(Editor.MainWindow.ScaledSize.X, 2) - 200, Editor.MainWindow.ScaledSize.Y - 80, 400, 300);
         }
 
         public virtual void Display()
@@ -26,13 +26,13 @@ namespace VCEngine
             m_isAnimating = true;
             m_isDownward = true;
             Visible = true;
-            Frame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - MathHelper.RoundedDevision(Width, 2), Window.ScaledSize.Y - 80, Width, Height);
+            Frame = new Rectangle(MathHelper.RoundedDevision(Editor.MainWindow.ScaledSize.X, 2) - MathHelper.RoundedDevision(Width, 2), Editor.MainWindow.ScaledSize.Y - 80, Width, Height);
             Editor.ShouldRedraw(AnimationTime);
         }
 
         public virtual void SetSize(Point size)
         {
-            Frame = new Rectangle(MathHelper.RoundedDevision(Window.ScaledSize.X, 2) - MathHelper.RoundedDevision(size.X, 2), Window.ScaledSize.Y - 75, size.X, size.Y);
+            Frame = new Rectangle(MathHelper.RoundedDevision(Editor.MainWindow.ScaledSize.X, 2) - MathHelper.RoundedDevision(size.X, 2), Editor.MainWindow.ScaledSize.Y - 75, size.X, size.Y);
         }
 
         protected virtual void Hide()
@@ -48,8 +48,8 @@ namespace VCEngine
             if (m_isAnimating)
             {
                 Rectangle sf = ScreenFrame;
-                Point start = new Point(sf.X, Window.ScaledSize.Y - 75);
-                Point to = new Point(sf.X, Window.ScaledSize.Y - (75 + Height));
+                Point start = new Point(sf.X, Editor.MainWindow.ScaledSize.Y - 75);
+                Point to = new Point(sf.X, Editor.MainWindow.ScaledSize.Y - (75 + Height));
 
                 if (m_remainingAnimatioinTime <= 0.0)
                 {

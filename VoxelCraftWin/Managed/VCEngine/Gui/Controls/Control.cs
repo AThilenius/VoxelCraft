@@ -494,9 +494,9 @@ namespace VCEngine
 
         internal void SetFirstResponder()
         {
-            Window.Resize += (sender, args) =>
+            Editor.MainWindow.Resize += (sender, args) =>
                 {
-                    MainControl.Frame = new Rectangle(0, 0, Window.ScaledSize);
+                    MainControl.Frame = new Rectangle(0, 0, Editor.MainWindow.ScaledSize);
                 };
 
             GlfwInputState.OnKey += (sender, args) =>

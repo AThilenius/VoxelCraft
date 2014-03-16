@@ -18,7 +18,6 @@ namespace VCEngine
             AppDomain.CurrentDomain.UnhandledException += (obj, e) => Console.WriteLine(e.ExceptionObject.ToString());
 
             SceneGraph.RootNode = new GameObject();
-            Window.Initialize();
 
             if (!EditorMode)
                 AssemblyLoader.UseAssembly(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TestGame.dll");

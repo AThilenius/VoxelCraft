@@ -57,7 +57,7 @@ namespace VCEngine
         }
         public float AspectRatio
         {
-            get { return Fullscreen ? (float)Window.TrueSize.X / (float)Window.TrueSize.Y : m_aspectRatio; }
+            get { return Fullscreen ? (float)Editor.MainWindow.TrueSize.X / (float)Editor.MainWindow.TrueSize.Y : m_aspectRatio; }
             set
             {
                 if (m_autoAspect)
@@ -90,7 +90,7 @@ namespace VCEngine
         }
         public Rectangle Viewport
         {
-            get { return Fullscreen ? Window.FullViewport : m_viewport; }
+            get { return Fullscreen ? Editor.MainWindow.FullViewport : m_viewport; }
             set
             {
                 m_viewport = value;
@@ -133,8 +133,8 @@ namespace VCEngine
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)
         {
-	        Rectangle screenBounds = Window.FullViewport;
-            Rectangle viewPort = Fullscreen ? Window.FullViewport : Viewport;
+            Rectangle screenBounds = Editor.MainWindow.FullViewport;
+            Rectangle viewPort = Fullscreen ? Editor.MainWindow.FullViewport : Viewport;
 
 	        Vector2 ll = new Vector2 (viewPort.X, viewPort.Y);
 	        Vector2 ur = new Vector2 (viewPort.X + viewPort.Width, viewPort.Y + viewPort.Height);
@@ -166,10 +166,10 @@ namespace VCEngine
             Transform.PreRender();
 
             // FullScreen and window resized
-            if (Fullscreen && m_viewport != Window.FullViewport)
+            if (Fullscreen && m_viewport != Editor.MainWindow.FullViewport)
             {
                 m_needsRebuild = true;
-                m_viewport = Window.FullViewport;
+                m_viewport = Editor.MainWindow.FullViewport;
             }
 
             // Compute Projection Matrix, update status

@@ -8,28 +8,28 @@ namespace VCEngine
     public class Game
     {
 
-        public static void GameMain()
-        {
-            VCEngineCore.Initialize();
+        //public static void GameMain()
+        //{
+        //    VCEngineCore.Initialize();
 
-            // Load world here...
+        //    // Load world here...
 
-            VCEngineCore.Start();
+        //    VCEngineCore.Start();
 
-            while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
-            {
-                // Mono
-                VCEngineCore.Update();
-                VCEngineCore.LateUpdate();
-                VCEngineCore.PreRender();
+        //    while (!Window.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
+        //    {
+        //        // Mono
+        //        VCEngineCore.Update();
+        //        VCEngineCore.LateUpdate();
+        //        VCEngineCore.PreRender();
 
-                // Rendering
-                GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
+        //        // Rendering
+        //        GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
 
-                // Windowing
-                Window.SwapBuffers();
-            }
-        }
+        //        // Windowing
+        //        Window.SwapBuffers();
+        //    }
+        //}
 
     }
 }

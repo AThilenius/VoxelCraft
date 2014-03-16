@@ -13,7 +13,7 @@
 #include "VCRenderStage.h"
 #include "VCCamera.h"
 #include "VCGui.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCResourceManager.h"
 #include "VCGLBuffer.h"
 

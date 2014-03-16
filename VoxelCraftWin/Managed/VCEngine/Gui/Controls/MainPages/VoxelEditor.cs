@@ -27,11 +27,11 @@ namespace VCEngine
                 };
             PanelsTrippleButton.RightButton.OnDepressed += (s, a) => 
                 {
-                    RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X - 250, 0));
+                    RightContextMenu.AnimateLocation(new Point(Editor.MainWindow.ScaledSize.X - 250, 0));
                 };
             PanelsTrippleButton.RightButton.OnRelease += (s, a) =>
                 {
-                    RightContextMenu.AnimateLocation(new Point(Window.ScaledSize.X, 0));
+                    RightContextMenu.AnimateLocation(new Point(Editor.MainWindow.ScaledSize.X, 0));
                 };
 
             // Default page
@@ -87,7 +87,7 @@ namespace VCEngine
             else
                 RightContextMenu.Location = new Point(Width, 0);
 
-            EditorWindow.Frame = new Rectangle(0, ScreenFrame.Y, Window.ScaledSize.X, Window.ScaledSize.Y - 75);
+            EditorWindow.Frame = new Rectangle(0, ScreenFrame.Y, Editor.MainWindow.ScaledSize.X, Editor.MainWindow.ScaledSize.Y - 75);
         }
 
         private void CreateEditorWindow()
@@ -96,7 +96,7 @@ namespace VCEngine
             EditorWindow = new GameWindow(2);
             AddControl(EditorWindow);
             EditorWorld.MasterGameWindow = EditorWindow;
-            EditorWindow.Frame = new Rectangle(0, 0, Window.ScaledSize.X, Window.ScaledSize.Y - 75);
+            EditorWindow.Frame = new Rectangle(0, 0, Editor.MainWindow.ScaledSize.X, Editor.MainWindow.ScaledSize.Y - 75);
         }
 
     }

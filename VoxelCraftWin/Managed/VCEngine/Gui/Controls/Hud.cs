@@ -41,8 +41,8 @@ namespace VCEngine
             DrawText("           Frame Time: [ " + (int)Math.Round((float)Editor.LastCPUTime.TotalSeconds * 1000.0f) + " ms ]", sf);
 
             m_yOffset = 35;
-            DrawText("           Resolution: " + Window.TrueSize, sf, 220);
-            DrawText("Gui Scaled Resolution: " + Window.ScaledSize, sf, 220);
+            DrawText("           Resolution: " + Editor.MainWindow.TrueSize, sf, 220);
+            DrawText("Gui Scaled Resolution: " + Editor.MainWindow.ScaledSize, sf, 220);
             DrawText("                Mouse: " + GlfwInputState.MouseLocation, sf, 220);
         }
 

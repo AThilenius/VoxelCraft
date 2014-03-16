@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "VCInput.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 
 
 GlfwKeyCallback GlfwKeyCallbackDelegate = 0;
@@ -64,16 +64,16 @@ void VCInput::Initalize()
 
 void VCInteropInputSetMouse(float x, float y)
 {
-	glfwSetCursorPos(VCWindow::Instance->GLFWWindowHandle, x, y);
+	glfwSetCursorPos(VCGLWindow::ActiveWindow->GLFWWindow, x, y);
 }
 
 void VCInteropInputSetCursorVisible(bool val)
 {
-	if (val)
-		glfwSetInputMode(VCWindow::Instance->GLFWWindowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	//if (val)
+	//	glfwSetInputMode(VCGLWindow::ActiveWindow->GLFWWindowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-	else
-		glfwSetInputMode(VCWindow::Instance->GLFWWindowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	//else
+	//	glfwSetInputMode(VCGLWindow::ActiveWindow->GLFWWindowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }
 
 DLL_EXPORT_API void VCInteropInputSetCallbacks( GlfwKeyCallback keyCallback, 
@@ -83,23 +83,23 @@ DLL_EXPORT_API void VCInteropInputSetCallbacks( GlfwKeyCallback keyCallback,
 											   GlfwMouseEnterCallback mouseEnterCallback, 
 											   GlfwMouseScrollCallback mouseScrollCallback )
 {
-	GlfwKeyCallbackDelegate = keyCallback;
-	GlfwCharCallbackDelegate = charCallback;
-	GlfwMouseMoveCallbackDelegate = mouseMoveCallback;
-	GlfwMouseClickCallbackDelegate = mouseClickCallback;
-	GlfwMouseEnterCallbackDelegate = mouseEnterCallback;
-	GlfwMouseScrollCallbackDelegate = mouseScrollCallback;
+	//GlfwKeyCallbackDelegate = keyCallback;
+	//GlfwCharCallbackDelegate = charCallback;
+	//GlfwMouseMoveCallbackDelegate = mouseMoveCallback;
+	//GlfwMouseClickCallbackDelegate = mouseClickCallback;
+	//GlfwMouseEnterCallbackDelegate = mouseEnterCallback;
+	//GlfwMouseScrollCallbackDelegate = mouseScrollCallback;
 
 
-	glfwSetScrollCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseScrollCallback);
-	glfwSetCursorEnterCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseEnterCallback);
-	glfwSetMouseButtonCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseClickCallback);
-	glfwSetCursorPosCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwMouseMoveCallback);
-	glfwSetCharCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwCharCallback);
-	glfwSetKeyCallback(VCWindow::Instance->GLFWWindowHandle, &_GlfwKeyCallback);
+	//glfwSetScrollCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwMouseScrollCallback);
+	//glfwSetCursorEnterCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwMouseEnterCallback);
+	//glfwSetMouseButtonCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwMouseClickCallback);
+	//glfwSetCursorPosCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwMouseMoveCallback);
+	//glfwSetCharCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwCharCallback);
+	//glfwSetKeyCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, &_GlfwKeyCallback);
 
-	// Set initial mouse position
-	double x, y;
-	glfwGetCursorPos(VCWindow::Instance->GLFWWindowHandle, &x, &y);
-	_GlfwMouseMoveCallback(VCWindow::Instance->GLFWWindowHandle, x, y);
+	//// Set initial mouse position
+	//double x, y;
+	//glfwGetCursorPos(VCGLWindow::ActiveWindow->GLFWWindowHandle, &x, &y);
+	//_GlfwMouseMoveCallback(VCGLWindow::ActiveWindow->GLFWWindowHandle, x, y);
 }

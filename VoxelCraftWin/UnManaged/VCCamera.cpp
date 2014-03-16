@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "VCCamera.h"
 
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCObjectStore.h"
 
 

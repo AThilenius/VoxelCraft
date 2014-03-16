@@ -10,7 +10,7 @@
 #include "VCGLRenderer.h"
 #include "VCGLShader.h"
 #include "VCLexicalEngine.h"
-#include "VCWindow.h"
+#include "VCGLWindow.h"
 #include "VCGLTexture.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
