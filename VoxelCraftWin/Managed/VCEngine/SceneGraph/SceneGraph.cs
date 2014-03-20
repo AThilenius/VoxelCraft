@@ -7,6 +7,6 @@ namespace VCEngine
 {
     public static class SceneGraph
     {
-        public static GameObject RootNode;
+        public static GameObject RootNode = new GameObject();
     }
 }

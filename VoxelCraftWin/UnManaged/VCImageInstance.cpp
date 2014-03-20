@@ -236,7 +236,7 @@ void VCImageInstance::Render()
 	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCGLWindow::ActiveWindow->Width * VCGui::InverseScale, 0, VCGLWindow::ActiveWindow->Height * VCGui::InverseScale, -100000, -1));
 
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer, m_vertexCount);
+		.SetVertexData(sizeof(VCTextureVerticie) * m_vertexCount, m_vertBuffer, m_vertexCount, VCGLDrawModes::Stream);
 
 	m_gpuBuffer->Draw();
 

@@ -74,7 +74,7 @@ void VCTextBuffer::Render()
 	VCGLShader::BoundShader->SetModelMatrix(glm::ortho<float>(0, VCGLWindow::ActiveWindow->Width, 0, VCGLWindow::ActiveWindow->Height, -100000, -1));
 
 	m_glBuffer->VertexBufferSpecification()
-		.SetVertexData(sizeof(GlyphVerticie) * m_vCount, m_verts, m_vCount);
+		.SetVertexData(sizeof(GlyphVerticie) * m_vCount, m_verts, m_vCount, VCGLDrawModes::Stream);
 
 	m_glBuffer->Draw();
 

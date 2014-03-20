@@ -186,6 +186,7 @@ namespace VCEngine
 
             else
                 VCInteropCameraSetUpdateState(UnManagedHandle, false);
+
             VCInteropCameraSetUpdateState(UnManagedHandle, true);
             // Set UnManaged code
             VCInteropCameraSetProjectionViewMatrix(UnManagedHandle, m_projectionMatrix, Transform.TransformMatrix);

@@ -11,25 +11,6 @@ namespace VCEngine
 {
     public class Editor
     {
-        #region Bindings
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeWindow();
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeObjectStore();
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeRenderer();
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeLexEngine();
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeGui();
-
-        #endregion
-
         public static EditorGui EditorWindow;
         public static Boolean ThrotteledUpdate = true;
         public static TimeSpan LastCPUTime;
@@ -41,13 +22,7 @@ namespace VCEngine
         {
             PathUtilities.UpdatePathUtilities();
 
-            VCInteropInitalizeWindow();
-            VCInteropInitalizeObjectStore();
-            VCInteropInitalizeLexEngine();
             EditorWindow = new EditorGui(1280, 600, "VC Engine Core - Thilenius - Alpha");
-            VCInteropInitalizeRenderer();
-            VCInteropInitalizeGui();
-            EditorWindow.FinishInitialization();
 
 
             PxPhysics.Initialize();

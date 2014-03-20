@@ -15,7 +15,8 @@
 
 VCCamera* VCCamera::BoundCamera;
 
-VCCamera::VCCamera(void)
+VCCamera::VCCamera(void)//:
+	//Viewport(VCRectangle(0, 0, 100, 100))
 {
     VCObjectStore::Instance->UpdatePointer(Handle, this);
 	LightInverseDirection = glm::normalize(glm::vec3(2, 1, 0.5));
@@ -54,7 +55,7 @@ void VCInteropCameraSetViewport( int handle, VCRectangle viewport )
 	obj->Viewport = viewport;
 }
 
-DLL_EXPORT_API void VCInteropCameraSetUpdateState( int handle, bool value )
+void VCInteropCameraSetUpdateState( int handle, bool value )
 {
 	VCCamera* obj = (VCCamera*)VCObjectStore::Instance->GetObject(handle);
 	obj->WasUpdated = value;

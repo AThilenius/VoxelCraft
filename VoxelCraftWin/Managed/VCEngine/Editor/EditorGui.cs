@@ -14,12 +14,6 @@ namespace VCEngine
 
         public EditorGui(int width, int height, String title) : base(width, height, title)
         {
-        }
-
-        public override void FinishInitialization()
-        {
-            base.FinishInitialization();
-
             // Create Header, dock it to main control top, set height 75
             HeaderBar = new Header(this);
             HeaderBar.Layer = 10;

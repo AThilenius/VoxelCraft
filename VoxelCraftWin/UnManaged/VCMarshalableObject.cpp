@@ -13,6 +13,12 @@
 VCMarshalableObject::VCMarshalableObject():
     Handle(-1)
 {
+	if (VCObjectStore::Instance == NULL)
+	{
+		VCObjectStore::Instance = new VCObjectStore();
+		VCObjectStore::Instance->Initalize();
+	}
+
     Handle = VCObjectStore::Instance->RegisterObject(this);
 }
 

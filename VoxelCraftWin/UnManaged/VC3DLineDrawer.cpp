@@ -85,7 +85,7 @@ void VC3DLineDrawer::Render()
 	VCGLShader::BoundShader->SetModelMatrix(VCCamera::BoundCamera->ProjectionViewMatrix);
 
 	m_gpuBuffer->VertexBufferSpecification(VCGLDrawPrimitives::LInes)
-		.SetVertexData(sizeof(LineVerticie) * m_lineVertCount, m_lineVerts, m_lineVertCount);
+		.SetVertexData(sizeof(LineVerticie) * m_lineVertCount, m_lineVerts, m_lineVertCount, VCGLDrawModes::Stream);
 
 	m_gpuBuffer->Draw();
 

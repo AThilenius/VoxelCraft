@@ -31,6 +31,7 @@ namespace VCEngine
         private static System.ConsoleColor m_warningColor = ConsoleColor.Yellow;
         private static System.ConsoleColor m_errorColor = ConsoleColor.Red;
 
+        private static bool m_assertOnError = true;
         private static bool m_printAllToConsole = true;
         private static List<LogEntry> m_logEntries = new List<LogEntry>();
         private static Dictionary<String, List<LogEntry>> m_logEntriesByCategory = new Dictionary<String, List<LogEntry>>();
@@ -86,10 +87,69 @@ namespace VCEngine
 
                 case LogEntry.SeverityRating.Error:
                     Console.ForegroundColor = m_errorColor;
+
+                    if (m_assertOnError && System.Diagnostics.Debugger.IsAttached)
+                        System.Diagnostics.Debugger.Break();
+
                     break;
             }
 
-            Console.WriteLine("| {0,-10} | {1,-60} |", entry.Catagory, entry.Message);
+            // Format the text all nice an beautiful
+            if (entry.Message.Length < 60)
+                Console.WriteLine("| {0,-10} | {1,-60} |", entry.Catagory, entry.Message);
+
+            else
+            {
+                // Manually word wrap it.
+                List<String> wrappedTest = WrapText(entry.Message, 60);
+
+                // Write first line explicitly ( Include the category )
+                Console.WriteLine("| {0,-10} | {1,-60} |", entry.Catagory, wrappedTest[0]);
+
+                for ( int i = 1; i < wrappedTest.Count; i++ )
+                    Console.WriteLine("| {0,-10} | {1,-60} |", "", wrappedTest[i]);
+
+                // Create a bottom self
+                Console.WriteLine("|____________|______________________________________________________________|");
+            }
+
+
+            Console.ForegroundColor = m_defaultColor;
+        }
+
+        private static List<String> WrapText(String text, int width)
+        {
+            String[] splitWords = text.Split(' ');
+            List<String> wrappedLines = new List<String>();
+
+            StringBuilder currentLine = new StringBuilder();
+            int currentWidth = 0;
+
+            foreach (String word in splitWords)
+            {
+                // Needs new line?
+                if (word.Length + currentWidth + 1 > width)
+                {
+                    wrappedLines.Add(currentLine.ToString());
+
+                    // Force add it to the next line in case its too large to even fit the width
+                    currentLine.Clear();
+                    currentWidth = word.Length + 1;
+                    currentLine.Append(word + " ");
+                }
+
+                else
+                {
+                    // Nope, fits on this line
+                    currentLine.Append(word + " ");
+                    currentWidth += word.Length + 1;
+                }
+            }
+
+            // Add the last line to the list
+            wrappedLines.Add(currentLine.ToString());
+
+            return wrappedLines;
         }
 
         #region Console Commands
@@ -153,6 +213,22 @@ namespace VCEngine
             return "";
         }
 
+        [ConsoleFunction("Filters any entries in categories list", "Log")]
+        public static String Filter(String[] args)
+        {
+            m_activeCatagories.Clear();
+
+            foreach (String cat in m_logEntriesByCategory.Keys)
+                m_activeCatagories.Add(cat);
+
+            for (int i = 1; i < args.Length; i++)
+                if (m_activeCatagories.Contains(args[i]))
+                    m_activeCatagories.Remove(args[i]);
+
+            Console.ForegroundColor = m_defaultColor;
+            return "";
+        }
+
         [ConsoleFunction("Filters any entries NOT in categories list", "Log")]
         public static String FilterAllBut(String[] args)
         {
@@ -163,6 +239,25 @@ namespace VCEngine
                     m_activeCatagories.Add(args[i]);
 
             Console.ForegroundColor = m_defaultColor;
+            return "";
+        }
+
+        [ConsoleFunction("Clears all log filters", "Log")]
+        public static String ClearFilter(String[] args)
+        {
+            m_activeCatagories.Clear();
+
+            foreach (String cat in m_logEntriesByCategory.Keys)
+                m_activeCatagories.Add(cat);
+
+            Console.ForegroundColor = m_defaultColor;
+            return "";
+        }
+
+        [ConsoleFunction("Boolean flag - Halt on error", "Log")]
+        public static String HaltOnError(String[] args)
+        {
+            m_assertOnError = Boolean.Parse(args[1]);
             return "";
         }
 

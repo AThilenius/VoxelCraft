@@ -67,7 +67,6 @@
     <ClCompile Include="VCGLTexture.cpp" />
     <ClCompile Include="VCTypeDefs.cpp" />
     <ClCompile Include="VCUtilities.cpp" />
-    <ClCompile Include="VCApplication.cpp" />
     <ClCompile Include="VCBlock.cpp" />
     <ClCompile Include="VCCamera.cpp" />
     <ClCompile Include="VCChunk.cpp" />
@@ -138,7 +137,6 @@
     <ClInclude Include="VCGLTexture.h" />
     <ClInclude Include="VCTypeDefs.h" />
     <ClInclude Include="VCUtilities.h" />
-    <ClInclude Include="VCApplication.h" />
     <ClInclude Include="VCBlock.h" />
     <ClInclude Include="VCCamera.h" />
     <ClInclude Include="VCChunk.h" />

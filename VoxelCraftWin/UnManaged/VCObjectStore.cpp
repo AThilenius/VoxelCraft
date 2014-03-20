@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "VCObjectStore.h"
 
-VCObjectStore* VCObjectStore::Instance;
+VCObjectStore* VCObjectStore::Instance = NULL;
 
 VCObjectStore::VCObjectStore():
 	m_length(1000),

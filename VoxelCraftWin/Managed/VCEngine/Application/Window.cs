@@ -123,10 +123,7 @@ namespace VCEngine
             });
 
             TrueSize = new Point(width, height);
-        }
 
-        public virtual void FinishInitialization()
-        {
             Input = new Input(this);
             GlfwInputState = Input.GlfwInputState;
             GuiDrawer = new Gui(this);

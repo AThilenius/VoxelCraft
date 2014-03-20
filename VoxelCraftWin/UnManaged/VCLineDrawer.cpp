@@ -96,7 +96,7 @@ void VCLineDrawer::Render()
 	//VCGLRenderer::Instance->SetModelMatrix(glm::mat4());
 
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexData(sizeof(LineVerticie) * m_lineVertCount, m_lineVerts, m_lineVertCount);
+		.SetVertexData(sizeof(LineVerticie) * m_lineVertCount, m_lineVerts, m_lineVertCount, VCGLDrawModes::Stream);
 
 	m_gpuBuffer->Draw();
 

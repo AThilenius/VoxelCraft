@@ -10,6 +10,9 @@
 #include "VCGLWindow.h"
 #include "VCObjectStore.h"
 #include "VCGLFWInput.h"
+#include "VCGLRenderer.h"
+#include "VCLexicalEngine.h"
+#include "VCGui.h"
 
 VCGLWindow* VCGLWindow::ActiveWindow = NULL;
 bool VCGLWindow::m_glfwWasInit = false;
@@ -56,7 +59,7 @@ VCGLWindow* VCGLWindow::GetWindowFromGLFW( GLFWwindow* window )
 
 void VCGLWindow::Initialize(int width, int height, std::string title)
 {
-	// GLFW Static Init
+	// =====   GLFW Static Init   ======================================================
 	if (!m_glfwWasInit)
 	{
 		// GLFW
@@ -83,6 +86,7 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
+	// =====   GLFW   ======================================================
 	GLFWWindowHandle = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!GLFWWindowHandle)
 	{
@@ -106,6 +110,7 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 
 	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
+	// =====   GLEW   ======================================================
 	if(!m_glfwWasInit)
 	{
 		// GLEW
@@ -122,7 +127,32 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 
 	m_glfwToVCWindowMap.insert(GlfwToVCWindowMap::value_type(GLFWWindowHandle, this));
 
-	// Lastly, register GLFW input hooks
+
+
+	// =====   Sub-Systems needed   ======================================================
+
+	// Ensure a VCGLRenderer is on-line
+	if ( VCGLRenderer::Instance == NULL )
+	{
+		VCGLRenderer::Instance = new VCGLRenderer();
+		VCGLRenderer::Instance->Initialize();
+	}
+
+	// Ensure a VCLexEngine is on-line
+	if ( VCLexicalEngine::Instance == NULL )
+	{
+		VCLexicalEngine::Instance = new VCLexicalEngine();
+		VCLexicalEngine::Instance->Initialize();
+	}
+
+	// Ensure a VCGui is on-line
+	if ( VCGui::Instance == NULL )
+	{
+		VCGui::Instance = new VCGui();
+		VCGui::Instance->Initialize();
+	}
+
+	// =====   Finally   ======================================================
 	Input = new VCGLFWInput(this);
 
 	VCLog::Info("VCGLWindow Initialized.", "Initialize");

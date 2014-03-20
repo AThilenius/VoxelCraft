@@ -109,9 +109,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="VCApplication.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="VCTime.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -311,9 +308,6 @@
     </ClInclude>
     <ClInclude Include="VCUpdateManager.h">
       <Filter>Interop</Filter>
-    </ClInclude>
-    <ClInclude Include="VCApplication.h">
-      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="PathUtil.h">
       <Filter>Utils</Filter>

@@ -11,7 +11,7 @@
 #include "VCFont.h"
 #include "VCGui.h"
 
-VCLexicalEngine* VCLexicalEngine::Instance;
+VCLexicalEngine* VCLexicalEngine::Instance = NULL;
 
 VCTextMetrics::VCTextMetrics()
 {

@@ -74,7 +74,13 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			glViewport(VCGLWindow::ActiveWindow->FullViewport.X, VCGLWindow::ActiveWindow->FullViewport.Y, VCGLWindow::ActiveWindow->FullViewport.Width, VCGLWindow::ActiveWindow->FullViewport.Height);
 
 		else
+		{
+#ifdef DEBUG
+			if( toState->Camera->Viewport.X < 0 || toState->Camera->Viewport.Y < 0 || toState->Camera->Viewport.Width < 1 || toState->Camera->Viewport.Height < 1 )
+				VCLog::Error("Invalid Viewport!", "Rendering");
+#endif
 			glViewport(toState->Camera->Viewport.X, toState->Camera->Viewport.Y, toState->Camera->Viewport.Width, toState->Camera->Viewport.Height);
+		}
 
 		// Camera
 		VCCamera::BoundCamera = toState->Camera;

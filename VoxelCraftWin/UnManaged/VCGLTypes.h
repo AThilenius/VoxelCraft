@@ -31,7 +31,8 @@ struct VCGLDrawModes
 	enum Types
 	{
 		Static = GL_STATIC_DRAW,
-		Dynamic = GL_DYNAMIC_DRAW
+		Dynamic = GL_DYNAMIC_DRAW,
+		Stream = GL_STREAM_DRAW
 	};
 };
 

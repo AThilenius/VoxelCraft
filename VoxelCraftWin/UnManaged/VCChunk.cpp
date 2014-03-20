@@ -367,7 +367,7 @@ void VCChunk::Rebuild(VCWorldRebuildParams params)
 	else
 	{
 		m_glBuffer->VertexBufferSpecification()
-			.SetVertexData(sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0], m_vertexCount);
+			.SetVertexData(sizeof(BlockVerticie) * m_vertexCount, &m_rebuildVerticies[0], m_vertexCount, VCGLDrawModes::Static);
 		m_renderStage->ExectionType = VCRenderStage::Always;
 	}
 
