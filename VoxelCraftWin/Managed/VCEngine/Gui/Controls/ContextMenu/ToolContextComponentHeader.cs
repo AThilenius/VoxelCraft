@@ -12,17 +12,17 @@ namespace VCEngine
 
         protected ToolContextComponent m_context;
 
-        public ToolContextComponentHeader(ToolContextComponent context, String name)
+        public ToolContextComponentHeader(Window window, ToolContextComponent context, String name) : base(window)
         {
             m_context = context;
 
-            ExpansionButton = new ExpandButton();
+            ExpansionButton = new ExpandButton(ParentWindow);
             AddControl(ExpansionButton);
             ExpansionButton.IsExpanded = true;
             ExpansionButton.Frame = new Rectangle(5, 6, 8, 8);
             ExpansionButton.BackgroundColor = new Color(112, 126, 140, 255);
 
-            Text = new Label(name);
+            Text = new Label(ParentWindow, name);
             AddControl(Text);
             Text.Dock = Dockings.Fill;
             Text.IsEventPassthrough = true;
@@ -32,7 +32,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawButtonAccentuated(ScreenFrame);
+            GuiDrawer.DrawButtonAccentuated(ScreenFrame);
         }
 
     }

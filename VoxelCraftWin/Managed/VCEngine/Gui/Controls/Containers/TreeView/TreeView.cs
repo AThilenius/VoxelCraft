@@ -16,6 +16,10 @@ namespace VCEngine
         {
             public override bool IsExpanded { get { return true; } }
             public override bool IsLeaf { get { return false; } }
+
+            public Dummy(Window window) : base(window)
+            {
+            }
         }
 
         public TreeNode Head { get { return m_head; } }
@@ -23,7 +27,7 @@ namespace VCEngine
         private TreeNode m_head;
         private TreeNode m_lastClicked;
 
-        public TreeView()
+        public TreeView(Window window) : base(window)
         {
             Resize += (s, a) =>
                 {
@@ -34,7 +38,7 @@ namespace VCEngine
             CanFocus = true;
 
             // Create a dummy head
-            m_head = new Dummy();
+            m_head = new Dummy(ParentWindow);
             m_head.ClientHeight = 0;
             base.AddControl(m_head);
             m_head.OnHeadRebuild += (s, a) => SetHeadLocation();
@@ -57,8 +61,8 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawBackgroundEmpty(ScreenFrame);
-            Gui.DrawBackground(m_head.ScreenFrame);
+            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+            GuiDrawer.DrawBackground(m_head.ScreenFrame);
 
             if (m_lastClicked != null)
             {

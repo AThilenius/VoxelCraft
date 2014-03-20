@@ -117,10 +117,10 @@ namespace VCEngine
         }
         private int m_viewDistance = 0;
 
-        public void Initialize()
+        public void Initialize(Window window)
         {
             VCInteropWorldInitializeEmpty(UnManagedHandle);
-            Camera = new Camera(VCInteropWorldGetCamera(UnManagedHandle));
+            Camera = new Camera(window, VCInteropWorldGetCamera(UnManagedHandle));
 
             // Total hack
             Random rand = new Random();

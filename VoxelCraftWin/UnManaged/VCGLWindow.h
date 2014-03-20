@@ -8,6 +8,8 @@
 
 #pragma once
 
+class VCGLFWInput;
+
 #include "VCMarshalableObject.h"
 
 class VCGLWindow : public VCMarshalableObject
@@ -16,13 +18,15 @@ public:
 	VCGLWindow();
 	~VCGLWindow();
 
+	static VCGLWindow* GetWindowFromGLFW(GLFWwindow* Window);
 	void Initialize(int width, int height, std::string title);
 	void Activate();
 
 public:
 	static VCGLWindow* ActiveWindow;
-	GLFWwindow* GLFWWindow;
+	GLFWwindow* GLFWWindowHandle;
 	VCRectangle FullViewport;
+	VCGLFWInput* Input;
 	int Width;
 	int Height;
 

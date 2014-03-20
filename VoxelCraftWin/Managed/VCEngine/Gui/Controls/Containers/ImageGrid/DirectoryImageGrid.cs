@@ -23,7 +23,7 @@ namespace VCEngine
 
         private String m_path = "";
 
-        public DirectoryImageGrid()
+        public DirectoryImageGrid(Window window) : base(window)
         {
         }
 
@@ -35,7 +35,7 @@ namespace VCEngine
             // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {
-                ImageGridNode node = new ImageGridNode(fInfo.Name);
+                ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name);
 
                 if (fInfo.Extension == ".DDS")
                     node.Image.ImagePath = fInfo.FullName;

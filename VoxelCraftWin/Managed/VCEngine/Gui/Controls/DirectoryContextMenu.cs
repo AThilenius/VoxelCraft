@@ -13,11 +13,11 @@ namespace VCEngine
         private DirectoryInfo m_dirInfo;
         private AcceptDenyDialog m_saveDialog;
 
-        public DirectoryContextMenu( DirectoryExporer explorer)
+        public DirectoryContextMenu(Window window, DirectoryExporer explorer) : base(window)
         {
             m_dirExplorer = explorer;
 
-            m_saveDialog = new AcceptDenyDialog("Folder Name:", "Accept", "Cancel");
+            m_saveDialog = new AcceptDenyDialog(ParentWindow, "Folder Name:", "Accept", "Cancel");
             m_saveDialog.Accepted += m_saveDialog_Accepted;
             Control.MainControl.AddControl(m_saveDialog);
 

@@ -16,10 +16,10 @@ namespace VCEngine
         public Control Body { get { return this; } }
         public ToolContextComponentHeader ToolHeader;
 
-        public ToolContextComponent(String name)
+        public ToolContextComponent(Window window, String name) : base(window)
         {
             // Create tool header
-            ToolHeader = new ToolContextComponentHeader(this, name);
+            ToolHeader = new ToolContextComponentHeader(ParentWindow, this, name);
             ToolHeader.Dock = Dockings.Top;
             ToolHeader.Height = 20;
 

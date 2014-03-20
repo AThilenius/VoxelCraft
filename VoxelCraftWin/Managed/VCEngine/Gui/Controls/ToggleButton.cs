@@ -25,9 +25,9 @@ namespace VCEngine
 
         private List<ToggleButton> m_group = new List<ToggleButton>();
 
-        public ToggleButton(String title)
+        public ToggleButton(Window window, String title) : base(window)
         {
-            Text = new Label(title);
+            Text = new Label(ParentWindow, title);
             Text.IsEventPassthrough = true;
             AddControl(Text);
             Text.TextAlignment = Label.TextAlignments.Center;
@@ -99,13 +99,13 @@ namespace VCEngine
                     if (IsDepressed)
                     {
                         Text.FontColor = Color.White;
-                        Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
+                        GuiDrawer.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
                     }
 
                     else
                     {
                         Text.FontColor = Color.Black;
-                        Gui.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
+                        GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
                     }
 
                     break;
@@ -116,20 +116,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonLeftPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftHightlight.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonLeftHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonLeftUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
@@ -139,20 +139,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonCenterPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterHightlight.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonCenterHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonCenterUnpressed.DDS", ScreenFrame);
                     }
                     break;
 
@@ -162,27 +162,27 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonRightPressed.DDS", ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightHightlight.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonRightHightlight.DDS", ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            Gui.Draw9SliceImage(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ThreeButtonRightUnpressed.DDS", ScreenFrame);
                     }
 
                     break;
             }
 
             if (ImagePath != null && ImagePath != "")
-                Gui.DrawImage(ImagePath, new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 10));
+                GuiDrawer.DrawImage(ImagePath, new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 10));
             
         }
 

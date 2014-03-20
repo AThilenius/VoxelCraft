@@ -15,13 +15,18 @@ namespace VCEngine
         private Menu m_lastActiveMenu;
         private int m_xOffset;
 
+        public MenuBar(Window window) : base(window)
+        {
+
+        }
+
         public void AddMenu(string title, Menu menu)
         {
             AddControl(menu);
 
             int textWidth = Font.GetMetrics(title).TotalWidth;
 
-            Button nButton = new Button(title);
+            Button nButton = new Button(ParentWindow, title);
             AddControl(nButton);
             nButton.Frame = new Rectangle(m_xOffset, 0, textWidth + 20, c_buttonHeight);
 
@@ -36,7 +41,7 @@ namespace VCEngine
                         m_isActive = true;
                         m_menues[nButton].Visible = true;
                         m_lastActiveMenu = m_menues[nButton];
-                        GlfwInputState.OnMouseClick += TemporaryMouseHandler;
+                        m_glfwInputState.OnMouseClick += TemporaryMouseHandler;
                     }
                 };
 
@@ -75,7 +80,7 @@ namespace VCEngine
 
             m_isActive = false;
             m_lastActiveMenu = null;
-            GlfwInputState.OnMouseClick -= TemporaryMouseHandler;
+            m_glfwInputState.OnMouseClick -= TemporaryMouseHandler;
         }
 
 

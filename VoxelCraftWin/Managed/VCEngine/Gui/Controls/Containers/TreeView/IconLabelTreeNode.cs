@@ -13,22 +13,22 @@ namespace VCEngine
         public ImageView Icon;
         public Label Label;
 
-        public IconLabelTreeNode(String label)
+        public IconLabelTreeNode(Window window, String label) : base(window)
         {
             // Expand Button
-            ExpandButton = new VCEngine.ExpandButton();
+            ExpandButton = new VCEngine.ExpandButton(ParentWindow);
             ExpandButton.OnExpand += (s, a) => Expand();
             ExpandButton.OnCollapse += (s, a) => Collapse();
             base.AddControl(ExpandButton);
 
             // Label
-            Label = new VCEngine.Label(label);
+            Label = new VCEngine.Label(ParentWindow, label);
             Label.TextAlignment = VCEngine.Label.TextAlignments.CenterLeft;
             Label.IsEventPassthrough = true;
             base.AddControl(Label);
 
             //Image
-            Icon = new ImageView();
+            Icon = new ImageView(ParentWindow);
             Icon.ImagePath = @"Icons\Folder 128.DDS"; ;
             Icon.IsEventPassthrough = true;
             base.AddControl(Icon);
@@ -62,10 +62,10 @@ namespace VCEngine
             ExpandButton.Visible = m_childrenLTI.Count != 0;
 
             if ( FocusLevel == NodeFocusLevel.ActiveClicked )
-                Gui.DrawButtonHighlighted(ClientScreenFrame);
+                GuiDrawer.DrawButtonHighlighted(ClientScreenFrame);
 
             else if (FocusLevel == NodeFocusLevel.InActiveClicked)
-                Gui.DrawButtonAccentuated(ClientScreenFrame);
+                GuiDrawer.DrawButtonAccentuated(ClientScreenFrame);
 
             Label.FontColor = (FocusLevel == NodeFocusLevel.ActiveClicked) ? Color.White : Color.Black;
         }

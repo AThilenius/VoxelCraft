@@ -49,9 +49,9 @@ namespace VCEngine
 
         private Camera m_camera;
 
-        public RenderWindow()
+        public RenderWindow(Window window)
         {
-            MainCamera = new Camera();
+            MainCamera = new Camera(window);
             Entities.OnCollectionChanged += (s, a) =>
                 {
                     if (a.WasRemoved)

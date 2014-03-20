@@ -13,24 +13,24 @@ namespace VCEngine
         private DirectoryExporer m_dirExp;
         private DirectoryContextMenu m_dirContext;
 
-        public ProjectExplorer(String projName, String path)
+        public ProjectExplorer(Window window, String projName, String path) : base(window)
         {
             ProjectPath = path;
 
-            m_projHeader = new ProjectHeader(projName, this);
+            m_projHeader = new ProjectHeader(ParentWindow, projName, this);
             AddControl(m_projHeader);
             m_projHeader.DockOrder = 0;
             m_projHeader.Dock = Dockings.Top;
             m_projHeader.ExpandButton.OnExpand += (s, a) => m_dirExp.Visible = true;
             m_projHeader.ExpandButton.OnCollapse += (s, a) => m_dirExp.Visible = false;
 
-            m_dirExp = new DirectoryExporer(path);
+            m_dirExp = new DirectoryExporer(ParentWindow, path);
             AddControl(m_dirExp);
             m_dirExp.Dock = Dockings.Fill;
             m_dirExp.OnTreeChange += m_dirExp_OnTreeChange;
             m_dirExp_OnTreeChange(m_dirExp, EventArgs.Empty);
 
-            m_dirContext = new DirectoryContextMenu(m_dirExp);
+            m_dirContext = new DirectoryContextMenu(ParentWindow, m_dirExp);
             Control.MainControl.AddControl(m_dirContext);
         }
 

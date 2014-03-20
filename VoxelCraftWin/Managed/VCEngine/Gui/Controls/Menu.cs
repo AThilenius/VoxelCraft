@@ -9,7 +9,7 @@ namespace VCEngine
     {
         private int m_offset;
 
-        public Menu()
+        public Menu(Window window) : base(window)
         {
             Visible = false;
             CanFocus = true;
@@ -19,7 +19,7 @@ namespace VCEngine
 
         public Button AddItem (String title)
         {
-            Button nButton = new Button(title);
+            Button nButton = new Button(ParentWindow, title);
             nButton.GuiStyle = Button.Style.MenuButton;
             //nButton.Click += (s, a) => Control.MainControl.Focus();
 
@@ -37,13 +37,13 @@ namespace VCEngine
 
         public void Display()
         {
-            Location = GlfwInputState.MouseLocation - new Point(0, Height);
+            Location = m_glfwInputState.MouseLocation - new Point(0, Height);
             Focus();
         }
 
         protected override void Draw()
         {
-            Gui.DrawBackground(ScreenFrame);
+            GuiDrawer.DrawBackground(ScreenFrame);
         }
 
     }

@@ -13,7 +13,7 @@ namespace VCEngine
         public int HeaderSize = 20;
         public int HorizontalPadding = 10;
 
-        internal Tab(TabbedContainer container, string name)
+        internal Tab(Window window, TabbedContainer container, string name) : base(window)
         {
             Name = name;
             ParentContainer = container;
@@ -66,13 +66,13 @@ namespace VCEngine
 
                 if (ParentContainer.IsFocused)
                 {
-                    Gui.DrawRectangle(headerBounds, Color.ControlBlue);
+                    GuiDrawer.DrawRectangle(headerBounds, Color.ControlBlue);
                     Font.DrawString(Name, new Point(headerBounds.X + 5, headerBounds.Y + 2), Color.White);
                 }
 
                 else
                 {
-                    Gui.DrawBorderedRect(headerBounds, Color.ControlDisabled, Color.ControlVeryDark, 1);
+                    GuiDrawer.DrawBorderedRect(headerBounds, Color.ControlDisabled, Color.ControlVeryDark, 1);
                     Font.DrawString(Name, new Point(headerBounds.X + 5, headerBounds.Y + 2), Color.Black);
                 }
             }

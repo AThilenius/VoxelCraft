@@ -12,7 +12,7 @@ namespace VCEngine
         private int m_selectedIndex;
         private Dictionary<Control, ValueAnimator<Point>> m_animators = new Dictionary<Control, ValueAnimator<Point>>();
 
-        public VerticalControlSpinner()
+        public VerticalControlSpinner(Window window) : base(window)
         {
             Resize += (s, a) =>
                 {

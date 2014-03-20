@@ -24,7 +24,7 @@ namespace VCEngine
 
         private string m_path;
 
-        public DirectoryExporer(String headPath)
+        public DirectoryExporer(Window window, String headPath) : base(window)
         {
             m_path = headPath;
             RefreshView();
@@ -47,7 +47,7 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            Gui.DrawBackground(new Rectangle(sf.X, sf.Y + sf.Height - m_yOffset, sf.Width, m_yOffset), false);
+            GuiDrawer.DrawBackground(new Rectangle(sf.X, sf.Y + sf.Height - m_yOffset, sf.Width, m_yOffset), false);
 
             base.Draw();
         }
@@ -58,7 +58,7 @@ namespace VCEngine
             foreach (DirectoryInfo dInfo in directory.GetDirectories())
             {
 
-                TreeViewItem dirTVI = new TreeViewItem(this, parent);
+                TreeViewItem dirTVI = new TreeViewItem(ParentWindow, this, parent);
                 dirTVI.BoundObject = dInfo;
                 dirTVI.Text = dInfo.Name;
                 dirTVI.Image = @"Icons\Folder 128.DDS";
@@ -77,7 +77,7 @@ namespace VCEngine
             // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {
-                TreeViewItem fileTVI = new TreeViewItem(this, parent);
+                TreeViewItem fileTVI = new TreeViewItem(ParentWindow, this, parent);
                 fileTVI.BoundObject = fInfo;
                 fileTVI.Text = fInfo.Name;
 

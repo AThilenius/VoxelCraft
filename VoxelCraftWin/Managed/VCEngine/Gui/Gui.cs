@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VCEngine
@@ -40,7 +39,7 @@ namespace VCEngine
         Trigonometric
     }
 
-    public static class Gui
+    public class Gui
     {
         #region Bindings
 
@@ -70,12 +69,7 @@ namespace VCEngine
 
         #endregion
 
-        public struct Animation
-        {
-            //ref IAnimatable Value;
-
-        }
-
+        public Window ParentWindow;
         public static float Scale
         {
             get { return m_scale; }
@@ -87,72 +81,74 @@ namespace VCEngine
             }
         }
         private static float m_scale = 1.0f;
-        private static float m_inverseScale = 1.0f / m_scale;
+        private static float m_inverseScale;
 
-        static Gui()
+        public Gui(Window window)
         {
-            Scale = Editor.MainWindow.MonitorSize.X > 1920 ? 1.5f : 1.0f;
-            Editor.MainWindow.TrueSize = Editor.MainWindow.TrueSize * Scale;
+            m_inverseScale = 1.0f / m_scale;
+            ParentWindow = window;
+            Scale = ParentWindow.MonitorSize.X > 1920 ? 1.5f : 1.0f;
+            ParentWindow.TrueSize = ParentWindow.TrueSize * Scale;
         }
 
         #region Drawing
 
-        public static void DrawRectangle(Rectangle rect, Color color)
+        public void DrawRectangle(Rectangle rect, Color color)
         {
             VCInteropGuiDrawRectangle(rect, color);
         }
 
-        public static void DrawBorderedRect(Rectangle rect, Color back, Color border, int borderWidth)
+        public void DrawBorderedRect(Rectangle rect, Color back, Color border, int borderWidth)
         {
             // Background
             if (back != Color.Trasparent)
-                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
+                DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, rect.Height), back);
 
             // Left
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, borderWidth, rect.Height), border);
+            DrawRectangle(new Rectangle(rect.X, rect.Y, borderWidth, rect.Height), border);
 
             // Bottom
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, borderWidth), border);
+            DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, borderWidth), border);
 
             // Top
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - borderWidth, rect.Width, borderWidth), border);
+            DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - borderWidth, rect.Width, borderWidth), border);
 
             // Right
-            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
+            DrawRectangle(new Rectangle(rect.X + rect.Width - borderWidth, rect.Y, borderWidth, rect.Height), border);
         }
 
-        public static void DrawButton(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        public void DrawButton(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
         {
             DrawDualToneVertical(rect, new Color(233, 233, 233, 255), new Color(183, 183, 183, 255));
             DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
         }
 
-        public static void DrawButtonAccentuated(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        public void DrawButtonAccentuated(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
         {
             DrawDualToneVertical(rect, new Color(236, 238, 249, 255), new Color(183, 193, 211, 255));
             DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
         }
 
-        public static void DrawButtonHighlighted(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        public void DrawButtonHighlighted(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
         {
             DrawDualToneVertical(rect, new Color(145, 163, 180, 255), new Color(82, 109, 132, 255));
             // Blue Border
             DrawBorder(rect, upperBar, lowerBar, new Color(82, 109, 132, 255));
         }
 
-        public static void DrawBackgroundEmpty(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        public void DrawBackgroundEmpty(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
         {
             DrawDualToneVertical(rect, new Color(217, 222, 229, 255), new Color(210, 216, 224, 255));
             DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
         }
 
-        public static void DrawBackground(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
+        public void DrawBackground(Rectangle rect, Boolean upperBar = true, Boolean lowerBar = true)
         {
             DrawDualToneVertical(rect, new Color(231, 234, 239, 255), new Color(224, 229, 234, 255));
             DrawBorder(rect, upperBar, lowerBar, new Color(153, 153, 153, 255));
         }
 
-        private static void DrawDualToneVertical(Rectangle rect, Color upper, Color lower)
+        private void DrawDualToneVertical(Rectangle rect, Color upper, Color lower)
         {
             GuiRectVerticie ll = new GuiRectVerticie(new Point(rect.X, rect.Y), lower);
             GuiRectVerticie ul = new GuiRectVerticie(new Point(rect.X, rect.Y + rect.Height), upper);
@@ -160,48 +156,48 @@ namespace VCEngine
             GuiRectVerticie lr = new GuiRectVerticie(new Point(rect.X + rect.Width, rect.Y), lower);
             GuiRectVerticie ur = new GuiRectVerticie(new Point(rect.X + rect.Width, rect.Y + rect.Height), upper);
 
-            Gui.AddVerticie(ul);
-            Gui.AddVerticie(ll);
-            Gui.AddVerticie(lr);
+            AddVerticie(ul);
+            AddVerticie(ll);
+            AddVerticie(lr);
 
-            Gui.AddVerticie(ul);
-            Gui.AddVerticie(lr);
-            Gui.AddVerticie(ur);
+            AddVerticie(ul);
+            AddVerticie(lr);
+            AddVerticie(ur);
         }
 
-        private static void DrawBorder(Rectangle rect, Boolean upperBar, Boolean lowerBar, Color color)
+        private void DrawBorder(Rectangle rect, Boolean upperBar, Boolean lowerBar, Color color)
         {
             if (upperBar)
-                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - 1, rect.Width, 1), color);
+                DrawRectangle(new Rectangle(rect.X, rect.Y + rect.Height - 1, rect.Width, 1), color);
 
             if (lowerBar)
-                Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 1), color);
+                DrawRectangle(new Rectangle(rect.X, rect.Y, rect.Width, 1), color);
 
-            Gui.DrawRectangle(new Rectangle(rect.X, rect.Y, 1, rect.Height), color);
-            Gui.DrawRectangle(new Rectangle(rect.X + rect.Width - 1, rect.Y, 1, rect.Height), color);
+            DrawRectangle(new Rectangle(rect.X, rect.Y, 1, rect.Height), color);
+            DrawRectangle(new Rectangle(rect.X + rect.Width - 1, rect.Y, 1, rect.Height), color);
         }
 
-        public static void DrawEllipse(Point centroid, int width, int height, Color color)
+        public void DrawEllipse(Point centroid, int width, int height, Color color)
         {
             VCInteropGuiDrawEllipse(centroid, width, height, color, color);
         }
 
-        public static void AddVerticie(GuiRectVerticie vert)
+        public void AddVerticie(GuiRectVerticie vert)
         {
             VCInteropGuiAddVerticie(vert);
         }
 
-        public static void DrawNormalizedRectangle(RectangleF rect, Color color)
+        public void DrawNormalizedRectangle(RectangleF rect, Color color)
         {
-            int x = (int)Math.Round(Editor.MainWindow.ScaledSize.X * rect.X);
-            int y = (int)Math.Round(Editor.MainWindow.ScaledSize.Y * rect.Y);
-            int width = (int)Math.Round(Editor.MainWindow.ScaledSize.X * rect.Width);
-            int height = (int)Math.Round(Editor.MainWindow.ScaledSize.Y * rect.Height);
+            int x = (int)Math.Round(ParentWindow.ScaledSize.X * rect.X);
+            int y = (int)Math.Round(ParentWindow.ScaledSize.Y * rect.Y);
+            int width = (int)Math.Round(ParentWindow.ScaledSize.X * rect.Width);
+            int height = (int)Math.Round(ParentWindow.ScaledSize.Y * rect.Height);
 
             DrawRectangle(new Rectangle(x, y, width, height), color);
         }
 
-        public static void DrawImage(string path, Rectangle frame, bool absolutePath = false)
+        public void DrawImage(string path, Rectangle frame, bool absolutePath = false)
         {
             if (!absolutePath)
             {
@@ -217,23 +213,23 @@ namespace VCEngine
             }
         }
 
-        public static void Draw9SliceImage(string path, Rectangle frame, int pizelOffset = 4, float padding = 0.25f, bool absolutePath = false)
+        public void Draw9SliceImage(string path, Rectangle frame, int pizelOffset = 4, float padding = 0.25f, bool absolutePath = false)
         {
             if (!absolutePath)
             {
                 string absp = Path.Combine(PathUtilities.ImagesPath, path);
                 TestFileExistance(absp);
-                VCInteropGuiDraw9SliceImage(absp, frame, (int)Math.Round(pizelOffset * Gui.Scale), padding);
+                VCInteropGuiDraw9SliceImage(absp, frame, (int)Math.Round(pizelOffset * Scale), padding);
             }
 
             else
             {
                 TestFileExistance(path);
-                VCInteropGuiDraw9SliceImage(path, frame, (int)Math.Round(pizelOffset * Gui.Scale), padding);
+                VCInteropGuiDraw9SliceImage(path, frame, (int)Math.Round(pizelOffset * Scale), padding);
             }
         }
 
-        public static void Draw9SliceGui(string path, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f, bool absolutePath = false)
+        public void Draw9SliceGui(string path, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f, bool absolutePath = false)
         {
             if (!absolutePath)
             {
@@ -253,7 +249,7 @@ namespace VCEngine
         
         #region Misc
 
-        private static bool TestFileExistance(string fullPath)
+        private bool TestFileExistance(string fullPath)
         {
             if (!File.Exists(fullPath))
             {

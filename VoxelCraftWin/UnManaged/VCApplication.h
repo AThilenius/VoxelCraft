@@ -10,7 +10,6 @@
 
 #include "VCGLWindow.h"
 #include "VCObjectStore.h"
-#include "VCInput.h"
 #include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
 #include "VCGui.h"
@@ -24,7 +23,6 @@ public:
     virtual void ShutDown();
 
 public:
-    VCInput* Input;
 	VCGLRenderer* Renderer;
     VCObjectStore* ObjectStore;
 	VCLexicalEngine* LexEngine;
@@ -35,7 +33,6 @@ public:
 
 DLL_EXPORT_API void VCInteropInitalizeWindow();
 DLL_EXPORT_API void VCInteropInitalizeObjectStore();
-DLL_EXPORT_API void VCInteropInitalizeInput();
 DLL_EXPORT_API void VCInteropInitalizeRenderer();
 DLL_EXPORT_API void VCInteropInitalizeLexEngine();
 DLL_EXPORT_API void VCInteropInitalizeGui();

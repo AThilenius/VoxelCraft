@@ -104,6 +104,10 @@ namespace VCEngine
             }
         }
         public Rectangle FullViewport { get { return new Rectangle(0, 0, ScaledSize); } }
+        public GlfwInputState GlfwInputState;
+        public Input Input;
+        public Gui GuiDrawer;
+        public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
 
         public Window(int width, int height, String title)
@@ -117,6 +121,19 @@ namespace VCEngine
                 Window win = (Window)ObjectStore.GetObject(handle);
                 win.GlfwSizeChangeHandler(newWidth, newHeight);
             });
+
+            TrueSize = new Point(width, height);
+        }
+
+        public virtual void FinishInitialization()
+        {
+            Input = new Input(this);
+            GlfwInputState = Input.GlfwInputState;
+            GuiDrawer = new Gui(this);
+
+            Control.MainControl = new Control(this);
+            Control.MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);
+            Control.MainControl.SetFirstResponder();
         }
 
         public static void PollEvents()

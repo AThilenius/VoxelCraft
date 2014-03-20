@@ -13,8 +13,7 @@ namespace VCEngine
         private bool m_isDragging;
         private Location m_startLoc;
 
-        public EyeDropperTool(GameWindow parent)
-            : base(parent)
+        public EyeDropperTool(Window window, GameWindow parent) : base(window, parent)
         {
 
         }
@@ -27,20 +26,20 @@ namespace VCEngine
             RaycastHit hit = (RaycastHit)rayHit;
             Vector3 block = new Vector3(hit.CubeLocation);
 
-            if (GlfwInputState.MouseStates[0].State == TriState.Pressed)
+            if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Pressed)
             {
                 m_isDragging = true;
                 m_startLoc = hit.CubeLocation;
                 ColorRGB = World.GetBlock(block).Color;
             }
 
-            if (GlfwInputState.MouseStates[0].State == TriState.Replete && m_isDragging)
+            if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Replete && m_isDragging)
             {
                 // Sample all blocks and average
                 ColorRGB = GetAverage(hit.CubeLocation, m_startLoc);
             }
 
-            if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDragging)
+            if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Up && m_isDragging)
             {
                 m_isDragging = false;
 
@@ -50,10 +49,10 @@ namespace VCEngine
                 OnPicked(this, EventArgs.Empty);
             }
 
-            if (GlfwInputState.MouseStates[0].State == TriState.None)
+            if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.None)
             {
                 World.Camera.Debug.DrawCube(block - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
-                Gui.DrawBorderedRect(new Rectangle(GlfwInputState.MouseLocation.X + 15, GlfwInputState.MouseLocation.Y, 40, 40), World.GetBlock(block).Color, Color.White, 1);
+                ParentWindow.GuiDrawer.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), World.GetBlock(block).Color, Color.White, 1);
             }
 
             else
@@ -62,7 +61,7 @@ namespace VCEngine
                 foreach (Location loc in World.GetBlocksInRegion(hit.CubeLocation, m_startLoc))
                     World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
-                Gui.DrawBorderedRect(new Rectangle(GlfwInputState.MouseLocation.X + 15, GlfwInputState.MouseLocation.Y, 40, 40), ColorRGB, Color.White, 1);
+                ParentWindow.GuiDrawer.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), ColorRGB, Color.White, 1);
             }
 
         }

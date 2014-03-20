@@ -12,8 +12,7 @@ namespace VCEngine
         private bool m_isDraggingRight;
         private Random m_random = new Random();
 
-        public BlockClickDragTool(GameWindow parent) 
-            : base(parent)
+        public BlockClickDragTool(Window window, GameWindow parent) : base(window, parent)
         {
 
         }
@@ -36,28 +35,28 @@ namespace VCEngine
             Location normalBlockLoc = new Location(normalBlock);
 
             // Draw Normal if nothing is down
-            if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
+            if (m_glfwInputState.MouseStates[0].State == TriState.None && m_glfwInputState.MouseStates[1].State == TriState.None)
                 World.Camera.Debug.DrawCube(normalBlock - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
 
             // ======   Left Mouse   ============================================================
 
             // Set start
-            if (GlfwInputState.MouseStates[0].State == TriState.Pressed)
+            if (m_glfwInputState.MouseStates[0].State == TriState.Pressed)
             {
                 m_startLocation = normalBlockLoc;
                 m_isDraggingLeft = true;
             }
 
             // Highlight blocks
-            else if (GlfwInputState.MouseStates[0].State == TriState.Replete && m_isDraggingLeft)
+            else if (m_glfwInputState.MouseStates[0].State == TriState.Replete && m_isDraggingLeft)
             {
                 foreach (Location loc in World.GetBlocksInRegion(normalBlockLoc, m_startLocation))
                     World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
             }
 
             // Create an Undo Token, Set all blocks between start and end
-            else if (GlfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
+            else if (m_glfwInputState.MouseStates[0].State == TriState.Up && m_isDraggingLeft)
             {
                 BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
                 float Value = EditorGui.VoxelEditor.ColorPicker.RandomMultiplier;
@@ -86,14 +85,14 @@ namespace VCEngine
             // ======   Right Mouse   ============================================================
 
             // Set Start
-            if (GlfwInputState.MouseStates[1].State == TriState.Pressed)
+            if (m_glfwInputState.MouseStates[1].State == TriState.Pressed)
             {
                 m_startLocation = blockLoc;
                 m_isDraggingRight = true;
             }
 
             // Highlight blocks
-            else if (GlfwInputState.MouseStates[1].State == TriState.Replete && m_isDraggingRight)
+            else if (m_glfwInputState.MouseStates[1].State == TriState.Replete && m_isDraggingRight)
             {
                 foreach (Location loc in World.GetBlocksInRegion(blockLoc, m_startLocation))
                     if (loc.Y > 0)
@@ -101,7 +100,7 @@ namespace VCEngine
             }
 
             // Create an undo token, Set all blocks between start and end
-            else if (GlfwInputState.MouseStates[1].State == TriState.Up && m_isDraggingRight)
+            else if (m_glfwInputState.MouseStates[1].State == TriState.Up && m_isDraggingRight)
             {
                 BlockChangeUndoToken undoToken = new BlockChangeUndoToken(World);
 

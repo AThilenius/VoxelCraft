@@ -11,10 +11,10 @@ namespace VCEngine
         public ToggleButton CenterButton;
         public ToggleButton RightButton;
 
-        public PanelsTrippleButton()
+        public PanelsTrippleButton(Window window) : base(window)
         {
             // Left
-            LeftButton = new ToggleButton(" ");
+            LeftButton = new ToggleButton(ParentWindow, " ");
             LeftButton.ImagePath = @"Icons\LeftPane.DDS";
             LeftButton.Width = 30;
             LeftButton.Style = ToggleButton.ToggleStyle.TriLeft;
@@ -22,7 +22,7 @@ namespace VCEngine
             AddControl(LeftButton);
 
             // Center
-            CenterButton = new ToggleButton(" ");
+            CenterButton = new ToggleButton(ParentWindow, " ");
             CenterButton.ImagePath = @"Icons\CenterPane.DDS";
             CenterButton.Width = 30;
             CenterButton.Style = ToggleButton.ToggleStyle.TriCenter;
@@ -30,7 +30,7 @@ namespace VCEngine
             AddControl(CenterButton);
 
             // Right
-            RightButton = new ToggleButton(" ");
+            RightButton = new ToggleButton(ParentWindow, " ");
             RightButton.Width = 30;
             RightButton.ImagePath = @"Icons\RightPane.DDS";
             RightButton.Style = ToggleButton.ToggleStyle.TriRight;

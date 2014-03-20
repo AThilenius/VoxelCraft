@@ -39,7 +39,7 @@ namespace VCEngine
         private string m_renderedString;
         private TextMetrics m_subMetric;
 
-        public Label(string text)
+        public Label(Window window, string text) : base(window)
         {
             Text = text;
             Frame = new Rectangle(0, 0, Metrics.TotalWidth, Metrics.TotalHeight);

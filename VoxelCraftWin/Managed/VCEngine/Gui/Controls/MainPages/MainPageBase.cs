@@ -7,7 +7,12 @@ namespace VCEngine
 {
     public abstract class MainPageBase : Control
     {
-        protected PanelsTrippleButton PanelsTrippleButton = new PanelsTrippleButton();
+        protected PanelsTrippleButton PanelsTrippleButton;
+
+        public MainPageBase(Window window) : base(window)
+        {
+            PanelsTrippleButton = new PanelsTrippleButton(ParentWindow);
+        }
 
         public virtual void OnSelected()
         {

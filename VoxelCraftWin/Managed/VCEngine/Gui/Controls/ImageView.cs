@@ -7,13 +7,17 @@ namespace VCEngine
 {
     public class ImageView : Control
     {
-
         public String ImagePath = @"Icons\ErrorImage.DDS";
+
+        public ImageView(Window window) : base(window)
+        {
+
+        }
 
         protected override void Draw()
         {
             if (ImagePath != "")
-                Gui.DrawImage(ImagePath, ScreenFrame);
+                GuiDrawer.DrawImage(ImagePath, ScreenFrame);
         }
 
     }

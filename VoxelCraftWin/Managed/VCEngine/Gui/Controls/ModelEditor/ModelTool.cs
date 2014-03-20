@@ -10,9 +10,14 @@ namespace VCEngine
         public World World;
         public GameWindow Parent;
         public Boolean Active;
+        public Window ParentWindow;
 
-        public ModelTool(GameWindow parent)
+        protected GlfwInputState m_glfwInputState { get { return ParentWindow.GlfwInputState; } }
+        protected Input m_input { get { return ParentWindow.Input; } }
+
+        public ModelTool(Window window, GameWindow parent)
         {
+            ParentWindow = window;
             Parent = parent;
             World = parent.World;
         }

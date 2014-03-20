@@ -9,6 +9,11 @@ namespace VCEngine
     {
         private List<IContextComponent> m_orderedControlList = new List<IContextComponent>();
 
+        public ContextMenu(Window window) : base(window)
+        {
+
+        }
+
         public void AddIContextComponent(IContextComponent iContextCompoennt)
         {
             iContextCompoennt.Body.Dock = Dockings.Top;
@@ -50,7 +55,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawBackgroundEmpty(ScreenFrame, false);
+            GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
         }
 
     }

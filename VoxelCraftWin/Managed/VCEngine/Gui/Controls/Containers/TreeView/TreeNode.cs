@@ -46,7 +46,7 @@ namespace VCEngine
         protected int m_depth;
         protected List<TreeNode> m_childrenLTI = new List<TreeNode>();
 
-        public TreeNode()
+        public TreeNode(Window window) : base(window)
         {
             Click += (s, a) => GetHead().OnItemClicked(this, EventArgs.Empty);
             DoubleClick += (s, a) => GetHead().OnItemDoubleClicked(this, EventArgs.Empty);
@@ -138,7 +138,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawRectangle(ClientScreenFrame, new Color(0, 255, 0, 100));
+            GuiDrawer.DrawRectangle(ClientScreenFrame, new Color(0, 255, 0, 100));
         }
 
     }

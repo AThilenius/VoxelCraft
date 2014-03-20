@@ -25,6 +25,11 @@ namespace VCEngine
 
         private int m_yOffset;
 
+        public VerticalContainer(Window window) : base(window)
+        {
+
+        }
+
         public override void AddControl(Control control)
         {
             base.AddControl(control);

@@ -216,6 +216,7 @@ namespace VCEngine
 
         // =====   Control   =====================================================
         public Control          Parent;
+        public Window           ParentWindow;
         public int              Layer
         {
             get { return m_layer; }
@@ -259,6 +260,9 @@ namespace VCEngine
 
 
         protected Rectangle m_frame = new Rectangle();
+        protected Input m_input { get { return ParentWindow.Input; } }
+        protected GlfwInputState m_glfwInputState { get { return ParentWindow.GlfwInputState; } }
+        protected Gui GuiDrawer { get { return ParentWindow.GuiDrawer; } }
         private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
         private int m_layer;
@@ -266,8 +270,9 @@ namespace VCEngine
         private double m_lastClickTime;
         private ValueAnimator<Rectangle> m_animator;
 
-        public Control()
+        public Control(Window window)
         {
+            ParentWindow = window;
             MouseEnter += (s, a) => { IsHovered = true; IsClickDown = false; };
             MouseExit += (s, a) => { IsHovered = false;  IsClickDown = false; };
         }
@@ -494,46 +499,46 @@ namespace VCEngine
 
         internal void SetFirstResponder()
         {
-            Editor.MainWindow.Resize += (sender, args) =>
+            ParentWindow.Resize += (sender, args) =>
                 {
-                    MainControl.Frame = new Rectangle(0, 0, Editor.MainWindow.ScaledSize);
+                    MainControl.Frame = new Rectangle(0, 0, ParentWindow.ScaledSize);
                 };
 
-            GlfwInputState.OnKey += (sender, args) =>
+            ParentWindow.GlfwInputState.OnKey += (sender, args) =>
                 {
                     if (s_focusedChild != null)
                         s_focusedChild.RawKeyChange(this, args);
                 };
 
-            GlfwInputState.OnCharClicked += (sender, args) =>
+            ParentWindow.GlfwInputState.OnCharClicked += (sender, args) =>
                 {
                     if (s_focusedChild != null)
                         s_focusedChild.CharPress(sender, args);
                 };
 
-            GlfwInputState.OnMouseClick += (sender, args) =>
+            ParentWindow.GlfwInputState.OnMouseClick += (sender, args) =>
                 {
-                    if (GlfwInputState.MouseStates[0].State == TriState.None && GlfwInputState.MouseStates[1].State == TriState.None)
+                    if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.None && ParentWindow.GlfwInputState.MouseStates[1].State == TriState.None)
                         return;
 
                     // =====   Rebuild command chain   ======================================================
-                    RebuildCommandChain(GlfwInputState.MouseLocation);
+                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation);
                     Control active = GetEndOfCommandChain();
 
                     // =====   If Left/Right - Pressed, focus the control   ======================================================
-                    if (GlfwInputState.MouseStates[0].State == TriState.Pressed || GlfwInputState.MouseStates[1].State == TriState.Pressed)
+                    if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Pressed || ParentWindow.GlfwInputState.MouseStates[1].State == TriState.Pressed)
                     {
                         active.Focus();
                     }
 
                     // =====   Process Left - Pressed   ======================================================
-                    if (GlfwInputState.MouseStates[0].State == TriState.Pressed)
+                    if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Pressed)
                     {
                         active.IsClickDown = true;
                     }
 
                     // =====   Process Left - Up   ======================================================
-                    if (GlfwInputState.MouseStates[0].State == TriState.Up)
+                    if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Up)
                     {
                         // Forward event for further processing
                         active.ProcessMouseEvent(
@@ -541,7 +546,7 @@ namespace VCEngine
                             new MouseEventArgs
                             {
                                 EventType = MouseEventType.Click,
-                                ScreenLocation = GlfwInputState.MouseLocation
+                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                             }
                         );
 
@@ -552,7 +557,7 @@ namespace VCEngine
                                 new MouseEventArgs
                                 {
                                     EventType = MouseEventType.DragEnd,
-                                    ScreenLocation = GlfwInputState.MouseLocation
+                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                                 });
 
                             IsDraging = false;
@@ -562,13 +567,13 @@ namespace VCEngine
                     }
 
                     // =====   Process Right - Pressed   ======================================================
-                    if (GlfwInputState.MouseStates[1].State == TriState.Pressed)
+                    if (ParentWindow.GlfwInputState.MouseStates[1].State == TriState.Pressed)
                     {
                         active.IsRightClickDown = true;
                     }
 
                     // =====   Process Right - Up   ======================================================
-                    if (GlfwInputState.MouseStates[1].State == TriState.Up)
+                    if (ParentWindow.GlfwInputState.MouseStates[1].State == TriState.Up)
                     {
                         // Forward event for further processing
                         active.ProcessMouseEvent(
@@ -576,7 +581,7 @@ namespace VCEngine
                             new MouseEventArgs
                             {
                                 EventType = MouseEventType.RightClick,
-                                ScreenLocation = GlfwInputState.MouseLocation
+                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                             }
                         );
 
@@ -587,13 +592,13 @@ namespace VCEngine
                     active.RawMouseClick(this, args);
                 };
 
-            GlfwInputState.OnMouseMove += (sender, args) =>
+            ParentWindow.GlfwInputState.OnMouseMove += (sender, args) =>
                 {
                     // Rebuild command chain
-                    RebuildCommandChain(GlfwInputState.MouseLocation);
+                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation);
                     Control active = GetEndOfCommandChain();
 
-                    Input.IsSuppressingUpdate = (m_activeChild != null);
+                    ParentWindow.Input.IsSuppressingUpdate = (m_activeChild != null);
 
                     // Process specialized events
                     if (active.IsClickDown)
@@ -606,7 +611,7 @@ namespace VCEngine
                                 new MouseEventArgs
                                 {
                                     EventType = MouseEventType.DragBegin,
-                                    ScreenLocation = GlfwInputState.MouseLocation
+                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                                 });
                         }
 
@@ -617,7 +622,7 @@ namespace VCEngine
                                 new MouseEventArgs
                                 {
                                     EventType = MouseEventType.Draging,
-                                    ScreenLocation = GlfwInputState.MouseLocation
+                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                                 }
                             );
                         }
@@ -630,7 +635,7 @@ namespace VCEngine
                             new MouseEventArgs
                             {
                                 EventType = MouseEventType.Move,
-                                ScreenLocation = GlfwInputState.MouseLocation
+                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
                             }
                         );
                     }

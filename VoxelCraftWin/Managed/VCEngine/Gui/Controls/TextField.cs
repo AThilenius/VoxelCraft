@@ -26,7 +26,7 @@ namespace VCEngine
         private float m_nextSwapTime;
         private bool m_isCursurVisible;
 
-        public TextField()
+        public TextField(Window window) : base(window)
         {
             CharPress += OnCharPress;
             RawKeyChange += OnKeyPress;
@@ -48,7 +48,7 @@ namespace VCEngine
                     m_text = m_text.Remove(CursorOffset - 1, 1);
 
                 CursorOffset--;
-                TextEntry(this, new CharEventArgs { Char = e.Key });
+                TextEntry(this, new CharEventArgs(ParentWindow, e.Key));
             }
 
             if (e.Key == Input.Keys.Left && e.State != TriState.Up)
@@ -92,9 +92,9 @@ namespace VCEngine
             Rectangle sf = ScreenFrame;
 
             if (IsFocused)
-                Gui.DrawBackground(ScreenFrame);
+                GuiDrawer.DrawBackground(ScreenFrame);
             else
-                Gui.DrawBackgroundEmpty(ScreenFrame);
+                GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
 
             // Draw Text
             Font.DrawString(m_text, new Point(sf.X + 5, sf.Y + 2), FontColor);
@@ -109,7 +109,7 @@ namespace VCEngine
             if (m_isCursurVisible && IsFocused)
             {
                 TextMetrics cursorMetrics = Font.GetMetrics(m_text.Substring(0, CursorOffset));
-                Gui.DrawRectangle(new Rectangle(sf.X + 5 + cursorMetrics.TotalWidth, sf.Y + 5, 1, sf.Height - 10), Color.Black);
+                GuiDrawer.DrawRectangle(new Rectangle(sf.X + 5 + cursorMetrics.TotalWidth, sf.Y + 5, 1, sf.Height - 10), Color.Black);
             }
         }
 

@@ -14,12 +14,12 @@ namespace VCEngine
         public DirectoryObserverTreeNode DirectoryNode;
         public DirectoryImageGrid TileViewer;
 
-        public MaterialEditor()
+        public MaterialEditor(Window window) : base(window)
         {
             // Directory view
-            FoldersTreeView = new TreeView();
+            FoldersTreeView = new TreeView(ParentWindow);
             AddControl(FoldersTreeView);
-            FoldersTreeView.Frame = new Rectangle(0, 0, 250, Editor.MainWindow.ScaledSize.Y - 75);
+            FoldersTreeView.Frame = new Rectangle(0, 0, 250, ParentWindow.ScaledSize.Y - 75);
             FoldersTreeView.Head.OnItemClicked += (sender, args) =>
                 {
                     TreeNode node = (TreeNode) sender;
@@ -30,12 +30,12 @@ namespace VCEngine
                     TileViewer.Path = ((DirectoryInfo)node.UserData).FullName;
                 };
 
-            DirectoryNode = new DirectoryObserverTreeNode("Packages", TexturesDirectory, false);
+            DirectoryNode = new DirectoryObserverTreeNode(ParentWindow, "Packages", TexturesDirectory, false);
             FoldersTreeView.Head.AddControl(DirectoryNode);
 
-            TileViewer = new DirectoryImageGrid();
+            TileViewer = new DirectoryImageGrid(ParentWindow);
             AddControl(TileViewer);
-            TileViewer.Frame = new Rectangle(250, 0, Editor.MainWindow.ScaledSize.X - 250, Editor.MainWindow.ScaledSize.Y - 75);
+            TileViewer.Frame = new Rectangle(250, 0, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75);
 
             Resize += (s, a) => ResizeHandler();
             ResizeHandler();
@@ -55,7 +55,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawBorderedRect(ScreenFrame, Color.ControlDark, Color.ControlRed, 5);
+            GuiDrawer.DrawBorderedRect(ScreenFrame, Color.ControlDark, Color.ControlRed, 5);
         }
 
         private void ResizeHandler()

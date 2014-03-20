@@ -22,9 +22,9 @@ namespace VCEngine
         public String ImagePath;
         public Style GuiStyle = Style.PushButton;
         
-        public Button(String title)
+        public Button(Window window, String title) : base(window)
         {
-            Text = new Label(title);
+            Text = new Label(ParentWindow, title);
             Text.IsEventPassthrough = true;
             AddControl(Text);
             Text.TextAlignment = Label.TextAlignments.Center;
@@ -43,14 +43,14 @@ namespace VCEngine
                         Text.FontColor = Color.Black;
 
                         if (IsClickDown)
-                            Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
 
                         else
-                            Gui.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
                     }
 
                     else
-                        Gui.DrawBackgroundEmpty(ScreenFrame);
+                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
 
                     break;
 
@@ -60,23 +60,23 @@ namespace VCEngine
                         Text.FontColor = Color.White;
 
                         if (IsClickDown)
-                            Gui.Draw9SliceImage(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
 
                         else
-                            Gui.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", ScreenFrame);
                     }
 
                     else
                     {
                         Text.FontColor = Color.Black;
-                        Gui.DrawBackgroundEmpty(ScreenFrame);
+                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
                     }
                     break;
 
                 case Style.MenuButton:
                     if (IsHovered)
                     {
-                        Gui.DrawButtonHighlighted(ScreenFrame);
+                        GuiDrawer.DrawButtonHighlighted(ScreenFrame);
                         Text.FontColor = Color.White;
                     }
 
@@ -91,15 +91,15 @@ namespace VCEngine
                         Rectangle sf = ScreenFrame;
 
                         if (IsClickDown)
-                            Gui.Draw9SliceImage(@"Icons\ButtonDown.DDS", sf);
+                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonDown.DDS", sf);
                         else
-                            Gui.Draw9SliceImage(@"Icons\Button.DDS", sf);
+                            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", sf);
 
-                        Gui.DrawImage(ImagePath, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
+                        GuiDrawer.DrawImage(ImagePath, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
                     }
 
                     else
-                        Gui.DrawBackgroundEmpty(ScreenFrame);
+                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
                     break;
             }
             

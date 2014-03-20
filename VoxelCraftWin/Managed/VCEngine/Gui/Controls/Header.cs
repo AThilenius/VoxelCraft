@@ -30,32 +30,32 @@ namespace VCEngine
         private Point m_delta = new Point(-1, -1);
         private PanelsTrippleButton m_panelsButtons;
 
-        public Header()
+        public Header(Window window) : base(window)
         {
-            DragBegin += (s, a) => m_delta = GlfwInputState.InvertedMouseLocation;
+            DragBegin += (s, a) => m_delta = m_glfwInputState.InvertedMouseLocation;
             Draging += Header_Draging;
 
-            HudOverlay = new Hud();
+            HudOverlay = new Hud(ParentWindow);
             AddControl(HudOverlay);
 
-            PagesPicker = new MainPagesPicker();
+            PagesPicker = new MainPagesPicker(ParentWindow);
             AddControl(PagesPicker);
         }
 
         void Header_Draging(object sender, MouseEventArgs e)
         {
-            Editor.MainWindow.Position = Editor.MainWindow.Position + (GlfwInputState.InvertedMouseLocation - m_delta);
-            GlfwInputState.InvertedMouseLocation = m_delta;
+            ParentWindow.Position = ParentWindow.Position + (m_glfwInputState.InvertedMouseLocation - m_delta);
+            m_glfwInputState.InvertedMouseLocation = m_delta;
         }
 
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            Gui.DrawButton(sf);
-            Gui.DrawImage(@"Icons\RoundButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
-            Gui.DrawImage(@"Icons\Play.DDS", new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
+            GuiDrawer.DrawButton(sf);
+            GuiDrawer.DrawImage(@"Icons\RoundButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
+            GuiDrawer.DrawImage(@"Icons\Play.DDS", new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
 
-            HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(Editor.MainWindow.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
+            HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(ParentWindow.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
             PagesPicker.Location = new Point(Frame.Width - 400, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(PagesPicker.Height, 2));
 
             if (PanelsButtons != null)

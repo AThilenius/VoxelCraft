@@ -11,13 +11,13 @@ namespace VCEngine
         public Label Label;
         public ImageView Image;
 
-        public ImageGridNode(String label)
+        public ImageGridNode(Window window, String label) : base(window)
         {
-            Image = new ImageView();
+            Image = new ImageView(ParentWindow);
             AddControl(Image);
 
             // Label rendered second
-            Label = new Label(label);
+            Label = new Label(ParentWindow, label);
             Label.TextAlignment = VCEngine.Label.TextAlignments.LowerCenter;
             //Label.FontColor = Color.White;
             AddControl(Label);
@@ -32,8 +32,8 @@ namespace VCEngine
         protected override void Draw()
         {
             //Gui.DrawButton(ScreenFrame);
-            Gui.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
-            Gui.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
+            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
+            GuiDrawer.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
         }
     }
 }

@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "VCGLWindow.h"
 #include "VCObjectStore.h"
+#include "VCGLFWInput.h"
 
 VCGLWindow* VCGLWindow::ActiveWindow = NULL;
 bool VCGLWindow::m_glfwWasInit = false;
@@ -35,7 +36,9 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 }
 
 // =====   VCGLWindow   ======================================================
-VCGLWindow::VCGLWindow(void)
+VCGLWindow::VCGLWindow(void):
+	Input(NULL),
+	GLFWWindowHandle(NULL)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -43,7 +46,12 @@ VCGLWindow::VCGLWindow(void)
 
 VCGLWindow::~VCGLWindow(void)
 {
-	m_glfwToVCWindowMap.erase(GLFWWindow);
+	m_glfwToVCWindowMap.erase(GLFWWindowHandle);
+}
+
+VCGLWindow* VCGLWindow::GetWindowFromGLFW( GLFWwindow* window )
+{
+	return m_glfwToVCWindowMap[window];
 }
 
 void VCGLWindow::Initialize(int width, int height, std::string title)
@@ -75,15 +83,15 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
-	GLFWWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-	if (!GLFWWindow)
+	GLFWWindowHandle = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+	if (!GLFWWindowHandle)
 	{
 		glfwTerminate();
 		VCLog::Error("Failed to create a window.", "Initialize");
 		std::cin.ignore();
 	}
 
-	glfwMakeContextCurrent(GLFWWindow);
+	glfwMakeContextCurrent(GLFWWindowHandle);
 
 
 	GLint major, minor;
@@ -93,10 +101,10 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 	VCLog::Info("Hardware: " + std::string((char*)glGetString(GL_RENDERER)), "Initialize");
 
 
-	glfwGetWindowSize(GLFWWindow, &Width, &Height);
+	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = VCRectangle(0, 0, Width, Height);
 
-	glfwSetFramebufferSizeCallback(GLFWWindow, _glfwFramebuferSizeCallback);
+	glfwSetFramebufferSizeCallback(GLFWWindowHandle, _glfwFramebuferSizeCallback);
 
 	if(!m_glfwWasInit)
 	{
@@ -112,16 +120,19 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 		m_glfwWasInit = true;
 	}
 
+	m_glfwToVCWindowMap.insert(GlfwToVCWindowMap::value_type(GLFWWindowHandle, this));
+
+	// Lastly, register GLFW input hooks
+	Input = new VCGLFWInput(this);
+
 	VCLog::Info("VCGLWindow Initialized.", "Initialize");
 	glErrorCheck();
-
-	m_glfwToVCWindowMap.insert(GlfwToVCWindowMap::value_type(GLFWWindow, this));
 }
 
 void VCGLWindow::Activate()
 {
 	ActiveWindow = this;
-	glfwMakeContextCurrent(GLFWWindow);
+	glfwMakeContextCurrent(GLFWWindowHandle);
 }
 
 
@@ -154,20 +165,20 @@ void VCInteropGLWindowActivate( int handle )
 void VCInteropGLWindowSwapBuffers(int handle)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	glfwSwapBuffers(obj->GLFWWindow);
+	glfwSwapBuffers(obj->GLFWWindowHandle);
 }
 
 bool VCInteropGLWindowShouldClose(int handle)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	return glfwWindowShouldClose(obj->GLFWWindow);
+	return glfwWindowShouldClose(obj->GLFWWindowHandle);
 }
 
 void VCInteropGLWindowVSync(int handle, int enabled)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
 	
-	glfwMakeContextCurrent(obj->GLFWWindow);
+	glfwMakeContextCurrent(obj->GLFWWindowHandle);
 
 	if (enabled)
 		glfwSwapInterval(1);
@@ -179,13 +190,13 @@ void VCInteropGLWindowVSync(int handle, int enabled)
 void VCInteropGLWindowGetSize(int handle, int* width, int* height)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	glfwGetWindowSize(obj->GLFWWindow, width, height);
+	glfwGetWindowSize(obj->GLFWWindowHandle, width, height);
 }
 
 void VCInteropGLWindowSetSize(int handle, int width, int height)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	glfwSetWindowSize(obj->GLFWWindow, width, height);
+	glfwSetWindowSize(obj->GLFWWindowHandle, width, height);
 	obj->Height = height;
 	obj->Width = width;
 	obj->FullViewport = VCRectangle(0, 0, width, height);
@@ -194,13 +205,13 @@ void VCInteropGLWindowSetSize(int handle, int width, int height)
 void VCInteropGLWindowGetPos(int handle, int* x, int* y)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	glfwGetWindowPos(obj->GLFWWindow, x, y);
+	glfwGetWindowPos(obj->GLFWWindowHandle, x, y);
 }
 
 void VCInteropGLWindowSetPos(int handle, int x, int y)
 {
 	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
-	glfwSetWindowPos(obj->GLFWWindow, x, y);
+	glfwSetWindowPos(obj->GLFWWindowHandle, x, y);
 }
 
 void VCInteropGetMonitorSize(int* width, int* height)

@@ -44,7 +44,7 @@ namespace VCEngine
         private ExpandButton m_expButton;
         private int m_indentCount;
 
-        public TreeViewItem(TreeViewOld treeView, TreeViewItem parentItem)
+        public TreeViewItem(Window window, TreeViewOld treeView, TreeViewItem parentItem) : base(window)
         {
             m_treeView = treeView;
             m_parentItem = parentItem;
@@ -53,7 +53,7 @@ namespace VCEngine
             CanFocus = true;
             Visible = false;
 
-            m_expButton = new ExpandButton();
+            m_expButton = new ExpandButton(ParentWindow);
             m_expButton.IsExpanded = false;
             m_expButton.Frame = new Rectangle(IndentationSize * IndentationCount + 5, 6, 8, 8);
             m_expButton.BackgroundColor = new Color(112, 126, 140, 255);
@@ -98,7 +98,7 @@ namespace VCEngine
 
                 if (IsFocused)
                 {
-                    Gui.DrawButtonHighlighted(sf);
+                    GuiDrawer.DrawButtonHighlighted(sf);
                     Font.DrawStringBeveled(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
                     m_expButton.BackgroundColor = Color.White;
                     m_expButton.HoverBackgroundColor = Color.White;
@@ -114,7 +114,7 @@ namespace VCEngine
 
                 // Has Icon?
                 if (Image != "")
-                    Gui.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
+                    GuiDrawer.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
 
 
                 if (TreeViewChildren.Count == 0)

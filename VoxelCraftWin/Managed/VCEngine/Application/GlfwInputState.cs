@@ -6,34 +6,34 @@ using System.Text;
 
 namespace VCEngine
 {
-    public static class GlfwInputState
+    public class GlfwInputState
     {
         #region Bindings
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInputSetMouse(float x, float y);
+        extern static void VCInteropInputSetMouse(int windowHandle, float x, float y);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInputSetCursorVisible(bool val);
+        extern static void VCInteropInputSetCursorVisible(int windowHandle, bool val);
 
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwKeyUnmanagedDelegate(int key, int scancode, int action, int mods);
+        public delegate void GlfwKeyUnmanagedDelegate(int windowHandle, int key, int scancode, int action, int mods);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwCharUnmanagedDelegate(uint charCode);
+        public delegate void GlfwCharUnmanagedDelegate(int windowHandle, uint charCode);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwMouseMoveUnmanagedDelegate(double x, double y);
+        public delegate void GlfwMouseMoveUnmanagedDelegate(int windowHandle, double x, double y);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwMouseClickUnmanagedDelegate(int button, int action, int mods);
+        public delegate void GlfwMouseClickUnmanagedDelegate(int windowHandle, int button, int action, int mods);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwMouseEnterUnmanagedDelegate(int entered);
+        public delegate void GlfwMouseEnterUnmanagedDelegate(int windowHandle, int entered);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void GlfwMouseScrollUnmanagedDelegate(double xOffset, double yOffset);
+        public delegate void GlfwMouseScrollUnmanagedDelegate(int windowHandle, double xOffset, double yOffset);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInputSetCallbacks( GlfwKeyUnmanagedDelegate keyCallback,
@@ -46,17 +46,17 @@ namespace VCEngine
         #endregion
 
         // Events
-        public static event EventHandler OnScrollChange = delegate { };
-        public static event EventHandler OnFocusChange = delegate { };
-        public static event EventHandler OnMouseMove = delegate { };
-        public static event EventHandler<MouseClickEventArgs> OnMouseClick = delegate { };
-        public static event EventHandler<KeyEventArgs> OnKey = delegate { };
-        public static event EventHandler<CharEventArgs> OnCharClicked = delegate { };
+        public event EventHandler OnScrollChange = delegate { };
+        public event EventHandler OnFocusChange = delegate { };
+        public event EventHandler OnMouseMove = delegate { };
+        public event EventHandler<MouseClickEventArgs> OnMouseClick = delegate { };
+        public event EventHandler<KeyEventArgs> OnKey = delegate { };
+        public event EventHandler<CharEventArgs> OnCharClicked = delegate { };
 
         // States
-        public static Point PreviouseMouseLocation = new Point();
-        public static Point DeltaMouseLocation = new Point();
-        public static Point MouseLocation
+        public Point PreviouseMouseLocation = new Point();
+        public Point DeltaMouseLocation = new Point();
+        public Point MouseLocation
         {
             get { return m_currentMousePosition; }
             set
@@ -64,50 +64,55 @@ namespace VCEngine
                 // Overwrite previous to avoid stale spinning
                 PreviouseMouseLocation = value;
                 m_currentMousePosition = value;
-                VCInteropInputSetMouse((int)Math.Round(value.X * Gui.Scale), (int)Math.Round((Editor.MainWindow.ScaledSize.Y - value.Y) * Gui.Scale));
+                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int)Math.Round(value.X * Gui.Scale), (int)Math.Round((ParentWindow.ScaledSize.Y - value.Y) * Gui.Scale));
             }
         }
-        public static Point InvertedMouseLocation
+        public Point InvertedMouseLocation
         {
-            get { return new Point(m_currentMousePosition.X, Editor.MainWindow.ScaledSize.Y - m_currentMousePosition.Y); }
+            get { return new Point(m_currentMousePosition.X, ParentWindow.ScaledSize.Y - m_currentMousePosition.Y); }
             set
             {
                 // Overwrite previous to avoid stale spinning
                 PreviouseMouseLocation = value;
                 m_currentMousePosition = value;
-                VCInteropInputSetMouse((int) Math.Round(value.X * Gui.Scale), (int) Math.Round(value.Y * Gui.Scale));
+                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int) Math.Round(value.X * Gui.Scale), (int) Math.Round(value.Y * Gui.Scale));
             }
         }
-        public static PointF DeltaScroll = new PointF();
-        public static Boolean MouseVisible
+        public PointF DeltaScroll = new PointF();
+        public Boolean MouseVisible
         {
             get { return m_mouseVisible; }
             set
             {
                 m_mouseVisible = value;
-                VCInteropInputSetCursorVisible(value);
+                VCInteropInputSetCursorVisible(ParentWindow.UnManagedHandle, value);
             }
         }
-        public static Boolean Focused { get; private set; }
-        public static TrinaryStateTracker[] MouseStates = new TrinaryStateTracker[10];
-        public static TrinaryStateTracker[] KeyStates = new TrinaryStateTracker[350];
-        public static int KeysDown;
+        public Boolean Focused { get; private set; }
+        public TrinaryStateTracker[] MouseStates = new TrinaryStateTracker[10];
+        public TrinaryStateTracker[] KeyStates = new TrinaryStateTracker[350];
+        public int KeysDown;
+        public Input Input;
+        public Window ParentWindow;
 
-        private static Point m_currentMousePosition = new Point();
-        private static Boolean m_mouseVisible = true;
+        private Point m_currentMousePosition = new Point();
+        private Boolean m_mouseVisible = true;
 
-        public static void Initialize()
+        public GlfwInputState(Window window, Input input)
         {
+            Input = input;
+            ParentWindow = window;
+
             VCInteropInputSetCallbacks(
-                (key, scancode, action, mods) => GlfwKeyCallback(key, scancode, action, mods),
-                (charCode) => GlfwCharCallback(charCode),
-                (x, y) => GlfwMouseMoveCallback(x, y),
-                (button, action, mods) => GlfwMouseClickCallback(button, action, mods),
-                (entered) => GlfwMouseEnterCallback(entered),
-                (xOffset, yOffset) => GlfwMouseScrollCallback(xOffset, yOffset));
+                (winHandle, key, scancode, action, mods) => GlfwKeyCallback(winHandle, key, scancode, action, mods),
+                (winHandle, charCode) => GlfwCharCallback(winHandle, charCode),
+                (winHandle, x, y) => GlfwMouseMoveCallback(winHandle, x, y),
+                (winHandle, button, action, mods) => GlfwMouseClickCallback(winHandle, button, action, mods),
+                (winHandle, entered) => GlfwMouseEnterCallback(winHandle, entered),
+                (winHandle, xOffset, yOffset) => GlfwMouseScrollCallback(winHandle, xOffset, yOffset));
         }
 
-        internal static void StepStates()
+        internal void StepStates()
         {
             DeltaMouseLocation = new Point(0, 0);
 
@@ -118,59 +123,76 @@ namespace VCEngine
                 KeyStates[i].StepState();
         }
 
-        // Callbacks
-        private static void GlfwKeyCallback(int key, int scancode, int action, int mods)
+        #region Callbacks
+
+        private static void GlfwKeyCallback(int windowHandle, int key, int scancode, int action, int mods)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             if (action == 0)
-                KeysDown--;
+                win.GlfwInputState.KeysDown--;
 
             if (action == 1)
-                KeysDown++;
+                win.GlfwInputState.KeysDown++;
 
             Editor.ShouldRedraw();
-            KeyStates[key].Update(action > 0);
-            OnKey(null, new KeyEventArgs { Key = key });
+            win.GlfwInputState.KeyStates[key].Update(action > 0);
+            win.GlfwInputState.OnKey(null, new KeyEventArgs(win, key));
         }
 
-        private static void GlfwCharCallback(uint charCode)
+        private static void GlfwCharCallback(int windowHandle, uint charCode)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             Editor.ShouldRedraw();
-            OnCharClicked(null, new CharEventArgs { Char = (int)charCode });
+            win.GlfwInputState.OnCharClicked(null, new CharEventArgs(win, (int)charCode));
         }
 
-        private static void GlfwMouseMoveCallback(double x, double y)
+        private static void GlfwMouseMoveCallback(int windowHandle, double x, double y)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             Editor.ShouldRedraw();
 
             // Scale
             x /= Gui.Scale;
             y /= Gui.Scale;
 
-            PreviouseMouseLocation = m_currentMousePosition;
-            m_currentMousePosition = new Point((int)x, Editor.MainWindow.ScaledSize.Y - (int)y);
-            DeltaMouseLocation = new Point(-(PreviouseMouseLocation.X - m_currentMousePosition.X), -(PreviouseMouseLocation.Y - m_currentMousePosition.Y));
-            OnMouseMove(null, EventArgs.Empty  );
+            win.GlfwInputState.PreviouseMouseLocation = win.GlfwInputState.m_currentMousePosition;
+            win.GlfwInputState.m_currentMousePosition = new Point((int)x, win.ScaledSize.Y - (int)y);
+            win.GlfwInputState.DeltaMouseLocation = new Point(
+                -(win.GlfwInputState.PreviouseMouseLocation.X - win.GlfwInputState.m_currentMousePosition.X), 
+                -(win.GlfwInputState.PreviouseMouseLocation.Y - win.GlfwInputState.m_currentMousePosition.Y));
+            win.GlfwInputState.OnMouseMove(null, EventArgs.Empty);
         }
 
-        private static void GlfwMouseClickCallback(int button, int action, int mods)
+        private static void GlfwMouseClickCallback(int windowHandle, int button, int action, int mods)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             Editor.ShouldRedraw();
-            MouseStates[button].Update(action > 0);
-            OnMouseClick(null, new MouseClickEventArgs { Button = button });
+            win.GlfwInputState.MouseStates[button].Update(action > 0);
+            win.GlfwInputState.OnMouseClick(null, new MouseClickEventArgs(win, button));
         }
 
-        private static void GlfwMouseEnterCallback(int entered)
+        private static void GlfwMouseEnterCallback(int windowHandle, int entered)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             Editor.ShouldRedraw();
-            Focused = entered > 0;
-            OnFocusChange(null, EventArgs.Empty);
+            win.GlfwInputState.Focused = entered > 0;
+            win.GlfwInputState.OnFocusChange(null, EventArgs.Empty);
         }
 
-        private static void GlfwMouseScrollCallback(double xOffset, double yOffset)
+        private static void GlfwMouseScrollCallback(int windowHandle, double xOffset, double yOffset)
         {
+            Window win = ObjectStore.GetObject(windowHandle) as Window;
+
             Editor.ShouldRedraw();
-            DeltaScroll = new PointF((float)xOffset, (float)yOffset);
-            OnScrollChange(null, EventArgs.Empty);
+            win.GlfwInputState.DeltaScroll = new PointF((float)xOffset, (float)yOffset);
+            win.GlfwInputState.OnScrollChange(null, EventArgs.Empty);
         }
+
+        #endregion
     }
 }

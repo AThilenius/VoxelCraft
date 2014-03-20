@@ -14,15 +14,15 @@ namespace VCEngine
         public Button OkButton;
         public Button CancenButton;
 
-        public AcceptDenyDialog(String label, String acceptText, String denyText)
+        public AcceptDenyDialog(Window window, String label, String acceptText, String denyText) : base(window)
         {
             SetSize(new Point(350, 150));
 
-            Text = new Label(label);
+            Text = new Label(ParentWindow, label);
             Text.Location = new Point(50, 110);
             AddControl(Text);
 
-            Field = new TextField();
+            Field = new TextField(ParentWindow);
             Field.Frame = new Rectangle(50, 80, 250, Field.Height);
             Field.EnterPressed += (s, a) =>
                 {
@@ -31,7 +31,7 @@ namespace VCEngine
                 };
             AddControl(Field);
 
-            OkButton = new Button(acceptText);
+            OkButton = new Button(ParentWindow, acceptText);
             OkButton.Frame = new Rectangle(225, 40, 75, OkButton.Height);
             OkButton.GuiStyle = Button.Style.HighlightedButton;
             OkButton.Click += (s, a) =>
@@ -41,7 +41,7 @@ namespace VCEngine
             };
             AddControl(OkButton);
 
-            CancenButton = new Button(denyText);
+            CancenButton = new Button(ParentWindow, denyText);
             CancenButton.Frame = new Rectangle(150, 40, 70, CancenButton.Height);
             CancenButton.Click += (s, a) =>
             {
@@ -62,9 +62,9 @@ namespace VCEngine
         {
             base.Draw();
 
-            Gui.DrawBackgroundEmpty(ScreenFrame);
-            Gui.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 5, Width, 5));
-            Gui.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y, Width, 5));
+            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+            GuiDrawer.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 5, Width, 5));
+            GuiDrawer.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y, Width, 5));
         }
 
     }

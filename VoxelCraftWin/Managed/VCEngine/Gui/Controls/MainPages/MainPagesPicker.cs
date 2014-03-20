@@ -11,9 +11,9 @@ namespace VCEngine
         private ToggleButton m_materialButton;
         private MainPageBase m_lastSelected;
 
-        public MainPagesPicker()
+        public MainPagesPicker(Window window) : base(window)
         {
-            m_voxelButton = new ToggleButton("Voxel");
+            m_voxelButton = new ToggleButton(ParentWindow, "Voxel");
             m_voxelButton.Style = ToggleButton.ToggleStyle.TriLeft;
             m_voxelButton.OnDepressed += (s, a) =>
                 {
@@ -26,7 +26,7 @@ namespace VCEngine
                 };
             AddControl(m_voxelButton);
 
-            m_materialButton = new ToggleButton("Materials");
+            m_materialButton = new ToggleButton(ParentWindow, "Materials");
             m_materialButton.Style = ToggleButton.ToggleStyle.TriRight;
             m_materialButton.OnDepressed += (s, a) =>
                 {

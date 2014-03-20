@@ -18,7 +18,7 @@ namespace VCEngine
         protected List<ImageGridNode> m_nodes = new List<ImageGridNode>();
         protected int m_fulledHeight;
 
-        public ImageGrid()
+        public ImageGrid(Window window) : base(window)
         {
             Resize += (s, a) => ReBuildGrid();
         }
@@ -77,8 +77,8 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            Gui.DrawBackgroundEmpty(ScreenFrame);
-            Gui.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_fulledHeight + Padding), Width, m_fulledHeight + Padding));
+            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+            GuiDrawer.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_fulledHeight + Padding), Width, m_fulledHeight + Padding));
         }
 
     }

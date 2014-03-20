@@ -20,9 +20,6 @@ namespace VCEngine
         extern static void VCInteropInitalizeObjectStore();
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropInitalizeInput();
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropInitalizeRenderer();
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -33,8 +30,7 @@ namespace VCEngine
 
         #endregion
 
-        public static Window MainWindow;
-
+        public static EditorGui EditorWindow;
         public static Boolean ThrotteledUpdate = true;
         public static TimeSpan LastCPUTime;
         private static int m_framesRemaining = 10;
@@ -47,37 +43,30 @@ namespace VCEngine
 
             VCInteropInitalizeWindow();
             VCInteropInitalizeObjectStore();
-
-            MainWindow = new Window(1280, 600, "VC Engine Core - Thilenius - Alpha");
-            MainWindow.Activate();
-
-            VCInteropInitalizeInput();
+            VCInteropInitalizeLexEngine();
+            EditorWindow = new EditorGui(1280, 600, "VC Engine Core - Thilenius - Alpha");
             VCInteropInitalizeRenderer();
+            VCInteropInitalizeGui();
+            EditorWindow.FinishInitialization();
 
 
             PxPhysics.Initialize();
 
-
-            VCInteropInitalizeLexEngine();
-            VCInteropInitalizeGui();
-
             VCEngineCore.EditorMode = true;
 
-            GlfwInputState.Initialize();
             VCEngineCore.Initialize();
-            EditorGui.Initialize();
             EditorWorld.Initialize();
 
             VCEngineCore.Start();
             m_cpuTimeTimer.Start();
 
-            while (!MainWindow.ShouldClose() && Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
+            while (!EditorWindow.ShouldClose() && EditorWindow.Input.GetKey(Input.Keys.Escape) != TriState.Pressed)
             {
                 Window.PollEvents();
 
                 if (ThrotteledUpdate)
                 {
-                    if (m_framesRemaining <= 0 && GlfwInputState.KeysDown == 0 && Time.TotalTime > m_drawTillTime)
+                    if (m_framesRemaining <= 0 && EditorWindow.GlfwInputState.KeysDown == 0 && Time.TotalTime > m_drawTillTime)
                     {
                         Time.Pause();
                         m_cpuTimeTimer.Stop();
@@ -102,15 +91,16 @@ namespace VCEngine
                 Control.MainControl.Render();
 
                 // Rendering
+                EditorWindow.Activate();
                 GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
                 TestFixture.LatePerUpdate();
 
                 // Step Input states & swap buffers
-                GlfwInputState.StepStates();
+                EditorWindow.GlfwInputState.StepStates();
                 LastCPUTime = m_cpuTimeTimer.Elapsed;
                 m_cpuTimeTimer.Reset();
 
-                MainWindow.SwapBuffers();
+                EditorWindow.SwapBuffers();
 
                 if (ThrotteledUpdate)
                     m_cpuTimeTimer.Start();

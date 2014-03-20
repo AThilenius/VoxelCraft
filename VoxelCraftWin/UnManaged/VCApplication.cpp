@@ -40,12 +40,6 @@ void VCInteropInitalizeObjectStore()
 	VCApplication::Instance->ObjectStore->Initalize();
 }
 
-void VCInteropInitalizeInput()
-{
-	VCApplication::Instance->Input = new VCInput();
-	VCApplication::Instance->Input->Initalize();
-}
-
 void VCInteropInitalizeRenderer()
 {
 	VCApplication::Instance->Renderer = new VCGLRenderer();

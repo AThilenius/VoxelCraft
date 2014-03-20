@@ -17,7 +17,7 @@ namespace VCEngine
         private Tab m_activeTab;
         private int m_xOffset;
 
-        public TabbedContainer()
+        public TabbedContainer(Window window) : base(window)
         {
             CanFocus = true;
             Resize += TabbedContainer_Resize;
@@ -30,7 +30,7 @@ namespace VCEngine
             int textWidth = Font.GetMetrics(name).TotalWidth;
 
             // Button
-            Button nb = new Button(name);
+            Button nb = new Button(ParentWindow, name);
             AddControl(nb);
 
             if (AlignTop)
@@ -40,7 +40,7 @@ namespace VCEngine
                 nb.Frame = new Rectangle(m_xOffset, 0, textWidth + 20, ButtonHeight);
 
             // Tab
-            Tab tab = new Tab(this, name);
+            Tab tab = new Tab(ParentWindow, this, name);
             AddControl(tab);
             Tabs.Add(name, tab);
             tab.SetContent(control);
@@ -128,18 +128,18 @@ namespace VCEngine
             // Top aligned specific
             if (AlignTop)
             {
-                Gui.DrawRectangle(new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight, sf.Width, ButtonHeight), TopHeaderColor);
+                GuiDrawer.DrawRectangle(new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight, sf.Width, ButtonHeight), TopHeaderColor);
 
                 if (IsFocused)
                 {
                     Rectangle headerBounds = new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight - 2, sf.Width, 2);
-                    Gui.DrawRectangle(headerBounds, Color.ControlBlue);
+                    GuiDrawer.DrawRectangle(headerBounds, Color.ControlBlue);
                 }
 
                 else
                 {
                     Rectangle headerBounds = new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight - 2, sf.Width, 2);
-                    Gui.DrawRectangle(headerBounds, Color.White);
+                    GuiDrawer.DrawRectangle(headerBounds, Color.White);
                 }
             }
 

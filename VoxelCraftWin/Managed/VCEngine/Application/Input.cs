@@ -8,7 +8,7 @@ using System.Text;
 namespace VCEngine
 {
     
-    public static class Input
+    public class Input
     {
         #region Keys
         public struct Keys
@@ -86,8 +86,8 @@ namespace VCEngine
         }
         #endregion
 
-        public static bool IsSuppressingUpdate;
-        public static Vector2 DeltaLook 
+        public bool IsSuppressingUpdate;
+        public Vector2 DeltaLook 
         { 
             get 
             {
@@ -97,7 +97,7 @@ namespace VCEngine
                 return new Vector2(GlfwInputState.MouseLocation.X, GlfwInputState.MouseLocation.Y);
             } 
         }
-        public static Vector2 Strafe
+        public Vector2 Strafe
         {
             get
             {
@@ -118,8 +118,16 @@ namespace VCEngine
                 return strafeVec;
             }
         }
+        public GlfwInputState GlfwInputState;
+        public Window ParentWindow;
 
-        public static TriState GetKey(int keyCode)
+        public Input(Window window)
+        {
+            ParentWindow = window;
+            GlfwInputState = new VCEngine.GlfwInputState(window, this);
+        }
+
+        public TriState GetKey(int keyCode)
         {
             if (IsSuppressingUpdate)
                 return TriState.None;
@@ -127,7 +135,7 @@ namespace VCEngine
             return GlfwInputState.KeyStates[keyCode].State;
         }
 
-        public static TriState GetMouse(int button)
+        public TriState GetMouse(int button)
         {
             if (IsSuppressingUpdate)
                 return TriState.None;

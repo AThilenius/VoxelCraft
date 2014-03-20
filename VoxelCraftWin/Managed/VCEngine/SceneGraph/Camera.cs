@@ -27,6 +27,7 @@ namespace VCEngine
 
         #endregion
 
+        public Window ParentWindow;
         public VC3DLineDrawer Debug;
         public float FieldOfViewDegrees
         {
@@ -57,7 +58,7 @@ namespace VCEngine
         }
         public float AspectRatio
         {
-            get { return Fullscreen ? (float)Editor.MainWindow.TrueSize.X / (float)Editor.MainWindow.TrueSize.Y : m_aspectRatio; }
+            get { return Fullscreen ? (float)ParentWindow.TrueSize.X / (float)ParentWindow.TrueSize.Y : m_aspectRatio; }
             set
             {
                 if (m_autoAspect)
@@ -90,7 +91,7 @@ namespace VCEngine
         }
         public Rectangle Viewport
         {
-            get { return Fullscreen ? Editor.MainWindow.FullViewport : m_viewport; }
+            get { return Fullscreen ? ParentWindow.FullViewport : m_viewport; }
             set
             {
                 m_viewport = value;
@@ -119,22 +120,24 @@ namespace VCEngine
         private Matrix4 m_projectionMatrix;
         private Matrix4 m_inverseProjMatrix;
 
-		public Camera ()
+		public Camera (Window window)
 		{
+            ParentWindow = window;
             Transform.InvertPosition = true;
             Debug = new VC3DLineDrawer(this);
 		}
 
-        public Camera(int existingHandle) : base(existingHandle)
+        public Camera(Window window, int existingHandle) : base(existingHandle)
         {
+            ParentWindow = window;
             Transform.InvertPosition = true;
             Debug = new VC3DLineDrawer(this);
         }
 
         public Ray ScreenPointToRay(Point point, float maxViewDistance)
         {
-            Rectangle screenBounds = Editor.MainWindow.FullViewport;
-            Rectangle viewPort = Fullscreen ? Editor.MainWindow.FullViewport : Viewport;
+            Rectangle screenBounds = ParentWindow.FullViewport;
+            Rectangle viewPort = Fullscreen ? ParentWindow.FullViewport : Viewport;
 
 	        Vector2 ll = new Vector2 (viewPort.X, viewPort.Y);
 	        Vector2 ur = new Vector2 (viewPort.X + viewPort.Width, viewPort.Y + viewPort.Height);
@@ -166,10 +169,10 @@ namespace VCEngine
             Transform.PreRender();
 
             // FullScreen and window resized
-            if (Fullscreen && m_viewport != Editor.MainWindow.FullViewport)
+            if (Fullscreen && m_viewport != ParentWindow.FullViewport)
             {
                 m_needsRebuild = true;
-                m_viewport = Editor.MainWindow.FullViewport;
+                m_viewport = ParentWindow.FullViewport;
             }
 
             // Compute Projection Matrix, update status

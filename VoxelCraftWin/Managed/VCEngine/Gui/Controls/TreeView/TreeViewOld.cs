@@ -26,7 +26,7 @@ namespace VCEngine
         protected List<TreeViewItem> m_childrenTVI = new List<TreeViewItem>();
         protected Boolean m_needsRebuild;
 
-        public TreeViewOld()
+        public TreeViewOld(Window window) : base(window)
         {
             Resize += TreeView_Resize;
         }

@@ -22,22 +22,22 @@ namespace VCEngine
         private FileSystemWatcher m_dirWatcher = new FileSystemWatcher();
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public DirectoryObserverTreeNode(String label, String path, Boolean includeFiles)
+        public DirectoryObserverTreeNode(Window window, String label, String path, Boolean includeFiles) : base(window)
         {
             // Expand Button
-            ExpandButton = new VCEngine.ExpandButton();
+            ExpandButton = new VCEngine.ExpandButton(ParentWindow);
             base.AddControl(ExpandButton);
             ExpandButton.OnExpand += (s, a) => Expand();
             ExpandButton.OnCollapse += (s, a) => Collapse();
 
             // Label
-            Label = new VCEngine.Label(label);
+            Label = new VCEngine.Label(ParentWindow, label);
             base.AddControl(Label);
             Label.IsEventPassthrough = true;
             Label.TextAlignment = VCEngine.Label.TextAlignments.Center;
 
             //Image
-            Icon = new ImageView();
+            Icon = new ImageView(ParentWindow);
             base.AddControl(Icon);
             Icon.ImagePath = @"Icons\Folder.DDS";
             Icon.IsEventPassthrough = true;
@@ -65,8 +65,8 @@ namespace VCEngine
 
             ExpandButton.Visible = m_childrenLTI.Count != 0;
 
-            Gui.DrawBackgroundEmpty(ClientScreenFrame, false);
-            Gui.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
+            GuiDrawer.DrawBackgroundEmpty(ClientScreenFrame, false);
+            GuiDrawer.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
         }
 
         private void LoadDirRecurse(DirectoryInfo directory, TreeNode parent, bool includeFile)
@@ -74,7 +74,7 @@ namespace VCEngine
             // Add directories in this directory
             foreach (DirectoryInfo dInfo in directory.GetDirectories())
             {
-                IconLabelTreeNode treeViewItem = new IconLabelTreeNode(dInfo.Name);
+                IconLabelTreeNode treeViewItem = new IconLabelTreeNode(ParentWindow, dInfo.Name);
                 treeViewItem.UserData = dInfo;
 
                 parent.AddControl(treeViewItem);
@@ -88,7 +88,7 @@ namespace VCEngine
                 // Add files in this directory, add callbacks
                 foreach (FileInfo fInfo in directory.GetFiles())
                 {
-                    IconLabelTreeNode treeViewItem = new IconLabelTreeNode(fInfo.Name);
+                    IconLabelTreeNode treeViewItem = new IconLabelTreeNode(ParentWindow, fInfo.Name);
                     treeViewItem.UserData = fInfo;
                     treeViewItem.Icon.ImagePath = @"Icons\Cube 256.DDS";
 

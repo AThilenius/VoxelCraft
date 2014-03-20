@@ -13,7 +13,7 @@ namespace VCEngine
         public event EventHandler OnExpand = delegate { };
         public event EventHandler OnCollapse = delegate { };
 
-        public ExpandButton()
+        public ExpandButton(Window window) : base(window)
         {
             Click += (s, a) => ToggleExpandContract();
         }
@@ -52,28 +52,28 @@ namespace VCEngine
 
         }
 
-        protected static void DrawCollapsedTriangle(Rectangle frame, Color color)
+        protected void DrawCollapsedTriangle(Rectangle frame, Color color)
         {
             // Lower Left
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y), color));
 
             // Center Right
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + MathHelper.RoundedDevision(frame.Height, 2)), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + MathHelper.RoundedDevision(frame.Height, 2)), color));
 
             // Upper left
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
         }
 
-        protected static void DrawExpandedTriangle(Rectangle frame, Color color)
+        protected  void DrawExpandedTriangle(Rectangle frame, Color color)
         {
             // Upper left
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
 
             // Lower Center
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + MathHelper.RoundedDevision(frame.Width, 2), frame.Y), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + MathHelper.RoundedDevision(frame.Width, 2), frame.Y), color));
 
             // Upper Right
-            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + frame.Height), color));
+            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + frame.Height), color));
         }
     }
 }

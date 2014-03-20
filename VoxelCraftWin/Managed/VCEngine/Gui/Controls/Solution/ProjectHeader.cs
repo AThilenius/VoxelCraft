@@ -13,17 +13,17 @@ namespace VCEngine
         public Button ExplorerButton;
         public ProjectExplorer Project;
 
-        public ProjectHeader(String projectName, ProjectExplorer project)
+        public ProjectHeader(Window window, String projectName, ProjectExplorer project) : base(window)
         {
             Project = project;
 
-            ExpandButton = new ExpandButton();
+            ExpandButton = new ExpandButton(ParentWindow);
             AddControl(ExpandButton);
             ExpandButton.IsExpanded = true;
             ExpandButton.Frame = new Rectangle(5, 16, 8, 8);
             ExpandButton.BackgroundColor = new Color(112, 126, 140, 255);
 
-            Text = new Label(projectName);
+            Text = new Label(ParentWindow, projectName);
             AddControl(Text);
             Text.IsEventPassthrough = true;
             Text.Dock = Dockings.Fill;
@@ -36,8 +36,8 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            Gui.DrawBackgroundEmpty(ScreenFrame, false);
-            Gui.DrawImage(@"Icons\Folder.DDS", new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
+            GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
+            GuiDrawer.DrawImage(@"Icons\Folder.DDS", new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
         }
 
     }

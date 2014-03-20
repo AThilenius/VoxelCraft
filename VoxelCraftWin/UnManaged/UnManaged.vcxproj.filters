@@ -112,14 +112,8 @@
     <ClCompile Include="VCApplication.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="VCWindow.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="VCTime.cpp">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="VCInput.cpp">
-      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="VCFont.cpp">
       <Filter>GUI\Text</Filter>
@@ -286,6 +280,9 @@
     <ClCompile Include="VCGLWindow.cpp">
       <Filter>Rendering\Windowing</Filter>
     </ClCompile>
+    <ClCompile Include="VCGLFWInput.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -318,17 +315,11 @@
     <ClInclude Include="VCApplication.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="VCWindow.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="PathUtil.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="VCTime.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="VCInput.h">
-      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="VCFont.h">
       <Filter>GUI\Text</Filter>
@@ -509,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="VCGLWindow.h">
       <Filter>Rendering\Windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLFWInput.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

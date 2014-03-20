@@ -15,9 +15,9 @@ namespace VCEngine
 
         private Font m_fontConsolas;
 
-        public Hud()
+        public Hud(Window window) : base(window)
         {
-            HudLabel = new Label("VoxelCraft Beta 0.0.1 Thilenius");
+            HudLabel = new Label(ParentWindow, "VoxelCraft Beta 0.0.1 Thilenius");
             AddControl(HudLabel);
             HudLabel.Font = VCEngine.Font.GetFont(HudLabel.Font.Name, 16, true);
 
@@ -28,7 +28,7 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
 
-            Gui.Draw9SliceImage(@"Icons\Hud.DDS", sf, 10, 0.17f);
+            GuiDrawer.Draw9SliceImage(@"Icons\Hud.DDS", sf, 10, 0.17f);
 
             HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 
@@ -41,9 +41,9 @@ namespace VCEngine
             DrawText("           Frame Time: [ " + (int)Math.Round((float)Editor.LastCPUTime.TotalSeconds * 1000.0f) + " ms ]", sf);
 
             m_yOffset = 35;
-            DrawText("           Resolution: " + Editor.MainWindow.TrueSize, sf, 220);
-            DrawText("Gui Scaled Resolution: " + Editor.MainWindow.ScaledSize, sf, 220);
-            DrawText("                Mouse: " + GlfwInputState.MouseLocation, sf, 220);
+            DrawText("           Resolution: " + ParentWindow.TrueSize, sf, 220);
+            DrawText("Gui Scaled Resolution: " + ParentWindow.ScaledSize, sf, 220);
+            DrawText("                Mouse: " + m_glfwInputState.MouseLocation, sf, 220);
         }
 
         private void DrawText(string text, Rectangle sf, int xOffset = 0)

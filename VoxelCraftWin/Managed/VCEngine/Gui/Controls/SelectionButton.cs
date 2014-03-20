@@ -13,7 +13,7 @@ namespace VCEngine
         private List<SelectionButton> m_group;
         private bool m_isActive = false;
 
-        public SelectionButton(String title) : base (title)
+        public SelectionButton(Window window, String title) : base (window, title)
         {
             Frame = new Rectangle(0, 0, Font.GetMetrics(title).TotalWidth, 25);
             Click += SelectionButton_Click;
