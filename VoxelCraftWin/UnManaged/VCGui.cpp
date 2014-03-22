@@ -13,6 +13,7 @@
 #include "VCCamera.h"
 #include "VCGLShader.h"
 #include "VCResourceManager.h"
+#include "VCObjectStore.h"
 
 VCGui* VCGui::Instance = NULL;
 float VCGui::Scale = 1.0f;
@@ -75,20 +76,23 @@ void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics)
 	*metrics = VCLexicalEngine::Instance->GetMetrics(font, text);
 }
 
-void VCInteropGuiDrawImage( char* path, VCRectangle frame )
+void VCInteropGuiDrawImage( int texHandle, VCRectangle frame )
 {
-	VCGui::Instance->ImageBuilder.DrawImage(path, frame, VCGui::Instance->DepthStep++);
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
+	VCGui::Instance->ImageBuilder.DrawImage(obj, frame, VCGui::Instance->DepthStep++);
 }
 
-void VCInteropGuiDraw9SliceImage( char* path, VCRectangle frame, int pizelOffset, float padding )
+void VCInteropGuiDraw9SliceImage( int texHandle, VCRectangle frame, int pizelOffset, float padding )
 {
-	VCGui::Instance->ImageBuilder.Draw9SliceImage(path, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
+	VCGui::Instance->ImageBuilder.Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }
 
-void VCInteropGuiDraw9SliceGui( char* path, vcint4 color, VCRectangle frame, int pizelOffset, float padding )
+void VCInteropGuiDraw9SliceGui( int texHandle, vcint4 color, VCRectangle frame, int pizelOffset, float padding )
 {
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
 	VCGui::Instance->GuiImages.Shader->Bind();
 	VCGui::Instance->GuiImages.Shader->SetUniform(VCGui::Instance->GuiColorUniformIndex, glm::vec4(color.X / 255.0f, color.Y / 255.0f, color.Z / 255.0f, color.W / 255.0f));
 
-	VCGui::Instance->GuiImages.Draw9SliceImage(path, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+	VCGui::Instance->GuiImages.Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }

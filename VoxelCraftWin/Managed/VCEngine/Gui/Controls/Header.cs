@@ -29,6 +29,7 @@ namespace VCEngine
 
         private Point m_delta = new Point(-1, -1);
         private PanelsTrippleButton m_panelsButtons;
+        private Texture m_playIcon = Texture.Get(@"Icons\Play.DDS");
 
         public Header(Window window) : base(window)
         {
@@ -52,8 +53,8 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
             GuiDrawer.DrawButton(sf);
-            GuiDrawer.DrawImage(@"Icons\RoundButton.DDS", new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
-            GuiDrawer.DrawImage(@"Icons\Play.DDS", new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
+            GuiDrawer.DrawImage(Gui.StandardTextures.RoundButton, new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
+            GuiDrawer.DrawImage(m_playIcon, new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
 
             HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(ParentWindow.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
             PagesPicker.Location = new Point(Frame.Width - 400, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(PagesPicker.Height, 2));

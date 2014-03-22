@@ -22,7 +22,7 @@ namespace VCEngine
             }
         }
         public Boolean IsExpanded { get { return m_expButton.IsExpanded; } }
-        public String Image = "";
+        public Texture Image;
         public int IndentationSize = 15;
         public int IndentationCount
         {
@@ -113,7 +113,7 @@ namespace VCEngine
 
 
                 // Has Icon?
-                if (Image != "")
+                if (Image != null)
                     GuiDrawer.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
 
 

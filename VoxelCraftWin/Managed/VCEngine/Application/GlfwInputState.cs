@@ -135,7 +135,7 @@ namespace VCEngine
             if (action == 1)
                 win.GlfwInputState.KeysDown++;
 
-            Editor.ShouldRedraw();
+            win.ShouldRedraw();
             win.GlfwInputState.KeyStates[key].Update(action > 0);
             win.GlfwInputState.OnKey(null, new KeyEventArgs(win, key));
         }
@@ -144,7 +144,7 @@ namespace VCEngine
         {
             Window win = ObjectStore.GetObject(windowHandle) as Window;
 
-            Editor.ShouldRedraw();
+            win.ShouldRedraw();
             win.GlfwInputState.OnCharClicked(null, new CharEventArgs(win, (int)charCode));
         }
 
@@ -152,7 +152,10 @@ namespace VCEngine
         {
             Window win = ObjectStore.GetObject(windowHandle) as Window;
 
-            Editor.ShouldRedraw();
+            if (win == null)
+                return;
+
+            win.ShouldRedraw();
 
             // Scale
             x /= Gui.Scale;
@@ -170,7 +173,7 @@ namespace VCEngine
         {
             Window win = ObjectStore.GetObject(windowHandle) as Window;
 
-            Editor.ShouldRedraw();
+            win.ShouldRedraw();
             win.GlfwInputState.MouseStates[button].Update(action > 0);
             win.GlfwInputState.OnMouseClick(null, new MouseClickEventArgs(win, button));
         }
@@ -179,7 +182,7 @@ namespace VCEngine
         {
             Window win = ObjectStore.GetObject(windowHandle) as Window;
 
-            Editor.ShouldRedraw();
+            win.ShouldRedraw();
             win.GlfwInputState.Focused = entered > 0;
             win.GlfwInputState.OnFocusChange(null, EventArgs.Empty);
         }
@@ -188,7 +191,7 @@ namespace VCEngine
         {
             Window win = ObjectStore.GetObject(windowHandle) as Window;
 
-            Editor.ShouldRedraw();
+            win.ShouldRedraw();
             win.GlfwInputState.DeltaScroll = new PointF((float)xOffset, (float)yOffset);
             win.GlfwInputState.OnScrollChange(null, EventArgs.Empty);
         }

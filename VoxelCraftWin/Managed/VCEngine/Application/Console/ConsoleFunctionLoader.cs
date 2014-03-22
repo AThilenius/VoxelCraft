@@ -74,7 +74,12 @@ namespace VCEngine
                         else
                         {
                             ConsoleFunctionInstance cfInst = m_consoleFunctions[subStrs[0].ToLower()];
-                            cfInst.Method.Invoke(null, args);
+                            Object returnStringObj = cfInst.Method.Invoke(null, args);
+
+                            String retString = (String)returnStringObj;
+
+                            if (retString.Trim() != "")
+                                Console.WriteLine(retString);
                         }
                     }
 

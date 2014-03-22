@@ -97,13 +97,14 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 
 	glfwMakeContextCurrent(GLFWWindowHandle);
 
-
-	GLint major, minor;
-	glGetIntegerv(GL_MAJOR_VERSION, &major); 
-	glGetIntegerv(GL_MINOR_VERSION, &minor);
-	VCLog::Info("OpenGL version: " + std::to_string(major) + "." + std::to_string(minor), "Initialize");
-	VCLog::Info("Hardware: " + std::string((char*)glGetString(GL_RENDERER)), "Initialize");
-
+	if (!m_glfwWasInit)
+	{
+		GLint major, minor;
+		glGetIntegerv(GL_MAJOR_VERSION, &major); 
+		glGetIntegerv(GL_MINOR_VERSION, &minor);
+		VCLog::Info("OpenGL version: " + std::to_string(major) + "." + std::to_string(minor), "Initialize");
+		VCLog::Info("Hardware: " + std::string((char*)glGetString(GL_RENDERER)), "Initialize");
+	}
 
 	glfwGetWindowSize(GLFWWindowHandle, &Width, &Height);
 	FullViewport = VCRectangle(0, 0, Width, Height);

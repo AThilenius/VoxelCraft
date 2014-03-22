@@ -13,6 +13,8 @@ namespace VCEngine
         public Button ExplorerButton;
         public ProjectExplorer Project;
 
+        private Texture m_folderTexture = Texture.Get(@"Icons\Folder.DDS");
+
         public ProjectHeader(Window window, String projectName, ProjectExplorer project) : base(window)
         {
             Project = project;
@@ -37,7 +39,7 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
             GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
-            GuiDrawer.DrawImage(@"Icons\Folder.DDS", new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
+            GuiDrawer.DrawImage(m_folderTexture, new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
         }
 
     }

@@ -25,19 +25,19 @@ VCImageBuilder::~VCImageBuilder(void)
 	// Too lazy to clean up, should be application level anyway.
 }
 
-void VCImageBuilder::DrawImage( std::string imagePath, VCRectangle frame, float depthStep )
+void VCImageBuilder::DrawImage( VCGLTexture* tex, VCRectangle frame, float depthStep )
 {
 	if (Shader == NULL)
 		Shader = VCResourceManager::GetShader("TexturePassThrough");
 
-	auto iter = m_imageInstances.find(imagePath);
+	auto iter = m_imageInstances.find(tex);
 	
 	if(iter == m_imageInstances.end())
 	{
-		VCImageInstance* newInst = new VCImageInstance(imagePath);
+		VCImageInstance* newInst = new VCImageInstance(tex);
 		// TriLinear Filtering
 		newInst->Initialize(Shader, VCTextureParams());
-		m_imageInstances.insert(ImageInstMap::value_type(imagePath, newInst));
+		m_imageInstances.insert(ImageInstMap::value_type(tex, newInst));
 		newInst->DrawImage(frame, depthStep);
 	}
 
@@ -47,19 +47,19 @@ void VCImageBuilder::DrawImage( std::string imagePath, VCRectangle frame, float 
 	}
 }
 
-void VCImageBuilder::Draw9SliceImage( std::string imagePath, VCRectangle frame, int pizelOffset, float padding, float depthStep )
+void VCImageBuilder::Draw9SliceImage( VCGLTexture* tex, VCRectangle frame, int pizelOffset, float padding, float depthStep )
 {
 	if (Shader == NULL)
 		Shader = VCResourceManager::GetShader("TexturePassThrough");
 
-	auto iter = m_imageInstances.find(imagePath);
+	auto iter = m_imageInstances.find(tex);
 
 	if(iter == m_imageInstances.end())
 	{
-		VCImageInstance* newInst = new VCImageInstance(imagePath);
+		VCImageInstance* newInst = new VCImageInstance(tex);
 		// TriLinear Filtering
 		newInst->Initialize(Shader, VCTextureParams());
-		m_imageInstances.insert(ImageInstMap::value_type(imagePath, newInst));
+		m_imageInstances.insert(ImageInstMap::value_type(tex, newInst));
 		newInst->Draw9Slice(frame, pizelOffset, padding, depthStep);
 	}
 

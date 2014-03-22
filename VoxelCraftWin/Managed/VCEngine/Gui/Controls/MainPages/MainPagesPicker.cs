@@ -17,12 +17,12 @@ namespace VCEngine
             m_voxelButton.Style = ToggleButton.ToggleStyle.TriLeft;
             m_voxelButton.OnDepressed += (s, a) =>
                 {
-                    EditorGui.MainSpinner.Select(EditorGui.VoxelEditor);
+                    EditorWindow.MainSpinner.Select(EditorWindow.VoxelEditor);
 
                     if (m_lastSelected != null)
                         m_lastSelected.OnDeselected();
 
-                    EditorGui.VoxelEditor.OnSelected();
+                    EditorWindow.VoxelEditor.OnSelected();
                 };
             AddControl(m_voxelButton);
 
@@ -30,12 +30,12 @@ namespace VCEngine
             m_materialButton.Style = ToggleButton.ToggleStyle.TriRight;
             m_materialButton.OnDepressed += (s, a) =>
                 {
-                    EditorGui.MainSpinner.Select(EditorGui.MaterialEditor);
+                    EditorWindow.MainSpinner.Select(EditorWindow.MaterialEditor);
 
                     if (m_lastSelected != null)
                         m_lastSelected.OnDeselected();
 
-                    EditorGui.MaterialEditor.OnSelected();
+                    EditorWindow.MaterialEditor.OnSelected();
                 };
             AddControl(m_materialButton);
 

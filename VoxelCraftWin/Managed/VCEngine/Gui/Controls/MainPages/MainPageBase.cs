@@ -16,7 +16,7 @@ namespace VCEngine
 
         public virtual void OnSelected()
         {
-            EditorGui.HeaderBar.PanelsButtons = PanelsTrippleButton;
+            EditorWindow.HeaderBar.PanelsButtons = PanelsTrippleButton;
         }
 
         public virtual void OnDeselected() { }

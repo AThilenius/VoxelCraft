@@ -14,6 +14,7 @@ namespace VCEngine
         private float m_lastDeltaTime;
 
         private Font m_fontConsolas;
+        private Texture m_hudTexture = Texture.Get(@"Icons\Hud.DDS");
 
         public Hud(Window window) : base(window)
         {
@@ -28,17 +29,17 @@ namespace VCEngine
         {
             Rectangle sf = ScreenFrame;
 
-            GuiDrawer.Draw9SliceImage(@"Icons\Hud.DDS", sf, 10, 0.17f);
+            GuiDrawer.Draw9SliceImage(m_hudTexture, sf, 10, 0.17f);
 
             HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 
-            m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * (float)Editor.LastCPUTime.TotalSeconds;
+            m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * (float)Time.DeltaTime;
             m_yOffset = 35;
             m_cpuTimeTotal += Editor.LastCPUTime;
 
             DrawText("             CPU Time: [ " + m_cpuTimeTotal.Minutes + ":" + m_cpuTimeTotal.Seconds.ToString("00") + (m_cpuTimeTotal.TotalSeconds - (float)(int)(m_cpuTimeTotal.TotalSeconds)).ToString(".0000000") + " ]", sf);
             DrawText("   Drawn Frames Count: [ " + m_frameCount++ + " ]", sf);
-            DrawText("           Frame Time: [ " + (int)Math.Round((float)Editor.LastCPUTime.TotalSeconds * 1000.0f) + " ms ]", sf);
+            DrawText("                  FPS: [ " + (int)(1.0f / m_lastDeltaTime) + " ]", sf);
 
             m_yOffset = 35;
             DrawText("           Resolution: " + ParentWindow.TrueSize, sf, 220);

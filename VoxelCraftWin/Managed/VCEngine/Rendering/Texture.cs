@@ -34,20 +34,29 @@ namespace VCEngine
 
         #endregion
 
+        private static Dictionary<String, Texture> m_loadedTextures = new Dictionary<String, Texture>();
+
         private Texture()
         {
         }
 
-        public static Texture GetTexture(String path)
+        public static Texture Get(String path)
         {
-            Texture tex = new Texture();
-            tex.UnManagedHandle = VCInteropResourceManagerGetTexture(path);
+            Texture tex;
+
+            if (!m_loadedTextures.TryGetValue(path, out tex))
+            {
+                tex = new Texture();
+                tex.UnManagedHandle = VCInteropResourceManagerGetTexture(path);
+                m_loadedTextures.Add(path, tex);
+            }
+
             return tex;
         }
 
-        public static Texture GetTextureInAssets(String path)
+        public static Texture GetInAssets(String path)
         {
-            return GetTexture(Path.Combine(PathUtilities.AssetsPath, path));
+            return Get(Path.Combine(PathUtilities.AssetsPath, path));
         }
 
         public static Texture CreateEmpty(int width, int height)

@@ -19,7 +19,7 @@ namespace VCEngine
         }
 
         public Label Text;
-        public String ImagePath;
+        public Texture Image;
         public Style GuiStyle = Style.PushButton;
         
         public Button(Window window, String title) : base(window)
@@ -43,10 +43,10 @@ namespace VCEngine
                         Text.FontColor = Color.Black;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonDown.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, ScreenFrame);
                     }
 
                     else
@@ -60,10 +60,10 @@ namespace VCEngine
                         Text.FontColor = Color.White;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonHighlightDown.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonHighlightDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonHighlight.DDS", ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonHighlight, ScreenFrame);
                     }
 
                     else
@@ -91,11 +91,11 @@ namespace VCEngine
                         Rectangle sf = ScreenFrame;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(@"Icons\ButtonDown.DDS", sf);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonDown, sf);
                         else
-                            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", sf);
+                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, sf);
 
-                        GuiDrawer.DrawImage(ImagePath, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
+                        GuiDrawer.DrawImage(Image, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
                     }
 
                     else

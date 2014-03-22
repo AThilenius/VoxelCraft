@@ -58,7 +58,6 @@ namespace VCEngine
 
                 m_needsRebuild = false;
                 Height = m_yOffset;
-                RefreshDocks();
             }
 
             base.Draw();

@@ -19,7 +19,7 @@ namespace VCEngine
 
             m_saveDialog = new AcceptDenyDialog(ParentWindow, "Folder Name:", "Accept", "Cancel");
             m_saveDialog.Accepted += m_saveDialog_Accepted;
-            Control.MainControl.AddControl(m_saveDialog);
+            window.MainControl.AddControl(m_saveDialog);
 
             AddItem("New Folder").Click += (s, a) =>
                 {

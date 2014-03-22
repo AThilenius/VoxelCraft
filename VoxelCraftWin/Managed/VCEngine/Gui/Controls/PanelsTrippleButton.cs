@@ -15,7 +15,7 @@ namespace VCEngine
         {
             // Left
             LeftButton = new ToggleButton(ParentWindow, " ");
-            LeftButton.ImagePath = @"Icons\LeftPane.DDS";
+            //LeftButton.Image = @"Icons\LeftPane.DDS";
             LeftButton.Width = 30;
             LeftButton.Style = ToggleButton.ToggleStyle.TriLeft;
             LeftButton.IsDepressed = true;
@@ -23,7 +23,7 @@ namespace VCEngine
 
             // Center
             CenterButton = new ToggleButton(ParentWindow, " ");
-            CenterButton.ImagePath = @"Icons\CenterPane.DDS";
+            //CenterButton.Image = @"Icons\CenterPane.DDS";
             CenterButton.Width = 30;
             CenterButton.Style = ToggleButton.ToggleStyle.TriCenter;
             CenterButton.IsDepressed = true;
@@ -32,7 +32,7 @@ namespace VCEngine
             // Right
             RightButton = new ToggleButton(ParentWindow, " ");
             RightButton.Width = 30;
-            RightButton.ImagePath = @"Icons\RightPane.DDS";
+            //RightButton.Image = @"Icons\RightPane.DDS";
             RightButton.Style = ToggleButton.ToggleStyle.TriRight;
             RightButton.IsDepressed = true;
             AddControl(RightButton);

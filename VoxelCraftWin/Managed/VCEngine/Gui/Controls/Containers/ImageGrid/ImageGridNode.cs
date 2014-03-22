@@ -32,7 +32,7 @@ namespace VCEngine
         protected override void Draw()
         {
             //Gui.DrawButton(ScreenFrame);
-            GuiDrawer.Draw9SliceImage(@"Icons\Button.DDS", ScreenFrame);
+            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, ScreenFrame);
             GuiDrawer.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
         }
     }

@@ -39,7 +39,7 @@ namespace VCEngine
             //Image
             Icon = new ImageView(ParentWindow);
             base.AddControl(Icon);
-            Icon.ImagePath = @"Icons\Folder.DDS";
+            Icon.Image = Texture.Get(@"Icons\Folder.DDS");
             Icon.IsEventPassthrough = true;
 
             DoubleClick += (s, a) =>
@@ -90,7 +90,7 @@ namespace VCEngine
                 {
                     IconLabelTreeNode treeViewItem = new IconLabelTreeNode(ParentWindow, fInfo.Name);
                     treeViewItem.UserData = fInfo;
-                    treeViewItem.Icon.ImagePath = @"Icons\Cube 256.DDS";
+                    treeViewItem.Icon.Image = Texture.Get(@"Icons\Cube 256.DDS");
 
                     parent.AddControl(treeViewItem);
                 }

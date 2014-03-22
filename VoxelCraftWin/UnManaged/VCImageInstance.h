@@ -28,7 +28,7 @@ struct VCTextureVerticie
 class VCImageInstance
 {
 public:
-	VCImageInstance(std::string path);
+	VCImageInstance(VCGLTexture* tex);
 	~VCImageInstance(void);
 
 	void Initialize(VCGLShader* shader, VCTextureParams params);
@@ -39,7 +39,6 @@ private:
 	void Render();
 
 private:
-	std::string m_path;
 	VCRenderStage* m_rStage;
 	VCGLTexture* m_texturePtr;
 	

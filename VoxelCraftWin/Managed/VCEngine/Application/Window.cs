@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class Window : MarshaledObject
+    public class Window : MarshaledObject, IDisposable
     {
         #region Bindings
 
@@ -62,6 +62,7 @@ namespace VCEngine
         
 		#endregion
 
+        public static List<Window> ActiveWindows = new List<Window>();
         public Point Position
         {
             get
@@ -110,6 +111,9 @@ namespace VCEngine
         public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
 
+        private int m_framesRemaining = 10;
+        private float m_drawTillTime;
+
         public Window(int width, int height, String title)
         {
             UnManagedHandle = VCInteropGLWindowCreate(width, height, title);
@@ -128,34 +132,69 @@ namespace VCEngine
             GlfwInputState = Input.GlfwInputState;
             GuiDrawer = new Gui(this);
 
-            Control.MainControl = new Control(this);
-            Control.MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);
-            Control.MainControl.SetFirstResponder();
+            MainControl = new Control(this);
+            MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);
+            MainControl.SetFirstResponder();
+
+            LoopController.OnLoop += HandleUpdate;
+            ActiveWindows.Add(this);
         }
 
-        public static void PollEvents()
+        public void Dispose()
         {
+            LoopController.OnLoop -= HandleUpdate;
+            ActiveWindows.Remove(this);
+        }
+
+        private void HandleUpdate(Object sender, EventArgs args)
+        {
+            // Check if window should close
+            if (VCInteropGLWindowShouldClose(UnManagedHandle))
+            {
+                Dispose();
+                return;
+            }
+
+            // Check if a redraw has been requested
+            // if (m_framesRemaining == 0 || Time.CurrentTime > m_drawTillTime)
+            //    return;
+
+            // Pull Events
             VCInteropGLWindowPollEvents();
-        }
 
-        public void Activate()
-        {
+            // Update MainControl docking
+            MainControl.Frame = MainControl.Frame;
+            MainControl.PropagateUpdate();
+
+            // Render this window
             VCInteropGLWindowActivate(UnManagedHandle);
-        }
+            MainControl.Render();
 
-        public void SwapBuffers()
-        {
+            // Needs to be made instance based!
+            GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
+
+            // Step Input states & swap buffers
+            GlfwInputState.StepStates();
             VCInteropGLWindowSwapBuffers(UnManagedHandle);
+
+            m_framesRemaining = (m_framesRemaining <= 0) ? 0 : m_framesRemaining--;
         }
 
-        public bool ShouldClose()
+        public void ShouldRedraw()
         {
-            return VCInteropGLWindowShouldClose(UnManagedHandle);
+            m_framesRemaining = 3;
+        }
+
+        public void ShouldRedraw(float time)
+        {
+            // 0.5 Second buffer
+            if ((Time.TotalTime + time + 0.5f) > m_drawTillTime)
+                m_drawTillTime = Time.TotalTime + time + 0.5f;
         }
 
         private void GlfwSizeChangeHandler(int width, int height)
         {
-            Editor.ShouldRedraw();
+            ShouldRedraw();
             ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(Position, ScaledSize), To = (new Rectangle(Position, width, height) / Gui.Scale) };
             Resize(null, args);
         }

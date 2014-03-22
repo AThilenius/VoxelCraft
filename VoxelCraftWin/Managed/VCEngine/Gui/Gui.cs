@@ -7,6 +7,12 @@ using System.Text;
 
 namespace VCEngine
 {
+    public enum AnimationScale
+    {
+        Linear,
+        Trigonometric
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public struct GuiRectVerticie
     {
@@ -33,10 +39,26 @@ namespace VCEngine
         }
     }
 
-    public enum AnimationScale
+    public class StandardTextures
     {
-        Linear,
-        Trigonometric
+        public Texture Button = Texture.Get(@"Icons\Button");
+        public Texture ButtonDown = Texture.Get(@"Icons\ButtonDown");
+        public Texture ButtonHighlight = Texture.Get(@"Icons\ButtonHeighlight");
+        public Texture ButtonHighlightDown = Texture.Get(@"Icons\ButtonHighlightDown");
+        public Texture RoundButton = Texture.Get(@"Icons\RoundButton");
+        public Texture RountButtonDown = Texture.Get(@"Icons\RoundButtonDown");
+
+        public Texture TriButtonLeft = Texture.Get(@"Icons\ThreeButtonLeftUnpressed.DDS");
+        public Texture TriButtonLeftHighlight = Texture.Get(@"Icons\ThreeButtonLeftHightlight.DDS");
+        public Texture TriButtonLeftDown = Texture.Get(@"Icons\ThreeButtonLeftPressed.DDS");
+
+        public Texture TriButtonCenter = Texture.Get(@"Icons\ThreeButtonCenterUnpressed.DDS");
+        public Texture TriButtonCenterheightlight = Texture.Get(@"Icons\ThreeButtonCenterHightlight.DDS");
+        public Texture TriButtonCenterDown = Texture.Get(@"Icons\ThreeButtonCenterPressed.DDS");
+
+        public Texture TriButtonRight = Texture.Get(@"Icons\ThreeButtonRightUnpressed.DDS");
+        public Texture TriButtonRightHighlight = Texture.Get(@"Icons\ThreeButtonRightHightlight.DDS");
+        public Texture TriButtonRightDown = Texture.Get(@"Icons\ThreeButtonRightPressed.DDS");
     }
 
     public class Gui
@@ -59,13 +81,13 @@ namespace VCEngine
         extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDrawImage(string path, Rectangle frame);
+        extern static void VCInteropGuiDrawImage(int texHandle, Rectangle frame);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDraw9SliceImage(string path, Rectangle frame, int pizelOffset, float padding);
+        extern static void VCInteropGuiDraw9SliceImage(int texHandle, Rectangle frame, int pizelOffset, float padding);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDraw9SliceGui(string path, Color baseColor, Rectangle frame, int pizelOffset, float padding);
+        extern static void VCInteropGuiDraw9SliceGui(int texHandle, Color baseColor, Rectangle frame, int pizelOffset, float padding);
 
         #endregion
 
@@ -80,6 +102,7 @@ namespace VCEngine
                 VCInteropGuiSetScale(value);
             }
         }
+        public static StandardTextures StandardTextures = new StandardTextures();
         private static float m_scale = 1.0f;
         private static float m_inverseScale;
 
@@ -197,52 +220,19 @@ namespace VCEngine
             DrawRectangle(new Rectangle(x, y, width, height), color);
         }
 
-        public void DrawImage(string path, Rectangle frame, bool absolutePath = false)
+        public void DrawImage(Texture texture, Rectangle frame)
         {
-            if (!absolutePath)
-            {
-                string absp = Path.Combine(PathUtilities.ImagesPath, path);
-                TestFileExistance(absp);
-                VCInteropGuiDrawImage(absp, frame);
-            }
-
-            else
-            {
-                TestFileExistance(path);
-                VCInteropGuiDrawImage(path, frame);
-            }
+            VCInteropGuiDrawImage(texture.UnManagedHandle, frame);
         }
 
-        public void Draw9SliceImage(string path, Rectangle frame, int pizelOffset = 4, float padding = 0.25f, bool absolutePath = false)
+        public void Draw9SliceImage(Texture texture, Rectangle frame, int pizelOffset = 4, float padding = 0.25f)
         {
-            if (!absolutePath)
-            {
-                string absp = Path.Combine(PathUtilities.ImagesPath, path);
-                TestFileExistance(absp);
-                VCInteropGuiDraw9SliceImage(absp, frame, (int)Math.Round(pizelOffset * Scale), padding);
-            }
-
-            else
-            {
-                TestFileExistance(path);
-                VCInteropGuiDraw9SliceImage(path, frame, (int)Math.Round(pizelOffset * Scale), padding);
-            }
+            VCInteropGuiDraw9SliceImage(texture.UnManagedHandle, frame, (int)Math.Round(pizelOffset * Scale), padding);
         }
 
-        public void Draw9SliceGui(string path, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f, bool absolutePath = false)
+        public void Draw9SliceGui(Texture texture, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f)
         {
-            if (!absolutePath)
-            {
-                string absp = Path.Combine(PathUtilities.ImagesPath, path);
-                TestFileExistance(absp);
-                VCInteropGuiDraw9SliceGui(absp, baseColor, frame, pizelOffset, padding);
-            }
-
-            else
-            {
-                TestFileExistance(path);
-                VCInteropGuiDraw9SliceGui(path, baseColor, frame, pizelOffset, padding);
-            }
+            VCInteropGuiDraw9SliceGui(texture.UnManagedHandle, baseColor, frame, pizelOffset, padding);
         }
 
         #endregion

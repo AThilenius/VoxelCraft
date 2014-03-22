@@ -54,8 +54,8 @@ DLL_EXPORT_API void VCInteropGuiDrawText(int font, char* text, VCPoint point, vc
 DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics);
 
 // Images
-DLL_EXPORT_API void VCInteropGuiDrawImage(char* path, VCRectangle frame);
-DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(char* path, VCRectangle frame, int pizelOffset, float padding);
+DLL_EXPORT_API void VCInteropGuiDrawImage(int texHandle, VCRectangle frame);
+DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(int texHandle, VCRectangle frame, int pizelOffset, float padding);
 
 // GUI Images
-DLL_EXPORT_API void VCInteropGuiDraw9SliceGui(char* path, vcint4 color, VCRectangle frame, int pizelOffset, float padding);
+DLL_EXPORT_API void VCInteropGuiDraw9SliceGui(int texHandle, vcint4 color, VCRectangle frame, int pizelOffset, float padding);

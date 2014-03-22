@@ -27,7 +27,7 @@ namespace VCEngine
             m_isDownward = true;
             Visible = true;
             Frame = new Rectangle(MathHelper.RoundedDevision(ParentWindow.ScaledSize.X, 2) - MathHelper.RoundedDevision(Width, 2), ParentWindow.ScaledSize.Y - 80, Width, Height);
-            Editor.ShouldRedraw(AnimationTime);
+            ParentWindow.ShouldRedraw(AnimationTime);
         }
 
         public virtual void SetSize(Point size)
@@ -40,7 +40,7 @@ namespace VCEngine
             m_isAnimating = true;
             m_isDownward = false;
             m_remainingAnimatioinTime = AnimationTime;
-            Editor.ShouldRedraw(AnimationTime);
+            ParentWindow.ShouldRedraw(AnimationTime);
         }
 
         protected override void Draw()

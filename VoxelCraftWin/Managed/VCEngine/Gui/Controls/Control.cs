@@ -52,7 +52,7 @@ namespace VCEngine
         }
 
         // =====   Statics (Used by main control only)   =========================
-        public static Control MainControl = null;
+        //public static Control MainControl = null;
         private static HashSet<Control> s_currentFocus = new HashSet<Control>();
         private static HashSet<Control> s_lastFocus = new HashSet<Control>();
         private static Control s_focusedChild;
@@ -347,11 +347,6 @@ namespace VCEngine
             Children.Clear();
         }
 
-        public static void RefreshDocks()
-        {
-            Control.MainControl.Frame = Control.MainControl.Frame;
-        }
-
         public void Focus()
         {
             s_focusedChild = null;
@@ -501,7 +496,7 @@ namespace VCEngine
         {
             ParentWindow.Resize += (sender, args) =>
                 {
-                    MainControl.Frame = new Rectangle(0, 0, ParentWindow.ScaledSize);
+                    Frame = new Rectangle(0, 0, ParentWindow.ScaledSize);
                 };
 
             ParentWindow.GlfwInputState.OnKey += (sender, args) =>

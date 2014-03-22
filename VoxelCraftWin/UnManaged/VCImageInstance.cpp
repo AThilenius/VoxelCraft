@@ -27,10 +27,9 @@ VCTextureVerticie::VCTextureVerticie( GLfloat3 position, GLfloat2 uv ):
 {
 }
 
-VCImageInstance::VCImageInstance(std::string path):
-	m_path(path),
+VCImageInstance::VCImageInstance(VCGLTexture* tex):
+	m_texturePtr(tex),
 	m_rStage(NULL),
-	m_texturePtr(NULL),
 	m_vertBuffer(NULL),
 	m_vertBufferSize(0),
 	m_vertexCount(0),
@@ -51,8 +50,6 @@ VCImageInstance::~VCImageInstance(void)
 
 void VCImageInstance::Initialize(VCGLShader* shader, VCTextureParams params)
 {
-	m_texturePtr = VCResourceManager::GetTexure(m_path, params);
-	
 	// Render Stage
 	m_rStage = new VCRenderStage(VC_VOID_DELEGATE_METHOD(VCImageInstance, Render));
 	m_rStage->ExectionType = VCRenderStage::Never;

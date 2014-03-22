@@ -82,8 +82,9 @@
     <Compile Include="Application\GlfwEventArgs.cs" />
     <Compile Include="Application\GlfwInputState.cs" />
     <Compile Include="Application\Input.cs" />
+    <Compile Include="Application\LoopController.cs" />
     <Compile Include="Components\RidgedBody.cs" />
-    <Compile Include="Editor\EditorGui.cs" />
+    <Compile Include="Editor\EditorWindow.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />
     <Compile Include="Gui\Args\GPMouseEventArgs.cs" />

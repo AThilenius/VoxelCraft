@@ -74,9 +74,6 @@
     <Filter Include="Rendering\OpenGL">
       <UniqueIdentifier>{976ada7e-a6eb-4a5f-88b2-b3713bf8a107}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Windowing">
-      <UniqueIdentifier>{ad3abc32-8c2f-434e-8da0-d9e55e59789a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimplexNoise.cpp">
@@ -274,11 +271,11 @@
     <ClCompile Include="VCFloatX.cpp">
       <Filter>Utils\VCTypes</Filter>
     </ClCompile>
-    <ClCompile Include="VCGLWindow.cpp">
-      <Filter>Rendering\Windowing</Filter>
-    </ClCompile>
     <ClCompile Include="VCGLFWInput.cpp">
       <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="VCGLWindow.cpp">
+      <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -492,11 +489,11 @@
     <ClInclude Include="VCFloatX.h">
       <Filter>Utils\VCTypes</Filter>
     </ClInclude>
-    <ClInclude Include="VCGLWindow.h">
-      <Filter>Rendering\Windowing</Filter>
-    </ClInclude>
     <ClInclude Include="VCGLFWInput.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLWindow.h">
+      <Filter>Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

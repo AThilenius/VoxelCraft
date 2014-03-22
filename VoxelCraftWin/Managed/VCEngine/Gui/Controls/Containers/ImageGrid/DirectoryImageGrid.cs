@@ -38,7 +38,7 @@ namespace VCEngine
                 ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name);
 
                 if (fInfo.Extension == ".DDS")
-                    node.Image.ImagePath = fInfo.FullName;
+                    node.Image.Image = Texture.Get(fInfo.FullName);
 
                 base.AddControl(node);
             }

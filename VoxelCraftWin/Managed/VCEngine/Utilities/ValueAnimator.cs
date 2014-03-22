@@ -40,7 +40,7 @@ namespace VCEngine
             m_startTime = Time.TotalTime;
             m_finishTime = Time.TotalTime + AnimationTime;
             m_isAnimating = true;
-            Editor.ShouldRedraw(AnimationTime);
+            //Editor.ShouldRedraw(AnimationTime);
         }
 
         public T GetValue()

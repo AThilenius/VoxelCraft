@@ -50,7 +50,6 @@ namespace VCEngine
                 }
             }
 
-            RefreshDocks();
         }
 
         protected override void Draw()

@@ -31,7 +31,7 @@ namespace VCEngine
             m_dirExp_OnTreeChange(m_dirExp, EventArgs.Empty);
 
             m_dirContext = new DirectoryContextMenu(ParentWindow, m_dirExp);
-            Control.MainControl.AddControl(m_dirContext);
+            window.MainControl.AddControl(m_dirContext);
         }
 
         private void m_dirExp_OnTreeChange(object sender, EventArgs e)
@@ -50,7 +50,7 @@ namespace VCEngine
                             EditorWorld.MasterGameWindow.World.ReBuild();
                         };
 
-                        tvi.Image = @"Icons\Cube 256.DDS";
+                        tvi.Image = Texture.Get(@"Icons\Cube 256.DDS");
                     }
                 }
 

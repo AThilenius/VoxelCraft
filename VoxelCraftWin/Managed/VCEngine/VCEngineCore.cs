@@ -10,7 +10,7 @@ namespace VCEngine
 {
     public class VCEngineCore
     {
-        public static bool EditorMode;
+        public static bool EditorMode = true;
         public static PxScene PhysicsScene;
 
         public static void Initialize()
