@@ -9,8 +9,6 @@
 #include "stdafx.h"
 #include "VCPathUtilities.h"
 
-#include "boost/filesystem.hpp"
-
 std::string VCPathUtilities::VCResourcePath;
 std::string VCPathUtilities::VCFontsPath;
 std::string VCPathUtilities::VCImagesPath;

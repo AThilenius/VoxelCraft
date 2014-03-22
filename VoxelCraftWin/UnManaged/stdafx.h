@@ -25,6 +25,7 @@
 #pragma comment(lib, "SOIL.lib")
 #pragma comment(lib, "assimp.lib")
 
+#ifdef DEBUG
 #pragma comment(lib, "PhysX3CHECKED_x86.lib")
 #pragma comment(lib, "PhysX3CommonCHECKED_x86.lib")
 #pragma comment(lib, "PhysX3CharacterKinematicCHECKED_x86.lib")
@@ -34,6 +35,17 @@
 #pragma comment(lib, "PhysXProfileSDKCHECKED.lib")
 #pragma comment(lib, "PhysXVisualDebuggerSDKCHECKED.lib")
 #pragma comment(lib, "PxTaskCHECKED.lib")
+#else
+#pragma comment(lib, "PhysX3_x86.lib")
+#pragma comment(lib, "PhysX3Common_x86.lib")
+#pragma comment(lib, "PhysX3CharacterKinematic_x86.lib")
+#pragma comment(lib, "PhysX3Cooking_x86.lib")
+#pragma comment(lib, "PhysX3Extensions.lib")
+#pragma comment(lib, "PhysX3Vehicle.lib")
+#pragma comment(lib, "PhysXProfileSDK.lib")
+#pragma comment(lib, "PhysXVisualDebuggerSDK.lib")
+#pragma comment(lib, "PxTask.lib")
+#endif
 
 // STD
 #include <exception>

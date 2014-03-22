@@ -13,7 +13,7 @@ namespace VCEngine
         public static event EventHandler OnLoop = delegate { };
 
         public static Boolean ShouldLoop = true;
-        public static Boolean ThrotteledUpdate = true;
+        public static Boolean ThrotteledUpdate = false;
         public static int DesiredFPS
         {
             get { return (int)Math.Round(m_desiredFrameTime * 60.0d); }
