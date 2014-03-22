@@ -42,13 +42,15 @@ namespace VCEngine
 
         public static Texture Get(String path)
         {
+            String fullPath = Path.Combine(PathUtilities.ImagesPath, path);
+            PathUtilities.TestFileExistance(fullPath);
             Texture tex;
 
-            if (!m_loadedTextures.TryGetValue(path, out tex))
+            if (!m_loadedTextures.TryGetValue(fullPath, out tex))
             {
                 tex = new Texture();
-                tex.UnManagedHandle = VCInteropResourceManagerGetTexture(path);
-                m_loadedTextures.Add(path, tex);
+                tex.UnManagedHandle = VCInteropResourceManagerGetTexture(fullPath);
+                m_loadedTextures.Add(fullPath, tex);
             }
 
             return tex;

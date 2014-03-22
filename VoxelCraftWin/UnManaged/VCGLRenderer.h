@@ -8,7 +8,7 @@
 
 #pragma once
 
-#define SHOW_GL_WARNINGS
+//#define SHOW_GL_WARNINGS
 
 class VCRenderStage;
 class VCIRenderable;

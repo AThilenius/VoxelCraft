@@ -40,5 +40,16 @@ namespace VCEngine
             VCInteropPathSetPath(6, AssetsPath);
             VCInteropPathSetPath(7, MeshesPath);
         }
+
+        public static bool TestFileExistance(string fullPath)
+        {
+            if (!File.Exists(fullPath))
+            {
+                Log.Warning("Failed to find file: " + fullPath, "Resources");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

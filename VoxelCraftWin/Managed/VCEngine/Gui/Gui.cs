@@ -41,12 +41,12 @@ namespace VCEngine
 
     public class StandardTextures
     {
-        public Texture Button = Texture.Get(@"Icons\Button");
-        public Texture ButtonDown = Texture.Get(@"Icons\ButtonDown");
-        public Texture ButtonHighlight = Texture.Get(@"Icons\ButtonHeighlight");
-        public Texture ButtonHighlightDown = Texture.Get(@"Icons\ButtonHighlightDown");
-        public Texture RoundButton = Texture.Get(@"Icons\RoundButton");
-        public Texture RountButtonDown = Texture.Get(@"Icons\RoundButtonDown");
+        public Texture Button = Texture.Get(@"Icons\Button.DDS");
+        public Texture ButtonDown = Texture.Get(@"Icons\ButtonDown.DDS");
+        public Texture ButtonHighlight = Texture.Get(@"Icons\ButtonHeighlight.DDS");
+        public Texture ButtonHighlightDown = Texture.Get(@"Icons\ButtonHighlightDown.DDS");
+        public Texture RoundButton = Texture.Get(@"Icons\RoundButton.DDS");
+        public Texture RountButtonDown = Texture.Get(@"Icons\RoundButtonDown.DDS");
 
         public Texture TriButtonLeft = Texture.Get(@"Icons\ThreeButtonLeftUnpressed.DDS");
         public Texture TriButtonLeftHighlight = Texture.Get(@"Icons\ThreeButtonLeftHightlight.DDS");
@@ -238,18 +238,6 @@ namespace VCEngine
         #endregion
         
         #region Misc
-
-        private bool TestFileExistance(string fullPath)
-        {
-            if (!File.Exists(fullPath))
-            {
-                Console.WriteLine("Cannot find file: " + fullPath);
-                Console.ReadLine();
-                return false;
-            }
-
-            return true;
-        }
 
         internal static void Reset()
         {

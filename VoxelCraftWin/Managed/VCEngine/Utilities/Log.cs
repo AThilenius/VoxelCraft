@@ -101,12 +101,12 @@ namespace VCEngine
             else
             {
                 // Manually word wrap it.
-                List<String> wrappedTest = WrapText(entry.Message, 60);
+                String[] wrappedTest = entry.Message.FixedWidthCollumn(60);
 
                 // Write first line explicitly ( Include the category )
                 Console.WriteLine("| {0,-10} | {1,-60} |", entry.Catagory, wrappedTest[0]);
 
-                for ( int i = 1; i < wrappedTest.Count; i++ )
+                for ( int i = 1; i < wrappedTest.Length; i++ )
                     Console.WriteLine("| {0,-10} | {1,-60} |", "", wrappedTest[i]);
 
                 // Create a bottom self
@@ -115,41 +115,6 @@ namespace VCEngine
 
 
             Console.ForegroundColor = m_defaultColor;
-        }
-
-        private static List<String> WrapText(String text, int width)
-        {
-            String[] splitWords = text.Split(' ');
-            List<String> wrappedLines = new List<String>();
-
-            StringBuilder currentLine = new StringBuilder();
-            int currentWidth = 0;
-
-            foreach (String word in splitWords)
-            {
-                // Needs new line?
-                if (word.Length + currentWidth + 1 > width)
-                {
-                    wrappedLines.Add(currentLine.ToString());
-
-                    // Force add it to the next line in case its too large to even fit the width
-                    currentLine.Clear();
-                    currentWidth = word.Length + 1;
-                    currentLine.Append(word + " ");
-                }
-
-                else
-                {
-                    // Nope, fits on this line
-                    currentLine.Append(word + " ");
-                    currentWidth += word.Length + 1;
-                }
-            }
-
-            // Add the last line to the list
-            wrappedLines.Add(currentLine.ToString());
-
-            return wrappedLines;
         }
 
         #region Console Commands
