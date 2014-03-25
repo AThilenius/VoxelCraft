@@ -15,17 +15,13 @@ namespace VCEngine
             GLRenderViewport = new RenderViewport(ParentWindow);
             GLRenderViewport.MainCamera.Fullscreen = false;
             GLRenderViewport.MainCamera.Viewport = new Rectangle(0, 0, 1024, 1024);
-
-            Resize += (s, a) => ResizeHandler();
-        }
-
-        private void ResizeHandler()
-        {
-            GLRenderViewport.MainCamera.Viewport = ScreenFrame;
         }
 
         protected override void Draw()
         {
+            // Update the Viewport every frame
+            GLRenderViewport.MainCamera.Viewport = ScreenFrame;
+
             // Force a pipe flush
             ParentWindow.FlushRenderQueue();
 

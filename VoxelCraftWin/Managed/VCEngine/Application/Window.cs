@@ -67,6 +67,15 @@ namespace VCEngine
 		#endregion
 
         public static List<Window> ActiveWindows = new List<Window>();
+        public static Point MonitorSize
+        {
+            get
+            {
+                int w, h;
+                VCInteropGetMonitorSize(out w, out h);
+                return new Point(w, h);
+            }
+        }
         public Point Position
         {
             get
@@ -97,15 +106,6 @@ namespace VCEngine
             set
             {
                 VCInteropGLWindowSetSize(UnManagedHandle,  value.X, value.Y);
-            }
-        }
-        public Point MonitorSize
-        {
-            get
-            {
-                int w, h;
-                VCInteropGetMonitorSize(out w, out h);
-                return new Point(w, h);
             }
         }
         public String Title
@@ -156,6 +156,8 @@ namespace VCEngine
 
             LoopController.OnLoop += HandleUpdate;
             ActiveWindows.Add(this);
+
+            TrueSize = TrueSize * Gui.Scale;
         }
 
         new public void Dispose()

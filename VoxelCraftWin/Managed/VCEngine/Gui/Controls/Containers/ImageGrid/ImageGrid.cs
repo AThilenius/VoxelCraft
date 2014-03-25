@@ -11,9 +11,9 @@ namespace VCEngine
     public class ImageGrid : Control
     {
 
-        public int TileWidth = 100;
-        public int TileHeight = 110;
-        public int Padding = 10;
+        public int TileWidth = 50;
+        public int TileHeight = 60;
+        public int Padding = 5;
 
         protected List<ImageGridNode> m_nodes = new List<ImageGridNode>();
         protected int m_filledHeight;

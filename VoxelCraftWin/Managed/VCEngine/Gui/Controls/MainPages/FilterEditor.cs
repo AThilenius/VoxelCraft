@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace VCEngine
 {
@@ -61,6 +62,11 @@ namespace VCEngine
                 RenderedEntity Plane = new RenderedEntity(@"Models\Plane.obj", @"Materials\Filters\" + ((FileInfo)node.UserData).Name);
                 Plane.Transform.Position = new Vector3(-0.5f, -0.5f, -0.75f);
                 FilterRenderer.GLRenderViewport.Entities.Add(Plane);
+
+                // JSON
+                Material material = JsonConvert.DeserializeObject<Material>(File.ReadAllText(((FileInfo)node.UserData).FullName));
+                String reseialized = JsonConvert.SerializeObject(material);
+                Material copy = material;
             };
 
             FileNode = new DirectoryObserverTreeNode(ParentWindow, "Filters", FiltersDirectory, true);
