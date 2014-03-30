@@ -52,3 +52,6 @@ DLL_EXPORT_API int VCInteropResourceManagerGetTexture(char* fullPath);
 
 // Re-Loaders
 DLL_EXPORT_API void VCInteropResourceManagerReloadMaterial(char* fullPath);
+
+// Debug trackers
+DLL_EXPORT_API int VCInteropResourceManagerGetGPUMemoryUsage();

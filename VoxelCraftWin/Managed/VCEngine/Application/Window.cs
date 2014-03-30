@@ -125,11 +125,11 @@ namespace VCEngine
         public GuiDrawer Gui;
         public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
+        public DiagnosticsOverlay Diagnostics;
 
         private String m_title;
         private int m_framesRemaining = 10;
         private float m_drawTillTime;
-
 
         public Window(int width, int height, String title)
         {
@@ -151,6 +151,11 @@ namespace VCEngine
             MainControl = new Control(this);
             MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);
             MainControl.SetFirstResponder();
+
+            // Add a Diagnostics Control
+            Diagnostics = new DiagnosticsOverlay(this);
+            MainControl.AddControl(Diagnostics);
+            Diagnostics.Frame = MainControl.Frame;
 
             FrameBufferObject.Default.Bind();
 
@@ -198,6 +203,8 @@ namespace VCEngine
             //SetViewport(new Rectangle(0, 0, TrueSize));
             MainControl.Render();
 
+
+
             // Force one last flush to render out anything still in the queue
             FlushRenderQueue();
 
@@ -208,7 +215,7 @@ namespace VCEngine
             Stopwatch drawTimer = new Stopwatch();
             drawTimer.Start();
 
-            // Flush the GL pipe
+            // Swap Buffers ( Also forces a flush )
             VCInteropGLWindowSwapBuffers(UnManagedHandle);
 
             // Update times

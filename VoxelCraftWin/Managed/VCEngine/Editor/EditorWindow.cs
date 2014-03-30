@@ -7,11 +7,15 @@ namespace VCEngine
 {
     public class EditorWindow : Window
     {
-        public static Header HeaderBar;
-        public static VerticalControlSpinner MainSpinner;
-        public static VoxelEditor VoxelEditor;
-        public static MaterialEditor MaterialEditor;
-        public static FilterEditor FilterEditor;
+        public Header HeaderBar;
+
+        public SolutionDescription Solution;
+        public WelcomeMainPage WelcomePage;
+
+        public VerticalControlSpinner MainSpinner;
+        public VoxelEditor VoxelEditor;
+        public MaterialEditor MaterialEditor;
+        public ModelEditor ModelEditor;
 
         public EditorWindow(int width, int height, String title) : base(width, height, title)
         {
@@ -28,6 +32,19 @@ namespace VCEngine
             MainControl.AddControl(MainSpinner);
             MainSpinner.Frame = new Rectangle(0, 0, ScaledSize.X, ScaledSize.Y - 75);
 
+            // Create Welcome Page, wait to create the rest
+            WelcomePage = new VCEngine.WelcomeMainPage(this);
+            MainSpinner.AddControl(WelcomePage);
+            WelcomePage.Create();
+            WelcomePage.OnSolutionReady += (s, a) =>
+                {
+                    HeaderBar.PagesPicker.AddControl(VoxelEditor);
+                    HeaderBar.PagesPicker.AddControl(MaterialEditor);
+                    HeaderBar.PagesPicker.AddControl(ModelEditor);
+
+                    MainSpinner.Select(VoxelEditor);
+                };
+
             // Create VoxelEditor, child it to spinner, fill controls
             VoxelEditor = new VCEngine.VoxelEditor(this);
             MainSpinner.AddControl(VoxelEditor);
@@ -39,9 +56,9 @@ namespace VCEngine
             MaterialEditor.Create();
 
             // Create Material, child it to spinner, fill controls
-            FilterEditor = new VCEngine.FilterEditor(this);
-            MainSpinner.AddControl(FilterEditor);
-            FilterEditor.Create();
+            ModelEditor = new VCEngine.ModelEditor(this);
+            MainSpinner.AddControl(ModelEditor);
+            ModelEditor.Create();
 
             // Dock the spinner to remaining area
             MainSpinner.DockOrder = 1;

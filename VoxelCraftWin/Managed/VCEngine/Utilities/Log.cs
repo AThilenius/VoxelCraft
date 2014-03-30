@@ -52,7 +52,7 @@ namespace VCEngine
 
         public static void Notify(String info)
         {
-            AddToLog(new LogEntry { Message = info, Catagory = "Notify", Severity = LogEntry.SeverityRating.Warning });
+            AddToLog(new LogEntry { Message = info, Catagory = "Notification", Severity = LogEntry.SeverityRating.Info });
             OnNotify(null, new NotifyEntryEventArgs(info));
         }
 

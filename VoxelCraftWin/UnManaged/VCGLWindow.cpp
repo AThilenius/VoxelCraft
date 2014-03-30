@@ -21,6 +21,7 @@ glfwFramebuferSizeHandler resizeHandler = NULL;
 // =====   GLEW / GLFW Hooks   ======================================================
 void _glewErrorCallback(int error, const char* description)
 {
+
 	VCLog::Error("GLFW Error Callback: " + std::string(description), "Initialize");
 }
 

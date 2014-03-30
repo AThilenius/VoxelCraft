@@ -56,5 +56,20 @@ namespace VCEngine
             return wrappedLines.ToArray();
         }
 
+        public static String Combine(this String[] stringArray, int beginAt = -1, int endAt = -1)
+        {
+            String retString = "";
+            beginAt = beginAt == -1 ? 0 : beginAt;
+            endAt = endAt == -1 ? stringArray.Length - 1 : endAt;
+
+            for (int i = beginAt; i < endAt; i++)
+                if (i != endAt - 1)
+                    retString += stringArray[i] + " ";
+                else
+                    retString += stringArray[i];
+
+            return retString;
+        }
+
     }
 }

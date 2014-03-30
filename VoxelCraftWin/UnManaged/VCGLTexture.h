@@ -59,6 +59,7 @@ private:
 
 
 private:
+	int m_memoryUsage;
 	static VCGLTexture* m_boundTexture;
 	static std::unordered_map<std::string, VCGLTexture*> m_loadedTextures;
 

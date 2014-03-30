@@ -13,6 +13,7 @@ namespace VCEngine
             HighlightedButton,
             MenuButton,
             ImageButton,
+            LabelButton,
             TriButtonLeft,
             TriButtonRight,
             TriButtonCenter
@@ -100,6 +101,28 @@ namespace VCEngine
 
                     else
                         Gui.DrawBackgroundEmpty(ScreenFrame);
+                    break;
+
+                case Style.LabelButton:
+                        Text.BevelText = false;
+
+                        if (IsClickDown)
+                        {
+                            Gui.DrawButtonHighlighted(ScreenFrame);
+                            Text.FontColor = Color.White;
+                        }
+                        else
+                        {
+                            if (IsHovered)
+                            {
+                                Gui.DrawButtonAccentuated(ScreenFrame);
+                                Text.FontColor = Color.White;
+                            }
+                            else
+                            {
+                                Text.FontColor = Color.ControlBlue;
+                            }
+                        }
                     break;
             }
             

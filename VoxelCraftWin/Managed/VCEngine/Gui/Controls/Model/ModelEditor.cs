@@ -23,6 +23,7 @@ namespace VCEngine
         // Right Pane
         public MaterialPropertiesPane MaterialProperties;
 
+        public override string Name { get { return "Model"; } }
         protected override Control LeftPane { get { return FoldersTreeView; } }
         protected override Control RightPane { get { return MaterialProperties; } }
         protected override Control CenterPane { get { return MaterialPreivew; } }
@@ -76,11 +77,12 @@ namespace VCEngine
                     return;
 
                 String path = ((FileInfo)node.UserData).FullName;
-                MaterialPreivew.OpenMaterialPath(path);
-                MaterialProperties.OpenMaterial(path);
+
+                // Open Model
+
             };
 
-            DirectoryNode = new DirectoryObserverTreeNode(ParentWindow, "Materials", ModelsDirectory, true);
+            DirectoryNode = new DirectoryObserverTreeNode(ParentWindow, "Models", ModelsDirectory, true);
             FoldersTreeView.Head.AddControl(DirectoryNode);
         }
 

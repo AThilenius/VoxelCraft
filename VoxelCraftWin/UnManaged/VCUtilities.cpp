@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "VCUtilities.h"
 
+int g_gpuMemoryUsage = 0;
+
 void _glErrorCheck(std::string file, int line)
 {
 #ifdef DEBUG

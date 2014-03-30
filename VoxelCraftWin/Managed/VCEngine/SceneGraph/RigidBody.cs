@@ -19,7 +19,7 @@ namespace VCEngine
                 Actor = new PxRigidDynamic(pos, rot);
 
             Actor.AttachShape(shape);
-            VCEngineCore.PhysicsScene.AddActor(Actor);
+            //VCEngineCore.PhysicsScene.AddActor(Actor);
         }
 
         ~RigidBody()

@@ -34,6 +34,7 @@ namespace VCEngine
         public Color FontColor = Color.Black;
         public TextMetrics Metrics;
         public Boolean TruncateLength = true;
+        public Boolean BevelText = true;
 
         private string m_text;
         private string m_renderedString;
@@ -91,7 +92,11 @@ namespace VCEngine
             if (TextAlignment == TextAlignments.LowerRight || TextAlignment == TextAlignments.CenterRight || TextAlignment == TextAlignments.UpperRight)
                 ll.X = sf.X + sf.Width - m_subMetric.TotalHeight;
 
-            Font.DrawStringBeveled(m_renderedString, ll, FontColor);
+            if (BevelText)
+                Font.DrawStringBeveled(m_renderedString, ll, FontColor);
+
+            else
+                Font.DrawString(m_renderedString, ll, FontColor);
         }
 
         private void UpdateString()

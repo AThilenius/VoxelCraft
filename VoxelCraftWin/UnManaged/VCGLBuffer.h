@@ -32,8 +32,9 @@ public:
 	/// Direct Index buffer setup
 	void IndexBufferSpecification(int size, void* data, int count, VCGLPrimitives::Types indecieType = VCGLPrimitives::UnsignedInt, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
 
-
 private:
+	int m_vertexMemoryUsage;
+	int m_indexMemoryUsage;
 	GLuint m_VAO;
 	GLuint m_VBO;
 	GLuint m_VIB;
@@ -42,9 +43,8 @@ private:
 	int m_iCount;
 	VCGLPrimitives::Types m_indexBufferType;
 	VCGLDrawPrimitives::Types m_primitivesType;
-
 	VCGLVertexBufferAttributeSpec* m_VBOSpec;
-	
+
 private:
 	friend class VCGLVertexBufferAttributeSpec;
 	DISALLOW_COPY_AND_ASSIGN(VCGLBuffer);

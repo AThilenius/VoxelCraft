@@ -106,3 +106,8 @@ void VCInteropResourceManagerReloadMaterial( char* fullPath )
 {
 	VCResourceManager::ReloadMaterial(fullPath);
 }
+
+DLL_EXPORT_API int VCInteropResourceManagerGetGPUMemoryUsage()
+{
+	return g_gpuMemoryUsage;
+}

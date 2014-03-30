@@ -15,7 +15,9 @@ VCGLBuffer::VCGLBuffer(void):
 	m_VIB(0),
 	m_VBOSpec(NULL),
 	m_vCount(0),
-	m_iCount(0)
+	m_iCount(0),
+	m_vertexMemoryUsage(0),
+	m_indexMemoryUsage(0)
 {
 	// Create VAO
 	glGenVertexArrays(1, &m_VAO);
@@ -47,6 +49,9 @@ VCGLBuffer::~VCGLBuffer(void)
 
 	glErrorCheck();
 	VCLog::Info("VAO Released", "Resources");
+
+	g_gpuMemoryUsage -= m_vertexMemoryUsage;
+	g_gpuMemoryUsage -= m_indexMemoryUsage;
 }
 
 void VCGLBuffer::Draw()
@@ -105,6 +110,11 @@ void VCGLBuffer::IndexBufferSpecification( int size, void* data, int count, VCGL
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VIB);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawMode);
 	glErrorCheck();
+
+	// Track Memory
+	g_gpuMemoryUsage -= m_indexMemoryUsage;
+	m_indexMemoryUsage = size;
+	g_gpuMemoryUsage += size;
 }
 
 VCGLVertexBufferAttributeSpec::VCGLVertexBufferAttributeSpec(VCGLBuffer* coupledBuffer):
@@ -121,6 +131,12 @@ VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexData( UIn
 	glBufferData(GL_ARRAY_BUFFER, size, data, drawMode);
 	m_coupledBuffer->m_vCount = count;
 	glErrorCheck();
+
+	// Track Memory
+	g_gpuMemoryUsage -= m_coupledBuffer->m_vertexMemoryUsage;
+	m_coupledBuffer->m_vertexMemoryUsage = size;
+	g_gpuMemoryUsage += size;
+
 	return *this;
 }
 

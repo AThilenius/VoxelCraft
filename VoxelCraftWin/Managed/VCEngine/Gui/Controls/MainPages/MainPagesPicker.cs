@@ -7,70 +7,62 @@ namespace VCEngine
 {
     public class MainPagesPicker : Control
     {
-        private ToggleButton m_voxelButton;
-        private ToggleButton m_materialButton;
-        private ToggleButton m_filterButton;
+        public int ButtonWidth = 80;
+
         private MainPageBase m_lastSelected;
+        private List<MainPageBase> m_pages = new List<MainPageBase>();
 
         public MainPagesPicker(Window window) : base(window)
         {
-            // Voxel
-            m_voxelButton = new ToggleButton(ParentWindow, "Voxel");
-            m_voxelButton.Style = ToggleButton.ToggleStyle.TriLeft;
-            m_voxelButton.OnDepressed += (s, a) =>
-                {
-                    EditorWindow.MainSpinner.Select(EditorWindow.VoxelEditor);
-
-                    if (m_lastSelected != null)
-                        m_lastSelected.OnDeselected();
-
-                    EditorWindow.VoxelEditor.OnSelected();
-                };
-            AddControl(m_voxelButton);
-
-            // Material
-            m_materialButton = new ToggleButton(ParentWindow, "Materials");
-            m_materialButton.Style = ToggleButton.ToggleStyle.TriCenter;
-            m_materialButton.OnDepressed += (s, a) =>
-                {
-                    EditorWindow.MainSpinner.Select(EditorWindow.MaterialEditor);
-
-                    if (m_lastSelected != null)
-                        m_lastSelected.OnDeselected();
-
-                    EditorWindow.MaterialEditor.OnSelected();
-                };
-            AddControl(m_materialButton);
-
-            // Filter
-            m_filterButton = new ToggleButton(ParentWindow, "Filters");
-            m_filterButton.Style = ToggleButton.ToggleStyle.TriRight;
-            m_filterButton.OnDepressed += (s, a) =>
-            {
-                EditorWindow.MainSpinner.Select(EditorWindow.FilterEditor);
-
-                if (m_lastSelected != null)
-                    m_lastSelected.OnDeselected();
-
-                EditorWindow.FilterEditor.OnSelected();
-            };
-            AddControl(m_filterButton);
-
-            // Create Group
-            ToggleButton.CreateGroup(m_voxelButton, m_materialButton, m_filterButton);
-            m_voxelButton.Activate();
-            
-            Height = m_voxelButton.Height;
-            Width = m_voxelButton.Width + m_materialButton.Width + m_filterButton.Width;
         }
 
-        protected override void Draw()
+        public override void AddControl(Control control)
         {
-            int width = MathHelper.RoundedDevision(Frame.Width, 2);
+            if (!(control is MainPageBase))
+                return;
 
-            m_voxelButton.Frame = new Rectangle(0, 0, m_voxelButton.Width, m_voxelButton.Height);
-            m_materialButton.Frame = new Rectangle(m_voxelButton.Width - 2, 0, m_materialButton.Width, m_materialButton.Height);
-            m_filterButton.Frame = new Rectangle(m_voxelButton.Width + m_materialButton.Width - 4, 0, m_filterButton.Width, m_filterButton.Height);
+            RemoveAllControls();
+            m_pages.Add(control as MainPageBase);
+            List<ToggleButton> toggleButtons = new List<ToggleButton>();
+
+            for (int i = 0; i < m_pages.Count; i++)
+            {
+                MainPageBase page = m_pages[i];
+                ToggleButton button = new ToggleButton(ParentWindow, page.Name);
+                toggleButtons.Add(button);
+                base.AddControl(button);
+
+                if ( i == 0 )
+                    button.Style = ToggleButton.ToggleStyle.TriLeft;
+
+                else if (i > 0 && i < m_pages.Count - 1)
+                    button.Style = ToggleButton.ToggleStyle.TriCenter;
+
+                else if (i == m_pages.Count - 1)
+                    button.Style = ToggleButton.ToggleStyle.TriRight;
+
+                button.OnDepressed += (s, a) =>
+                {
+                    (ParentWindow as EditorWindow).MainSpinner.Select(page);
+
+                    if (m_lastSelected != null)
+                        m_lastSelected.OnDeselected();
+
+                    page.OnSelected();
+                };
+
+                button.Frame = new Rectangle(ButtonWidth * i - 2 * i, 0, ButtonWidth, button.Height);
+            }
+
+            // Create Group
+            if (toggleButtons.Count > 0)
+            {
+                ToggleButton.CreateGroup(toggleButtons.ToArray());
+                toggleButtons[0].Activate();
+
+                Height = toggleButtons[0].Height;
+                Width = m_pages.Count * ButtonWidth - 2 * m_pages.Count;
+            }
         }
 
     }

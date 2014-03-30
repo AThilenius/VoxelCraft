@@ -24,6 +24,9 @@
 #define glErrorCheck() _glErrorCheck(_FNAME_, __LINE__);
 void _glErrorCheck(std::string file, int line);
 
+// OpenGL Debug
+extern int g_gpuMemoryUsage;
+
 // =====   String   ======================================================
 std::vector<std::string> SplitString(std::string str, char splitChar = ':');
 std::string PerpendLine(std::string newLine, std::string existingLine);

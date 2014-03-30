@@ -24,6 +24,7 @@ namespace VCEngine
         // Right Pane
         public MaterialPropertiesPane MaterialProperties;
 
+        public override string Name { get { return "Material"; } }
         protected override Control LeftPane { get { return FoldersTreeView; } }
         protected override Control RightPane { get { return MaterialProperties; } }
         protected override Control CenterPane { get { return MaterialPreivew; } }

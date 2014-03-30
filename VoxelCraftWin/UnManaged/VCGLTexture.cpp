@@ -13,7 +13,8 @@
 VCGLTexture* VCGLTexture::m_boundTexture = NULL;
 std::unordered_map<std::string, VCGLTexture*> VCGLTexture::m_loadedTextures;
 
-VCGLTexture::VCGLTexture(void)
+VCGLTexture::VCGLTexture(void):
+	m_memoryUsage(0)
 {
 	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
@@ -21,6 +22,7 @@ VCGLTexture::VCGLTexture(void)
 VCGLTexture::~VCGLTexture(void)
 {
 	glDeleteTextures(1, &GLTextID);
+	g_gpuMemoryUsage -= m_memoryUsage;
 }
 
 VCGLTexture* VCGLTexture::ManageExistingBuffer( GLuint bufferId )
@@ -152,9 +154,19 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 		break;
 	}
 
+	// Track Memory Usage
+	int width, heigh, depth = 0;
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &heigh);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_DEPTH, &depth);
+	tex->m_memoryUsage = width * heigh * depth;
+	VCLog::Info("Texture loaded. Using " + std::to_string(tex->m_memoryUsage / 1000000.0f) + " MB.", "Resources");
+	g_gpuMemoryUsage += tex->m_memoryUsage;
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	m_boundTexture = NULL;
 	m_loadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(path, tex));
+
 
 	return tex;
 }

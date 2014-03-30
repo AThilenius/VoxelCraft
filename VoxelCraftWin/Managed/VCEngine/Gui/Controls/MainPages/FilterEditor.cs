@@ -15,6 +15,7 @@ namespace VCEngine
         public DirectoryObserverTreeNode FileNode;
         public RenderWindow FilterRenderer;
 
+        public override string Name { get { return "Filter"; } }
         protected override Control LeftPane { get { return FiltersTreeView; } }
         protected override Control RightPane { get { return null; } }
         protected override Control CenterPane { get { return null; } }

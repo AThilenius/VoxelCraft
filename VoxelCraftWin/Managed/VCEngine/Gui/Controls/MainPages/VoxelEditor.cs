@@ -14,6 +14,7 @@ namespace VCEngine
         public ContextMenu RightContextMenu;
         public SolutionExplorer SolutionEx;
 
+        public override string Name { get { return "Voxel"; } }
         protected override Control LeftPane { get { return SolutionEx; } }
         protected override Control RightPane { get { return RightContextMenu; } }
         protected override Control CenterPane { get { return EditorWindow; } }
@@ -21,8 +22,6 @@ namespace VCEngine
 
         public VoxelEditor(Window window) : base(window)
         {
-            // Default page
-            base.OnSelected();
         }
 
         public void Create()

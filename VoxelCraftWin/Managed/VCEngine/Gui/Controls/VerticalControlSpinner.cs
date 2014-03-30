@@ -14,12 +14,8 @@ namespace VCEngine
 
         public VerticalControlSpinner(Window window) : base(window)
         {
-            Resize += (s, a) =>
-                {
-                    ReBuildSpinner();
-                };
+            Resize += (s, a) => ReBuildSpinner();
         }
-
 
         public override void AddControl(Control control)
         {

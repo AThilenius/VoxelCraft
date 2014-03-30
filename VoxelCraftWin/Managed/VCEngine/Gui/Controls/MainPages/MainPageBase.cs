@@ -7,6 +7,7 @@ namespace VCEngine
 {
     public abstract class MainPageBase : Control
     {
+        public abstract String Name { get; }
         protected abstract Control LeftPane { get; }
         protected abstract Control RightPane { get; }
         protected abstract Control CenterPane { get; }
@@ -87,7 +88,7 @@ namespace VCEngine
 
         public virtual void OnSelected()
         {
-            EditorWindow.HeaderBar.PanelsButtons = PanelsTrippleButton;
+            (ParentWindow as EditorWindow).HeaderBar.PanelsButtons = PanelsTrippleButton;
         }
 
         protected override void Draw()
