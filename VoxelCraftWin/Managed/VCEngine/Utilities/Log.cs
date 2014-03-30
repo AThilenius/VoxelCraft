@@ -252,7 +252,7 @@ namespace VCEngine
         [ConsoleFunction("A debug function to test the notification center", "Log")]
         public static String Notify(String[] args)
         {
-            Log.Notify(args[1]);
+            Log.Notify(args.Combine(1));
             return "";
         }
 

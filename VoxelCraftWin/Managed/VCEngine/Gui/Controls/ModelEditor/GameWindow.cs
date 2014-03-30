@@ -150,7 +150,7 @@ namespace VCEngine
         {
             // Raw access, must be scaled manually.
             World.Camera.Viewport = ScreenFrame * ParentWindow.Gui.Scale;
-            World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
+            //World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 
         internal void RequestEyeDrop()

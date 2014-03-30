@@ -234,8 +234,8 @@ namespace VCEngine
 
             else
             {
-                if ((Time.CurrentTime + time + 0.5f) > m_drawTillTime)
-                    m_drawTillTime = Time.CurrentTime + time + 0.5f;
+                if ((Time.TotalTime + time + 0.5f) > m_drawTillTime)
+                    m_drawTillTime = Time.TotalTime + time + 0.5f;
             }
         }
 

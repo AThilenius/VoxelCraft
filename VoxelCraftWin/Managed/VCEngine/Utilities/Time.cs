@@ -11,9 +11,11 @@ namespace VCEngine
         public static float TotalTime;
         public static TimeSpan TotalTimespan = new TimeSpan();
         public static float DeltaTime = 0.1f;
-        public static float CurrentTime { get { return (float)m_stopwatch.ElapsedMilliseconds * 0.001f; } }
+        public static TimeSpan DeltaTimeSpan = new TimeSpan(0, 0, 0, 0, 100);
+        //public static float CurrentTime { get { return (float)m_stopwatch.ElapsedMilliseconds * 0.001f; } }
 
         private static Stopwatch m_stopwatch = new Stopwatch();
+        private static TimeSpan m_lastTime = new TimeSpan();
 
         static Time()
         {
@@ -23,9 +25,8 @@ namespace VCEngine
         internal static void Update()
         {
             TotalTimespan = m_stopwatch.Elapsed;
-            float newTime = (float)TotalTimespan.TotalSeconds;
-            DeltaTime = newTime - TotalTime;
-            TotalTime = newTime;
+            DeltaTimeSpan = TotalTimespan - m_lastTime;
+            TotalTime = (float) DeltaTimeSpan.TotalSeconds;
         }
 
 

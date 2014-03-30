@@ -13,23 +13,17 @@ namespace VCEngine
 {
     public class Editor
     {
-        private static RenderViewport m_renderWindow;
-        private static RenderedEntity m_renderEntity;
 
         public static void EditorMain()
         {
             PathUtilities.UpdatePathUtilities();
 
             EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
+            
             Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
-
-            PxPhysics.Initialize();
-            VCEngineCore.Initialize();
-            VCEngineCore.Start();
 
             LoopController.PassControlAndBegin();
         }
-
 
     }
 }

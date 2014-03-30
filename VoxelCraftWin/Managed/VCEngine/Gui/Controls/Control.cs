@@ -66,75 +66,6 @@ namespace VCEngine
             {
                 ResizeEventArgs args = new ResizeEventArgs { From = m_frame, To = value };
                 m_frame = value;
-                
-                // Update THIS Dock (Recursive downward) if this isn't master control.
-                // Take the docked area from the Parent's remaining area to allow docking priorities
-                if (Parent != null)
-                {
-                    if (Dock == Dockings.Left)
-                    {
-                        m_frame.X = Parent.m_remainingDockFrame.X;
-                        m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
-                        m_frame.Y = Parent.m_remainingDockFrame.Y;
-                        m_frame.Height = Parent.m_remainingDockFrame.Height;
-
-                        Parent.m_remainingDockFrame.X += m_frame.Width + Margin.Right;
-                        Parent.m_remainingDockFrame.Width -= m_frame.Width + Margin.Right;
-                    }
-
-                    else if (Dock == Dockings.Right)
-                    {
-                        m_frame.Width = MathHelper.Clamp(m_frame.Width, 0, Parent.m_remainingDockFrame.Width);
-                        m_frame.X = MathHelper.Clamp(
-                            Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width - m_frame.Width,
-                            Parent.m_remainingDockFrame.X,
-                            Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width);
-                        m_frame.Y = Parent.m_remainingDockFrame.Y;
-                        m_frame.Height = Parent.m_remainingDockFrame.Height;
-
-                        Parent.m_remainingDockFrame.Width -= m_frame.Width + Margin.Right;
-                    }
-
-                    else if (Dock == Dockings.Bottom)
-                    {
-                        m_frame.Y = Parent.m_remainingDockFrame.Y;
-                        m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
-                        m_frame.X = Parent.m_remainingDockFrame.X;
-                        m_frame.Width = Parent.m_remainingDockFrame.Width;
-
-                        Parent.m_remainingDockFrame.Y += m_frame.Height + Margin.Bottom;
-                        Parent.m_remainingDockFrame.Height -= m_frame.Height + Margin.Bottom;
-                    }
-
-                    else if (Dock == Dockings.Top)
-                    {
-                        m_frame.Height = MathHelper.Clamp(m_frame.Height, 0, Parent.m_remainingDockFrame.Height);
-                        m_frame.Y = MathHelper.Clamp(
-                            Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height - m_frame.Height,
-                            Parent.m_remainingDockFrame.Y,
-                            Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height);
-                        m_frame.X = Parent.m_remainingDockFrame.X;
-                        m_frame.Width = Parent.m_remainingDockFrame.Width;
-
-                        Parent.m_remainingDockFrame.Height -= m_frame.Height + Margin.Bottom;
-                    }
-
-                    else if (Dock == Dockings.Fill)
-                    {
-                        m_frame = Parent.m_remainingDockFrame;
-                        Parent.m_remainingDockFrame.Width = 0;
-                        Parent.m_remainingDockFrame.Height = 0;
-                    }
-
-                }
-                
-                // Recursively update children docks in ascending order
-                m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
-
-                foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
-                    if (child.Visible)
-                        child.Frame = child.Frame;
-
                 args.To = m_frame;
 
                 if (args.From != args.To)
@@ -305,6 +236,9 @@ namespace VCEngine
         // Called externally
         public void Render()
         {
+            // Recursively Re-Dock all controls
+            UpdateDockings();
+
             // Recursively render all controls
             _Render();
 
@@ -504,10 +438,6 @@ namespace VCEngine
         protected virtual void Update()
         {
         }
-
-        private void UpdateFrame(Rectangle newFrame)
-        {
-        }
         
         internal void SetFirstResponder()
         {
@@ -571,10 +501,10 @@ namespace VCEngine
                             active.Click(this, new MouseEventArgs { EventType = MouseEventType.Click, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
 
                             // 250ms double click
-                            if (Time.CurrentTime < active.m_lastClickTime + 0.250f)
+                            if (Time.TotalTime < active.m_lastClickTime + 0.250f)
                                 active.DoubleClick(sender, new MouseEventArgs { EventType = MouseEventType.DoubleClick, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
 
-                            active.m_lastClickTime = Time.CurrentTime;
+                            active.m_lastClickTime = Time.TotalTime;
                         }
 
                         active.IsClickDown = false;
@@ -722,6 +652,82 @@ namespace VCEngine
                 return this;
 
             return m_activeChild.GetEndOfCommandChain();
+        }
+
+        private void UpdateDockings()
+        {
+            Rectangle newFrame = m_frame;
+
+            // Update THIS Dock (Recursive downward) if this isn't master control.
+            // Take the docked area from the Parent's remaining area to allow docking priorities
+            if (Parent != null)
+            {
+                if (Dock == Dockings.Left)
+                {
+                    newFrame.X = Parent.m_remainingDockFrame.X;
+                    newFrame.Width = MathHelper.Clamp(newFrame.Width, 0, Parent.m_remainingDockFrame.Width);
+                    newFrame.Y = Parent.m_remainingDockFrame.Y;
+                    newFrame.Height = Parent.m_remainingDockFrame.Height;
+
+                    Parent.m_remainingDockFrame.X += newFrame.Width + Margin.Right;
+                    Parent.m_remainingDockFrame.Width -= newFrame.Width + Margin.Right;
+                }
+
+                else if (Dock == Dockings.Right)
+                {
+                    newFrame.Width = MathHelper.Clamp(newFrame.Width, 0, Parent.m_remainingDockFrame.Width);
+                    newFrame.X = MathHelper.Clamp(
+                        Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width - newFrame.Width,
+                        Parent.m_remainingDockFrame.X,
+                        Parent.m_remainingDockFrame.X + Parent.m_remainingDockFrame.Width);
+                    newFrame.Y = Parent.m_remainingDockFrame.Y;
+                    newFrame.Height = Parent.m_remainingDockFrame.Height;
+
+                    Parent.m_remainingDockFrame.Width -= newFrame.Width + Margin.Right;
+                }
+
+                else if (Dock == Dockings.Bottom)
+                {
+                    newFrame.Y = Parent.m_remainingDockFrame.Y;
+                    newFrame.Height = MathHelper.Clamp(newFrame.Height, 0, Parent.m_remainingDockFrame.Height);
+                    newFrame.X = Parent.m_remainingDockFrame.X;
+                    newFrame.Width = Parent.m_remainingDockFrame.Width;
+
+                    Parent.m_remainingDockFrame.Y += newFrame.Height + Margin.Bottom;
+                    Parent.m_remainingDockFrame.Height -= newFrame.Height + Margin.Bottom;
+                }
+
+                else if (Dock == Dockings.Top)
+                {
+                    newFrame.Height = MathHelper.Clamp(newFrame.Height, 0, Parent.m_remainingDockFrame.Height);
+                    newFrame.Y = MathHelper.Clamp(
+                        Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height - newFrame.Height,
+                        Parent.m_remainingDockFrame.Y,
+                        Parent.m_remainingDockFrame.Y + Parent.m_remainingDockFrame.Height);
+                    newFrame.X = Parent.m_remainingDockFrame.X;
+                    newFrame.Width = Parent.m_remainingDockFrame.Width;
+
+                    Parent.m_remainingDockFrame.Height -= newFrame.Height + Margin.Bottom;
+                }
+
+                else if (Dock == Dockings.Fill)
+                {
+                    newFrame = Parent.m_remainingDockFrame;
+                    Parent.m_remainingDockFrame.Width = 0;
+                    Parent.m_remainingDockFrame.Height = 0;
+                }
+
+            }
+
+            // Update the frame ( Will also fire resize event )
+            Frame = newFrame;
+
+            // Recursively update children docks in ascending order
+            m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
+
+            foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
+                if (child.Visible)
+                    child.UpdateDockings();
         }
 
         #region Console Commands

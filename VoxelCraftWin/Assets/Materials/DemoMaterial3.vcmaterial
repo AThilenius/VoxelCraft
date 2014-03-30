@@ -1,11 +1,11 @@
 {
   "Name": "Sample Material",
-  "Shader": "Lex",
+  "Shader": "ColorDiffuse",
   "UniformValues": [
     {
-      "Type": "Sampler2D",
-      "Name": "glyphs",
-      "Value": "Textures\\Sunset.jpg"
+      "Type": "ColorRGBA",
+      "Name": "Color",
+      "Value": "127 : 127 : 127 : 255"
     }
   ]
 }

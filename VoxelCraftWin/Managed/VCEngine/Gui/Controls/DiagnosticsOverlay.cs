@@ -16,7 +16,7 @@ namespace VCEngine
 
         #endregion
 
-        public int DrawOverlayLevel = 1;
+        public int DrawOverlayLevel = 0;
 
         private int m_yOffset;
         private int m_frameCount;

@@ -32,30 +32,10 @@ namespace VCEngine
         public float FieldOfViewDegrees
         {
             get { return MathHelper.RadiansToDegrees(m_fieldOfViewRadians); }
-            set 
-            {
-                m_fieldOfViewRadians = MathHelper.DegreesToRadians(value);
-                m_needsRebuild = true;
-            }
+            set { m_fieldOfViewRadians = MathHelper.DegreesToRadians(value); }
         }
-        public float NearClip
-        {
-            get { return m_nearClip; }
-            set 
-            {
-                m_nearClip = value;
-                m_needsRebuild = true;
-            }
-        }
-        public float FarClip
-        {
-            get { return m_farClip; }
-            set 
-            {
-                m_farClip = value;
-                m_needsRebuild = true;
-            }
-        }
+        public float NearClip = 0.1f;
+        public float FarClip = 500.0f;
         public float AspectRatio
         {
             get 
@@ -74,27 +54,10 @@ namespace VCEngine
                     return;
 
                 m_aspectRatio = value;
-                m_needsRebuild = true;
             }
         }
-        public bool AutoAspect
-        {
-            get { return m_autoAspect; }
-            set
-            {
-                m_autoAspect = value;
-                m_needsRebuild = true;
-            }
-        }
-        public bool Fullscreen
-        {
-            get { return m_fullscreen; }
-            set 
-            {
-                m_fullscreen = value;
-                m_needsRebuild = true;
-            }
-        }
+        public bool AutoAspect;
+        public bool Fullscreen;
         public Rectangle Viewport
         {
             get { return Fullscreen ? ParentWindow.FullViewport : m_viewport; }
@@ -103,23 +66,22 @@ namespace VCEngine
                 m_viewport = value;
                 if (m_viewport.Width <= 0) m_viewport.Width = 1;
                 if (m_viewport.Height <= 0) m_viewport.Height = 1;
-
-                m_needsRebuild = true;
             }
         }
         public Matrix4 ProjectionMatrix
         {
             get { return m_projectionMatrix; }
         }
+        public Boolean Orthographic;
+        public float OrthographicWidth = 1.0f;
+        public float OrthographicHeight = 1.0f;
+        
 
         private Rectangle m_viewport = new Rectangle(0, 0, 100, 100);
         private float m_fieldOfViewRadians = MathHelper.DegreesToRadians(65.0f);
-        private float m_nearClip = 0.1f;
-        private float m_farClip = 500.0f;
         private float m_aspectRatio = 1.0f;
         private bool m_fullscreen;
         private bool m_autoAspect = true;
-        private bool m_needsRebuild = true;
         private Matrix4 m_projectionMatrix;
         private Matrix4 m_inverseProjMatrix;
 
@@ -173,24 +135,17 @@ namespace VCEngine
 
             // FullScreen and window resized
             if (Fullscreen && m_viewport != ParentWindow.FullViewport)
-            {
-                m_needsRebuild = true;
                 m_viewport = ParentWindow.FullViewport;
-            }
 
             // Compute Projection Matrix, update status
-            if (m_needsRebuild)
-            {
-                m_projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(m_fieldOfViewRadians, AspectRatio, NearClip, FarClip);
-                m_inverseProjMatrix = Matrix4.Invert(m_projectionMatrix);
-                //VCInteropCameraSetUpdateState(UnManagedHandle, true);
-                m_needsRebuild = false;
-            }
-
+            if (Orthographic)
+                m_projectionMatrix = Matrix4.CreateOrthographic(OrthographicWidth, OrthographicHeight, NearClip, FarClip);
             else
-                VCInteropCameraSetUpdateState(UnManagedHandle, false);
+                m_projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(m_fieldOfViewRadians, AspectRatio, NearClip, FarClip);
 
+            m_inverseProjMatrix = Matrix4.Invert(m_projectionMatrix);
             VCInteropCameraSetUpdateState(UnManagedHandle, true);
+
             // Set UnManaged code
             VCInteropCameraSetProjectionViewMatrix(UnManagedHandle, m_projectionMatrix, Transform.TransformMatrix);
             VCInteropCameraSetViewport(UnManagedHandle, Viewport * ParentWindow.Gui.Scale);

@@ -33,6 +33,10 @@ namespace VCEngine
         {
             m_loopTimer.Start();
 
+            PxPhysics.Initialize();
+            VCEngineCore.Initialize();
+            VCEngineCore.Start();
+
             while (ShouldLoop)
             {
                 Time.Update();

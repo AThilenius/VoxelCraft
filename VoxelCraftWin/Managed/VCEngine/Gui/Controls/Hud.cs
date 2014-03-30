@@ -71,9 +71,9 @@ namespace VCEngine
             // - 2:     +10
 
             if ((m_notificationQueue.Count > 0 || m_displayQueue.Count > 0 || m_activeNotification != null)
-                && m_nextNotifyTime < Time.CurrentTime)
+                && m_nextNotifyTime < Time.TotalTime)
             {
-                m_nextNotifyTime = Time.CurrentTime + NotificationDelay;
+                m_nextNotifyTime = Time.TotalTime + NotificationDelay;
 
                 if (m_activeNotification != null)
                 {
