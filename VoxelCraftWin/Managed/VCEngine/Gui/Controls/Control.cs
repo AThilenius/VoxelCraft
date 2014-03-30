@@ -606,7 +606,7 @@ namespace VCEngine
                         previosActive.DragExit(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
                             new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
 
-                        previosActive.DragEnter(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
+                        active.DragEnter(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
                             new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
                     }
 

@@ -12,6 +12,8 @@ namespace VCEngine
         public ImageView Image;
         public Object Data;
 
+        private Texture m_oldImage;
+
         public ImageGridNode(Window window, String label, Object data) : base(window)
         {
             Image = new ImageView(ParentWindow);
@@ -33,6 +35,16 @@ namespace VCEngine
             CanBeginDrag = true;
             DragBegin += (s, a) => a.Message = data;
             DragDraw += (s, a) => ParentWindow.GuiDrawer.DrawImage((Texture)a.Message, new Rectangle(ParentWindow.GlfwInputState.MouseLocation, 50, 50));
+            DragEnter += (s, a) =>
+                {
+                    m_oldImage = Image.Image;
+                    Image.Image = (Texture) a.Message;
+                };
+            DragExit += (s, a) =>
+                {
+                    if ( m_oldImage != null )
+                        Image.Image = m_oldImage;
+                };
             DragDrop += (s, a) => Image.Image = (Texture)a.Message;
         }
 
