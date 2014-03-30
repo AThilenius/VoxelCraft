@@ -44,6 +44,7 @@ namespace VCEngine
             Text = text;
             Frame = new Rectangle(0, 0, Metrics.TotalWidth, Metrics.TotalHeight);
             Resize += (s, a) => UpdateString();
+            IsEventPassthrough = true;
         }
 
         protected override void Draw()

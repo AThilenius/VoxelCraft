@@ -11,7 +11,7 @@ namespace VCEngine
 
         public ImageView(Window window) : base(window)
         {
-
+            IsEventPassthrough = true;
         }
 
         protected override void Draw()

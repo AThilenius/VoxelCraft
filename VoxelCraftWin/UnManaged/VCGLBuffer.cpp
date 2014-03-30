@@ -88,12 +88,14 @@ void VCGLBuffer::IndexBufferSpecification( int size, void* data, int count, VCGL
 	if( !m_VIB )
 	{
 		// Create VBO
-		glGenBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_VIB);
+		glGenBuffers(1, &m_VIB);
 		ZERO_CHECK(m_VIB);
 		glErrorCheck();
 	}
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VIB);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, drawMode);
+	glErrorCheck();
 }
 
 VCGLVertexBufferAttributeSpec::VCGLVertexBufferAttributeSpec(VCGLBuffer* coupledBuffer):

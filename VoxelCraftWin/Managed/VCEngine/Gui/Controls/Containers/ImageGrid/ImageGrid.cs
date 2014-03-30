@@ -16,7 +16,7 @@ namespace VCEngine
         public int Padding = 10;
 
         protected List<ImageGridNode> m_nodes = new List<ImageGridNode>();
-        protected int m_fulledHeight;
+        protected int m_filledHeight;
 
         public ImageGrid(Window window) : base(window)
         {
@@ -45,17 +45,22 @@ namespace VCEngine
             ReBuildGrid();
         }
 
-        private void ReBuildGrid()
+        public void AnimateOpening()
         {
+            // Align all to the upper cent
+            foreach (ImageGridNode node in m_nodes)
+                node.Frame = new Rectangle( MathHelper.RoundedDevision(Width, 2) - MathHelper.RoundedDevision(TileWidth, 2) , Height - (TileHeight + Padding), TileWidth, TileHeight);
+
             // Column/Row count must be ( (Width + Padding) / (ImageSize + Padding) )
             int maxColumnCount = (int)((float)(Width + Padding) / (float)(TileWidth + Padding));
             int maxRowCount = (int)((float)(Height + Padding) / (float)(TileHeight + Padding));
 
+            // Begin the animation to there final destination
             int i = 0;
-            m_fulledHeight = 0;
+            m_filledHeight = 0;
             for (int row = 0; row < maxRowCount; row++)
             {
-                m_fulledHeight += TileHeight + Padding;
+                m_filledHeight += TileHeight + Padding;
 
                 for (int col = 0; col < maxColumnCount; col++)
                 {
@@ -65,20 +70,49 @@ namespace VCEngine
                     ImageGridNode node = m_nodes[i++];
 
                     node.Visible = true;
-                    node.Frame = new Rectangle(col * (TileWidth + Padding) + Padding, (Height - (TileHeight + Padding)) - (row * (TileHeight + Padding)), TileWidth, TileHeight);
+                    node.AnimateLocation(new Point(col * (TileWidth + Padding) + Padding, (Height - (TileHeight + Padding)) - (row * (TileHeight + Padding))));
                 }
             }
 
             // Make any remaining nodes invisible
             for (; i < m_nodes.Count; i++)
                 ((ImageGridNode)m_nodes[i]).Visible = false;
+        }
+
+        private void ReBuildGrid()
+        {
+            //// Column/Row count must be ( (Width + Padding) / (ImageSize + Padding) )
+            //int maxColumnCount = (int)((float)(Width + Padding) / (float)(TileWidth + Padding));
+            //int maxRowCount = (int)((float)(Height + Padding) / (float)(TileHeight + Padding));
+
+            //int i = 0;
+            //m_filledHeight = 0;
+            //for (int row = 0; row < maxRowCount; row++)
+            //{
+            //    m_filledHeight += TileHeight + Padding;
+
+            //    for (int col = 0; col < maxColumnCount; col++)
+            //    {
+            //        if (i >= m_nodes.Count)
+            //            return;
+
+            //        ImageGridNode node = m_nodes[i++];
+
+            //        node.Visible = true;
+            //        node.Frame = new Rectangle(col * (TileWidth + Padding) + Padding, (Height - (TileHeight + Padding)) - (row * (TileHeight + Padding)), TileWidth, TileHeight);
+            //    }
+            //}
+
+            //// Make any remaining nodes invisible
+            //for (; i < m_nodes.Count; i++)
+            //    ((ImageGridNode)m_nodes[i]).Visible = false;
 
         }
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
-            GuiDrawer.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_fulledHeight + Padding), Width, m_fulledHeight + Padding));
+            GuiDrawer.DrawBackground(ScreenFrame);
+            //GuiDrawer.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_filledHeight + Padding), Width, m_filledHeight + Padding));
         }
 
     }

@@ -238,6 +238,8 @@ namespace VCEngine
         public bool             IsClickDown { get; protected set; }
         public bool             IsRightClickDown { get; protected set; }
         public bool             IsDraging { get; private set; }
+        public bool             CanBeginDrag { get; set; }
+        public int              DraggingThreashold = 5;
 
 
         // =====   Events   ======================================================
@@ -250,13 +252,16 @@ namespace VCEngine
         public event EventHandler                           RawMouseMove = delegate { };
         public event EventHandler<KeyEventArgs>             RawKeyChange = delegate { };
         public event EventHandler<MouseEventArgs>           MouseMove = delegate { };
-        public event EventHandler<MouseEventArgs>           DragBegin = delegate { };
-        public event EventHandler<MouseEventArgs>           DragEnd = delegate { };
-        public event EventHandler<MouseEventArgs>           Draging = delegate { };
+        public event EventHandler<MouseEventArgs>           MouseSliding = delegate { };
         public event EventHandler<CharEventArgs>            CharPress = delegate { };
         public event EventHandler<ControlFocusArgs>         Focused = delegate { };
         public event EventHandler<ResizeEventArgs>          Resize = delegate { };
         public event EventHandler<ParentChangeEventArgs>    ParentChanged = delegate { };
+        public event EventHandler<DragBeginArgs>            DragBegin = delegate { };
+        public event EventHandler<DragDropArgs>             DragEnter = delegate { };
+        public event EventHandler<DragDropArgs>             DragExit = delegate { };
+        public event EventHandler<DragDropArgs>             DragDrop = delegate { };
+        public event EventHandler<DragDropArgs>             DragDraw = delegate { };
 
 
         protected Rectangle m_frame = new Rectangle();
@@ -270,6 +275,12 @@ namespace VCEngine
         private double m_lastClickTime;
         private ValueAnimator<Rectangle> m_animator;
 
+        private static Boolean m_mouseDownSomewhere;
+        private static Boolean m_draggingActionInProgress;
+        private static Point m_clickDownPoint = new Point();
+        private static Control m_beganDraggingControl = null;
+        private static Object m_draggingMessage = null;
+
         public Control(Window window)
         {
             ParentWindow = window;
@@ -280,11 +291,23 @@ namespace VCEngine
         // Called externally
         public void Render()
         {
+            // Recursively render all controls
+            _Render();
+
+            // Then allow any dragging control to render
+            if (m_beganDraggingControl != null )
+                m_beganDraggingControl.DragDraw(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
+                            new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
+        }
+
+        // Recursive
+        private void _Render()
+        {
             Draw();
 
             foreach (Control ctrl in Children)
                 if (ctrl.Visible)
-                    ctrl.Render();
+                    ctrl._Render();
         }
 
         public void PropagateUpdate()
@@ -444,54 +467,6 @@ namespace VCEngine
         {
         }
         
-        internal void ProcessMouseEvent(Object sender, MouseEventArgs args)
-        {
-            if (!Enabled)
-                return;
-
-            // Fire event handler if there is one. Return false if not.
-            switch (args.EventType)
-            {
-                case MouseEventType.Click:
-                    Click(sender, args);
-
-                    // 250ms double click
-                    if (Time.CurrentTime < m_lastClickTime + 0.250f)
-                        DoubleClick(sender, args);
-
-                    m_lastClickTime = Time.CurrentTime;
-                    return;
-
-                case MouseEventType.RightClick:
-                    RightClick(sender, args);
-                    return;
-
-                case MouseEventType.DoubleClick:
-                    DoubleClick(sender, args);
-                    return;
-
-                case MouseEventType.Move:
-                    MouseMove(sender, args);
-                    return;
-
-                case MouseEventType.DragBegin:
-                    DragBegin(sender, args);
-                    return;
-
-                case MouseEventType.DragEnd:
-                    DragEnd(sender, args);
-                    return;
-
-                case MouseEventType.Draging:
-                    Draging(sender, args);
-                    return;
-
-                default:
-                    Console.WriteLine("Unknown mouse event type.");
-                    return;
-            }
-        }
-
         internal void SetFirstResponder()
         {
             ParentWindow.Resize += (sender, args) =>
@@ -513,52 +488,53 @@ namespace VCEngine
 
             ParentWindow.GlfwInputState.OnMouseClick += (sender, args) =>
                 {
+                    // Wasn't left or right button
                     if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.None && ParentWindow.GlfwInputState.MouseStates[1].State == TriState.None)
                         return;
 
                     // =====   Rebuild command chain   ======================================================
-                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation);
+                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation, false);
                     Control active = GetEndOfCommandChain();
 
                     // =====   If Left/Right - Pressed, focus the control   ======================================================
                     if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Pressed || ParentWindow.GlfwInputState.MouseStates[1].State == TriState.Pressed)
-                    {
                         active.Focus();
-                    }
 
                     // =====   Process Left - Pressed   ======================================================
                     if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Pressed)
                     {
                         active.IsClickDown = true;
+                        m_clickDownPoint = args.Location;
+                        m_mouseDownSomewhere = true;
                     }
 
                     // =====   Process Left - Up   ======================================================
                     if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.Up)
                     {
-                        // Forward event for further processing
-                        active.ProcessMouseEvent(
-                            this,
-                            new MouseEventArgs
-                            {
-                                EventType = MouseEventType.Click,
-                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                            }
-                        );
 
-                        if (IsDraging)
+                        // If we were dragging
+                        if (m_draggingActionInProgress)
                         {
-                            active.ProcessMouseEvent(
-                                this,
-                                new MouseEventArgs
-                                {
-                                    EventType = MouseEventType.DragEnd,
-                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                                });
+                            active.DragDrop(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint, 
+                                new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
+                            m_draggingActionInProgress = false;
+                            m_beganDraggingControl = null;
+                            m_draggingMessage = null;
+                        }
 
-                            IsDraging = false;
+                        else
+                        {
+                            active.Click(this, new MouseEventArgs { EventType = MouseEventType.Click, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
+
+                            // 250ms double click
+                            if (Time.CurrentTime < active.m_lastClickTime + 0.250f)
+                                active.DoubleClick(sender, new MouseEventArgs { EventType = MouseEventType.DoubleClick, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
+
+                            active.m_lastClickTime = Time.CurrentTime;
                         }
 
                         active.IsClickDown = false;
+                        m_mouseDownSomewhere = false;
                     }
 
                     // =====   Process Right - Pressed   ======================================================
@@ -570,16 +546,7 @@ namespace VCEngine
                     // =====   Process Right - Up   ======================================================
                     if (ParentWindow.GlfwInputState.MouseStates[1].State == TriState.Up)
                     {
-                        // Forward event for further processing
-                        active.ProcessMouseEvent(
-                            this,
-                            new MouseEventArgs
-                            {
-                                EventType = MouseEventType.RightClick,
-                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                            }
-                        );
-
+                        active.RightClick(this, new MouseEventArgs { EventType = MouseEventType.RightClick, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
                         active.IsRightClickDown = false;
                     }
 
@@ -588,63 +555,76 @@ namespace VCEngine
                 };
 
             ParentWindow.GlfwInputState.OnMouseMove += (sender, args) =>
+            {
+
+                // If the mouse isn't down anywhere, just handle normal enter/exit events.
+                if (!m_mouseDownSomewhere)
                 {
-                    // Rebuild command chain
-                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation);
+                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation, false);
                     Control active = GetEndOfCommandChain();
+                    active.MouseMove(this, new MouseEventArgs { EventType = MouseEventType.Move, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
+                }
 
-                    ParentWindow.Input.IsSuppressingUpdate = (m_activeChild != null);
 
-                    // Process specialized events
-                    if (active.IsClickDown)
+                Control previosActive = GetEndOfCommandChain();
+
+                // If the mouse is down but we are NOT dragging 
+                if (m_mouseDownSomewhere && !m_draggingActionInProgress)
+                {
+                    // then ignore all other controls ( Don't RebuildCommandChain )
+
+                    // If the mouse is down and we SHOULD be dragging 
+                    if (Point.Distance(m_clickDownPoint, ParentWindow.GlfwInputState.MouseLocation) > previosActive.DraggingThreashold && previosActive.CanBeginDrag)
                     {
-                        if (!IsDraging)
-                        {
-                            IsDraging = true;
-                            active.ProcessMouseEvent(
-                                this,
-                                new MouseEventArgs
-                                {
-                                    EventType = MouseEventType.DragBegin,
-                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                                });
-                        }
+                        // then DraggingBegin() fall through to next
+                        m_draggingActionInProgress = true;
+                        m_beganDraggingControl = previosActive;
 
-                        else
-                        {
-                            active.ProcessMouseEvent(
-                                this,
-                                new MouseEventArgs
-                                {
-                                    EventType = MouseEventType.Draging,
-                                    ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                                }
-                            );
-                        }
+                        // Get Drag-Begin info
+                        DragBeginArgs beginArgs = new DragBeginArgs();
+                        m_beganDraggingControl.DragBegin(this, beginArgs);
+
+                        if (beginArgs.Message == null)
+                            throw new Exception("A control marked to handle drag failed to respond to the DragBegin event");
+
+                        m_draggingMessage = beginArgs.Message;
                     }
 
                     else
+                        previosActive.MouseSliding(this, new MouseEventArgs { EventType = MouseEventType.Move, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation });
+                }
+
+                // If the mouse is down and we ARE dragging
+                if (m_mouseDownSomewhere && m_draggingActionInProgress)
+                {
+                    RebuildCommandChain(ParentWindow.GlfwInputState.MouseLocation, true);
+                    Control active = GetEndOfCommandChain();
+
+                    if (previosActive != active)
                     {
-                        active.ProcessMouseEvent(
-                            this,
-                            new MouseEventArgs
-                            {
-                                EventType = MouseEventType.Move,
-                                ScreenLocation = ParentWindow.GlfwInputState.MouseLocation
-                            }
-                        );
+                        // then DraggingExit() / DraggingEnter() respectively
+                        previosActive.DragExit(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
+                            new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
+
+                        previosActive.DragEnter(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
+                            new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
                     }
 
-                    // =====   Forward Raw Mouse   ======================================================
-                    active.RawMouseMove(this, args);
-                };
+                }
+
+                ParentWindow.Input.IsSuppressingUpdate = (m_activeChild != null);
+
+                //active.RawMouseMove(this, args);
+            };
         }
 
-        private void RebuildCommandChain(Point point)
+        private void RebuildCommandChain(Point point, bool suppressEvents)
         {
             if (Visible && !m_wasPointInThis && ScreenFrame.IsPointWithin(point))
             {
-                MouseEnter(this, EventArgs.Empty);
+                if ( !suppressEvents )
+                    MouseEnter(this, EventArgs.Empty);
+
                 m_wasPointInThis = true;
             }
 
@@ -660,14 +640,16 @@ namespace VCEngine
                         Control ctrl = m_activeChild;
                         while (ctrl != null)
                         {
-                            ctrl.MouseExit(this, EventArgs.Empty);
+                            if (!suppressEvents)
+                                ctrl.MouseExit(this, EventArgs.Empty);
+
                             ctrl.m_wasPointInThis = false;
                             ctrl = ctrl.m_activeChild;
                         }
                     }
 
                     m_activeChild = child;
-                    child.RebuildCommandChain(point);
+                    child.RebuildCommandChain(point, suppressEvents);
 
                     return;
                 }
@@ -680,7 +662,9 @@ namespace VCEngine
                 Control ctrl = m_activeChild;
                 while (ctrl != null)
                 {
-                    ctrl.MouseExit(this, EventArgs.Empty);
+                    if (!suppressEvents)
+                        ctrl.MouseExit(this, EventArgs.Empty);
+
                     ctrl.m_wasPointInThis = false;
                     ctrl = ctrl.m_activeChild;
                 }

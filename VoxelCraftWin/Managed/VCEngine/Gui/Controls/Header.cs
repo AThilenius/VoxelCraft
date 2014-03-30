@@ -33,9 +33,6 @@ namespace VCEngine
 
         public Header(Window window) : base(window)
         {
-            DragBegin += (s, a) => m_delta = m_glfwInputState.InvertedMouseLocation;
-            Draging += Header_Draging;
-
             HudOverlay = new Hud(ParentWindow);
             AddControl(HudOverlay);
 

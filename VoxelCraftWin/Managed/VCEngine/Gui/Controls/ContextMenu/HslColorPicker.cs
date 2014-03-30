@@ -41,7 +41,7 @@ namespace VCEngine
             m_colorHSL = Color.RgbaToHsl(m_colorRGB);
 
             Click += OnClick;
-            Draging += OnClick;
+            MouseSliding += OnClick;
         }
 
         void OnClick(object sender, MouseEventArgs e)

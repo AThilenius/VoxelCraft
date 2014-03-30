@@ -18,6 +18,7 @@ namespace VCEngine
             {
                 m_path = value;
                 LoadDirectory(new DirectoryInfo(value));
+                AnimateOpening();
             }
         }
 
@@ -35,7 +36,7 @@ namespace VCEngine
             // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {
-                ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name);
+                ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name, Texture.Get(fInfo.FullName));
 
                 if (fInfo.Extension == ".DDS")
                     node.Image.Image = Texture.Get(fInfo.FullName);

@@ -10,16 +10,17 @@ namespace VCEngine
 
         public Label Label;
         public ImageView Image;
+        public Object Data;
 
-        public ImageGridNode(Window window, String label) : base(window)
+        public ImageGridNode(Window window, String label, Object data) : base(window)
         {
             Image = new ImageView(ParentWindow);
+            Data = data;
             AddControl(Image);
 
             // Label rendered second
             Label = new Label(ParentWindow, label);
             Label.TextAlignment = VCEngine.Label.TextAlignments.LowerCenter;
-            //Label.FontColor = Color.White;
             AddControl(Label);
 
             Resize += (s, a) =>
@@ -27,6 +28,12 @@ namespace VCEngine
                     Label.Frame = new Rectangle(5, 5, Width - 10, Height - 5);
                     Image.Frame = new Rectangle(5, 22, Width - 10, Height - 27);
                 };
+
+            // Dragging
+            CanBeginDrag = true;
+            DragBegin += (s, a) => a.Message = data;
+            DragDraw += (s, a) => ParentWindow.GuiDrawer.DrawImage((Texture)a.Message, new Rectangle(ParentWindow.GlfwInputState.MouseLocation, 50, 50));
+            DragDrop += (s, a) => Image.Image = (Texture)a.Message;
         }
 
         protected override void Draw()

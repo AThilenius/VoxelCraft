@@ -29,6 +29,11 @@ namespace VCEngine
             return "[ " + X + ", " + Y + " ]";
         }
 
+        public static int Distance(Point p1, Point p2)
+        {
+            return (int) Math.Sqrt((p1.X - p2.X) * (p1.X - p2.X) + (p1.X - p2.X) * (p1.X - p2.X));
+        }
+
         public static Point operator +(Point p1, Point p2)
         {
             return new Point(p1.X + p2.X, p1.Y + p2.Y);

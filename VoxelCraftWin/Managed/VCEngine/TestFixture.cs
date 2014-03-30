@@ -10,7 +10,6 @@ namespace VCEngine
 {
     public class TestFixture
     {
-        static RenderWindow m_renderWindow;
         static RenderedEntity m_entity;
 
         public static PxMaterial material;
@@ -29,16 +28,6 @@ namespace VCEngine
 
             //box = new RigidBody(new Vector3(0, 10, -20), Quaternion.Identity, false, boxShape);
             //floor = new RigidBody(Vector3.Zero, Quaternion.FromAxisAngle(Vector3.UnitZ, (float)Math.PI / 2.0f), true, planeShape);
-
-
-            // Rendering
-            //m_renderWindow = new RenderWindow();
-            //m_renderWindow.MainCamera.Fullscreen = true;
-
-            //m_entity = new RenderedEntity();
-            //m_entity.Transform.Position = new Vector3(0, 0, -15);
-
-            //m_renderWindow.Entities.Add(m_entity);
 
 
             // Directory Test

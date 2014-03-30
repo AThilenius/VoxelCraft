@@ -87,6 +87,7 @@
     <Compile Include="Editor\EditorWindow.cs" />
     <Compile Include="Editor\EditorWorld.cs" />
     <Compile Include="Gui\Args\ControlFocusArgs.cs" />
+    <Compile Include="Gui\Args\DragDropArgs.cs" />
     <Compile Include="Gui\Args\GPMouseEventArgs.cs" />
     <Compile Include="Gui\Args\MouseEventArgs.cs" />
     <Compile Include="Gui\Args\ParentChangeEventArgs.cs" />
