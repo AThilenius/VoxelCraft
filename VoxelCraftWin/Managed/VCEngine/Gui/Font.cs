@@ -32,7 +32,7 @@ namespace VCEngine
         extern static void VCInteropGuiGetTextMetrics(int handle, int font, string text, out TextMetrics metrics);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropLoadFont(string fntPath, string ddsPath, out int fontId);
+        extern static void VCInteropLoadFont(string fntPath, int textureHandle, out int fontId);
 
         #endregion
 
@@ -113,7 +113,7 @@ chars=32-126,160-255
             GenerateDDS(fontName, size, bold, italic);
 
             int fontID;
-            VCInteropLoadFont(fntPath, ddsPath, out fontID);
+            VCInteropLoadFont(fntPath, Texture.Get(ddsPath, Resources.LoadType.Immediate).UnManagedHandle, out fontID);
 
             Font font = new Font(fontID, fontName, size, bold, italic, window);
             m_loadedFonts.Add(description, font);

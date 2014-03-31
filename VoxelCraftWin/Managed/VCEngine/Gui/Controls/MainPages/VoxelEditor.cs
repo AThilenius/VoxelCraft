@@ -59,9 +59,9 @@ namespace VCEngine
         private void CreateEditorWindow()
         {
             // HACK
-            EditorWindow = new GameWindow(ParentWindow, 2);
-            AddControl(EditorWindow);
-            EditorWorld.MasterGameWindow = EditorWindow;
+            //EditorWindow = new GameWindow(ParentWindow, 2);
+            //AddControl(EditorWindow);
+            //EditorWorld.MasterGameWindow = EditorWindow;
         }
 
     }

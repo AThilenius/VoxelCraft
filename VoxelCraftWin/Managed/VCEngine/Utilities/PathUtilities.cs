@@ -19,7 +19,7 @@ namespace VCEngine
 
         // Resources
         public static String WorkingDirectory { get { return Environment.CurrentDirectory; } }
-        public static String ResourcesPath { get { return Path.Combine(Environment.CurrentDirectory, @"..\Resources"); } }
+        public static String ResourcesPath { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\Resources")); } }
         public static String FontsPath { get { return Path.Combine(ResourcesPath, @"FontsCache"); } }
         public static String ImagesPath { get { return Path.Combine(ResourcesPath, @"Images"); } }
         public static String ShadersPath { get { return Path.Combine(ResourcesPath, @"Shaders"); } }
@@ -27,7 +27,7 @@ namespace VCEngine
         public static String BMFontPath { get { return Path.Combine(LoadersPath, @"BMFont"); } }
 
         // Assets
-        public static String AssetsPath { get { return Path.Combine(Environment.CurrentDirectory, @"..\Assets"); } }
+        public static String AssetsPath { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\Assets")); } }
         public static String MeshesPath { get { return Path.Combine(ResourcesPath, @"Meshes"); } }
 
         public static void UpdatePathUtilities()

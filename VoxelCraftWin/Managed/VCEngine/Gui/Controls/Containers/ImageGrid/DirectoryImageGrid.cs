@@ -36,9 +36,9 @@ namespace VCEngine
             // Add files in this directory, add callbacks
             foreach (FileInfo fInfo in directory.GetFiles())
             {
-                ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name, Texture.Get(fInfo.FullName));
-                
-                node.Image.Image = Texture.Get(fInfo.FullName);
+                ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name, Texture.Get(fInfo.FullName, Resources.LoadType.Default));
+
+                node.Image.Image = Texture.Get(fInfo.FullName, Resources.LoadType.Default);
 
                 base.AddControl(node);
             }

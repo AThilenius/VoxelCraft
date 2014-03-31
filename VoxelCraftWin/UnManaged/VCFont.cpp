@@ -33,9 +33,9 @@ CharDesc::CharDesc()
 	memset(KerningPairs, 0, sizeof(KerningPairs));
 }
 
-VCFont::VCFont(std::string fntPath, std::string ddsPath, int id) :
+VCFont::VCFont(std::string fntPath, VCGLTexture* texture, int id) :
 	m_fntPath(fntPath),
-	m_ddsPath(ddsPath),
+	m_ddsTexture(texture),
 	FontID(id)
 {
 }
@@ -82,12 +82,6 @@ void VCFont::Initialize()
 	PreCompileQuads();
 
 	f.close();
-
-	// Load DDS
-	//m_ddsTexture = VCTexture::CreateUnfilteredTexture(m_ddsPath.c_str());
-	VCTextureParams tparam;
-	tparam.Filtering = VCTextureFiltering::None;
-	m_ddsTexture = VCResourceManager::GetTexure(m_ddsPath, tparam);
 
 	// Name
 	std::ostringstream ss;

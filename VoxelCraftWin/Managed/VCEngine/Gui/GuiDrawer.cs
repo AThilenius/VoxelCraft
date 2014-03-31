@@ -108,12 +108,13 @@ namespace VCEngine
                 VCInteropGuiSetScale(UnManagedHandle, value);
             }
         }
-        public static StandardTextures StandardTextures = new StandardTextures();
+        public static StandardTextures StandardTextures;
         private float m_scale = 1.0f;
         private float m_inverseScale;
 
         public GuiDrawer(Window window)
         {
+            StandardTextures = new VCEngine.StandardTextures();
             m_inverseScale = 1.0f / m_scale;
             ParentWindow = window;
             Scale = Window.MonitorSize.X > 1920 ? 1.5f : 1.0f;

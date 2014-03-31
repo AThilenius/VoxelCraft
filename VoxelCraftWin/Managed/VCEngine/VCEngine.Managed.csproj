@@ -175,8 +175,10 @@
     <Compile Include="Rendering\Shader\Shader.cs" />
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
     <Compile Include="Rendering\Shader\ShaderUniformTypes.cs" />
-    <Compile Include="Rendering\Texture.cs" />
+    <Compile Include="Resources\Resources.cs" />
+    <Compile Include="Resources\Texture.cs" />
     <Compile Include="Rendering\VertPNT.cs" />
+    <Compile Include="Resources\Soil.cs" />
     <Compile Include="SceneGraph\MarshaledGameObject.cs" />
     <Compile Include="SceneGraph\MarshaledTransform.cs" />
     <Compile Include="SceneGraph\RigidBody.cs" />

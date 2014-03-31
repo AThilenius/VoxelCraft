@@ -16,7 +16,8 @@ namespace VCEngine
 
         #endregion
 
-        public int DrawOverlayLevel = 0;
+        public int DrawOverlayLevel = 1;
+        public static int ManagedGLMemoryAlloced = 0;
 
         private int m_yOffset;
         private int m_frameCount;
@@ -77,7 +78,7 @@ namespace VCEngine
             DrawText("Full Loop FPS:                " + (1.0d / m_lastLoopTime).ToString("0000") + " FPS", sf);
             DrawText("OpenGL FPS:                   " + (1.0d / m_lastDrawTime).ToString("0000") + " FPS", sf);
             DrawText("Drawn Frames Count:           " + m_frameCount, sf);
-            DrawText("GPU Memory Used:              " + ((float)VCInteropResourceManagerGetGPUMemoryUsage() / (float)1000000.0f) + " MB", sf);
+            DrawText("GPU Memory Used:              " + ((float)(VCInteropResourceManagerGetGPUMemoryUsage() + ManagedGLMemoryAlloced) / (float)1000000.0f) + " MB", sf);
 
             m_yOffset += 20;
             DrawText("====  GUI  =====================================================", sf);

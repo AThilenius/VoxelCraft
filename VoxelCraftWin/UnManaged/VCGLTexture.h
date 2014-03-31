@@ -24,7 +24,6 @@ struct VCTextureFiltering
 struct VCTextureParams
 {
 	VCTextureParams() :
-		SoilFlags(SOIL_FLAG_MIPMAPS),
 		Filtering(VCTextureFiltering::Default),
 		ClampU(true),
 		ClampV(true)
@@ -40,31 +39,30 @@ struct VCTextureParams
 class VCGLTexture : public VCMarshalableObject
 {
 public:
+	VCGLTexture(void);
 	~VCGLTexture(void);
 
 	void Bind(int texUnit);
-	void SetUVWrapMode ( GLenum uMode, GLenum vMode );
-	void SetFilterMode ( GLenum minFilter, GLenum magFilter );
+	void UpdateFilteringParams(VCTextureParams params);
 
-	static VCGLTexture* CreateEmpty(VCTextureParams params, int width, int height);
 	static VCGLTexture* LoadFromFile ( std::string path, VCTextureParams params );
 	static VCGLTexture* ManageExistingBuffer (GLuint bufferId);
 
 public:
 	GLuint GLTextID;
 	std::string FullPath;
-
-private:
-	VCGLTexture(void);
-
+	static std::unordered_map<std::string, VCGLTexture*> LoadedTextures;
 
 private:
 	int m_memoryUsage;
 	static VCGLTexture* m_boundTexture;
-	static std::unordered_map<std::string, VCGLTexture*> m_loadedTextures;
 
 private:
 	DISALLOW_COPY_AND_ASSIGN(VCGLTexture);
 	friend class VCRenderStage;
 	friend class VCResourceManager;
 };
+
+DLL_EXPORT_API int VCInteropTextureCreate(unsigned int glHandle, char* fullpath);
+DLL_EXPORT_API void VCInteropTextureUpdateGLHandle(int handle, unsigned int newGLHandle);
+DLL_EXPORT_API void VCInteropTextureSetFilterParams(int handle, VCTextureParams params);

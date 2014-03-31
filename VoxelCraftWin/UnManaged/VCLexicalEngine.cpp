@@ -10,6 +10,7 @@
 #include "VCLexicalEngine.h"
 #include "VCFont.h"
 #include "VCGui.h"
+#include "VCObjectStore.h"
 
 VCLexicalEngine* VCLexicalEngine::Instance = NULL;
 
@@ -42,9 +43,9 @@ void VCLexicalEngine::Initialize()
 {
 }
 
-std::string VCLexicalEngine::LoadFont ( std::string fntPath, std::string ddsPath, int* font )
+std::string VCLexicalEngine::LoadFont ( std::string fntPath, VCGLTexture* texture, int* font )
 {
-	VCFont* vcfont = new VCFont(fntPath, ddsPath, m_fontsCount);
+	VCFont* vcfont = new VCFont(fntPath, texture, m_fontsCount);
 	vcfont->Initialize();
 
 	for (int i = 0; i < m_fontsCount; i++ )
@@ -121,7 +122,8 @@ VCFont* VCLexicalEngine::GetFontById( int fontID )
 	return m_fonts[fontID];
 }
 
-void VCInteropLoadFont (char* fntPath, char* ddsPath, int* fontOut)
+void VCInteropLoadFont (char* fntPath, int imageHandle, int* fontOut)
 {
-	std::string name = VCLexicalEngine::Instance->LoadFont(fntPath, ddsPath, fontOut);
+	VCGLTexture* texture = (VCGLTexture*) VCObjectStore::Instance->GetObject(imageHandle);
+	std::string name = VCLexicalEngine::Instance->LoadFont(fntPath, texture, fontOut);
 }

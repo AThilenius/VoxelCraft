@@ -274,6 +274,9 @@
     <ClCompile Include="VCGLWindow.cpp">
       <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="VCSoilBindings.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -488,6 +491,9 @@
     </ClInclude>
     <ClInclude Include="VCGLWindow.h">
       <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCSoilBindings.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

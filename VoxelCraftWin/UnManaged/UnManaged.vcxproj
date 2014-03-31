@@ -58,6 +58,7 @@
     <ClCompile Include="VCLineDrawer.cpp" />
     <ClCompile Include="VCRenderStage.cpp" />
     <ClCompile Include="VCShadeTypes.cpp" />
+    <ClCompile Include="VCSoilBindings.cpp" />
     <ClCompile Include="VCSparseVoxelOctree.cpp" />
     <ClCompile Include="VCSvoLeafBlock.cpp" />
     <ClCompile Include="VCSvoNode.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="VCShadeTypes.h" />
+    <ClInclude Include="VCSoilBindings.h" />
     <ClInclude Include="VCSparseVoxelOctree.h" />
     <ClInclude Include="VCStreamHelpers.h" />
     <ClInclude Include="VCSvoLeafBlock.h" />

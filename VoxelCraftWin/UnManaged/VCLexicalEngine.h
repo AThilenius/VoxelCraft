@@ -32,7 +32,7 @@ public:
 	~VCLexicalEngine(void);
 
 	void Initialize();
-	std::string LoadFont ( std::string fntPath, std::string ddsPath, int* fontOut );
+	std::string LoadFont ( std::string fntPath, VCGLTexture* texture, int* fontOut );
 
 	VCTextMetrics GetMetrics ( int font, std::string text ); 
 	int MakeTextToQuadBuffer ( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset, float* depthStep);
@@ -46,5 +46,5 @@ private:
 };
 
 // Interop
-DLL_EXPORT_API void VCInteropLoadFont (char* fntPath, char* ddsPath, int* fontOut);
+DLL_EXPORT_API void VCInteropLoadFont (char* fntPath, int imageHandle, int* fontOut);
 

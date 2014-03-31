@@ -78,7 +78,7 @@ struct KerningPairIMR
 class VCFont
 {
 public:
-	VCFont(std::string fntPath, std::string ddsPath, int id);
+	VCFont(std::string fntPath, VCGLTexture* texture, int id);
 	~VCFont(void);
 
 	void Initialize();
@@ -99,7 +99,7 @@ private:
 	VCGLTexture* m_ddsTexture;
 
 	CharDesc Charaters[256];
-	std::string m_fntPath, m_ddsPath;
+	std::string m_fntPath;
 
 	// Info:
 	InfoHeader Info;

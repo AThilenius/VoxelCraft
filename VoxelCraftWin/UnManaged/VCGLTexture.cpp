@@ -11,7 +11,7 @@
 #include "VCObjectStore.h"
 
 VCGLTexture* VCGLTexture::m_boundTexture = NULL;
-std::unordered_map<std::string, VCGLTexture*> VCGLTexture::m_loadedTextures;
+std::unordered_map<std::string, VCGLTexture*> VCGLTexture::LoadedTextures;
 
 VCGLTexture::VCGLTexture(void):
 	m_memoryUsage(0)
@@ -45,37 +45,9 @@ void VCGLTexture::Bind( int texUnit )
 	//m_boundTexture = this;
 }
 
-
-void VCGLTexture::SetUVWrapMode( GLenum uMode, GLenum vMode )
+void VCGLTexture::UpdateFilteringParams( VCTextureParams params )
 {
 	Bind(-1);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, uMode);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, vMode);
-}
-
-void VCGLTexture::SetFilterMode( GLenum minFilter, GLenum magFilter )
-{
-	Bind(-1);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, minFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, magFilter);
-}
-
-VCGLTexture* VCGLTexture::CreateEmpty( VCTextureParams params, int width, int height )
-{
-	VCGLTexture* tex = new VCGLTexture();
-
-	glGenTextures(1, &tex->GLTextID);
-	glBindTexture(GL_TEXTURE_2D, tex->GLTextID);
-
-	if (((width - 1) & width) || ((height - 1) & height))
-	{
-		VC_ERROR("Image must be a power of two in both Width and Height.");
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-
 
 	// Wrap Modes / Filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.ClampU ? GL_CLAMP : GL_REPEAT);
@@ -105,19 +77,16 @@ VCGLTexture* VCGLTexture::CreateEmpty( VCTextureParams params, int width, int he
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	m_boundTexture = NULL;
-
-	return tex;
 }
 
 VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params )
 {
-	auto iter = m_loadedTextures.find(path);
+	auto iter = LoadedTextures.find(path);
 
-	if (iter != m_loadedTextures.end())
+	if (iter != LoadedTextures.end())
 		return iter->second;
 
 	VCGLTexture* tex = new VCGLTexture();
-	tex->FullPath = path;
 	tex->GLTextID = SOIL_load_OGL_texture
 		(
 		path.c_str(),
@@ -126,33 +95,7 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 		params.SoilFlags
 		);
 
-	glBindTexture(GL_TEXTURE_2D, tex->GLTextID);
-
-	// Wrap Modes / Filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.ClampU ? GL_CLAMP : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.ClampV ? GL_CLAMP : GL_REPEAT);
-
-	switch (params.Filtering)
-	{
-	case VCTextureFiltering::None:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		break;
-
-	case VCTextureFiltering::Trilinear:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		break;
-
-	case VCTextureFiltering::Ansiotropic:
-		VC_ERROR("Anisotropic filtering not yet supported.");
-		break;
-		
-	default:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		break;
-	}
+	tex->UpdateFilteringParams(params);
 
 	// Track Memory Usage
 	int width, heigh, depth = 0;
@@ -160,13 +103,33 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &heigh);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_DEPTH, &depth);
 	tex->m_memoryUsage = width * heigh * depth;
-	VCLog::Info("Texture loaded. Using " + std::to_string(tex->m_memoryUsage / 1000000.0f) + " MB.", "Resources");
+
 	g_gpuMemoryUsage += tex->m_memoryUsage;
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	m_boundTexture = NULL;
-	m_loadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(path, tex));
-
+	LoadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(path, tex));
 
 	return tex;
+}
+
+int VCInteropTextureCreate( unsigned int glHandle, char* fullpath )
+{
+	VCGLTexture* tex = new VCGLTexture();
+	tex->GLTextID = glHandle;
+	tex->FullPath = std::string(fullpath);
+	VCGLTexture::LoadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(fullpath, tex));
+	return tex->Handle;
+}
+
+void VCInteropTextureUpdateGLHandle( int handle, unsigned int newGLHandle )
+{
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(handle);
+	obj->GLTextID = newGLHandle;
+}
+
+void VCInteropTextureSetFilterParams( int handle, VCTextureParams params )
+{
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(handle);
+	obj->UpdateFilteringParams(params);
 }
