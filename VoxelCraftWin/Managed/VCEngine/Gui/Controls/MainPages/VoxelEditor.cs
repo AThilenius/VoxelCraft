@@ -40,7 +40,7 @@ namespace VCEngine
 
         public void Create()
         {
-            CreateEditorWindow();
+            //CreateEditorWindow();
             FillColorControls();
             CreateSolutionExplorer();
             ResizeHandler();
@@ -87,7 +87,7 @@ namespace VCEngine
             else
                 RightContextMenu.Location = new Point(Width, 0);
 
-            EditorWindow.Frame = new Rectangle(0, ScreenFrame.Y, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75);
+            //EditorWindow.Frame = new Rectangle(0, ScreenFrame.Y, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75);
         }
 
         private void CreateEditorWindow()

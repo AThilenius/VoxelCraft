@@ -153,6 +153,8 @@ namespace VCEngine
             MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);
             MainControl.SetFirstResponder();
 
+            FrameBufferObject.Default.Bind();
+
             LoopController.OnLoop += HandleUpdate;
             ActiveWindows.Add(this);
         }
@@ -192,7 +194,8 @@ namespace VCEngine
             MainControl.Render();
 
             // Needs to be made instance based!
-            GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
+            FrameBufferObject.Default.Clear(true, true);
+            Gui.Render();
 
             // Allow for external drawing
             OnDraw(this, EventArgs.Empty);

@@ -11,7 +11,8 @@
 #include "VCTextBuffer.h"
 #include "VCLexicalEngine.h"
 
-VCTextBuilder::VCTextBuilder( void )
+VCTextBuilder::VCTextBuilder(VCGui* gui):
+	m_parentGui(gui)
 {
 
 }
@@ -33,7 +34,7 @@ void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLuby
 {
 	for (int i = m_bufferByFont.size(); m_bufferByFont.size() <= font; i++)
 	{
-		VCTextBuffer* vcTextBuffer = new VCTextBuffer(VCLexicalEngine::Instance->GetFontById(i));
+		VCTextBuffer* vcTextBuffer = new VCTextBuffer(m_parentGui, VCLexicalEngine::Instance->GetFontById(i));
 		vcTextBuffer->Initialize();
 		m_bufferByFont.push_back( vcTextBuffer );
 	}

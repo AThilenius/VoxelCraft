@@ -91,9 +91,6 @@
     <ClCompile Include="VCCamera.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="VCGLRenderer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="VCMarshalableObject.cpp">
       <Filter>Interop</Filter>
     </ClCompile>
@@ -277,6 +274,9 @@
     <ClCompile Include="VCGLWindow.cpp">
       <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="VCGLBindings.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -293,9 +293,6 @@
     </ClInclude>
     <ClInclude Include="VCCamera.h">
       <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="VCGLRenderer.h">
-      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="VCMarshalableObject.h">
       <Filter>Interop</Filter>
@@ -493,6 +490,9 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="VCGLWindow.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="VCGLBindings.h">
       <Filter>Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>

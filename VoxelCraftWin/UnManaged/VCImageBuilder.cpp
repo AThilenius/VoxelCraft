@@ -14,8 +14,9 @@
 #include "VCGLShader.h"
 
 
-VCImageBuilder::VCImageBuilder(void):
-	Shader(NULL)
+VCImageBuilder::VCImageBuilder(VCGui* gui):
+	Shader(NULL),
+	m_parentGui(gui)
 {
 }
 
@@ -34,7 +35,7 @@ void VCImageBuilder::DrawImage( VCGLTexture* tex, VCRectangle frame, float depth
 	
 	if(iter == m_imageInstances.end())
 	{
-		VCImageInstance* newInst = new VCImageInstance(tex);
+		VCImageInstance* newInst = new VCImageInstance(m_parentGui, tex);
 		// TriLinear Filtering
 		newInst->Initialize(Shader, VCTextureParams());
 		m_imageInstances.insert(ImageInstMap::value_type(tex, newInst));
@@ -56,7 +57,7 @@ void VCImageBuilder::Draw9SliceImage( VCGLTexture* tex, VCRectangle frame, int p
 
 	if(iter == m_imageInstances.end())
 	{
-		VCImageInstance* newInst = new VCImageInstance(tex);
+		VCImageInstance* newInst = new VCImageInstance(m_parentGui, tex);
 		// TriLinear Filtering
 		newInst->Initialize(Shader, VCTextureParams());
 		m_imageInstances.insert(ImageInstMap::value_type(tex, newInst));

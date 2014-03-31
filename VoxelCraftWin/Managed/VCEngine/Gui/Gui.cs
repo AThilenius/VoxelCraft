@@ -69,7 +69,7 @@ namespace VCEngine
         extern static void VCInteropGuiSetScale(float scale);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiResetDepth();
+        extern static void VCInteropGuiRender();
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
@@ -85,9 +85,6 @@ namespace VCEngine
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropGuiDraw9SliceImage(int texHandle, Rectangle frame, int pizelOffset, float padding);
-
-        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDraw9SliceGui(int texHandle, Color baseColor, Rectangle frame, int pizelOffset, float padding);
 
         #endregion
 
@@ -231,16 +228,16 @@ namespace VCEngine
 
         public void Draw9SliceGui(Texture texture, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f)
         {
-            VCInteropGuiDraw9SliceGui(texture.UnManagedHandle, baseColor, frame, pizelOffset, padding);
+            //VCInteropGuiDraw9SliceGui(texture.UnManagedHandle, baseColor, frame, pizelOffset, padding);
         }
 
         #endregion
         
         #region Misc
 
-        internal static void Reset()
+        internal static void Render()
         {
-            VCInteropGuiResetDepth();
+            VCInteropGuiRender();
         }
 
         #endregion

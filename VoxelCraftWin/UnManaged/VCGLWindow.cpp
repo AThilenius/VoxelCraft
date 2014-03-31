@@ -10,7 +10,6 @@
 #include "VCGLWindow.h"
 #include "VCObjectStore.h"
 #include "VCGLFWInput.h"
-#include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
 #include "VCGui.h"
 
@@ -36,6 +35,80 @@ void _glfwFramebuferSizeCallback(GLFWwindow* window, int width, int height)
 	// Managed event
 	resizeHandler(VcGlWinow->Handle, width, height);
 	glViewport(0, 0, width, height);
+}
+
+// =====   OpenGL Error Callback   ======================================================
+void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
+{
+#ifdef SHOW_GL_WARNINGS
+	char debSource[16], debType[20], debSev[5];
+	if(source == GL_DEBUG_SOURCE_API_ARB)
+		strcpy(debSource, "OpenGL");
+	else if(source == GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB)
+		strcpy(debSource, "Windows");
+	else if(source == GL_DEBUG_SOURCE_SHADER_COMPILER_ARB)
+		strcpy(debSource, "Shader Compiler");
+	else if(source == GL_DEBUG_SOURCE_THIRD_PARTY_ARB)
+		strcpy(debSource, "Third Party");
+	else if(source == GL_DEBUG_SOURCE_APPLICATION_ARB)
+		strcpy(debSource, "Application");
+	else if(source == GL_DEBUG_SOURCE_OTHER_ARB)
+		strcpy(debSource, "Other");
+
+	if(type == GL_DEBUG_TYPE_ERROR_ARB)
+		strcpy(debType, "Error");
+	else if(type == GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB)
+		strcpy(debType, "Deprecated behavior");
+	else if(type == GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB)
+		strcpy(debType, "Undefined behavior");
+	else if(type == GL_DEBUG_TYPE_PORTABILITY_ARB)
+		strcpy(debType, "Portability");
+	else if(type == GL_DEBUG_TYPE_PERFORMANCE_ARB)
+		strcpy(debType, "Performance");
+	else if(type == GL_DEBUG_TYPE_OTHER_ARB)
+		strcpy(debType, "Other");
+
+	if(severity == GL_DEBUG_SEVERITY_HIGH_ARB)
+	{
+		strcpy(debSev, "High");
+		//SetConsoleColor(Red);
+		//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+		//	debSource,debType,id,debSev,message);
+		//std::cin.ignore();
+		VCLog::Error("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
+	}
+
+	else if(severity == GL_DEBUG_SEVERITY_MEDIUM_ARB)
+	{
+		strcpy(debSev, "Medium");
+		//SetConsoleColor(Red);
+		//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+		//	debSource,debType,id,debSev,message);
+		//std::cin.ignore();
+		VCLog::Error("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
+	}
+
+	else if(severity == GL_DEBUG_SEVERITY_LOW_ARB)
+	{
+		static std::set<std::string> postedWarnings;
+
+		strcpy(debSev, "Low");
+		std::string post = std::string("Source:") + debSource + "\nType:" + debType + "\nID:" + std::to_string(id) + "\nSeverity:" + debSev + "\nMessage:" + message + "\n";
+
+		if(postedWarnings.find(post) == postedWarnings.end())
+		{
+			//SetConsoleColor(Yellow);
+			//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
+			//	debSource,debType,id,debSev,message);
+
+			//SetConsoleColor(White);
+			VCLog::Warning("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
+
+			postedWarnings.insert(post);
+		}
+	}
+
+#endif
 }
 
 // =====   VCGLWindow   ======================================================
@@ -118,10 +191,21 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 		glewExperimental = true;
 		GLenum glewError = glewInit();
 		if( glewError != GLEW_OK )
-		{
 			VCLog::Error("Error initializing GLEW!", "Initialize");
-			std::cin.ignore();
-		}
+
+		// Specify some OpenGL shit. This should be moved later ( Maybe make C# bindings for it )
+#if DEBUG
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+		glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+		glDebugMessageCallbackARB(&glDebugCallback, NULL);
+#endif
+
+		glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glDepthFunc(GL_LESS); 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_CULL_FACE);
 
 		m_glfwWasInit = true;
 	}
@@ -131,13 +215,6 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 
 
 	// =====   Sub-Systems needed   ======================================================
-
-	// Ensure a VCGLRenderer is on-line
-	if ( VCGLRenderer::Instance == NULL )
-	{
-		VCGLRenderer::Instance = new VCGLRenderer();
-		VCGLRenderer::Instance->Initialize();
-	}
 
 	// Ensure a VCLexEngine is on-line
 	if ( VCLexicalEngine::Instance == NULL )

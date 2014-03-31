@@ -67,7 +67,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 	if (fromState == NULL)
 	{
 		// Framebuffer
-		glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
+		//glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
 
 		// Viewport
 		if (toState->Camera == NULL)
@@ -112,8 +112,8 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 	else
 	{
 		// Framebuffer
-		if (fromState->FrameBuffer != toState->FrameBuffer)
-			glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
+		//if (fromState->FrameBuffer != toState->FrameBuffer)
+		//	glBindFramebuffer(GL_FRAMEBUFFER, toState->FrameBuffer);
 
 		// Viewport
 		static VCRectangle lastViewport;

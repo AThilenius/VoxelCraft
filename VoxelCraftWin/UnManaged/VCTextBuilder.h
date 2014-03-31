@@ -9,13 +9,14 @@
 #pragma once
 
 class VCTextBuffer;
+class VCGui;
 
 #include <vector>
 
 class VCTextBuilder
 {
 public:
-	VCTextBuilder(void);
+	VCTextBuilder(VCGui* gui);
 	~VCTextBuilder(void);
 
 	void Initialize();
@@ -24,5 +25,6 @@ public:
 
 private:
 	std::vector<VCTextBuffer*> m_bufferByFont;
+	VCGui* m_parentGui;
 };
 

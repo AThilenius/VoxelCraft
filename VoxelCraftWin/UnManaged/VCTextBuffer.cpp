@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VCTextBuffer.h"
-#include "VCGLRenderer.h"
 #include "VCLexicalEngine.h"
 #include "VCRenderStage.h"
 #include "VCGLShader.h"
@@ -18,7 +17,8 @@
 #include "VCGLBuffer.h"
 
 
-VCTextBuffer::VCTextBuffer( VCFont* font ):
+VCTextBuffer::VCTextBuffer( VCGui* gui, VCFont* font ):
+	m_parentGui(gui),
 	Font(font),
 	m_vCount(0),
 	m_renderStage(NULL),
@@ -39,7 +39,7 @@ void VCTextBuffer::Initialize()
 	m_renderStage->BatchOrder = VC_BATCH_GUI + 2;
 	m_renderStage->Shader = VCResourceManager::GetShader("Lex");
 	m_renderStage->Texture = Font->m_ddsTexture;
-	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+	m_parentGui->AddGUIRenderStage(m_renderStage);
 
 	m_glBuffer = new VCGLBuffer();
 	m_glBuffer->VertexBufferSpecification()
@@ -51,9 +51,7 @@ void VCTextBuffer::Initialize()
 void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
 {
 	if (m_vCount + text.size() >= VC_TEXT_BUFFER_MAX_VERT_SIZE)
-	{
-		VC_ERROR("VCTextBuffer Overflow: You probably have text drawing in a infinite loop.");
-	}
+		VCLog::Error("VCTextBuffer Overflow: You probably have text drawing in a infinite loop.", "Rendering");
 
 	m_vCount += VCLexicalEngine::Instance->MakeTextToQuadBuffer(
 		Font->FontID,				// Font ID

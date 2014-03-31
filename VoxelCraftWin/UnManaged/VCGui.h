@@ -11,11 +11,17 @@
 #define VC_GUI_DEPTH_STEP_SIZE 1.0f
 
 class VCCamera;
+class VCRenderStage;
+class VCTextBuilder;
+class VCImageBuilder;
 struct VCTextMetrics;
 
 #include "VCGeometryBuilder.h"
-#include "VCTextBuilder.h"
-#include "VCImageBuilder.h"
+
+struct _VCRenderStageCompare 
+{
+	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const;
+};
 
 class VCGui
 {
@@ -24,13 +30,15 @@ public:
 	~VCGui(void);
 
 	void Initialize();
+	void Render();
+	void AddGUIRenderStage(VCRenderStage* stage);
+	void RemoveGUIRenderStage(VCRenderStage* stage);
 
-	VCGeometryBuilder Geometry;
-	VCTextBuilder Text;
-	VCImageBuilder ImageBuilder;
-	VCImageBuilder GuiImages;
+public:
+	VCGeometryBuilder* Geometry;
+	VCTextBuilder* Text;
+	VCImageBuilder* ImageBuilder;
 	VCCamera* GuiCamera;
-	int GuiColorUniformIndex;
 
 public:
 	float DepthStep;
@@ -38,11 +46,15 @@ public:
 	static VCGui* Instance;
 	static float Scale;
 	static float InverseScale;
+
+private:
+	typedef boost::container::flat_set<VCRenderStage*, _VCRenderStageCompare> RenderSet;
+	RenderSet m_renderSet;
 };
 
 // Interop
 DLL_EXPORT_API void VCInteropGuiSetScale(float scale);
-DLL_EXPORT_API void VCInteropGuiResetDepth();
+DLL_EXPORT_API void VCInteropGuiRender();
 
 // Geometry
 DLL_EXPORT_API void VCInteropGuiAddVerticie(GuiRectVerticie vert);
@@ -56,6 +68,3 @@ DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetri
 // Images
 DLL_EXPORT_API void VCInteropGuiDrawImage(int texHandle, VCRectangle frame);
 DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(int texHandle, VCRectangle frame, int pizelOffset, float padding);
-
-// GUI Images
-DLL_EXPORT_API void VCInteropGuiDraw9SliceGui(int texHandle, vcint4 color, VCRectangle frame, int pizelOffset, float padding);

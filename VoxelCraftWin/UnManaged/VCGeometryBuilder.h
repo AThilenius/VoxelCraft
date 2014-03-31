@@ -14,6 +14,7 @@
 
 class VCRenderStage;
 class VCGLBuffer;
+class VCGui;
 
 struct GuiRectVerticie
 {
@@ -29,7 +30,7 @@ struct GuiRectVerticie
 class VCGeometryBuilder
 {
 public:
-	VCGeometryBuilder(void);
+	VCGeometryBuilder(VCGui* gui);
 	~VCGeometryBuilder(void);
 
 	void DrawRectangle ( VCRectangle frame, GLubyte4 color, float depthStep );
@@ -42,6 +43,7 @@ private:
 	void Render();
 
 private:
+	VCGui* m_parentGui;
 	VCRenderStage* m_renderStage;
 
 	int m_vCount;

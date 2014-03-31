@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "VCGLFrameBuffer.h"
 #include "VCGLTexture.h"
+#include "VCObjectStore.h"
 
 VCGLFrameBuffer* VCGLFrameBuffer::m_boundFrameBuffer = NULL;
 VCGLFrameBuffer* VCGLFrameBuffer::m_defaultFrameBuffer = NULL;
@@ -17,6 +18,7 @@ VCGLFrameBuffer* VCGLFrameBuffer::m_textureTargetFrameBuffer = NULL;
 VCGLFrameBuffer::VCGLFrameBuffer(void) :
 	GLHandle(0)
 {
+	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
 
 
@@ -72,4 +74,38 @@ VCGLFrameBuffer* VCGLFrameBuffer::GetTextureTarget()
 	}
 
 	return VCGLFrameBuffer::m_textureTargetFrameBuffer;
+}
+
+int VCInteropVCGLFrameBufferGetDefault()
+{
+	return VCGLFrameBuffer::GetDefault()->Handle;
+}
+
+void VCInteropVCGLFrameBufferBind( int handle )
+{
+	VCGLFrameBuffer* obj = (VCGLFrameBuffer*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind();
+}
+
+void VCInteropVCGLFrameBufferSetClearColor( int handle, glm::vec4 color )
+{
+	VCGLFrameBuffer* obj = (VCGLFrameBuffer*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind();
+	glClearColor(color.x, color.y, color.z, color.w);
+}
+
+void VCInteropVCGLFrameBUfferClear( int handle, bool color, bool depth )
+{
+	VCGLFrameBuffer* obj = (VCGLFrameBuffer*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind();
+
+	int flags = 0;
+
+	if ( color )
+		flags |= GL_COLOR_BUFFER_BIT;
+
+	if ( depth )
+		flags |= GL_DEPTH_BUFFER_BIT;
+	
+	glClear(flags);
 }

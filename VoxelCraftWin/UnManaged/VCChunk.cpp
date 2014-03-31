@@ -10,7 +10,6 @@
 #include "VCChunk.h"
 
 #include "VCWorld.h"
-#include "VCGLRenderer.h"
 #include "VCTime.h"
 #include "VCCamera.h"
 #include "VCRenderStage.h"
@@ -62,7 +61,7 @@ VCChunk::VCChunk(int x, int y, int z, VCWorld* world):
 
 VCChunk::~VCChunk(void)
 {
-	VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
+	//VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
 	SAFE_DELETE(m_glBuffer);
 }
 
@@ -76,7 +75,7 @@ void VCChunk::Initialize()
 	m_renderStage->Camera = m_world->Camera;
 	m_renderStage->Shader = VCResourceManager::GetShader("VoxelFallback");
 	m_renderStage->ExectionType = VCRenderStage::Never;
-	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 
 	m_glBuffer = new VCGLBuffer();

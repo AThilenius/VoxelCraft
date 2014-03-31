@@ -11,8 +11,6 @@
 class VCRenderStage;
 class VCGLBuffer;
 
-#include "VCGLRenderer.h"
-
 #define MAX_LINE_COUNT 1000000
 
 struct LineVerticie

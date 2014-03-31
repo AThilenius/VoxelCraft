@@ -14,16 +14,23 @@
 #include "VCGLShader.h"
 #include "VCResourceManager.h"
 #include "VCObjectStore.h"
+#include "VCRenderStage.h"
+#include "VCTextBuilder.h"
+#include "VCImageBuilder.h"
 
 VCGui* VCGui::Instance = NULL;
 float VCGui::Scale = 1.0f;
 float VCGui::InverseScale = 1.0f;
 
-VCGui::VCGui( void ):
-	DepthStep(2),
-	GuiColorUniformIndex(-1)
+bool _VCRenderStageCompare::operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const
 {
-	VCGui::Instance = this;
+	return (*lhs) < (*rhs);
+}
+
+VCGui::VCGui( void ):
+	DepthStep(0)
+{
+	
 }
 
 VCGui::~VCGui( void )
@@ -34,10 +41,51 @@ VCGui::~VCGui( void )
 void VCGui::Initialize()
 {
 	GuiCamera = new VCCamera();
-	Geometry.Initialize();
-	Text.Initialize();
-	GuiImages.Shader = VCResourceManager::GetShader("GuiPackedChannels");
-	GuiColorUniformIndex = GuiImages.Shader->GetUniformIndex("Color");
+
+	Geometry = new VCGeometryBuilder(this);
+	Geometry->Initialize();
+	Text = new VCTextBuilder(this);
+	Text->Initialize();
+	ImageBuilder = new VCImageBuilder(this);
+}
+
+void VCGui::Render()
+{
+	static VCRenderStage* lastBoundStage = NULL;
+	for ( auto setIter = m_renderSet.begin(); setIter != m_renderSet.end(); setIter++ )
+	{
+		VCRenderStage* stage = *setIter;
+
+		if (stage->ExectionType == VCRenderStage::ExecutionTypes::Never)
+			continue;
+
+		VCRenderStage::TransitionAndExecute(lastBoundStage, stage);
+		lastBoundStage = stage;
+	}
+
+	DepthStep = 0.0f;
+}
+
+void VCGui::AddGUIRenderStage( VCRenderStage* stage )
+{
+	stage->BuildKey();
+
+#ifdef DEBUG
+	if (m_renderSet.find(stage) != m_renderSet.end())
+		VCLog::Error("Cannot add duplicate render stage!", "Rendering");
+#endif
+
+	m_renderSet.insert(stage);
+}
+
+void VCGui::RemoveGUIRenderStage( VCRenderStage* stage )
+{
+	auto iter = m_renderSet.find(stage);
+
+	if (iter == m_renderSet.end())
+		VCLog::Error("Cannot remove RenderState because it is not registered.", "Rendering");
+
+	m_renderSet.erase(iter);
 }
 
 void VCInteropGuiSetScale( float scale )
@@ -46,29 +94,29 @@ void VCInteropGuiSetScale( float scale )
 	VCGui::InverseScale = 1.0f / scale;
 }
 
-void VCInteropGuiResetDepth()
+void VCInteropGuiRender()
 {
-	VCGui::Instance->DepthStep = 2;
+	VCGui::Instance->Render();
 }
 
 void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)
 {
-	VCGui::Instance->Geometry.DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
+	VCGui::Instance->Geometry->DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom)
 {
-	VCGui::Instance->Geometry.DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W), VCGui::Instance->DepthStep++);
+	VCGui::Instance->Geometry->DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiAddVerticie( GuiRectVerticie vert )
 {
-	VCGui::Instance->Geometry.AddQuad(vert, VCGui::Instance->DepthStep++);
+	VCGui::Instance->Geometry->AddQuad(vert, VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiDrawText(int font,char* text, VCPoint point, vcint4 color)
 {
-	VCGui::Instance->Text.DrawText(font, text, point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
+	VCGui::Instance->Text->DrawText(font, text, point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics)
@@ -79,20 +127,11 @@ void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics)
 void VCInteropGuiDrawImage( int texHandle, VCRectangle frame )
 {
 	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
-	VCGui::Instance->ImageBuilder.DrawImage(obj, frame, VCGui::Instance->DepthStep++);
+	VCGui::Instance->ImageBuilder->DrawImage(obj, frame, VCGui::Instance->DepthStep++);
 }
 
 void VCInteropGuiDraw9SliceImage( int texHandle, VCRectangle frame, int pizelOffset, float padding )
 {
 	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
-	VCGui::Instance->ImageBuilder.Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
-}
-
-void VCInteropGuiDraw9SliceGui( int texHandle, vcint4 color, VCRectangle frame, int pizelOffset, float padding )
-{
-	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
-	VCGui::Instance->GuiImages.Shader->Bind();
-	VCGui::Instance->GuiImages.Shader->SetUniform(VCGui::Instance->GuiColorUniformIndex, glm::vec4(color.X / 255.0f, color.Y / 255.0f, color.Z / 255.0f, color.W / 255.0f));
-
-	VCGui::Instance->GuiImages.Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+	VCGui::Instance->ImageBuilder->Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
 }

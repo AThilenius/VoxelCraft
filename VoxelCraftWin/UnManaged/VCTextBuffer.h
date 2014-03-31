@@ -11,6 +11,7 @@
 class VCRenderStage;
 class VCFont;
 class VCGLBuffer;
+class VCGui;
 
 #include "VCFont.h"
 
@@ -20,7 +21,7 @@ class VCGLBuffer;
 class VCTextBuffer
 {
 public:
-	VCTextBuffer(VCFont* font);
+	VCTextBuffer(VCGui* gui, VCFont* font);
 	~VCTextBuffer(void);
 
 	void Initialize();
@@ -32,6 +33,7 @@ public:
 	VCFont* Font;
 
 private:
+	VCGui* m_parentGui;
 	VCRenderStage* m_renderStage;
 	GlyphVerticie m_verts[VC_TEXT_BUFFER_MAX_VERT_SIZE];
 	VCGLBuffer* m_glBuffer;

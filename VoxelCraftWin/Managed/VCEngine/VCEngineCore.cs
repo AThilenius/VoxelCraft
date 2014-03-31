@@ -47,7 +47,6 @@ namespace VCEngine
         public static void Update()
         {
             Time.Update();
-            Gui.Reset();
 
             if (!EditorMode)
             {

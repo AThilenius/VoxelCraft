@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCImageInstance.h"
 #include "VCRenderStage.h"
-#include "VCGLRenderer.h"
 #include "VCGLShader.h"
 #include "VCGLWindow.h"
 #include "VCGui.h"
@@ -27,7 +26,8 @@ VCTextureVerticie::VCTextureVerticie( GLfloat3 position, GLfloat2 uv ):
 {
 }
 
-VCImageInstance::VCImageInstance(VCGLTexture* tex):
+VCImageInstance::VCImageInstance(VCGui* gui, VCGLTexture* tex):
+	m_parentGui(gui),
 	m_texturePtr(tex),
 	m_rStage(NULL),
 	m_vertBuffer(NULL),
@@ -42,7 +42,7 @@ VCImageInstance::VCImageInstance(VCGLTexture* tex):
 
 VCImageInstance::~VCImageInstance(void)
 {
-	VCGLRenderer::Instance->UnRegisterStage(m_rStage);
+	m_parentGui->RemoveGUIRenderStage(m_rStage);
 	delete[] m_vertBuffer;
 	delete m_rStage;
 	SAFE_DELETE(m_gpuBuffer);
@@ -56,7 +56,7 @@ void VCImageInstance::Initialize(VCGLShader* shader, VCTextureParams params)
 	m_rStage->BatchOrder = VC_BATCH_GUI + 1;
 	m_rStage->Shader = shader;
 	m_rStage->Texture = m_texturePtr;
-	VCGLRenderer::Instance->RegisterStage(m_rStage);
+	m_parentGui->AddGUIRenderStage(m_rStage);
 
 	m_gpuBuffer = new VCGLBuffer();
 	m_gpuBuffer->VertexBufferSpecification()

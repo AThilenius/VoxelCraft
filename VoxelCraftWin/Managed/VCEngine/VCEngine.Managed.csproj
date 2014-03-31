@@ -151,6 +151,7 @@
     <Compile Include="Physics\PxRigidStatic.cs" />
     <Compile Include="Physics\PxScene.cs" />
     <Compile Include="Physics\PxShape.cs" />
+    <Compile Include="Rendering\FrameBufferObject.cs" />
     <Compile Include="Rendering\RenderedEntity.cs" />
     <Compile Include="Rendering\IVerticie.cs" />
     <Compile Include="Rendering\Material.cs" />
@@ -188,7 +189,6 @@
     <Compile Include="SceneGraph\SceneGraph.cs" />
     <Compile Include="Editor\Editor.cs" />
     <Compile Include="Game\Game.cs" />
-    <Compile Include="Rendering\GLRenderer.cs" />
     <Compile Include="Gui\Controls\Control.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />

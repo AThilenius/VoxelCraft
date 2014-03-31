@@ -9,7 +9,6 @@
 #include "stdafx.h"
 #include "VCGeometryBuilder.h"
 
-#include "VCGLRenderer.h"
 #include "VCGLShader.h"
 #include "VCRenderStage.h"
 #include "VCGLWindow.h"
@@ -35,9 +34,10 @@ GuiRectVerticie::~GuiRectVerticie()
 
 }
 
-VCGeometryBuilder::VCGeometryBuilder( void ): 
+VCGeometryBuilder::VCGeometryBuilder(VCGui* gui): 
 	m_vCount(0),
-	m_gpuBuffer(NULL)
+	m_gpuBuffer(NULL),
+	m_parentGui(gui)
 {
 	// Pre-Compute a unit circle
 	for (int i = 0; i < VC_GEOMETRY_RESOLUTION; i++)
@@ -58,9 +58,7 @@ VCGeometryBuilder::~VCGeometryBuilder( void )
 void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
-	{
-		VC_ERROR("You have 125000+ Gui rectangles... too much man.");
-	}
+		VCLog::Error("You have 125000+ Gui rectangles... too much man.", "Rendering");
 
 	GuiRectVerticie ll (GLshort3(frame.X,					frame.Y,				depthStep), color);
 	GuiRectVerticie ul (GLshort3(frame.X,					frame.Y	+ frame.Height,	depthStep), color);
@@ -79,9 +77,7 @@ void VCGeometryBuilder::DrawRectangle( VCRectangle frame, GLubyte4 color, float 
 void VCGeometryBuilder::DrawEllipse( VCPoint centroid, int width, int height, GLubyte4 top, GLubyte4 bottom, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
-	{
-		VC_ERROR("You have 125000+ Gui rectangles... too much man.");
-	}
+		VCLog::Error("You have 125000+ Gui rectangles... too much man.", "Rendering");
 
 	glm::vec2 firstRad = m_unitCircle[0];
 
@@ -137,7 +133,7 @@ void VCGeometryBuilder::AddQuad( GuiRectVerticie vert, float depthStep )
 {
 	if (m_vCount >= VC_GEOMETRY_MAX_VERT_SIZE)
 	{
-		VC_ERROR("You have 125000+ Gui rectangles... too much man.");
+		VCLog::Error("You have 125000+ Gui rectangles... too much man.", "Rendering");
 	}
 
 	m_verts[m_vCount] = vert;
@@ -151,7 +147,7 @@ void VCGeometryBuilder::Initialize()
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
 	m_renderStage->Shader = VCResourceManager::GetShader("Gui");
-	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+	m_parentGui->AddGUIRenderStage(m_renderStage);
 
 	m_gpuBuffer = new VCGLBuffer();
 	m_gpuBuffer->VertexBufferSpecification()

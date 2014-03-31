@@ -10,7 +10,6 @@
 #include "VCGLShader.h"
 
 #include "VCFont.h"
-#include "VCGLRenderer.h"
 #include "VCStreamHelpers.h"
 #include "VCGLTexture.h"
 #include "VCResourceManager.h"

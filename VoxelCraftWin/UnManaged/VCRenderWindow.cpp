@@ -11,7 +11,6 @@
 
 #include "VCObjectStore.h"
 #include "VCCamera.h"
-#include "VCGLRenderer.h"
 #include "VCGLFrameBuffer.h"
 
 

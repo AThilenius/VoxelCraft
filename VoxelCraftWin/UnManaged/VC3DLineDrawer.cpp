@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "VC3DLineDrawer.h"
-#include "VCGLRenderer.h"
 #include "VCObjectStore.h"
 #include "VCRenderStage.h"
 #include "VCCamera.h"
@@ -42,7 +41,7 @@ VC3DLineDrawer::VC3DLineDrawer(VCCamera* camera):
 
 VC3DLineDrawer::~VC3DLineDrawer(void)
 {
-	VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
+	//VCGLRenderer::Instance->UnRegisterStage(m_renderStage);
 	SAFE_DELETE(m_gpuBuffer);
 }
 
@@ -53,7 +52,7 @@ void VC3DLineDrawer::Initialize()
 	m_renderStage->Camera = m_camera;
 	m_renderStage->Shader = VCResourceManager::GetShader("ColorPassThrough");
 	m_renderStage->ExectionType = VCRenderStage::Always;
-	VCGLRenderer::Instance->RegisterStage(m_renderStage);
+	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 
 	m_gpuBuffer = new VCGLBuffer();
 	m_gpuBuffer->VertexBufferSpecification()

@@ -10,11 +10,12 @@
 
 class VCImageInstance;
 class VCGLShader;
+class VCGui;
 
 class VCImageBuilder
 {
 public:
-	VCImageBuilder(void);
+	VCImageBuilder(VCGui* gui);
 	~VCImageBuilder(void);
 
 	void DrawImage(VCGLTexture* tex, VCRectangle frame, float depthStep);
@@ -26,4 +27,5 @@ public:
 private:
 	typedef std::unordered_map<VCGLTexture*, VCImageInstance*> ImageInstMap;
 	ImageInstMap m_imageInstances;
+	VCGui* m_parentGui;
 };

@@ -10,7 +10,9 @@
 
 class VCGLTexture;
 
-class VCGLFrameBuffer
+#include "VCMarshalableObject.h"
+
+class VCGLFrameBuffer : public VCMarshalableObject
 {
 public:
 	~VCGLFrameBuffer();
@@ -31,5 +33,10 @@ private:
 	static VCGLFrameBuffer* m_boundFrameBuffer;
 	static VCGLFrameBuffer* m_defaultFrameBuffer;
 	static VCGLFrameBuffer* m_textureTargetFrameBuffer;
-		
 };
+
+DLL_EXPORT_API int VCInteropVCGLFrameBufferGetDefault();
+
+DLL_EXPORT_API void VCInteropVCGLFrameBufferBind(int handle);
+DLL_EXPORT_API void VCInteropVCGLFrameBufferSetClearColor(int handle, glm::vec4 color);
+DLL_EXPORT_API void VCInteropVCGLFrameBUfferClear(int handle, bool color, bool depth);

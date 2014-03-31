@@ -13,6 +13,7 @@
 class VCRenderStage;
 class VCGLShader;
 class VCGLBuffer;
+class VCGui;
 
 #include "VCGLTexture.h"
 
@@ -28,7 +29,7 @@ struct VCTextureVerticie
 class VCImageInstance
 {
 public:
-	VCImageInstance(VCGLTexture* tex);
+	VCImageInstance(VCGui* gui, VCGLTexture* tex);
 	~VCImageInstance(void);
 
 	void Initialize(VCGLShader* shader, VCTextureParams params);
@@ -39,6 +40,7 @@ private:
 	void Render();
 
 private:
+	VCGui* m_parentGui;
 	VCRenderStage* m_rStage;
 	VCGLTexture* m_texturePtr;
 	
