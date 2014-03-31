@@ -20,9 +20,9 @@ namespace VCEngine
         {
             HudLabel = new Label(ParentWindow, "VoxelCraft Beta 0.0.1 Thilenius");
             AddControl(HudLabel);
-            HudLabel.Font = VCEngine.Font.GetFont(HudLabel.Font.Name, 16, true);
+            HudLabel.Font = VCEngine.Font.GetFont(HudLabel.Font.Name, 16, ParentWindow, true);
 
-            m_fontConsolas = Font.GetFont("Consolas", 12);
+            m_fontConsolas = Font.GetFont("Consolas", 12, ParentWindow);
         }
 
         protected override void Draw()

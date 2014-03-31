@@ -192,7 +192,7 @@
     <Compile Include="Gui\Controls\Control.cs" />
     <Compile Include="ManagedInterop\AssemblyLoader.cs" />
     <Compile Include="ManagedInterop\StaticInstance.cs" />
-    <Compile Include="Gui\Gui.cs" />
+    <Compile Include="Gui\GuiDrawer.cs" />
     <Compile Include="UnManagedInterop\MarshaledObject.cs" />
     <Compile Include="Application\Physics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

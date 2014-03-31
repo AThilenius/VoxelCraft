@@ -26,7 +26,7 @@ public:
 
 	void Initialize();
 
-	void DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float depthStep );
+	void DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float* depthStep );
 
 public:
 	void Render();

@@ -17,13 +17,14 @@ class VCImageBuilder;
 struct VCTextMetrics;
 
 #include "VCGeometryBuilder.h"
+#include "VCMarshalableObject.h"
 
 struct _VCRenderStageCompare 
 {
 	bool operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const;
 };
 
-class VCGui
+class VCGui : public VCMarshalableObject
 {
 public:
 	VCGui(void);
@@ -43,9 +44,8 @@ public:
 public:
 	float DepthStep;
 
-	static VCGui* Instance;
-	static float Scale;
-	static float InverseScale;
+	float Scale;
+	float InverseScale;
 
 private:
 	typedef boost::container::flat_set<VCRenderStage*, _VCRenderStageCompare> RenderSet;
@@ -53,18 +53,21 @@ private:
 };
 
 // Interop
-DLL_EXPORT_API void VCInteropGuiSetScale(float scale);
-DLL_EXPORT_API void VCInteropGuiRender();
+DLL_EXPORT_API int VCInteropGuiCreate();
+DLL_EXPORT_API void VCInteropGuiRelease(int handle);
+
+DLL_EXPORT_API void VCInteropGuiSetScale(int handle, float scale);
+DLL_EXPORT_API void VCInteropGuiRender(int handle);
 
 // Geometry
-DLL_EXPORT_API void VCInteropGuiAddVerticie(GuiRectVerticie vert);
-DLL_EXPORT_API void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color);
-DLL_EXPORT_API void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom);
+DLL_EXPORT_API void VCInteropGuiAddVerticie(int handle, GuiRectVerticie vert);
+DLL_EXPORT_API void VCInteropGuiDrawRectangle(int handle, VCRectangle rect, vcint4 color);
+DLL_EXPORT_API void VCInteropGuiDrawEllipse(int handle, VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom);
 
 // Text
-DLL_EXPORT_API void VCInteropGuiDrawText(int font, char* text, VCPoint point, vcint4 color);
-DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics);
+DLL_EXPORT_API void VCInteropGuiDrawText(int handle, int font, char* text, VCPoint point, vcint4 color);
+DLL_EXPORT_API void VCInteropGuiGetTextMetrics(int handle, int font, char* text, VCTextMetrics* metrics);
 
 // Images
-DLL_EXPORT_API void VCInteropGuiDrawImage(int texHandle, VCRectangle frame);
-DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(int texHandle, VCRectangle frame, int pizelOffset, float padding);
+DLL_EXPORT_API void VCInteropGuiDrawImage(int handle, int texHandle, VCRectangle frame);
+DLL_EXPORT_API void VCInteropGuiDraw9SliceImage(int handle, int texHandle, VCRectangle frame, int pizelOffset, float padding);

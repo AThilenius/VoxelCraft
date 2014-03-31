@@ -26,10 +26,10 @@ namespace VCEngine
         #region Bindings
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDrawText(int font, string text, Point point, Color color);
+        extern static void VCInteropGuiDrawText(int handle, int font, string text, Point point, Color color);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiGetTextMetrics(int font, string text, out TextMetrics metrics);
+        extern static void VCInteropGuiGetTextMetrics(int handle, int font, string text, out TextMetrics metrics);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropLoadFont(string fntPath, string ddsPath, out int fontId);
@@ -95,23 +95,12 @@ chars=32-126,160-255
 
         #region Static
 
-        public static Font DefaultFont
-        {
-            get
-            {
-                if (m_default == null)
-                    m_default = Font.GetFont("Calibri", 16);
-                
-                return m_default;
-            }
-        }
-
         private static Dictionary<String, Font> m_loadedFonts = new Dictionary<string, Font>();
         private static Font m_default;
 
-        public static Font GetFont (String fontName, int size, Boolean bold = false, Boolean italic = false)
+        public static Font GetFont (String fontName, int size, Window window, Boolean bold = false, Boolean italic = false)
         {
-            size = (int)Math.Round(size * Gui.Scale);
+            size = (int)Math.Round(size * window.Gui.Scale);
 
             String description = fontName + size + (bold ? "B" : "") + (italic ? "I" : "");
             String fntPath = Path.Combine(PathUtilities.FontsPath, description + ".fnt");
@@ -126,7 +115,7 @@ chars=32-126,160-255
             int fontID;
             VCInteropLoadFont(fntPath, ddsPath, out fontID);
 
-            Font font = new Font(fontID, fontName, size, bold, italic);
+            Font font = new Font(fontID, fontName, size, bold, italic, window);
             m_loadedFonts.Add(description, font);
             return font;
         }
@@ -186,20 +175,22 @@ chars=32-126,160-255
         public Boolean Italic { get; private set; }
 
         private int m_fontId;
+        private Window m_parentWindow;
 
-        private Font(int Id, String font, int size, Boolean bold, Boolean italic)
+        private Font(int Id, String font, int size, Boolean bold, Boolean italic, Window window)
         {
             m_fontId = Id;
             Name = font;
             Size = size;
             Bold = bold;
             Italic = italic;
+            m_parentWindow = window;
         }
 
         public void DrawString(string text, Point llPoint, Color color)
         {
-            llPoint = llPoint * Gui.Scale;
-            VCInteropGuiDrawText(m_fontId, text, new Point(llPoint.X, llPoint.Y), color);
+            llPoint = llPoint * m_parentWindow.Gui.Scale;
+            VCInteropGuiDrawText(m_parentWindow.Gui.UnManagedHandle, m_fontId, text, new Point(llPoint.X, llPoint.Y), color);
         }
 
         public void DrawStringBeveled(String text, Point llPoint, Color color)
@@ -216,10 +207,10 @@ chars=32-126,160-255
         public TextMetrics GetMetrics(string text)
         {
             TextMetrics tm;
-            VCInteropGuiGetTextMetrics(m_fontId, text, out tm);
+            VCInteropGuiGetTextMetrics(m_parentWindow.Gui.UnManagedHandle, m_fontId, text, out tm);
 
             // Manually scale
-            return new TextMetrics((int)(tm.TotalWidth / Gui.Scale), (int)(tm.TotalHeight / Gui.Scale));
+            return new TextMetrics((int)(tm.TotalWidth / m_parentWindow.Gui.Scale), (int)(tm.TotalHeight / m_parentWindow.Gui.Scale));
         }
 
         #endregion

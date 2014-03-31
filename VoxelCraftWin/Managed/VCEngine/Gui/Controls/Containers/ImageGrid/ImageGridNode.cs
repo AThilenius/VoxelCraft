@@ -34,7 +34,7 @@ namespace VCEngine
             // Dragging
             CanBeginDrag = true;
             DragBegin += (s, a) => a.Message = data;
-            DragDraw += (s, a) => ParentWindow.GuiDrawer.DrawImage((Texture)a.Message, new Rectangle(ParentWindow.GlfwInputState.MouseLocation, 50, 50));
+            DragDraw += (s, a) => ParentWindow.Gui.DrawImage((Texture)a.Message, new Rectangle(ParentWindow.GlfwInputState.MouseLocation, 50, 50));
             DragEnter += (s, a) =>
                 {
                     m_oldImage = Image.Image;
@@ -51,7 +51,7 @@ namespace VCEngine
         protected override void Draw()
         {
             //Gui.DrawButton(ScreenFrame);
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, ScreenFrame);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
             GuiDrawer.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
         }
     }

@@ -52,7 +52,7 @@ namespace VCEngine
             if (ParentWindow.GlfwInputState.MouseStates[0].State == TriState.None)
             {
                 World.Camera.Debug.DrawCube(block - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
-                ParentWindow.GuiDrawer.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), World.GetBlock(block).Color, Color.White, 1);
+                ParentWindow.Gui.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), World.GetBlock(block).Color, Color.White, 1);
             }
 
             else
@@ -61,7 +61,7 @@ namespace VCEngine
                 foreach (Location loc in World.GetBlocksInRegion(hit.CubeLocation, m_startLoc))
                     World.Camera.Debug.DrawCube(new Vector3(loc) - new Vector3(0.05f, 0.05f, 0.05f), new Vector3(1.1f, 1.1f, 1.1f), Color.White);
 
-                ParentWindow.GuiDrawer.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), ColorRGB, Color.White, 1);
+                ParentWindow.Gui.DrawBorderedRect(new Rectangle(ParentWindow.GlfwInputState.MouseLocation.X + 15, ParentWindow.GlfwInputState.MouseLocation.Y, 40, 40), ColorRGB, Color.White, 1);
             }
 
         }

@@ -43,10 +43,10 @@ namespace VCEngine
                         Text.FontColor = Color.Black;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonDown, ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
                     }
 
                     else
@@ -60,10 +60,10 @@ namespace VCEngine
                         Text.FontColor = Color.White;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonHighlightDown, ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlightDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonHighlight, ScreenFrame);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlight, ScreenFrame);
                     }
 
                     else
@@ -91,9 +91,9 @@ namespace VCEngine
                         Rectangle sf = ScreenFrame;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.ButtonDown, sf);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, sf);
                         else
-                            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, sf);
+                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, sf);
 
                         GuiDrawer.DrawImage(Image, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
                     }

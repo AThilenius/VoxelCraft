@@ -223,13 +223,6 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 		VCLexicalEngine::Instance->Initialize();
 	}
 
-	// Ensure a VCGui is on-line
-	if ( VCGui::Instance == NULL )
-	{
-		VCGui::Instance = new VCGui();
-		VCGui::Instance->Initialize();
-	}
-
 	// =====   Finally   ======================================================
 	Input = new VCGLFWInput(this);
 

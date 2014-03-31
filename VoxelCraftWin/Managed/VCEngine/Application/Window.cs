@@ -122,7 +122,7 @@ namespace VCEngine
         public Rectangle FullViewport { get { return new Rectangle(0, 0, ScaledSize); } }
         public GlfwInputState GlfwInputState;
         public Input Input;
-        public Gui GuiDrawer;
+        public GuiDrawer Gui;
         public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
         public event EventHandler OnDraw = delegate { };
@@ -147,7 +147,7 @@ namespace VCEngine
 
             Input = new Input(this);
             GlfwInputState = Input.GlfwInputState;
-            GuiDrawer = new Gui(this);
+            Gui = new GuiDrawer(this);
 
             MainControl = new Control(this);
             MainControl.ScreenFrame = new Rectangle(0, 0, FullViewport.Width, FullViewport.Height);

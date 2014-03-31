@@ -61,49 +61,58 @@ namespace VCEngine
         public Texture TriButtonRightDown = Texture.Get(@"Icons\ThreeButtonRightPressed.DDS");
     }
 
-    public class Gui
+    public class GuiDrawer : MarshaledObject
     {
         #region Bindings
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiSetScale(float scale);
+        extern static int VCInteropGuiCreate();
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiRender();
+        extern static void VCInteropGuiRelease(int handle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDrawRectangle(Rectangle rect, Color color);
+        extern static void VCInteropGuiSetScale(int handle, float scale);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDrawEllipse( Point centroid, int width, int height, Color top, Color bottom );
+        extern static void VCInteropGuiRender(int handle);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiAddVerticie(GuiRectVerticie vert);
+        extern static void VCInteropGuiDrawRectangle(int handle, Rectangle rect, Color color);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDrawImage(int texHandle, Rectangle frame);
+        extern static void VCInteropGuiDrawEllipse(int handle, Point centroid, int width, int height, Color top, Color bottom);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropGuiDraw9SliceImage(int texHandle, Rectangle frame, int pizelOffset, float padding);
+        extern static void VCInteropGuiAddVerticie(int handle, GuiRectVerticie vert);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropGuiDrawImage(int handle, int texHandle, Rectangle frame);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropGuiDraw9SliceImage(int handle, int texHandle, Rectangle frame, int pizelOffset, float padding);
+
+        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropGuiCreate; } }
+        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropGuiRelease; } }
 
         #endregion
 
         public Window ParentWindow;
-        public static float Scale
+        public float Scale
         {
             get { return m_scale; }
             set
             {
                 m_scale = value;
                 m_inverseScale = 1.0f / value;
-                VCInteropGuiSetScale(value);
+                VCInteropGuiSetScale(UnManagedHandle, value);
             }
         }
         public static StandardTextures StandardTextures = new StandardTextures();
-        private static float m_scale = 1.0f;
-        private static float m_inverseScale;
+        private float m_scale = 1.0f;
+        private float m_inverseScale;
 
-        public Gui(Window window)
+        public GuiDrawer(Window window)
         {
             m_inverseScale = 1.0f / m_scale;
             ParentWindow = window;
@@ -114,7 +123,7 @@ namespace VCEngine
 
         public void DrawRectangle(Rectangle rect, Color color)
         {
-            VCInteropGuiDrawRectangle(rect, color);
+            VCInteropGuiDrawRectangle(UnManagedHandle, rect, color);
         }
 
         public void DrawBorderedRect(Rectangle rect, Color back, Color border, int borderWidth)
@@ -198,12 +207,12 @@ namespace VCEngine
 
         public void DrawEllipse(Point centroid, int width, int height, Color color)
         {
-            VCInteropGuiDrawEllipse(centroid, width, height, color, color);
+            VCInteropGuiDrawEllipse(UnManagedHandle, centroid, width, height, color, color);
         }
 
         public void AddVerticie(GuiRectVerticie vert)
         {
-            VCInteropGuiAddVerticie(vert);
+            VCInteropGuiAddVerticie(UnManagedHandle, vert);
         }
 
         public void DrawNormalizedRectangle(RectangleF rect, Color color)
@@ -218,12 +227,12 @@ namespace VCEngine
 
         public void DrawImage(Texture texture, Rectangle frame)
         {
-            VCInteropGuiDrawImage(texture.UnManagedHandle, frame);
+            VCInteropGuiDrawImage(UnManagedHandle, texture.UnManagedHandle, frame);
         }
 
         public void Draw9SliceImage(Texture texture, Rectangle frame, int pizelOffset = 4, float padding = 0.25f)
         {
-            VCInteropGuiDraw9SliceImage(texture.UnManagedHandle, frame, (int)Math.Round(pizelOffset * Scale), padding);
+            VCInteropGuiDraw9SliceImage(UnManagedHandle, texture.UnManagedHandle, frame, (int)Math.Round(pizelOffset * Scale), padding);
         }
 
         public void Draw9SliceGui(Texture texture, Color baseColor, Rectangle frame, int pizelOffset = 5, float padding = 0.25f)
@@ -235,9 +244,9 @@ namespace VCEngine
         
         #region Misc
 
-        internal static void Render()
+        internal void Render()
         {
-            VCInteropGuiRender();
+            VCInteropGuiRender(UnManagedHandle);
         }
 
         #endregion

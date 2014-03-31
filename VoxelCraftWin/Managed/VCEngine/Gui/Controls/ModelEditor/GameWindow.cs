@@ -29,7 +29,7 @@ namespace VCEngine
             World.Camera.AutoAspect = false;
             World.ReBuild();
 
-            Font = Font.GetFont("Consolas", 12);
+            Font = Font.GetFont("Consolas", 12, ParentWindow);
             Resize += GameWindow_Resize;
 
             // Default Tool
@@ -149,7 +149,7 @@ namespace VCEngine
         void GameWindow_Resize(object sender, ResizeEventArgs e)
         {
             // Raw access, must be scaled manually.
-            World.Camera.Viewport = ScreenFrame * Gui.Scale;
+            World.Camera.Viewport = ScreenFrame * ParentWindow.Gui.Scale;
             World.Camera.AspectRatio = (float)Frame.Width / (float)Frame.Height;
         }
 

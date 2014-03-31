@@ -190,7 +190,7 @@ namespace VCEngine
             VCInteropCameraSetUpdateState(UnManagedHandle, true);
             // Set UnManaged code
             VCInteropCameraSetProjectionViewMatrix(UnManagedHandle, m_projectionMatrix, Transform.TransformMatrix);
-            VCInteropCameraSetViewport(UnManagedHandle, Viewport * Gui.Scale);
+            VCInteropCameraSetViewport(UnManagedHandle, Viewport * ParentWindow.Gui.Scale);
 
             base.PreRender();
         }

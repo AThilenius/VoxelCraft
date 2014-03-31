@@ -93,8 +93,8 @@ namespace VCEngine
 
             //Gui.Draw9Slice(Gui.StandardTextures.Button, ScreenFrame);
             GuiDrawer.DrawBackground(ScreenFrame);
-            Font.DefaultFont.DrawStringBeveled("HSL Color", new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.Black);
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, new Rectangle(sf.X, sf.Y, 40, sf.Height));
+            Font.DrawStringBeveled("HSL Color", new Point(ScreenFrame.X + 10, ScreenFrame.Y + Height - 20), Color.Black);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, new Rectangle(sf.X, sf.Y, 40, sf.Height));
             GuiDrawer.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 5, 30, sf.Height - 10), ColorRGB);
 
             GuiDrawer.DrawRectangle(new Rectangle(sf.X + 5, sf.Y + 4, 30, 1), new Color(255, 255, 255, 128));
@@ -132,10 +132,10 @@ namespace VCEngine
                 m_randomFrame.X + (int)(m_randomFrame.Width * RandomMultiplier) - MathHelper.RoundedDevision(m_randomFrame.Height, 2) + 2,
                 m_randomFrame.Y + 3, m_randomFrame.Height - 4, m_randomFrame.Height - 4);
 
-            GuiDrawer.DrawImage(Gui.StandardTextures.RoundButton, spectrumSelect);
-            GuiDrawer.DrawImage(Gui.StandardTextures.RoundButton, saturationSelect);
-            GuiDrawer.DrawImage(Gui.StandardTextures.RoundButton, luminocitySelect);
-            GuiDrawer.DrawImage(Gui.StandardTextures.RoundButton, transparencySelector);
+            GuiDrawer.DrawImage(GuiDrawer.StandardTextures.RoundButton, spectrumSelect);
+            GuiDrawer.DrawImage(GuiDrawer.StandardTextures.RoundButton, saturationSelect);
+            GuiDrawer.DrawImage(GuiDrawer.StandardTextures.RoundButton, luminocitySelect);
+            GuiDrawer.DrawImage(GuiDrawer.StandardTextures.RoundButton, transparencySelector);
         }
 
         private void DrawDualToneQuad(Rectangle frame, Color left, Color right)
@@ -157,7 +157,7 @@ namespace VCEngine
 
         private void DrawRandomSpectrum(Rectangle frame, Vector4 hsl, float spectrum)
         {
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, frame);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             // Draw possible spectrum
@@ -190,7 +190,7 @@ namespace VCEngine
 
         private void DrawColorSpectrum(Rectangle frame, float s, float l, int t)
         {
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, frame);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             int qWidth = (int)(frame.Width / 6.0f);
@@ -239,7 +239,7 @@ namespace VCEngine
 
         private void DrawSauration(Rectangle frame, Color color, float l)
         {
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, frame);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             Color colored = color;
@@ -269,7 +269,7 @@ namespace VCEngine
 
         private void DrawLuminosity(Rectangle frame, Color color, float s)
         {
-            GuiDrawer.Draw9SliceImage(Gui.StandardTextures.Button, frame);
+            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, frame);
             frame = new Rectangle(frame.X + 3, frame.Y + 4, frame.Width - 8, frame.Height - 7);
 
             Color midColor = Color.Lerp(new Color(127, 127, 127, color.A), color, s);

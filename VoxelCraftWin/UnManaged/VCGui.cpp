@@ -18,19 +18,17 @@
 #include "VCTextBuilder.h"
 #include "VCImageBuilder.h"
 
-VCGui* VCGui::Instance = NULL;
-float VCGui::Scale = 1.0f;
-float VCGui::InverseScale = 1.0f;
-
 bool _VCRenderStageCompare::operator() (const VCRenderStage* lhs, const VCRenderStage* rhs) const
 {
 	return (*lhs) < (*rhs);
 }
 
 VCGui::VCGui( void ):
-	DepthStep(0)
+	DepthStep(0),
+	Scale(1.0f),
+	InverseScale(1.0f)
 {
-	
+	VCObjectStore::Instance->UpdatePointer(Handle, this);
 }
 
 VCGui::~VCGui( void )
@@ -88,50 +86,72 @@ void VCGui::RemoveGUIRenderStage( VCRenderStage* stage )
 	m_renderSet.erase(iter);
 }
 
-void VCInteropGuiSetScale( float scale )
+int VCInteropGuiCreate()
 {
-	VCGui::Scale = scale;
-	VCGui::InverseScale = 1.0f / scale;
+	VCGui* gui = new VCGui();
+	gui->Initialize();
+	return gui->Handle;
 }
 
-void VCInteropGuiRender()
+void VCInteropGuiRelease( int handle )
 {
-	VCGui::Instance->Render();
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	delete obj;
 }
 
-void VCInteropGuiDrawRectangle(VCRectangle rect, vcint4 color)
+void VCInteropGuiSetScale(int handle, float scale)
 {
-	VCGui::Instance->Geometry->DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->Scale = scale;
+	obj->InverseScale = 1.0f / scale;
 }
 
-void VCInteropGuiDrawEllipse(VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom)
+void VCInteropGuiRender(int handle)
 {
-	VCGui::Instance->Geometry->DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W), VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->Render();
 }
 
-void VCInteropGuiAddVerticie( GuiRectVerticie vert )
+void VCInteropGuiDrawRectangle(int handle, VCRectangle rect, vcint4 color)
 {
-	VCGui::Instance->Geometry->AddQuad(vert, VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->Geometry->DrawRectangle(rect, GLubyte4(color.X, color.Y, color.Z, color.W), obj->DepthStep++);
 }
 
-void VCInteropGuiDrawText(int font,char* text, VCPoint point, vcint4 color)
+void VCInteropGuiDrawEllipse(int handle, VCPoint centroid, int width, int height, vcint4 top, vcint4 bottom)
 {
-	VCGui::Instance->Text->DrawText(font, text, point, GLubyte4(color.X, color.Y, color.Z, color.W), VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->Geometry->DrawEllipse(centroid, width, height, GLubyte4(top.X, top.Y, top.Z, top.W), GLubyte4(bottom.X, bottom.Y, bottom.Z, bottom.W), obj->DepthStep++);
 }
 
-void VCInteropGuiGetTextMetrics(int font, char* text, VCTextMetrics* metrics)
+void VCInteropGuiAddVerticie(int handle, GuiRectVerticie vert )
+{
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->Geometry->AddQuad(vert, obj->DepthStep++);
+}
+
+void VCInteropGuiDrawText(int handle, int font, char* text, VCPoint point, vcint4 color)
+{
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	obj->DepthStep++;
+	obj->Text->DrawText(font, text, point, GLubyte4(color.X, color.Y, color.Z, color.W), &obj->DepthStep);
+}
+
+void VCInteropGuiGetTextMetrics(int handle, int font, char* text, VCTextMetrics* metrics)
 {
 	*metrics = VCLexicalEngine::Instance->GetMetrics(font, text);
 }
 
-void VCInteropGuiDrawImage( int texHandle, VCRectangle frame )
+void VCInteropGuiDrawImage(int handle, int texHandle, VCRectangle frame )
 {
-	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
-	VCGui::Instance->ImageBuilder->DrawImage(obj, frame, VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	VCGLTexture* tex = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
+	obj->ImageBuilder->DrawImage(tex, frame, obj->DepthStep++);
 }
 
-void VCInteropGuiDraw9SliceImage( int texHandle, VCRectangle frame, int pizelOffset, float padding )
+void VCInteropGuiDraw9SliceImage(int handle, int texHandle, VCRectangle frame, int pizelOffset, float padding )
 {
-	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
-	VCGui::Instance->ImageBuilder->Draw9SliceImage(obj, frame, pizelOffset, padding, VCGui::Instance->DepthStep++);
+	VCGui* obj = (VCGui*) VCObjectStore::Instance->GetObject(handle);
+	VCGLTexture* tex = (VCGLTexture*) VCObjectStore::Instance->GetObject(texHandle);
+	obj->ImageBuilder->Draw9SliceImage(tex, frame, pizelOffset, padding, obj->DepthStep++);
 }

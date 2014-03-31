@@ -64,7 +64,7 @@ namespace VCEngine
                 // Overwrite previous to avoid stale spinning
                 PreviouseMouseLocation = value;
                 m_currentMousePosition = value;
-                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int)Math.Round(value.X * Gui.Scale), (int)Math.Round((ParentWindow.ScaledSize.Y - value.Y) * Gui.Scale));
+                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int)Math.Round(value.X * ParentWindow.Gui.Scale), (int)Math.Round((ParentWindow.ScaledSize.Y - value.Y) * ParentWindow.Gui.Scale));
             }
         }
         public Point InvertedMouseLocation
@@ -75,7 +75,7 @@ namespace VCEngine
                 // Overwrite previous to avoid stale spinning
                 PreviouseMouseLocation = value;
                 m_currentMousePosition = value;
-                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int) Math.Round(value.X * Gui.Scale), (int) Math.Round(value.Y * Gui.Scale));
+                VCInteropInputSetMouse(ParentWindow.UnManagedHandle, (int)Math.Round(value.X * ParentWindow.Gui.Scale), (int)Math.Round(value.Y * ParentWindow.Gui.Scale));
             }
         }
         public PointF DeltaScroll = new PointF();
@@ -158,8 +158,8 @@ namespace VCEngine
             win.ShouldRedraw();
 
             // Scale
-            x /= Gui.Scale;
-            y /= Gui.Scale;
+            x /= win.Gui.Scale;
+            y /= win.Gui.Scale;
 
             win.GlfwInputState.PreviouseMouseLocation = win.GlfwInputState.m_currentMousePosition;
             win.GlfwInputState.m_currentMousePosition = new Point((int)x, win.ScaledSize.Y - (int)y);

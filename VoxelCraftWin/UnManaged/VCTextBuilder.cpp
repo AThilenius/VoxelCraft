@@ -30,7 +30,7 @@ void VCTextBuilder::Reset()
 {
 }
 
-void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
+void VCTextBuilder::DrawText( int font, std::string text, VCPoint llPoint, GLubyte4 color, float* depthStep )
 {
 	for (int i = m_bufferByFont.size(); m_bufferByFont.size() <= font; i++)
 	{

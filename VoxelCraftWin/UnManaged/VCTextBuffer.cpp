@@ -48,7 +48,7 @@ void VCTextBuffer::Initialize()
 		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Color));
 }
 
-void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float depthStep )
+void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float* depthStep )
 {
 	if (m_vCount + text.size() >= VC_TEXT_BUFFER_MAX_VERT_SIZE)
 		VCLog::Error("VCTextBuffer Overflow: You probably have text drawing in a infinite loop.", "Rendering");

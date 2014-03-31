@@ -212,7 +212,8 @@ namespace VCEngine
         public Dockings         Dock = Dockings.None;
         public AutoSizeTypes    AutoSize = AutoSizeTypes.None;
         public MarginSize       Margin = new MarginSize();
-        public Font             Font = Font.DefaultFont;
+        public Font             Font;
+
 
         // =====   Control   =====================================================
         public Control          Parent;
@@ -267,7 +268,7 @@ namespace VCEngine
         protected Rectangle m_frame = new Rectangle();
         protected Input m_input { get { return ParentWindow.Input; } }
         protected GlfwInputState m_glfwInputState { get { return ParentWindow.GlfwInputState; } }
-        protected Gui GuiDrawer { get { return ParentWindow.GuiDrawer; } }
+        protected GuiDrawer GuiDrawer { get { return ParentWindow.Gui; } }
         private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
         private int m_layer;
@@ -284,6 +285,7 @@ namespace VCEngine
         public Control(Window window)
         {
             ParentWindow = window;
+            Font = Font.GetFont("Calibri", 16, window);
             MouseEnter += (s, a) => { IsHovered = true; IsClickDown = false; };
             MouseExit += (s, a) => { IsHovered = false;  IsClickDown = false; };
         }

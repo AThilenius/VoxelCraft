@@ -78,7 +78,7 @@ VCTextMetrics VCLexicalEngine::GetMetrics( int font, std::string text )
 	return VCTextMetrics(xOffset, vcfont->Common.lineHeight);
 }
 
-int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset, float depthStep )
+int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint llPoint, GLubyte4 color, GlyphVerticie* buffer, int offset, float* depthStep )
 {
 	VCFont* vcfont = m_fonts[font];
 	int xOffset = 0;
@@ -95,7 +95,7 @@ int VCLexicalEngine::MakeTextToQuadBuffer( int font, std::string text, VCPoint l
 		{
 			cDesc.Quad[v].Position.x += xOffset + kerning + llPoint.X;
 			cDesc.Quad[v].Position.y += llPoint.Y;
-			cDesc.Quad[v].Position.z = VCGui::Instance->DepthStep++; //depthStep;
+			cDesc.Quad[v].Position.z = (*depthStep)++;
 			cDesc.Quad[v].Color = color;
 
 			// Optimized to a memcpy ( 30% frame time -> 8% frame time )
