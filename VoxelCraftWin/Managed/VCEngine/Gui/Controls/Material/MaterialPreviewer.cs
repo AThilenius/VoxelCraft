@@ -8,19 +8,30 @@ namespace VCEngine
 {
     public class MaterialPreviewer : RenderWindow
     {
-        public enum DisplayMode
+        public enum MaterialDisplayMode
         {
             Cube,
             Plane
         }
 
         public ToggleButton PlaneButton;
-        public ToggleButton CubeButton; 
+        public ToggleButton CubeButton;
+        public MaterialDisplayMode DisplayMode
+        {
+            get { return m_displayMode; }
+            set
+            {
+                m_displayMode = value;
+
+                if (m_materialPath != "")
+                    OpenMaterialPath(m_materialPath);
+            }
+        }
 
         private RenderedEntity m_currentEntity = null;
         private Boolean m_animate = true;
         private Quaternion m_rotationQuat = Quaternion.Identity;
-        private DisplayMode m_displayMode = DisplayMode.Cube;
+        private MaterialDisplayMode m_displayMode = MaterialDisplayMode.Cube;
         private String m_materialPath = "";
 
         public MaterialPreviewer(Window window) : base(window)
@@ -30,7 +41,7 @@ namespace VCEngine
             CubeButton.Style = ToggleButton.ToggleStyle.TriLeft;
             CubeButton.OnDepressed += (s, a) =>
                 {
-                    m_displayMode = DisplayMode.Cube;
+                    m_displayMode = MaterialDisplayMode.Cube;
                     if (m_materialPath != "")
                         OpenMaterialPath(m_materialPath);
                 };
@@ -40,7 +51,7 @@ namespace VCEngine
             PlaneButton.Style = ToggleButton.ToggleStyle.TriRight;
             PlaneButton.OnDepressed += (s, a) =>
                 {
-                    m_displayMode = DisplayMode.Plane;
+                    m_displayMode = MaterialDisplayMode.Plane;
                     if (m_materialPath != "")
                         OpenMaterialPath(m_materialPath);
                 };
@@ -55,18 +66,19 @@ namespace VCEngine
         public void OpenMaterialPath(String fullPath)
         {
             m_materialPath = fullPath;
+            PathUtilities.TestFileExistance(fullPath);
 
             GLRenderViewport.Entities.Clear();
 
             switch(m_displayMode)
             {
-                case DisplayMode.Cube:
+                case MaterialDisplayMode.Cube:
                     m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
                     m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -2.75f);
                     GLRenderViewport.MainCamera.Orthographic = false;
                     m_animate = true;
                     break;
-                case DisplayMode.Plane:
+                case MaterialDisplayMode.Plane:
                     m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), fullPath);
                     GLRenderViewport.MainCamera.Orthographic = true;
                     GLRenderViewport.MainCamera.OrthographicWidth = GLRenderViewport.MainCamera.AspectRatio;

@@ -105,11 +105,9 @@ namespace VCEngine
                 }
 
                 VCInteropTextureSetFilterParams(tex.UnManagedHandle, new TextureParams());
-
-                // Lead a new texture
-                
-
                 m_loadedTextures.Add(path, tex);
+                
+	            Log.Info("Managed code loaded texture: " + path, "Resources");
             }
 
             return tex;

@@ -19,9 +19,13 @@ namespace VCEngine
             PathUtilities.UpdatePathUtilities();
 
             EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
+            //Window testWindow = new Window(683, 683, "Test Window");
+            //MaterialPreviewer matPrev = new MaterialPreviewer(testWindow);
+            //testWindow.MainControl.AddControl(matPrev);
+            //matPrev.Dock = Control.Dockings.Fill;
+            //matPrev.OpenMaterialPath(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Assets\Materials\Filters\AvgFilter.vcmaterial");
             
             Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
-
             LoopController.PassControlAndBegin();
         }
 

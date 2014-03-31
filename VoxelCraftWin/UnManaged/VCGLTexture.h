@@ -24,6 +24,7 @@ struct VCTextureFiltering
 struct VCTextureParams
 {
 	VCTextureParams() :
+		SoilFlags(SOIL_FLAG_MIPMAPS),
 		Filtering(VCTextureFiltering::Default),
 		ClampU(true),
 		ClampV(true)

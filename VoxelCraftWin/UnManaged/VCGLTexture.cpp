@@ -75,8 +75,6 @@ void VCGLTexture::UpdateFilteringParams( VCTextureParams params )
 		break;
 	}
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-	m_boundTexture = NULL;
 }
 
 VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params )
@@ -87,6 +85,7 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 		return iter->second;
 
 	VCGLTexture* tex = new VCGLTexture();
+	tex->FullPath = path;
 	tex->GLTextID = SOIL_load_OGL_texture
 		(
 		path.c_str(),
@@ -95,7 +94,33 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 		params.SoilFlags
 		);
 
-	tex->UpdateFilteringParams(params);
+	glBindTexture(GL_TEXTURE_2D, tex->GLTextID);
+
+	// Wrap Modes / Filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.ClampU ? GL_CLAMP : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.ClampV ? GL_CLAMP : GL_REPEAT);
+
+	switch (params.Filtering)
+	{
+	case VCTextureFiltering::None:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		break;
+
+	case VCTextureFiltering::Trilinear:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+
+	case VCTextureFiltering::Ansiotropic:
+		VC_ERROR("Anisotropic filtering not yet supported.");
+		break;
+
+	default:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+	}
 
 	// Track Memory Usage
 	int width, heigh, depth = 0;
@@ -103,12 +128,10 @@ VCGLTexture* VCGLTexture::LoadFromFile( std::string path, VCTextureParams params
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &heigh);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_DEPTH, &depth);
 	tex->m_memoryUsage = width * heigh * depth;
-
 	g_gpuMemoryUsage += tex->m_memoryUsage;
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-	m_boundTexture = NULL;
 	LoadedTextures.insert(std::unordered_map<std::string, VCGLTexture*>::value_type(path, tex));
+	VCLog::Info("Un-Managed code loaded texture: " + path, "Resources");
 
 	return tex;
 }
