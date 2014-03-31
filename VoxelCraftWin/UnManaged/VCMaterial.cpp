@@ -85,8 +85,8 @@ VCMaterial* VCMaterial::GetMaterial( std::string fullPath )
 			case VCShaderUniform::Matrix3:		uniformValue = VCShaderMatrix3::FromJson(valueName, mat->Shader->GetUniformID(valueName), valueData); break;
 			case VCShaderUniform::Matrix4:		uniformValue = VCShaderMatrix4::FromJson(valueName, mat->Shader->GetUniformID(valueName), valueData); break;
 			case VCShaderUniform::ColorRGBA:	uniformValue = VCShaderColorRGBA::FromJson(valueName, mat->Shader->GetUniformID(valueName), valueData); break;
-			case VCShaderUniform::Sampler2D:	uniformValue = VCShaderSampler2D::FromJson(valueName, mat->Shader->GetUniformID(valueName), GL_TEXTURE0 + currentTexUnit++, valueData); break;
-			case VCShaderUniform::Sampler3D:	uniformValue = VCShaderSampler3D::FromJson(valueName, mat->Shader->GetUniformID(valueName), GL_TEXTURE0 + currentTexUnit++, valueData); break;
+			case VCShaderUniform::Sampler2D:	uniformValue = VCShaderSampler2D::FromJson(valueName, mat->Shader->GetUniformID(valueName), currentTexUnit++, valueData); break;
+			case VCShaderUniform::Sampler3D:	uniformValue = VCShaderSampler3D::FromJson(valueName, mat->Shader->GetUniformID(valueName), currentTexUnit++, valueData); break;
 			default: throw std::exception("Unhanded VCShaderUniform value type");
 		}
 

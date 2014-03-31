@@ -111,7 +111,6 @@ namespace VCEngine
             m_inverseScale = 1.0f / m_scale;
             ParentWindow = window;
             Scale = ParentWindow.MonitorSize.X > 1920 ? 1.5f : 1.0f;
-            ParentWindow.TrueSize = ParentWindow.TrueSize * Scale;
         }
 
         #region Drawing

@@ -30,7 +30,7 @@ public:
 	VCGLVertexBufferAttributeSpec& VertexBufferSpecification(VCGLDrawPrimitives::Types drawPrimitiveType = VCGLDrawPrimitives::Triangles);
 
 	/// Direct Index buffer setup
-	void IndexBufferSpecification(int size, void* data, int count, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
+	void IndexBufferSpecification(int size, void* data, int count, VCGLPrimitives::Types indecieType = VCGLPrimitives::UnsignedInt, VCGLDrawModes::Types drawMode = VCGLDrawModes::Static);
 
 
 private:
@@ -40,7 +40,7 @@ private:
 
 	int m_vCount;
 	int m_iCount;
-	VCGLDrawModes::Types m_indexBufferType;
+	VCGLPrimitives::Types m_indexBufferType;
 	VCGLDrawPrimitives::Types m_primitivesType;
 
 	VCGLVertexBufferAttributeSpec* m_VBOSpec;

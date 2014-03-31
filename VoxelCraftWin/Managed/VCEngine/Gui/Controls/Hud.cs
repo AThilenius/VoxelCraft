@@ -10,8 +10,8 @@ namespace VCEngine
         public Label HudLabel;
         private int m_yOffset;
         private int m_frameCount;
-        private TimeSpan m_cpuTimeTotal;
-        private float m_lastDeltaTime;
+        private Double m_lastLoopTime;
+        private Double m_lastDrawTime;
 
         private Font m_fontConsolas;
         private Texture m_hudTexture = Texture.Get(@"Icons\Hud.DDS");
@@ -28,18 +28,17 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-
             GuiDrawer.Draw9SliceImage(m_hudTexture, sf, 10, 0.17f);
-
             HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 
-            m_lastDeltaTime = 0.95f * m_lastDeltaTime + 0.05f * (float)Time.DeltaTime;
-            m_yOffset = 35;
-            m_cpuTimeTotal += Editor.LastCPUTime;
+            // Smooth out FPS values
+            m_lastLoopTime = m_lastLoopTime * 0.99d + ParentWindow.LastLoopTime.TotalSeconds * 0.01d;
+            m_lastDrawTime = m_lastDrawTime * 0.99d + ParentWindow.LastDrawTime.TotalSeconds * 0.01d;
 
-            DrawText("             CPU Time: [ " + m_cpuTimeTotal.Minutes + ":" + m_cpuTimeTotal.Seconds.ToString("00") + (m_cpuTimeTotal.TotalSeconds - (float)(int)(m_cpuTimeTotal.TotalSeconds)).ToString(".0000000") + " ]", sf);
+            m_yOffset = 35;
+            DrawText("        Full Loop FPS: [ " + (1.0d / m_lastLoopTime).ToString("0000") + " ]", sf);
+            DrawText("           OpenGL FPS: [ " + (1.0d / m_lastDrawTime).ToString("0000") + " ]", sf);
             DrawText("   Drawn Frames Count: [ " + m_frameCount++ + " ]", sf);
-            DrawText("                  FPS: [ " + (int)(1.0f / m_lastDeltaTime) + " ]", sf);
 
             m_yOffset = 35;
             DrawText("           Resolution: " + ParentWindow.TrueSize, sf, 220);

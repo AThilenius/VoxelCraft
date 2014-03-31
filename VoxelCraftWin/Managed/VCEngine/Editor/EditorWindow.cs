@@ -35,6 +35,7 @@ namespace VCEngine
             // Create Material, child it to spinner, fill controls
             MaterialEditor = new VCEngine.MaterialEditor(this);
             MainSpinner.AddControl(MaterialEditor);
+            MaterialEditor.Create();
 
             // Dock the spinner to remaining area
             MainSpinner.DockOrder = 1;

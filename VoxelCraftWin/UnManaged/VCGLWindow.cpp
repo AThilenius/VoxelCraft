@@ -245,6 +245,13 @@ void VCInteropGLWindowSetPos(int handle, int x, int y)
 	glfwSetWindowPos(obj->GLFWWindowHandle, x, y);
 }
 
+void VCInteropGLWindowSetTitle( int handle, char* title )
+{
+	VCGLWindow* obj = (VCGLWindow*) VCObjectStore::Instance->GetObject(handle);
+	glfwSetWindowTitle(obj->GLFWWindowHandle, title);
+}
+
+
 void VCInteropGetMonitorSize(int* width, int* height)
 {
 	GLFWmonitor* primary = glfwGetPrimaryMonitor();

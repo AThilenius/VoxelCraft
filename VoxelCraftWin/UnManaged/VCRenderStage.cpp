@@ -123,7 +123,7 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			glViewport(VCGLWindow::ActiveWindow->FullViewport.X, VCGLWindow::ActiveWindow->FullViewport.Y, VCGLWindow::ActiveWindow->FullViewport.Width, VCGLWindow::ActiveWindow->FullViewport.Height);
 		}
 
-		else if (toState->Camera->Viewport != lastViewport)
+		else if (toState->Camera != NULL && toState->Camera->Viewport != lastViewport)
 		{
 			lastViewport = toState->Camera->Viewport;
 			glViewport(toState->Camera->Viewport.X, toState->Camera->Viewport.Y, toState->Camera->Viewport.Width, toState->Camera->Viewport.Height);

@@ -80,5 +80,5 @@ int VCInteropEntitySetModel( int handle, char* modelPath )
 void VCInteropEntitySetMaterial( int handle, int matIndex, char* materialPath )
 {
 	VCEntity* obj = (VCEntity*) VCObjectStore::Instance->GetObject(handle);
-	obj->Materials[matIndex] = VCResourceManager::GetMaterial(materialPath);
+	obj->Materials[matIndex] = VCResourceManager::GetMaterialInAssets(materialPath);
 }

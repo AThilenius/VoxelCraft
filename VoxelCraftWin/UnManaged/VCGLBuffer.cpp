@@ -45,11 +45,17 @@ VCGLBuffer::~VCGLBuffer(void)
 	if ( m_VIB ) 
 		glDeleteBuffers(1, &m_VIB);
 
+	glErrorCheck();
 	VCLog::Info("VAO Released", "Resources");
 }
 
 void VCGLBuffer::Draw()
 {
+#ifdef DEBUG
+	if ( m_VIB && m_vCount == 0 && m_iCount != 0 )
+		VCLog::Error("You are trying to render an index buffer without any data in the Vertex buffer.", "Rendering");
+#endif
+
 	glBindVertexArray(m_VAO);
 
 	if ( m_VIB )
@@ -60,6 +66,7 @@ void VCGLBuffer::Draw()
 		// Draw Vertex List
 		glDrawArrays(m_primitivesType, 0, m_vCount);
 
+	glErrorCheck();
 }
 
 VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification(VCGLDrawPrimitives::Types drawPrimitiveType /*= VCGLDrawPrimitives::Triangles*/ )
@@ -76,13 +83,14 @@ VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification(VCGLDrawPri
 	}
 	
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glErrorCheck();
 	return *m_VBOSpec;
 }
 
-void VCGLBuffer::IndexBufferSpecification( int size, void* data, int count, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
+void VCGLBuffer::IndexBufferSpecification( int size, void* data, int count, VCGLPrimitives::Types indecieType /*= VCGLPrimitives::UnsignedInt*/, VCGLDrawModes::Types drawMode /*= VCGLDrawModes::Static*/ )
 {
 	glBindVertexArray(m_VAO);
-	m_indexBufferType = drawMode;
+	m_indexBufferType = indecieType;
 	m_iCount = count;
 
 	if( !m_VIB )
@@ -111,6 +119,7 @@ VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexData( UIn
 {
 	glBufferData(GL_ARRAY_BUFFER, size, data, drawMode);
 	m_coupledBuffer->m_vCount = count;
+	glErrorCheck();
 	return *this;
 }
 
@@ -118,6 +127,7 @@ VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexAttribute
 {
 	glEnableVertexAttribArray(attribType);
 	glVertexAttribPointer(attribType, count, (GLenum) primitiveType, normalize,	strideSize,	(void*) offset );
+	glErrorCheck();
 	return *this;
 }
 
@@ -125,5 +135,6 @@ VCGLVertexBufferAttributeSpec& VCGLVertexBufferAttributeSpec::SetVertexAttribute
 {
 	glEnableVertexAttribArray(attribType);
 	glVertexAttribIPointer(attribType, count, (GLenum) primitiveType, strideSize, (void*) offset );
+	glErrorCheck();
 	return *this;
 }

@@ -32,9 +32,10 @@ void VCMesh::Initialize( VCPuvnVerticie* verts, UInt32* indicies, int vCount, in
 
 	m_gpuBuffer = new VCGLBuffer();
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Position))
-		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, UV))
-		.SetVertexAttribute(VCShaderAttribute::Normal0,		3, VCGLPrimitives::Float,	false,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Normal));
+		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, UV))
+		.SetVertexAttribute(VCShaderAttribute::Normal0,		3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Normal))
+		.SetVertexData(sizeof(VCPuvnVerticie) * VertexCount, verts, VertexCount);
 	m_gpuBuffer->IndexBufferSpecification(sizeof(UInt32) * iCount, indicies, iCount);
 }
 

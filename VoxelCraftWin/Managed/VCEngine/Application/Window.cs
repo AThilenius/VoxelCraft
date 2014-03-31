@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -51,6 +52,9 @@ namespace VCEngine
         
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropGLWindowGetPos(int handle, out int x, out int y);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropGLWindowSetTitle(int handle, String title);
         
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
 		extern static void VCInteropGLWindowSetPos(int handle, int x, int y);
@@ -104,20 +108,35 @@ namespace VCEngine
                 return new Point(w, h);
             }
         }
+        public String Title
+        {
+            get { return m_title; }
+            set
+            {
+                m_title = value;
+                VCInteropGLWindowSetTitle(UnManagedHandle, value);
+            }
+        }
+        public TimeSpan LastLoopTime;
+        public TimeSpan LastDrawTime;
         public Rectangle FullViewport { get { return new Rectangle(0, 0, ScaledSize); } }
         public GlfwInputState GlfwInputState;
         public Input Input;
         public Gui GuiDrawer;
         public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
+        public event EventHandler OnDraw = delegate { };
 
+        private String m_title;
         private int m_framesRemaining = 10;
         private float m_drawTillTime;
+
 
         public Window(int width, int height, String title)
         {
             UnManagedHandle = VCInteropGLWindowCreate(width, height, title);
             ObjectStore.RegisterObject(this, UnManagedHandle);
+            m_title = title;
 
             // Possible problem here... This needs to be pinned so the GC doesn't move it
             VCInteropGLWindowRegisterResizeCallback((handle, newWidth, newHeight) =>
@@ -125,8 +144,6 @@ namespace VCEngine
                 Window win = (Window)ObjectStore.GetObject(handle);
                 win.GlfwSizeChangeHandler(newWidth, newHeight);
             });
-
-            TrueSize = new Point(width, height);
 
             Input = new Input(this);
             GlfwInputState = Input.GlfwInputState;
@@ -156,8 +173,12 @@ namespace VCEngine
             }
 
             // Check if a redraw has been requested
-            // if (m_framesRemaining == 0 || Time.CurrentTime > m_drawTillTime)
-            //    return;
+            if (m_framesRemaining == 0 && Time.CurrentTime > m_drawTillTime)
+                return;
+
+            // Monitor LoopTime
+            Stopwatch loopTimer = new Stopwatch();
+            loopTimer.Start();
 
             // Pull Events
             VCInteropGLWindowPollEvents();
@@ -173,9 +194,24 @@ namespace VCEngine
             // Needs to be made instance based!
             GLRenderer.Render(GLRenderer.VC_BATCH_MIN, GLRenderer.VC_BATCH_MAX);
 
+            // Allow for external drawing
+            OnDraw(this, EventArgs.Empty);
+
             // Step Input states & swap buffers
             GlfwInputState.StepStates();
+
+            // Monitor DrawTime
+            Stopwatch drawTimer = new Stopwatch();
+            drawTimer.Start();
+
+            // Flush the GL pipe
             VCInteropGLWindowSwapBuffers(UnManagedHandle);
+
+            // Update times
+            loopTimer.Stop();
+            drawTimer.Stop();
+            LastLoopTime = loopTimer.Elapsed;
+            LastDrawTime = drawTimer.Elapsed;
 
             m_framesRemaining = (m_framesRemaining <= 0) ? 0 : m_framesRemaining--;
         }

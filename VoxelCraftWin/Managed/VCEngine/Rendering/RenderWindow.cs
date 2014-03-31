@@ -60,6 +60,7 @@ namespace VCEngine
                     else
                         VCInteropRenderWindowAddEntity(UnManagedHandle, a.Item.UnManagedHandle);
                 };
+            window.OnDraw += (s, a) => RenderToScreen();
         }
 
         public void RenderToScreen()

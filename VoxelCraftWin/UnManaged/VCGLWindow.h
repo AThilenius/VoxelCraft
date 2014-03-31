@@ -55,6 +55,7 @@ DLL_EXPORT_API void VCInteropGLWindowGetSize(int handle, int* width, int* height
 DLL_EXPORT_API void VCInteropGLWindowSetSize(int handle, int width, int height);
 DLL_EXPORT_API void VCInteropGLWindowGetPos(int handle, int* x, int* y);
 DLL_EXPORT_API void VCInteropGLWindowSetPos(int handle, int x, int y);
+DLL_EXPORT_API void VCInteropGLWindowSetTitle(int handle, char* title);
 
 typedef void (*glfwFramebuferSizeHandler)(int, int, int);
 DLL_EXPORT_API void VCInteropGLWindowRegisterResizeCallback(glfwFramebuferSizeHandler callback);
