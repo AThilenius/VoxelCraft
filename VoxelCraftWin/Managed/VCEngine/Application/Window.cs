@@ -7,7 +7,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class Window : MarshaledObject, IDisposable
+    public class Window : MarshaledObject
     {
         #region Bindings
 
@@ -125,7 +125,6 @@ namespace VCEngine
         public GuiDrawer Gui;
         public Control MainControl;
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
-        public event EventHandler OnDraw = delegate { };
 
         private String m_title;
         private int m_framesRemaining = 10;
@@ -159,8 +158,10 @@ namespace VCEngine
             ActiveWindows.Add(this);
         }
 
-        public void Dispose()
+        new public void Dispose()
         {
+            base.Dispose();
+
             LoopController.OnLoop -= HandleUpdate;
             ActiveWindows.Remove(this);
         }
@@ -191,14 +192,12 @@ namespace VCEngine
 
             // Render this window
             VCInteropGLWindowActivate(UnManagedHandle);
+            FrameBufferObject.Default.Clear(true, true);
+            //SetViewport(new Rectangle(0, 0, TrueSize));
             MainControl.Render();
 
-            // Needs to be made instance based!
-            FrameBufferObject.Default.Clear(true, true);
-            Gui.Render();
-
-            // Allow for external drawing
-            OnDraw(this, EventArgs.Empty);
+            // Force one last flush to render out anything still in the queue
+            FlushRenderQueue();
 
             // Step Input states & swap buffers
             GlfwInputState.StepStates();
@@ -219,16 +218,38 @@ namespace VCEngine
             m_framesRemaining = (m_framesRemaining <= 0) ? 0 : m_framesRemaining--;
         }
 
-        public void ShouldRedraw()
+        public void ShouldRedraw(float time = -1.0f)
         {
-            m_framesRemaining = 3;
+            if (time == -1.0f)
+                m_framesRemaining = 3;
+
+            else
+            {
+                if ((Time.TotalTime + time + 0.5f) > m_drawTillTime)
+                    m_drawTillTime = Time.TotalTime + time + 0.5f;
+            }
         }
 
-        public void ShouldRedraw(float time)
+        public void FlushRenderQueue()
         {
-            // 0.5 Second buffer
-            if ((Time.TotalTime + time + 0.5f) > m_drawTillTime)
-                m_drawTillTime = Time.TotalTime + time + 0.5f;
+            // Render out GUI
+            Gui.Render();
+
+            // Clear the DEPTH buffer
+            FrameBufferObject.Default.Clear(false, true);
+        }
+
+        /// <summary>
+        /// Sets the rendering viewport. Note: This will flush the rendering pipeline.
+        /// </summary>
+        /// <param name="viewport">The rendering canvas viewport</param>
+        public void SetViewport(Rectangle viewport)
+        {
+            // Flush
+            FlushRenderQueue();
+
+            // Set the FBO viewport
+            FrameBufferObject.Default.SetViewport(viewport);
         }
 
         private void GlfwSizeChangeHandler(int width, int height)

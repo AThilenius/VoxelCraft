@@ -274,9 +274,6 @@
     <ClCompile Include="VCGLWindow.cpp">
       <Filter>Rendering\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="VCGLBindings.cpp">
-      <Filter>Rendering\OpenGL</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -490,9 +487,6 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="VCGLWindow.h">
-      <Filter>Rendering\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="VCGLBindings.h">
       <Filter>Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>

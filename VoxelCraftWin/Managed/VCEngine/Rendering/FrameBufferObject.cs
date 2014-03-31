@@ -22,6 +22,9 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropVCGLFrameBUfferClear(int handle, bool color, bool depth);
 
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropVCGLFrameBufferSetViewport(int handle, Rectangle viewport);
+
         #endregion
 
         public static FrameBufferObject Default
@@ -65,6 +68,11 @@ namespace VCEngine
             }
 
             VCInteropVCGLFrameBUfferClear(UnManagedHandle, color, depth);
+        }
+
+        public void SetViewport(Rectangle viewport)
+        {
+            VCInteropVCGLFrameBufferSetViewport(UnManagedHandle, viewport);
         }
 
     }

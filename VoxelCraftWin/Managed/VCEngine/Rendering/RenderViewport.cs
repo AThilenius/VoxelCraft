@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    public class RenderWindow : MarshaledObject
+    public class RenderViewport : MarshaledObject
     {
         #region Bindings
 
@@ -49,7 +49,7 @@ namespace VCEngine
 
         private Camera m_camera;
 
-        public RenderWindow(Window window)
+        public RenderViewport(Window window)
         {
             MainCamera = new Camera(window);
             Entities.OnCollectionChanged += (s, a) =>
@@ -65,7 +65,11 @@ namespace VCEngine
                     foreach (RenderedEntity entity in Entities)
                         VCInteropRenderWindowRemoveEntity(UnManagedHandle, entity.UnManagedHandle);
                 };
-            window.OnDraw += (s, a) => VCInteropRenderWindowRenderToScreen(UnManagedHandle);
+        }
+
+        public void Render()
+        {
+            VCInteropRenderWindowRenderToScreen(UnManagedHandle);
         }
 
         public void RenderToTexture()

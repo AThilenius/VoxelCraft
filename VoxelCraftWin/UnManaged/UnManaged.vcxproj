@@ -26,7 +26,6 @@
     <ClCompile Include="VC3DLineDrawer.cpp" />
     <ClCompile Include="VCEntity.cpp" />
     <ClCompile Include="VCFloatX.cpp" />
-    <ClCompile Include="VCGLBindings.cpp" />
     <ClCompile Include="VCGLFrameBuffer.cpp" />
     <ClCompile Include="VCGLBuffer.cpp" />
     <ClCompile Include="VCGLTypes.cpp" />
@@ -97,7 +96,6 @@
     <ClInclude Include="VCEntity.h" />
     <ClInclude Include="VCFloatX.h" />
     <ClInclude Include="VCGeometryTypes.h" />
-    <ClInclude Include="VCGLBindings.h" />
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLFrameBuffer.h" />
     <ClInclude Include="VCGLBuffer.h" />

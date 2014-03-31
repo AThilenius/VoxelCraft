@@ -21,12 +21,12 @@ namespace VCEngine
             PanelsTrippleButton.LeftButton.OnDepressed += (s, a) =>
             {
                 FiltersTreeView.AnimateLocation(new Point(0, 0));
-                //TileViewer.AnimateFrame(new Rectangle(250, 0, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75));
+                FilterRenderer.AnimateFrame(new Rectangle(250, 0, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75));
             };
             PanelsTrippleButton.LeftButton.OnRelease += (s, a) =>
             {
                 FiltersTreeView.AnimateLocation(new Point(-250, 0));
-                //TileViewer.AnimateFrame(new Rectangle(0, 0, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75));
+                FilterRenderer.AnimateFrame(new Rectangle(0, 0, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75));
             };
 
         }
@@ -57,10 +57,10 @@ namespace VCEngine
                     return;
 
                 // Clear renderable entities, add a new plane with the specified material
-                FilterRenderer.Entities.Clear();
+                FilterRenderer.GLRenderViewport.Entities.Clear();
                 RenderedEntity Plane = new RenderedEntity(@"Models\Plane.obj", @"Materials\Filters\" + ((FileInfo)node.UserData).Name);
                 Plane.Transform.Position = new Vector3(-0.5f, -0.5f, -0.75f);
-                FilterRenderer.Entities.Add(Plane);
+                FilterRenderer.GLRenderViewport.Entities.Add(Plane);
             };
 
             FileNode = new DirectoryObserverTreeNode(ParentWindow, "Filters", FiltersDirectory, true);
@@ -70,23 +70,20 @@ namespace VCEngine
         private void CreateFilterRenderer()
         {
             FilterRenderer = new RenderWindow(ParentWindow);
-            FilterRenderer.MainCamera.Viewport = new Rectangle(250, 0, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75);
+            AddControl(FilterRenderer);
+            FilterRenderer.Frame = new Rectangle(250, 0, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75);
         }
 
         private void ResizeHandler()
         {
             FiltersTreeView.Size = new Point(250, Height);
 
-            // Ensure a square viewport
-            
+            if (PanelsTrippleButton.LeftButton.IsDepressed)
+                FilterRenderer.Frame = new Rectangle(250, ScreenFrame.Y, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75);
 
-            //if ( PanelsTrippleButton.LeftButton.IsDepressed )
-            //    TileViewer.Frame = new Rectangle(250, ScreenFrame.Y, ParentWindow.ScaledSize.X - 250, ParentWindow.ScaledSize.Y - 75);
+            else
+                FilterRenderer.Frame = new Rectangle(0, ScreenFrame.Y, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75);
 
-            //else
-            //    TileViewer.Frame = new Rectangle(0, ScreenFrame.Y, ParentWindow.ScaledSize.X, ParentWindow.ScaledSize.Y - 75);
-
-            //TileViewer.AnimateOpening();
         }
 
     }

@@ -11,7 +11,7 @@ namespace VCEngine
 {
     public class Editor
     {
-        private static RenderWindow m_renderWindow;
+        private static RenderViewport m_renderWindow;
         private static RenderedEntity m_renderEntity;
 
         public static void EditorMain()

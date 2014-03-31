@@ -8,6 +8,8 @@
 
 #pragma once
 
+#define SHOW_GL_WARNINGS
+
 class VCGLFWInput;
 
 #include "VCMarshalableObject.h"

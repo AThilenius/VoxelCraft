@@ -72,6 +72,7 @@ void VCGLBuffer::Draw()
 VCGLVertexBufferAttributeSpec& VCGLBuffer::VertexBufferSpecification(VCGLDrawPrimitives::Types drawPrimitiveType /*= VCGLDrawPrimitives::Triangles*/ )
 {
 	glBindVertexArray(m_VAO);
+	glErrorCheck();
 	m_primitivesType = drawPrimitiveType;
 
 	if( !m_VBO )

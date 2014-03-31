@@ -71,42 +71,29 @@ void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id, GLenum seve
 	if(severity == GL_DEBUG_SEVERITY_HIGH_ARB)
 	{
 		strcpy(debSev, "High");
-		//SetConsoleColor(Red);
-		//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
-		//	debSource,debType,id,debSev,message);
-		//std::cin.ignore();
 		VCLog::Error("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
 	}
 
 	else if(severity == GL_DEBUG_SEVERITY_MEDIUM_ARB)
 	{
 		strcpy(debSev, "Medium");
-		//SetConsoleColor(Red);
-		//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
-		//	debSource,debType,id,debSev,message);
-		//std::cin.ignore();
 		VCLog::Error("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
 	}
 
-	else if(severity == GL_DEBUG_SEVERITY_LOW_ARB)
-	{
-		static std::set<std::string> postedWarnings;
+	//else if(severity == GL_DEBUG_SEVERITY_LOW_ARB)
+	//{
+	//	static std::set<std::string> postedWarnings;
 
-		strcpy(debSev, "Low");
-		std::string post = std::string("Source:") + debSource + "\nType:" + debType + "\nID:" + std::to_string(id) + "\nSeverity:" + debSev + "\nMessage:" + message + "\n";
+	//	strcpy(debSev, "Low");
+	//	std::string post = std::string("Source:") + debSource + "\nType:" + debType + "\nID:" + std::to_string(id) + "\nSeverity:" + debSev + "\nMessage:" + message + "\n";
 
-		if(postedWarnings.find(post) == postedWarnings.end())
-		{
-			//SetConsoleColor(Yellow);
-			//printf("Source: %s\tType: %s\tID: %d\tSeverity: %s\nMessage: %s\n\n",
-			//	debSource,debType,id,debSev,message);
+	//	if(postedWarnings.find(post) == postedWarnings.end())
+	//	{
+	//		VCLog::Warning("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
 
-			//SetConsoleColor(White);
-			VCLog::Warning("Source: " + std::string(debSource) + " Type: " + debType + " ID: " + std::to_string(id) + " Message: " + message, "OGLDebug");
-
-			postedWarnings.insert(post);
-		}
-	}
+	//		postedWarnings.insert(post);
+	//	}
+	//}
 
 #endif
 }

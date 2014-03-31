@@ -109,3 +109,11 @@ void VCInteropVCGLFrameBUfferClear( int handle, bool color, bool depth )
 	
 	glClear(flags);
 }
+
+void VCInteropVCGLFrameBufferSetViewport( int handle, VCRectangle viewport )
+{
+	VCGLFrameBuffer* obj = (VCGLFrameBuffer*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind();
+
+	glViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+}

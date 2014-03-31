@@ -24,7 +24,7 @@ bool _VCRenderStageCompare::operator() (const VCRenderStage* lhs, const VCRender
 }
 
 VCGui::VCGui( void ):
-	DepthStep(0),
+	DepthStep(2),
 	Scale(1.0f),
 	InverseScale(1.0f)
 {
@@ -61,7 +61,7 @@ void VCGui::Render()
 		lastBoundStage = stage;
 	}
 
-	DepthStep = 0.0f;
+	DepthStep = 2;
 }
 
 void VCGui::AddGUIRenderStage( VCRenderStage* stage )

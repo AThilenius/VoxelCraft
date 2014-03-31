@@ -40,3 +40,4 @@ DLL_EXPORT_API int VCInteropVCGLFrameBufferGetDefault();
 DLL_EXPORT_API void VCInteropVCGLFrameBufferBind(int handle);
 DLL_EXPORT_API void VCInteropVCGLFrameBufferSetClearColor(int handle, glm::vec4 color);
 DLL_EXPORT_API void VCInteropVCGLFrameBUfferClear(int handle, bool color, bool depth);
+DLL_EXPORT_API void VCInteropVCGLFrameBufferSetViewport(int handle, VCRectangle viewport);
