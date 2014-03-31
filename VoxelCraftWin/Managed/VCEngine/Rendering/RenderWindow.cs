@@ -60,12 +60,12 @@ namespace VCEngine
                     else
                         VCInteropRenderWindowAddEntity(UnManagedHandle, a.Item.UnManagedHandle);
                 };
-            window.OnDraw += (s, a) => RenderToScreen();
-        }
-
-        public void RenderToScreen()
-        {
-            VCInteropRenderWindowRenderToScreen(UnManagedHandle);
+            Entities.OnBeforeClear += (s, a) =>
+                {
+                    foreach (RenderedEntity entity in Entities)
+                        VCInteropRenderWindowRemoveEntity(UnManagedHandle, entity.UnManagedHandle);
+                };
+            window.OnDraw += (s, a) => VCInteropRenderWindowRenderToScreen(UnManagedHandle);
         }
 
         public void RenderToTexture()

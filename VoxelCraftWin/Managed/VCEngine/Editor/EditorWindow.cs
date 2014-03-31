@@ -11,6 +11,7 @@ namespace VCEngine
         public static VerticalControlSpinner MainSpinner;
         public static VoxelEditor VoxelEditor;
         public static MaterialEditor MaterialEditor;
+        public static FilterEditor FilterEditor;
 
         public EditorWindow(int width, int height, String title) : base(width, height, title)
         {
@@ -36,6 +37,11 @@ namespace VCEngine
             MaterialEditor = new VCEngine.MaterialEditor(this);
             MainSpinner.AddControl(MaterialEditor);
             MaterialEditor.Create();
+
+            // Create Material, child it to spinner, fill controls
+            FilterEditor = new VCEngine.FilterEditor(this);
+            MainSpinner.AddControl(FilterEditor);
+            FilterEditor.Create();
 
             // Dock the spinner to remaining area
             MainSpinner.DockOrder = 1;

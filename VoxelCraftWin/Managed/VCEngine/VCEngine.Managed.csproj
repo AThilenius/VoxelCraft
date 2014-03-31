@@ -110,6 +110,7 @@
     <Compile Include="Gui\Controls\Header.cs" />
     <Compile Include="Gui\Controls\Hud.cs" />
     <Compile Include="Gui\Controls\ImageView.cs" />
+    <Compile Include="Gui\Controls\MainPages\FilterEditor.cs" />
     <Compile Include="Gui\Controls\MainPages\MainPageBase.cs" />
     <Compile Include="Gui\Controls\MainPages\MainPagesPicker.cs" />
     <Compile Include="Gui\Controls\MainPages\MaterialEditor.cs" />

@@ -1,0 +1,22 @@
+{
+  "Name": "Guass Filter Material",
+  "Shader": "FilteredTexture",
+  "UniformValues": [
+    {
+      "Type": "Float",
+      "Name": "DivisorInverse",
+      "Value": "0.04166666666666666666666666666667"
+    },
+    {
+      "Type": "Matrix3",
+      "Name": "Filter",
+            "Value": " 0: 4: 0:
+					   4: 8: 4:
+					   0: 4: 0"
+    },
+    {
+      "Type": "Sampler2D",
+      "Name": "Texture",
+      "Value": "Textures\\Blocks.bmp"
+    }]
+}

@@ -1,0 +1,81 @@
+{
+  "Name": "FilteredTexture",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UV"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Float",
+      "Name": "DivisorInverse"
+    },
+    {
+      "ValueType": "Matrix3",
+      "Name": "Filter"
+    },
+    {
+      "ValueType": "Sampler2D",
+      "Name": "Texture"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+in vec4 Position;
+in vec2 UV;
+
+out vec2 TexUV;
+
+void main()
+{
+	gl_Position =  VC_MvpMatrix * Position;
+	TexUV =  UV;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+in vec2 TexUV;
+
+uniform float		DivisorInverse;
+uniform mat3		Filter;
+uniform sampler2D 	Texture;
+
+out vec4 fragColor;
+
+void main()
+{
+	// Sample 9 Texels, let the wrapping mode handle edges.
+	// Weight each sample by the filter value
+	vec4 sampleAggregate = 
+		textureOffset( Texture, TexUV, ivec2(-1, -1 ) ) * Filter[0][0] +
+		textureOffset( Texture, TexUV, ivec2(-1,  0 ) ) * Filter[0][1] +
+		textureOffset( Texture, TexUV, ivec2(-1,  1 ) ) * Filter[0][2] +
+		
+		textureOffset( Texture, TexUV, ivec2( 0, -1 ) ) * Filter[1][0] +
+		textureOffset( Texture, TexUV, ivec2( 0,  0 ) ) * Filter[1][1] +
+		textureOffset( Texture, TexUV, ivec2( 0,  1 ) ) * Filter[1][2] +
+		
+		textureOffset( Texture, TexUV, ivec2( 1, -1 ) ) * Filter[2][0] +
+		textureOffset( Texture, TexUV, ivec2( 1,  0 ) ) * Filter[2][1] +
+		textureOffset( Texture, TexUV, ivec2( 1,  1 ) ) * Filter[2][2];
+	
+	// Divide each channel by the divisor.
+	sampleAggregate = sampleAggregate * DivisorInverse;
+	
+	// Write it to the bound Render Target
+	fragColor.rgb = sampleAggregate.rgb;
+	fragColor.a = 1.0;
+}
+
+
+"
+}

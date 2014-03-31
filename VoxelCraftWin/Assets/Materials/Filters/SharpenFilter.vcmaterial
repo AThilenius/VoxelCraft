@@ -1,0 +1,22 @@
+{
+  "Name": "Sharpen Filter Material",
+  "Shader": "FilteredTexture",
+  "UniformValues": [
+    {
+      "Type": "Float",
+      "Name": "DivisorInverse",
+      "Value": "0.05"
+    },
+    {
+      "Type": "Matrix3",
+      "Name": "Filter",
+            "Value": "11:10: 1:
+					  -1:-1:-1:
+					  -1:-1:-1"
+    },
+    {
+      "Type": "Sampler2D",
+      "Name": "Texture",
+      "Value": "Textures\\Blocks.bmp"
+    }]
+}

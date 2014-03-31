@@ -14,7 +14,7 @@ namespace VCEngine
         }
 
         public event EventHandler<AddRemoveEventArgs> OnCollectionChanged = delegate { };
-        public event EventHandler OnClear = delegate {};
+        public event EventHandler OnBeforeClear = delegate {};
 
         public new bool Add(T item)
         {
@@ -26,8 +26,8 @@ namespace VCEngine
 
         public new void Clear()
         {
+            OnBeforeClear(this, EventArgs.Empty);
             base.Clear();
-            OnClear(this, EventArgs.Empty);
         }
 
         public new bool Remove(T item)

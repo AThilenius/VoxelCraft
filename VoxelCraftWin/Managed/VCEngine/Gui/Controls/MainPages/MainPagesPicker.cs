@@ -9,10 +9,12 @@ namespace VCEngine
     {
         private ToggleButton m_voxelButton;
         private ToggleButton m_materialButton;
+        private ToggleButton m_filterButton;
         private MainPageBase m_lastSelected;
 
         public MainPagesPicker(Window window) : base(window)
         {
+            // Voxel
             m_voxelButton = new ToggleButton(ParentWindow, "Voxel");
             m_voxelButton.Style = ToggleButton.ToggleStyle.TriLeft;
             m_voxelButton.OnDepressed += (s, a) =>
@@ -26,8 +28,9 @@ namespace VCEngine
                 };
             AddControl(m_voxelButton);
 
+            // Material
             m_materialButton = new ToggleButton(ParentWindow, "Materials");
-            m_materialButton.Style = ToggleButton.ToggleStyle.TriRight;
+            m_materialButton.Style = ToggleButton.ToggleStyle.TriCenter;
             m_materialButton.OnDepressed += (s, a) =>
                 {
                     EditorWindow.MainSpinner.Select(EditorWindow.MaterialEditor);
@@ -39,11 +42,26 @@ namespace VCEngine
                 };
             AddControl(m_materialButton);
 
-            ToggleButton.CreateGroup(m_voxelButton, m_materialButton);
+            // Filter
+            m_filterButton = new ToggleButton(ParentWindow, "Filters");
+            m_filterButton.Style = ToggleButton.ToggleStyle.TriRight;
+            m_filterButton.OnDepressed += (s, a) =>
+            {
+                EditorWindow.MainSpinner.Select(EditorWindow.FilterEditor);
+
+                if (m_lastSelected != null)
+                    m_lastSelected.OnDeselected();
+
+                EditorWindow.FilterEditor.OnSelected();
+            };
+            AddControl(m_filterButton);
+
+            // Create Group
+            ToggleButton.CreateGroup(m_voxelButton, m_materialButton, m_filterButton);
             m_voxelButton.Activate();
             
             Height = m_voxelButton.Height;
-            Width = m_voxelButton.Width + m_materialButton.Width;
+            Width = m_voxelButton.Width + m_materialButton.Width + m_filterButton.Width;
         }
 
         protected override void Draw()
@@ -52,6 +70,7 @@ namespace VCEngine
 
             m_voxelButton.Frame = new Rectangle(0, 0, m_voxelButton.Width, m_voxelButton.Height);
             m_materialButton.Frame = new Rectangle(m_voxelButton.Width - 2, 0, m_materialButton.Width, m_materialButton.Height);
+            m_filterButton.Frame = new Rectangle(m_voxelButton.Width + m_materialButton.Width - 4, 0, m_filterButton.Width, m_filterButton.Height);
         }
 
     }

@@ -1,0 +1,22 @@
+{
+  "Name": "Emboss Filter Material",
+  "Shader": "FilteredTexture",
+  "UniformValues": [
+    {
+      "Type": "Float",
+      "Name": "DivisorInverse",
+      "Value": "1.0"
+    },
+    {
+      "Type": "Matrix3",
+      "Name": "Filter",
+            "Value": " 1: 1:-1:
+					   1: 1:-1:
+					   1:-1:-1"
+    },
+    {
+      "Type": "Sampler2D",
+      "Name": "Texture",
+      "Value": "Textures\\Blocks.bmp"
+    }]
+}
