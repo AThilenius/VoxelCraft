@@ -51,5 +51,15 @@ namespace VCEngine
 
             return true;
         }
+
+        public static String RelativePath(String fullpath)
+        {
+            String[] splits = {"Assets", "Resources"};
+            String[] subStrs = fullpath.Split(splits, StringSplitOptions.None);
+
+            subStrs[1] = subStrs[1].Trim('\\', '/');
+
+            return subStrs[1];
+        }
     }
 }

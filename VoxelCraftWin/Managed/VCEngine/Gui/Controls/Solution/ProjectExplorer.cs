@@ -50,7 +50,7 @@ namespace VCEngine
                             EditorWorld.MasterGameWindow.World.ReBuild();
                         };
 
-                        tvi.Image = Texture.Get(@"Icons\Cube 256.DDS");
+                        tvi.Image = Texture.GetInResources(@"Images\Icons\Cube 256.DDS");
                     }
                 }
 

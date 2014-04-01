@@ -36,14 +36,29 @@ void VCMaterial::Bind()
 		Values[i]->Set();
 }
 
-VCMaterial* VCMaterial::GetMaterial( std::string fullPath )
+VCMaterial* VCMaterial::GetMaterial( std::string fullPath, bool forceReload )
 {
+	VCMaterial* mat = NULL;
+
 	auto iter = m_loadedMaterial.find(fullPath);
 
+	// It already has been loaded
 	if (iter != m_loadedMaterial.end())
-		return iter->second;
+	{
+		// Do we need to force a reload?
+		if ( forceReload )
+			mat = iter->second;
 
-	// Load a new Material
+		else
+			return iter->second;
+	}
+
+	else
+	{
+		mat = new VCMaterial();
+	}
+
+	// Load a new/reloaded Material
 	std::string materialJson = LoadTextFile(fullPath);
 
 	Json::Value root;
@@ -51,11 +66,7 @@ VCMaterial* VCMaterial::GetMaterial( std::string fullPath )
 	bool parsingSuccessful = reader.parse( materialJson, root );
 
 	if ( !parsingSuccessful )
-	{
-		VC_ERROR("Failed to parse material JSON file: " << fullPath);
-	}
-
-	VCMaterial* mat = new VCMaterial();
+		VCLog::Error("Failed to parse material JSON file: " + fullPath, "Resources");
 
 	// Name
 	mat->Name = root.get("Name", "").asString();
@@ -64,6 +75,7 @@ VCMaterial* VCMaterial::GetMaterial( std::string fullPath )
 	mat->Shader = VCResourceManager::GetShader(root.get("Shader", "").asString());
 
 	// Values
+	mat->Values.clear();
 	const Json::Value values = root["UniformValues"];
 	int currentTexUnit = 0;
 	for ( int i = 0; i < values.size(); i++ )
@@ -93,7 +105,9 @@ VCMaterial* VCMaterial::GetMaterial( std::string fullPath )
 		mat->Values.push_back(uniformValue);
 	}
 
-	m_loadedMaterial.insert(std::unordered_map<std::string, VCMaterial*>::value_type(fullPath, mat));
+	// If it was a new ( not a reload ) add it.
+	if ( iter == m_loadedMaterial.end() )
+		m_loadedMaterial.insert(std::unordered_map<std::string, VCMaterial*>::value_type(fullPath, mat));
 
 	return mat;
 }

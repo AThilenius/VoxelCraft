@@ -177,16 +177,16 @@ namespace VCEngine
                 return;
             }
 
+            // Pull Events
+            VCInteropGLWindowPollEvents();
+
             // Check if a redraw has been requested
-            if (m_framesRemaining == 0 && Time.CurrentTime > m_drawTillTime)
-                return;
+            //if (m_framesRemaining == 0 && Time.CurrentTime > m_drawTillTime)
+            //    return;
 
             // Monitor LoopTime
             Stopwatch loopTimer = new Stopwatch();
             loopTimer.Start();
-
-            // Pull Events
-            VCInteropGLWindowPollEvents();
 
             // Update MainControl docking
             MainControl.Frame = MainControl.Frame;
@@ -217,7 +217,7 @@ namespace VCEngine
             LastLoopTime = loopTimer.Elapsed;
             LastDrawTime = drawTimer.Elapsed;
 
-            m_framesRemaining = (m_framesRemaining <= 0) ? 0 : m_framesRemaining--;
+            m_framesRemaining = (m_framesRemaining <= 0) ? 0 : m_framesRemaining - 1;
         }
 
         public void ShouldRedraw(float time = -1.0f)
@@ -227,8 +227,8 @@ namespace VCEngine
 
             else
             {
-                if ((Time.TotalTime + time + 0.5f) > m_drawTillTime)
-                    m_drawTillTime = Time.TotalTime + time + 0.5f;
+                if ((Time.CurrentTime + time + 0.5f) > m_drawTillTime)
+                    m_drawTillTime = Time.CurrentTime + time + 0.5f;
             }
         }
 

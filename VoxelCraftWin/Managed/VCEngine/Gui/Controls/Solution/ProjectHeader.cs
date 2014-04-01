@@ -13,7 +13,7 @@ namespace VCEngine
         public Button ExplorerButton;
         public ProjectExplorer Project;
 
-        private Texture m_folderTexture = Texture.Get(@"Icons\Folder.DDS");
+        private Texture m_folderTexture = Texture.GetInResources(@"Images\Icons\Folder.DDS");
 
         public ProjectHeader(Window window, String projectName, ProjectExplorer project) : base(window)
         {

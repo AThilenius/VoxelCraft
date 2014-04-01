@@ -27,7 +27,7 @@ public:
 
 private:
 	VCMaterial();
-	static VCMaterial* GetMaterial(std::string fullPath);
+	static VCMaterial* GetMaterial(std::string fullPath, bool forceReload);
 
 private:
 	static std::unordered_map<std::string, VCMaterial*> m_loadedMaterial;

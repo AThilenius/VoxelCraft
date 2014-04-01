@@ -1,5 +1,5 @@
 {
-  "Name": "Emboss Filter Material",
+  "Name": "VLine Filter Material",
   "Shader": "FilteredTexture",
   "UniformValues": [
     {
@@ -10,12 +10,13 @@
     {
       "Type": "Matrix3",
       "Name": "Filter",
-      "Value": " 1: 1:-1: 1: 1:-1: 1:-1:-1"
+            "Value": "-1: 0: 1:
+					  -2: 0: 2:
+					  -1: 0: 1"
     },
     {
       "Type": "Sampler2D",
       "Name": "Texture",
       "Value": "Textures\\Blocks.bmp"
-    }
-  ]
+    }]
 }

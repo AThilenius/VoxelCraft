@@ -5,18 +5,17 @@
     {
       "Type": "Float",
       "Name": "DivisorInverse",
-      "Value": "0.11111111111111111111111111111111"
+      "Value": "0.11111111111111111111"
     },
     {
       "Type": "Matrix3",
       "Name": "Filter",
-            "Value": " 1: 1: 1:
-					   1: 1: 1:
-					   1: 1: 1"
+      "Value": " 1: 1: 1: 1: 1: 1: 1: 1: 1"
     },
     {
       "Type": "Sampler2D",
       "Name": "Texture",
-      "Value": "Textures\\Blocks.bmp"
-    }]
+      "Value": "Textures\\Sunset.jpg"
+    }
+  ]
 }

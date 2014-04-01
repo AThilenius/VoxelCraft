@@ -29,7 +29,7 @@ namespace VCEngine
 
             //Image
             Icon = new ImageView(ParentWindow);
-            Icon.Image = Texture.Get(@"Icons\Folder 128.DDS");
+            Icon.Image = Texture.GetInResources(@"Images\Icons\Folder 128.DDS");
             Icon.IsEventPassthrough = true;
             base.AddControl(Icon);
 

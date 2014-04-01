@@ -41,24 +41,24 @@ namespace VCEngine
 
     public class StandardTextures
     {
-        public Texture Button = Texture.Get(@"Icons\Button.DDS");
-        public Texture ButtonDown = Texture.Get(@"Icons\ButtonDown.DDS");
-        public Texture ButtonHighlight = Texture.Get(@"Icons\ButtonHeighlight.DDS");
-        public Texture ButtonHighlightDown = Texture.Get(@"Icons\ButtonHighlightDown.DDS");
-        public Texture RoundButton = Texture.Get(@"Icons\RoundButton.DDS");
-        public Texture RountButtonDown = Texture.Get(@"Icons\RoundButtonDown.DDS");
+        public Texture Button = Texture.GetInResources(@"Images\Icons\Button.DDS");
+        public Texture ButtonDown = Texture.GetInResources(@"Images\Icons\ButtonDown.DDS");
+        public Texture ButtonHighlight = Texture.GetInResources(@"Images\Icons\ButtonHeighlight.DDS");
+        public Texture ButtonHighlightDown = Texture.GetInResources(@"Images\Icons\ButtonHighlightDown.DDS");
+        public Texture RoundButton = Texture.GetInResources(@"Images\Icons\RoundButton.DDS");
+        public Texture RountButtonDown = Texture.GetInResources(@"Images\Icons\RoundButtonDown.DDS");
 
-        public Texture TriButtonLeft = Texture.Get(@"Icons\ThreeButtonLeftUnpressed.DDS");
-        public Texture TriButtonLeftHighlight = Texture.Get(@"Icons\ThreeButtonLeftHightlight.DDS");
-        public Texture TriButtonLeftDown = Texture.Get(@"Icons\ThreeButtonLeftPressed.DDS");
+        public Texture TriButtonLeft = Texture.GetInResources(@"Images\Icons\ThreeButtonLeftUnpressed.DDS");
+        public Texture TriButtonLeftHighlight = Texture.GetInResources(@"Images\Icons\ThreeButtonLeftHightlight.DDS");
+        public Texture TriButtonLeftDown = Texture.GetInResources(@"Images\Icons\ThreeButtonLeftPressed.DDS");
 
-        public Texture TriButtonCenter = Texture.Get(@"Icons\ThreeButtonCenterUnpressed.DDS");
-        public Texture TriButtonCenterheightlight = Texture.Get(@"Icons\ThreeButtonCenterHightlight.DDS");
-        public Texture TriButtonCenterDown = Texture.Get(@"Icons\ThreeButtonCenterPressed.DDS");
+        public Texture TriButtonCenter = Texture.GetInResources(@"Images\Icons\ThreeButtonCenterUnpressed.DDS");
+        public Texture TriButtonCenterheightlight = Texture.GetInResources(@"Images\Icons\ThreeButtonCenterHightlight.DDS");
+        public Texture TriButtonCenterDown = Texture.GetInResources(@"Images\Icons\ThreeButtonCenterPressed.DDS");
 
-        public Texture TriButtonRight = Texture.Get(@"Icons\ThreeButtonRightUnpressed.DDS");
-        public Texture TriButtonRightHighlight = Texture.Get(@"Icons\ThreeButtonRightHightlight.DDS");
-        public Texture TriButtonRightDown = Texture.Get(@"Icons\ThreeButtonRightPressed.DDS");
+        public Texture TriButtonRight = Texture.GetInResources(@"Images\Icons\ThreeButtonRightUnpressed.DDS");
+        public Texture TriButtonRightHighlight = Texture.GetInResources(@"Images\Icons\ThreeButtonRightHightlight.DDS");
+        public Texture TriButtonRightDown = Texture.GetInResources(@"Images\Icons\ThreeButtonRightPressed.DDS");
     }
 
     public class GuiDrawer : MarshaledObject

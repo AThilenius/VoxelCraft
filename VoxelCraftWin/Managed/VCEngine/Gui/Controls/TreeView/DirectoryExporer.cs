@@ -61,7 +61,7 @@ namespace VCEngine
                 TreeViewItem dirTVI = new TreeViewItem(ParentWindow, this, parent);
                 dirTVI.BoundObject = dInfo;
                 dirTVI.Text = dInfo.Name;
-                dirTVI.Image = Texture.Get(@"Icons\Folder 128.DDS");
+                dirTVI.Image = Texture.GetInResources(@"Images\Icons\Folder 128.DDS");
                 dirTVI.DoubleClick += (s, a) => dirTVI.ExpandCollapse();
 
                 if (parent == null)

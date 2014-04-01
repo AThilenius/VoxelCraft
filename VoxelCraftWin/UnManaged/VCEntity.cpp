@@ -67,7 +67,7 @@ void VCInteropEntityRelease( int handle )
 int VCInteropEntitySetModel( int handle, char* modelPath )
 {
 	VCEntity* obj = (VCEntity*) VCObjectStore::Instance->GetObject(handle);
-	obj->Model = VCResourceManager::GetModelInAssets(modelPath);
+	obj->Model = VCResourceManager::GetModel(modelPath);
 	obj->Materials.clear();
 
 	for (int i = 0; i < obj->Model->Meshes.size(); i++)
@@ -80,5 +80,5 @@ int VCInteropEntitySetModel( int handle, char* modelPath )
 void VCInteropEntitySetMaterial( int handle, int matIndex, char* materialPath )
 {
 	VCEntity* obj = (VCEntity*) VCObjectStore::Instance->GetObject(handle);
-	obj->Materials[matIndex] = VCResourceManager::GetMaterialInAssets(materialPath);
+	obj->Materials[matIndex] = VCResourceManager::GetMaterial(materialPath);
 }

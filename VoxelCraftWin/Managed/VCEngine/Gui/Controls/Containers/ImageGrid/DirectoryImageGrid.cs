@@ -37,9 +37,8 @@ namespace VCEngine
             foreach (FileInfo fInfo in directory.GetFiles())
             {
                 ImageGridNode node = new ImageGridNode(ParentWindow, fInfo.Name, Texture.Get(fInfo.FullName));
-
-                if (fInfo.Extension == ".DDS")
-                    node.Image.Image = Texture.Get(fInfo.FullName);
+                
+                node.Image.Image = Texture.Get(fInfo.FullName);
 
                 base.AddControl(node);
             }

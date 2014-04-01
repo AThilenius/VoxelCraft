@@ -29,7 +29,7 @@ namespace VCEngine
 
         private Point m_delta = new Point(-1, -1);
         private PanelsTrippleButton m_panelsButtons;
-        private Texture m_playIcon = Texture.Get(@"Icons\Play.DDS");
+        private Texture m_playIcon = Texture.GetInResources(@"Images\Icons\Play.DDS");
 
         public Header(Window window) : base(window)
         {

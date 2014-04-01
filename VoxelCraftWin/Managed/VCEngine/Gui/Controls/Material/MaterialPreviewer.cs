@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,21 +9,23 @@ namespace VCEngine
     public class MaterialPreviewer : RenderWindow
     {
 
-        public Material Material
+        //public ToggleButton PlaneButton;
+        //public ToggleButton SphereButton; 
+
+        public String MaterialPath
         {
-            get { return m_material; }
+            get { return m_materialPath; }
             set
             {
-                m_material = value;
+                m_materialPath = value;
                 GLRenderViewport.Entities.Clear();
 
-                FilterRenderer.GLRenderViewport.Entities.Clear();
-                RenderedEntity Plane = new RenderedEntity(@"Models\Plane.obj", @"Materials\Filters\" + ((FileInfo)node.UserData).Name);
+                RenderedEntity Plane = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), value);
                 Plane.Transform.Position = new Vector3(-0.5f, -0.5f, -0.75f);
-                FilterRenderer.GLRenderViewport.Entities.Add(Plane);
+                GLRenderViewport.Entities.Add(Plane);
             }
         }
-        private Material m_material;
+        private String m_materialPath;
 
         public MaterialPreviewer(Window window) : base(window)
         {

@@ -126,6 +126,29 @@ namespace VCEngine
             return new Vector4(h, s, l, rgba.A / 255.0f);
         }
 
+        public static Color ParseJson(String jSonString)
+        {
+            // Safely parse out ':' delimited
+            String[] subStrs = jSonString.Split(':');
+
+            if (subStrs.Length != 4)
+                return Color.Black;
+
+            Byte R = 0, G = 0, B = 0, A = 255;
+
+            Byte.TryParse(subStrs[0], out R);
+            Byte.TryParse(subStrs[1], out G);
+            Byte.TryParse(subStrs[2], out B);
+            Byte.TryParse(subStrs[3], out A);
+
+            return new Color(R, G, B, A);
+        }
+
+        public String ToJsonString()
+        {
+            return R.ToString() + ":" + G.ToString() + ":" + B.ToString() + ":" + A.ToString();
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)

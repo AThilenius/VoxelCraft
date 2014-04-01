@@ -37,6 +37,7 @@ public:
 	static VCMaterial* GetMaterialDefault();
 	static VCMaterial* GetMaterial (std::string fullPath);
 	static VCMaterial* GetMaterialInAssets (std::string partPath);
+	static void ReloadMaterial (std::string fullPath);
 
 	// Model
 	static VCModel* GetModelDefault();
@@ -46,3 +47,6 @@ public:
 };
 
 DLL_EXPORT_API int VCInteropResourceManagerGetTexture(char* fullPath);
+
+// Re-Loaders
+DLL_EXPORT_API void VCInteropResourceManagerReloadMaterial(char* fullPath);

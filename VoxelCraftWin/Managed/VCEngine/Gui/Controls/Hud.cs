@@ -14,7 +14,7 @@ namespace VCEngine
         private Double m_lastDrawTime;
 
         private Font m_fontConsolas;
-        private Texture m_hudTexture = Texture.Get(@"Icons\Hud.DDS");
+        private Texture m_hudTexture = Texture.GetInResources(@"Images\Icons\Hud.DDS");
 
         public Hud(Window window) : base(window)
         {

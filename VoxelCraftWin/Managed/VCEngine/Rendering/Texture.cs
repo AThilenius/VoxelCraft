@@ -36,29 +36,37 @@ namespace VCEngine
 
         private static Dictionary<String, Texture> m_loadedTextures = new Dictionary<String, Texture>();
 
-        private Texture()
+        public String Fullpath;
+
+        private Texture(String fullpath)
         {
-        }
-
-        public static Texture Get(String path)
-        {
-            String fullPath = Path.Combine(PathUtilities.ImagesPath, path);
-            PathUtilities.TestFileExistance(fullPath);
-            Texture tex;
-
-            if (!m_loadedTextures.TryGetValue(fullPath, out tex))
-            {
-                tex = new Texture();
-                tex.UnManagedHandle = VCInteropResourceManagerGetTexture(fullPath);
-                m_loadedTextures.Add(fullPath, tex);
-            }
-
-            return tex;
+            Fullpath = fullpath;
         }
 
         public static Texture GetInAssets(String path)
         {
-            return Get(Path.Combine(PathUtilities.AssetsPath, path));
+            String combinedPath = Path.Combine(PathUtilities.AssetsPath, path);
+            return Get(combinedPath);
+        }
+
+        public static Texture GetInResources(String path)
+        {
+            return Get(Path.Combine(PathUtilities.ResourcesPath, path));
+        }
+
+        public static Texture Get(String path)
+        {
+            PathUtilities.TestFileExistance(path);
+            Texture tex;
+
+            if (!m_loadedTextures.TryGetValue(path, out tex))
+            {
+                tex = new Texture(path);
+                tex.UnManagedHandle = VCInteropResourceManagerGetTexture(path);
+                m_loadedTextures.Add(path, tex);
+            }
+
+            return tex;
         }
 
         public static Texture CreateEmpty(int width, int height)

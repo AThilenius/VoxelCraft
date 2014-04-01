@@ -12,8 +12,13 @@ namespace VCEngine
             get { return m_colorHSL; }
             set
             {
+                if (m_colorHSL == value)
+                    return;
+
                 m_colorHSL = value;
                 m_colorRGB = Color.HslToRgba(value);
+
+                OnColorChange(this, EventArgs.Empty);
             }
         }
         public Color ColorRGB
@@ -21,11 +26,17 @@ namespace VCEngine
             get { return m_colorRGB; }
             set
             {
+                if (m_colorRGB == value)
+                    return;
+
                 m_colorRGB = value;
                 m_colorHSL = Color.RgbaToHsl(value);
+
+                OnColorChange(this, EventArgs.Empty);
             }
         }
         public float RandomMultiplier = 0.1f;
+        public event EventHandler OnColorChange = delegate { };
 
         private Vector4 m_colorHSL;
         private Color m_colorRGB;
@@ -84,6 +95,8 @@ namespace VCEngine
 
                 RandomMultiplier = value;
             }
+
+            OnColorChange(this, EventArgs.Empty);
         }
 
         protected override void Draw()

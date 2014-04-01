@@ -113,8 +113,15 @@
     <Compile Include="Gui\Controls\MainPages\FilterEditor.cs" />
     <Compile Include="Gui\Controls\MainPages\MainPageBase.cs" />
     <Compile Include="Gui\Controls\MainPages\MainPagesPicker.cs" />
-    <Compile Include="Gui\Controls\MainPages\MaterialEditor.cs" />
+    <Compile Include="Gui\Controls\Material\MaterialEditor.cs" />
     <Compile Include="Gui\Controls\MainPages\VoxelEditor.cs" />
+    <Compile Include="Gui\Controls\Material\MaterialPreviewer.cs" />
+    <Compile Include="Gui\Controls\Material\MaterialPropertiesContextMenu.cs" />
+    <Compile Include="Gui\Controls\Material\UniformTypes\MaterialEditorRGBA.cs" />
+    <Compile Include="Gui\Controls\Material\UniformTypes\MaterialEditorUnknown.cs" />
+    <Compile Include="Gui\Controls\Material\UniformTypes\UniformEditor.cs" />
+    <Compile Include="Gui\Controls\Material\UniformTypes\MaterialEditorSampler2D.cs" />
+    <Compile Include="Gui\Controls\Material\UniformTypes\UniformTypeFactory.cs" />
     <Compile Include="Gui\Controls\ModelEditor\BlockChangeUndoToken.cs" />
     <Compile Include="Gui\Controls\RenderWindow.cs" />
     <Compile Include="Gui\Controls\Solution\ProjectExplorer.cs" />

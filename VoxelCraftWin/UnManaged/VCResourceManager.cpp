@@ -60,15 +60,14 @@ VCMaterial* VCResourceManager::GetMaterialDefault()
 	return GetMaterial(VCPathUtilities::Combine(VCPathUtilities::VCResourcePath, VC_DEFAULT_MATERIAL_PATH));
 }
 
-
 VCMaterial* VCResourceManager::GetMaterial( std::string fullPath )
 {
-	return VCMaterial::GetMaterial(fullPath);
+	return VCMaterial::GetMaterial(fullPath, false);
 }
 
-VCMaterial* VCResourceManager::GetMaterialInAssets( std::string partPath )
+void VCResourceManager::ReloadMaterial( std::string fullPath )
 {
-	return VCMaterial::GetMaterial(VCPathUtilities::Combine(VCPathUtilities::VCAssetsPath , partPath));
+	VCMaterial::GetMaterial(fullPath, true);
 }
 
 VCModel* VCResourceManager::GetModelDefault()
@@ -90,4 +89,9 @@ int VCInteropResourceManagerGetTexture( char* fullPath )
 {
 	VCGLTexture* texture = VCResourceManager::GetTexure(fullPath);
 	return texture->Handle;
+}
+
+void VCInteropResourceManagerReloadMaterial( char* fullPath )
+{
+	VCResourceManager::ReloadMaterial(fullPath);
 }

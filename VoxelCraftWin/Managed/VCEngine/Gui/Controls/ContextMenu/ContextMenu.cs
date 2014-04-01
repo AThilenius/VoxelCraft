@@ -7,7 +7,7 @@ namespace VCEngine
 {
     public class ContextMenu : Control
     {
-        private List<IContextComponent> m_orderedControlList = new List<IContextComponent>();
+        protected List<IContextComponent> m_orderedControlList = new List<IContextComponent>();
 
         public ContextMenu(Window window) : base(window)
         {
