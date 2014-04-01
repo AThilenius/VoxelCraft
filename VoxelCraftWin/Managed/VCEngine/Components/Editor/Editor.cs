@@ -19,6 +19,7 @@ namespace VCEngine
             PathUtilities.UpdatePathUtilities();
 
             EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
+
             //Window testWindow = new Window(683, 683, "Test Window");
             //MaterialPreviewer matPrev = new MaterialPreviewer(testWindow);
             //testWindow.MainControl.AddControl(matPrev);

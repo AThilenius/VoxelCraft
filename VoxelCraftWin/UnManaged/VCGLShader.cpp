@@ -44,25 +44,11 @@ VCGLShader* VCGLShader::GetShader( std::string path, bool forceReload )
 	VCGLShader* shader = NULL;
 	auto iter = LoadedShaders.find(path);
 
-	if (iter != LoadedShaders.end())
-	{
-		// Existing shader, do we need to reload it?
-		if ( !forceReload )
-			return iter->second;
+	if (iter != LoadedShaders.end() && !forceReload)
+		return iter->second;
 
-		else
-		{
-			// reload shader
-			shader = iter->second;
-			shader->FreeGLShader();
-		}
-	}
-
-	else
-	{
-		// New Shader
-		shader = new VCGLShader();
-	}
+	// New Shader
+	shader = new VCGLShader();
 
 	// Load a new shader
 	std::string shaderJson = LoadTextFile(path);
@@ -120,23 +106,46 @@ VCGLShader* VCGLShader::GetShader( std::string path, bool forceReload )
 	shader->VertexShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->VertexShader);
 	shader->FragmentShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->FragmentShader);
 
-	shader->Compile();
+	if (!shader->Compile())
+	{
+		if (iter == LoadedShaders.end())
+		{
+			VC_ERROR("Shader failed to compile.");
+		}
 
+		else
+			// Reloading, but failed. Return the old shader (that still works)
+			return iter->second;
+	}
 
 	if (iter == LoadedShaders.end())
 	{
+		// New Shader
 		LoadedShaders.insert(std::unordered_map<std::string, VCGLShader*>::value_type(path, shader));
 		VCLog::Info("VCGLShader [ " + shader->Name + " ] Initialized.", "Resources");
 	}
 
 	else
+	{
+		// This was a reloaded shader, manually copy everything over to the old one.
+		iter->second->FreeGLShader();
+
+		iter->second->m_programId = shader->m_programId;
+		iter->second->Name = shader->Name;
+		iter->second->Attributes = shader->Attributes;
+		iter->second->Uniforms = shader->Uniforms;
+
+		iter->second->VertexShader = shader->VertexShader;
+		iter->second->GeometryShader = shader->GeometryShader;
+		iter->second->FragmentShader = shader->FragmentShader;
+
 		VCLog::Notify(shader->Name + " Re-Compiled.");
-		//VCLog::Info("VCGLShader [ " + shader->Name + " ] Re-Initialized.", "Resources");
+	}
 
 	return shader;
 }
 
-void VCGLShader::Compile()
+bool VCGLShader::Compile()
 {
 	GLuint vertShader = 0;
 	GLuint geometryShader = 0;
@@ -150,7 +159,8 @@ void VCGLShader::Compile()
 	// =====   Create and compile shaders   ======================================================
 	if (VertexShader != "")
 	{
-		CompileShader(GL_VERTEX_SHADER, &vertShader, VertexShader);
+		if (!CompileShader(GL_VERTEX_SHADER, &vertShader, VertexShader))
+			return false;
 
 		if (vertShader) 
 			glAttachShader(m_programId, vertShader);
@@ -158,7 +168,8 @@ void VCGLShader::Compile()
 
 	if (GeometryShader != "")
 	{
-		CompileShader(GL_GEOMETRY_SHADER, &geometryShader, GeometryShader);
+		if (!CompileShader(GL_GEOMETRY_SHADER, &geometryShader, GeometryShader))
+			return false;
 
 		if (geometryShader)
 			glAttachShader(m_programId, geometryShader);
@@ -166,7 +177,8 @@ void VCGLShader::Compile()
 
 	if (FragmentShader != "")
 	{
-		CompileShader(GL_FRAGMENT_SHADER, &fragShader, FragmentShader);
+		if (!CompileShader(GL_FRAGMENT_SHADER, &fragShader, FragmentShader))
+			return false;
 
 		if (fragShader) 
 			glAttachShader(m_programId, fragShader);
@@ -174,7 +186,8 @@ void VCGLShader::Compile()
 	
     BindAttribLocations();
 	PreLink();
-	LinkProgram();
+	if (!LinkProgram())
+		return false;
 	GetUniformIDs();
     
     // Release vertex, hull and fragment shaders.
@@ -196,6 +209,7 @@ void VCGLShader::Compile()
 	
 	glUseProgram(m_programId);
 	glErrorCheck();
+	return true;
 }
 
 void VCGLShader::Bind()
@@ -305,7 +319,7 @@ GLuint VCGLShader::GetUniformID( std::string name )
 	return 0;
 }
 
-void VCGLShader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
+bool VCGLShader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral)
 {
 	GLint status;
         
@@ -339,22 +353,23 @@ void VCGLShader::CompileShader(GLenum shaderType, GLuint* ShaderId, std::string 
 
 			std::cout << std::endl << log << std::endl;;
 			free(log);
-			VC_ERROR("");
 		}
     }
 
 //#endif
     
-    if (status == 0) 
+    if (status == 0)
 	{
-        glDeleteShader(*ShaderId);
-		VC_ERROR("Failed to compile shader.");
-    }
+		glDeleteShader(*ShaderId);
+		VCLog::Notify("Failed to compile GL Shader. See Log");
+		return false;
+	}
 
 	glErrorCheck();
+	return true;
 }
 
-void VCGLShader::LinkProgram()
+bool VCGLShader::LinkProgram()
 {
 	GLint status;
     glLinkProgram(m_programId);
@@ -372,15 +387,17 @@ void VCGLShader::LinkProgram()
 			printf("\n========================  Program Link Log:  ==================================\n");
 			printf("%s\n\n", log);
 			free(log);
-
-			std::cin.ignore();
 		}
     }
     
     if (status == 0)
-		VCLog::Error("Failed to link OpenGL program.", "Resources");
+	{
+		VCLog::Notify("Failed to link GL Shader. See log.");
+		return false;
+	}
 
 	glErrorCheck();
+	return true;
 }
 
 void VCGLShader::BindAttribLocations()

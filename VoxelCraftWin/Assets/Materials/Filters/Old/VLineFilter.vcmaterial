@@ -10,13 +10,12 @@
     {
       "Type": "Matrix3",
       "Name": "Filter",
-            "Value": "-1: 0: 1:
-					  -2: 0: 2:
-					  -1: 0: 1"
+      "Value": "-1: 0: 1:\r\n\t\t\t\t\t  -2: 0: 2:\r\n\t\t\t\t\t  -1: 0: 1"
     },
     {
       "Type": "Sampler2D",
       "Name": "Texture",
       "Value": "Textures\\Blocks.bmp"
-    }]
+    }
+  ]
 }

@@ -22,6 +22,8 @@ namespace VCEngine
         public event EventHandler<ShaderSelectedEventArgs> OnShaderSelected = delegate { };
 
         private TextField m_shaderNameField;
+        private Button m_openButton;
+        private Shader m_shader;
 
         public ShaderSelectionBox(Window window) : base(window)
         {
@@ -39,15 +41,28 @@ namespace VCEngine
 
                     else
                         m_shaderNameField.FontColor = Color.ControlRed;
+
+                    m_openButton.Visible = false;
                 };
 
             m_shaderNameField.EnterPressed += (s, a) =>
                 {
-                    Shader shader = Shader.GetByName(m_shaderNameField.Text);
+                    m_shader = Shader.GetByName(m_shaderNameField.Text);
 
                     // Iff it exists
-                    if (shader != null)
-                        OnShaderSelected(this, new ShaderSelectedEventArgs(shader));
+                    if (m_shader != null)
+                    {
+                        OnShaderSelected(this, new ShaderSelectedEventArgs(m_shader));
+                        m_openButton.Visible = true;
+                    }
+                };
+
+            m_openButton = new Button(window, "Open");
+            AddControl(m_openButton);
+            m_openButton.Visible = false;
+            m_openButton.Click += (s, a) =>
+                {
+                    System.Diagnostics.Process.Start(m_shader.FullPath);
                 };
 
             Height = 40;
@@ -56,6 +71,8 @@ namespace VCEngine
         public void OpenShader(Shader shader)
         {
             m_shaderNameField.Text = shader.Name;
+            m_shader = shader;
+            m_openButton.Visible = true;
         }
 
         protected override void Draw()
@@ -66,6 +83,7 @@ namespace VCEngine
 
             ShaderTitle.Frame = new Rectangle(0,20, Width, 20);
             m_shaderNameField.Frame = new Rectangle(0, 0, Width, 20);
+            m_openButton.Frame = new Rectangle(Width - 50, 0, 50, 20);
         }
 
     }

@@ -44,9 +44,12 @@ namespace VCEngine
 
         public String Name;
 
+        [JsonIgnore]
+        public String FullPath;
+
         public List<ShaderAttribute> Attributes = new List<ShaderAttribute>();
         public List<ShaderUniform> Uniforms = new List<ShaderUniform>();
-
+        
         public String VertexShader = "";
         public String GeometryShader = "";
         public String FragmentShader = "";
@@ -68,6 +71,7 @@ namespace VCEngine
             {
                 shader = JsonConvert.DeserializeObject<Shader>(File.ReadAllText(fullPath));
                 shader.UnManagedHandle = VCInteropGetShaderFromFile(fullPath);
+                shader.FullPath = fullPath;
                 m_loadedShadersByPath.Add(fullPath, shader);
                 m_loadedShadersByName.Add(shader.Name, shader);
                 return shader;

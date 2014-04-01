@@ -25,7 +25,6 @@ public:
 	void Bind();
 	void SetCamera(VCCamera* camera);
 	void SetModelMatrix(glm::mat4 modelMatrix);
-	void Compile();
 
 	void SetUniform(int index, int value);
 	void SetUniform(int index, float value);
@@ -47,8 +46,9 @@ private:
 	void PreLink();
 	void FreeGLShader();
 
-	void CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral);
-	void LinkProgram();
+	bool Compile();
+	bool CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral);
+	bool LinkProgram();
 
 protected:
 	GLuint m_programId;

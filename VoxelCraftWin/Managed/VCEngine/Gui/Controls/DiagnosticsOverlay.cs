@@ -61,7 +61,7 @@ namespace VCEngine
                 if (m_ramAvalableCounter == null)
                     m_ramAvalableCounter = new PerformanceCounter("Memory", "Available Bytes");
 
-                DrawText("====  CPU Usage  ===============================================", sf);
+                DrawText("====  CPU Usage  =========================================", sf);
                 DrawText("Physical Memory Usage:        " + Process.GetCurrentProcess().WorkingSet64 / 1048576.0f + " MB", sf);
                 DrawText("Physical Memory Available:    " + m_ramAvalableCounter.NextValue() / 1048576.0f + " MB", sf);
                 DrawText("Base Priority:                " + Process.GetCurrentProcess().BasePriority, sf);
@@ -74,14 +74,14 @@ namespace VCEngine
             }
 
             m_yOffset += 20;
-            DrawText("====  GPU Usage  ===============================================", sf);
+            DrawText("====  GPU Usage  =========================================", sf);
             DrawText("Full Loop FPS:                " + (1.0d / m_lastLoopTime).ToString("0000") + " FPS", sf);
             DrawText("OpenGL FPS:                   " + (1.0d / m_lastDrawTime).ToString("0000") + " FPS", sf);
             DrawText("Drawn Frames Count:           " + m_frameCount, sf);
             DrawText("GPU Memory Used:              " + ((float)(VCInteropResourceManagerGetGPUMemoryUsage() + ManagedGLMemoryAlloced) / (float)1000000.0f) + " MB", sf);
 
             m_yOffset += 20;
-            DrawText("====  GUI  =====================================================", sf);
+            DrawText("====  GUI  ===============================================", sf);
             DrawText("Resolution:                   " + ParentWindow.TrueSize, sf);
             DrawText("Gui Scaled Resolution:        " + ParentWindow.ScaledSize, sf);
             DrawText("Mouse:                        " + m_glfwInputState.MouseLocation, sf);
