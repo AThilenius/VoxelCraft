@@ -29,7 +29,7 @@ VCImageBuilder::~VCImageBuilder(void)
 void VCImageBuilder::DrawImage( VCGLTexture* tex, VCRectangle frame, float depthStep )
 {
 	if (Shader == NULL)
-		Shader = VCResourceManager::GetShader("TexturePassThrough");
+		Shader = VCResourceManager::GetShaderInResources("TexturePassThrough");
 
 	auto iter = m_imageInstances.find(tex);
 	
@@ -51,7 +51,7 @@ void VCImageBuilder::DrawImage( VCGLTexture* tex, VCRectangle frame, float depth
 void VCImageBuilder::Draw9SliceImage( VCGLTexture* tex, VCRectangle frame, int pizelOffset, float padding, float depthStep )
 {
 	if (Shader == NULL)
-		Shader = VCResourceManager::GetShader("TexturePassThrough");
+		Shader = VCResourceManager::GetShaderInResources("TexturePassThrough");
 
 	auto iter = m_imageInstances.find(tex);
 

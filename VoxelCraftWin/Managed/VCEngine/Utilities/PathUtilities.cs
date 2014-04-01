@@ -18,6 +18,7 @@ namespace VCEngine
         #endregion
 
         // Resources
+        public static String WorkingDirectory { get { return Environment.CurrentDirectory; } }
         public static String ResourcesPath { get { return Path.Combine(Environment.CurrentDirectory, @"..\Resources"); } }
         public static String FontsPath { get { return Path.Combine(ResourcesPath, @"FontsCache"); } }
         public static String ImagesPath { get { return Path.Combine(ResourcesPath, @"Images"); } }

@@ -128,18 +128,18 @@ namespace VCEngine
             // Top aligned specific
             if (AlignTop)
             {
-                GuiDrawer.DrawRectangle(new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight, sf.Width, ButtonHeight), TopHeaderColor);
+                Gui.DrawRectangle(new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight, sf.Width, ButtonHeight), TopHeaderColor);
 
                 if (IsFocused)
                 {
                     Rectangle headerBounds = new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight - 2, sf.Width, 2);
-                    GuiDrawer.DrawRectangle(headerBounds, Color.ControlBlue);
+                    Gui.DrawRectangle(headerBounds, Color.ControlBlue);
                 }
 
                 else
                 {
                     Rectangle headerBounds = new Rectangle(sf.X, sf.Y + sf.Height - ButtonHeight - 2, sf.Width, 2);
-                    GuiDrawer.DrawRectangle(headerBounds, Color.White);
+                    Gui.DrawRectangle(headerBounds, Color.White);
                 }
             }
 

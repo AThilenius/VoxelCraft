@@ -31,6 +31,8 @@ namespace VCEngine
 
             while (ShouldLoop)
             {
+                Time.Update();
+
                 Double currentTime = (Double) m_loopTimer.ElapsedMilliseconds / 1000.0d;
                 Double deltaTime = currentTime - m_lastFrameTime;
                 

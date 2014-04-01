@@ -41,7 +41,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackground(ScreenFrame);
+            Gui.DrawBackground(ScreenFrame);
 
             int width = MathHelper.RoundedDevision(Frame.Width, 3);
 

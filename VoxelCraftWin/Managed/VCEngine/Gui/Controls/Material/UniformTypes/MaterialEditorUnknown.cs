@@ -21,6 +21,5 @@ namespace VCEngine
 
             Height = 30;
         }
-
     }
 }

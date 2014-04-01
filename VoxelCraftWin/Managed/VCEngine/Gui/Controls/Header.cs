@@ -49,9 +49,9 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            GuiDrawer.DrawButton(sf);
-            GuiDrawer.DrawImage(GuiDrawer.StandardTextures.RoundButton, new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
-            GuiDrawer.DrawImage(m_playIcon, new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
+            Gui.DrawButton(sf);
+            Gui.DrawImage(GuiDrawer.StandardTextures.RoundButton, new Rectangle(sf.X + 30, sf.Y + 15, 45, 45));
+            Gui.DrawImage(m_playIcon, new Rectangle(sf.X + 45, sf.Y + 27, 20, 20));
 
             HudOverlay.ScreenFrame = new Rectangle(MathHelper.RoundedDevision(ParentWindow.ScaledSize.X, 2) - 225, sf.Y + 5, 450, 65);
             PagesPicker.Location = new Point(Frame.Width - 400, MathHelper.RoundedDevision(Height, 2) - MathHelper.RoundedDevision(PagesPicker.Height, 2));

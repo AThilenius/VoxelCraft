@@ -24,7 +24,9 @@ public:
 	~VCResourceManager();
 
 	// Shader
-	static VCGLShader* GetShader (std::string name);
+	static VCGLShader* GetShader (std::string fullPath);
+	static VCGLShader* GetShaderInResources (std::string path);
+	static void ReloadShader (std::string fullPath);
 
 	// Texture
 	static VCGLTexture* GetTexure (std::string fullPath);

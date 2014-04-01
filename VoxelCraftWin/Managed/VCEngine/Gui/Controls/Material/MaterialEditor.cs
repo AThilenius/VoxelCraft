@@ -22,7 +22,7 @@ namespace VCEngine
         public DirectoryImageGrid TileViewer;
 
         // Right Pane
-        public MaterialPropertiesContextMenu MaterialProperties;
+        public MaterialPropertiesPane MaterialProperties;
 
         public MaterialEditor(Window window) : base(window)
         {
@@ -56,11 +56,6 @@ namespace VCEngine
             };
         }
 
-        protected override void Draw()
-        {
-            GuiDrawer.DrawBorderedRect(ScreenFrame, Color.ControlDark, Color.ControlRed, 5);
-        }
-
         private void CreateTreeView()
         {
             // Directory Tree view
@@ -75,8 +70,8 @@ namespace VCEngine
                     return;
 
                 String path = ((FileInfo)node.UserData).FullName;
-                MaterialProperties.SetMaterial(JsonConvert.DeserializeObject<Material>(File.ReadAllText(path)), path);
-                MaterialPreivew.MaterialPath = ((FileInfo)node.UserData).FullName;
+                MaterialPreivew.OpenMaterialPath(path);
+                MaterialProperties.OpenMaterial(path);
             };
 
             DirectoryNode = new DirectoryObserverTreeNode(ParentWindow, "Materials", MaterialsDirectory, true);
@@ -101,7 +96,7 @@ namespace VCEngine
 
         private void CreateMaterialProperties()
         {
-            MaterialProperties = new MaterialPropertiesContextMenu(ParentWindow);
+            MaterialProperties = new MaterialPropertiesPane(ParentWindow);
             AddControl(MaterialProperties);
             MaterialProperties.Frame = new Rectangle(ParentWindow.ScaledSize.X - 250, 0, 250, ParentWindow.ScaledSize.Y - 75);
         }

@@ -73,7 +73,7 @@ void VCChunk::Initialize()
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCChunk, &VCChunk::Render>(this));
 	m_renderStage->Camera = m_world->Camera;
-	m_renderStage->Shader = VCResourceManager::GetShader("VoxelFallback");
+	m_renderStage->Shader = VCResourceManager::GetShaderInResources("VoxelFallback");
 	m_renderStage->ExectionType = VCRenderStage::Never;
 	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 

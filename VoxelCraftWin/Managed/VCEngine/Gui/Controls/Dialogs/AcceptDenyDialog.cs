@@ -62,9 +62,9 @@ namespace VCEngine
         {
             base.Draw();
 
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
-            GuiDrawer.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 5, Width, 5));
-            GuiDrawer.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y, Width, 5));
+            Gui.DrawBackgroundEmpty(ScreenFrame);
+            Gui.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - 5, Width, 5));
+            Gui.DrawButtonHighlighted(new Rectangle(ScreenFrame.X, ScreenFrame.Y, Width, 5));
         }
 
     }

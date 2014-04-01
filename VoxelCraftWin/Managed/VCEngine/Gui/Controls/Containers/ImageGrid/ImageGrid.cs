@@ -111,7 +111,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackground(ScreenFrame);
+            Gui.DrawBackground(ScreenFrame);
             //GuiDrawer.DrawBackground(new Rectangle(ScreenFrame.X, ScreenFrame.Y + Height - (m_filledHeight + Padding), Width, m_filledHeight + Padding));
         }
 

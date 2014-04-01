@@ -99,13 +99,13 @@ namespace VCEngine
                     if (IsDepressed)
                     {
                         Text.FontColor = Color.White;
-                        GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, ScreenFrame);
+                        Gui.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, ScreenFrame);
                     }
 
                     else
                     {
                         Text.FontColor = Color.Black;
-                        GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
+                        Gui.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
                     }
 
                     break;
@@ -116,20 +116,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeftDown, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeftDown, ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeftHighlight, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeftHighlight, ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeft, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonLeft, ScreenFrame);
                     }
                     break;
 
@@ -139,20 +139,20 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenterDown, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenterDown, ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenterheightlight, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenterheightlight, ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenter, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonCenter, ScreenFrame);
                     }
                     break;
 
@@ -162,27 +162,27 @@ namespace VCEngine
                         if (m_group.Count == 0)
                         {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRightDown, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRightDown, ScreenFrame);
                         }
 
                         else
                         {
                             Text.FontColor = Color.White;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRightHighlight, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRightHighlight, ScreenFrame);
                         }
                     }
 
                     else
                     {
                             Text.FontColor = Color.Black;
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRight, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.TriButtonRight, ScreenFrame);
                     }
 
                     break;
             }
 
             if (Image != null)
-                GuiDrawer.DrawImage(Image, new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 10));
+                Gui.DrawImage(Image, new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 5, ScreenFrame.Width - 10, ScreenFrame.Height - 10));
             
         }
 

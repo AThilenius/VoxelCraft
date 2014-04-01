@@ -1,0 +1,16 @@
+{
+  "Name": "Sample Material",
+  "Shader": "GuiPackedChannels",
+  "UniformValues": [
+    {
+      "Type": "Sampler2D",
+      "Name": "Texture",
+      "Value": "Textures\\Sunset.jpg"
+    },
+    {
+      "Type": "ColorRGBA",
+      "Name": "Color",
+      "Value": "61:194:59:255"
+    }
+  ]
+}

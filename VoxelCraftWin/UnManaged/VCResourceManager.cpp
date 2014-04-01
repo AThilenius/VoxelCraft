@@ -25,9 +25,20 @@ VCResourceManager::~VCResourceManager(void)
 {
 }
 
-VCGLShader* VCResourceManager::GetShader( std::string name )
+VCGLShader* VCResourceManager::GetShader( std::string fullPath )
 {
-	return VCGLShader::GetShader(name);
+	return VCGLShader::GetShader(fullPath, false);
+}
+
+VCGLShader* VCResourceManager::GetShaderInResources( std::string path )
+{
+	std::string fullpath = VCPathUtilities::Combine(VCPathUtilities::VCShadersPath, path + ".vcshader");
+	return VCGLShader::GetShader(fullpath, false);
+}
+
+void VCResourceManager::ReloadShader( std::string fullPath )
+{
+	VCGLShader::GetShader(fullPath, true);
 }
 
 VCGLTexture* VCResourceManager::GetTexure( std::string fullPath )

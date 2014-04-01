@@ -65,8 +65,8 @@ namespace VCEngine
 
             ExpandButton.Visible = m_childrenLTI.Count != 0;
 
-            GuiDrawer.DrawBackgroundEmpty(ClientScreenFrame, false);
-            GuiDrawer.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
+            Gui.DrawBackgroundEmpty(ClientScreenFrame, false);
+            Gui.DrawRectangle(new Rectangle(ClientScreenFrame.X, ClientScreenFrame.Y + ClientHeight, Width, 1), new Color(153, 153, 153, 255));
         }
 
         private void LoadDirRecurse(DirectoryInfo directory, TreeNode parent, bool includeFile)

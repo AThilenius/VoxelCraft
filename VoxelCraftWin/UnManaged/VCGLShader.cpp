@@ -39,15 +39,32 @@ VCGLShader::~VCGLShader()
 	}
 }
 
-VCGLShader* VCGLShader::GetShader( std::string name )
+VCGLShader* VCGLShader::GetShader( std::string path, bool forceReload )
 {
-	auto iter = LoadedShaders.find(name);
+	VCGLShader* shader = NULL;
+	auto iter = LoadedShaders.find(path);
 
 	if (iter != LoadedShaders.end())
-		return iter->second;
+	{
+		// Existing shader, do we need to reload it?
+		if ( !forceReload )
+			return iter->second;
+
+		else
+		{
+			// reload shader
+			shader = iter->second;
+			shader->FreeGLShader();
+		}
+	}
+
+	else
+	{
+		// New Shader
+		shader = new VCGLShader();
+	}
 
 	// Load a new shader
-	std::string path = VCPathUtilities::Combine(VCPathUtilities::VCShadersPath, name + ".vcshader");
 	std::string shaderJson = LoadTextFile(path);
 
 	Json::Value root;
@@ -55,11 +72,7 @@ VCGLShader* VCGLShader::GetShader( std::string name )
 	bool parsingSuccessful = reader.parse( shaderJson, root );
 
 	if ( !parsingSuccessful )
-	{
-		VC_ERROR("Failed to parse shader JSON file: " << path);
-	}
-
-	VCGLShader* shader = new VCGLShader();
+		VCLog::Error("Failed to parse shader JSON file: " + path, "Shader");
 
 	// Name
 	shader->Name = root.get("Name", "").asString();
@@ -106,6 +119,16 @@ VCGLShader* VCGLShader::GetShader( std::string name )
 	shader->FragmentShader = PerpendLine("#version " + std::to_string(VC_GLSL_VERSION), shader->FragmentShader);
 
 	shader->Compile();
+
+
+	if (iter == LoadedShaders.end())
+	{
+		LoadedShaders.insert(std::unordered_map<std::string, VCGLShader*>::value_type(path, shader));
+		VCLog::Info("VCGLShader [ " + shader->Name + " ] Initialized.", "Resources");
+	}
+
+	else
+		VCLog::Info("VCGLShader [ " + shader->Name + " ] Re-Initialized.", "Resources");
 
 	return shader;
 }
@@ -169,9 +192,6 @@ void VCGLShader::Compile()
     }
 	
 	glUseProgram(m_programId);
-	LoadedShaders.insert(std::unordered_map<std::string, VCGLShader*>::value_type(Name, this));
-
-	VCLog::Info("VCGLShader [ " + Name + " ] Initialized.", "Resources");
 	glErrorCheck();
 }
 
@@ -383,6 +403,15 @@ void VCGLShader::PreLink()
 	// Transform Feedback stuff here
 }
 
+void VCGLShader::FreeGLShader()
+{
+	if (m_programId != 0)
+	{
+		glDeleteProgram(m_programId);
+		m_programId = 0;
+	}
+}
+
 bool operator==( const VCGLShader& lhs, const VCGLShader& rhs )
 {
 	return lhs.m_programId == rhs.m_programId;
@@ -413,9 +442,14 @@ bool operator>=( const VCGLShader& lhs, const VCGLShader& rhs )
 	return !operator< (lhs,rhs);
 }
 
-int VCInteropGetShaderFromFile( char* name )
+int VCInteropGetShaderFromFile( char* fullPath )
 {
-	return VCResourceManager::GetShader(std::string(name))->Handle;
+	return VCResourceManager::GetShader(std::string(fullPath))->Handle;
+}
+
+void VCInteropReloadShader( char* fullPath )
+{
+	VCResourceManager::ReloadShader(fullPath);
 }
 
 void VCInteropShaderSetUniformInt(int handle, int index, int value)

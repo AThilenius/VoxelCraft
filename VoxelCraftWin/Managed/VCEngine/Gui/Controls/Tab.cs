@@ -66,13 +66,13 @@ namespace VCEngine
 
                 if (ParentContainer.IsFocused)
                 {
-                    GuiDrawer.DrawRectangle(headerBounds, Color.ControlBlue);
+                    Gui.DrawRectangle(headerBounds, Color.ControlBlue);
                     Font.DrawString(Name, new Point(headerBounds.X + 5, headerBounds.Y + 2), Color.White);
                 }
 
                 else
                 {
-                    GuiDrawer.DrawBorderedRect(headerBounds, Color.ControlDisabled, Color.ControlVeryDark, 1);
+                    Gui.DrawBorderedRect(headerBounds, Color.ControlDisabled, Color.ControlVeryDark, 1);
                     Font.DrawString(Name, new Point(headerBounds.X + 5, headerBounds.Y + 2), Color.Black);
                 }
             }

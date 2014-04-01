@@ -62,10 +62,10 @@ namespace VCEngine
             ExpandButton.Visible = m_childrenLTI.Count != 0;
 
             if ( FocusLevel == NodeFocusLevel.ActiveClicked )
-                GuiDrawer.DrawButtonHighlighted(ClientScreenFrame);
+                Gui.DrawButtonHighlighted(ClientScreenFrame);
 
             else if (FocusLevel == NodeFocusLevel.InActiveClicked)
-                GuiDrawer.DrawButtonAccentuated(ClientScreenFrame);
+                Gui.DrawButtonAccentuated(ClientScreenFrame);
 
             Label.FontColor = (FocusLevel == NodeFocusLevel.ActiveClicked) ? Color.White : Color.Black;
         }

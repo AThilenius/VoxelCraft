@@ -37,7 +37,7 @@ void VCTextBuffer::Initialize()
 	// Create Render Stage
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCTextBuffer, &VCTextBuffer::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI + 2;
-	m_renderStage->Shader = VCResourceManager::GetShader("Lex");
+	m_renderStage->Shader = VCResourceManager::GetShaderInResources("Lex");
 	m_renderStage->Texture = Font->m_ddsTexture;
 	m_parentGui->AddGUIRenderStage(m_renderStage);
 
@@ -45,7 +45,7 @@ void VCTextBuffer::Initialize()
 	m_glBuffer->VertexBufferSpecification()
 		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Short,			false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Position))
 		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,			false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, UV))
-		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	false,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Color));
+		.SetVertexAttribute(VCShaderAttribute::Color0,		4, VCGLPrimitives::UnsignedByte,	true,	sizeof(GlyphVerticie),	offsetof(GlyphVerticie, Color));
 }
 
 void VCTextBuffer::DrawText( std::string text, VCPoint llPoint, GLubyte4 color, float* depthStep )

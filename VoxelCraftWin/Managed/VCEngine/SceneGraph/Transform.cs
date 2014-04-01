@@ -50,8 +50,8 @@ namespace VCEngine
                 if (m_rebuildNeeded)
                 {
                     // M = S * R * T
-                    //m_transformMatrix = Matrix4.Scale(m_scale) * Matrix4.Rotate(m_rotation) * Matrix4.CreateTranslation(m_position);
-                    m_transformMatrix = Matrix4.CreateTranslation(m_position) * Matrix4.Rotate(m_rotation) * Matrix4.Scale(m_scale);
+                    m_transformMatrix = Matrix4.Scale(m_scale) * Matrix4.Rotate(m_rotation) * Matrix4.CreateTranslation(m_position);
+                    //m_transformMatrix = Matrix4.CreateTranslation(m_position) * Matrix4.Rotate(m_rotation) * Matrix4.Scale(m_scale);
                     
                     // Will crawl up the tree and rebuild needed parents, and return
                     // when it finds the first built node.

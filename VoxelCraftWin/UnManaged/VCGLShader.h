@@ -40,11 +40,12 @@ public:
 
 private:
 
-	static VCGLShader* GetShader(std::string name);
+	static VCGLShader* GetShader(std::string path, bool forceReload);
 
 	void BindAttribLocations();
 	void GetUniformIDs();
 	void PreLink();
+	void FreeGLShader();
 
 	void CompileShader(GLenum shaderType, GLuint* ShaderId, std::string shaderLiteral);
 	void LinkProgram();
@@ -98,7 +99,8 @@ bool operator> (const VCGLShader& lhs, const VCGLShader& rhs);
 bool operator<=(const VCGLShader& lhs, const VCGLShader& rhs);
 bool operator>=(const VCGLShader& lhs, const VCGLShader& rhs);
 
-DLL_EXPORT_API int VCInteropGetShaderFromFile(char* name);
+DLL_EXPORT_API int VCInteropGetShaderFromFile(char* fullPath);
+DLL_EXPORT_API void VCInteropReloadShader(char* fullPath);
 
 DLL_EXPORT_API void VCInteropShaderSetUniformInt(int handle, int index, int value);
 DLL_EXPORT_API void VCInteropShaderSetUniformFloat(int handle, int index, float value);

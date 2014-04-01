@@ -28,7 +28,7 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            GuiDrawer.Draw9SliceImage(m_hudTexture, sf, 10, 0.17f);
+            Gui.Draw9SliceImage(m_hudTexture, sf, 10, 0.17f);
             HudLabel.Frame = new Rectangle(0, Height - 20, Width, HudLabel.Height);
 
             // Smooth out FPS values

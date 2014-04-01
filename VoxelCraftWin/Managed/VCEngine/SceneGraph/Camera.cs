@@ -58,7 +58,13 @@ namespace VCEngine
         }
         public float AspectRatio
         {
-            get { return Fullscreen ? (float)ParentWindow.TrueSize.X / (float)ParentWindow.TrueSize.Y : m_aspectRatio; }
+            get 
+            {
+                if (m_autoAspect)
+                    return (float)m_viewport.Width / (float)m_viewport.Height;
+                else
+                    return m_aspectRatio; 
+            }
             set
             {
                 if (m_autoAspect)

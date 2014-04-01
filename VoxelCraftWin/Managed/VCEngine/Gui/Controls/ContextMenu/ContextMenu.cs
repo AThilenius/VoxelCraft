@@ -11,7 +11,7 @@ namespace VCEngine
 
         public ContextMenu(Window window) : base(window)
         {
-
+            Resize += (s, a) => ReBuild();
         }
 
         public void AddIContextComponent(IContextComponent iContextCompoennt)
@@ -54,7 +54,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
+            Gui.DrawBackgroundEmpty(ScreenFrame, false);
         }
 
     }

@@ -187,7 +187,7 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 		glDebugMessageCallbackARB(&glDebugCallback, NULL);
 #endif
 
-		glClearColor(0.4f, 0.6f, 0.8f, 1.0f);
+		glClearColor(0.85f, 0.87f, 0.898f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glDepthFunc(GL_LESS); 

@@ -146,7 +146,7 @@ void VCGeometryBuilder::Initialize()
 	// Create a render stage for text rendering
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VCGeometryBuilder, &VCGeometryBuilder::Render>(this));
 	m_renderStage->BatchOrder = VC_BATCH_GUI_BASE;
-	m_renderStage->Shader = VCResourceManager::GetShader("Gui");
+	m_renderStage->Shader = VCResourceManager::GetShaderInResources("Gui");
 	m_parentGui->AddGUIRenderStage(m_renderStage);
 
 	m_gpuBuffer = new VCGLBuffer();

@@ -24,7 +24,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
+            Gui.DrawBackgroundEmpty(ScreenFrame, false);
         }
 
     }

@@ -72,7 +72,7 @@ VCMaterial* VCMaterial::GetMaterial( std::string fullPath, bool forceReload )
 	mat->Name = root.get("Name", "").asString();
 
 	// Shader
-	mat->Shader = VCResourceManager::GetShader(root.get("Shader", "").asString());
+	mat->Shader = VCResourceManager::GetShaderInResources(root.get("Shader", "").asString());
 
 	// Values
 	mat->Values.clear();

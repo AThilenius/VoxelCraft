@@ -16,7 +16,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawImage(Image, ScreenFrame);
+            Gui.DrawImage(Image, ScreenFrame);
         }
 
     }

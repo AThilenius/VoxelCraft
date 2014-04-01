@@ -55,25 +55,25 @@ namespace VCEngine
         protected void DrawCollapsedTriangle(Rectangle frame, Color color)
         {
             // Lower Left
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y), color));
 
             // Center Right
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + MathHelper.RoundedDevision(frame.Height, 2)), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + MathHelper.RoundedDevision(frame.Height, 2)), color));
 
             // Upper left
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
         }
 
         protected  void DrawExpandedTriangle(Rectangle frame, Color color)
         {
             // Upper left
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X, frame.Y + frame.Height), color));
 
             // Lower Center
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + MathHelper.RoundedDevision(frame.Width, 2), frame.Y), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + MathHelper.RoundedDevision(frame.Width, 2), frame.Y), color));
 
             // Upper Right
-            GuiDrawer.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + frame.Height), color));
+            Gui.AddVerticie(new GuiRectVerticie(new Point(frame.X + frame.Width, frame.Y + frame.Height), color));
         }
     }
 }

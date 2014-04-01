@@ -13,7 +13,10 @@ namespace VCEngine
         #region Bindings
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static int VCInteropGetShaderFromFile(String name);
+        extern static int VCInteropGetShaderFromFile(String fullPath);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropReloadShader(String fullPath);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropShaderSetUniformInt(int handle, int index, int value);
@@ -38,8 +41,6 @@ namespace VCEngine
 
         #endregion
 
-        public static List<Shader> Shaders = new List<Shader>();
-
         public String Name;
 
         public List<ShaderAttribute> Attributes = new List<ShaderAttribute>();
@@ -49,25 +50,46 @@ namespace VCEngine
         public String GeometryShader = "";
         public String FragmentShader = "";
 
-        private Shader(int handle) : base(handle)
+        private static Dictionary<String, Shader> m_loadedShadersByPath = new Dictionary<String, Shader>();
+        private static Dictionary<String, Shader> m_loadedShadersByName = new Dictionary<String, Shader>();
+
+        private Shader()
+            : base()
         {
+            // Used by JSON, manually get handle
         }
 
-        public static void LoadAllShaders()
+        public static Shader GetByPath(String fullPath)
         {
-            //foreach (FileInfo info in (new DirectoryInfo(PathUtilities.ShadersPath)).GetFiles())
-            //{
-            //    if (info.Extension != ".vcshader")
-            //        continue;
-                
-            //    int uHandle = VCInteropGetShaderFromFile(Path.GetFileNameWithoutExtension(info.Name));
+            Shader shader = null;
+            if ( !m_loadedShadersByPath.TryGetValue(fullPath, out shader) )
+            {
+                shader = JsonConvert.DeserializeObject<Shader>(File.ReadAllText(fullPath));
+                shader.UnManagedHandle = VCInteropGetShaderFromFile(fullPath);
+                m_loadedShadersByPath.Add(fullPath, shader);
+                m_loadedShadersByName.Add(shader.Name, shader);
+                return shader;
+            }
 
-            //    Shader shader = new Shader(uHandle);
-            //    using (TextReader reader = new StreamReader(info.FullName))
-            //        JsonConvert.PopulateObject(reader.ReadToEnd(), shader);
+            return shader;
+        }
 
-            //    Shaders.Add(shader);
-            //}
+        public static Shader GetByName(String name)
+        {
+            Shader shader = null;
+            m_loadedShadersByName.TryGetValue(name, out shader);
+            return shader;
+        }
+
+        public static void PreCacheShaders(String parentPath)
+        {
+            // Load all shaders from current directory
+            foreach (String fInfo in Directory.GetFiles(parentPath, "*.vcshader"))
+                GetByPath(fInfo);
+
+            // Recurse down directories
+            foreach (string dir in Directory.GetDirectories(parentPath))
+                PreCacheShaders(dir);
         }
 
         public void SetUniform(int index, int value)

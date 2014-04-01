@@ -138,7 +138,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawRectangle(ClientScreenFrame, new Color(0, 255, 0, 100));
+            Gui.DrawRectangle(ClientScreenFrame, new Color(0, 255, 0, 100));
         }
 
     }

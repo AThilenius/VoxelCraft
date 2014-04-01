@@ -61,8 +61,8 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
-            GuiDrawer.DrawBackground(m_head.ScreenFrame);
+            Gui.DrawBackgroundEmpty(ScreenFrame);
+            Gui.DrawBackground(m_head.ScreenFrame);
 
             if (m_lastClicked != null)
             {

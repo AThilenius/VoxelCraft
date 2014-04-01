@@ -1,0 +1,11 @@
+{
+  "Name": "Sample Material",
+  "Shader": "ColorDiffuse",
+  "UniformValues": [
+    {
+      "Type": "ColorRGBA",
+      "Name": "Color",
+      "Value": "127 : 127 : 127 : 255"
+    }
+  ]
+}

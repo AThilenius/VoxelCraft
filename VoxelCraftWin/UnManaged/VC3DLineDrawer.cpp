@@ -50,7 +50,7 @@ void VC3DLineDrawer::Initialize()
 	// =====   Render Stages   ======================================================
 	m_renderStage = new VCRenderStage(VCVoidDelegate::from_method<VC3DLineDrawer, &VC3DLineDrawer::Render>(this));
 	m_renderStage->Camera = m_camera;
-	m_renderStage->Shader = VCResourceManager::GetShader("ColorPassThrough");
+	m_renderStage->Shader = VCResourceManager::GetShaderInResources("ColorPassThrough");
 	m_renderStage->ExectionType = VCRenderStage::Always;
 	//VCGLRenderer::Instance->RegisterStage(m_renderStage);
 

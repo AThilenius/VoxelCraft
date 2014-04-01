@@ -38,8 +38,8 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            GuiDrawer.DrawBackgroundEmpty(ScreenFrame, false);
-            GuiDrawer.DrawImage(m_folderTexture, new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
+            Gui.DrawBackgroundEmpty(ScreenFrame, false);
+            Gui.DrawImage(m_folderTexture, new Rectangle(sf.X + 30, sf.Y + 5, 30, 30));
         }
 
     }

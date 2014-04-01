@@ -98,7 +98,7 @@ namespace VCEngine
 
                 if (IsFocused)
                 {
-                    GuiDrawer.DrawButtonHighlighted(sf);
+                    Gui.DrawButtonHighlighted(sf);
                     Font.DrawStringBeveled(Text, new Point(sf.X + IndentationSize * IndentationCount + 45, sf.Y + 2), Color.White);
                     m_expButton.BackgroundColor = Color.White;
                     m_expButton.HoverBackgroundColor = Color.White;
@@ -114,7 +114,7 @@ namespace VCEngine
 
                 // Has Icon?
                 if (Image != null)
-                    GuiDrawer.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
+                    Gui.DrawImage(Image, new Rectangle(sf.X + IndentationSize * IndentationCount + 20, sf.Y, 20, 20));
 
 
                 if (TreeViewChildren.Count == 0)

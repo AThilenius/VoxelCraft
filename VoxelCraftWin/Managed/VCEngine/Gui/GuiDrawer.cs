@@ -43,7 +43,7 @@ namespace VCEngine
     {
         public Texture Button = Texture.GetInResources(@"Images\Icons\Button.DDS");
         public Texture ButtonDown = Texture.GetInResources(@"Images\Icons\ButtonDown.DDS");
-        public Texture ButtonHighlight = Texture.GetInResources(@"Images\Icons\ButtonHeighlight.DDS");
+        public Texture ButtonHighlight = Texture.GetInResources(@"Images\Icons\ButtonHighlight.DDS");
         public Texture ButtonHighlightDown = Texture.GetInResources(@"Images\Icons\ButtonHighlightDown.DDS");
         public Texture RoundButton = Texture.GetInResources(@"Images\Icons\RoundButton.DDS");
         public Texture RountButtonDown = Texture.GetInResources(@"Images\Icons\RoundButtonDown.DDS");

@@ -267,8 +267,9 @@ namespace VCEngine
 
         protected Rectangle m_frame = new Rectangle();
         protected Input m_input { get { return ParentWindow.Input; } }
+        protected Boolean m_isFirstResponder;
         protected GlfwInputState m_glfwInputState { get { return ParentWindow.GlfwInputState; } }
-        protected GuiDrawer GuiDrawer { get { return ParentWindow.Gui; } }
+        protected GuiDrawer Gui { get { return ParentWindow.Gui; } }
         private Rectangle m_remainingDockFrame = new Rectangle();
         private Control m_activeChild;
         private int m_layer;
@@ -282,12 +283,23 @@ namespace VCEngine
         private static Control m_beganDraggingControl = null;
         private static Object m_draggingMessage = null;
 
+        // =====   Debug Only   ======================================================
+#if DEBUG
+        private static Dictionary<Control, System.Diagnostics.StackTrace> m_allControls = new Dictionary<Control, System.Diagnostics.StackTrace>();
+        private static Boolean m_renderOrphans;
+        private bool m_orphanWarningIssued;
+#endif
+
         public Control(Window window)
         {
             ParentWindow = window;
             Font = Font.GetFont("Calibri", 16, window);
             MouseEnter += (s, a) => { IsHovered = true; IsClickDown = false; };
             MouseExit += (s, a) => { IsHovered = false;  IsClickDown = false; };
+
+#if DEBUG
+            m_allControls.Add(this, new System.Diagnostics.StackTrace(true));
+#endif
         }
 
         // Called externally
@@ -300,6 +312,24 @@ namespace VCEngine
             if (m_beganDraggingControl != null )
                 m_beganDraggingControl.DragDraw(this, new DragDropArgs(m_beganDraggingControl, m_draggingMessage, m_clickDownPoint,
                             new MouseEventArgs { EventType = MouseEventType.Draging, ScreenLocation = ParentWindow.GlfwInputState.MouseLocation }));
+
+            // Ensure we don't have any orphans
+#if DEBUG
+            foreach ( var KVP in m_allControls )
+            {
+                if (KVP.Key.Parent == null && !KVP.Key.m_isFirstResponder)
+                {
+                    if (!KVP.Key.m_orphanWarningIssued)
+                    {
+                        Log.Warning("Orphaned control of type " + KVP.Key.GetType().Name + " found.", "Gui");
+                        KVP.Key.m_orphanWarningIssued = true;
+                    }
+
+                    if (m_renderOrphans)
+                        Gui.DrawBorderedRect(new Rectangle(KVP.Key.ScreenFrame.X - 10, KVP.Key.ScreenFrame.Y - 10, KVP.Key.Width + 20, KVP.Key.Height + 20), Color.ControlRed, Color.Black, 1);
+                }
+            }
+#endif
         }
 
         // Recursive
@@ -474,6 +504,8 @@ namespace VCEngine
         
         internal void SetFirstResponder()
         {
+            m_isFirstResponder = true;
+
             ParentWindow.Resize += (sender, args) =>
                 {
                     Frame = new Rectangle(0, 0, ParentWindow.ScaledSize);
@@ -684,6 +716,38 @@ namespace VCEngine
 
             return m_activeChild.GetEndOfCommandChain();
         }
+
+        #region Console Commands
+
+#if DEBUG
+        [ConsoleFunction("Boolean value for forced orphan drawing.", "Gui")]
+        public static String DrawOrphans(String[] args)
+        {
+            m_renderOrphans = Boolean.Parse(args[1]);
+            return "";
+        }
+
+        [ConsoleFunction("Prints a stack trace of all orphan controls.", "Gui")]
+        public static String TraceOrphans(String[] args)
+        {
+            foreach (var KVP in m_allControls)
+            {
+                if (KVP.Key.Parent == null && !KVP.Key.m_isFirstResponder)
+                {
+                    Console.WriteLine("=============================================================================");
+                    Console.WriteLine("= Stack Trace for Control of Type: [ " + KVP.Key.GetType().Name + " ]");
+                    Console.WriteLine("=============================================================================");
+
+                    foreach (string line in KVP.Value.ToStringPretty(60))
+                        Console.WriteLine("    " + line);
+                }
+            }
+
+            return "";
+        }
+#endif
+
+        #endregion
 
     }
 }

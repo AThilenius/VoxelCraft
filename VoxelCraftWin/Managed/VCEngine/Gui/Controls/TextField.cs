@@ -92,9 +92,9 @@ namespace VCEngine
             Rectangle sf = ScreenFrame;
 
             if (IsFocused)
-                GuiDrawer.DrawBackground(ScreenFrame);
+                Gui.DrawBackground(ScreenFrame);
             else
-                GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+                Gui.DrawBackgroundEmpty(ScreenFrame);
 
             // Draw Text
             Font.DrawString(m_text, new Point(sf.X + 5, sf.Y + 2), FontColor);
@@ -109,7 +109,7 @@ namespace VCEngine
             if (m_isCursurVisible && IsFocused)
             {
                 TextMetrics cursorMetrics = Font.GetMetrics(m_text.Substring(0, CursorOffset));
-                GuiDrawer.DrawRectangle(new Rectangle(sf.X + 5 + cursorMetrics.TotalWidth, sf.Y + 5, 1, sf.Height - 10), Color.Black);
+                Gui.DrawRectangle(new Rectangle(sf.X + 5 + cursorMetrics.TotalWidth, sf.Y + 5, 1, sf.Height - 10), Color.Black);
             }
         }
 

@@ -47,7 +47,7 @@ namespace VCEngine
         protected override void Draw()
         {
             Rectangle sf = ScreenFrame;
-            GuiDrawer.DrawBackground(new Rectangle(sf.X, sf.Y + sf.Height - m_yOffset, sf.Width, m_yOffset), false);
+            Gui.DrawBackground(new Rectangle(sf.X, sf.Y + sf.Height - m_yOffset, sf.Width, m_yOffset), false);
 
             base.Draw();
         }

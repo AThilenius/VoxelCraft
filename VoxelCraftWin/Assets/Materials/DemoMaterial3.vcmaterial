@@ -1,0 +1,11 @@
+{
+  "Name": "Sample Material",
+  "Shader": "Lex",
+  "UniformValues": [
+    {
+      "Type": "Sampler2D",
+      "Name": "glyphs",
+      "Value": "Textures\\Sunset.jpg"
+    }
+  ]
+}

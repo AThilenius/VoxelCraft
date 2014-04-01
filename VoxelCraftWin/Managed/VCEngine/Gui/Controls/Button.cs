@@ -43,14 +43,14 @@ namespace VCEngine
                         Text.FontColor = Color.Black;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
                     }
 
                     else
-                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+                        Gui.DrawBackgroundEmpty(ScreenFrame);
 
                     break;
 
@@ -60,23 +60,23 @@ namespace VCEngine
                         Text.FontColor = Color.White;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlightDown, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlightDown, ScreenFrame);
 
                         else
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlight, ScreenFrame);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonHighlight, ScreenFrame);
                     }
 
                     else
                     {
                         Text.FontColor = Color.Black;
-                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+                        Gui.DrawBackgroundEmpty(ScreenFrame);
                     }
                     break;
 
                 case Style.MenuButton:
                     if (IsHovered)
                     {
-                        GuiDrawer.DrawButtonHighlighted(ScreenFrame);
+                        Gui.DrawButtonHighlighted(ScreenFrame);
                         Text.FontColor = Color.White;
                     }
 
@@ -91,15 +91,15 @@ namespace VCEngine
                         Rectangle sf = ScreenFrame;
 
                         if (IsClickDown)
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, sf);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.ButtonDown, sf);
                         else
-                            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, sf);
+                            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.Button, sf);
 
-                        GuiDrawer.DrawImage(Image, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
+                        Gui.DrawImage(Image, new Rectangle(sf.X + 5, sf.Y + 5, sf.Width - 10, sf.Height - 10));
                     }
 
                     else
-                        GuiDrawer.DrawBackgroundEmpty(ScreenFrame);
+                        Gui.DrawBackgroundEmpty(ScreenFrame);
                     break;
             }
             

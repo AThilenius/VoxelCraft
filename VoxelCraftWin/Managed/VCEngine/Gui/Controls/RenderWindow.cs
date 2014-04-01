@@ -19,6 +19,8 @@ namespace VCEngine
 
         protected override void Draw()
         {
+            Gui.DrawBackgroundEmpty(ScreenFrame);
+
             // Update the Viewport every frame
             GLRenderViewport.MainCamera.Viewport = ScreenFrame;
 

@@ -51,8 +51,8 @@ namespace VCEngine
         protected override void Draw()
         {
             //Gui.DrawButton(ScreenFrame);
-            GuiDrawer.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
-            GuiDrawer.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
+            Gui.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
+            Gui.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
         }
     }
 }

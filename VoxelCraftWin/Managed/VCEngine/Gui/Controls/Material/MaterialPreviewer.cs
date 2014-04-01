@@ -12,24 +12,31 @@ namespace VCEngine
         //public ToggleButton PlaneButton;
         //public ToggleButton SphereButton; 
 
-        public String MaterialPath
-        {
-            get { return m_materialPath; }
-            set
-            {
-                m_materialPath = value;
-                GLRenderViewport.Entities.Clear();
-
-                RenderedEntity Plane = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), value);
-                Plane.Transform.Position = new Vector3(-0.5f, -0.5f, -0.75f);
-                GLRenderViewport.Entities.Add(Plane);
-            }
-        }
-        private String m_materialPath;
+        private RenderedEntity m_currentEntity = null;
+        private Quaternion m_rotationQuat = Quaternion.Identity;
 
         public MaterialPreviewer(Window window) : base(window)
         {
+            MouseSliding += (s, a) => m_rotationQuat *= Quaternion.FromEuler(ParentWindow.GlfwInputState.DeltaMouseLocation.X * 0.05f, ParentWindow.GlfwInputState.DeltaMouseLocation.Y * 0.05f, 0.0f);
+        }
 
+        public void OpenMaterialPath(String fullPath)
+        {
+            GLRenderViewport.Entities.Clear();
+
+            m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
+            m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -2.75f);
+            GLRenderViewport.Entities.Add(m_currentEntity);
+        }
+
+        protected override void Draw()
+        {
+            base.Draw();
+            
+            m_rotationQuat *= Quaternion.FromAxisAngle(Vector3.One, 100.0f * Time.DeltaTime);
+
+            if (m_currentEntity != null)
+                m_currentEntity.Transform.Rotation = m_rotationQuat;
         }
 
     }

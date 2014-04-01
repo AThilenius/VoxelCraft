@@ -43,7 +43,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawBackground(ScreenFrame);
+            Gui.DrawBackground(ScreenFrame);
         }
 
     }

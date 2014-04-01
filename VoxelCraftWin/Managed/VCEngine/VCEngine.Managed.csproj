@@ -117,6 +117,8 @@
     <Compile Include="Gui\Controls\MainPages\VoxelEditor.cs" />
     <Compile Include="Gui\Controls\Material\MaterialPreviewer.cs" />
     <Compile Include="Gui\Controls\Material\MaterialPropertiesContextMenu.cs" />
+    <Compile Include="Gui\Controls\Material\MaterialPropertiesPane.cs" />
+    <Compile Include="Gui\Controls\Material\ShaderSelectionBox.cs" />
     <Compile Include="Gui\Controls\Material\UniformTypes\MaterialEditorRGBA.cs" />
     <Compile Include="Gui\Controls\Material\UniformTypes\MaterialEditorUnknown.cs" />
     <Compile Include="Gui\Controls\Material\UniformTypes\UniformEditor.cs" />
@@ -167,13 +169,14 @@
     <Compile Include="Rendering\RenderViewport.cs" />
     <Compile Include="Rendering\Shader\Shader.cs" />
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
-    <Compile Include="Rendering\Shader\ShaderUniform.cs" />
+    <Compile Include="Rendering\Shader\ShaderUniformTypes.cs" />
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\VertPNT.cs" />
     <Compile Include="SceneGraph\MarshaledGameObject.cs" />
     <Compile Include="SceneGraph\MarshaledTransform.cs" />
     <Compile Include="SceneGraph\RigidBody.cs" />
     <Compile Include="TestFixture.cs" />
+    <Compile Include="Utilities\Extensions\StackTraceExtensions.cs" />
     <Compile Include="Utilities\Extensions\StringExtensions.cs" />
     <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />

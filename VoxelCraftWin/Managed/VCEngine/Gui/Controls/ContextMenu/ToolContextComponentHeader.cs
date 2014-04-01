@@ -32,7 +32,7 @@ namespace VCEngine
 
         protected override void Draw()
         {
-            GuiDrawer.DrawButtonAccentuated(ScreenFrame);
+            Gui.DrawButtonAccentuated(ScreenFrame);
         }
 
     }
