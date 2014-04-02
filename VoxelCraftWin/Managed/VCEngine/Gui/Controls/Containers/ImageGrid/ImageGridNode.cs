@@ -52,7 +52,7 @@ namespace VCEngine
         {
             //Gui.DrawButton(ScreenFrame);
             Gui.Draw9SliceImage(GuiDrawer.StandardTextures.Button, ScreenFrame);
-            Gui.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
+            //Gui.DrawRectangle(new Rectangle(ScreenFrame.X + 5, ScreenFrame.Y + 20, Width - 10, 1), Color.Black);
         }
     }
 }

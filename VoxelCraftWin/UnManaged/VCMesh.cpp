@@ -25,17 +25,19 @@ VCMesh::~VCMesh()
 	SAFE_DELETE(m_gpuBuffer);
 }
 
-void VCMesh::Initialize( VCPuvnVerticie* verts, UInt32* indicies, int vCount, int iCount )
+void VCMesh::Initialize( VCStandardVerticie* verts, UInt32* indicies, int vCount, int iCount )
 {
 	VertexCount = vCount;
 	IndexCount = iCount;
 
 	m_gpuBuffer = new VCGLBuffer();
 	m_gpuBuffer->VertexBufferSpecification()
-		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Position))
-		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, UV))
-		.SetVertexAttribute(VCShaderAttribute::Normal0,		3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCPuvnVerticie),	offsetof(VCPuvnVerticie, Normal))
-		.SetVertexData(sizeof(VCPuvnVerticie) * VertexCount, verts, VertexCount);
+		.SetVertexAttribute(VCShaderAttribute::Position0,	3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCStandardVerticie),	offsetof(VCStandardVerticie, Position))
+		.SetVertexAttribute(VCShaderAttribute::TexCoord0,	2, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCStandardVerticie),	offsetof(VCStandardVerticie, UV))
+		.SetVertexAttribute(VCShaderAttribute::Normal0,		3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCStandardVerticie),	offsetof(VCStandardVerticie, Normal))
+		.SetVertexAttribute(VCShaderAttribute::Tangent0,	3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCStandardVerticie),	offsetof(VCStandardVerticie, Tangent))
+		.SetVertexAttribute(VCShaderAttribute::BiTangent0,	3, VCGLPrimitives::Float,	GL_FALSE,	sizeof(VCStandardVerticie),	offsetof(VCStandardVerticie, BiTangent))
+		.SetVertexData(sizeof(VCStandardVerticie) * VertexCount, verts, VertexCount);
 	m_gpuBuffer->IndexBufferSpecification(sizeof(UInt32) * iCount, indicies, iCount);
 }
 

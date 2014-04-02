@@ -32,15 +32,15 @@ VCGLTexture* VCGLTexture::ManageExistingBuffer( GLuint bufferId )
 
 void VCGLTexture::Bind( int texUnit )
 {
-	if (m_boundTexture == this)
-		return;
+	//if (m_boundTexture == this)
+	//	return;
 
 	if (texUnit >= 0)
 		glActiveTexture(GL_TEXTURE0 + texUnit);
 
 	glBindTexture(GL_TEXTURE_2D, GLTextID);
 
-	m_boundTexture = this;
+	//m_boundTexture = this;
 }
 
 

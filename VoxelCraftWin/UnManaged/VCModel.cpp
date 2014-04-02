@@ -38,12 +38,16 @@ VCModel* VCModel::GetModel(std::string& Filename)
 	Assimp::Importer Importer;
 
 	// Fffffuuuccckkkkk you for returning const. Ugh, sometimes I hate this language. So stupid...
-	aiScene* pScene = (aiScene*) Importer.ReadFile(Filename.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+	aiScene* pScene = (aiScene*) Importer.ReadFile(Filename.c_str(), 
+		aiProcess_GenSmoothNormals		 |
+		aiProcess_CalcTangentSpace       | 
+		aiProcess_Triangulate            |
+		aiProcess_JoinIdenticalVertices  |
+		aiProcess_SortByPType			 |
+		aiProcess_FlipUVs);
 
 	if (!pScene)
-	{
-		VC_ERROR("Failed to parse " << Filename);
-	}
+		VCLog::Error("Failed to parse " + Filename, "Resources");
 
 	// Pre-alloc
 	VCModel* model = new VCModel();
@@ -54,7 +58,7 @@ VCModel* VCModel::GetModel(std::string& Filename)
 	{
 		aiMesh* paiMesh = pScene->mMeshes[i];
 
-		std::vector<VCPuvnVerticie> Vertices;
+		std::vector<VCStandardVerticie> Vertices;
 		std::vector<UInt32> Indices;
 
 		const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
@@ -64,11 +68,15 @@ VCModel* VCModel::GetModel(std::string& Filename)
 			const aiVector3D* pPos      = &(paiMesh->mVertices[i]);
 			const aiVector3D* pNormal   = &(paiMesh->mNormals[i]);
 			const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
+			const aiVector3D* pTangent = paiMesh->HasTangentsAndBitangents() ? &(paiMesh->mTangents[i]) : &Zero3D;
+			const aiVector3D* pBiTangent = paiMesh->HasTangentsAndBitangents() ? &(paiMesh->mBitangents[i]) : &Zero3D;
 
-			Vertices.push_back(VCPuvnVerticie(
+			Vertices.push_back(VCStandardVerticie(
 				glm::vec3(pPos->x, pPos->y, pPos->z),
 				glm::vec2(pTexCoord->x, pTexCoord->y),
-				glm::vec3(pNormal->x, pNormal->y, pNormal->z)));
+				glm::vec3(pNormal->x, pNormal->y, pNormal->z),
+				glm::vec3(pTangent->x, pTangent->x, pTangent->x),
+				glm::vec3(pBiTangent->x, pBiTangent->x, pBiTangent->x)));
 		}
 
 		for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 

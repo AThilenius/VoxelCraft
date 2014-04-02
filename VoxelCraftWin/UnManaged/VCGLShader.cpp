@@ -110,6 +110,8 @@ VCGLShader* VCGLShader::GetShader( std::string path, bool forceReload )
 	shader->VertexShader = PerpendLine("uniform mat4 VC_ModelMatrix;", shader->VertexShader);
 	shader->VertexShader = PerpendLine("uniform mat4 VC_ViewMatrix;", shader->VertexShader);
 	shader->VertexShader = PerpendLine("uniform mat4 VC_ProjectionMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform mat4 VC_ModelViewMatrix;", shader->VertexShader);
+	shader->VertexShader = PerpendLine("uniform mat4 VC_ViewProjectionMatrix;", shader->VertexShader);
 	shader->VertexShader = PerpendLine("uniform vec3 VC_LightInverseDirection;", shader->VertexShader);
 
 	// Perpend GLSL version to each
@@ -220,6 +222,9 @@ void VCGLShader::SetCamera( VCCamera* camera )
 		if (m_unifProjectionMatrix != VC_UNIFORM_DNE)
 			glUniformMatrix4fv(m_unifProjectionMatrix, 1, GL_FALSE, &camera->ProjectionMatrix[0][0]);
 
+		if (m_unifViewProjectionMatrix != VC_UNIFORM_DNE)
+			glUniformMatrix4fv(m_unifProjectionMatrix, 1, GL_FALSE, &camera->ProjectionViewMatrix[0][0]);
+
 		if (m_unifLightInverseDirection != VC_UNIFORM_DNE)
 			glUniform3fv(m_unifLightInverseDirection, 1, &camera->LightInverseDirection[0]);
 	}
@@ -238,7 +243,12 @@ void VCGLShader::SetModelMatrix( glm::mat4 modelMatrix )
 		glm::mat4 mvp = m_projectionMatrix * m_viewMatrix * modelMatrix;
 		glUniformMatrix4fv(m_unifMvpMatrix, 1, GL_FALSE, &mvp[0][0]);
 	}
-
+	
+	if (m_unifModelViewMatrix != VC_UNIFORM_DNE)
+	{
+		glm::mat4 mv = m_viewMatrix * modelMatrix;
+		glUniformMatrix4fv(m_unifMvpMatrix, 1, GL_FALSE, &mv[0][0]);
+	}
 }
 
 void VCGLShader::SetUniform(int index, int value)
@@ -388,6 +398,8 @@ void VCGLShader::GetUniformIDs()
 	m_unifModelMatrix = glGetUniformLocation(m_programId, "VC_ModelMatrix");
 	m_unifViewMatrix = glGetUniformLocation(m_programId, "VC_ViewMatrix");
 	m_unifProjectionMatrix = glGetUniformLocation(m_programId, "VC_ProjectionMatrix");
+	m_unifModelViewMatrix = glGetUniformLocation(m_programId, "VC_ModelViewMatrix");
+	m_unifViewProjectionMatrix = glGetUniformLocation(m_programId, "VC_ViewProjectionMatrix");
 	m_unifLightInverseDirection = glGetUniformLocation(m_programId, "VC_LightInverseDirection");
 	
 	// Add JSON Uniforms

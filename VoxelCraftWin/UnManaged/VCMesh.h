@@ -10,18 +10,22 @@
 
 class VCGLBuffer;
 
-struct VCPuvnVerticie
+struct VCStandardVerticie
 {
 	glm::vec3 Position;
 	glm::vec2 UV;
 	glm::vec3 Normal;
+	glm::vec3 Tangent;
+	glm::vec3 BiTangent;
 
-	VCPuvnVerticie() {}
+	VCStandardVerticie() {}
 
-	VCPuvnVerticie(glm::vec3& pos, glm::vec2& tex, glm::vec3& normal) :
+	VCStandardVerticie(glm::vec3& pos, glm::vec2& tex, glm::vec3& normal, glm::vec3& tangent, glm::vec3 biTangent) :
 		Position(pos),
 		UV(tex),
-		Normal(normal)
+		Normal(normal),
+		Tangent(tangent),
+		BiTangent(biTangent)
 	{
 	}
 };
@@ -33,7 +37,7 @@ public:
 	VCMesh();
 	~VCMesh();
 
-	void Initialize(VCPuvnVerticie* verts, UInt32* indicies, int vCount, int iCount);
+	void Initialize(VCStandardVerticie* verts, UInt32* indicies, int vCount, int iCount);
 	void Render();
 
 public:

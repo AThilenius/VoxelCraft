@@ -12,29 +12,18 @@
 char* VCShaderAttribute::RuntimeLookup[25] = {
 	"Position0",
 	"Position1",
-	"Position2",
-	"Position3",
-	"Position4",
 	"Normal0",
 	"Normal1",
-	"Normal2",
-	"Normal3",
-	"Normal4",
 	"Color0",
 	"Color1",
-	"Color2",
-	"Color3",
-	"Color4",
 	"TexCoord0",
 	"TexCoord1",
-	"TexCoord2",
-	"TexCoord3",
-	"TexCoord4",
 	"Flags0",
 	"Flags1",
-	"Flags2",
-	"Flags3",
-	"Flags4"
+	"Tangent0",
+	"Tangent1",
+	"BiTangent0",
+	"BiTangent1"
 };
 
 char* VCShaderUniform::RuntimeLookup[10] = {

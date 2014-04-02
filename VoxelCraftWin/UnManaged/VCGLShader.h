@@ -58,6 +58,8 @@ protected:
 	GLuint m_unifModelMatrix;
 	GLuint m_unifViewMatrix;
 	GLuint m_unifProjectionMatrix;
+	GLuint m_unifModelViewMatrix;
+	GLuint m_unifViewProjectionMatrix;
 	GLuint m_unifLightInverseDirection;
 
 	// VC Uniform Values

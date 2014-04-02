@@ -13,33 +13,24 @@
 
 struct VCShaderAttribute
 {
+
+	// Don't forget to change VCShaderTypes::Lookup if you change this as well...
 	enum AttributeTypes
 	{
 		Position0   = 0,
 		Position1   = 1,
-		Position2   = 2,
-		Position3   = 3,
-		Position4   = 4,
-		Normal0     = 5,
-		Normal1     = 6,
-		Normal2     = 7,
-		Normal3     = 8,
-		Normal4     = 9,
-		Color0      = 10,
-		Color1      = 11,
-		Color2      = 12,
-		Color3      = 13,
-		Color4      = 14,
-		TexCoord0   = 15,
-		TexCoord1   = 16,
-		TexCoord2   = 17,
-		TexCoord3   = 18,
-		TexCoord4   = 19,
-		Flags0      = 20,
-		Flags1      = 21,
-		Flags2      = 22,
-		Flags3      = 23,
-		Flags4      = 24
+		Normal0     = 2,
+		Normal1     = 3,
+		Color0      = 4,
+		Color1      = 5,
+		TexCoord0   = 6,
+		TexCoord1   = 7,
+		Flags0      = 8,
+		Flags1      = 9,
+		Tangent0	= 10,
+		Tangent1	= 11,
+		BiTangent0	= 12,
+		BiTangent1	= 13,
 	};
 
 	VCShaderAttribute(int id, std::string name);
@@ -341,7 +332,11 @@ class VCShaderSampler2D : public VCShaderValue
 public:
 	VCShaderSampler2D() { VCShaderValue::Type = VCShaderUniform::Sampler2D; }
 
-	virtual void Set() { Texture->Bind(TexUnit); }
+	virtual void Set() 
+	{ 
+		Texture->Bind(TexUnit); 
+		glUniform1i(UniformID, TexUnit);
+	}
 
 	virtual std::string ToJson() { return Texture->FullPath; }
 
@@ -366,7 +361,11 @@ class VCShaderSampler3D : public VCShaderValue
 public:
 	VCShaderSampler3D() { VCShaderValue::Type = VCShaderUniform::Sampler3D; }
 
-	virtual void Set() { Texture->Bind(TexUnit); }
+	virtual void Set() 
+	{ 
+		Texture->Bind(TexUnit);
+		glUniform1i(UniformID, TexUnit);
+	}
 
 	virtual std::string ToJson() { return Texture->FullPath; }
 
