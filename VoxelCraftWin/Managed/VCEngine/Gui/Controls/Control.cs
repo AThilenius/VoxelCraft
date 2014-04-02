@@ -441,22 +441,31 @@ namespace VCEngine
             s_currentFocus = new HashSet<Control>();
         }
 
-        public void AnimateFrame(Rectangle to, float animationTime = 0.25f)
+        public void AnimateFrame(Rectangle to, Action onCompleation = null, float animationTime = 0.25f)
         {
             m_animator = new ValueAnimator<Rectangle>(m_frame, to, animationTime);
             ParentWindow.ShouldRedraw(animationTime + 0.1f);
+
+            if (onCompleation != null)
+                m_animator.OnCompleation += (s, a) => onCompleation();
         }
 
-        public void AnimateLocation(Point to, float animationTime = 0.25f)
+        public void AnimateLocation(Point to, Action onCompleation = null, float animationTime = 0.25f)
         {
             m_animator = new ValueAnimator<Rectangle>(m_frame, new Rectangle(to, Size), animationTime);
             ParentWindow.ShouldRedraw(animationTime + 0.1f);
+
+            if (onCompleation != null)
+                m_animator.OnCompleation += (s, a) => onCompleation();
         }
 
-        public void AnimateSize(Point to, float animationTime = 0.25f)
+        public void AnimateSize(Point to, Action onCompleation = null, float animationTime = 0.25f)
         {
             m_animator = new ValueAnimator<Rectangle>(m_frame, new Rectangle(Location, to), animationTime);
             ParentWindow.ShouldRedraw(animationTime + 0.1f);
+
+            if (onCompleation != null)
+                m_animator.OnCompleation += (s, a) => onCompleation();
         }
 
         protected virtual void ChildControlResizeHandler(object sender, ResizeEventArgs e)

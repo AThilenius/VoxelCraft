@@ -20,7 +20,7 @@ namespace VCEngine
 
         public ImageGrid(Window window) : base(window)
         {
-            Resize += (s, a) => ReBuildGrid();
+            Resize += (s, a) => AnimateOpening();
         }
 
         public override void AddControl(Control control)
@@ -31,7 +31,7 @@ namespace VCEngine
                 return;
 
             m_nodes.Add((ImageGridNode) control);
-            ReBuildGrid();
+            AnimateOpening();
         }
 
         public override void RemoveControl(Control control)
@@ -42,7 +42,7 @@ namespace VCEngine
                 return;
 
             m_nodes.Remove((ImageGridNode) control);
-            ReBuildGrid();
+            AnimateOpening();
         }
 
         public void AnimateOpening()

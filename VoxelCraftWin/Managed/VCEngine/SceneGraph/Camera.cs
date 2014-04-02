@@ -101,8 +101,8 @@ namespace VCEngine
             set
             {
                 m_viewport = value;
-                if (m_viewport.Width < 0) m_viewport.Width = 0;
-                if (m_viewport.Height < 0) m_viewport.Height = 0;
+                if (m_viewport.Width <= 0) m_viewport.Width = 1;
+                if (m_viewport.Height <= 0) m_viewport.Height = 1;
 
                 m_needsRebuild = true;
             }
