@@ -92,16 +92,16 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			toState->Texture->Bind(0);
 
 		// DepthTest
-		if (toState->DepthTest)
-			glEnable(GL_DEPTH_TEST);
-		else
-			glDisable(GL_DEPTH_TEST);
+		//if (toState->DepthTest)
+		//	glEnable(GL_DEPTH_TEST);
+		//else
+		//	glDisable(GL_DEPTH_TEST);
 
 		// Blend
-		if (toState->Blend)
-			glEnable(GL_BLEND);
-		else
-			glDisable(GL_BLEND);
+		//if (toState->Blend)
+		//	glEnable(GL_BLEND);
+		//else
+		//	glDisable(GL_BLEND);
 
 	}
 
@@ -129,18 +129,18 @@ void VCRenderStage::TransitionAndExecute( VCRenderStage* fromState, VCRenderStag
 			toState->Texture->Bind(0);
 
 		// DepthTest
-		if (fromState->DepthTest != toState->DepthTest)
-		{
-			if(toState->DepthTest)	glEnable(GL_DEPTH_TEST);
-			else					glDisable(GL_DEPTH_TEST);
-		}
+		//if (fromState->DepthTest != toState->DepthTest)
+		//{
+		//	if(toState->DepthTest)	glEnable(GL_DEPTH_TEST);
+		//	else					glDisable(GL_DEPTH_TEST);
+		//}
 
-		// Blend
-		if (fromState->Blend != toState->Blend)
-		{
-			if (toState->Blend)	glEnable(GL_BLEND);
-			else				glDisable(GL_BLEND);
-		}
+		//// Blend
+		//if (fromState->Blend != toState->Blend)
+		//{
+		//	if (toState->Blend)	glEnable(GL_BLEND);
+		//	else				glDisable(GL_BLEND);
+		//}
 	}
 
 	// Execute

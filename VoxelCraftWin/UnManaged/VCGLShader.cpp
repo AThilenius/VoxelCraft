@@ -130,7 +130,8 @@ VCGLShader* VCGLShader::GetShader( std::string path, bool forceReload )
 	}
 
 	else
-		VCLog::Info("VCGLShader [ " + shader->Name + " ] Re-Initialized.", "Resources");
+		VCLog::Notify(shader->Name + " Re-Compiled.");
+		//VCLog::Info("VCGLShader [ " + shader->Name + " ] Re-Initialized.", "Resources");
 
 	return shader;
 }

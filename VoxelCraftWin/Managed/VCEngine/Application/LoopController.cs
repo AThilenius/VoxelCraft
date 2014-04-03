@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace VCEngine
         private static Stopwatch m_loopTimer = new Stopwatch();
         private static double m_lastFrameTime;
         private static double m_desiredFrameTime = 0.016666666666d;
+
+        // Marshaling
+        private static ConcurrentQueue<Action> m_actionQueue = new ConcurrentQueue<Action>();
 
         public static void PassControlAndBegin()
         {
@@ -55,7 +59,17 @@ namespace VCEngine
                     if (Window.ActiveWindows.Count == 0)
                         return;
                 }
+
+                // Handle marshaled actions
+                Action action;
+                while (m_actionQueue.TryDequeue(out action))
+                    action();
             }
+        }
+
+        public static void MarshalActionToMainThread(Action action)
+        {
+            m_actionQueue.Enqueue(action);
         }
 
         #region Console Commands

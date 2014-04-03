@@ -196,10 +196,10 @@ chars=32-126,160-255
         public void DrawStringBeveled(String text, Point llPoint, Color color)
         {
             if (color.R < 100 && color.G < 100 && color.B < 100)
-                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), Color.White);
+                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), new Color(255, 255, 255, color.A));
 
             else
-                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), Color.Black);
+                DrawString(text, new Point(llPoint.X, llPoint.Y - 1), new Color(0, 0, 0, color.A));
 
             DrawString(text, llPoint, color);
         }

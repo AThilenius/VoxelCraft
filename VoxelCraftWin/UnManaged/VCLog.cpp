@@ -21,6 +21,11 @@ VCLog::~VCLog(void)
 {
 }
 
+void VCLog::Notify( std::string message )
+{
+	ManageHandler(3, (char*) "", (char*) message.c_str());
+}
+
 void VCLog::Info( std::string message, std::string catagory /*= "Default"*/ )
 {
 	ManageHandler(0, (char*) catagory.c_str(), (char*) message.c_str());

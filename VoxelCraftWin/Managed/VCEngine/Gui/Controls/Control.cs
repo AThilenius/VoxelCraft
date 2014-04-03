@@ -346,22 +346,20 @@ namespace VCEngine
         {
             Update();
 
-            foreach (Control ctrl in Children)
+            // Update animations (If animating)
+            if (m_animator != null)
             {
-                // Update animations (If animating)
-                if (m_animator != null)
+                if (m_animator.IsDoneAnimating)
                 {
-                    if (m_animator.IsDoneAnimating)
-                    {
-                        m_animator = null;
-                        return;
-                    }
-
-                    Frame = m_animator.GetValue();
+                    m_animator = null;
+                    return;
                 }
 
-                ctrl.PropagateUpdate();
+                Frame = m_animator.GetValue();
             }
+
+            foreach (Control ctrl in Children.ToArray())
+                ctrl.PropagateUpdate();
         }
 
         public virtual void AddControl(Control control)

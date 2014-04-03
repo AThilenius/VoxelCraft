@@ -7,13 +7,24 @@ using System.Runtime.InteropServices;
 
 namespace VCEngine
 {
+    public class NotifyEntryEventArgs : EventArgs
+    {
+        public String Message;
+
+        public NotifyEntryEventArgs(String message)
+        {
+            Message = message;
+        }
+    }
+
     public class LogEntry
     {
         public enum SeverityRating : int
         {
             Info    = 0,
             Warning = 1,
-            Error   = 2
+            Error   = 2,
+            Notify  = 3
         }
 
         public String Message;
@@ -26,16 +37,24 @@ namespace VCEngine
 
     public static class Log
     {
+        public static event EventHandler<NotifyEntryEventArgs> OnNotify = delegate { };
+
         private static System.ConsoleColor m_defaultColor = ConsoleColor.White;
         private static System.ConsoleColor m_infoColor = ConsoleColor.White;
         private static System.ConsoleColor m_warningColor = ConsoleColor.Yellow;
         private static System.ConsoleColor m_errorColor = ConsoleColor.Red;
 
-        private static bool m_assertOnError = true;
+        private static bool m_assertOnError = false;
         private static bool m_printAllToConsole = true;
         private static List<LogEntry> m_logEntries = new List<LogEntry>();
         private static Dictionary<String, List<LogEntry>> m_logEntriesByCategory = new Dictionary<String, List<LogEntry>>();
         private static HashSet<String> m_activeCatagories = new HashSet<String>();
+
+        public static void Notify(String info)
+        {
+            AddToLog(new LogEntry { Message = info, Catagory = "Notify", Severity = LogEntry.SeverityRating.Warning });
+            OnNotify(null, new NotifyEntryEventArgs(info));
+        }
 
         public static void Info(String info, String catagory = "Default")
         {
@@ -54,7 +73,11 @@ namespace VCEngine
 
         public static void LogUnManaged(int severity, String catagory, String message)
         {
-            AddToLog(new LogEntry { Message = message, Catagory = catagory, Severity = (LogEntry.SeverityRating) severity });
+            if (severity == 3)
+                Notify(message);
+
+            else
+                AddToLog(new LogEntry { Message = message, Catagory = catagory, Severity = (LogEntry.SeverityRating) severity });
         }
 
         private static void AddToLog(LogEntry entry)
@@ -223,6 +246,13 @@ namespace VCEngine
         public static String HaltOnError(String[] args)
         {
             m_assertOnError = Boolean.Parse(args[1]);
+            return "";
+        }
+
+        [ConsoleFunction("A debug function to test the notification center", "Log")]
+        public static String Notify(String[] args)
+        {
+            Log.Notify(args[1]);
             return "";
         }
 

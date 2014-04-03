@@ -192,6 +192,7 @@ void VCGLWindow::Initialize(int width, int height, std::string title)
 		glEnable(GL_BLEND);
 		glDepthFunc(GL_LESS); 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glBlendFunc(GL_ZERO, GL_SRC_COLOR);
 		glEnable(GL_CULL_FACE);
 
 		m_glfwWasInit = true;

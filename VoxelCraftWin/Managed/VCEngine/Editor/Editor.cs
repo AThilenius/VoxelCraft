@@ -21,7 +21,7 @@ namespace VCEngine
             PathUtilities.UpdatePathUtilities();
 
             EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
-            Shader.PreCacheShaders(PathUtilities.ResourcesPath);
+            Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
 
             PxPhysics.Initialize();
             VCEngineCore.Initialize();

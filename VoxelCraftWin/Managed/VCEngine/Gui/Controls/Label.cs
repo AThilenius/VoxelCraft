@@ -39,6 +39,8 @@ namespace VCEngine
         private string m_renderedString;
         private TextMetrics m_subMetric;
 
+        private ValueAnimator<Color> m_fontAnimator;
+
         public Label(Window window, string text) : base(window)
         {
             Text = text;
@@ -47,8 +49,31 @@ namespace VCEngine
             IsEventPassthrough = true;
         }
 
+        public void AnimateFontColor(Color to, Action onCompleation = null, float animationTime = 0.25f)
+        {
+            m_fontAnimator = new ValueAnimator<Color>(FontColor, to, animationTime);
+            ParentWindow.ShouldRedraw(animationTime + 0.1f);
+
+            if (onCompleation != null)
+                m_fontAnimator.OnCompleation += (s, a) => onCompleation();
+        }
+
         protected override void Draw()
         {
+            base.Draw();
+
+            // Update animations (If animating)
+            if (m_fontAnimator != null)
+            {
+                if (m_fontAnimator.IsDoneAnimating)
+                {
+                    m_fontAnimator = null;
+                    return;
+                }
+
+                FontColor = m_fontAnimator.GetValue();
+            }
+
             Rectangle sf = ScreenFrame;
             Point ll = new Point(sf.X, sf.Y);
             
