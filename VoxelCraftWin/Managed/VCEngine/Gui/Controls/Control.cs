@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace VCEngine
 {
@@ -64,12 +65,14 @@ namespace VCEngine
             get { return m_frame; }
             set
             {
+                if (m_frame == value)
+                    return;
+
                 ResizeEventArgs args = new ResizeEventArgs { From = m_frame, To = value };
                 m_frame = value;
                 args.To = m_frame;
-
-                if (args.From != args.To)
-                    Resize(this, args);
+                
+                Resize(this, args);
             }
         }
         public Point            Location
@@ -269,17 +272,6 @@ namespace VCEngine
         // Recursive
         private void _Render()
         {
-            Draw();
-
-            foreach (Control ctrl in Children)
-                if (ctrl.Visible)
-                    ctrl._Render();
-        }
-
-        public void PropagateUpdate()
-        {
-            Update();
-
             // Update animations (If animating)
             if (m_animator != null)
             {
@@ -292,8 +284,20 @@ namespace VCEngine
                 Frame = m_animator.GetValue();
             }
 
-            foreach (Control ctrl in Children.ToArray())
-                ctrl.PropagateUpdate();
+            // Frustum Cull Check
+            Rectangle sf = ScreenFrame;
+            if (! ( sf.Y >= ParentWindow.ScaledSize.Y ||
+                    sf.X >= ParentWindow.ScaledSize.X ||
+                    sf.Y + sf.Height <= 0 ||
+                    sf.X + sf.Width <= 0 ) )
+                Draw();
+
+            for (int i = 0; i < Children.Count; i++)
+            {
+                Control ctrl = Children[i];
+                if (ctrl.Visible)
+                    ctrl._Render();
+            }
         }
 
         public virtual void AddControl(Control control)
@@ -324,8 +328,9 @@ namespace VCEngine
 
         public virtual void RemoveAllControls()
         {
-            foreach (Control ctrl in Children)
+            for (int i = 0; i < Children.Count; i++)
             {
+                Control ctrl = Children[i];
                 ParentChangeEventArgs args = new ParentChangeEventArgs { OldParent = ctrl.Parent, NewParent = null };
                 ctrl.Parent = null;
                 ctrl.ParentChanged(this, args);
@@ -432,10 +437,6 @@ namespace VCEngine
         }
 
         protected virtual void Draw()
-        {
-        }
-
-        protected virtual void Update()
         {
         }
         
@@ -725,9 +726,13 @@ namespace VCEngine
             // Recursively update children docks in ascending order
             m_remainingDockFrame = new Rectangle(0, 0, Frame.Width, Frame.Height);
 
-            foreach (Control child in Children.OrderBy(ctrl => ctrl.DockOrder))
-                if (child.Visible)
-                    child.UpdateDockings();
+            //foreach (Control ctrl in Children.OrderBy(ctrl => ctrl.DockOrder))
+            for (int i = 0; i < Children.Count; i++)
+            {
+                Control ctrl = Children[i];
+                if (ctrl.Visible)
+                    ctrl.UpdateDockings();
+            }
         }
 
         #region Console Commands

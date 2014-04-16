@@ -28,6 +28,7 @@
     <ClCompile Include="VCFloatX.cpp" />
     <ClCompile Include="VCGLFrameBuffer.cpp" />
     <ClCompile Include="VCGLBuffer.cpp" />
+    <ClCompile Include="VCGLMarshaledBuffer.cpp" />
     <ClCompile Include="VCGLTypes.cpp" />
     <ClCompile Include="VCGLWindow.cpp" />
     <ClCompile Include="VCImageBuilder.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="VCGLFloatX.h" />
     <ClInclude Include="VCGLFrameBuffer.h" />
     <ClInclude Include="VCGLBuffer.h" />
+    <ClInclude Include="VCGLMarshaledBuffer.h" />
     <ClInclude Include="VCGLTypes.h" />
     <ClInclude Include="VCGLWindow.h" />
     <ClInclude Include="VCGLXByteX.h" />

@@ -23,7 +23,7 @@ public:
 	VCGLBuffer();
 	~VCGLBuffer();
 
-	/// Binds the VAO only.
+	/// Binds the VAO and invokes glDrawElements or glDrawArrays.
 	void Draw();
 
 	/// Access point for all vertex attribute buffer specification
@@ -47,6 +47,7 @@ private:
 
 private:
 	friend class VCGLVertexBufferAttributeSpec;
+	friend class VCGLMarshaledBuffer;
 	DISALLOW_COPY_AND_ASSIGN(VCGLBuffer);
 };
 

@@ -8,6 +8,12 @@
 
 #pragma once
 
+// VCGLMarshaledBuffer needs to be updated if these are changed!
+
+
+/************************************************************************/
+/* Wraps a GL Type ( Ex. Byte, Float... )                               */
+/************************************************************************/
 struct VCGLPrimitives
 {
 	enum Types
@@ -24,8 +30,13 @@ struct VCGLPrimitives
 		Byte4 = GL_4_BYTES,
 		Double = GL_DOUBLE
 	};
+
+	static int RuntimeLookupTable[11];
 };
 
+/************************************************************************/
+/* The GL Draw mode, Static, Dynamic or Streamed                        */
+/************************************************************************/
 struct VCGLDrawModes
 {
 	enum Types
@@ -34,8 +45,13 @@ struct VCGLDrawModes
 		Dynamic = GL_DYNAMIC_DRAW,
 		Stream = GL_STREAM_DRAW
 	};
+
+	static int RuntimeLookupTable[3];
 };
 
+/************************************************************************/
+/* Wraps the GL Draw Primitive type ( Ex. Point, Strip... )             */
+/************************************************************************/
 struct VCGLDrawPrimitives
 {
 	enum Types
@@ -53,4 +69,6 @@ struct VCGLDrawPrimitives
 		TrianglesAdjacency = GL_TRIANGLES_ADJACENCY,
 		Patches = GL_PATCHES
 	};
+
+	static int RuntimeLookupTable[12];
 };

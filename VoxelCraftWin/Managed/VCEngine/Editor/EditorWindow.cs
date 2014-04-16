@@ -19,18 +19,18 @@ namespace VCEngine
 
         public EditorWindow(int width, int height, String title) : base(width, height, title)
         {
-            // Create Header, dock it to main control top, set height 75
+            // Create Header
             HeaderBar = new Header(this);
             HeaderBar.Layer = 10;
             MainControl.AddControl(HeaderBar);
-            HeaderBar.DockOrder = 0;
-            HeaderBar.Dock = Control.Dockings.Top;
-            HeaderBar.Frame = new Rectangle(0, 0, 0, 75);
+            HeaderBar.Frame = new Rectangle(0, ScaledSize.Y - 75, ScaledSize.X, 75);
+            Resize += (s, a) => HeaderBar.Frame = new Rectangle(0, ScaledSize.Y - 75, ScaledSize.X, 75);
 
-            // Create Spinner, pre-size it to fill
+            // Create Spinner
             MainSpinner = new VerticalControlSpinner(this);
             MainControl.AddControl(MainSpinner);
             MainSpinner.Frame = new Rectangle(0, 0, ScaledSize.X, ScaledSize.Y - 75);
+            Resize += (s, a) => MainSpinner.Frame = new Rectangle(0, 0, ScaledSize.X, ScaledSize.Y - 75);
 
             // Create Welcome Page, wait to create the rest
             WelcomePage = new VCEngine.WelcomeMainPage(this);
@@ -59,10 +59,6 @@ namespace VCEngine
             ModelEditor = new VCEngine.ModelEditor(this);
             MainSpinner.AddControl(ModelEditor);
             ModelEditor.Create();
-
-            // Dock the spinner to remaining area
-            MainSpinner.DockOrder = 1;
-            MainSpinner.Dock = Control.Dockings.Fill;
 
             // Resize All
             MainControl.Frame = MainControl.Frame;

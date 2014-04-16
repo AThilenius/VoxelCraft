@@ -90,18 +90,10 @@ namespace VCEngine
                 VCInteropGLWindowSetPos(UnManagedHandle, value.X, value.Y);
             }
         }
-        public Point ScaledSize 
-        {
-            get { return TrueSize / Gui.Scale; }
-        }
+        public Point ScaledSize;
         public Point TrueSize
         {
-            get
-            {
-                int x, y;
-                VCInteropGLWindowGetSize(UnManagedHandle, out x, out y);
-                return new Point(x, y);
-            }
+            get { return m_trueSize; }
 
             set
             {
@@ -127,6 +119,7 @@ namespace VCEngine
         public event EventHandler<ResizeEventArgs> Resize = delegate { };
         public DiagnosticsOverlay Diagnostics;
 
+        private Point m_trueSize;
         private String m_title;
         private int m_framesRemaining = 10;
         private float m_drawTillTime;
@@ -162,7 +155,7 @@ namespace VCEngine
             LoopController.OnLoop += HandleUpdate;
             ActiveWindows.Add(this);
 
-            TrueSize = TrueSize * Gui.Scale;
+            TrueSize = new Point(width, height) * Gui.Scale;
         }
 
         new public void Dispose()
@@ -195,7 +188,6 @@ namespace VCEngine
 
             // Update MainControl docking
             MainControl.Frame = MainControl.Frame;
-            MainControl.PropagateUpdate();
 
             // Render this window
             VCInteropGLWindowActivate(UnManagedHandle);
@@ -265,6 +257,8 @@ namespace VCEngine
         {
             ShouldRedraw();
             ResizeEventArgs args = new ResizeEventArgs { From = new Rectangle(Position, ScaledSize), To = (new Rectangle(Position, width, height) / Gui.Scale) };
+            ScaledSize = new Point(width, height) / Gui.Scale;
+            m_trueSize = new Point(width, height);
             Resize(null, args);
         }
 

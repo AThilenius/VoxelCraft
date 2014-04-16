@@ -36,7 +36,7 @@ namespace VCEngine
             ActiveTool = new BlockClickDragTool(ParentWindow, this);
         }
 
-        protected override void Update()
+        private void Update()
         {
             if (!IsHovered)
             {
@@ -132,6 +132,8 @@ namespace VCEngine
 
         protected override void Draw()
         {
+            Update();
+
             base.Draw();
             Rectangle sf = ScreenFrame;
 
