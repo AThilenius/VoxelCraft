@@ -101,8 +101,14 @@ bool operator> (const VCGLShader& lhs, const VCGLShader& rhs);
 bool operator<=(const VCGLShader& lhs, const VCGLShader& rhs);
 bool operator>=(const VCGLShader& lhs, const VCGLShader& rhs);
 
+
 DLL_EXPORT_API int VCInteropGetShaderFromFile(char* fullPath);
 DLL_EXPORT_API void VCInteropReloadShader(char* fullPath);
+
+DLL_EXPORT_API void VCInteropShaderBind(int handle);
+DLL_EXPORT_API int VCInteropShaderGetUniformIndex(int handle, char* uniformName);
+DLL_EXPORT_API void VCInteropShaderSetCamera(int handle, int cameraHandle);
+DLL_EXPORT_API void VCInteropShaderSetModelMatrix(int handle, glm::mat4 modelMatrix);
 
 DLL_EXPORT_API void VCInteropShaderSetUniformInt(int handle, int index, int value);
 DLL_EXPORT_API void VCInteropShaderSetUniformFloat(int handle, int index, float value);

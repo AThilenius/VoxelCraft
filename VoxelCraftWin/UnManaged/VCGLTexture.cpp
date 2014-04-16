@@ -156,3 +156,9 @@ void VCInteropTextureSetFilterParams( int handle, VCTextureParams params )
 	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(handle);
 	obj->UpdateFilteringParams(params);
 }
+
+void VCInteropTextureBind( int handle, int texUnit )
+{
+	VCGLTexture* obj = (VCGLTexture*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind(texUnit);
+}

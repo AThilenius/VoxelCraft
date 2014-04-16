@@ -482,6 +482,31 @@ void VCInteropReloadShader( char* fullPath )
 	VCResourceManager::ReloadShader(fullPath);
 }
 
+void VCInteropShaderBind( int handle )
+{
+	VCGLShader* obj = (VCGLShader*) VCObjectStore::Instance->GetObject(handle);
+	obj->Bind();
+}
+
+int VCInteropShaderGetUniformIndex( int handle, char* uniformName )
+{
+	VCGLShader* obj = (VCGLShader*) VCObjectStore::Instance->GetObject(handle);
+	return obj->GetUniformIndex(uniformName);
+}
+
+void VCInteropShaderSetCamera( int handle, int cameraHandle )
+{
+	VCGLShader* obj = (VCGLShader*) VCObjectStore::Instance->GetObject(handle);
+	VCCamera* camera = (VCCamera*) VCObjectStore::Instance->GetObject(cameraHandle);
+	obj->SetCamera(camera);
+}
+
+void VCInteropShaderSetModelMatrix( int handle, glm::mat4 modelMatrix )
+{
+	VCGLShader* obj = (VCGLShader*) VCObjectStore::Instance->GetObject(handle);
+	obj->SetModelMatrix(modelMatrix);
+}
+
 void VCInteropShaderSetUniformInt(int handle, int index, int value)
 {
 	VCGLShader* shader = (VCGLShader*) VCObjectStore::Instance->GetObject(handle);

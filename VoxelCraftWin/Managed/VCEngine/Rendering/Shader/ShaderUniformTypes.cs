@@ -29,5 +29,7 @@ namespace VCEngine
 
         public String Name;
 
+        [JsonIgnore]
+        public int UnManagedUniformIndex;
     }
 }

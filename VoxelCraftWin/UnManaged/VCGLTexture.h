@@ -67,3 +67,4 @@ private:
 DLL_EXPORT_API int VCInteropTextureCreate(unsigned int glHandle, char* fullpath);
 DLL_EXPORT_API void VCInteropTextureUpdateGLHandle(int handle, unsigned int newGLHandle);
 DLL_EXPORT_API void VCInteropTextureSetFilterParams(int handle, VCTextureParams params);
+DLL_EXPORT_API void VCInteropTextureBind(int handle, int texUnit);

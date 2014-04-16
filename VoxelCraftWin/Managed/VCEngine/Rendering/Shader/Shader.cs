@@ -20,6 +20,20 @@ namespace VCEngine
         extern static void VCInteropReloadShader(String fullPath);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static int VCInteropShaderGetUniformIndex(int handle, String uniformName);
+
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropShaderBind(int handle);
+        
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropShaderSetCamera(int handle, int cameraHandle);
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropShaderSetModelMatrix(int handle, Matrix4 modelMatrix);
+
+
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropShaderSetUniformInt(int handle, int index, int value);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -64,6 +78,21 @@ namespace VCEngine
             // Used by JSON, manually get handle
         }
 
+        public void Bind()
+        {
+            VCInteropShaderBind(UnManagedHandle);
+        }
+
+        public void SetCamera(Camera camera)
+        {
+            VCInteropShaderSetCamera(UnManagedHandle, camera.UnManagedHandle);
+        }
+
+        public void SetModelMatrix(Matrix4 modelMatrix)
+        {
+            VCInteropShaderSetModelMatrix(UnManagedHandle, modelMatrix);
+        }
+
         public static Shader GetByPath(String fullPath)
         {
             Shader shader = null;
@@ -71,6 +100,10 @@ namespace VCEngine
             {
                 shader = JsonConvert.DeserializeObject<Shader>(File.ReadAllText(fullPath));
                 shader.UnManagedHandle = VCInteropGetShaderFromFile(fullPath);
+
+                foreach (ShaderUniform unif in shader.Uniforms)
+                    unif.UnManagedUniformIndex = VCInteropShaderGetUniformIndex(shader.UnManagedHandle, unif.Name);
+
                 shader.FullPath = fullPath;
                 m_loadedShadersByPath.Add(fullPath, shader);
                 m_loadedShadersByName.Add(shader.Name, shader);

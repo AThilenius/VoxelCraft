@@ -19,7 +19,10 @@ namespace VCEngine
             PathUtilities.UpdatePathUtilities();
 
             //EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
-            EditorWindow EditorWindow = new EditorWindow(800, 600, "VC Engine Core - Thilenius - Alpha");
+            Window testWindow = new Window(800, 600, "Test Window");
+            DevelopmentControl devCtrl = new DevelopmentControl(testWindow);
+            testWindow.MainControl.AddControl(devCtrl);
+            devCtrl.Dock = Control.Dockings.Fill;
 
             Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
             LoopController.PassControlAndBegin();

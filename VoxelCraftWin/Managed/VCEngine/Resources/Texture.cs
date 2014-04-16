@@ -36,6 +36,9 @@ namespace VCEngine
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
         extern static void VCInteropTextureSetFilterParams(int handle, TextureParams parameters);
 
+        [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static void VCInteropTextureBind(int handle, int texUnit);
+
         #endregion
 
         public String Fullpath;
@@ -57,6 +60,11 @@ namespace VCEngine
         private Texture(String fullpath)
         {
             Fullpath = fullpath;
+        }
+
+        public void Bind(int texUnit)
+        {
+            VCInteropTextureBind(UnManagedHandle, texUnit);
         }
 
         public static Texture GetInResources(String path, Resources.LoadType loadType = Resources.LoadType.Immediate)

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VCEngine
 {
-    enum GLPrimitives : int
+    public enum GLPrimitives : int
     {
 	    Byte                    = 0,
 	    UnsignedByte            = 1,
@@ -21,14 +21,14 @@ namespace VCEngine
 	    Double                  = 10
     };
 
-    enum GLDrawModes : int
+    public enum GLDrawModes : int
     {
 	    Static                  = 0,
 	    Dynamic                 = 1,
 	    Stream                  = 2
     };
 
-    enum GLDrawPrimitives : int
+    public enum GLDrawPrimitives : int
     {
         Points                  = 0, 
         LineStrip               = 1, 
@@ -68,8 +68,8 @@ namespace VCEngine
         extern static void VCInteropVCGLBufferSetDrawPrimitiveType(int handle, GLDrawPrimitives primitiveType);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static void VCInteropVCGLBufferSetVertexAttribute(int handle, 
-														  ShaderAttribute attribType, 
+        extern static void VCInteropVCGLBufferSetVertexAttribute(int handle,
+                                                          ShaderAttribute.AttributeTypes attribType, 
 														  int count, 
 														  GLPrimitives primitiveType, 
 														  bool normalize, 
@@ -77,8 +77,8 @@ namespace VCEngine
 														  int offset);
 
         [DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static  void VCInteropVCGLBufferSetVertexAttributeI(int handle, 
-														   ShaderAttribute attribType, 
+        extern static  void VCInteropVCGLBufferSetVertexAttributeI(int handle,
+                                                           ShaderAttribute.AttributeTypes attribType, 
 														   int count, 
 														   GLPrimitives primitiveType, 
 														   int strideSize, 
@@ -93,8 +93,8 @@ namespace VCEngine
 													  GLDrawModes drawMode);
 
 
-        protected virtual UnManagedCTorDelegate UnManagedCTor { get { return VCInteropGLBufferCreate; } }
-        protected virtual UnManagedDTorDelegate UnManagedDTor { get { return VCInteropGLBufferRelease; } }
+        protected override UnManagedCTorDelegate UnManagedCTor { get { return VCInteropGLBufferCreate; } }
+        protected override UnManagedDTorDelegate UnManagedDTor { get { return VCInteropGLBufferRelease; } }
 
         #endregion
 
@@ -111,21 +111,21 @@ namespace VCEngine
             }
 
 	        /// Malloc / Memcpy to GPU memory
-            VertexSpecification SetVertexData(UInt32 size, IntPtr data, int count, GLDrawModes drawMode = GLDrawModes.Static)
+            public VertexSpecification SetVertexData(UInt32 size, IntPtr data, int count, GLDrawModes drawMode = GLDrawModes.Static)
             {
                 VCInteropVCGLBufferSetVertexData(m_buffer.UnManagedHandle, size, data, count, drawMode);
                 return this;
             }
 
 	        /// Specify a non-integral type attribute ( floating point based )
-            VertexSpecification SetVertexAttribute(ShaderAttribute attribType, int count, GLPrimitives primitiveType, bool normalize, int strideSize, int offset)
+            public VertexSpecification SetVertexAttribute(ShaderAttribute.AttributeTypes attribType, int count, GLPrimitives primitiveType, bool normalize, int strideSize, int offset)
             {
                 VCInteropVCGLBufferSetVertexAttribute(m_buffer.UnManagedHandle, attribType, count, primitiveType, normalize, strideSize, offset);
                 return this;
             }
 
 	        /// Specify an integral type attribute ( Integer based )
-            VertexSpecification SetVertexAttributeI(ShaderAttribute attribType, int count, GLPrimitives primitiveType, int strideSize, int offset)
+            public VertexSpecification SetVertexAttributeI(ShaderAttribute.AttributeTypes attribType, int count, GLPrimitives primitiveType, int strideSize, int offset)
             {
                 VCInteropVCGLBufferSetVertexAttributeI(m_buffer.UnManagedHandle, attribType, count, primitiveType, strideSize, offset);
                 return this;
@@ -134,26 +134,26 @@ namespace VCEngine
 
         private VertexSpecification m_vboSpec;
 
-        public GLBuffer()
+        public GLBuffer() : base()
         {
             m_vboSpec = new VertexSpecification(this);
         }
 
         /// Binds the VAO and invokes glDrawElements or glDrawArrays.
-        void Draw()
+        public void Draw()
         {
             VCInteropGLBufferDraw(UnManagedHandle);
         }
 
 	    /// Access point for all vertex attribute buffer specification
-        VertexSpecification VertexBufferSpecification(GLDrawPrimitives drawPrimitiveType = GLDrawPrimitives.Triangles)
+        public VertexSpecification VertexBufferSpecification(GLDrawPrimitives drawPrimitiveType = GLDrawPrimitives.Triangles)
         {
             VCInteropVCGLBufferSetDrawPrimitiveType(UnManagedHandle, drawPrimitiveType);
             return m_vboSpec;
         }
 
 	    /// Direct Index buffer setup
-        void IndexBufferSpecification(int size, IntPtr data, int count, GLPrimitives indecieType = GLPrimitives.UnsignedInt, GLDrawModes drawMode = GLDrawModes.Static)
+        public void IndexBufferSpecification(int size, IntPtr data, int count, GLPrimitives indecieType = GLPrimitives.UnsignedInt, GLDrawModes drawMode = GLDrawModes.Static)
         {
             VCInteropVCGLBUfferSetIndexBuffer(UnManagedHandle, size, data, count, indecieType, drawMode);
         }
