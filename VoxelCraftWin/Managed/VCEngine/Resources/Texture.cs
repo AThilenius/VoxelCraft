@@ -69,7 +69,7 @@ namespace VCEngine
 
         public static Texture GetInResources(String path, Resources.LoadType loadType = Resources.LoadType.Immediate)
         {
-            return Get(Path.Combine(PathUtilities.ResourcesPath, path), loadType);
+            return Get(PathUtilities.Combine(PathUtilities.ResourcesPath, path), loadType);
         }
 
         public static Texture Get(String path, Resources.LoadType loadType)

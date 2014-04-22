@@ -9,7 +9,7 @@ namespace VCEngine
 {
     public class MaterialEditor : MainPageBase
     {
-        public static String MaterialsDirectory { get { return Path.Combine(PathUtilities.AssetsPath, "Materials"); } }
+        public static String MaterialsDirectory { get { return PathUtilities.Combine(PathUtilities.AssetsPath, "Materials"); } }
 
         // Left Pane
         public TreeView FoldersTreeView;
@@ -69,7 +69,7 @@ namespace VCEngine
             TileViewer = new DirectoryImageGrid(ParentWindow);
             AddControl(TileViewer);
 
-            TileViewer.Path = Path.Combine(PathUtilities.AssetsPath, @"Textures");
+            TileViewer.Path = PathUtilities.Combine(PathUtilities.AssetsPath, @"Textures");
         }
 
         private void CreateMaterialPreview()

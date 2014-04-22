@@ -103,8 +103,8 @@ chars=32-126,160-255
             size = (int)Math.Round(size * window.Gui.Scale);
 
             String description = fontName + size + (bold ? "B" : "") + (italic ? "I" : "");
-            String fntPath = Path.Combine(PathUtilities.FontsPath, description + ".fnt");
-            String ddsPath = Path.Combine(PathUtilities.FontsPath, description + "_0.dds");
+            String fntPath = PathUtilities.Combine(PathUtilities.FontsPath, description + ".fnt");
+            String ddsPath = PathUtilities.Combine(PathUtilities.FontsPath, description + "_0.dds");
 
             if (m_loadedFonts.ContainsKey(description))
                 return m_loadedFonts[description];
@@ -123,9 +123,9 @@ chars=32-126,160-255
         private static void GenerateDDS(String font, int size, Boolean bold, Boolean italic)
         {
             String description = font + size + (bold ? "B" : "") + (italic ? "I" : "");
-            String fntPath = Path.Combine(PathUtilities.FontsPath, description + ".fnt");
-            String ddsPath = Path.Combine(PathUtilities.FontsPath, description + "_0.dds");
-            String configPath = Path.Combine(PathUtilities.FontsPath, description + ".bmfc");
+            String fntPath = PathUtilities.Combine(PathUtilities.FontsPath, description + ".fnt");
+            String ddsPath = PathUtilities.Combine(PathUtilities.FontsPath, description + "_0.dds");
+            String configPath = PathUtilities.Combine(PathUtilities.FontsPath, description + ".bmfc");
 
             if (File.Exists(fntPath))
                 return;

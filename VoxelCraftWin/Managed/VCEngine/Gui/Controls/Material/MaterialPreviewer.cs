@@ -73,13 +73,13 @@ namespace VCEngine
             switch(m_displayMode)
             {
                 case MaterialDisplayMode.Cube:
-                    m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
+                    m_currentEntity = new RenderedEntity(PathUtilities.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
                     m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -2.75f);
                     GLRenderViewport.MainCamera.Orthographic = false;
                     m_animate = true;
                     break;
                 case MaterialDisplayMode.Plane:
-                    m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), fullPath);
+                    m_currentEntity = new RenderedEntity(PathUtilities.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), fullPath);
                     GLRenderViewport.MainCamera.Orthographic = true;
                     GLRenderViewport.MainCamera.OrthographicWidth = GLRenderViewport.MainCamera.AspectRatio;
                     m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -1.0f);

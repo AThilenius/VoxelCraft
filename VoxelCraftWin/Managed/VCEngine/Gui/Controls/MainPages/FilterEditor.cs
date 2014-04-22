@@ -9,7 +9,7 @@ namespace VCEngine
 {
     public class FilterEditor : MainPageBase
     {
-        public static String FiltersDirectory { get { return Path.Combine(PathUtilities.AssetsPath, @"Materials\Filters"); } }
+        public static String FiltersDirectory { get { return PathUtilities.Combine(PathUtilities.AssetsPath, @"Materials\Filters"); } }
 
         public TreeView FiltersTreeView;
         public DirectoryObserverTreeNode FileNode;

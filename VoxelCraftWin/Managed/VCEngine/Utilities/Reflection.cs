@@ -44,6 +44,28 @@ namespace VCEngine
         }
 
         /// <summary>
+        /// Returns a list of System.Reflection.MethodInfo for all methods that are decorated with attrType and
+        /// meet the flags criteria.
+        /// </summary>
+        /// <param name="assembly">The assembly to search.</param>
+        /// <param name="attrType">The attribute type.</param>
+        /// <param name="flags">Any BindingFlags for searching.</param>
+        /// <returns></returns>
+        public static List<MethodInfo> GetMethodsWithAttribute(Assembly assembly, Type attrType, BindingFlags flags)
+        {
+            List<MethodInfo> methods = new List<MethodInfo>();
+
+            MethodInfo[] mInfos = assembly.GetTypes()
+                    .SelectMany(t => t.GetMethods(flags))
+                    .Where(m => m.GetCustomAttributes(attrType, false).Length > 0)
+                    .ToArray();
+
+            methods.AddRange(mInfos);
+
+            return methods;
+        }
+
+        /// <summary>
         /// Checks if the Type is decorated with an attribute. Does NOT check
         /// inherited types.
         /// </summary>

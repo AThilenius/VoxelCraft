@@ -1,0 +1,26 @@
+{
+  "Name": "Battlefield",
+  "GUID": "7ad1c8a5-b611-4ce6-a869-180ae717305d",
+  "Resources": {
+    "Shaders": [
+      {
+        "Version": 1,
+        "Name": "FilteredTexture",
+        "GUID": "9dfe3c96-18eb-4ce9-af24-af7ee8ebdffd",
+        "RelativePath": "\\Assets\\Shaders\\FilteredTexture.vcshader"
+      },
+      {
+        "Version": 1,
+        "Name": "DiffuseNormal",
+        "GUID": "93e98af6-3b8f-40ab-b532-26b874d525bb",
+        "RelativePath": "\\Assets\\Shaders\\DiffuseNormal.vcshader"
+      }
+    ],
+    "Textures": [],
+    "Materials": [],
+    "Meshes": [],
+    "Models": [],
+    "Entities": [],
+    "Scenes": []
+  }
+}

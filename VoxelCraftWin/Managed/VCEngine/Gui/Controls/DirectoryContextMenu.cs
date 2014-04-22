@@ -39,7 +39,7 @@ namespace VCEngine
             if (text == "")
                 return;
 
-            Directory.CreateDirectory(Path.Combine(m_dirInfo.FullName, text));
+            Directory.CreateDirectory(PathUtilities.Combine(m_dirInfo.FullName, text));
             m_dirExplorer.RefreshView();
         }
 

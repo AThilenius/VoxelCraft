@@ -8,7 +8,7 @@ namespace VCEngine
 {
     public class ModelEditor : MainPageBase
     {
-        public static String ModelsDirectory { get { return Path.Combine(PathUtilities.AssetsPath, "Models"); } }
+        public static String ModelsDirectory { get { return PathUtilities.Combine(PathUtilities.AssetsPath, "Models"); } }
 
         // Left Pane
         public TreeView FoldersTreeView;
@@ -92,7 +92,7 @@ namespace VCEngine
             AddControl(TileViewer);
             TileViewer.Frame = new Rectangle(250, 0, ParentWindow.ScaledSize.X - 500, 300);
 
-            TileViewer.Path = Path.Combine(PathUtilities.AssetsPath, @"Textures");
+            TileViewer.Path = PathUtilities.Combine(PathUtilities.AssetsPath, @"Textures");
         }
 
         private void CreateMaterialPreview()

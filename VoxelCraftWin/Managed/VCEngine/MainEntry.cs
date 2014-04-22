@@ -13,6 +13,8 @@ namespace VCEngine
     {
         public static void Main()
         {
+
+            // Project JSON
             //Project project = new Project { Name = "Test Project" };
             //project.Resources.Textures.Add(Guid.NewGuid(), new TextureMeta { Name = "Sample Texture One", RelativePath = @"../../Build/Something.DDS" });
             //project.Resources.Textures.Add(Guid.NewGuid(), new TextureMeta { Name = "Sample Texture Two", RelativePath = @"../../Build/Something Two.BMP" });
@@ -23,6 +25,27 @@ namespace VCEngine
 
             //Project deSer = JsonConvert.DeserializeObject<Project>(json);
 
+
+            // Recent JSON
+            //RecentProjectsList recentList = new RecentProjectsList();
+            //recentList.RecentProjects.Add(DateTime.Now, 
+            //    new RecentProject 
+            //    { 
+            //        FullPath = @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\DevelopmentProjects\Battlefield\Battlefield.VCProj", 
+            //        Name = "Battlefield" 
+            //    });
+            //recentList.RecentProjects.Add(DateTime.Now,
+            //    new RecentProject
+            //    {
+            //        FullPath = @"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\DevelopmentProjects\FarCry\FarCry.VCProj",
+            //        Name = "Battlefield"
+            //    });
+            //String json = JsonConvert.SerializeObject(recentList, Formatting.Indented);
+            //String recentPath = PathUtilities.Combine(PathUtilities.WorkingDirectory, "Recent.VCJson");
+            //File.WriteAllText(recentPath, json);
+
+
+            // Real Main
             ConsoleFunctionLoader.RegisterUnManagedHooks();
             ConsoleFunctionLoader.AddAssembly(Assembly.GetExecutingAssembly());
             ConsoleFunctionLoader.AsyncListen();

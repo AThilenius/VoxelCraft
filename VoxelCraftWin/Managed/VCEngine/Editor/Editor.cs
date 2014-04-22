@@ -17,12 +17,13 @@ namespace VCEngine
         public static void EditorMain()
         {
             PathUtilities.UpdatePathUtilities();
+            DelayedInvokeHelper.Invoke(DelayInvokeOrder.PreSetup);
 
-            //EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
-            Window testWindow = new Window(800, 600, "Test Window");
-            DevelopmentControl devCtrl = new DevelopmentControl(testWindow);
-            testWindow.MainControl.AddControl(devCtrl);
-            devCtrl.Dock = Control.Dockings.Fill;
+            EditorWindow EditorWindow = new EditorWindow(1680, 1050, "VC Engine Core - Thilenius - Alpha");
+
+            DelayedInvokeHelper.Invoke(DelayInvokeOrder.PreDefault);
+            DelayedInvokeHelper.Invoke(DelayInvokeOrder.Default);
+            DelayedInvokeHelper.Invoke(DelayInvokeOrder.PostDefault);
 
             Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
             LoopController.PassControlAndBegin();

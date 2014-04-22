@@ -93,6 +93,11 @@ namespace VCEngine
             VCInteropShaderSetModelMatrix(UnManagedHandle, modelMatrix);
         }
 
+        public void ReCompileGLSL()
+        {
+            VCInteropReloadShader(FullPath);
+        }
+
         public static Shader GetByPath(String fullPath)
         {
             Shader shader = null;
@@ -106,7 +111,10 @@ namespace VCEngine
 
                 shader.FullPath = fullPath;
                 m_loadedShadersByPath.Add(fullPath, shader);
-                m_loadedShadersByName.Add(shader.Name, shader);
+
+                if(!m_loadedShadersByName.ContainsKey(shader.Name))
+                    m_loadedShadersByName.Add(shader.Name, shader);
+
                 return shader;
             }
 
@@ -145,21 +153,21 @@ namespace VCEngine
         {
             PreCacheShaders(parentPath);
 
-            if (m_fileSystemWatcher.ContainsKey(parentPath))
-                return;
+            //if (m_fileSystemWatcher.ContainsKey(parentPath))
+            //    return;
 
-            FileSystemWatcher watcher = new FileSystemWatcher(parentPath, "*.vcshader");
-            watcher.IncludeSubdirectories = true;
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            //FileSystemWatcher watcher = new FileSystemWatcher(parentPath, "*.vcshader");
+            //watcher.IncludeSubdirectories = true;
+            //watcher.NotifyFilter = NotifyFilters.LastWrite;
 
-            // Add event handlers.
-            watcher.Changed += (s, a) => LoopController.MarshalActionToMainThread( () => VCInteropReloadShader(a.FullPath) );
-            watcher.Created += (s, a) => LoopController.MarshalActionToMainThread( () => Shader.GetByPath(a.FullPath) );
+            //// Add event handlers.
+            //watcher.Changed += (s, a) => LoopController.MarshalActionToMainThread( () => VCInteropReloadShader(a.FullPath) );
+            //watcher.Created += (s, a) => LoopController.MarshalActionToMainThread( () => Shader.GetByPath(a.FullPath) );
 
-            // Begin watching.
-            watcher.EnableRaisingEvents = true;
+            //// Begin watching.
+            //watcher.EnableRaisingEvents = true;
 
-            m_fileSystemWatcher.Add(parentPath, watcher);
+            //m_fileSystemWatcher.Add(parentPath, watcher);
         }
 
         public void SetUniform(int index, int value)

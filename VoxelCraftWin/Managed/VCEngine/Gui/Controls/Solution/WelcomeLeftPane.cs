@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -7,7 +9,6 @@ namespace VCEngine
 {
     public class WelcomeLeftPane : Control
     {
-
         public Label TitleLabel;
         public Label SubTitleLabel;
 
@@ -15,9 +16,12 @@ namespace VCEngine
         public Button CreateNewButton;
         public Button OpenButton;
 
+        public Label RecentLabel;
+
         public event EventHandler OnCreateProjectClicked = delegate { };
         public event EventHandler OnOpenProjectClicked = delegate { };
-        public event EventHandler<SolutionReadyEventArgs> OnRecentProjectOpened = delegate { };
+
+        private List<Button> m_recentButtons = new List<Button>();
 
         public WelcomeLeftPane(Window window) : base(window)
         {
@@ -48,7 +52,22 @@ namespace VCEngine
             OpenButton.Click += (s, a) => OnOpenProjectClicked(this, EventArgs.Empty);
             AddControl(OpenButton);
 
+            RecentLabel = new Label(window, "Recent");
+            RecentLabel.Font = Font.GetFont("Calibri", 20, window);
+            RecentLabel.FontColor = Color.Black;
+            RecentLabel.TextAlignment = Label.TextAlignments.LowerLeft;
+            AddControl(RecentLabel);
+
             Resize += (s, a) => ResizeHandler();
+        }
+
+        public void AddRecent(RecentProject proj)
+        {
+            Button button = new Button(ParentWindow, proj.Name);
+            button.GuiStyle = Button.Style.LabelButton;
+            button.Click += (s, a) => Project.LoadProject(proj.FullPath);
+            AddControl(button);
+            m_recentButtons.Add(button);
         }
 
         private void ResizeHandler()
@@ -59,6 +78,14 @@ namespace VCEngine
             StartLabel.Frame = new Rectangle(20, Height - 120, Width - 40, 20);
             CreateNewButton.Frame = new Rectangle(0, Height - 140, Width, 20);
             OpenButton.Frame = new Rectangle(0, Height - 160, Width, 20);
+
+            RecentLabel.Frame = new Rectangle(20, Height - 220, Width - 40, 20);
+
+            for ( int i = 0; i < m_recentButtons.Count; i++ )
+            {
+                Button button = m_recentButtons[i];
+                button.Frame = new Rectangle(0, Height - (240 + i * 20), Width, 20);
+            }
         }
 
         protected override void Draw()

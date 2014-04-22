@@ -1,0 +1,99 @@
+{
+  "Name": "DiffuseNormal",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "Normal0",
+      "Name": "Normal"
+    },
+    {
+      "AttributeType": "Tangent0",
+      "Name": "Tangent"
+    },
+    {
+      "AttributeType": "BiTangent0",
+      "Name": "BiTangent"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UV"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Sampler2D",
+      "Name": "DiffuseTexture"
+    },
+    {
+      "ValueType": "Sampler2D",
+      "Name": "NormalTexture"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+in vec4 	Position;
+in vec3 	Normal;
+in vec3 	Tangent;
+in vec3 	BiTangent;
+in vec2 	UV;
+
+out vec2 	TexUV;
+out vec3 	LightDirectionTangentSpace;
+
+void main()
+{
+	mat3 ModelView3X3 = mat3(VC_ModelViewMatrix);
+	vec4 LightPosition = vec4(20, 20, 20, 1);
+
+	vec3 EyeDirectionCameraSpace = -(VC_ModelViewMatrix * Position).xyz;
+	vec3 LightPositionCameraSpace = (VC_ModelViewMatrix * LightPosition).xyz;
+	vec3 LightDirectionCameraSpace = LightPositionCameraSpace + EyeDirectionCameraSpace;
+	
+	vec3 vertexTangentCameraSpace = ModelView3X3 * Tangent;
+	vec3 vertexBitangentCameraSpace = ModelView3X3 * BiTangent;
+	vec3 vertexNormalCameraSpace = ModelView3X3 * Normal;
+	
+	mat3 TBN = transpose(mat3(
+		vertexTangentCameraSpace,
+		vertexBitangentCameraSpace,
+		vertexNormalCameraSpace	
+	));
+
+	LightDirectionTangentSpace = TBN * LightDirectionCameraSpace;
+	gl_Position =  VC_MvpMatrix * Position;
+	TexUV = UV;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+in vec2 			TexUV;
+in vec3 			LightDirectionTangentSpace;
+
+uniform sampler2D 	DiffuseTexture;
+uniform sampler2D 	NormalTexture;
+
+out vec4 			fragColor;
+
+void main()
+{
+	vec4 diffuse = texture2D(DiffuseTexture, TexUV);
+	vec3 normalTangentSpace = normalize(texture2D( NormalTexture, TexUV ).rgb * 2.0 - 1.0);
+
+	float cosTheta = clamp( dot( normalTangentSpace, normalize(LightDirectionTangentSpace) ), 0, 1 );
+
+	fragColor.rgb = LightDirectionTangentSpace;
+		//diffuse.rgb * 0.1 +
+		//diffuse.rgb * cosTheta * 0.9;
+	fragColor.a = 1;
+}
+
+
+"
+}

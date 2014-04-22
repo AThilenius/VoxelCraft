@@ -9,7 +9,6 @@ namespace VCEngine
 {
     public class PathUtilities
     {
-        
         #region Bindings
 
 		[DllImport("VCEngine.UnManaged.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -17,18 +16,21 @@ namespace VCEngine
 
         #endregion
 
+        // Names
+        public static String ProjectExtension = "ATProj";
+
         // Resources
         public static String WorkingDirectory { get { return Environment.CurrentDirectory; } }
-        public static String ResourcesPath { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\Resources")); } }
-        public static String FontsPath { get { return Path.Combine(ResourcesPath, @"FontsCache"); } }
-        public static String ImagesPath { get { return Path.Combine(ResourcesPath, @"Images"); } }
-        public static String ShadersPath { get { return Path.Combine(ResourcesPath, @"Shaders"); } }
-        public static String LoadersPath { get { return Path.Combine(ResourcesPath, @"Loaders"); } }
-        public static String BMFontPath { get { return Path.Combine(LoadersPath, @"BMFont"); } }
+        public static String ResourcesPath { get { return Path.GetFullPath(PathUtilities.Combine(Environment.CurrentDirectory, @"..\Resources")); } }
+        public static String FontsPath { get { return PathUtilities.Combine(ResourcesPath, @"FontsCache"); } }
+        public static String ImagesPath { get { return PathUtilities.Combine(ResourcesPath, @"Images"); } }
+        public static String ShadersPath { get { return PathUtilities.Combine(ResourcesPath, @"Shaders"); } }
+        public static String LoadersPath { get { return PathUtilities.Combine(ResourcesPath, @"Loaders"); } }
+        public static String BMFontPath { get { return PathUtilities.Combine(LoadersPath, @"BMFont"); } }
 
         // Assets
-        public static String AssetsPath { get { return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\Assets")); } }
-        public static String MeshesPath { get { return Path.Combine(ResourcesPath, @"Meshes"); } }
+        public static String AssetsPath { get { return Path.GetFullPath(PathUtilities.Combine(Environment.CurrentDirectory, @"..\Assets")); } }
+        public static String MeshesPath { get { return PathUtilities.Combine(ResourcesPath, @"Meshes"); } }
 
         public static void UpdatePathUtilities()
         {
@@ -51,6 +53,17 @@ namespace VCEngine
             }
 
             return true;
+        }
+
+        public static String Combine(String left, String right)
+        {
+             right = right.TrimStart('\\', '/');
+             return Path.Combine(left, right);
+        }
+
+        public static String RelativePath(String projectPath, String fullPath)
+        {
+            return fullPath.Remove(0, projectPath.Length);
         }
 
         public static String RelativePath(String fullpath)

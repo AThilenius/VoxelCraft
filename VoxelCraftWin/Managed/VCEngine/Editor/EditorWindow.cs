@@ -9,7 +9,6 @@ namespace VCEngine
     {
         public Header HeaderBar;
 
-        public SolutionDescription Solution;
         public WelcomeMainPage WelcomePage;
 
         public VerticalControlSpinner MainSpinner;
@@ -36,7 +35,7 @@ namespace VCEngine
             WelcomePage = new VCEngine.WelcomeMainPage(this);
             MainSpinner.AddControl(WelcomePage);
             WelcomePage.Create();
-            WelcomePage.OnSolutionReady += (s, a) =>
+            Project.OnProjectLoaded += (s, a) =>
                 {
                     HeaderBar.PagesPicker.AddControl(VoxelEditor);
                     HeaderBar.PagesPicker.AddControl(MaterialEditor);

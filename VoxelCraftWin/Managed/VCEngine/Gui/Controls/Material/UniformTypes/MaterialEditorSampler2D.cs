@@ -17,7 +17,7 @@ namespace VCEngine
             Image = new ImageView(window);
             AddControl(Image);
             Image.Dock = Dockings.Fill;
-            Image.Image = Texture.Get(Path.Combine(PathUtilities.AssetsPath, value.Value), Resources.LoadType.AsyncHighPriority);
+            Image.Image = Texture.Get(PathUtilities.Combine(PathUtilities.AssetsPath, value.Value), Resources.LoadType.AsyncHighPriority);
 
             // Accept a Texture object as a drag drop
             DragDrop += (s, a) =>
