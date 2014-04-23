@@ -72,33 +72,33 @@ namespace VCEngine
             return Get(PathUtilities.Combine(PathUtilities.ResourcesPath, path), loadType);
         }
 
-        public static Texture Get(String path, Resources.LoadType loadType)
+        public static Texture Get(String fullPath, Resources.LoadType loadType)
         {
-            path = Path.GetFullPath(path);
-            PathUtilities.TestFileExistance(path);
+            fullPath = Path.GetFullPath(fullPath);
+            PathUtilities.TestFileExistance(fullPath);
             
             Texture tex;
-            if (!m_loadedTextures.TryGetValue(path, out tex))
+            if (!m_loadedTextures.TryGetValue(fullPath, out tex))
             {
-                tex = new Texture(path);
+                tex = new Texture(fullPath);
                 if (loadType == Resources.LoadType.Immediate)
                 {
                     // Load the texture now
-                    tex.GLHandle = Soil.VCInteropSoilLoadOGLTexture(path, Soil.LoadFlags.SOIL_LOAD_AUTO, 0, Soil.SoilFlags.SOIL_FLAG_MIPMAPS);
-                    tex.UnManagedHandle = VCInteropTextureCreate(tex.GLHandle, path);
+                    tex.GLHandle = Soil.VCInteropSoilLoadOGLTexture(fullPath, Soil.LoadFlags.SOIL_LOAD_AUTO, 0, Soil.SoilFlags.SOIL_FLAG_MIPMAPS);
+                    tex.UnManagedHandle = VCInteropTextureCreate(tex.GLHandle, fullPath);
                 }
 
                 else
                 {
                     // Set it to the loading texture
-                    tex.UnManagedHandle = VCInteropTextureCreate(LoadingTexture.GLHandle, path);
+                    tex.UnManagedHandle = VCInteropTextureCreate(LoadingTexture.GLHandle, fullPath);
 
                     // Async Load the real texture
                     Resources.EnqueueFuture(loadType, () =>
                     {
 
                         int width = 0, heigh = 0, channels = 0;
-                        IntPtr buffer = Soil.VCInteropSoilLoadImage(path, out width, out heigh, out channels, Soil.LoadFlags.SOIL_LOAD_AUTO);
+                        IntPtr buffer = Soil.VCInteropSoilLoadImage(fullPath, out width, out heigh, out channels, Soil.LoadFlags.SOIL_LOAD_AUTO);
 
                         LoopController.MarshalActionToMainThread(() =>
                             {
@@ -113,12 +113,17 @@ namespace VCEngine
                 }
 
                 VCInteropTextureSetFilterParams(tex.UnManagedHandle, new TextureParams());
-                m_loadedTextures.Add(path, tex);
+                m_loadedTextures.Add(fullPath, tex);
                 
-	            Log.Info("Managed code loaded texture: " + path, "Resources");
+	            Log.Info("Managed code loaded texture: " + fullPath, "Resources");
             }
 
             return tex;
+        }
+
+        public static void Reload(String fullPath, Resources.LoadType loadType)
+        {
+            throw new NotImplementedException();
         }
 
         public static Texture CreateEmpty(int width, int height)

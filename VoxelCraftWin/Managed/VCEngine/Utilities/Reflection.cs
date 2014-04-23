@@ -44,6 +44,17 @@ namespace VCEngine
         }
 
         /// <summary>
+        /// Enumerate all types that are derived from the base type (Not including the base type itself).
+        /// </summary>
+        /// <param name="assembly">The assembly to look through</param>
+        /// <param name="baseType">The base type</param>
+        /// <returns>An IEnumerable of child types</returns>
+        public static IEnumerable<Type> GetSubclassesOfType(Assembly assembly, Type baseType)
+        {
+            return assembly.GetTypes().Where(t => t.BaseType == baseType);
+        }
+
+        /// <summary>
         /// Returns a list of System.Reflection.MethodInfo for all methods that are decorated with attrType and
         /// meet the flags criteria.
         /// </summary>

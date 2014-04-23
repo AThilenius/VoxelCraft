@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace VCEngine
@@ -18,16 +19,20 @@ namespace VCEngine
         public String RelativePath;
 
         [JsonIgnore]
-        public Texture GLTexture
+        public Texture GLTexture;
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
         {
-            get
+            try
             {
-                //m_glTexture = m_glTexture ?? Texture.GetRelative(RelativePath);
-                return m_glTexture;
+                String fullpath = PathUtilities.Combine(Project.ActiveProjectDirectory, RelativePath);
+                GLTexture = Texture.Get(fullpath, Resources.LoadType.AsyncLowPriority);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception during DeSerialization of TextureMeta: " + ex.Message, "JSON");
             }
         }
-
-        [JsonIgnore]
-        private Texture m_glTexture;
     }
 }
