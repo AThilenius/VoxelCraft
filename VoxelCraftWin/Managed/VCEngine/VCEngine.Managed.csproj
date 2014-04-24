@@ -174,11 +174,12 @@
     <Compile Include="Rendering\RenderedEntity.cs" />
     <Compile Include="Rendering\IVerticie.cs" />
     <Compile Include="Rendering\Material.cs" />
-    <Compile Include="Rendering\Mesh.cs" />
+    <Compile Include="Resources\Mesh.cs" />
     <Compile Include="Rendering\RenderViewport.cs" />
     <Compile Include="Rendering\Shader\Shader.cs" />
     <Compile Include="Rendering\Shader\ShaderAttribute.cs" />
     <Compile Include="Rendering\Shader\ShaderUniformTypes.cs" />
+    <Compile Include="Resources\Assimp.cs" />
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="Resources\Texture.cs" />
     <Compile Include="Rendering\VertPNT.cs" />
@@ -196,6 +197,8 @@
     <Compile Include="Solution\Meta\ShaderMeta.cs" />
     <Compile Include="Solution\Meta\TextureMeta.cs" />
     <Compile Include="Solution\Reapers\FileReaper.cs" />
+    <Compile Include="Solution\Reapers\MaterialReaper.cs" />
+    <Compile Include="Solution\Reapers\MeshReaper.cs" />
     <Compile Include="Solution\Reapers\ShaderReaper.cs" />
     <Compile Include="Solution\Reapers\TextureReaper.cs" />
     <Compile Include="Solution\RecentProjectsList.cs" />

@@ -136,7 +136,7 @@ namespace VCEngine
         public static void PreCacheShaders(String parentPath)
         {
             // Load all shaders from current directory
-            foreach (String fInfo in Directory.GetFiles(parentPath, "*.vcshader"))
+            foreach (String fInfo in Directory.GetFiles(parentPath, "*." + PathUtilities.ShaderExtension))
                 GetByPath(fInfo);
 
             // Recurse down directories
@@ -156,7 +156,7 @@ namespace VCEngine
             //if (m_fileSystemWatcher.ContainsKey(parentPath))
             //    return;
 
-            //FileSystemWatcher watcher = new FileSystemWatcher(parentPath, "*.vcshader");
+            //FileSystemWatcher watcher = new FileSystemWatcher(parentPath, "*." + PathUtilities.ShaderExtension);
             //watcher.IncludeSubdirectories = true;
             //watcher.NotifyFilter = NotifyFilters.LastWrite;
 

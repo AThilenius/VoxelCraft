@@ -25,6 +25,12 @@ namespace VCEngine
             DelayedInvokeHelper.Invoke(DelayInvokeOrder.Default);
             DelayedInvokeHelper.Invoke(DelayInvokeOrder.PostDefault);
 
+
+
+            // Assimp Test
+            //Mesh[] meshes = Mesh.Get(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Defaults\DefaultModel.obj", Resources.LoadType.Immediate);
+            //Console.ReadLine();
+
             Shader.PreCacheAndMonitorShader(PathUtilities.ResourcesPath);
             LoopController.PassControlAndBegin();
         }

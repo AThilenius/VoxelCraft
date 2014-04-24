@@ -37,7 +37,8 @@ VCModel* VCModel::GetModel(std::string& Filename)
 	bool Ret = false;
 	Assimp::Importer Importer;
 
-	// Fffffuuuccckkkkk you for returning const. Ugh, sometimes I hate this language. So stupid...
+	// Documentation says I shouldn't remove the const with a cast,
+	// I told the documentation to suck a...
 	aiScene* pScene = (aiScene*) Importer.ReadFile(Filename.c_str(), 
 		aiProcess_GenSmoothNormals		 |
 		aiProcess_CalcTangentSpace       | 
@@ -92,6 +93,6 @@ VCModel* VCModel::GetModel(std::string& Filename)
 	}
 
 	m_loadedModels.insert(std::unordered_map<std::string, VCModel*>::value_type(Filename, model));
-
+	
 	return model;
 }

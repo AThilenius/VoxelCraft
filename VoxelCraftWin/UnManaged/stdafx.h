@@ -19,7 +19,7 @@
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "glu32.lib")
 
-#pragma comment(lib, "mono.lib")
+//#pragma comment(lib, "mono.lib")
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "SOIL.lib")

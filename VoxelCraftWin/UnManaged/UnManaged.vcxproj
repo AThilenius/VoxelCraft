@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssimpBindings.cpp" />
     <ClCompile Include="json_reader.cpp" />
     <ClCompile Include="json_value.cpp" />
     <ClCompile Include="json_writer.cpp" />
@@ -89,6 +90,7 @@
     <ClCompile Include="VCXIntX.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssimpBindings.h" />
     <ClInclude Include="delegate.hpp" />
     <ClInclude Include="delegate_list.hpp" />
     <ClInclude Include="delegate_template.hpp" />

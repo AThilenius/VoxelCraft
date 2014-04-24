@@ -23,7 +23,7 @@ namespace VCEngine
         public unsafe DevelopmentControl(Window window)
             : base(window)
         {
-            m_shader = Shader.GetByPath(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Shaders\TexturePassThrough.vcshader");
+            m_shader = Shader.GetByPath(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Resources\Shaders\TexturePassThrough." + PathUtilities.ShaderExtension);
             m_texture = Texture.Get(@"C:\Users\Alec\Documents\Development\CPP\VoxelCraft\VoxelCraftWin\Assets\Textures\Sunset.jpg", Resources.LoadType.Immediate);
             m_vbo = new GLBuffer();
 

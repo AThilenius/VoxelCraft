@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace VCEngine
 {
-    /// <summary>
-    /// Reaps new, changed, or deleted *.ATShader files from the parent project's path
-    /// and handles recompilation of the HLSL code.
-    /// </summary>
-    public class ShaderReaper : FileReaper
+    public class MeshReaper : FileReaper
     {
-        public ShaderReaper()
-            : base(new string[] {PathUtilities.ShaderExtension})
+
+        public MeshReaper()
+            : base(PathUtilities.MeshExtensions)
         {
         }
 
@@ -34,5 +30,6 @@ namespace VCEngine
         {
             return Project.ActiveProject.Resources.Shaders.ContainsKey(fullPath);
         }
+
     }
 }

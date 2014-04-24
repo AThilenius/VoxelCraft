@@ -18,6 +18,28 @@ namespace VCEngine
 
         // Names
         public static String ProjectExtension = "ATProj";
+        public static String ShaderExtension = "ATShader";
+        public static String MaterialExtension = "ATMat";
+        public static String[] TextureExtensions = new String[] { "BMP", "PNG", "JPG", "TGA", "DDS", "PSD", "HDR" };
+        public static String[] MeshExtensions = new String[] 
+        { 
+            "dae",      // Collada ( .dae )
+            "blend",    // Blender 3D ( .blend )
+            "3ds",      // 3ds Max 3DS ( .3ds )
+            "ase",      // 3ds Max ASE ( .ase )
+            "obj",      // Wavefront Object ( .obj )
+            "ifc",      // Industry Foundation Classes (IFC/Step) ( .ifc )
+            "xgl",      // XGL ( .xgl,.zgl )
+            "zgl",      // Stanford Polygon Library ( .ply )
+            "ply",      // LightWave ( .lwo )
+            "lwo",      // LightWave Scene ( .lws )
+            "lxo",      // Modo ( .lxo )
+            "stl",      // Stereolithography ( .stl )
+            "x",        // DirectX X ( .x )
+            "ac",       // AC3D ( .ac )
+            "ms3d"      // Milkshape 3D ( .ms3d )
+        };
+
 
         // Resources
         public static String WorkingDirectory { get { return Environment.CurrentDirectory; } }

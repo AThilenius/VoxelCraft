@@ -14,7 +14,6 @@ namespace VCEngine
     public class TextureMeta
     {
         public int Version = 1;
-        public String Name = "UnNamed";
         public Guid GUID = Guid.NewGuid();
         public String RelativePath;
 

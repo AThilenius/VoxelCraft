@@ -32,7 +32,7 @@ VCGLShader* VCResourceManager::GetShader( std::string fullPath )
 
 VCGLShader* VCResourceManager::GetShaderInResources( std::string path )
 {
-	std::string fullpath = VCPathUtilities::Combine(VCPathUtilities::VCShadersPath, path + ".vcshader");
+	std::string fullpath = VCPathUtilities::Combine(VCPathUtilities::VCShadersPath, path + ".ATShader");
 	return VCGLShader::GetShader(fullpath, false);
 }
 

@@ -278,6 +278,7 @@
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="VCGLMarshaledBuffer.cpp" />
+    <ClCompile Include="AssimpBindings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimplexNoise.h">
@@ -497,6 +498,7 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="VCGLMarshaledBuffer.h" />
+    <ClInclude Include="AssimpBindings.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnManaged.rc">

@@ -44,7 +44,6 @@ namespace VCEngine
             //String recentPath = PathUtilities.Combine(PathUtilities.WorkingDirectory, "Recent.VCJson");
             //File.WriteAllText(recentPath, json);
 
-
             // Real Main
             ConsoleFunctionLoader.RegisterUnManagedHooks();
             ConsoleFunctionLoader.AddAssembly(Assembly.GetExecutingAssembly());

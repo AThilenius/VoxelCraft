@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -71,6 +72,11 @@ namespace VCEngine
         public static void ForceReload(String path)
         {
             VCInteropResourceManagerReloadMaterial(path);
+        }
+
+        public static Material Get(String fullPath)
+        {
+            return JsonConvert.DeserializeObject<Material>(File.ReadAllText(fullPath));
         }
 
     }

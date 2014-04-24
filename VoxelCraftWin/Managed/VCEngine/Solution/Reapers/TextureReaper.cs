@@ -8,7 +8,7 @@ namespace VCEngine
     public class TextureReaper : FileReaper
     {
         public TextureReaper()
-            : base(new String[] { "BMP", "PNG", "JPG", "TGA", "DDS", "PSD", "HDR"})
+            : base(PathUtilities.TextureExtensions)
         {
         }
 
@@ -17,7 +17,7 @@ namespace VCEngine
             // Load the GL Shader, create a ShaderMeta for it and add it to the project
             Texture texture = Texture.Get(fullPath, Resources.LoadType.AsyncLowPriority);
 
-            TextureMeta textureMeta = new TextureMeta { Name = relativePath, RelativePath = relativePath, GLTexture = texture };
+            TextureMeta textureMeta = new TextureMeta { RelativePath = relativePath, GLTexture = texture };
             Project.ActiveProject.Resources.Textures.Add(textureMeta.GUID, fullPath, textureMeta);
         }
 
