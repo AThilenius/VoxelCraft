@@ -98,6 +98,7 @@
     <Compile Include="Gui\Builders\GuiRenderList.cs" />
     <Compile Include="Gui\Builders\GuiVerticie.cs" />
     <Compile Include="Gui\Controls\Containers\ImageGrid\DirectoryImageGrid.cs" />
+    <Compile Include="Gui\Controls\Containers\ResourceTree\ResourceTreeView.cs" />
     <Compile Include="Gui\Controls\Containers\TreeView\DirectyObserverTreeNode.cs" />
     <Compile Include="Gui\Controls\Containers\TreeView\IconLabelTreeNode.cs" />
     <Compile Include="Gui\Controls\Containers\ImageGrid\ImageGrid.cs" />

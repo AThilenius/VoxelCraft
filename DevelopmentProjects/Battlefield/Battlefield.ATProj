@@ -1,11 +1,18 @@
 {
   "Name": "Battlefield",
-  "GUID": "7ad1c8a5-b611-4ce6-a869-180ae717305d",
+  "GUID": "f24f73f1-1f78-4ba7-9d5f-a52227d1b1d7",
   "Resources": {
     "Shaders": [],
     "Textures": [],
     "Materials": [],
-    "Meshes": [],
+    "Meshes": [
+      {
+        "Version": 1,
+        "Name": "\\DefaultModel.obj",
+        "GUID": "1e2fec1c-8c12-4f22-9154-4acaa47ef97e",
+        "RelativePath": "\\DefaultModel.obj"
+      }
+    ],
     "Models": [],
     "Entities": [],
     "Scenes": []

@@ -15,7 +15,7 @@
     {
       "Type": "Sampler2D",
       "Name": "Texture",
-      "Value": "Textures\\Sunset.jpg"
+      "Value": "Textures\\Blocks.bmp"
     }
   ]
 }
