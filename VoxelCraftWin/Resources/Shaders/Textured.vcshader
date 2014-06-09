@@ -1,0 +1,51 @@
+{
+  "Name": "Textured",
+  "Attributes": [
+    {
+      "AttributeType": "Position0",
+      "Name": "Position"
+    },
+    {
+      "AttributeType": "TexCoord0",
+      "Name": "UV"
+    }
+  ],
+  "Uniforms": [
+    {
+      "ValueType": "Sampler2D",
+      "Name": "Texture"
+    }
+  ],
+  "VertexShader": "
+
+// =====   Vertex Shader Code     ======================================================
+in vec4 Position;
+in vec2 UV;
+
+out vec2 TexUV;
+
+void main()
+{
+	gl_Position =  VC_MvpMatrix * Position;
+	TexUV =  UV;
+}
+
+
+",
+  "FragmentShader": "
+
+// =====   Fragment Shader Code   ======================================================
+in vec2 TexUV;
+
+uniform sampler2D 	Texture;
+
+out vec4 fragColor;
+
+void main()
+{
+    fragColor = texture2D(Texture, TexUV);
+}
+
+
+"
+}

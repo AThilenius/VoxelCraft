@@ -31,6 +31,7 @@ namespace VCEngine
         private RenderedEntity m_currentEntity = null;
         private Boolean m_animate = true;
         private Quaternion m_rotationQuat = Quaternion.Identity;
+        private float m_planeZoom = -1.0f;
         private MaterialDisplayMode m_displayMode = MaterialDisplayMode.Cube;
         private String m_materialPath = "";
 
@@ -59,7 +60,18 @@ namespace VCEngine
             ToggleButton.CreateGroup(CubeButton, PlaneButton);
             CubeButton.Activate();
 
-            MouseSliding += (s, a) => m_rotationQuat *= Quaternion.FromEuler(ParentWindow.GlfwInputState.DeltaMouseLocation.X * 0.05f, ParentWindow.GlfwInputState.DeltaMouseLocation.Y * 0.05f, 0.0f);
+            MouseSliding += (s, a) =>
+                {
+                    if (m_displayMode == MaterialDisplayMode.Cube)
+                        m_rotationQuat *= Quaternion.FromEuler(ParentWindow.GlfwInputState.DeltaMouseLocation.X * 0.05f, ParentWindow.GlfwInputState.DeltaMouseLocation.Y * 0.05f, 0.0f);
+
+                    //else if (m_displayMode == MaterialDisplayMode.Plane)
+                    //{
+                    //    GLRenderViewport.MainCamera.OrthographicHeight += ParentWindow.GlfwInputState.DeltaMouseLocation.X * -0.005f;
+                    //    GLRenderViewport.MainCamera.OrthographicWidth = GLRenderViewport.MainCamera.OrthographicHeight * GLRenderViewport.MainCamera.AspectRatio;
+                    //}
+                };
+            
             GLRenderViewport.MainCamera.Orthographic = true;
         }
 
@@ -73,13 +85,13 @@ namespace VCEngine
             switch(m_displayMode)
             {
                 case MaterialDisplayMode.Cube:
-                    m_currentEntity = new RenderedEntity(PathUtilities.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
+                    m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Cube.obj"), fullPath);
                     m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -2.75f);
                     GLRenderViewport.MainCamera.Orthographic = false;
                     m_animate = true;
                     break;
                 case MaterialDisplayMode.Plane:
-                    m_currentEntity = new RenderedEntity(PathUtilities.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), fullPath);
+                    m_currentEntity = new RenderedEntity(Path.Combine(PathUtilities.AssetsPath, @"Models\Plane.obj"), fullPath);
                     GLRenderViewport.MainCamera.Orthographic = true;
                     GLRenderViewport.MainCamera.OrthographicWidth = GLRenderViewport.MainCamera.AspectRatio;
                     m_currentEntity.Transform.Position = new Vector3(-0.5f, -0.5f, -1.0f);
@@ -103,7 +115,13 @@ namespace VCEngine
                 m_rotationQuat = Quaternion.Identity;
 
             if (m_currentEntity != null)
-                m_currentEntity.Transform.Rotation = m_rotationQuat;
+            {
+                if (m_displayMode == MaterialDisplayMode.Cube)
+                    m_currentEntity.Transform.Rotation = m_rotationQuat;
+            }
+
+            GLRenderViewport.MainCamera.OrthographicHeight += ParentWindow.GlfwInputState.DeltaScroll.Y * 0.05f;
+            GLRenderViewport.MainCamera.OrthographicWidth = GLRenderViewport.MainCamera.OrthographicHeight * GLRenderViewport.MainCamera.AspectRatio;
         }
 
     }

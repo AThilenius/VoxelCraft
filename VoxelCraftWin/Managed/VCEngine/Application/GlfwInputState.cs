@@ -115,6 +115,7 @@ namespace VCEngine
         internal void StepStates()
         {
             DeltaMouseLocation = new Point(0, 0);
+            DeltaScroll = new PointF(0, 0);
 
             for (int i = 0; i < 10; i++)
                 MouseStates[i].StepState();
